@@ -15,6 +15,8 @@
 NameSpace dvc;
 
 abstract class _config {
+	static $EMAIL_ERRORS_TO_SUPPORT = FALSE;
+
 	static $TIMEZONE = 'UTC';
 	static $MAILSERVER = 'localhost';
 
