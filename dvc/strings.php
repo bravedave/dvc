@@ -9,7 +9,7 @@
 	*/
 NameSpace dvc;
 
-abstract class strings extends utility {
+abstract class strings {
 	static function isValidMd5($md5 ='') {
 	    return preg_match('/^[a-f0-9]{32}$/', $md5);
 
