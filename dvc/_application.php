@@ -101,7 +101,9 @@ class _application {
 
 			// remove the tail after ?
 			$_url = preg_replace( '@(\?.*)?$@', '', $_url);
-			if ( strpos( $_url, '..') !== 0)
+
+			// check for any .. in the string, which could lead to a parent folder
+			if ( strpos( $_url, '..') !== FALSE)
 				throw new Exceptions\SecurityException;
 
 			// sanitize, noting that it may have / in the string, and that's ok because leading /. have been removed
