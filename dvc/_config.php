@@ -17,6 +17,10 @@ NameSpace dvc;
 abstract class _config {
 	static $EMAIL_ERRORS_TO_SUPPORT = FALSE;
 
+	static $WEBNAME = 'Brayworth Demonstration System';
+
+	static $VERSION = '0.0.0';
+
 	static $DB_HOST = 'localhost';
 	static $DB_TYPE = 'none';	// needs to be mysql or sqlite to run
 	static $DB_NAME = 'dbname';
@@ -31,6 +35,10 @@ abstract class _config {
 	static $REMOVE_CONTROLLER_SYMLINKS = FALSE;
 
 	static $CONTENT_SECURITY_ENABLED = TRUE;
+	static $CSS_BASE = 'dvc';
+	static $BOOTSTRAP = TRUE;
+
+	static $SITEMAPS = FALSE;
 
 	/* settings for the cache expire time
 	 * set in the response headers */
