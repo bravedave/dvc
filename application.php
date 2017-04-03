@@ -8,14 +8,8 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	DO NOT change this file
-	It is not called directly, the values here are fallback values
-
-	Modify config.php
+	Copy it to <application>/app/dvc/ and modify it there
 	*/
 NameSpace dvc;
 
-abstract class _config {
-	static $TIMEZONE = 'UTC';
-	static $MAILSERVER = 'localhost';
-
-}
+class application extends _application {}
