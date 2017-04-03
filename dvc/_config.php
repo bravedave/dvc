@@ -17,6 +17,12 @@ NameSpace dvc;
 abstract class _config {
 	static $EMAIL_ERRORS_TO_SUPPORT = FALSE;
 
+	static $DB_HOST = 'localhost';
+	static $DB_TYPE = 'none';	// needs to be mysql or sqlite to run
+	static $DB_NAME = 'dbname';
+	static $DB_USER = 'dbuser';
+	static $DB_PASS = '';
+
 	static $TIMEZONE = 'UTC';
 	static $MAILSERVER = 'localhost';
 
