@@ -26,4 +26,18 @@ abstract class _config {
 	static $TIMEZONE = 'UTC';
 	static $MAILSERVER = 'localhost';
 
+	static $DEFAULT_CONTROLLER = 'home';
+	static $CREATE_CONTROLLER_SYMLINKS = FALSE;
+	static $REMOVE_CONTROLLER_SYMLINKS = FALSE;
+
+	static $CONTENT_SECURITY_ENABLED = TRUE;
+
+	/* settings for the cache expire time
+	 * set in the response headers */
+	static $JQUERY_EXPIRE_TIME = 900;
+	static $FONT_EXPIRE_TIME = 900;
+	static $CSS_EXPIRE_TIME = 900;
+	static $IMG_EXPIRE_TIME = 60;
+	static $CORE_IMG_EXPIRE_TIME = 60;	// set on images that come from the /image location
+
 }

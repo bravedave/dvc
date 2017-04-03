@@ -1,0 +1,4 @@
+These are default controllers
+
+They are checked if there is no controller
+found in the application/controller path
