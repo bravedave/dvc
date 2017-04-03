@@ -20,7 +20,7 @@ abstract class _currentUser {
 		if ( !isset( self::$instance )) {
 			self::$instance = new \user();
 			\sys::logger( "currentUser::user init", 3 );
-			\errsys::currentUser( self::$instance->name);
+			errsys::currentUser( self::$instance->name);
 
 		}
 
