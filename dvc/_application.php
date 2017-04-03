@@ -54,6 +54,8 @@ class _application {
 
 	protected static $instance = NULL;
 
+	protected static $debug = FALSE;
+
 	static function app() {
 		return ( self::$instance);
 
@@ -75,7 +77,7 @@ class _application {
 		self::$instance = $this;
 
 		$this->rootPath = realpath( $rootPath);
-		\sys::logger( sprintf( 'rootpath :: %s', $this->rootPath ), 5 );
+		if ( self::$debug) \sys::logger( sprintf( 'rootpath :: %s', $this->rootPath ));
 		sys::set_error_handler();
 
 		$this->_timer = new timer();
@@ -119,7 +121,7 @@ class _application {
 
 		$this->db = dbi::getDBI();
 		if ( $this->minimum) {
-			\sys::logger( 'exit: I am minimum', 3);
+			if ( self::$debug) \sys::logger( 'exit: I am minimum');
 			return;	// job done
 
 		}
@@ -142,7 +144,7 @@ class _application {
 
 		if ( !file_exists( $controllerFile)) {
 			$controllerFile = __DIR__ . '/controller/' . $this->url_controller . '.php';	// is there a default controller for this action
-			\sys::logger( 'checking for system default controller : ' . $controllerFile, 5 );
+			if ( self::$debug) \sys::logger( 'checking for system default controller : ' . $controllerFile);
 
 		}
 
@@ -152,22 +154,22 @@ class _application {
 				$controllerFile = $this->rootPath . '/controller/' . config::$DEFAULT_CONTROLLER . '.php';	// invalid URL, so home/index
 				if ( !file_exists( $controllerFile)) {
 					$controllerFile = __DIR__ . '/controller/' . config::$DEFAULT_CONTROLLER . '.php';		// invalid URL, so system home/index
-					\sys::logger( 'checking for system default controller (deep)', 5 );
+					if ( self::$debug) \sys::logger( 'checking for system default controller (deep)');
 
 				}
 				else {
-					\sys::logger( 'default controller', 5 );
+					if ( self::$debug) \sys::logger( 'default controller');
 
 				}
 
 			}
 			else {
-				\sys::logger( 'default controller', 5 );
+				if ( self::$debug) \sys::logger( 'default controller');
 
 			}
 
 			if ( $this->url_controller != '' ) {
-				\sys::logger( 'bumped controller => action', 5 );
+				if ( self::$debug) \sys::logger( 'bumped controller => action');
 				$this->url_parameter_3 = $this->url_parameter_2;
 				$this->url_parameter_2 = $this->url_parameter_1;
 				$this->url_parameter_1 = $this->url_action;
@@ -179,7 +181,7 @@ class _application {
 		}
 
 		if ( $this->service) {
-			\sys::logger( 'exit: I am a service', 3);
+			if ( self::$debug) \sys::logger( 'exit: I am a service');
 			return;	// job done
 
 		}
@@ -210,29 +212,14 @@ class _application {
 			// call the method and pass the arguments to it
 			if (isset($this->url_parameter_3)) {
 				// will translate to something like $this->home->method($param_1, $param_2, $param_3);
-				if ( sys::logging() >= 5 ) {
-					\sys::logger( sprintf( '%s->{%s}(%s, %s, %s)',
-						$this->url_controller->name,
-						$this->url_action,
-						$this->url_parameter_1,
-						$this->url_parameter_2,
-						$this->url_parameter_3	), 5 );
-
-				}
+				if ( self::$debug)  \sys::logger( sprintf( '%s->{%s}(%s, %s, %s)', $this->url_controller->name, $this->url_action, $this->url_parameter_1, $this->url_parameter_2, $this->url_parameter_3 ));
 
 				$this->url_controller->{$this->url_action}($this->url_parameter_1, $this->url_parameter_2, $this->url_parameter_3);
 
 			}
 			elseif (isset($this->url_parameter_2)) {
 
-				if ( sys::logging() >= 5 ) {
-					\sys::logger( sprintf( '%s->{%s}(%s, %s)',
-						$this->url_controller->name,
-						$this->url_action,
-						$this->url_parameter_1,
-						$this->url_parameter_2	), 5 );
-
-				}
+				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s, %s)', $this->url_controller->name, $this->url_action, $this->url_parameter_1, $this->url_parameter_2 ));
 
 				// will translate to something like $this->home->method($param_1, $param_2);
 				$this->url_controller->{$this->url_action}($this->url_parameter_1, $this->url_parameter_2);
@@ -240,25 +227,14 @@ class _application {
 			}
 			elseif (isset($this->url_parameter_1)) {
 
-				if ( sys::logging() >= 5 ) {
-					\sys::logger( sprintf( '%s->{%s}(%s)',
-						$this->url_controller->name,
-						$this->url_action,
-						$this->url_parameter_1	), 5 );
-
-				}
+				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s)', $this->url_controller->name, $this->url_action, $this->url_parameter_1 ));
 
 				// will translate to something like $this->home->method($param_1);
 				$this->url_controller->{$this->url_action}($this->url_parameter_1);
 
 			}
 			else {
-				if ( sys::logging() >= 5 ) {
-					\sys::logger( sprintf( '%s->{%s}()',
-						$this->url_controller->name,
-						$this->url_action	), 5 );
-
-				}
+				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}()', $this->url_controller->name, $this->url_action ));
 
 				// if no parameters given, just call the method without parameters, like $this->home->method();
 				$this->url_controller->{$this->url_action}();
@@ -269,13 +245,8 @@ class _application {
 		else {
 			$this->url_served = sprintf( '%s%s%s', url::$PROTOCOL, url::$URL, $this->Request->getControllerName());
 
-			if ( sys::logging() >= 5 ) {
-				\sys::logger( 'fallback', 5);
-				\sys::logger( sprintf( '%s->index(%s)',
-					$this->url_controller->name,
-					$this->url_action	), 5 );
-
-			}
+			if ( self::$debug) \sys::logger( 'fallback');
+			if ( self::$debug) \sys::logger( sprintf( '%s->index(%s)', $this->url_controller->name, $this->url_action ));
 
 			// default/fallback: call the index() method of a selected controller
 			//~ $this->exclude_from_sitemap = TRUE;
@@ -316,31 +287,31 @@ class _application {
 
 			Response::javascript_headers( filemtime( $path), $expires);
 			readfile( $path);
-			\sys::logger( "served: $path", 3 );
+			if ( self::$debug) \sys::logger( "served: $path");
 
 		}
 		elseif ( $ext == "ico" ) {
 			Response::icon_headers( filemtime( $path), \config::$CORE_IMG_EXPIRE_TIME);
 			readfile( $path);
-			\sys::logger( "served: $path", 3 );
+			if ( self::$debug) \sys::logger( "served: $path");
 
 		}
 		elseif ( $ext == "woff" || $ext == "woff2" ) {
 			Response::headers('application/font-woff', filemtime( $path), \config::$FONT_EXPIRE_TIME);
 			readfile( $path);
-			\sys::logger( "served: $path", 3 );
+			if ( self::$debug) \sys::logger( "served: $path");
 
 		}
 		elseif ( $ext == "ttf" || $ext == "otf" ) {
 			Response::headers('application/font-sfnt', filemtime( $path), \config::$FONT_EXPIRE_TIME);
 			readfile( $path);
-			\sys::logger( "served: $path", 3 );
+			if ( self::$debug) \sys::logger( "served: $path");
 
 		}
 		elseif ( $ext == "eot" ) {
 			Response::headers('application/vnd.ms-fontobject', filemtime( $path), \config::$FONT_EXPIRE_TIME);
 			readfile( $path);
-			\sys::logger( "served: $path", 3 );
+			if ( self::$debug) \sys::logger( "served: $path");
 
 		}
 		elseif ( $ext == "png" ) {
@@ -350,7 +321,7 @@ class _application {
 				Response::png_headers( filemtime( $path));
 
 			readfile( $path);
-			\sys::logger( "served: $path", 3 );
+			if ( self::$debug) \sys::logger( "served: $path");
 
 		}
 		elseif ( $ext == "jpg" ) {
@@ -359,7 +330,7 @@ class _application {
 			else
 				Response::jpg_headers( filemtime( $path));
 			readfile( $path);
-			\sys::logger( "served: $path", 3 );
+			if ( self::$debug) \sys::logger( "served: $path");
 
 		}
 		elseif ( $ext == "gif" ) {
@@ -368,41 +339,41 @@ class _application {
 			else
 				Response::gif_headers( filemtime( $path));
 			readfile( $path);
-			\sys::logger( "served: $path", 3 );
+			if ( self::$debug) \sys::logger( "served: $path");
 
 		}
 		elseif ( $ext == "svg" ) {
 			Response::headers('image/svg+xml', filemtime( $path));
 			readfile( $path);
-			\sys::logger( "served: $path", 3 );
+			if ( self::$debug) \sys::logger( "served: $path");
 
 		}
 		elseif ( $ext == "map" ) {
 			Response::text_headers( filemtime( $path));
 			readfile( $path);
-			\sys::logger( "served: $path", 3 );
+			if ( self::$debug) \sys::logger( "served: $path" );
 
 		}
 		elseif ( $ext == "json" ) {
 			Response::json_headers( filemtime( $path));
 			readfile( $path);
-			\sys::logger( "served: $path", 3 );
+			if ( self::$debug) \sys::logger( "served: $path");
 
 		}
 		elseif ( $ext == "txt" ) {
 			Response::text_headers( filemtime( $path));
 			readfile( $path);
-			\sys::logger( "served: $path", 3 );
+			if ( self::$debug) \sys::logger( "served: $path");
 
 		}
 		elseif ( $ext == "xml" ) {
 			Response::xml_headers( filemtime( $path));
 			readfile( $path);
-			\sys::logger( "served: $path", 3 );
+			if ( self::$debug) \sys::logger( "served: $path");
 
 		}
 		else {
-			\sys::logger( "not serving: $path" );
+			if ( self::$debug) \sys::logger( "not serving: $path" );
 
 		}
 
@@ -414,13 +385,13 @@ class _application {
 		*/
 		$url = $this->Request->getUrl();
 		if ( $this->Request->ReWriteBase() != '' && '/' . $url == $this->Request->ReWriteBase()) {
-			\sys::logger( sprintf( 'ReWriteBase = %s', Request::get()->ReWriteBase()), 5);
+			if ( self::$debug) \sys::logger( sprintf( 'ReWriteBase = %s', Request::get()->ReWriteBase()));
 			$url = '';
 
 		}
 
 		if ( $url != "" ) {
-			\sys::logger( 'Url: ' . $url, 3 );
+			if ( self::$debug) \sys::logger( 'Url: ' . $url);
 
 			// split URL
 			//~ $url = filter_var($url, FILTER_SANITIZE_URL);
@@ -441,11 +412,11 @@ class _application {
 			$this->url_parameter_3 = $this->Request->getSegment(4);
 
 			// for debugging. uncomment this if you have problems with the URL
-			\sys::logger( 'Controller: ' . $this->url_controller, 5 );
-			\sys::logger( 'Action: ' . $this->url_action, 5 );
-			\sys::logger( 'Parameter 1: ' . $this->url_parameter_1, 5 );
-			\sys::logger( 'Parameter 2: ' . $this->url_parameter_2, 5 );
-			\sys::logger( 'Parameter 3: ' . $this->url_parameter_3, 5 );
+			if ( self::$debug) \sys::logger( 'Controller: ' . $this->url_controller);
+			if ( self::$debug) \sys::logger( 'Action: ' . $this->url_action);
+			if ( self::$debug) \sys::logger( 'Parameter 1: ' . $this->url_parameter_1);
+			if ( self::$debug) \sys::logger( 'Parameter 2: ' . $this->url_parameter_2);
+			if ( self::$debug) \sys::logger( 'Parameter 3: ' . $this->url_parameter_3);
 
 		}
 
