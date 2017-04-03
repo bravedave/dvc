@@ -54,7 +54,7 @@ class _application {
 
 	protected static $instance = NULL;
 
-	protected static $debug = FALSE;
+	static $debug = FALSE;
 
 	static function app() {
 		return ( self::$instance);
@@ -89,22 +89,38 @@ class _application {
 		ini_set ('SMTP', $mailserver);
 
 		$this->Request = Request::get();
-		if (preg_match('/\.(?:png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml)$/', $this->Request->getUrl())) {
+		//~ if ( self::$debug) \sys::logger( sprintf( '$this->Request->getUrl() :: %s', $this->Request->getUrl() ));
+
+		$_url = trim( $this->Request->getUrl(), '/. ');
+		if (preg_match('/\.(?:png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml)(\?.*)?$/', $_url)) {
 			/*
 			 * You are only here because
 			 *	the file was not found in the <webroot>
 			 *	this may be a public document
 			 */
-			if ( file_exists( sprintf( '%s/app/public/%s', $this->rootPath, $this->Request->getUrl() ))) {
+
+			// remove the tail after ?
+			$_url = preg_replace( '@(\?.*)?$@', '', $_url);
+			if ( strpos( $_url, '..') !== 0)
+				throw new Exceptions\SecurityException;
+
+			// sanitize, noting that it may have / in the string, and that's ok because leading /. have been removed
+			$_url = preg_replace( '@[^a-zA-Z0-9\./]@', '', strtolower( $_url));
+
+			$_file = sprintf( '%s/app/public/%s', $this->rootPath, $_url);
+			if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
+			if ( file_exists( $_file)) {
 				$this->url_served = url::$PROTOCOL . url::$URL . $this->Request->getUrl();
-				$this->serve( sprintf( '%s/app/public/%s', $this->rootPath, $this->Request->getUrl()));
+				$this->serve( $_file);
 				return;
 
 			}
 
-			if ( file_exists( sprintf( '%s/public/%s', $this->rootPath, $this->Request->getUrl() ))) {
+			$_file = sprintf( '%s/public/%s', $this->rootPath, $_url);
+			if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
+			if ( file_exists( $_file)) {
 				$this->url_served = url::$PROTOCOL . url::$URL . $this->Request->getUrl();
-				$this->serve( sprintf( '%s/public/%s', $this->rootPath, $this->Request->getUrl()));
+				$this->serve( $_file);
 				return;
 
 			}
