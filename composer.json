@@ -17,6 +17,6 @@
         "php": ">=5.4"
     },
     "autoload": {
-        "files": ["vendor/autoloader.php"],
+        "files": ["vendor/autoloader.php"]
     }
 }
