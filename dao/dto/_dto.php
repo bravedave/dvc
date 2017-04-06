@@ -1,0 +1,25 @@
+<?php
+/*
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
+
+	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+		http://creativecommons.org/licenses/by/4.0/
+	*/
+Namespace dao\dto;
+
+class _dto {
+	function __construct( $row = NULL ) {
+		if ( !( is_null( $row ))) {
+			foreach ( $row as $k => $v ) {
+				$this->{$k} = $v;
+
+			}
+
+		}
+
+	}
+
+}
+
