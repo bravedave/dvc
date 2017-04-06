@@ -1,23 +1,22 @@
 {
-    "name": "bravedave/dvc",
-    "description": "DVC - General Purpose PSR-4 Data-View-Controller",
-    "version": "0.0.1",
-    "keywords": ["MVC", "Model View Controller"],
-    "homepage": "http://brayworth.com",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Brave Dave",
-            "email": "davbray@gmail.com",
-            "homepage": "http://brayworth.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.4",
-	"MatthiasMullie/Minify" : "*"
-    },
-    "autoload": {
-        "files": ["vendor/autoloader.php"]
-    }
+	"name": "bravedave/dvc",
+	"description": "DVC - General Purpose PSR-4 Data-View-Controller",
+	"version": "0.0.1",
+	"keywords": ["MVC", "Model View Controller"],
+	"homepage": "http://brayworth.com",
+	"type": "library",
+	"license": "MIT",
+	"authors": [{
+		"name": "Brave Dave",
+		"email": "davbray@gmail.com",
+		"homepage": "http://brayworth.com"
+	}],
+	"require": {
+		"php": ">=5.4",
+	       "MatthiasMullie/Minify" : "*",
+		"runmybusiness/initialcon": "*"
+	},
+	"autoload": {
+		"files": ["vendor/autoloader.php"]
+	}
 }
