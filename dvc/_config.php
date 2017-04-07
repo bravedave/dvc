@@ -26,6 +26,7 @@ abstract class _config {
 	static $DB_NAME = 'dbname';
 	static $DB_USER = 'dbuser';
 	static $DB_PASS = '';
+	static $DB_ALTER_FIELD_STRUCTURES = FALSE;	// experimental
 
 	static $TIMEZONE = 'UTC';
 	static $MAILSERVER = 'localhost';
