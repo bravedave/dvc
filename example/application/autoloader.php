@@ -21,4 +21,4 @@ spl_autoload_register(function ($class) {
 
 });
 
-require_once __DIR__ . '/../bravedave/dvc/autoloader.php';
+require_once __DIR__ . '/../vendor/bravedave/dvc/autoloader.php';
