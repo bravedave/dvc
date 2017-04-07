@@ -49,6 +49,39 @@ abstract class _config {
 	static $IMG_EXPIRE_TIME = 60;
 	static $CORE_IMG_EXPIRE_TIME = 60;	// set on images that come from the /image location
 
+	/*
+	 * These come from the Google Developers Portal
+	 * If you populate the oauth keys, Google Auth Methods will be enabled
+	 * see https://console.cloud.google.com/
+	 */
+	static $google_api_key = NULL;		// for use with google maps etc
+	static $oauth2_client_id = NULL; 	// Client ID
+	static $oauth2_secret = NULL;  		// Client Secret
+	static $oauth2_redirect = NULL; 	// Redirect URI
+	static $oauth2_scope = 0; 			// Permission to read email
+
+	const GMAIL_BASIC = 0;
+	const GMAIL_READ = 1;
+	const GMAIL_SEND = 2;
+	const GMAIL_COMPOSE = 3;
+	const GMAIL_COMPOSE_SEND_READ = 4;
+	const GMAIL_ALL = 5;
+
+	/*
+	 * Change these to different random strings
+	 * in the local config to generate unique
+	 * encyption for the local system
+	 */
+	static $CRYPT_IV = 'hdreWHuR';// 8 bit IV
+	static $CRYPT_KEY = 'E4Hhjgs4dfscnuyFFDDE562G';// 24 bit Key
+	/*
+	 * From the Facebook Developers Portal
+	 * If you populate these, the Facebook Auth Method will be enabled
+	 */
+	static $facebook_oauth2_client_id = NULL; // Client ID
+	static $facebook_oauth2_secret = NULL;  // Client Secret
+	static $facebook_oauth2_redirect = NULL; // Redirect URI
+
 	static public function checkDBconfigured() {
 		if ( config::$DB_TYPE == 'mysql' )
 			return TRUE;
