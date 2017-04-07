@@ -16,8 +16,5 @@
 		"MatthiasMullie/Minify" : "*",
 		"runmybusiness/initialcon": "*",
 		"phpmailer/phpmailer": "~5.2"
-	},
-	"autoload": {
-		"psr-4": { "" : ""}
 	}
 }
