@@ -10,7 +10,7 @@
 NameSpace dvc;
 
 abstract class sys {
-	protected static $_loglevel = 0;
+	protected static $_loglevel = 1;
 	protected static $_logloader = 0;
 	/**
 	 * text2html: basically converts plain text to html by swaping in <br /> for \n

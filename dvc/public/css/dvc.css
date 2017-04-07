@@ -17,7 +17,7 @@ html {
 * html .clearfix { height: 1%;}
 .clearfix {display: block;}
 
-body > .container, body > .container-fluid {
+body > .container, body > .container-fluid, body > .main-content-wrapper {
 	/* Margin bottom by footer height */
 	margin-bottom: 1.4em;
 }
