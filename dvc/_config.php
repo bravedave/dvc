@@ -50,6 +50,10 @@ abstract class _config {
 	static $IMG_EXPIRE_TIME = 60;
 	static $CORE_IMG_EXPIRE_TIME = 60;	// set on images that come from the /image location
 
+	static $DATE_FORMAT = 'Y-m-d';
+	static $EMAILDOMAIN = 'example.com';
+	static $AUTHENTICATION_EXPIRES_DAYS = 1;
+	static $COOKIE_AUTHENTICATION_EXPIRES_DAYS = 7;
 	/*
 	 * These come from the Google Developers Portal
 	 * If you populate the oauth keys, Google Auth Methods will be enabled
