@@ -18,6 +18,6 @@
 		"phpmailer/phpmailer": "~5.2"
 	},
 	"autoload": {
-		"files": ["vendor/autoloader.php"]
+		"psr-4": { "" : ""}
 	}
 }
