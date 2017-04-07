@@ -1,6 +1,6 @@
 # DVC - Data View Controller
 
-* Note: Alpha - This probably doesn't work
+* Note: Alpha - Unstable
 
 * It can be configured to work with any client side framework
   * jquery-ui
@@ -8,11 +8,10 @@
   * pure
   * materialcss
 
-
-Running
+## Running
 * Use Composer to Install this
-  i. Install Composer etc.
-  i. Download the Example Folder
-  i. In that Folder (i.e. cd <folder>), where the composer.json is
-  i. composer install
+  1. Install Composer etc.
+  1. Download the Example Folder
+  1. In that Folder (i.e. cd <folder>), where the composer.json is
+  1. composer install
   
