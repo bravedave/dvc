@@ -18,12 +18,9 @@
 *To do all this, PHP would be installed and checked by composer, under Windows you can use the run.cmd
  to launch php with the PHP built in server*
 
-## Take note that the autoloader sequence is is controlled
-  1. Run Our Local Autoloader
-  2. It calls the application autoloader
-  3. it calls the composer autoloader
-
 ## Runs Out of The Box
   * The default controller is called home, and it will be called outof the box, so this runs
     * The sample is bootstrap, but there is no requirement to run that, this is a server side framework, use whatever client side you wish
-   * There is a sample controller called x in the example/application/controller folder
+  * There is a sample controller called x in the example/application/controller folder
+    * http://localhost/x
+    
