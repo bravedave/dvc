@@ -8,7 +8,13 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
+class PHPMailerGMail extends PHPMailerOAuth {
+	public function getOAUTHInstance() {
+		if (!is_object($this->oauth))
+			$this->oauth = new dvc\OAuthGoogle( currentUser::user()->email );
 
-NameSpace dvc\GoogleAPI\Exceptions;
+		return $this->oauth;
 
-class invalid_access_code extends Exception {}
+	}
+
+}
