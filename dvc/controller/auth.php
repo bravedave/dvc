@@ -12,13 +12,20 @@ class auth extends Controller {
 	public $RequireValidation = FALSE;
 	//~ public $debug = TRUE;
 
+	public function index() {
+		if ( $this->getParam( 'code'))
+			$this->response();
+		else
+			$this->request();
+
+	}
+
 	public function request() {
 		if ( $this->debug) sys::logger( 'auth/request');
 
 		if ( dvc\auth::GoogleAuthEnabled()) {
-			$client = new dvc\GoogleAPI\client;
-			$url = $client->getAuthUrl();
-			//~ print $url;
+			$client = \dvc\Google::client();
+			$url = $client->createAuthUrl();
 			Response::redirect( $url);
 
 		}
@@ -31,47 +38,34 @@ class auth extends Controller {
 
 	public function response() {
 		if ( dvc\auth::GoogleAuthEnabled()) {
-			/**
-			 * the OAuth server should have brought us to this page with a $_GET['code']
-			 * an error will be thrown in getAccessToken if the code is not valid
-			 */
-			$client = new dvc\GoogleAPI\client;
-				//~ $client->debug = $this->debug;
-			if ( $token = $client->getAccessToken( $this->getParam( 'code'))) {
-				\dvc\session::set('access_token', $token);
-				\dvc\session::set('refresh_token', $client->getRefreshToken());
-				\dvc\session::set('credentials', $client->getCredentials());
+			$client = \dvc\Google::client();
+				$client->authenticate( $this->getParam( 'code'));
 
-				$me = $client->me();
-				//~ sys::dump( $me);
+				\dvc\Google::saveSession( $client);
 
-				if ( isset( $me->emails)) {
-					if ( (string)$me->emails[0]->value != '' ) {
-						/*
-						 * So here we are saying we accept any user that
-						 * bothers to identify with a valid google account
-						 * ----------------
-						 * noting that any user created would be created
-						 * in \currentUser::sync. It's not the role of
-						 * this routing to say what the authenticated user
-						 * can or cannot access
-						 */
-						$oauth = new dvc\oauth();
-							$oauth->displayName = $me->displayName;
-							$oauth->Surname =  $me->name->familyName;
-							$oauth->GivenNames =  $me->name->givenName;
-							$oauth->email = $me->emails[0]->value;
-						\currentUser::sync( $oauth);
+			$plus = dvc\Google::plus( $client);
+			$me = $plus->people->get("me");
 
-						$_SESSION["DisplayName"] = $oauth->displayName;
-						$_SESSION["Email"] = $oauth->email;
-						$_SESSION["avatar"] = $me->image->url;
-
-					}
-					else {
-						throw new \Exceptions\InvalidAuthUser;
-
-					}
+			if ( isset( $me->emails)) {
+				if ( (string)$me->emails[0]->value != '' ) {
+					/*
+					 * So here we are saying we accept any user that
+					 * bothers to identify with a valid google account
+					 * ----------------
+					 * noting that any user created would be created
+					 * in \currentUser::sync. It's not the role of
+					 * this routing to say what the authenticated user
+					 * can or cannot access
+					 */
+					$oauth = new dvc\oauth();
+						$oauth->displayName = $me->displayName;
+						$oauth->Surname =  $me->name->familyName;
+						$oauth->GivenNames =  $me->name->givenName;
+						$oauth->email = $me->emails[0]->value;
+					\currentUser::sync( $oauth);
+					\session::set( 'DisplayName', $oauth->displayName);
+					\session::set( 'Email', $oauth->email);
+					\session::set( 'avatar', $me->image->url);
 
 				}
 				else {
@@ -80,10 +74,14 @@ class auth extends Controller {
 				}
 
 			}
+			else {
+				throw new \Exceptions\InvalidAuthUser;
+
+			}
 
 		}
 		else {
-			throw new dvc\GoogleAPI\Exceptions\not_enabled;
+			throw new dvc\Exceptions\GoogleAuthNotEnabled;
 
 		}
 
