@@ -107,7 +107,7 @@ abstract class Google {
 
 	}
 
-	private function mailer() {
+	static function mailer() {
 		// Create a new PHPMailer instance
 		$mail = new \PHPMailerGMail; 	// this must be the custom class we created
 		$mail->isSMTP();				// Tell PHPMailer to use SMTP
