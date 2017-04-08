@@ -17,6 +17,7 @@ Use dao;
 
 class _user {
 	var $name = '';
+	var $email = '';
 
 	public function valid() {
 		return ( TRUE );
