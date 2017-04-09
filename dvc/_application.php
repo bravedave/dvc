@@ -128,9 +128,11 @@ class _application {
 			}
 
 			/* this would be a system level document - this is the core distribution javascript */
-			if ( file_exists( sprintf( '%s/public/%s', __DIR__, $this->Request->getUrl() ))) {
+			$_file = sprintf( '%s/public/%s', __DIR__, $_url);
+			if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
+			if ( file_exists( $_file)) {
 				$this->url_served = url::$PROTOCOL . url::$URL . $this->Request->getUrl();
-				$this->serve( sprintf( '%s/public/%s', __DIR__, $this->Request->getUrl()));
+				$this->serve( $_file);
 				return;
 
 			}
@@ -230,7 +232,7 @@ class _application {
 			// call the method and pass the arguments to it
 			if (isset($this->url_parameter_3)) {
 				// will translate to something like $this->home->method($param_1, $param_2, $param_3);
-				if ( self::$debug)  \sys::logger( sprintf( '%s->{%s}(%s, %s, %s)', $this->url_controller->name, $this->url_action, $this->url_parameter_1, $this->url_parameter_2, $this->url_parameter_3));
+				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s, %s, %s)', $this->url_controller->name, $this->url_action, $this->url_parameter_1, $this->url_parameter_2, $this->url_parameter_3));
 
 				$this->url_controller->{$this->url_action}($this->url_parameter_1, $this->url_parameter_2, $this->url_parameter_3);
 
