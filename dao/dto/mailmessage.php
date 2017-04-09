@@ -31,7 +31,7 @@ class mailmessage extends _dto {
 
 		$plainText = $this->Plain;
 		if ( strlen( $plainText) < 1)
-			$plainText = trim( strip_tags( \utility::htmlSanitize( $this->Html)));
+			$plainText = trim( strip_tags( \strings::htmlSanitize( $this->Html)));
 
 		return \strings::brief( $plainText);
 
