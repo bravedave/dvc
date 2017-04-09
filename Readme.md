@@ -23,4 +23,4 @@
     * The sample is bootstrap, but there is no requirement to run that, this is a server side framework, use whatever client side you wish
   * There is a sample controller called x in the example/application/controller folder
     * http://localhost/x
-    
+
