@@ -230,14 +230,14 @@ class _application {
 			// call the method and pass the arguments to it
 			if (isset($this->url_parameter_3)) {
 				// will translate to something like $this->home->method($param_1, $param_2, $param_3);
-				if ( self::$debug)  \sys::logger( sprintf( '%s->{%s}(%s, %s, %s)', $this->url_controller->name, $this->url_action, $this->url_parameter_1, $this->url_parameter_2, $this->url_parameter_3 ));
+				if ( self::$debug)  \sys::logger( sprintf( '%s->{%s}(%s, %s, %s)', $this->url_controller->name, $this->url_action, $this->url_parameter_1, $this->url_parameter_2, $this->url_parameter_3));
 
 				$this->url_controller->{$this->url_action}($this->url_parameter_1, $this->url_parameter_2, $this->url_parameter_3);
 
 			}
 			elseif (isset($this->url_parameter_2)) {
 
-				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s, %s)', $this->url_controller->name, $this->url_action, $this->url_parameter_1, $this->url_parameter_2 ));
+				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s, %s)', $this->url_controller->name, $this->url_action, $this->url_parameter_1, $this->url_parameter_2));
 
 				// will translate to something like $this->home->method($param_1, $param_2);
 				$this->url_controller->{$this->url_action}($this->url_parameter_1, $this->url_parameter_2);
@@ -245,14 +245,14 @@ class _application {
 			}
 			elseif (isset($this->url_parameter_1)) {
 
-				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s)', $this->url_controller->name, $this->url_action, $this->url_parameter_1 ));
+				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s)', $this->url_controller->name, $this->url_action, $this->url_parameter_1));
 
 				// will translate to something like $this->home->method($param_1);
 				$this->url_controller->{$this->url_action}($this->url_parameter_1);
 
 			}
 			else {
-				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}()', $this->url_controller->name, $this->url_action ));
+				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}()', $this->url_controller->name, $this->url_action));
 
 				// if no parameters given, just call the method without parameters, like $this->home->method();
 				$this->url_controller->{$this->url_action}();
@@ -264,12 +264,12 @@ class _application {
 			$this->url_served = sprintf( '%s%s%s', url::$PROTOCOL, url::$URL, $this->Request->getControllerName());
 
 			if ( self::$debug) \sys::logger( 'fallback');
-			if ( self::$debug) \sys::logger( sprintf( '%s->index(%s)', $this->url_controller->name, $this->url_action ));
+			if ( self::$debug) \sys::logger( sprintf( '%s->index(%s)', $this->url_controller->name, $this->url_action));
 
 			// default/fallback: call the index() method of a selected controller
 			//~ $this->exclude_from_sitemap = TRUE;
 			//~ sys::logger( sprintf( 'excluded from exclude_from_sitemap (fallback) => %s/%s', $this->Request->getControllerName(), $this->Request->getActionName()));
-			$this->url_controller->index( $this->url_action );
+			$this->url_controller->index( $this->url_action);
 			//~ sys::logger( sprintf( '%s - %s', $this->url_controller->name, $this->url_action ));
 
 
