@@ -107,7 +107,7 @@ class _application {
 				throw new Exceptions\SecurityException;
 
 			// sanitize, noting that it may have / in the string, and that's ok because leading /. have been removed
-			$_url = preg_replace( '@[^a-zA-Z0-9\./]@', '', strtolower( $_url));
+			$_url = preg_replace( '@[^a-zA-Z0-9\./]@', '', $_url);
 
 			$_file = sprintf( '%s/app/public/%s', $this->rootPath, $_url);
 			if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
@@ -289,7 +289,7 @@ class _application {
 		if ( $ext == "css" ) {
 			Response::css_headers( filemtime( $path));
 			readfile( $path);
-			\sys::logger( "served: $path", 3 );
+			if ( self::$debug) \sys::logger( "served: $path");
 
 		}
 		elseif ( $ext == "js" ) {
@@ -369,7 +369,7 @@ class _application {
 		elseif ( $ext == "map" ) {
 			Response::text_headers( filemtime( $path));
 			readfile( $path);
-			if ( self::$debug) \sys::logger( "served: $path" );
+			if ( self::$debug) \sys::logger( "served: $path");
 
 		}
 		elseif ( $ext == "json" ) {
