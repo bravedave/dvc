@@ -10,4 +10,5 @@
 	DO NOT change this file
 	Copy it to <application>/app and modify it there
 	*/
-abstract class sys extends dvc\sys {}
+
+class menuitem extends dvc\menuitem {}
