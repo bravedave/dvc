@@ -312,7 +312,7 @@ abstract class _controller {
 
 	}
 
-	protected function init( $name = '') {
+	public function init( $name = '') {
 		self::$url = sprintf( '%s%s/', \url::$URL, $name );
 		\sys::logger( self::$url, 5);
 
