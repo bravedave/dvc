@@ -1,0 +1,6 @@
+* React - https://github.com/facebook/react/releases
+	* react-dom.min.js
+	* react.min.js
+
+* Babel - https://github.com/babel/babel-standalone/releases
+	* babel.min.js
