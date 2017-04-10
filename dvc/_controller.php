@@ -68,7 +68,7 @@ abstract class _controller {
 
 	}
 
-	public function getParam( $v = '', $default = FALSE ) {
+	protected function getParam( $v = '', $default = FALSE ) {
 		if ( is_null( $this->Request ))
 			return ( FALSE);
 
@@ -76,7 +76,7 @@ abstract class _controller {
 
 	}
 
-	public function isPost() {
+	protected function isPost() {
 		if ( is_null( $this->Request ))
 			return ( FALSE);
 
@@ -84,7 +84,7 @@ abstract class _controller {
 
 	}
 
-	public function getPost( $name = '', $default = FALSE ) {
+	protected function getPost( $name = '', $default = FALSE ) {
 		if ( is_null( $this->Request ))
 			return ( FALSE);
 
@@ -92,7 +92,7 @@ abstract class _controller {
 
 	}
 
-	public function authorize() {
+	protected function authorize() {
 		if ( auth::GoogleAuthEnabled()) {
 			if ( $this->debug) \sys::logger( 'gauth - test');
 			if ( \user::hasGoogleFlag()) {
@@ -113,7 +113,7 @@ abstract class _controller {
 
 	}
 
-	public function dbResult( $query) {
+	protected function dbResult( $query) {
 		if ( is_null( $this->db ))
 			return ( FALSE);
 
@@ -121,7 +121,7 @@ abstract class _controller {
 
 	}
 
-	public function dbEscape( $s) {
+	protected function dbEscape( $s) {
 		if ( is_null( $this->db ))
 			return ( $s);
 
@@ -149,13 +149,13 @@ abstract class _controller {
 
 	}
 
-	public function hasView( $viewName = 'index', $controller = NULL ) {
+	protected function hasView( $viewName = 'index', $controller = NULL ) {
 		$view = $this->getView( $viewName, $controller);
 		return ( file_exists( $view));
 
 	}
 
-	public function getView( $viewName = 'index', $controller = NULL ) {
+	protected function getView( $viewName = 'index', $controller = NULL ) {
 		if ( is_null( $controller ))
 			$controller = $this->name;
 
@@ -285,7 +285,7 @@ abstract class _controller {
 
 	}
 
-	public function loadView( $viewName = 'index', $controller = NULL ) {
+	protected function loadView( $viewName = 'index', $controller = NULL ) {
 		$view = $this->getView( $viewName, $controller );
 		if ( substr_compare( $view, '.md', -3) === 0) {
 			if ( $this->debug) sys::logger( '_controller->loadView :: it\'s an md !');
@@ -312,7 +312,7 @@ abstract class _controller {
 
 	}
 
-	public function init( $name = '') {
+	protected function init( $name = '') {
 		self::$url = sprintf( '%s%s/', \url::$URL, $name );
 		\sys::logger( self::$url, 5);
 
