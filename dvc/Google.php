@@ -11,8 +11,8 @@
 NameSpace dvc;
 
 abstract class Google {
-	//~ static $debug = FALSE;
-	static $debug = TRUE;
+	static $debug = FALSE;
+	//~ static $debug = TRUE;
 
 	static function client() {
 		$client = new \Google_Client();
@@ -112,8 +112,8 @@ abstract class Google {
 		$mail = new \PHPMailerGMail; 	// this must be the custom class we created
 		$mail->isSMTP();				// Tell PHPMailer to use SMTP
 
-		$mail->SMTPDebug = 2;		// Enable SMTP debugging
-		$mail->Debugoutput = 'html';	// Ask for HTML-friendly debug output
+		//~ $mail->SMTPDebug = 2;		// Enable SMTP debugging
+		//~ $mail->Debugoutput = 'html';	// Ask for HTML-friendly debug output
 
 		$mail->AuthType = 'XOAUTH2';	// Set AuthType
 		$mail->SMTPAuth = true;		// Whether to use SMTP authentication
