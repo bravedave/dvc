@@ -15,45 +15,6 @@
 NameSpace dvc;
 
 abstract class _config {
-	static $EMAIL_ERRORS_TO_SUPPORT = FALSE;
-
-	static $WEBNAME = 'Brayworth Demonstration System';
-
-	static $VERSION = '0.0.0';
-
-	static $DB_HOST = 'localhost';
-	static $DB_TYPE = 'none';	// needs to be mysql or sqlite to run
-	static $DB_NAME = 'dbname';
-	static $DB_USER = 'dbuser';
-	static $DB_PASS = '';
-	static $DB_ALTER_FIELD_STRUCTURES = FALSE;	// experimental
-
-	static $TIMEZONE = 'UTC';
-	static $MAILSERVER = 'localhost';
-	static $MAILER = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
-
-	static $DEFAULT_CONTROLLER = 'home';
-	static $CREATE_CONTROLLER_SYMLINKS = FALSE;
-	static $REMOVE_CONTROLLER_SYMLINKS = FALSE;
-
-	static $CONTENT_SECURITY_ENABLED = TRUE;
-	static $CSS_BASE = 'dvc';
-	static $BOOTSTRAP = TRUE;
-
-	static $SITEMAPS = FALSE;
-
-	/* settings for the cache expire time
-	 * set in the response headers */
-	static $JQUERY_EXPIRE_TIME = 900;
-	static $FONT_EXPIRE_TIME = 900;
-	static $CSS_EXPIRE_TIME = 900;
-	static $IMG_EXPIRE_TIME = 60;
-	static $CORE_IMG_EXPIRE_TIME = 60;	// set on images that come from the /image location
-
-	static $DATE_FORMAT = 'Y-m-d';
-	static $EMAILDOMAIN = 'example.com';
-	static $AUTHENTICATION_EXPIRES_DAYS = 1;
-	static $COOKIE_AUTHENTICATION_EXPIRES_DAYS = 7;
 	/*
 	 * These come from the Google Developers Portal
 	 * If you populate the oauth keys, Google Auth Methods will be enabled
@@ -73,19 +34,63 @@ abstract class _config {
 	const GMAIL_ALL = 5;
 
 	/*
-	 * Change these to different random strings
-	 * in the local config to generate unique
-	 * encyption for the local system
-	 */
-	static $CRYPT_IV = 'hdreWHuR';// 8 bit IV
-	static $CRYPT_KEY = 'E4Hhjgs4dfscnuyFFDDE562G';// 24 bit Key
-	/*
 	 * From the Facebook Developers Portal
 	 * If you populate these, the Facebook Auth Method will be enabled
 	 */
 	static $facebook_oauth2_client_id = NULL; // Client ID
 	static $facebook_oauth2_secret = NULL;  // Client Secret
 	static $facebook_oauth2_redirect = NULL; // Redirect URI
+
+	/*
+	 * Change these to different random strings
+	 * in the local config to generate unique
+	 * encyption for the local system
+	 */
+	static $CRYPT_IV = 'hdreWHuR';// 8 bit IV
+	static $CRYPT_KEY = 'E4Hhjgs4dfscnuyFFDDE562G';// 24 bit Key
+
+	static $VERSION = '0.0.0';
+	static $WEBNAME = 'Brayworth Demonstration System';
+	static $WEBEMAIL = 'webmaster@example.dom';
+	static $FOOTER = 'Brayworth Software Design';
+
+	static $SUPPORT_NAME = 'Software Support';
+	static $SUPPORT_EMAIL = 'support@example.dom';
+	static $EMAIL_ERRORS_TO_SUPPORT = FALSE;
+
+	static $DB_HOST = 'localhost';
+	static $DB_TYPE = 'none';	// needs to be mysql or sqlite to run
+	static $DB_NAME = 'dbname';
+	static $DB_USER = 'dbuser';
+	static $DB_PASS = '';
+	static $DB_ALTER_FIELD_STRUCTURES = FALSE;	// experimental
+
+	static $TIMEZONE = 'UTC';
+	static $MAILSERVER = 'localhost';
+	static $MAILER = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
+	static $DATE_FORMAT = 'Y-m-d';
+	static $EMAILDOMAIN = 'example.com';
+	static $AUTHENTICATION_EXPIRES_DAYS = 1;
+	static $COOKIE_AUTHENTICATION_EXPIRES_DAYS = 7;
+
+	static $CSS_BASE = 'dvc';
+	static $BOOTSTRAP = TRUE;
+
+	static $SITEMAPS = FALSE;
+
+	static $DEFAULT_CONTROLLER = 'home';
+	static $CREATE_CONTROLLER_SYMLINKS = FALSE;
+	static $REMOVE_CONTROLLER_SYMLINKS = FALSE;
+
+	static $CONTENT_SECURITY_ENABLED = TRUE;
+
+	/* settings for the cache expire time
+	 * set in the response headers */
+	static $JQUERY_EXPIRE_TIME = 900;
+	static $FONT_EXPIRE_TIME = 900;
+	static $CSS_EXPIRE_TIME = 900;
+	static $IMG_EXPIRE_TIME = 60;
+	static $CORE_IMG_EXPIRE_TIME = 60;	// set on images that come from the /image location
 
 	static public function checkDBconfigured() {
 		if ( config::$DB_TYPE == 'mysql' )
