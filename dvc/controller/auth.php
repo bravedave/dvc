@@ -30,7 +30,7 @@ class auth extends Controller {
 
 		}
 		else {
-			throw new dvc\GoogleAPI\Exceptions\not_enabled;
+			throw new dvc\Exceptions\GoogleAuthNotEnabled;
 
 		}
 
