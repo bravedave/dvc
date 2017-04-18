@@ -11,9 +11,9 @@
 NameSpace dvc;
 
 class db {
+	protected $mysqli, $dbname;
 
-	var $mysqli, $log = FALSE;
-	var $dbname;
+	public $log = FALSE;
 
 	public static function dbTimeStamp() {
 		return ( date( "Y-m-d H:i:s", time()));
@@ -23,11 +23,11 @@ class db {
 	function __construct( $host, $database, $user, $pass ) {
 		$this->dbname = $database;
 		$this->mysqli = new \mysqli( $host, $user, $pass, $database );
-		//~ $this->mysqli = new mysqli( 'localhost', 'cbz', 'cbz123', 'cbz' );
 
 		if ($this->mysqli->connect_error) {
-			sys::logger('Connect Error (' . $this->mysqli->connect_errno . ') ' . $this->mysqli->connect_error);
-			throw new \Exception( 'Unable to select database.');
+			sys::logger( sprintf( 'Connect Error (%s) %s', $this->mysqli->connect_errno, $this->mysqli->connect_error));
+			throw new Exceptions\UnableToSelectDatabase;
+
 		}
 
 		$this->mysqli->set_charset( 'utf8');
@@ -79,29 +79,18 @@ class db {
 
 		$sql = "insert into `$table`(`" . implode( "`,`", $fA ) . "`) values('" . implode( "','", $fV ) . "')";
 
-		//~ sys::logger( "Q:$sql" );
 		$this->Q($sql);
 		return ( $this->mysqli->insert_id);
 
 	}
 
 	public function Update( $table, $a, $scope ) {
-		//~ try {
-			$aX = array();
-			//~ \sys::logger( print_r( $a));
-			foreach ( $a as $k => $v )
-				$aX[] = "`$k` = '" . $this->mysqli->real_escape_string($v) . "'";
+		$aX = array();
+		foreach ( $a as $k => $v )
+			$aX[] = "`$k` = '" . $this->mysqli->real_escape_string($v) . "'";
 
-			$sql = "update `$table` set " . implode( ", ", $aX ) . " $scope";
-
-			//~ sys::logger( "Q:$sql" );
-			return ( $this->Q($sql));
-
-		//~ }
-		//~ catch ( Exception $e) {
- 			//~ \sys::dump( $a);
-
-		//~ }
+		$sql = sprintf( 'UPDATE `%s` SET %s %s', $table, implode( ', ', $aX ), $scope);
+		return ( $this->Q($sql));
 
 	}
 
