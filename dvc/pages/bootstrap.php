@@ -16,7 +16,7 @@ class bootstrap extends _page {
 	function __construct( $title = '' ) {
 		parent::__construct( $title );
 
-		array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', url::$URL . 'css/bootstrap.min.css' ));
+		array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'css/bootstrap.min.css' )));
 		$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', url::$URL . 'js/bootstrap.min.js' );
 
 	}

@@ -14,6 +14,21 @@ abstract class url {
 	static public $HOME;
 	static public $PROTOCOL;
 
+	static function tostring( $url) {
+		return ( sprintf( '%s%s', self::$URL, $url ));
+
+	}
+
+	static function write( $url) {
+		print self::swrite( $url);
+
+	}
+
+	static function swrite( $url) {
+		return ( self::tostring( $url));
+
+	}
+
 	static function init() {
 		if ( !isset( self::$URL )) {
 
