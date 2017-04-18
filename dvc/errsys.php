@@ -160,6 +160,10 @@ abstract class errsys {
 			mail( config::$SUPPORT_EMAIL, config::$WEBNAME . " PHP Error", $mailMessage, $headers, "-f" . config::$SUPPORT_EMAIL );
 
 		}
+		else {
+			error_log( $mailMessage);
+
+		}
 
 	}
 

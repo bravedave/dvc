@@ -22,7 +22,7 @@ class db {
 
 	function __construct( $host, $database, $user, $pass ) {
 		$this->dbname = $database;
-		$this->mysqli = new \mysqli( $host, $user, $pass, $database );
+		$this->mysqli = @new \mysqli( $host, $user, $pass, $database );
 
 		if ($this->mysqli->connect_error) {
 			sys::logger( sprintf( 'Connect Error (%s) %s', $this->mysqli->connect_errno, $this->mysqli->connect_error));
@@ -37,6 +37,11 @@ class db {
 	function __destruct() {
 		if ( $this->mysqli)
 			$this->mysqli->close();
+
+	}
+
+	public function getCharSet() {
+		return ( $this->mysqli->character_set_name());
 
 	}
 
@@ -75,9 +80,10 @@ class db {
 		foreach ( $a as $k => $v ) {
 			$fA[] = $k;
 			$fV[] = $this->mysqli->real_escape_string ($v);
+
 		}
 
-		$sql = "insert into `$table`(`" . implode( "`,`", $fA ) . "`) values('" . implode( "','", $fV ) . "')";
+		$sql = sprintf( 'INSERT INTO `%s`(`%s`) VALUES("%s")', $table, implode( "`,`", $fA ), implode( '","', $fV ));
 
 		$this->Q($sql);
 		return ( $this->mysqli->insert_id);
