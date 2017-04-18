@@ -126,7 +126,7 @@ class dbCheck extends _dao {
 
 		$fields = $this->db->fieldList( $this->table );
 		$fieldStructures = $this->db->fetchFields( $this->table );
-		$charset = $this->db->mysqli->character_set_name();
+		$charset = $this->db->getCharSet();
 		$after = "";
 		foreach ( $this->structure as $fld ) {
 			if ( in_array( $fld["name"], $fields )) {
