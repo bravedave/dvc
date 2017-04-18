@@ -117,6 +117,14 @@ abstract class strings {
 
 	}
 
+	static function endswith($string, $test) {
+		$strlen = strlen($string);
+		$testlen = strlen($test);
+		if ($testlen > $strlen) return false;
+		return substr_compare( $string, $test, $strlen - $testlen, $testlen, TRUE) === 0;
+
+	}
+
 	static function array2csv(array &$array) {
 		if (count($array) == 0)
 			return null;
