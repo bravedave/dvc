@@ -134,6 +134,16 @@ OUTPUT;
 
 	}
 
+		if ( !$this->boolHeader )
+			$this->header();
+
+		$v = new \view((object)['title' => $this->title]);
+			$v->load( $navbar);
+
+		return ( $this);
+
+	}
+
 	protected function openContent() {
 		if ( $this->contentOPEN )
 			return ( $this);
