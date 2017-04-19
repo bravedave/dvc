@@ -101,7 +101,7 @@ abstract class _config {
 	}
 
 	static function dbInit() {
-		/** This is a local overwrite of the db parameters
+		/** This is a local overwrite of the db and google parameters
 		 */
 		if ( !( is_null( \application::app()))) {
 			$path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
@@ -117,6 +117,23 @@ abstract class _config {
 						self::$DB_PASS = $a->db_pass;
 
 					} // if ( isset( $a['db_type']))
+
+				} // if ( file_exists( $path))
+
+				$path = sprintf('%s%sgoogle.json', $path, DIRECTORY_SEPARATOR );
+				if ( file_exists( $path)) {
+					$a = json_decode( file_get_contents( $path));
+					if ( isset( $a->web)) {
+						self::$oauth2_client_id = $a->web->client_id;
+						self::$oauth2_secret = $a->web->client_secret;
+						self::$oauth2_redirect = \url::$PROTOCOL . \url::tostring( 'auth/response/');
+						//~ print '<pre>';
+						//~ printf( '%s<br />', self::$oauth2_client_id);
+						//~ printf( '%s<br />', self::$oauth2_secret);
+						//~ printf( '%s<br />', self::$oauth2_redirect);
+						//~ die;
+
+					} // if ( isset( $a->web))
 
 				} // if ( file_exists( $path))
 
