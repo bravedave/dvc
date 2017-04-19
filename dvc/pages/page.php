@@ -16,7 +16,8 @@ class page extends _page {
 
 	protected $boolOpen = FALSE;
 
-	static $react = FALSE;
+	static public $MainContextMenu = TRUE;
+	static public $react = FALSE;
 
 	function __construct( $title = '' ) {
 		parent::__construct( $title);

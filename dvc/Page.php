@@ -13,8 +13,6 @@
 NameSpace dvc;
 
 class Page extends pages\page {
-	static public $MainContextMenu = TRUE;
-
 	protected $bootstrap,
 		$datepicker = FALSE;
 
