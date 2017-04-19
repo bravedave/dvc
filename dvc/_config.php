@@ -120,7 +120,7 @@ abstract class _config {
 
 				} // if ( file_exists( $path))
 
-				$path = sprintf('%s%sgoogle.json', $path, DIRECTORY_SEPARATOR );
+				$path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
 				if ( file_exists( $path)) {
 					$a = json_decode( file_get_contents( $path));
 					if ( isset( $a->web)) {
