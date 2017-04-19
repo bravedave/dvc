@@ -192,7 +192,16 @@ abstract class _controller {
 
 						}
 						else {
-							if ( $this->debug) \sys::logger( '_controller->getView :: no view found');
+							$altView = sprintf( '%s/app/views/%s.md', $this->rootPath, $viewName );
+							if ( $this->debug) \sys::logger( '_controller->getView :: check for local markdown : ' . preg_replace( '@^' . $commonPath . '@', '', $altView));
+							if ( file_exists( $altView)) {
+								$view = $altView;
+
+							}
+							else {
+								if ( $this->debug) \sys::logger( '_controller->getView :: no view found');
+
+							}
 
 						}
 
