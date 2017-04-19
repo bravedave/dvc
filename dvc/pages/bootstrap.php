@@ -12,7 +12,7 @@
 	*/
 NameSpace dvc\pages;
 
-class bootstrap extends _page {
+class bootstrap extends page {
 	function __construct( $title = '' ) {
 		parent::__construct( $title );
 
@@ -32,7 +32,7 @@ class bootstrap extends _page {
 
 	}
 
-	public function primary( $class = NULL) {
+	public function secondary( $class = NULL) {
 		return ( parent::primary( 'col-md-3'));	// chain
 
 	}
