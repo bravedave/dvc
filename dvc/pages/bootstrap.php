@@ -27,4 +27,14 @@ class bootstrap extends _page {
 
 	}
 
+	public function primary( $class = NULL) {
+		return ( parent::primary( 'col-md-9'));	// chain
+
+	}
+
+	public function primary( $class = NULL) {
+		return ( parent::primary( 'col-md-3'));	// chain
+
+	}
+
 }
