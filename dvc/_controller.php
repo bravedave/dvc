@@ -98,7 +98,8 @@ abstract class _controller {
 			if ( \user::hasGoogleFlag()) {
 				\user::clearGoogleFlag();
 				if ( $this->debug) \sys::logger( 'gauth');
-				Response::redirect( \url::$URL . 'auth/request' );
+
+				Response::redirect( \url::tostring( 'auth/request'));
 				return;
 
 			}
@@ -106,10 +107,10 @@ abstract class _controller {
 		}
 
 		if ( $this->Redirect_OnLogon)
-			Response::redirect( sprintf( '%slogon?referer=%s', \url::$URL, $this->Redirect_OnLogon));
+			Response::redirect( \url::tostring( sprintf( 'logon?referer=%s', $this->Redirect_OnLogon)));
 
 		else
-			Response::redirect( \url::$URL . 'logon' );
+			Response::redirect( \url::tostring( 'logon'));
 
 	}
 
