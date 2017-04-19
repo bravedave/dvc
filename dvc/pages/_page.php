@@ -134,6 +134,7 @@ OUTPUT;
 
 	}
 
+	public function title( $navbar = 'navbar-default') {
 		if ( !$this->boolHeader )
 			$this->header();
 

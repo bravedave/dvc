@@ -100,18 +100,10 @@ OUTPUT;
 	}
 
 	public function title( $navbar =  'navbar-default') {
-		if ( !$this->boolHeader )
-			$this->header();
-
-		$v = new \view((object)array(
-			'title' => $this->title ));
-
 		if ( \config::$CSS_BASE == 'mini')
-			$v->load( 'navbar-mini');
-		else
-			$v->load( $navbar);
+			$navbar = 'navbar-mini';
 
-		return ( $this);
+		return ( parent::title( $navbar));
 
 	}
 
