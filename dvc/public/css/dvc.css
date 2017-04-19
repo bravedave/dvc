@@ -159,7 +159,7 @@ div#brayworthLOGO a {
 .list-unstyled.list-pad-left {
   padding-left: 10px;
 }
-ul.menu { list-style: none; margin-top: 3em; margin-bottom: 2em; }
+ul.menu { list-style: none; margin-top: 1em; margin-bottom: 1em; }
 ul.menu.menu-contextmenu { margin-top: 0; }
 .ui-menu-item a { padding: 1px 4px 1px 1px; }
 .ui-menu-item .menu-item-separator { margin: .5em 0;

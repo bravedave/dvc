@@ -28,12 +28,12 @@ class bootstrap extends page {
 	}
 
 	public function primary( $class = NULL) {
-		return ( parent::primary( 'col-md-9'));	// chain
+		return ( parent::primary( 'col-sm-8 col-md-9'));	// chain
 
 	}
 
 	public function secondary( $class = NULL) {
-		return ( parent::primary( 'col-md-3'));	// chain
+		return ( parent::primary( 'col-sm-4 col-md-3'));	// chain
 
 	}
 
