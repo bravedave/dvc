@@ -117,4 +117,28 @@ abstract class _auth {
 
 	}
 
+	static function button() {
+		if ( auth::GoogleAuthEnabled()) {
+			if ( currentUser::valid()) {
+				return ( sprintf( '<a href="%s"><img alt="logout" src="%s" /><img alt="avatar" class="user-avatar" title="%s" src="%s" /><img alt="logout" src="%s" /></a>',
+					url::tostring( 'auth/logout'),
+					url::tostring( 'images/logout-left9x54.png'),
+					currentUser::user()->name,
+					currentUser::avatar(),
+					url::tostring( 'images/logout-63x54.png')
+					));
+
+			}
+			else {
+				return ( sprintf( '<a href="#dlgLogon" data-toggle="modal"><img alt="logon with google" src="%s" /></a>',
+					url::tostring( 'images/gfb-signin-246x54.png' )));
+
+			}
+
+		}
+
+		return ( '');
+
+	}
+
 }
