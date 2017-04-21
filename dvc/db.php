@@ -46,7 +46,7 @@ class db {
 	}
 
 	public function getDBName() {
-		return ( $this->$dbname);
+		return ( $this->dbname);
 
 	}
 
