@@ -45,6 +45,11 @@ class db {
 
 	}
 
+	public function getDBName() {
+		return ( $this->$dbname);
+
+	}
+
 	public function Q( $query ) {
 		if ( $this->log ) sys::logSQL( $query );
 		if ( $result = $this->mysqli->query($query)) return ( $result );
