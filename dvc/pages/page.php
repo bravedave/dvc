@@ -95,8 +95,10 @@ OUTPUT;
 	}
 
 	public function pageHeader() {
-		parent::pageHeader();
+		$ret = parent::pageHeader();
 		print '	<div id="top-of-page"></div>' . PHP_EOL;
+
+		return ( $ret);
 
 	}
 
