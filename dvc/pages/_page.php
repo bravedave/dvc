@@ -17,6 +17,7 @@ class _page {
 	protected $sectionNAME = '';
 
 	public $title = '';
+	public $data = FALSE;
 	public $charset = FALSE;
 
 	public $meta = array(),
@@ -29,7 +30,9 @@ class _page {
 		$bodyClass = FALSE;
 
 	function __construct( $title = '' ) {
-		$this->title = ( $title == '' ? \config::$WEBNAME : $title );
+		$this->data = (object)array( 'title' => '');
+
+		$this->data->title = $this->title = ( $title == '' ? \config::$WEBNAME : $title );
 
 		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
 
@@ -138,7 +141,7 @@ OUTPUT;
 		if ( !$this->boolHeader )
 			$this->header();
 
-		$v = new \view((object)['title' => $this->title]);
+		$v = new \view( $this->data);
 			$v->load( $navbar);
 
 		return ( $this);

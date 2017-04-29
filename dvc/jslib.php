@@ -24,24 +24,29 @@ abstract class jslib {
 	public static $brayworthlib = FALSE;
 	public static $reactlib = FALSE;
 
+	protected static $rootPath = NULL;
+
 	protected static function __createlib( $libdir, $jslib, $files, $minify = FALSE) {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
 
-		if ( $libdir)
-			$outputDIR = application::app()->getRootPath() . '/app/public/js/' . $libdir;
-		else
-			$outputDIR = application::app()->getRootPath() . '/app/public/js';
+		if ( is_null( self::$rootPath))
+			self::$rootPath = application::app()->getRootPath() . '/app/public/js';
 
-		$output = $outputDIR . '/' . $jslib;
+		if ( $libdir)
+			$outputDIR = sprintf( '%s/%s', self::$rootPath, $libdir);
+		else
+			$outputDIR = self::$rootPath;
+
+		$output = sprintf( '%s/%s', $outputDIR, $jslib);
 		//~ sys::logger( $jslib);
 		//~ sys::logger( $output);
 
 		//~ return ( FALSE);
 
 		if ( file_exists( application::app()->getRootPath() . '/app/public/' )) {
-			if ( !( file_exists( $outputDIR)) && is_writable( application::app()->getRootPath() . '/app/public/js/' )) {
-				mkdir( $outputDIR);
+			if ( !( file_exists( $outputDIR)) && is_writable( self::$rootPath)) {
+				mkdir( $outputDIR, 0777, TRUE);
 				chmod( $outputDIR, 0777);
 
 			}

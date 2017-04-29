@@ -22,24 +22,29 @@ abstract class cssmin {
 	public static $debug = FALSE;
 	public static $dvcmin = FALSE;
 
+	protected static $rootPath = NULL;
+
 	protected static function __createmin( $mindir, $cssmin, $files, $minify = FALSE) {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
 
-		if ( $mindir)
-			$outputDIR = application::app()->getRootPath() . '/app/public/css/' . $mindir;
-		else
-			$outputDIR = application::app()->getRootPath() . '/app/public/css';
+		if ( is_null( self::$rootPath))
+			self::$rootPath = application::app()->getRootPath() . '/app/public/css';
 
-		$output = $outputDIR . '/' . $cssmin;
+		if ( $mindir)
+			$outputDIR = sprintf( '%s/%s', self::$rootPath, $mindir);
+		else
+			$outputDIR = self::$rootPath;
+
+		$output = sprintf( '%s/%s', $outputDIR, $cssmin);
 		//~ sys::logger( $cssmin);
 		//~ sys::logger( $output);
 
 		//~ return ( FALSE);
 
 		if ( file_exists( application::app()->getRootPath() . '/app/public/' )) {
-			if ( !( file_exists( $outputDIR)) && is_writable( application::app()->getRootPath() . '/app/public/css/' )) {
-				mkdir( $outputDIR);
+			if ( !( file_exists( $outputDIR)) && is_writable( self::$rootPath)) {
+				mkdir( $outputDIR, 0777, TRUE);
 				chmod( $outputDIR, 0777);
 
 			}

@@ -143,4 +143,12 @@ abstract class sys {
 
 	}
 
+	static function mailer() {
+		$mail = new \PHPMailer(); // defaults to using php "mail()"
+		$mail->SetFrom( \config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME);
+
+		return ( $mail);
+
+	}
+
 }

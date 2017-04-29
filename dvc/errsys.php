@@ -138,7 +138,7 @@ abstract class errsys {
 
 		if ( config::$EMAIL_ERRORS_TO_SUPPORT ) {
 			$header = array(
-				sprintf( 'From: %s <%s>', config::$WEBNAME, config::$SUPPORT_EMAIL ),
+				sprintf( 'From: %s <%s>', config::$WEBNAME, config::$WEBEMAIL ),
 				sprintf( 'Reply-To: %s <%s>', config::$WEBNAME, config::$SUPPORT_EMAIL ),
 				sprintf( 'Return-Path: %s <%s>', config::$WEBNAME, config::$SUPPORT_EMAIL ),
 				'Content-Type: text/plain',
