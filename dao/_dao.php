@@ -22,7 +22,7 @@ abstract class _dao {
 
 	function __construct( \dvc\dbi $db = NULL ) {
 		if ( is_null( $db ))
-			$this->db = \dbi::getDBI();
+			$this->db = \sys::dbi();
 
 		else
 			$this->db = $db;

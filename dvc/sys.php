@@ -12,6 +12,7 @@ NameSpace dvc;
 abstract class sys {
 	protected static $_loglevel = 1;
 	protected static $_logloader = 0;
+	protected static $_dbi = NULL;
 	/**
 	 * text2html: basically converts plain text to html by swaping in <br /> for \n
 	 **/
@@ -64,6 +65,14 @@ abstract class sys {
 			self::$_loglevel = $level;
 
 		return ( $oldLevel);
+
+	}
+
+	static function dbi() {
+		if ( is_null( self::$_dbi))
+			self::$_dbi = new dbi();
+
+		return ( self::$_dbi);
 
 	}
 

@@ -12,30 +12,26 @@
 Namespace dvc;
 
 class dbi extends db {
-	protected static $dbi;
 	protected static $dbiCount = 0;
 
 	static function getDBI() {
-		if ( !isset( self::$dbi ))
-			self::$dbi = new dbi();
-
-		return ( self::$dbi );
+		return ( \sys::dbi());
 
 	}
 
 	static function SQL( $sql ) {
-		return ( self::getDBI()->Q( $sql ));
+		return ( \sys::dbi()->Q( $sql ));
 
 	}
 
 	static function StaticInsert( $table, $a ) {
-		$db = self::getDBI();
+		$db = \sys::dbi();
 		return ( $db->Insert( $table, $a ));
 
 	}
 
 	static function StaticUpdate( $table, $a, $scope ) {
-		$db = self::getDBI();
+		$db = \sys::dbi();
 		return ( $db->Update( $table, $a, $scope ));
 
 	}

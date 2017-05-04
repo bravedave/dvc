@@ -139,7 +139,7 @@ class _application {
 
 		}
 
-		$this->db = dbi::getDBI();
+		$this->db = \sys::dbi();
 		if ( $this->minimum) {
 			if ( self::$debug) \sys::logger( 'exit: I am minimum');
 			return;	// job done
