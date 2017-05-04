@@ -18,7 +18,7 @@ class dbCheck extends _dao {
 	protected $structure = Array();
 	protected $indexs = Array();
 
-	function __construct( \dvc\db $db, $table, $pk = "id" ) {
+	function __construct( \dvc\db $db = NULL, $table, $pk = "id" ) {
 		parent::__construct( $db );
 
 		$this->table = $table;
