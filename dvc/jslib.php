@@ -161,6 +161,7 @@ abstract class jslib {
 		//~ $debug = TRUE;
 
 		$files = array(
+			__DIR__ . '/public/js/jquery.visible.js',
 			__DIR__ . '/public/js/brayworth.js',
 			__DIR__ . '/public/js/js.cookie.js' );
 
