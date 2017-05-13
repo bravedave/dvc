@@ -82,8 +82,7 @@ footer nav > ul > li, .footer nav > ul > li, .copyright {
 	.navbar-brand, .navbar-nav > li > a { line-height: 50px; }
 
 	body > .container, body > .container-fluid, body > .main-content-wrapper {
-		padding-top: 55px;
-		padding-bottom: 0;
+		padding: 55px 15px 0;
 	}
 
 }
@@ -103,8 +102,7 @@ footer nav > ul > li, .footer nav > ul > li, .copyright {
 	.navbar-brand, .navbar-nav > li > a { line-height: 60px; }
 
 	body > .container, body > .container-fluid, body > .main-content-wrapper {
-		padding-top: 65px;
-		padding-bottom: 0;
+		padding: 65px 15px 0;
 	}
 
 }
@@ -120,8 +118,7 @@ footer nav > ul > li, .footer nav > ul > li, .copyright {
 
 	.navbar { margin-bottom: 0; }
 	body > .container, body > .container-fluid, body > .main-content-wrapper {
-		padding-top: 71px;
-		padding-bottom: 0;
+		padding: 71px 15px 0;
 
 	}
 
@@ -133,8 +130,7 @@ footer nav > ul > li, .footer nav > ul > li, .copyright {
 	.navbar-brand, .navbar-nav > li > a { line-height: 80px; }
 
 	body > .container, body > .container-fluid, body > .main-content-wrapper {
-		padding-top: 81px;
-		padding-bottom: 0;
+		padding: 81px 15px 0;
 	}
 }
 
