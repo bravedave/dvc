@@ -82,7 +82,8 @@ footer nav > ul > li, .footer nav > ul > li, .copyright {
 	.navbar-brand, .navbar-nav > li > a { line-height: 50px; }
 
 	body > .container, body > .container-fluid, body > .main-content-wrapper {
-		padding: 55px 15px 0;
+		padding-top: 55px;
+		padding-bottom: 0;
 	}
 
 }
