@@ -1,0 +1,11 @@
+@charset "UTF-8";
+html {
+  font-size: 16px; }
+html, * {
+  font-family: -apple-system, BlinkMacSystemFont,"Segoe UI","Roboto", "Droid Sans","Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%; }
+
+* { font-size: 1em; }
+
+.hidden { display: none; }

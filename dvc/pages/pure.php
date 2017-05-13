@@ -21,7 +21,7 @@ class pure extends _page {
 
 	}
 
-	public function title() {
+	public function title( $navbar = NULL) {
 		printf( '
 	<div class="topbar pure-menu pure-menu-horizontal" role="navigation">
 		<a  class="pure-menu-heading pure-menu-link" href="%s">%s</a>
@@ -35,6 +35,8 @@ class pure extends _page {
 	protected function openContent() {
 		if ( $this->contentOPEN )
 			return;
+
+		$this->pageHeader();
 
 		print <<<OUTPUT
 
@@ -58,6 +60,10 @@ OUTPUT;
 	}
 
 	public function pagefooter() {
+		$this
+			->header()
+			->pageHeader();
+
 		$footer = new \dvc\html\element( 'footer' );
 
 			$div = $footer->append( 'div', NULL, array( 'class' => 'pure-g' ));

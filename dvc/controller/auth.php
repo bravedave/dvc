@@ -67,6 +67,8 @@ class auth extends Controller {
 					\session::set( 'Email', $oauth->email);
 					\session::set( 'avatar', $me->image->url);
 
+					\user::setGoogleFlag();
+
 				}
 				else {
 					throw new \Exceptions\InvalidAuthUser;

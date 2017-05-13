@@ -73,6 +73,10 @@ abstract class _config {
 	static $AUTHENTICATION_EXPIRES_DAYS = 1;
 	static $COOKIE_AUTHENTICATION_EXPIRES_DAYS = 7;
 
+	static $EMAIL_STATIONARY = 'email.html';
+	static $TEMPLATES_DIR = NULL;
+	static $TEMPLATES_DIR_CSS = NULL;
+
 	static $CSS_BASE = 'dvc';
 	static $BOOTSTRAP = TRUE;
 
@@ -91,6 +95,16 @@ abstract class _config {
 	static $CSS_EXPIRE_TIME = 900;
 	static $IMG_EXPIRE_TIME = 60;
 	static $CORE_IMG_EXPIRE_TIME = 60;	// set on images that come from the /image location
+
+	static function tempdir() {
+		/*
+		 * return a writable path with a trailing slash
+		 */
+
+		$dir = trim( sys_get_temp_dir(), '/\\');
+		return ( $dir . DIRECTORY_SEPARATOR);
+
+	}
 
 	static public function checkDBconfigured() {
 		if ( config::$DB_TYPE == 'mysql' )

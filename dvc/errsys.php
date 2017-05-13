@@ -136,11 +136,11 @@ abstract class errsys {
 		}
 
 
-		if ( config::$EMAIL_ERRORS_TO_SUPPORT ) {
+		if ( \config::$EMAIL_ERRORS_TO_SUPPORT ) {
 			$header = array(
-				sprintf( 'From: %s <%s>', config::$WEBNAME, config::$WEBEMAIL ),
-				sprintf( 'Reply-To: %s <%s>', config::$WEBNAME, config::$SUPPORT_EMAIL ),
-				sprintf( 'Return-Path: %s <%s>', config::$WEBNAME, config::$SUPPORT_EMAIL ),
+				sprintf( 'From: %s <%s>', \config::$WEBNAME, \config::$WEBEMAIL ),
+				sprintf( 'Reply-To: %s <%s>', \config::$WEBNAME, \config::$SUPPORT_EMAIL ),
+				sprintf( 'Return-Path: %s <%s>', \config::$WEBNAME, \config::$SUPPORT_EMAIL ),
 				'Content-Type: text/plain',
 				sprintf( 'Date: %s', date(DATE_RFC2822)) );
 
@@ -157,7 +157,7 @@ abstract class errsys {
 			$headers = implode( "\r\n", $header );
 			$scriptname = strtolower( $_SERVER[ "SCRIPT_NAME" ]);
 
-			mail( config::$SUPPORT_EMAIL, config::$WEBNAME . " PHP Error", $mailMessage, $headers, "-f" . config::$SUPPORT_EMAIL );
+			mail( \config::$SUPPORT_EMAIL, \config::$WEBNAME . " PHP Error", $mailMessage, $headers, "-f" . \config::$SUPPORT_EMAIL );
 
 		}
 		else {

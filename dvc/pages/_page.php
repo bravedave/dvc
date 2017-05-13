@@ -11,6 +11,7 @@ NameSpace dvc\pages;
 
 class _page {
 	protected $boolHeader = FALSE;
+	protected $boolpageHeader = FALSE;
 	protected $headerOPEN = FALSE;
 	protected $contentOPEN = FALSE;
 	protected $sectionOPEN = FALSE;
@@ -125,6 +126,11 @@ OUTPUT;
 	}
 
 	public function pageHeader() {
+		if ( $this->boolpageHeader )
+			return ( $this);
+
+		$this->boolpageHeader = TRUE;
+
 		$this->closeHeader();
 
 		if ( $this->bodyClass)
@@ -211,16 +217,23 @@ OUTPUT;
 	}
 
 	public function pagefooter() {
+		$this
+			->header()
+			->pageHeader();
+
 		$v = new \view;
-		$v->load( 'footer');
+			$v->load( 'footer');
 
 		return ( $this);	// chain
 
 	}
 
 	public function close() {
-		$this->closeSection();
-		$this->closeContent();
+		$this
+			->header()
+			->pageHeader()
+			->closeSection()
+			->closeContent();
 
 		$time = '';
 		if ( $this->boolOpen ) {

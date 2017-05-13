@@ -236,4 +236,41 @@ abstract class strings {
 
 	}
 
+	static function xml_entities($text, $charset = 'UTF-8'){
+		 // Debug and Test
+		// $text = "test &amp; &trade; &amp;trade; abc &reg; &amp;reg; &#45;";
+
+		/*
+			First we encode html characters that are also invalid in xml
+			*/
+		$text = htmlentities($text, ENT_COMPAT, $charset, false);
+
+		/*
+			XML character entity array from Wiki
+			Note: &apos; is useless in UTF-8 or in UTF-16
+			*/
+		$arr_xml_special_char = array("&quot;","&amp;","&apos;","&lt;","&gt;");
+
+		/*
+			Building the regex string to exclude all strings with xml special char
+			*/
+		$arr_xml_special_char_regex = "(?";
+		foreach($arr_xml_special_char as $key => $value){
+			$arr_xml_special_char_regex .= "(?!$value)";
+		}
+		$arr_xml_special_char_regex .= ")";
+
+		/*
+			Scan the array for &something_not_xml; syntax
+			*/
+		$pattern = "/$arr_xml_special_char_regex&([a-zA-Z0-9]+;)/";
+
+		/*
+			Replace the &something_not_xml; with &amp;something_not_xml;
+			*/
+		$replacement = '&amp;${1}';
+		return preg_replace($pattern, $replacement, $text);
+
+	}
+
 }

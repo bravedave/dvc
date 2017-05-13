@@ -431,6 +431,12 @@ blockquote cite:before {
 	animation-name: animatetop;
 	animation-duration: 0.4s
 }
+
+@media screen and (max-height: 700px){
+	.modal .modal-content {
+		margin: 7% auto; /* 15% from the top and centered */
+	}
+}
 .modal .modal-content.modal-content-400 { width: 400px; }
 .modal .modal-content.modal-content-600 { width: 600px; }
 .modal .modal-content.modal-content-700 { width: 700px; }
@@ -466,6 +472,7 @@ blockquote cite:before {
 	background: rgba(16,16,16, 0.75);
 	border: 1px solid rgba(81, 203, 238, 1);
 	box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+	z-index: 1500;
 }
 .growler h3{ margin-top: 0; }
 .growler.information:before {
@@ -506,3 +513,5 @@ blockquote cite:before {
 .gravatar.gravatar-80 { width: 80px; }
 .gravatar.gravatar-32 { width: 32px; }
 .gravatar.gravatar-16 { width: 16px; }
+
+.wait { cursor: wait; }
