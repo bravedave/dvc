@@ -21,11 +21,11 @@ class bootstrap extends page {
 
 	}
 
-	public function title( $navbar =  'navbar-inverse') {
-		parent::title( $navbar);
-		return ( $this);
+	//~ public function title( $navbar =  'navbar-inverse') {
+		//~ parent::title( $navbar);
+		//~ return ( $this);
 
-	}
+	//~ }
 
 	public function primary( $class = NULL) {
 		return ( parent::primary( 'col-sm-8 col-md-9'));	// chain

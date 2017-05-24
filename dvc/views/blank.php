@@ -9,4 +9,4 @@
 	*/
 
 	if ( ! defined( "APPLICATION")) exit;	?>
-<div>&nbsp;</div>
+	<div>&nbsp;</div>

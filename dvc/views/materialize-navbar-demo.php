@@ -18,7 +18,7 @@ nav .brand-logo {
 </style>
 <nav class="white" role="navigation">
 	<div class="nav-wrapper container">
-		<a id="logo-container" href="#" class="brand-logo">Logo</a>
+		<?php printf( '<a id="logo-container" href="%s" class="brand-logo" >%s</a>', \url::$URL, $this->data->title);	?>
 		<ul class="right hide-on-med-and-down">
 			<li><a href="#">Navbar Link</a></li>
 		</ul>

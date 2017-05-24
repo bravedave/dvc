@@ -10,13 +10,13 @@
 	*/
 NameSpace dvc\pages;
 
-class materializecss extends _page {
+class materializecss extends page {
 	function __construct( $title = '' ) {
-		parent::__construct( $title );
+		parent::__construct( $title);
 
 		$a = array();
 		foreach ( $this->css as $css) {
-			if ( !( preg_match( '/(dvc.css|custom.css)/', $css )))
+			if ( !( preg_match( '/(dvc.css|dvc.min.css|custom.css)/', $css )))
 				$a[] = $css;
 
 		}
@@ -25,13 +25,15 @@ class materializecss extends _page {
 
 		$this->meta[] = '<meta name="viewport" content="width=device-width, initial-scale=1" />';
 
-		// Import materialize.css
-		array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" href="%scss/materialize.min.css"  media="screen,projection" />', \url::$URL ));
-		// Import Google Icon Font
-		array_unshift( $this->css, sprintf( '<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />', \url::$URL ));
+		array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" href="%s"  media="screen,projection" />', \url::tostring( 'css/materialize.min.css')));			// Import materialize.css
+		array_unshift( $this->css, '<link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons" />');		// Import Google Icon Font
+		$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/materialize.min.js') );	// append materialize.js
 
-		// append materialize.js
-		$this->latescripts[] = sprintf( '<script type="text/javascript" src="%sjs/materialize.min.js"></script>', \url::$URL );
+	}
+
+	public function title( $navbar =  'materialize-navbar-demo') {
+		parent::title( $navbar);
+		return ( $this);
 
 	}
 
