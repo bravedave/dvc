@@ -10,7 +10,7 @@
 Namespace dao\dto;
 
 class _dto {
-	function __construct( $row = NULL ) {
+	public function __construct( $row = NULL ) {
 		if ( !( is_null( $row ))) {
 			foreach ( $row as $k => $v ) {
 				$this->{$k} = $v;
@@ -18,6 +18,15 @@ class _dto {
 			}
 
 		}
+
+	}
+
+	public function toString() {
+		$s = array();
+		foreach ( $this as $k => $v)
+			$s[] = sprintf( '%s = %s', $k, $v);
+
+		return ( implode( PHP_EOL, $s));
 
 	}
 
