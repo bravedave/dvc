@@ -93,7 +93,7 @@ class db {
 
 		}
 
-		$sql = sprintf( 'INSERT INTO `%s`(`%s`) VALUES("%s")', $table, implode( ',', $fA ), implode( ',', $fV ));
+		$sql = sprintf( 'INSERT INTO `%s`(%s) VALUES("%s")', $table, implode( ',', $fA ), implode( ',', $fV ));
 		//~ foreach ( $a as $k => $v ) {
 			//~ $fA[] = $k;
 			//~ $fV[] = $this->mysqli->real_escape_string ($v);
