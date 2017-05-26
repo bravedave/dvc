@@ -70,7 +70,7 @@ class db {
 	}
 
 	public function escape( $s ) {
-		return ( $this->mysqli->real_escape_string( $s));
+		return ( $this->mysqli->real_escape_string($s));
 
 	}
 
@@ -83,42 +83,22 @@ class db {
 		$fA = array();
 		$fV = array();
 		foreach ( $a as $k => $v ) {
-			$fA[] = sprintf( '`%s`', $k);
-			if ( $v == 'NOW')
-				$fV[] = 'CURRENT_TIMESTAMP';
-			elseif ( $v == 'CURRENT_TIMESTAMP' || $v == 'CURRENT_DATE' || $v == 'CURRENT_TIME')
-				$fV[] = $v;
-			else
-				$fV[] = sprintf( '"%s"', $this->escape( $v));
+			$fA[] = $k;
+			$fV[] = $this->mysqli->real_escape_string ($v);
 
 		}
 
-		$sql = sprintf( 'INSERT INTO `%s`(%s) VALUES(%s)', $table, implode( ',', $fA ), implode( ',', $fV ));
-		//~ foreach ( $a as $k => $v ) {
-			//~ $fA[] = $k;
-			//~ $fV[] = $this->mysqli->real_escape_string ($v);
+		$sql = sprintf( 'INSERT INTO `%s`(`%s`) VALUES("%s")', $table, implode( "`,`", $fA ), implode( '","', $fV ));
 
-		//~ }
-
-		//~ $sql = sprintf( 'INSERT INTO `%s`(`%s`) VALUES("%s")', $table, implode( "`,`", $fA ), implode( '","', $fV ));
-
-		$this->Q( $sql);
+		$this->Q($sql);
 		return ( $this->mysqli->insert_id);
 
 	}
 
 	public function Update( $table, $a, $scope ) {
 		$aX = array();
-		foreach ( $a as $k => $v ) {
-			if ( $v == 'NOW')
-				$aX[] = sprintf( '`%s` = CURRENT_TIMESTAMP', $k, $v);
-			elseif ( $v == 'CURRENT_TIMESTAMP' || $v == 'CURRENT_DATE' || $v == 'CURRENT_TIME')
-				$aX[] = sprintf( '`%s` = %s', $k, $v);
-			else
-				$aX[] = sprintf( '`%s` = "%s"', $k, $this->escape( $v));
-
-		}
-			//~ $aX[] = "`$k` = '" . $this->mysqli->real_escape_string($v) . "'";
+		foreach ( $a as $k => $v )
+			$aX[] = "`$k` = '" . $this->mysqli->real_escape_string($v) . "'";
 
 		$sql = sprintf( 'UPDATE `%s` SET %s %s', $table, implode( ', ', $aX ), $scope);
 		return ( $this->Q($sql));
