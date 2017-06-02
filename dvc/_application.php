@@ -308,6 +308,8 @@ class _application {
 				$expires = \config::$JQUERY_EXPIRE_TIME;
 			elseif ( strstr( $path, 'brayworthlib.js'))
 				$expires = \config::$JQUERY_EXPIRE_TIME;
+			elseif ( strings::endswith( $path, '.js'))
+				$expires = \config::$JS_EXPIRE_TIME;
 
 			Response::javascript_headers( filemtime( $path), $expires);
 			readfile( $path);

@@ -90,6 +90,7 @@ abstract class _config {
 
 	/* settings for the cache expire time
 	 * set in the response headers */
+	static $JS_EXPIRE_TIME = 300;
 	static $JQUERY_EXPIRE_TIME = 900;
 	static $FONT_EXPIRE_TIME = 900;
 	static $CSS_EXPIRE_TIME = 900;
