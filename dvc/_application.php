@@ -304,6 +304,10 @@ class _application {
 				$expires = \config::$JQUERY_EXPIRE_TIME;
 			elseif ( strstr( $path, 'moment.min.js'))
 				$expires = \config::$JQUERY_EXPIRE_TIME;
+			elseif ( strstr( $path, 'bootstrap.min.js'))
+				$expires = \config::$JQUERY_EXPIRE_TIME;
+			elseif ( strstr( $path, 'brayworthlib.js'))
+				$expires = \config::$JQUERY_EXPIRE_TIME;
 
 			Response::javascript_headers( filemtime( $path), $expires);
 			readfile( $path);

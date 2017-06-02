@@ -173,12 +173,12 @@ abstract class jslib {
 		}
 
 		if ( $libdir) {
-			self::$brayworthlib = sprintf( '%sjs/%s/%s?v=%s', \url::$URL, $libdir, $lib, \config::$VERSION );
+			self::$brayworthlib = sprintf( '%sjs/%s/%s?v=', \url::$URL, $libdir, $lib);
 			$jslib = sprintf( '%s/app/public/js/%s/%s', application::app()->getRootPath(), $libdir, $lib);
 
 		}
 		else {
-			self::$brayworthlib = sprintf( '%sjs/%s?vv=%s', \url::$URL, $lib, \config::$VERSION );
+			self::$brayworthlib = sprintf( '%sjs/%s?vv=', \url::$URL, $lib);
 			$jslib = sprintf( '%s/app/public/js/%s', application::app()->getRootPath(), $lib);
 
 		}
@@ -201,11 +201,21 @@ abstract class jslib {
 			if ( $libmodtime < $modtime) {
 				if ( $debug) sys::logger( 'jslib::brayworth :: latest mod time = ' . date( 'r', $modtime));
 				if ( $debug) sys::logger( 'jslib::brayworth :: you need to update ' . $jslib);
-				return ( self::__createlib( $libdir, $lib, $files, TRUE));
+				if ( self::__createlib( $libdir, $lib, $files, TRUE)) {
+					$version = filemtime( $jslib);
+					self::$brayworthlib .= $version;
+
+					return ( TRUE);
+
+				}
 
 			}
 			else {
 				if ( $debug) sys::logger( 'jslib::brayworth :: you have the latest version of ' . $jslib);
+
+				$version = filemtime( $jslib);
+				self::$brayworthlib .= $version;
+
 				return ( TRUE);
 
 			}
@@ -213,10 +223,15 @@ abstract class jslib {
 		}
 		else {
 			if ( $debug) sys::logger( sprintf( 'jslib::brayworth :: not found :: %s - creating', $jslib));
-			return ( self::__createlib( $libdir, $lib, $files, TRUE));
+			if ( self::__createlib( $libdir, $lib, $files, TRUE)) {
+				$version = filemtime( $jslib);
+				self::$brayworthlib .= $version;
+
+			}
 
 		}
 
+		return ( FALSE);
 
 	}
 
