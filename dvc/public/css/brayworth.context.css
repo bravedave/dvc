@@ -1,0 +1,29 @@
+/*
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
+
+	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+		http://creativecommons.org/licenses/by/4.0/
+
+	*/
+.contextmenu,
+.contextmenu .menu {
+	border: 1px solid silver;
+	margin: 0;
+}
+.contextmenu > li:not(:hover) > ul,
+.contextmenu > li:not(:hover) > * > ul { display: none; }
+
+.contextmenu > li { position: relative; }
+
+.contextmenu > li > ul,
+.contextmenu > li > * > ul { position: absolute; top: 0; left: 100%; }
+
+ul.menu { list-style: none; }
+ul.menu > li > a { padding: 2px 24px 2px 32px; display: block; }
+ul.menu > li > hr { margin: 0; }
+ul.menu > li:first-child > a { padding-top: 4px; }
+ul.menu > li:last-child > a { padding-bottom: 4px; }
+ul.menu > li > a > .fa:not(.fa-pull-right) { margin-left: -24px; margin-right: 8px; width: 16px; text-align: center; }
+ul.menu > li > a > .fa.fa-pull-right { margin-right: -20px; margin-top: 3px; }

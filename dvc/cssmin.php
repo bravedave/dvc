@@ -98,7 +98,8 @@ abstract class cssmin {
 		//~ $debug = TRUE;
 
 		$files = array(
-			__DIR__ . '/public/css/dvc.css' );
+			__DIR__ . '/public/css/dvc.css',
+			__DIR__ . '/public/css/brayworth.context.css' );
 
 		if ( !application::app()) {
 			sys::logger( 'you cannot use this external to application()');

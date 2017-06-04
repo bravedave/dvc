@@ -92,7 +92,7 @@ abstract class _config {
 	 * set in the response headers */
 	static $JS_EXPIRE_TIME = 300;
 	static $JQUERY_EXPIRE_TIME = 900;
-	static $FONT_EXPIRE_TIME = 900;
+	static $FONT_EXPIRE_TIME = 14400;
 	static $CSS_EXPIRE_TIME = 900;
 	static $IMG_EXPIRE_TIME = 60;
 	static $CORE_IMG_EXPIRE_TIME = 60;	// set on images that come from the /image location

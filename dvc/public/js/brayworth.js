@@ -28,160 +28,160 @@
 
 })();
 
-var _brayworth_ = {
-	InitHRefs : function() {
-		$('[data-href]').each( function( i, el ) {
-			$(el)
-			.css('cursor','pointer')
-			.off('click')
-			.on('click', function( evt ) {
-				if ( /^(a)$/i.test( evt.target.nodeName ))
-					return;
+if ( typeof _brayworth_ == 'undefined')
+	var _brayworth_ = {};
 
-				evt.stopPropagation(); evt.preventDefault();
+_brayworth_.InitHRefs = function() {
+	$('[data-href]').each( function( i, el ) {
+		$(el)
+		.css('cursor','pointer')
+		.off('click')
+		.on('click', function( evt ) {
+			if ( /^(a)$/i.test( evt.target.nodeName ))
+				return;
 
-				if ( $(evt.target).closest( '[data-role="contextmenu"]' ).length > 0 )
-					$(evt.target).closest( '[data-role="contextmenu"]' ).first().css('display','none');
+			evt.stopPropagation(); evt.preventDefault();
 
-				var target = $(this).data('target');
-				if ( target == '' || target == undefined )
-					window.location.href = $(this).data('href');
+			if ( $(evt.target).closest( '[data-role="contextmenu"]' ).length > 0 )
+				$(evt.target).closest( '[data-role="contextmenu"]' ).first().css('display','none');
 
-				else
-					window.open( $(this).data('href'), target);
+			var target = $(this).data('target');
+			if ( target == '' || target == undefined )
+				window.location.href = $(this).data('href');
 
+			else
+				window.open( $(this).data('href'), target);
 
-			})
 
 		})
 
-	},
+	})
 
-	bootstrapModalPop : function( params ) {
-		if ( /string/.test( typeof params)) {
-			var modal = $(this).data( 'modal');
-			if ( /close/i.test( params)) {
-				modal.close();
-				return;
+};
+
+_brayworth_.bootstrapModalPop = function( params ) {
+	if ( /string/.test( typeof params)) {
+		var modal = $(this).data( 'modal');
+		if ( /close/i.test( params)) {
+			modal.close();
+			return;
+
+		}
+
+	}
+
+	var options = {
+		title : '',
+		width : false,
+		autoOpen : true,
+		buttons : {},
+		headButtons : {},
+	}
+
+	$.extend( options, params);
+
+	var header = $('<div class="modal-header"><i class="fa fa-times close"></i><h1></h1></div>');
+	var body = $('<div class="modal-body"></div>');
+		body.append( this);
+	var footer = $('<div class="modal-footer text-right"></div>');
+	var modal = $('<div class="modal"></div>');
+
+	/*---[wrapper]---*/
+	var wrapper = $('<div class="modal-content"></div>');
+		if ( options.width)
+			wrapper.css({ 'width' : '300px' });
+		else
+			wrapper.addClass('modal-content-600');
+
+		wrapper
+			.append( header).append( body)
+			.appendTo( modal);
+	/*---[end: wrapper]---*/
+
+	var _el = $(this)
+	var s = _el.attr('title');
+
+	//~ console.log( s);
+	$('h1', header).html('').append( s);
+
+	if ( Object.keys(options.buttons).length > 0) {
+		$.each( options.buttons, function( i, el) {
+			var b = $('<button class="button button-raised"></button>')
+				b.html( i);
+				b.on( 'click', function( e) {
+					el.click.call( modal, e);
+
+				})
+
+			footer.append( b);
+			//~ console.log( el);
+
+		})
+
+		wrapper.append( footer);
+
+	}
+
+	if ( Object.keys(options.headButtons).length > 0) {
+		$.each( options.headButtons, function( i, el) {
+			if ( !!el.icon)
+				var b = $('<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;"></i>').addClass( el.icon);
+
+			else
+				var b = $('<button class="button button-raised pull-right"></button>').html( i);
+
+			if ( !!el.title)
+				b.attr( 'title', el.title)
+
+			b.on( 'click', function( e) { el.click.call( modal, e); })	// wrap the call an call it against the modal
+			header.prepend( b);
+			//~ console.log( el);
+
+		})
+
+		header.prepend( $('.close', header));
+
+	}
+
+	modal.appendTo( 'body');
+
+	$(this).data('modal', modal.modalDialog({
+		afterClose : function() {
+			modal.remove();
+			if ( !!options.afterClose && /function/.test( typeof options.afterClose))
+				options.afterClose.call( modal);
+
+		},
+
+	}));
+
+};
+
+_brayworth_.initDatePickers = function( parent) {
+	if ( $.fn.datepicker ) {
+		if ( !parent)
+			parent = 'body';
+
+		$('.datepicker', parent).each( function( i, el ) {
+			var bootstrap = (typeof $().scrollspy == 'function');
+			var df = $(el).data('dateformat');
+			if ( df == undefined ) {
+				if ( bootstrap)
+					df = 'yyyy-mm-dd';
+				else if (jQuery.ui)
+					df = 'yy-mm-dd';
 
 			}
 
-		}
+			// test if you have bootstrap
+			if ( bootstrap)
+				$(el).datepicker({ format : df });
 
-		var options = {
-			title : '',
-			width : false,
-			autoOpen : true,
-			buttons : {},
-			headButtons : {},
-		}
-
-		$.extend( options, params);
-
-		var header = $('<div class="modal-header"><i class="fa fa-times close"></i><h1></h1></div>');
-		var body = $('<div class="modal-body"></div>');
-			body.append( this);
-		var footer = $('<div class="modal-footer text-right"></div>');
-		var modal = $('<div class="modal"></div>');
-
-		/*---[wrapper]---*/
-		var wrapper = $('<div class="modal-content"></div>');
-			if ( options.width)
-				wrapper.css({ 'width' : '300px' });
-			else
-				wrapper.addClass('modal-content-600');
-
-			wrapper
-				.append( header).append( body)
-				.appendTo( modal);
-		/*---[end: wrapper]---*/
-
-		var _el = $(this)
-		var s = _el.attr('title');
-
-		//~ console.log( s);
-		$('h1', header).html('').append( s);
-
-		if ( Object.keys(options.buttons).length > 0) {
-			$.each( options.buttons, function( i, el) {
-				var b = $('<button class="button button-raised"></button>')
-					b.html( i);
-					b.on( 'click', function( e) {
-						el.click.call( modal, e);
-
-					})
-
-				footer.append( b);
-				//~ console.log( el);
-
-			})
-
-			wrapper.append( footer);
-
-		}
-
-		if ( Object.keys(options.headButtons).length > 0) {
-			$.each( options.headButtons, function( i, el) {
-				if ( !!el.icon)
-					var b = $('<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;"></i>').addClass( el.icon);
-
-				else
-					var b = $('<button class="button button-raised pull-right"></button>').html( i);
-
-				if ( !!el.title)
-					b.attr( 'title', el.title)
-
-				b.on( 'click', function( e) { el.click.call( modal, e); })	// wrap the call an call it against the modal
-				header.prepend( b);
-				//~ console.log( el);
-
-			})
-
-			header.prepend( $('.close', header));
-
-		}
-
-		modal.appendTo( 'body');
-
-		$(this).data('modal', modal.modalDialog({
-			afterClose : function() {
-				modal.remove();
-				if ( !!options.afterClose && /function/.test( typeof options.afterClose))
-					options.afterClose.call( modal);
-
-			},
-
-		}));
-
-	},
-
-	initDatePickers : function( parent) {
-		if ( $.fn.datepicker ) {
-			if ( !parent)
-				parent = 'body';
-
-			$('.datepicker', parent).each( function( i, el ) {
-				var bootstrap = (typeof $().scrollspy == 'function');
-				var df = $(el).data('dateformat');
-				if ( df == undefined ) {
-					if ( bootstrap)
-						df = 'yyyy-mm-dd';
-					else if (jQuery.ui)
-						df = 'yy-mm-dd';
-
-				}
-
-				// test if you have bootstrap
-				if ( bootstrap)
-					$(el).datepicker({ format : df });
-
-				else if (jQuery.ui)
-					$(el).datepicker({ dateFormat : df });
+			else if (jQuery.ui)
+				$(el).datepicker({ dateFormat : df });
 
 
-			});
-
-		}
+		});
 
 	}
 
