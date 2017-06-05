@@ -41,7 +41,7 @@ _brayworth_.context = function() {
 
 			}
 			else {
-				console.log( this.root.parent());
+				//~ console.log( this.root.parent());
 				if ( this.root.parent().length < 1)
 					this.root.css(css).appendTo( 'body').data('hide', 'hide');
 				this.root.removeClass('hidden');
@@ -55,12 +55,12 @@ _brayworth_.context = function() {
 		close : function() {
 			if ( this.detachOnHide) {
 				this.root.remove();
-				console.log( 'removed context menu');
+				//~ console.log( 'removed context menu');
 
 			}
 			else {
 				this.root.addClass('hidden');	// connotes there is a hidden class
-				console.log( 'hide context menu');
+				//~ console.log( 'hide context menu');
 
 			}
 
