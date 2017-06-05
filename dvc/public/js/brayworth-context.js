@@ -29,14 +29,9 @@ _brayworth_.context = function() {
 				}
 
 			if ( !!evt.pageY)
-				css.top = evt.pageY - 10;
+				css.top = Math.max( evt.pageY - 10, 0);
 			if ( !!evt.pageX)
-				css.left = evt.pageX - 40;
-
-			if ( css.top < 0)
-				css.top = 0;
-			if ( css.left < 0)
-				css.left = 0;
+				css.left = Math.max( evt.pageX - 40, 0);
 
 			//~ console.log( evt, css);
 
