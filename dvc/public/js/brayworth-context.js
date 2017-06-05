@@ -37,13 +37,13 @@ _brayworth_.context = function() {
 			//~ console.log( evt, css);
 
 			if ( this.detachOnHide) {
-				this.root.css(css).appendTo( 'body');
+				this.root.css(css).appendTo( 'body').data('hide', 'detach');
 
 			}
 			else {
 				console.log( this.root.parent());
 				if ( this.root.parent().length < 1)
-					this.root.css(css).appendTo( 'body');
+					this.root.css(css).appendTo( 'body').data('hide', 'hide');
 				this.root.removeClass('hidden');
 
 			}
@@ -59,7 +59,7 @@ _brayworth_.context = function() {
 
 			}
 			else {
-				this.root.addClass('hidden');
+				this.root.addClass('hidden');	// connotes there is a hidden class
 				console.log( 'hide context menu');
 
 			}
@@ -70,6 +70,25 @@ _brayworth_.context = function() {
 
 		remove : function() {
 			return ( this.close());
+
+		},
+
+		hideContexts : function() {
+			$('.contextmenu').each( function( i, el ) {
+				var _el = $(el);
+				if ( !!_el.data('hide')) {
+					if ( _el.data('hide') == 'hide')
+						$(el).addClass('hidden');	// connotes there is a hidden class
+					else
+						$(el).remove();
+
+				}
+				else {
+					$(el).remove();
+
+				}
+
+			});
 
 		},
 
@@ -86,7 +105,7 @@ _brayworth_.context = function() {
 
 				}
 
-				$('.contextmenu').each( function( i, el ) { $(el).remove()});
+				_me.hideContexts();
 
 			})
 			.on( 'contextmenu', function( evt) {
@@ -94,7 +113,7 @@ _brayworth_.context = function() {
 				if( $(evt.target).closest('.contextmenu').length)
 					return;
 
-				$('.contextmenu').each( function( i, el ) { $(el).remove()});
+				_me.hideContexts();
 
 				if ( evt.shiftKey)
 					return;
