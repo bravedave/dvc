@@ -13,7 +13,7 @@ if (!_brayworth_)
 
 _brayworth_.context = function() {
 	return ({
-		root : $('<ul class="menu contextmenu"></ul>'),
+		root : $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
 		detachOnHide : true,
 
 		append : function( item) {
@@ -34,7 +34,7 @@ _brayworth_.context = function() {
 			if ( !!evt.pageX)
 				css.left = Math.max( evt.pageX - 40, 0);
 
-			//~ console.log( evt, css);
+			//~ console.log( this.root.width());
 
 			if ( this.detachOnHide) {
 				this.root.css(css).appendTo( 'body').data('hide', 'detach');
@@ -47,6 +47,22 @@ _brayworth_.context = function() {
 				this.root.css(css).removeClass('hidden');
 
 			}
+
+			var offset = this.root.offset();
+			if ( offset.left + this.root.width() > $(window).width()) {
+				//~ console.log( 'uh oh!');
+				this.root.css( 'left', $(window).width()-this.root.width()-5);
+				offset = this.root.offset();
+
+			}
+
+			if ( offset.left > ( $(window).width() - (this.root.width()* 2)))
+				this.root.addClass( 'menu-contextmenu-right');
+			else
+				this.root.removeClass( 'menu-contextmenu-right');
+
+			//~ console.log( offset.left, $(window).width() * .8);
+			//~ console.log( this.root.width());
 
 			return ( this);
 
