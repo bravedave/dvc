@@ -17,6 +17,8 @@ ul.menu > li:last-child > a { padding-bottom: 4px; }
 ul.menu > li > a > .fa:not(.fa-pull-right) { margin-left: -24px; margin-right: 8px; width: 16px; text-align: center; }
 ul.menu > li > a > .fa.fa-pull-right { margin-right: -20px; margin-top: 3px; }
 
+ul.menu a:hover { background-color: #eee; text-decoration: none; }
+
 ul.menu.menu-contextmenu,
 ul.menu.menu-contextmenu .menu {
 	border: 1px solid silver;
