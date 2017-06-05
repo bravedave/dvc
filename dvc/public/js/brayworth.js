@@ -43,7 +43,7 @@ _brayworth_.InitHRefs = function() {
 			evt.stopPropagation(); evt.preventDefault();
 
 			if ( $(evt.target).closest( '[data-role="contextmenu"]' ).length > 0 )
-				$(evt.target).closest( '[data-role="contextmenu"]' ).first().css('display','none');
+				_brayworth_.hideContext( $(evt.target).closest( '[data-role="contextmenu"]' )[0]);
 
 			var target = $(this).data('target');
 			if ( target == '' || target == undefined )

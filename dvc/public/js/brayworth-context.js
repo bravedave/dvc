@@ -11,22 +11,24 @@
 if (!_brayworth_)
 	_brayworth_ = {};
 
-_brayworth_.hideContexts = function() {
-	$('[data-role="contextmenu"]').each( function( i, el ) {
-		var _el = $(el);
-		if ( !!_el.data('hide')) {
-			if ( _el.data('hide') == 'hide')
-				$(el).addClass('hidden');	// connotes there is a hidden class
-			else
-				$(el).remove();
-
-		}
-		else {
+_brayworth_.hideContext = function( el) {
+	var _el = $(el);
+	if ( !!_el.data('hide')) {
+		if ( _el.data('hide') == 'hide')
+			$(el).addClass('hidden');	// connotes there is a hidden class
+		else
 			$(el).remove();
 
-		}
+	}
+	else {
+		$(el).remove();
 
-	});
+	}
+
+}
+
+_brayworth_.hideContexts = function() {
+	$('[data-role="contextmenu"]').each( function( i, el ) { _brayworth_.hideContext( el); });
 
 }
 
