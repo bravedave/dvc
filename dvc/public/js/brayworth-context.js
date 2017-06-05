@@ -14,6 +14,7 @@ if (!_brayworth_)
 _brayworth_.context = function() {
 	return ({
 		root : $('<ul class="menu contextmenu"></ul>'),
+		detachOnHide : true,
 
 		append : function( item) {
 			$( '<li></li>').append( item).appendTo( this.root);
@@ -42,7 +43,11 @@ _brayworth_.context = function() {
 		},
 
 		close : function() {
-			this.root.remove();
+			if ( this.detachOnHide)
+				this.root.remove();
+			else
+				this.root.addClass('hidden');
+
 			return ( this);
 
 		},
