@@ -90,7 +90,7 @@ _brayworth_.context = function() {
 		},
 
 		hideContexts : function() {
-			$('.contextmenu').each( function( i, el ) {
+			$('[data-role="contextmenu"]').each( function( i, el ) {
 				var _el = $(el);
 				if ( !!_el.data('hide')) {
 					if ( _el.data('hide') == 'hide')
@@ -115,7 +115,7 @@ _brayworth_.context = function() {
 			$( parent)
 			.off( 'click.removeContexts')
 			.on( 'click.removeContexts', function( evt) {
-				if ( $(evt.target).closest( '.contextmenu' ).length > 0 ) {
+				if ( $(evt.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
 					if ( /^(a)$/i.test( evt.target.nodeName ))
 						return;
 
@@ -126,7 +126,7 @@ _brayworth_.context = function() {
 			})
 			.on( 'contextmenu', function( evt) {
 				/*--[ check for abandonment ]--*/
-				if( $(evt.target).closest('.contextmenu').length)
+				if( $(evt.target).closest('[data-role="contextmenu"]').length)
 					return;
 
 				_me.hideContexts();
