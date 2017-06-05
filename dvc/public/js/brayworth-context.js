@@ -53,10 +53,16 @@ _brayworth_.context = function() {
 		},
 
 		close : function() {
-			if ( this.detachOnHide)
+			if ( this.detachOnHide) {
 				this.root.remove();
-			else
+				console.log( 'removed context menu');
+
+			}
+			else {
 				this.root.addClass('hidden');
+				console.log( 'hide context menu');
+
+			}
 
 			return ( this);
 
