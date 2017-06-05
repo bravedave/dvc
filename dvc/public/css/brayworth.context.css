@@ -48,5 +48,5 @@ ul:not(.menu-contextmenu-right).menu.menu-contextmenu > li > ul,
 ul:not(.menu-contextmenu-right).menu.menu-contextmenu > li > * > ul { left: 100%; }
 
 ul.menu.menu-contextmenu.menu-contextmenu-right > li > ul,
-ul.menu.menu-contextmenu.menu-contextmenu-right > li > * > ul { left: -100%; }
+ul.menu.menu-contextmenu.menu-contextmenu-right > li > * > ul { right: 100%; }
 
