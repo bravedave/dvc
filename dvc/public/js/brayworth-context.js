@@ -42,7 +42,8 @@ _brayworth_.context = function() {
 			}
 			else {
 				console.log( this.root.parent());
-				this.root.css(css).appendTo( 'body');
+				if ( this.root.parent().length < 1)
+					this.root.css(css).appendTo( 'body');
 				this.root.removeClass('hidden');
 
 			}
