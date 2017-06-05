@@ -43,8 +43,8 @@ _brayworth_.context = function() {
 			else {
 				//~ console.log( this.root.parent());
 				if ( this.root.parent().length < 1)
-					this.root.css(css).appendTo( 'body').data('hide', 'hide');
-				this.root.removeClass('hidden');
+					this.root.appendTo( 'body').data('hide', 'hide');
+				this.root.css(css).removeClass('hidden');
 
 			}
 
