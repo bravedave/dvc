@@ -13,17 +13,27 @@ ul.menu ul.menu { z-index: 19; }
 ul.menu ul.menu ul.menu { z-index: 29; }
 
 ul.menu.menu-contextmenu > li > a,
-ul.menu.menu-contextmenu ul.menu > li > a { padding: 2px 24px 2px 32px; display: block; white-space: nowrap; }
+ul.menu.menu-contextmenu ul.menu > li > a,
+ul.menu.menu-contextmenu > li > div,
+ul.menu.menu-contextmenu ul.menu > li > div { padding: 2px 24px 2px 32px; display: block; white-space: nowrap; }
+
 ul.menu.menu-contextmenu > li > hr,
 ul.menu.menu-contextmenu ul.menu > li > hr { margin: 0; }
+
 ul.menu.menu-contextmenu > li:first-child > a,
-ul.menu.menu-contextmenu ul.menu > li:first-child > a { padding-top: 4px; }
+ul.menu.menu-contextmenu ul.menu > li:first-child > a,
+ul.menu.menu-contextmenu > li:first-child > div,
+ul.menu.menu-contextmenu ul.menu > li:first-child > div { padding-top: 4px; }
+
 ul.menu.menu-contextmenu > li:last-child > a,
-ul.menu.menu-contextmenu ul.menu > li:last-child > a { padding-bottom: 4px; }
-ul.menu.menu-contextmenu > li > a > .fa:not(.fa-pull-right),
-ul.menu.menu-contextmenu ul.menu > li > a > .fa:not(.fa-pull-right) { margin-left: -24px; margin-right: 8px; width: 16px; text-align: center; }
-ul.menu.menu-contextmenu > li > a > .fa.fa-pull-right,
-ul.menu.menu-contextmenu ul.menu > li > a > .fa.fa-pull-right { margin-right: -20px; margin-top: 3px; }
+ul.menu.menu-contextmenu ul.menu > li:last-child > a,
+ul.menu.menu-contextmenu > li:last-child > div,
+ul.menu.menu-contextmenu ul.menu > li:last-child > div { padding-bottom: 4px; }
+
+ul.menu.menu-contextmenu > li > * > .fa:not(.fa-pull-right),
+ul.menu.menu-contextmenu ul.menu > li > * > .fa:not(.fa-pull-right) { margin-left: -24px; margin-right: 8px; width: 16px; text-align: center; }
+ul.menu.menu-contextmenu > li > * > .fa.fa-pull-right,
+ul.menu.menu-contextmenu ul.menu > li > * > .fa.fa-pull-right { margin-right: -20px; margin-top: 3px; }
 
 ul.menu.menu-contextmenu a:hover { background-color: #eee; text-decoration: none; }
 
@@ -49,4 +59,3 @@ ul:not(.menu-contextmenu-right).menu.menu-contextmenu > li > * > ul { left: 100%
 
 ul.menu.menu-contextmenu.menu-contextmenu-right > li > ul,
 ul.menu.menu-contextmenu.menu-contextmenu-right > li > * > ul { right: 100%; }
-
