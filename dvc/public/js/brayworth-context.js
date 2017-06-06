@@ -37,8 +37,13 @@ _brayworth_.context = function() {
 		root : $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
 		detachOnHide : true,
 
+		create : function( item) {
+			return ( $( '<li></li>').append( item).appendTo( this.root));
+
+		},
+
 		append : function( item) {
-			$( '<li></li>').append( item).appendTo( this.root);
+			this.create( item);
 			return ( this);
 
 		},
