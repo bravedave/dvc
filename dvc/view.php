@@ -28,6 +28,11 @@ class view {
 
 	}
 
+	static function instance() {
+		return new self;
+
+	}
+
 	function loadView( $name ) {
 		return ( $this->load( $name ));
 
