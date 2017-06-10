@@ -75,13 +75,26 @@ _brayworth_.context = function() {
 			}
 
 			var offset = this.root.offset();
+			/* try to keep menu on screen horizontally */
 			if ( offset.left + this.root.width() > $(window).width()) {
-				//~ console.log( 'uh oh!');
-				this.root.css( 'left', $(window).width()-this.root.width()-5);
+				//~ console.log( 'uh oh - right!');
+				var l = $(window).width()-this.root.width()-5;
+				this.root.css( 'left', Math.max( l, 2));
 				offset = this.root.offset();
 
 			}
 
+			/* try to keep menu on screen vertically */
+			if ( offset.top + this.root.height() > $(window).height()) {
+				//~ console.log( 'uh oh - top!');
+				var t = $(window).height()-this.root.height()-5;
+				this.root.css( 'top', Math.max( t, 2));
+				offset = this.root.offset();
+
+			}
+
+			/* add helper class to display the menu on left	*
+			 * if the window width is restrictive on the right	*/
 			if ( offset.left > ( $(window).width() - (this.root.width()* 2)))
 				this.root.addClass( 'menu-contextmenu-right');
 			else
