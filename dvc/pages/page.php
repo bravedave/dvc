@@ -19,56 +19,82 @@ class page extends _page {
 	static public $MainContextMenu = TRUE;
 	static public $react = FALSE;
 
-	function __construct( $title = '' ) {
-		parent::__construct( $title);
+	protected static $vuejs = FALSE;
 
-		if ( self::$react) {
-			$this->meta = array();
+	protected function _react( $title = '' ) {
+		$this->meta = array();
+		$this->meta[] = '<meta name="page-constructor" content="_react" />';
 
-			if ( \jslib::react()) {
-				$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \jslib::$reactlib );
-
-			}
-			else {
-				$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::$URL . 'js/react.min.js' );
-				$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::$URL . 'js/react-dom.min.js' );
-				$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::$URL . 'js/babel.min.js' );
-
-			}
+		if ( \jslib::react()) {
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \jslib::$reactlib );
 
 		}
 		else {
-			if ( \config::$CSS_BASE == 'mini') {
-				$this->css = array();
-				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%scss/mini-default.min.css" />', \url::$URL );
-				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%scss/mini-custom.css" />', \url::$URL );
-
-			}
-
-			$aCss = array( 'custom');
-			if ( \application::app())
-				$aCss[] = \application::app()->controller();
-
-			foreach ( $aCss as $cssFile) {
-				if ( file_exists( realpath( '.' ) . '/css/' . $cssFile . '.css' ))
-					$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%scss/%s.css" />', \url::$URL, $cssFile );
-				elseif ( file_exists( \application::app()->getRootPath() . '/app/public/css/' . $cssFile . '.css' ))
-					$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%scss/%s.css" />', \url::$URL, $cssFile );
-
-			}
-
-			if ( \userAgent::isLegacyIE()) {
-				$this->scripts = array();
-				$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::$URL . 'js/jquery-1.11.3.min.js' );
-
-			}
-			elseif ( $this->jQuery3) {
-				$this->scripts = array();
-				$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::$URL . 'js/jquery-3.1.1.min.js' );
-
-			}
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/react.min.js' ));
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/react-dom.min.js' ));
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/babel.min.js' ));
 
 		}
+
+	}
+
+	protected function _viewjs( $title = '' ) {
+		$this->meta = array();
+		$this->scripts = array();
+		$this->latescripts = array();
+		//~ $this->css = array();
+		$this->meta[] = '<meta name="page-constructor" content="_vuejs" />';
+
+		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/vue.js'));
+
+	}
+
+	protected function __default_construct( $title = '' ) {
+		$this->meta[] = '<meta name="page-constructor" content="_default" />';
+
+		if ( \config::$CSS_BASE == 'mini') {
+			$this->css = array();
+			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring('css/mini-default.min.css'));
+			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring('css/mini-custom.css'));
+
+		}
+
+		$aCss = array( 'custom');
+		if ( \application::app())
+			$aCss[] = \application::app()->controller();
+
+		foreach ( $aCss as $cssFile) {
+			if ( file_exists( realpath( '.' ) . '/css/' . $cssFile . '.css' ))
+				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( sprintf( 'css/%s.css', $cssFile)));
+			elseif ( file_exists( \application::app()->getRootPath() . '/app/public/css/' . $cssFile . '.css' ))
+				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( sprintf( 'css/%s.css', $cssFile )));
+
+		}
+
+		if ( \userAgent::isLegacyIE()) {
+			$this->scripts = array();
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-1.11.3.min.js'));
+
+		}
+		elseif ( $this->jQuery3) {
+			$this->scripts = array();
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-3.1.1.min.js'));
+
+		}
+
+	}
+
+	function __construct( $title = '' ) {
+		parent::__construct( $title);
+
+		if ( self::$react)
+			$this->_react( $title);
+
+		elseif ( self::$vuejs)
+			$this->_viewjs( $title);
+
+		else
+			$this->__default_construct( $title);
 
 	}
 
@@ -194,6 +220,10 @@ OUTPUT;
 	}
 
 	public function pagefooter() {
+		$this
+			->header()
+			->pageHeader();
+
 		$v = new \view;
 		if ( \config::$CSS_BASE == 'mini')
 			$v->load( 'footer-mini');

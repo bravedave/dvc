@@ -37,19 +37,19 @@ class _page {
 
 		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
 
-		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::$URL . 'js/jquery-2.1.1.min.js' );
+		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-2.1.1.min.js'));
 
 		if ( \jslib::brayworth())
 			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \jslib::$brayworthlib );
 		else
-			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%sjs/brayworth.js"></script>', \url::$URL);
+			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring('js/brayworth.js'));
 
 
-		$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::$URL . 'css/font-awesome.min.css' );
+		$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'css/font-awesome.min.css'));
 		if ( \cssmin::dvc())
 			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \cssmin::$dvcmin );
 		else
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%scss/dvc.css" />', \url::$URL );
+			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'css/dvc.css'));
 
 	}
 
