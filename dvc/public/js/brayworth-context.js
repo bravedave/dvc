@@ -88,7 +88,7 @@ _brayworth_.context = function() {
 			if ( offset.top + this.root.height() > $(window).height()) {
 				//~ console.log( 'uh oh - top!');
 				var t = $(window).height()-this.root.height()-5;
-				this.root.css( 'top', Math.max( t, 2));
+				this.root.css( 'top', Math.max( t, $(window).scrollTop()+2));
 				offset = this.root.offset();
 
 			}
