@@ -163,6 +163,10 @@ _brayworth_.context = function() {
 				if ( $(evt.target).hasClass('modal' ) || $(evt.target).closest('.modal').length > 0)
 					return;
 
+				/** This stops the menu of jquery-ui dialogs */
+				if ( $(evt.target).hasClass('ui-widget-overlay' ) || $(evt.target).closest( '.ui-dialog').length > 0)
+					return;
+
 				//~ console.log( evt.target);
 
 				if (typeof window.getSelection != "undefined") {
