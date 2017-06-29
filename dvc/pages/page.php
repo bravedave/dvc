@@ -230,6 +230,8 @@ OUTPUT;
 		else
 			$v->load( 'footer');
 
+		return ( $this);	// chain
+
 	}
 
 	public function menu() {}

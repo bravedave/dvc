@@ -32,6 +32,9 @@ class app extends _page {
 	}
 
 	public function pageHeader() {
+		if ( $this->boolpageHeader )
+			return ( $this);
+
 		parent::pageHeader();
 
 		$v = new \view;
@@ -43,6 +46,10 @@ class app extends _page {
 	}
 
 	public function pagefooter() {
+		$this
+			->header()
+			->pageHeader();
+
 		$v = new \view;
 		$v->load( $this->footerTemplate);
 
