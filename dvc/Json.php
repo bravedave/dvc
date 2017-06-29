@@ -35,19 +35,27 @@ class Json {
 
 	public function add( $key, $data ) {
 		$this->_json[$key] = $data;
+		return ( $this);	// chain
+
 	}
 
 	public function append($data ) {
 		$this->_json[] = $data;
+		return ( $this);	// chain
+
 	}
 
 	public function prepend($data ) {
 		array_unshift( $this->_json, $data);
+		return ( $this);	// chain
+
 	}
 
 	public function merge($data ) {
 		$a = array_merge( $this->_json, $data);
 		$this->_json[] = $a;
+		return ( $this);	// chain
+
 	}
 
 	function __destruct() {
