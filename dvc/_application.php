@@ -369,7 +369,9 @@ class _application {
 
 		}
 		elseif ( $ext == "svg" ) {
-			Response::headers('image/svg+xml', filemtime( $path));
+			/*
+			 * maybe the expire time is like javascript rather than images - this is conservative */
+			Response::headers('image/svg+xml', filemtime( $path), \config::$JS_EXPIRE_TIME);
 			readfile( $path);
 			if ( self::$debug) \sys::logger( "served: $path");
 

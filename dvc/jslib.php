@@ -125,7 +125,7 @@ abstract class jslib {
 			$modtime = 0;
 			foreach ( $files as $file) {
 				if ( realpath( $file))
-					$modtime = filemtime( $file);
+					$modtime = max( array( $modtime, filemtime( $file)));
 
 				else
 					sys::logger( 'cannot locate library file ' . $file);
