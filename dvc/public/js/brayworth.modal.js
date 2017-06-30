@@ -59,10 +59,21 @@ _brayworth_.modal = function( params ) {
 
 	if ( Object.keys(options.buttons).length > 0) {	// jquery-ui style
 		$.each( options.buttons, function( i, el) {
+			var j = {
+				text : i,
+				click : function( e) {}
+			}
+
+			if ( /function/.test(el))
+				j.click = el;
+
+			else
+				$.extend( j, el);
+
 			var b = $('<button class="button button-raised"></button>')
-				b.html( i);
+				b.html( j.i);
 				b.on( 'click', function( e) {
-					el.click.call( modal, e);
+					j.click.call( modal, e);
 
 				})
 
@@ -77,16 +88,29 @@ _brayworth_.modal = function( params ) {
 
 	if ( Object.keys(options.headButtons).length > 0) {
 		$.each( options.headButtons, function( i, el) {
-			if ( !!el.icon)
-				var b = $('<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;"></i>').addClass( el.icon);
+			var j = {
+				text : i,
+				title : false,
+				icon : false,
+				click : function( e) {}
+			}
+
+			if ( /function/.test(el))
+				j.click = el;
 
 			else
-				var b = $('<button class="button button-raised pull-right"></button>').html( i);
+				$.extend( j, el);
 
-			if ( !!el.title)
-				b.attr( 'title', el.title)
+			if ( !!j.icon)
+				var b = $('<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;"></i>').addClass( j.icon);
 
-			b.on( 'click', function( e) { el.click.call( modal, e); })	// wrap the call an call it against the modal
+			else
+				var b = $('<button class="button button-raised pull-right"></button>').html( j.text);
+
+			if ( !!j.title)
+				b.attr( 'title', j.title)
+
+			b.on( 'click', function( e) { j.click.call( modal, e); })	// wrap the call an call it against the modal
 			header.prepend( b);
 
 		})
