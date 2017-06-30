@@ -443,16 +443,6 @@ blockquote cite:before {
 	min-width: 300px;
 	transform: translate(-50%,-50%);
 }
-/*
-	position: relative;
-	margin: 15% auto;
-	width: 80%;
-*/
-@media screen and (max-height: 700px){
-	.modal .modal-content {
-		margin: 7% auto; /* 15% from the top and centered */
-	}
-}
 .modal .modal-content.modal-content-400 { width: 400px; }
 .modal .modal-content.modal-content-600 { width: 600px; }
 .modal .modal-content.modal-content-700 { width: 700px; }
