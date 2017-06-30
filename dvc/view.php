@@ -39,7 +39,7 @@ class view {
 	}
 
 	function load( $name ) {
-		if ( preg_match( sprintf( '@^%s@', $this->rootPath), $name )) {
+		if ( substr($name, 0, strlen($this->rootPath)) === $this->rootPath) {
 			if ( file_exists( $name)) {
 				$parts = pathinfo( $name);
 				$this->loadName = $parts['filename'];

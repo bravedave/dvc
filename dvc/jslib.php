@@ -165,6 +165,7 @@ abstract class jslib {
 			__DIR__ . '/public/js/brayworth.js',
 			__DIR__ . '/public/js/brayworth.context.js',
 			__DIR__ . '/public/js/brayworth.modal.js',
+			__DIR__ . '/public/js/brayworth.modalDialog.js',
 			__DIR__ . '/public/js/js.cookie.js' );
 
 		if ( !application::app()) {

@@ -294,68 +294,70 @@ $(document).ready( function() {
 
 	};
 
-	$.fn.modalDialog = function ( _options) {
-		if ( /string/.test( typeof( _options))) {
-			if ( _options == 'close') {
-				var modal = this.data( 'modal');
-				modal.close();
-				return (modal);	// chain
+	//~ $.fn.modalDialog = _brayworth_.modalDialog;
 
-			}
-
-		}
-
-		var modal = this;				// the modal
-		var options = {
-			beforeClose : function() {},
-			afterClose : function() {},
-			onEnter : function() {}
-		};
-
-		$.extend( options, _options);
-
-		var close = $( '.close', this);	// Get the <span> element that closes the modal
-
-		modal.close = function() {
-			options.beforeClose.call( modal);
-			modal.css( 'display', 'none');
-			$(window).off('click');
-			options.afterClose.call( modal);
-
-			modal = false;
-			$(document).unbind('keyup.modal');
-			$(document).unbind('keypress.modal');
-
-		}
-
-		modal
-		.css( 'display', 'block')
-		.data('modal', modal);
-
-		$(document)
-		.on( 'keyup.modal', function( e) {
-			if (e.keyCode == 27) {
-				// escape key maps to keycode `27`
-				if ( modal)
-					modal.close();
-
-			}
-
-		})
-		.on( 'keypress.modal', function( e) {
-			if (e.keyCode == 13)
-				options.onEnter.call( modal, e);
-
-		})
-
-		close
-		.off('click')
-		.css({cursor:'pointer'})
-		.on('click', function(e) { modal.close(); });	// When the user clicks on <span> (x), close the modal
-
-		return ( modal);	// chain
-
-	}
+	// $.fn.modalDialog = function ( _options) {
+	// 	if ( /string/.test( typeof( _options))) {
+	// 		if ( _options == 'close') {
+	// 			var modal = this.data( 'modal');
+	// 			modal.close();
+	// 			return (modal);	// chain
+	//
+	// 		}
+	//
+	// 	}
+	//
+	// 	var modal = this;				// the modal
+	// 	var options = {
+	// 		beforeClose : function() {},
+	// 		afterClose : function() {},
+	// 		onEnter : function() {}
+	// 	};
+	//
+	// 	$.extend( options, _options);
+	//
+	// 	var close = $( '.close', this);	// Get the <span> element that closes the modal
+	//
+	// 	modal.close = function() {
+	// 		options.beforeClose.call( modal);
+	// 		modal.css( 'display', 'none');
+	// 		$(window).off('click');
+	// 		options.afterClose.call( modal);
+	//
+	// 		modal = false;
+	// 		$(document).unbind('keyup.modal');
+	// 		$(document).unbind('keypress.modal');
+	//
+	// 	}
+	//
+	// 	modal
+	// 	.css( 'display', 'block')
+	// 	.data('modal', modal);
+	//
+	// 	$(document)
+	// 	.on( 'keyup.modal', function( e) {
+	// 		if (e.keyCode == 27) {
+	// 			// escape key maps to keycode `27`
+	// 			if ( modal)
+	// 				modal.close();
+	//
+	// 		}
+	//
+	// 	})
+	// 	.on( 'keypress.modal', function( e) {
+	// 		if (e.keyCode == 13)
+	// 			options.onEnter.call( modal, e);
+	//
+	// 	})
+	//
+	// 	close
+	// 	.off('click')
+	// 	.css({cursor:'pointer'})
+	// 	.on('click', function(e) { modal.close(); });	// When the user clicks on <span> (x), close the modal
+	//
+	// 	return ( modal);	// chain
+	//
+	// }
 
 	$.fn.growlSuccess = function(params) {
 		var options = { growlClass : 'success' }

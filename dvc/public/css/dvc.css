@@ -387,6 +387,7 @@ blockquote cite:before {
     float: right;
 }
 .modal-header .close, .modal-header .fa {
+	margin: 0;
     font-size: 1.4rem;
 }
 .modal .close:not(.fa) {
@@ -402,7 +403,7 @@ blockquote cite:before {
 
 /* Modal Header, Body & Footer */
 .modal-footer { padding: 10px 15px 5px; }
-.modal-body { padding: 2px 15px; }
+.modal-body { padding: 5px 15px; }
 .modal-header { padding: 3px 15px; }
 .modal-header h1 { margin: 0; font-size: 1.5em }
 .modal-header h2 { margin: 0; font-size: 1.2em }
@@ -414,21 +415,39 @@ blockquote cite:before {
 .modal-body { height: calc( 100% - 90px); }
 
 /* Modal Content */
+/* Modal Content Animation */
+@-webkit-keyframes animatebottom {
+	from {top: 100%; opacity: 0}
+	to {top: 50%; opacity: 1}
+}
+
+@keyframes animatebottom {
+	from {top: 100%; opacity: 0}
+	to {top: 50%; opacity: 1}
+}
 .modal .modal-content {
-	position: relative;
 	background-color: #fefefe;
-	margin: 15% auto; /* 15% from the top and centered */
 	padding: 0;
 	border: 1px solid #888;
 	border-radius: 2px;
-	width: 80%; /* Could be more or less, depending on screen size */
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-	-webkit-animation-name: animatetop;
+	-webkit-animation-name: animatebottom;
 	-webkit-animation-duration: 0.4s;
-	animation-name: animatetop;
+	animation-name: animatebottom;
 	animation-duration: 0.4s
 }
-
+.modal .modal-content {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	min-width: 300px;
+	transform: translate(-50%,-50%);
+}
+/*
+	position: relative;
+	margin: 15% auto;
+	width: 80%;
+*/
 @media screen and (max-height: 700px){
 	.modal .modal-content {
 		margin: 7% auto; /* 15% from the top and centered */
