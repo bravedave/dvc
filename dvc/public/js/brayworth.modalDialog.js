@@ -49,6 +49,18 @@ _brayworth_.modalDialog = function ( _options) {
 
 	modal.css( 'display', 'block').data('modal', modal);
 
+	var _AF = $('[autofocus]',modal);
+	if ( _AF.length > 0) {
+		_AF.first().focus();
+
+	}
+	else {
+		_AF = $('textarea, input, button',modal);
+		if ( _AF.length > 0)
+			_AF.first().focus();
+
+	}
+
 	$(document)
 	.on( 'keyup.modal', function( e) {
 		if (e.keyCode == 27) {
