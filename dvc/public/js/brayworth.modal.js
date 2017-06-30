@@ -71,7 +71,7 @@ _brayworth_.modal = function( params ) {
 				$.extend( j, el) ;
 
 			var b = $('<button class="button button-raised"></button>')
-				b.html( j.i);
+				b.html( j.text);
 				b.on( 'click', function( e) {
 					j.click.call( modal, e);
 
