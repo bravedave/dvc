@@ -113,18 +113,14 @@ var _brayworth_={};_brayworth_.modal=function(params){if(/string/.test(typeof pa
 modal.close();return}
 var options={title:'',width:!1,fullScreen:_brayworth_.browser.isIPhone,autoOpen:!0,buttons:{},headButtons:{},}
 $.extend(options,params);var modal=$('<div class="modal"></div>');var wrapper=$('<div class="modal-content" role="dialog" aria-labelledby="modal-header-title"></div>').appendTo(modal);var header=$('<div class="modal-header"><i class="fa fa-times close"></i></div>').appendTo(wrapper);var headerH1=$('<h1 id="modal-header-title"></h1>').appendTo(header);var body=$('<div class="modal-body"></div>').append(this).appendTo(wrapper);var footer=$('<div class="modal-footer text-right"></div>');if(!!options.width)
-wrapper.css({'width':options.width});var _el=(this instanceof jQuery?this:$(this));var s=_el.attr('title');headerH1.html('').append(s);if(Object.keys(options.buttons).length>0){$.each(options.buttons,function(i,el){var j={text:i,click:function(e){}}
-if(/function/.test(el))
-j.click=el;else $.extend(j,el);var b=$('<button class="button button-raised"></button>')
-b.html(j.i);b.on('click',function(e){j.click.call(modal,e)})
+wrapper.css({'width':options.width});var _el=(this instanceof jQuery?this:$(this));var s=_el.attr('title');headerH1.html('').append(s);if(Object.keys(options.buttons).length>0){$.each(options.buttons,function(i,el){var b=$('<button class="button button-raised"></button>')
+b.html(i);b.on('click',function(e){el.click.call(modal,e)})
 footer.append(b)})
 wrapper.append(footer)}
-if(Object.keys(options.headButtons).length>0){$.each(options.headButtons,function(i,el){var j={text:i,title:!1,icon:!1,click:function(e){}}
-if(/function/.test(el))
-j.click=el;else $.extend(j,el);if(!!j.icon)
-var b=$('<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;"></i>').addClass(j.icon);else var b=$('<button class="button button-raised pull-right"></button>').html(j.text);if(!!j.title)
-b.attr('title',j.title)
-b.on('click',function(e){j.click.call(modal,e)})
+if(Object.keys(options.headButtons).length>0){$.each(options.headButtons,function(i,el){if(!!el.icon)
+var b=$('<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;"></i>').addClass(el.icon);else var b=$('<button class="button button-raised pull-right"></button>').html(i);if(!!el.title)
+b.attr('title',el.title)
+b.on('click',function(e){el.click.call(modal,e)})
 header.prepend(b)})
 header.prepend($('.close',header))}
 var bodyElements=[];if(options.fullScreen){$('body > *').each(function(i,el){var _el=$(el);if(!_el.hasClass('hidden')){_el.addClass('hidden');bodyElements.push(_el)}})
@@ -135,10 +131,7 @@ previousElement.focus()},}))}
 if(typeof _brayworth_=='undefined')
 var _brayworth_={};$.fn.modalDialog=_brayworth_.modalDialog=function(_options){if(/string/.test(typeof(_options))){if(_options=='close'){var modal=this.data('modal');modal.close();return(modal)}}
 var modal=this;var options={beforeClose:function(){},afterClose:function(){},onEnter:function(){}};$.extend(options,_options);var close=$('.close',this);modal.close=function(){options.beforeClose.call(modal);modal.css('display','none');$(window).off('click');options.afterClose.call(modal);modal=!1;$(document).unbind('keyup.modal');$(document).unbind('keypress.modal')}
-modal.css('display','block').data('modal',modal);var _AF=$('[autofocus]',modal);if(_AF.length>0){_AF.first().focus()}
-else{_AF=$('textarea, input, button',modal);if(_AF.length>0)
-_AF.first().focus()}
-$(document).on('keyup.modal',function(e){if(e.keyCode==27){if(modal)
+modal.css('display','block').data('modal',modal);$(document).on('keyup.modal',function(e){if(e.keyCode==27){if(modal)
 modal.close()}}).on('keypress.modal',function(e){if(e.keyCode==13)
 options.onEnter.call(modal,e)})
 close.off('click').css({cursor:'pointer'}).on('click',function(e){modal.close()});return(modal)};(function(factory){var registeredInModuleLoader=!1;if(typeof define==='function'&&define.amd){define(factory);registeredInModuleLoader=!0}
