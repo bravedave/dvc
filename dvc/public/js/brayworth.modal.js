@@ -47,7 +47,7 @@ _brayworth_.modal = function( params ) {
 	var footer = $('<div class="modal-footer text-right"></div>');
 
 	if ( !!options.width)
-		wrapper.css({ 'width' : options.width });
+		wrapper.width( options.width );
 	//~ else
 		//~ wrapper.addClass('modal-content-600');
 
