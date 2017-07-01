@@ -37,12 +37,18 @@ class _page {
 
 		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
 
-		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-2.1.1.min.js'));
+		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-2.2.4.min.js'));
 
-		if ( \jslib::brayworth())
-			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \jslib::$brayworthlib );
-		else
-			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring('js/brayworth.js'));
+		if ( \jslib::brayworth()) {
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \jslib::$brayworthlib );
+
+		}
+		else {
+			$this->scripts[] = '<!-- no minified library :: normally we would bundle the scripts -->';
+			foreach ( \jslib::$brayworthlibFiles as $src)
+				$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( $src));
+
+		}
 
 
 		$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'css/font-awesome.min.css'));

@@ -22,6 +22,7 @@ abstract class jslib {
 	public static $debug = FALSE;
 	public static $tinylib = FALSE;
 	public static $brayworthlib = FALSE;
+	public static $brayworthlibFiles = FALSE;
 	public static $reactlib = FALSE;
 
 	protected static $rootPath = NULL;
@@ -160,13 +161,21 @@ abstract class jslib {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
 
-		$files = array(
-			__DIR__ . '/public/js/jquery.visible.js',
-			__DIR__ . '/public/js/brayworth.js',
-			__DIR__ . '/public/js/brayworth.context.js',
-			__DIR__ . '/public/js/brayworth.modal.js',
-			__DIR__ . '/public/js/brayworth.modalDialog.js',
-			__DIR__ . '/public/js/js.cookie.js' );
+		self::$brayworthlibFiles = array(
+			'js/jquery.visible.js',
+			'js/_brayworth_.js',
+			'js/_brayworth_.bootstrapModalPop.js',
+			'js/_brayworth_.context.js',
+			'js/_brayworth_.modal.js',
+			'js/_brayworth_.modalDialog.js',
+			'js/_brayworth_.InitHRefs.js',
+			'js/_brayworth_.initDatePickers.js',
+			'js/brayworth.js',
+			'js/js.cookie.js' );
+
+		$files = array();
+		foreach( self::$brayworthlibFiles as $f)
+			$files[] = __DIR__ . '/public/' . $f;
 
 		if ( !application::app()) {
 			sys::logger( 'you cannot use this external to application()');
