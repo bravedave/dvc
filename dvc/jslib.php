@@ -165,6 +165,7 @@ abstract class jslib {
 			'js/jquery.visible.js',
 			'js/_brayworth_.js',
 			'js/_brayworth_.bootstrapModalPop.js',
+			'js/_brayworth_.browser.js',
 			'js/_brayworth_.context.js',
 			'js/_brayworth_.modal.js',
 			'js/_brayworth_.modalDialog.js',
