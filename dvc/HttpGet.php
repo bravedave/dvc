@@ -59,6 +59,8 @@ class HttpGet {
 
 		$this->httpResponse = curl_exec( $this->ch );
 
+		return ( $this->httpResponse);
+
 	}
 	/**
 	 * Read the HTTP Response returned by the server
