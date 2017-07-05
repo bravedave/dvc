@@ -8,14 +8,22 @@ html {
 }
 /*html, body { height: calc( 100%); }
 */
-.clearfix:after {content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;}
-.clearfix {display: inline-block;}
-* html .clearfix { height: 1%;}
-.clearfix {display: block;}
+
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+* html .clearfix             { zoom: 1; } /* IE6 */
+*:first-child+html .clearfix { zoom: 1; } /* IE7 */
 
 body > .container, body > .container-fluid, body > .main-content-wrapper {
 	/* Margin bottom by footer height */
