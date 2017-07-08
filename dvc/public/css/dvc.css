@@ -451,21 +451,21 @@ blockquote cite:before {
 	animation-name: animatebottom;
 	animation-duration: 0.4s
 }
-.modal .modal-content.modal-content-400 { width: 400px; }
-.modal .modal-content.modal-content-600 { width: 600px; }
-.modal .modal-content.modal-content-700 { width: 700px; }
+.modal:not(.modal-mobile) .modal-content.modal-content-400 { width: 400px; }
+.modal:not(.modal-mobile) .modal-content.modal-content-600 { width: 600px; }
+.modal:not(.modal-mobile) .modal-content.modal-content-700 { width: 700px; }
 
 @media screen and (max-width: 400px){
-	.modal .modal-content.modal-content-400 { width: 95%; }
+	.modal:not(.modal-mobile) .modal-content.modal-content-400 { width: 95%; }
 }
 
 @media screen and (max-width: 600px){
-	.modal .modal-content.modal-content-600 { width: 95%; }
+	.modal:not(.modal-mobile) .modal-content.modal-content-600 { width: 95%; }
 }
 
 @media screen and (max-width: 768px){
-	.modal .modal-content.modal-content-700,
-	.modal .modal-content { width: 95%; }
+	.modal:not(.modal-mobile) .modal-content.modal-content-700,
+	.modal:not(.modal-mobile) .modal-content { width: 95%; }
 }
 
 /* Add Animation */
