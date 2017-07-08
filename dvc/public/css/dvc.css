@@ -437,19 +437,19 @@ blockquote cite:before {
 	background-color: #fefefe;
 	padding: 0;
 	border: 1px solid #888;
+}
+.modal:not(.modal-mobile) .modal-content {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	min-width: 300px;
+	transform: translate(-50%,-50%);
 	border-radius: 2px;
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
 	-webkit-animation-name: animatebottom;
 	-webkit-animation-duration: 0.4s;
 	animation-name: animatebottom;
 	animation-duration: 0.4s
-}
-.modal .modal-content {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	min-width: 300px;
-	transform: translate(-50%,-50%);
 }
 .modal .modal-content.modal-content-400 { width: 400px; }
 .modal .modal-content.modal-content-600 { width: 600px; }

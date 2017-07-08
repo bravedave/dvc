@@ -47,6 +47,8 @@ _brayworth_.modalDialog = function ( _options) {
 
 	}
 
+	if ( _brayworth_.browser.isMobileDevice)
+		modal.addClass( 'modal-mobile');
 	modal.css( 'display', 'block').data('modal', modal);
 
 	var _AF = $('[autofocus]',modal);
