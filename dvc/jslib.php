@@ -96,19 +96,25 @@ abstract class jslib {
 
 	}
 
-	public static function tinymce( $lib = 'tinylib.js', $libdir = 'tinymce') {
+	public static function tinymce( $lib = 'tinylib.js', $libdir = 'tinymce', $plugins = 'autolink,paste,lists,table,colorpicker,textcolor') {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
 
+		//~ $files = array(
+			//~ __DIR__ . '/public/js/tinymce/tinymce.min.js',
+			//~ __DIR__ . '/public/js/tinymce/themes/modern/theme.min.js',
+			//~ __DIR__ . '/public/js/tinymce/plugins/autolink/plugin.min.js',
+			//~ __DIR__ . '/public/js/tinymce/plugins/paste/plugin.min.js',
+			//~ __DIR__ . '/public/js/tinymce/plugins/lists/plugin.min.js',
+			//~ __DIR__ . '/public/js/tinymce/plugins/table/plugin.min.js',
+			//~ __DIR__ . '/public/js/tinymce/plugins/colorpicker/plugin.min.js',
+			//~ __DIR__ . '/public/js/tinymce/plugins/textcolor/plugin.min.js' );
 		$files = array(
 			__DIR__ . '/public/js/tinymce/tinymce.min.js',
-			__DIR__ . '/public/js/tinymce/themes/modern/theme.min.js',
-			__DIR__ . '/public/js/tinymce/plugins/autolink/plugin.min.js',
-			__DIR__ . '/public/js/tinymce/plugins/paste/plugin.min.js',
-			__DIR__ . '/public/js/tinymce/plugins/lists/plugin.min.js',
-			__DIR__ . '/public/js/tinymce/plugins/table/plugin.min.js',
-			__DIR__ . '/public/js/tinymce/plugins/colorpicker/plugin.min.js',
-			__DIR__ . '/public/js/tinymce/plugins/textcolor/plugin.min.js' );
+			__DIR__ . '/public/js/tinymce/themes/modern/theme.min.js' );
+
+		foreach( explode( ',', $plugins) as $plugin)
+			$files[] = sprintf( '%s/public/js/tinymce/plugins/%s/plugin.min.js', __DIR__, $plugin);
 
 		if ( !application::app()) {
 			sys::logger( 'you cannot use this external to application()');
