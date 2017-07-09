@@ -116,6 +116,12 @@ abstract class jslib {
 		foreach( explode( ',', $plugins) as $plugin)
 			$files[] = sprintf( '%s/public/js/tinymce/plugins/%s/plugin.min.js', __DIR__, trim( $plugin));
 
+		if ( $debug) {
+			foreach ( $files as $file)
+				sys::logger( 'tinylib file: ' . $file);
+
+		}
+
 		if ( !application::app()) {
 			sys::logger( 'you cannot use this external to application()');
 			throw new \Exception( 'you cannot use this external to application()');
