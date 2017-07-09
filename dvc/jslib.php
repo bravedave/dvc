@@ -114,7 +114,7 @@ abstract class jslib {
 			__DIR__ . '/public/js/tinymce/themes/modern/theme.min.js' );
 
 		foreach( explode( ',', $plugins) as $plugin)
-			$files[] = sprintf( '%s/public/js/tinymce/plugins/%s/plugin.min.js', __DIR__, $plugin);
+			$files[] = sprintf( '%s/public/js/tinymce/plugins/%s/plugin.min.js', __DIR__, trim( $plugin));
 
 		if ( !application::app()) {
 			sys::logger( 'you cannot use this external to application()');
@@ -123,7 +123,7 @@ abstract class jslib {
 
 		}
 
-		self::$tinylib = sprintf( '%sjs/%s/%s?v=%s', \url::$URL, $libdir, $lib, \config::$VERSION );
+		self::$tinylib = sprintf( '%sjs/%s/%s?v=', \url::$URL, $libdir, $lib);
 		$jslib = sprintf( '%s/app/public/js/%s/%s', application::app()->getRootPath(), $libdir, $lib);
 		if ( realpath( $jslib)) {
 
@@ -144,11 +144,20 @@ abstract class jslib {
 				if ( $debug) sys::logger( 'latest mod time = ' . date( 'r', $modtime));
 				if ( $debug) sys::logger( 'you need to update ' . $jslib);
 
-				return ( self::__createlib( $libdir, $lib, $files));
+				if  ( self::__createlib( $libdir, $lib, $files)) {
+					$version = filemtime( $jslib);
+					self::$tinylib .= $version;
+
+					return ( TRUE);
+
+				}
 
 			}
 			else {
 				if ( $debug) sys::logger( 'you have the latest version of ' . $jslib);
+
+				$version = filemtime( $jslib);
+				self::$tinylib .= $version;
 
 				return ( TRUE);
 
@@ -157,7 +166,13 @@ abstract class jslib {
 		}
 		else {
 			if ( $debug) sys::logger( sprintf( 'jslib::tinymce not found :: %s - creating', $jslib));
-			return ( self::__createlib( $libdir, $lib, $files));
+			if ( self::__createlib( $libdir, $lib, $files)) {
+				$version = filemtime( $jslib);
+				self::$tinylib .= $version;
+
+				return ( TRUE);
+
+			}
 
 		}
 
@@ -245,6 +260,8 @@ abstract class jslib {
 			if ( self::__createlib( $libdir, $lib, $files, TRUE)) {
 				$version = filemtime( $jslib);
 				self::$brayworthlib .= $version;
+
+				return ( TRUE);
 
 			}
 
