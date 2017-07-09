@@ -104,12 +104,10 @@ abstract class jslib {
 			__DIR__ . '/public/js/tinymce/tinymce.min.js',
 			__DIR__ . '/public/js/tinymce/themes/modern/theme.min.js',
 			__DIR__ . '/public/js/tinymce/plugins/autolink/plugin.min.js',
-			__DIR__ . '/public/js/tinymce/plugins/colorpicker/plugin.min.js',
-			__DIR__ . '/public/js/tinymce/plugins/image/plugin.min.js',
-			__DIR__ . '/public/js/tinymce/plugins/imagetools/plugin.min.js',
-			__DIR__ . '/public/js/tinymce/plugins/lists/plugin.min.js',
 			__DIR__ . '/public/js/tinymce/plugins/paste/plugin.min.js',
+			__DIR__ . '/public/js/tinymce/plugins/lists/plugin.min.js',
 			__DIR__ . '/public/js/tinymce/plugins/table/plugin.min.js',
+			__DIR__ . '/public/js/tinymce/plugins/colorpicker/plugin.min.js',
 			__DIR__ . '/public/js/tinymce/plugins/textcolor/plugin.min.js' );
 
 		if ( !application::app()) {
