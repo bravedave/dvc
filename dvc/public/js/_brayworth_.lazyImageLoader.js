@@ -57,4 +57,4 @@ _brayworth_.lazyImageLoader = function() {
 
 	}
 
-}
+};

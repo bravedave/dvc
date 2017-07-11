@@ -7,10 +7,6 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 */
-
-if ( typeof _brayworth_ == 'undefined')
-	var _brayworth_ = {};
-
 _brayworth_.InitHRefs = function() {
 	$('[data-href]').each( function( i, el ) {
 		$(el)
