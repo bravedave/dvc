@@ -100,15 +100,6 @@ abstract class jslib {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
 
-		//~ $files = array(
-			//~ __DIR__ . '/public/js/tinymce/tinymce.min.js',
-			//~ __DIR__ . '/public/js/tinymce/themes/modern/theme.min.js',
-			//~ __DIR__ . '/public/js/tinymce/plugins/autolink/plugin.min.js',
-			//~ __DIR__ . '/public/js/tinymce/plugins/paste/plugin.min.js',
-			//~ __DIR__ . '/public/js/tinymce/plugins/lists/plugin.min.js',
-			//~ __DIR__ . '/public/js/tinymce/plugins/table/plugin.min.js',
-			//~ __DIR__ . '/public/js/tinymce/plugins/colorpicker/plugin.min.js',
-			//~ __DIR__ . '/public/js/tinymce/plugins/textcolor/plugin.min.js' );
 		$files = array(
 			__DIR__ . '/public/js/tinymce/tinymce.min.js',
 			__DIR__ . '/public/js/tinymce/themes/modern/theme.min.js' );
@@ -198,6 +189,7 @@ abstract class jslib {
 			'js/_brayworth_.modalDialog.js',
 			'js/_brayworth_.InitHRefs.js',
 			'js/_brayworth_.initDatePickers.js',
+			'js/_brayworth_.lazyImageLoader.js',
 			'js/brayworth.js',
 			'js/js.cookie.js' );
 
