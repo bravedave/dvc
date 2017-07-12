@@ -67,33 +67,6 @@ $(document).ready( function() {
 
 	})
 
-	/** Scrolls the content into view **/
-	$('a[href*="#"]:not([href="#"] , .carousel-control, .ui-tabs-anchor)').click(function() {
-		if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-			var target = $(this.hash);
-			target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-			if (target.length) {
-				if ( /nav/i.test( target.prop('tagName')))
-					return;
-
-				var tTop = target.offset().top;
-				var nav = $('body>nav');
-
-				if ( nav.length )
-					tTop -= ( nav.height()+20);
-
-				tTop = Math.max( 20, tTop);
-				$('html, body').animate({
-					scrollTop: tTop
-				}, 1000);
-				return false;
-
-			}
-
-		}
-
-	});
-
 	$('[role="print-page"]').each( function( i, el ) {
 		$(el).on('click', function(e) {
 			e.preventDefault();
