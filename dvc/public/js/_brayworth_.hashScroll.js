@@ -9,7 +9,7 @@
 */
 _brayworth_.hashScroll = function() {
 	/** Scrolls the content into view **/
-	$('a[href*="#"]:not([href="#"] , .carousel-control, .ui-tabs-anchor)').click(function() {
+	$('a[href*="#"]:not([href="#"] , .carousel-control, .ui-tabs-anchor)').on('click', function() {
 		if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
 			var target = $(this.hash);
 			target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
@@ -21,12 +21,12 @@ _brayworth_.hashScroll = function() {
 				var nav = $('body>nav');
 
 				if ( nav.length )
-					tTop -= ( nav.height()+20);
+					tTop -= ( nav.height());
 
 				tTop = Math.max( 20, tTop);
-				$('html, body').animate({
-					scrollTop: tTop
-				}, 1000);
+
+				$('html, body').animate({ scrollTop: tTop }, 1000);
+
 				return false;
 
 			}
