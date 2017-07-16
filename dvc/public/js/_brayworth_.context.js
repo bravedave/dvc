@@ -8,9 +8,6 @@
 
 */
 
-if ( typeof _brayworth_ == 'undefined')
-	var _brayworth_ = {};
-
 _brayworth_.hideContext = function( el) {
 	var _el = $(el);
 	if ( !!_el.data('hide')) {

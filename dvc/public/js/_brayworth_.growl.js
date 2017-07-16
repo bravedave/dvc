@@ -1,0 +1,139 @@
+/*
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
+
+	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+		http://creativecommons.org/licenses/by/4.0/
+
+
+	test : _brayworth_.growl( 'howdy');
+	test : _brayworth_.growl({
+		growlClass : 'error',
+		text : 'not good',
+	});
+
+*/
+
+(function() {
+
+	_brayworth_.growlSuccess = function(params) {
+		var options = { growlClass : 'success' }
+
+		if ( /object/.test( typeof params))
+			$.extend( options, params);
+		else if ( /string/i.test( typeof params ))
+			options.text = params;
+
+		_brayworth_.growl.call( this, options);
+
+	}
+
+	_brayworth_.growlError = function(params) {
+		var options = { growlClass : 'error' }
+
+		if ( /object/.test( typeof params))
+			$.extend( options, params);
+		else if ( /string/i.test( typeof params ))
+			options.text = params;
+
+		_brayworth_.growl.call( this, options);
+
+	}
+
+	_brayworth_.growlAjax = function( j) {
+		/*
+			my standard ajax response is {
+				response : 'ack or nak',
+				description : 'blah blah ..'
+			}
+		 */
+
+		var options = { growlClass : 'error', text : 'no description' }
+		if ( !!j.response) {
+			if ( j.response == 'ack')
+				options.growlClass = 'success';
+
+		}
+		if ( !!j.description)
+			options.text = j.description;
+		if ( !!j.timeout)
+			options.timeout = j.timeout;
+
+		_brayworth_.growl.call( this, options);
+
+	}
+
+	var growlers = [];
+	_brayworth_.growl = function( params) {
+		var host = ( this == _brayworth_ ? 'body' : this)
+
+		var options = {
+			top : 60,
+			right : 20,
+			text : '',
+			title : '',
+			timeout : 3000,
+			growlClass : 'information',
+
+		}
+
+		if ( /object/.test( typeof params))
+			$.extend( options, params);
+		else if ( /string/i.test( typeof params ))
+			options.text = params;
+
+		if ( options.title == '' && options.text == '')
+			return;	// abandon ship
+
+		var growler = $('<div class="growler"></div>');
+
+		/*
+		 * you have to find a place in the growlers for this one
+		 */
+		var growlerIndex = -1
+		$.each( growlers, function( i, e) {
+			if ( !e) {
+				growlerIndex = i;
+				growlers[growlerIndex] = growler;
+				//~ console.log( 'growlerIndex - recycle', growlerIndex);
+				return ( false);
+
+			}
+
+		});
+
+		if ( growlerIndex < 0) {
+			// grow the index
+			growlerIndex = growlers.length;
+			growlers[growlerIndex] = growler;
+			//~ console.log( 'growlerIndex - new', growlerIndex);
+
+		}
+
+		options.top *= growlerIndex;	// this growler is offset down screen to avoid stacking
+
+		var title = $('<h3></h3>');
+		var content = $('<div></div>');
+
+		if ( options.title != '')
+			title.html(options.title).appendTo( growler);
+		else
+			content.css('padding-top','5px');
+
+		if ( options.text != '')
+			content.html(options.text).appendTo( growler);
+
+		growler
+			.css({ 'position' : 'absolute', 'top' : options.top, 'right' : options.right })
+			.addClass(options.growlClass)
+			.appendTo( host);
+
+		setTimeout( function() {
+			growlers[growlerIndex] = false;
+			growler.remove();
+		}, options.timeout)
+
+	}
+
+})();
