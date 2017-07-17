@@ -29,6 +29,7 @@ _brayworth_.modalDialog = function ( _options) {
 		beforeClose : function() {},
 		afterClose : function() {},
 		onEnter : function() {}
+		onOpen : function() {}
 	};
 
 	$.extend( options, _options);
@@ -83,6 +84,8 @@ _brayworth_.modalDialog = function ( _options) {
 	.off('click')
 	.css({cursor:'pointer'})
 	.on('click', function(e) { modal.close(); });	// When the user clicks on <span> (x), close the modal
+
+	options.onOpen.call( modal);
 
 	return ( modal);	// chain
 
