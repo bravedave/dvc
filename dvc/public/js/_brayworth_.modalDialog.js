@@ -28,7 +28,7 @@ _brayworth_.modalDialog = function ( _options) {
 	var options = {
 		beforeClose : function() {},
 		afterClose : function() {},
-		onEnter : function() {}
+		onEnter : function() {},
 		onOpen : function() {}
 	};
 
