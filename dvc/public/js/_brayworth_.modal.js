@@ -32,6 +32,7 @@ _brayworth_.modal = function( params ) {
 		autoOpen : true,
 		buttons : {},
 		headButtons : {},
+		onOpen : function() {},
 
 	}
 
@@ -141,6 +142,7 @@ _brayworth_.modal = function( params ) {
 	modal.appendTo( 'body');
 
 	$(this).data('modal', _brayworth_.modalDialog.call(modal, {
+		onOpen : options.onOpen,
 		afterClose : function() {
 			modal.remove();
 			if ( !!options.afterClose && /function/.test( typeof options.afterClose))

@@ -29,7 +29,7 @@ _brayworth_.modalDialog = function ( _options) {
 		beforeClose : function() {},
 		afterClose : function() {},
 		onEnter : function() {},
-		onOpen : function() {}
+		onOpen : function() {},
 	};
 
 	$.extend( options, _options);
