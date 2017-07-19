@@ -208,9 +208,17 @@ abstract class strings {
 	static function html2text($document){
 		$search = array(
 			'@<[\/\!]*?[^<>]*?>@si',			// trim blank lines from beginning and end
-			'@<br[\s]/>@si'
+			'@<br[\s]/>@si',
+			'@&nbsp;@si',
+			'@&amp;@si'
 		);
-		$text = preg_replace($search, '\n', self::htmlSanitize( $document));
+		$replace = array(
+			'\n',
+			'\n',
+			' ',
+			'&'
+		);
+		$text = trim( preg_replace($search, $replace, self::htmlSanitize( $document)), '\n');
 
 		/*
 		$search = array('@<script[^>]*?>.*?</script>@si',	// Strip out javascript
