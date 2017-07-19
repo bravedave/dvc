@@ -7,6 +7,23 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 */
+_brayworth_.ScrollTo = function( el) {
+	var _el = el;
+	if ( !( _el instanceof jQuery))
+		_el = $(el);
+
+	var t = _el.offset().top;
+	var nav = $('body>nav');
+
+	if ( nav.length )
+		t -= ( nav.height());
+
+	t = Math.max( 20, t);
+
+	$('html, body').animate({ scrollTop: t }, 1000);
+
+}
+
 _brayworth_.hashScroll = function() {
 	/** Scrolls the content into view **/
 	$('a[href*="#"]:not([href="#"] , .carousel-control, .ui-tabs-anchor)').on('click', function() {
@@ -17,15 +34,7 @@ _brayworth_.hashScroll = function() {
 				if ( /nav/i.test( target.prop('tagName')))
 					return;
 
-				var tTop = target.offset().top;
-				var nav = $('body>nav');
-
-				if ( nav.length )
-					tTop -= ( nav.height());
-
-				tTop = Math.max( 20, tTop);
-
-				$('html, body').animate({ scrollTop: tTop }, 1000);
+				_brayworth_.ScrollTo( target);
 
 				return false;
 

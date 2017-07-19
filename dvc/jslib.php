@@ -192,6 +192,7 @@ abstract class jslib {
 			'js/_brayworth_.hashScroll.js',
 			'js/_brayworth_.lazyImageLoader.js',
 			'js/_brayworth_.growl.js',
+			'js/_brayworth_.swipe.js',
 			'js/brayworth.js',
 			'js/js.cookie.js' );
 
