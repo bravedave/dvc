@@ -17,26 +17,8 @@ class page extends _page {
 	protected $boolOpen = FALSE;
 
 	static public $MainContextMenu = TRUE;
-	static public $react = FALSE;
 
 	protected static $vuejs = FALSE;
-
-	protected function _react( $title = '' ) {
-		$this->meta = array();
-		$this->meta[] = '<meta name="page-constructor" content="_react" />';
-
-		if ( \jslib::react()) {
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \jslib::$reactlib );
-
-		}
-		else {
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/react.min.js' ));
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/react-dom.min.js' ));
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/babel.min.js' ));
-
-		}
-
-	}
 
 	protected function _viewjs( $title = '' ) {
 		$this->meta = array();
@@ -87,10 +69,7 @@ class page extends _page {
 	function __construct( $title = '' ) {
 		parent::__construct( $title);
 
-		if ( self::$react)
-			$this->_react( $title);
-
-		elseif ( self::$vuejs)
+		if ( self::$vuejs)
 			$this->_viewjs( $title);
 
 		else

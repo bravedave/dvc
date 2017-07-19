@@ -23,7 +23,6 @@ abstract class jslib {
 	public static $tinylib = FALSE;
 	public static $brayworthlib = FALSE;
 	public static $brayworthlibFiles = FALSE;
-	public static $reactlib = FALSE;
 
 	protected static $rootPath = NULL;
 
@@ -269,68 +268,6 @@ abstract class jslib {
 		}
 
 		return ( FALSE);
-
-	}
-
-	public static function react( $lib = 'reactlib.js', $libdir = '') {
-		$debug = self::$debug;
-		//~ $debug = TRUE;
-
-		$files = array(
-			__DIR__ . '/public/js/react.min.js',
-			__DIR__ . '/public/js/react-dom.min.js' );
-
-		if ( !application::app()) {
-			sys::logger( 'you cannot use this external to application()');
-			throw new \Exception( 'you cannot use this external to application()');
-			return ( FALSE);
-
-		}
-
-		if ( $libdir) {
-			self::$reactlib = sprintf( '%sjs/%s/%s?v=%s', \url::$URL, $libdir, $lib, \config::$VERSION );
-			$jslib = sprintf( '%s/app/public/js/%s/%s', application::app()->getRootPath(), $libdir, $lib);
-
-		}
-		else {
-			self::$reactlib = sprintf( '%sjs/%s?vv=%s', \url::$URL, $lib, \config::$VERSION );
-			$jslib = sprintf( '%s/app/public/js/%s', application::app()->getRootPath(), $lib);
-
-		}
-
-		if ( realpath( $jslib)) {
-
-			if ( $debug) sys::logger( sprintf( 'jslib::react :: found :: %s', $libdir, $jslib));
-
-			$modtime = 0;
-			foreach ( $files as $file) {
-				if ( realpath( $file))
-					$modtime = max( array( $modtime, filemtime( $file)));
-
-				else
-					sys::logger( 'cannot locate library file ' . $file);
-
-			}
-
-			$libmodtime = filemtime( $jslib);
-			if ( $libmodtime < $modtime) {
-				if ( $debug) sys::logger( 'jslib::reactlib :: latest mod time = ' . date( 'r', $modtime));
-				if ( $debug) sys::logger( 'jslib::reactlib :: you need to update ' . $jslib);
-				return ( self::__createlib( $libdir, $lib, $files));	// not minified
-
-			}
-			else {
-				if ( $debug) sys::logger( 'jslib::reactlib :: you have the latest version of ' . $jslib);
-				return ( TRUE);
-
-			}
-
-		}
-		else {
-			if ( $debug) sys::logger( sprintf( 'jslib::reactlib :: not found :: %s - creating', $jslib));
-			return ( self::__createlib( $libdir, $lib, $files));	// not minified
-
-		}
 
 	}
 

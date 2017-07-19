@@ -18,22 +18,18 @@ class Page extends pages\page {
 
 	function __construct( $title = '' ) {
 		parent::__construct( $title );
-		if ( self::$react) {
-		}
-		else {
-			$this->bootstrap = config::$BOOTSTRAP;
 
-			if ( $this->bootstrap) {
-				if ( $this->datepicker) {
-					array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', url::$URL . 'css/bootstrap-datepicker.min.css' ));
-					$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', url::$URL . 'js/bootstrap-datepicker.min.js' );
+		$this->bootstrap = config::$BOOTSTRAP;
 
-				}
-
-				array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', url::$URL . 'css/bootstrap.min.css' ));
-				$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', url::$URL . 'js/bootstrap.min.js' );
+		if ( $this->bootstrap) {
+			if ( $this->datepicker) {
+				array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', url::$URL . 'css/bootstrap-datepicker.min.css' ));
+				$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', url::$URL . 'js/bootstrap-datepicker.min.js' );
 
 			}
+
+			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', url::$URL . 'css/bootstrap.min.css' ));
+			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', url::$URL . 'js/bootstrap.min.js' );
 
 		}
 
