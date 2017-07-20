@@ -6,6 +6,10 @@ html {
 	position: relative;
 	min-height: 100%;
 }
+ol, ul {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
 /*html, body { height: calc( 100%); }
 */
 
