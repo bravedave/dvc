@@ -9,6 +9,7 @@ html {
 ol, ul {
     margin-top: 0;
     margin-bottom: 10px;
+	padding-left: 40px;
 }
 /*html, body { height: calc( 100%); }
 */
