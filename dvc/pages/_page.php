@@ -178,6 +178,7 @@ OUTPUT;
 	}
 
 	protected function closeContent() {
+		$this->closeSection();	// added 20 July, 2017
 		if ( $this->contentOPEN ) {
 			foreach ( $this->closeContentTags as $tag )
 				print $tag;
