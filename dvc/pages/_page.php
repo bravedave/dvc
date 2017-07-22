@@ -36,7 +36,6 @@ class _page {
 
 		$this->data->title = $this->title = ( $title == '' ? \config::$WEBNAME : $title );
 
-		$this->meta[] = '<meta http-equiv="Content-Type" content="text/html; charset=$this->charset" />';
 		$this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
 		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
 
@@ -89,15 +88,16 @@ class _page {
 
 		print \Response::html_docType();
 
-		if ( !$this->charset)
-			$this->charset = 'utf-8';
-
 		print <<<OUTPUT
 
 <head>
 	<title>$this->title</title>
 
 OUTPUT;
+
+		if ( !$this->charset)
+			$this->charset = 'utf-8';
+		$this->meta[] = sprintf( '<meta http-equiv="Content-Type" content="text/html; charset=%s" />', $this->charset);
 
 		foreach ( $this->meta as $meta )
 			print "\t" . $meta . PHP_EOL;
