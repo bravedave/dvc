@@ -14,7 +14,8 @@ class view {
 	var $data = NULL,
 		$rootPath = NULL,
 		$loadName = '?',
-		$wrap = array();
+		$wrap = array(),
+		$debug = FALSE;
 
 	function __construct( $data = NULL ) {
 		if ( $app = application::app())
@@ -30,6 +31,45 @@ class view {
 
 	static function instance() {
 		return new self;
+
+	}
+
+	protected function _wrap() {
+		if ( count( (array)$this->wrap)) {
+			foreach( (array)$this->wrap as $wrap) {
+				if ( $wrap)
+					printf( '<div class="%s">', $wrap);
+
+			}
+
+		}
+
+	}
+
+	protected function _unwrap() {
+		if ( count( (array)$this->wrap)) {
+			foreach( (array)$this->wrap as $wrap) {
+				if ( $wrap)
+					printf( '</div><!-- wrap:div class="%s" -->', $wrap);
+
+			}
+
+		}
+
+	}
+
+	protected function _load( $path) {
+		if ( substr_compare( $path, '.md', -3) === 0) {
+			if ( $this->debug) \sys::logger( 'dvc\view->_load :: it\'s an md !');
+			$fc = file_get_contents( $path);
+
+			print \Parsedown::instance()->text( $fc);
+
+		}
+		else {
+			include $path;
+
+		}
 
 	}
 
@@ -56,25 +96,9 @@ class view {
 		}
 
 		if ( file_exists( $path)) {
-			if ( count( (array)$this->wrap)) {
-				foreach( (array)$this->wrap as $wrap) {
-					if ( $wrap)
-						printf( '<div class="%s">', $wrap);
-
-				}
-
-			}
-
-			include $path;
-
-			if ( count( (array)$this->wrap)) {
-				foreach( (array)$this->wrap as $wrap) {
-					if ( $wrap)
-						printf( '</div><!-- wrap:div class="%s" -->', $wrap);
-
-				}
-
-			}
+			$this->_wrap();
+			$this->_load( $path);
+			$this->_unwrap();
 
 			return ( TRUE);
 
@@ -84,25 +108,9 @@ class view {
 
 			$path = sprintf( '%s/views/%s.php', __DIR__, $name );
 			if ( file_exists( $path)) {
-				if ( count( (array)$this->wrap)) {
-					foreach( (array)$this->wrap as $wrap) {
-						if ( $wrap)
-							printf( '<div class="%s">', $wrap);
-
-					}
-
-				}
-
-				include $path;
-
-				if ( count( (array)$this->wrap)) {
-					foreach( (array)$this->wrap as $wrap) {
-						if ( $wrap)
-							printf( '</div><!-- wrap:div class="%s" -->', $wrap);
-
-					}
-
-				}
+				$this->_wrap();
+				$this->_load( $path);
+				$this->_unwrap();
 
 				return ( TRUE);
 

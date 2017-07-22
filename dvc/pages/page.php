@@ -19,20 +19,23 @@ class page extends _page {
 	static public $MainContextMenu = TRUE;
 
 	protected static $vuejs = FALSE;
+	protected $topOfPage = array();
 
 	protected function _viewjs( $title = '' ) {
 		$this->meta = array();
 		$this->scripts = array();
 		$this->latescripts = array();
+		$this->css = array();
+
 		//~ $this->css = array();
 		$this->meta[] = '<meta name="page-constructor" content="_vuejs" />';
-
 		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/vue.js'));
 
 	}
 
 	protected function __default_construct( $title = '' ) {
 		$this->meta[] = '<meta name="page-constructor" content="_default" />';
+		$this->topOfPage[] = '	<div id="top-of-page"></div>';
 
 		if ( \config::$CSS_BASE == 'mini') {
 			$this->css = array();
@@ -104,15 +107,21 @@ OUTPUT;
 			return ( $this);
 
 		$ret = parent::pageHeader();
-		print '	<div id="top-of-page"></div>' . PHP_EOL;
+		foreach ( $this->topOfPage as $s)
+			print $s . PHP_EOL;
 
 		return ( $ret);
 
 	}
 
-	public function title( $navbar =  'navbar-default') {
-		if ( \config::$CSS_BASE == 'mini')
-			$navbar = 'navbar-mini';
+	public function title( $navbar =  '') {
+		if ( (string)$navbar == '') {
+			if ( \config::$CSS_BASE == 'mini')
+				$navbar = 'navbar-mini';
+			else
+				$navbar = 'navbar-default';
+
+		}
 
 		return ( parent::title( $navbar));
 
@@ -201,7 +210,9 @@ OUTPUT;
 	public function pagefooter() {
 		$this
 			->header()
-			->pageHeader();
+			->pageHeader()
+			->closeSection()
+			->closeContent();
 
 		$v = new \view;
 		if ( \config::$CSS_BASE == 'mini')

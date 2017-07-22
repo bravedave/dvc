@@ -28,7 +28,8 @@ class _page {
 		$closeTags = array(),
 		$closeContentTags = array(),
 		$footer = TRUE,
-		$bodyClass = FALSE;
+		$bodyClass = FALSE,
+		$debug = FALSE;
 
 	function __construct( $title = '' ) {
 		$this->data = (object)array( 'title' => '');
@@ -153,6 +154,8 @@ OUTPUT;
 		if ( !$this->boolHeader )
 			$this->header();
 
+		if ( $this->debug) \sys::logger( $navbar);
+
 		$v = new \view( $this->data);
 			$v->load( $navbar);
 
@@ -226,7 +229,9 @@ OUTPUT;
 	public function pagefooter() {
 		$this
 			->header()
-			->pageHeader();
+			->pageHeader()
+			->closeSection()
+			->closeContent();
 
 		$v = new \view;
 			$v->load( 'footer');

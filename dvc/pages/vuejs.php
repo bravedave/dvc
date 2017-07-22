@@ -29,7 +29,9 @@ class vuejs extends page {
 	public function pagefooter() {
 		$this
 			->header()
-			->pageHeader();
+			->pageHeader()
+			->closeSection()
+			->closeContent();
 
 	}
 
