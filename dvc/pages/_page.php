@@ -36,6 +36,8 @@ class _page {
 
 		$this->data->title = $this->title = ( $title == '' ? \config::$WEBNAME : $title );
 
+		$this->meta[] = '<meta http-equiv="Content-Type" content="text/html; charset=$this->charset" />';
+		$this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
 		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
 
 		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-2.2.4.min.js'));
@@ -93,8 +95,6 @@ class _page {
 		print <<<OUTPUT
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=$this->charset" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title>$this->title</title>
 
 OUTPUT;
