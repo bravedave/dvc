@@ -9,5 +9,7 @@
 */
 
 if ( typeof _brayworth_ == 'undefined')
-	var _brayworth_ = {};
-
+	var _brayworth_ = {
+		_brayworth_ : true,
+		templates : {},
+		};

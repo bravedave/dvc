@@ -8,18 +8,44 @@
 
 	Test:
 		_brayworth_.modal.call( $('<div title="fred">hey jude</div>'))
+		_brayworth_.modal.call( $('<div title="fred">hey jude</div>'), {
+			buttons : {
+				Ok : function(e) {
+					alert('great');
+					console.log( this);
+					$(this).modal( 'close');
+
+				}
+
+			}
+
+		})
+
+		_brayworth_.modal({ title : 'fred', text : 'hey jude'});
+		_brayworth_.modal({
+			title : 'fred',
+			text : 'hey jude',
+			buttons : {
+				Ok : function(e) {
+					alert('great');
+					console.log( this);
+					$(this).modal( 'close');
+
+				}
+
+			}
+
+		});
 
 */
-if ( typeof _brayworth_ == 'undefined')
-	var _brayworth_ = {};
 
 _brayworth_.modal = function( params ) {
 	if ( /string/.test( typeof params)) {
 		/*
 		 * This is a command - jquery-ui style */
-		var modal = $(this).data( 'modal');
+		var _m = $(this).data( 'modal');
 		if ( 'close' == params)
-			modal.close();
+			_m.close();
 
 		return;
 
@@ -38,27 +64,29 @@ _brayworth_.modal = function( params ) {
 
 	$.extend( options, params);
 
-	var modal = $('<div class="modal"></div>');
-	var wrapper = $('<div class="modal-content" role="dialog" aria-labelledby="modal-header-title"></div>').appendTo( modal);
-
-	var header = $('<div class="modal-header"><i class="fa fa-times close"></i></div>').appendTo( wrapper);
-	var headerH1 = $('<h1 id="modal-header-title"></h1>').appendTo( header);
-	var body = $('<div class="modal-body"></div>').append( this).appendTo( wrapper);
-
-	var footer = $('<div class="modal-footer text-right"></div>');
+	var t = _brayworth_.templates.modal();
 
 	if ( !!options.width)
-		wrapper.width( options.width );
-	//~ else
-		//~ wrapper.addClass('modal-content-600');
+		t.wrapper.width( options.width );
 
-	var _el = ( this instanceof jQuery ? this : $(this));
-	var s = _el.attr('title');
-		//~ console.log( this, _el, 'title',s);
+	var content = ( !!options.text ? options.text : '');
+	if ( typeof this != 'undefined') {
+		if ( !this._brayworth_ ) {
+			var content = ( this instanceof jQuery ? this : $(this));
+			if ( options.title == '' && ( typeof content.attr('title') == 'string'))
+				options.title = content.attr('title');
 
-	headerH1.html('').append( s);	// jquery-ui style
+			//~ console.log( this, _el, 'title', options.title);
 
-	if ( Object.keys(options.buttons).length > 0) {	// jquery-ui style
+		}
+
+	}
+
+	t.append( content);	/* this is the content */
+
+	t.H1.html('').append( options.title);	// jquery-ui style
+
+	if ( Object.keys( options.buttons).length > 0) {	// jquery-ui style
 		$.each( options.buttons, function( i, el) {
 			var j = {
 				text : i,
@@ -71,19 +99,16 @@ _brayworth_.modal = function( params ) {
 			else
 				$.extend( j, el) ;
 
-			var b = $('<button class="button button-raised"></button>')
-				b.html( j.text);
-				b.on( 'click', function( e) {
-					j.click.call( modal, e);
+			$('<button></button>')
+				.addClass(_brayworth_.templates.buttonCSS)
+				.html( j.text)
+				.on( 'click', function( e) {
+					j.click.call( t.modal, e);
 
 				})
-
-			footer.append( b);
-			//~ console.log( el);
+				.appendTo( t.footer());
 
 		})
-
-		wrapper.append( footer);
 
 	}
 
@@ -106,17 +131,19 @@ _brayworth_.modal = function( params ) {
 				var b = $('<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;"></i>').addClass( j.icon);
 
 			else
-				var b = $('<button class="button button-raised pull-right"></button>').html( j.text);
+				var b = $('<button class="pull-right"></button>')
+					.html( j.text)
+					.addClass(_brayworth_.templates.buttonCSS);
 
 			if ( !!j.title)
 				b.attr( 'title', j.title)
 
-			b.on( 'click', function( e) { j.click.call( modal, e); })	// wrap the call an call it against the modal
-			header.prepend( b);
+			b.on( 'click', function( e) { j.click.call( t.modal, e); })	// wrap the call an call it against the modal
+			t.header.prepend( b);
 
 		})
 
-		header.prepend( $('.close', header));
+		t.header.prepend( $('.close', t.header));
 
 	}
 
@@ -133,20 +160,20 @@ _brayworth_.modal = function( params ) {
 
 		})
 
-		wrapper.css({ 'width' : 'auto', 'margin' : 0 });
+		t.wrapper.css({ 'width' : 'auto', 'margin' : 0 });
 
 	}
 
 	var previousElement = document.activeElement;
 
-	modal.appendTo( 'body');
+	t.appendTo( 'body');
 
-	$(this).data('modal', _brayworth_.modalDialog.call(modal, {
+	t.modal.data('modal', _brayworth_.modalDialog.call( t.modal, {
 		onOpen : options.onOpen,
 		afterClose : function() {
-			modal.remove();
+			t.modal.remove();
 			if ( !!options.afterClose && /function/.test( typeof options.afterClose))
-				options.afterClose.call( modal);
+				options.afterClose.call( t.modal);
 
 			/* re-activate the body elements */
 			$.each( bodyElements, function( i, el){
@@ -160,5 +187,50 @@ _brayworth_.modal = function( params ) {
 		},
 
 	}));
+
+}
+
+_brayworth_.templates.buttonCSS = 'btn btn-raised';
+_brayworth_.templates.modal = function() {
+
+	var _ = ( function( $) {
+
+		$.fn.modal = _brayworth_.modal;	// to be sure, bootstrap has it's own modal
+
+		return {
+			modal : $('<div class="modal"></div>'),
+			wrapper : $('<div class="modal-content" role="dialog" aria-labelledby="modal-header-title"></div>'),
+			header : $('<div class="modal-header"><i class="fa fa-times close"></i></div>'),
+			H1 : $('<h1 id="modal-header-title"></h1>'),
+			body : $('<div class="modal-body"></div>'),
+			footer : function() {
+				if ( !this._footer) {
+					this._footer = $('<div class="modal-footer text-right"></div>');
+					this.wrapper.append( this._footer);
+
+				}
+
+				return ( this._footer);
+
+			},
+			append( el) {
+				this.body.append( el);
+
+			},
+			appendTo( el) {
+				this.modal.appendTo( el);
+
+			},
+
+		}
+
+	})( jQuery);
+
+	_.wrapper.appendTo( _.modal);
+	_.header.appendTo( _.wrapper);
+	_.H1.appendTo( _.header);
+	_.body.appendTo( _.wrapper);
+
+	return _;
 
 }

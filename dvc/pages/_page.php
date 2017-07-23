@@ -91,7 +91,6 @@ class _page {
 		print <<<OUTPUT
 
 <head>
-	<title>$this->title</title>
 
 OUTPUT;
 
@@ -101,6 +100,8 @@ OUTPUT;
 
 		foreach ( $this->meta as $meta )
 			print "\t" . $meta . PHP_EOL;
+
+		printf( '	<title>%s</title>%s', $this->title, PHP_EOL);
 
 		foreach ( $this->css as $css )
 			print "\t" . $css . PHP_EOL;
