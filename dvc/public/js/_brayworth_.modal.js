@@ -6,13 +6,14 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 
+	This is similar to bootstraps modal in construction,
+	but also has similarity to jquery-ui functionality
+
 	Test:
 		_brayworth_.modal.call( $('<div title="fred">hey jude</div>'))
 		_brayworth_.modal.call( $('<div title="fred">hey jude</div>'), {
 			buttons : {
-				Ok : function(e) {
-					alert('great');
-					console.log( this);
+				Close : function(e) {
 					$(this).modal( 'close');
 
 				}
@@ -26,9 +27,7 @@
 			title : 'fred',
 			text : 'hey jude',
 			buttons : {
-				Ok : function(e) {
-					alert('great');
-					console.log( this);
+				Close : function(e) {
 					$(this).modal( 'close');
 
 				}
@@ -100,7 +99,7 @@ _brayworth_.modal = function( params ) {
 				$.extend( j, el) ;
 
 			$('<button></button>')
-				.addClass(_brayworth_.templates.buttonCSS)
+				.addClass( _brayworth_.templates.buttonCSS)
 				.html( j.text)
 				.on( 'click', function( e) {
 					j.click.call( t.modal, e);
@@ -128,12 +127,12 @@ _brayworth_.modal = function( params ) {
 				$.extend( j, el);
 
 			if ( !!j.icon)
-				var b = $('<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;"></i>').addClass( j.icon);
+				var b = $( '<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;"></i>').addClass( j.icon);
 
 			else
 				var b = $('<button class="pull-right"></button>')
 					.html( j.text)
-					.addClass(_brayworth_.templates.buttonCSS);
+					.addClass( _brayworth_.templates.buttonCSS);
 
 			if ( !!j.title)
 				b.attr( 'title', j.title)
@@ -168,7 +167,7 @@ _brayworth_.modal = function( params ) {
 
 	t.appendTo( 'body');
 
-	t.modal.data('modal', _brayworth_.modalDialog.call( t.modal, {
+	t.modal.data( 'modal', _brayworth_.modalDialog.call( t.modal, {
 		onOpen : options.onOpen,
 		afterClose : function() {
 			t.modal.remove();
@@ -190,7 +189,7 @@ _brayworth_.modal = function( params ) {
 
 }
 
-_brayworth_.templates.buttonCSS = 'btn btn-raised';
+_brayworth_.templates.buttonCSS = 'btn btn-default';
 _brayworth_.templates.modal = function() {
 
 	var _ = ( function( $) {
