@@ -164,30 +164,30 @@ abstract class _controller {
 		$commonPath = strings::getCommonPath( array( __DIR__, $this->rootPath));
 
 		if ( !file_exists( $view)) {
-			$altView = sprintf( '%s/views/%s/%s.php', __DIR__, $controller, $viewName );	// is there a default viewer
-			if ( $this->debug) \sys::logger( '_controller->getView :: ' . $commonPath);
-			if ( $this->debug) \sys::logger( '_controller->getView :: check system view : ' . preg_replace( '@^' . $commonPath . '@', '', $altView));
+			$altView = sprintf( '%s/views/%s/%s.md', $this->rootPath, $controller, $viewName );	// is there markdown
+			if ( $this->debug) \sys::logger( '_controller->getView :: check for markdown : ' . preg_replace( '@^' . $commonPath . '@', '', $altView));
 			if ( file_exists( $altView)) {
 				$view = $altView;
 
 			}
 			else {
-				$altView = sprintf( '%s/app/views/%s.php', $this->rootPath, $viewName );
-				if ( $this->debug) \sys::logger( '_controller->getView :: check local view : ' . preg_replace( '@^' . $commonPath . '@', '', $altView));
+				$altView = sprintf( '%s/views/%s/%s.php', __DIR__, $controller, $viewName );	// is there a default viewer
+				if ( $this->debug) \sys::logger( '_controller->getView :: ' . $commonPath);
+				if ( $this->debug) \sys::logger( '_controller->getView :: check system view : ' . preg_replace( '@^' . $commonPath . '@', '', $altView));
 				if ( file_exists( $altView)) {
 					$view = $altView;
 
 				}
 				else {
-					$altView = sprintf( '%s/views/%s.php', __DIR__, $viewName );
-					if ( $this->debug) \sys::logger( '_controller->getView :: check local default view : ' . preg_replace( '@^' . $commonPath . '@', '', $altView));
+					$altView = sprintf( '%s/app/views/%s.php', $this->rootPath, $viewName );
+					if ( $this->debug) \sys::logger( '_controller->getView :: check local view : ' . preg_replace( '@^' . $commonPath . '@', '', $altView));
 					if ( file_exists( $altView)) {
 						$view = $altView;
 
 					}
 					else {
-						$altView = sprintf( '%s/views/%s/%s.md', $this->rootPath, $controller, $viewName );
-						if ( $this->debug) \sys::logger( '_controller->getView :: check for markdown : ' . preg_replace( '@^' . $commonPath . '@', '', $altView));
+						$altView = sprintf( '%s/views/%s.php', __DIR__, $viewName );
+						if ( $this->debug) \sys::logger( '_controller->getView :: check local default view : ' . preg_replace( '@^' . $commonPath . '@', '', $altView));
 						if ( file_exists( $altView)) {
 							$view = $altView;
 
