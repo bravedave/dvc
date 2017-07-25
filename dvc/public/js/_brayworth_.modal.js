@@ -68,7 +68,7 @@ _brayworth_.modal = function( params ) {
 	if ( !!options.width)
 		t.wrapper.width( options.width );
 	else
-		t.wrapper.addClass( _brayworth_.templates.modal.defaultClass);
+		t.wrapper.addClass( _brayworth_.templates.modalDefaultClass);
 
 	var content = ( !!options.text ? options.text : '');
 	if ( typeof this != 'undefined') {
@@ -191,6 +191,8 @@ _brayworth_.modal = function( params ) {
 
 }
 
+_brayworth_.templates.buttonCSS = 'btn btn-default';
+_brayworth_.templates.modalDefaultClass = '';
 _brayworth_.templates.modal = function() {
 
 	var _ = ( function( $) {
@@ -233,5 +235,3 @@ _brayworth_.templates.modal = function() {
 	return _;
 
 }
-_brayworth_.templates.buttonCSS = 'btn btn-default';
-_brayworth_.templates.modal.defaultClass = '';
