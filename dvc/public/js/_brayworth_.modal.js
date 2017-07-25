@@ -228,6 +228,7 @@ _brayworth_.templates.modal = function() {
 
 	})( jQuery);
 
+	_.wrapper.appendTo( _.modal);
 	_.header.appendTo( _.wrapper);
 	_.H1.appendTo( _.header);
 	_.body.appendTo( _.wrapper);
