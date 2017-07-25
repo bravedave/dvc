@@ -191,8 +191,6 @@ _brayworth_.modal = function( params ) {
 
 }
 
-_brayworth_.templates.buttonCSS = 'btn btn-default';
-_brayworth_.templates.modal.defaultClass = '';
 _brayworth_.templates.modal = function() {
 
 	var _ = ( function( $) {
@@ -235,3 +233,5 @@ _brayworth_.templates.modal = function() {
 	return _;
 
 }
+_brayworth_.templates.buttonCSS = 'btn btn-default';
+_brayworth_.templates.modal.defaultClass = '';
