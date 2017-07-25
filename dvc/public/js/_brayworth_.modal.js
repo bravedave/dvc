@@ -67,6 +67,8 @@ _brayworth_.modal = function( params ) {
 
 	if ( !!options.width)
 		t.wrapper.width( options.width );
+	else
+		t.wrapper.addClass( _brayworth_.templates.modal.defaultClass);
 
 	var content = ( !!options.text ? options.text : '');
 	if ( typeof this != 'undefined') {
@@ -190,6 +192,7 @@ _brayworth_.modal = function( params ) {
 }
 
 _brayworth_.templates.buttonCSS = 'btn btn-default';
+_brayworth_.templates.modal.defaultClass = '';
 _brayworth_.templates.modal = function() {
 
 	var _ = ( function( $) {
@@ -225,7 +228,6 @@ _brayworth_.templates.modal = function() {
 
 	})( jQuery);
 
-	_.wrapper.appendTo( _.modal);
 	_.header.appendTo( _.wrapper);
 	_.H1.appendTo( _.header);
 	_.body.appendTo( _.wrapper);
