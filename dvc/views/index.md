@@ -1,7 +1,5 @@
 # DVC - Data View Controller
 
-* Note: Alpha - Unstable
-
 * Can be configured to work with any client side framework
   * jquery-ui
   * bootstrap
