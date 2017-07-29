@@ -11,24 +11,20 @@
 class docs extends Controller {
 	public $RequireValidation = FALSE;
 
-	public function index( $view = NULL) {
-		if ( $view) {
-			$p = new Page();
-				$p
-					->header()
-					->title();
+	public function index( $view = 'index') {
+		if ( !$view)
+			$view = 'index';
 
-				$p->secondary();
-					$this->load('contents');
+		$p = new Page();
+			$p
+				->header()
+				->title();
 
-				$p->primary();
-					$this->load( (string)$view);
+			$p->secondary();
+				$this->load('contents');
 
-		}
-		else {
-			$this->load('not-found');
-
-		}
+			$p->primary();
+				$this->load( (string)$view);
 
 	}
 
