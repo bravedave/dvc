@@ -83,8 +83,6 @@ abstract class _config {
 	static $SITEMAPS = FALSE;
 
 	static $DEFAULT_CONTROLLER = 'home';
-	static $CREATE_CONTROLLER_SYMLINKS = FALSE;
-	static $REMOVE_CONTROLLER_SYMLINKS = FALSE;
 
 	static $CONTENT_SECURITY_ENABLED = TRUE;
 
