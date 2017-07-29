@@ -8,24 +8,16 @@
 		http://creativecommons.org/licenses/by/4.0/
 	*/
 
-class x extends Controller {
+class hello extends Controller {
 	function index() {
-		$this->hello();
-
-	}
-
-	function hello() {
 		$p = new Page();
-			$p->header();
-			$p->title();
-
-			//~ $p->content();
-			//~ print 'content';
+			$p
+				->header()
+				->title();
 
 			$p->primary();
-				//~ print 'primary';
 				print 'hello<br />';
-				print dvc\html::icon( 'John Doe');
+				print dvc\html::icon( 'John Citizen');
 
 			$p->secondary();
 				print 'secondary';

@@ -8,15 +8,11 @@
 		http://creativecommons.org/licenses/by/4.0/
 	*/
 
-class home extends Controller {
+class docs extends Controller {
 	public $RequireValidation = FALSE;
 
-	public function index( $data = '' ) {
-		//~ if ( !config::checkDBconfigured())
-			//~ Response::redirect( url::$URL . 'install/db' );
-
-		if ( $data == '') {
-			// just points into the documentation
+	public function index( $view = NULL) {
+		if ( $view) {
 			$p = new Page();
 				$p
 					->header()
@@ -26,8 +22,7 @@ class home extends Controller {
 					$this->load('contents');
 
 				$p->primary();
-					$this->load( 'index');
-
+					$this->load( (string)$view);
 
 		}
 		else {

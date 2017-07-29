@@ -1,5 +1,7 @@
 # DVC - Data View Controller
 
+* Note: Alpha - Unstable
+
 * Can be configured to work with any client side framework
   * jquery-ui
   * bootstrap
@@ -13,8 +15,9 @@
   1. In that Folder (i.e. cd <folder>), where the composer.json is
   1. composer install
 
-*To do all this, PHP would be installed and checked by composer, under Windows you can use the run.cmd
- to launch php with the PHP built in server*
+*To do all this, PHP would be installed and checked by composer,
+  under Windows you can use the run.cmd
+  to launch php with the PHP built in server*
 
 ## Runs Out of The Box
   * The default controller is called home, and it will be called outof the box, so this runs

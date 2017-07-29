@@ -160,138 +160,92 @@ abstract class _controller {
 		if ( is_null( $controller ))
 			$controller = $this->name;
 
-		$view = sprintf( '%s/views/%s/%s.php', $this->rootPath, $controller, $viewName );
+		/*
+		 	first look for a php view, then a markdown
+
+		 	first search the application folders
+				[application]/views/[controller]
+				[application]/app/views/	*/
+
+		$view = sprintf( '%s/views/%s/%s.php', $this->rootPath, $controller, $viewName );		// php
+		if ( file_exists( $view))
+			return ( $view);
+
+		/*-- ---- --*/
+
 		$commonPath = strings::getCommonPath( array( __DIR__, $this->rootPath));
 
-		if ( !file_exists( $view)) {
-			$altView = sprintf( '%s/views/%s/%s.md', $this->rootPath, $controller, $viewName );	// is there markdown
-			if ( $this->debug) \sys::logger( '_controller->getView :: check for markdown : ' . preg_replace( '@^' . $commonPath . '@', '', $altView));
-			if ( file_exists( $altView)) {
-				$view = $altView;
+		$altView = sprintf( '%s/views/%s/%s.md', $this->rootPath, $controller, $viewName);	// markdown
+		if ( $this->debug) \sys::logger( '_controller->getView :: check for markdown : ' .
+		 	preg_replace( '@^' . $commonPath . '@', '', $altView));
 
-			}
-			else {
-				$altView = sprintf( '%s/views/%s/%s.php', __DIR__, $controller, $viewName );	// is there a default viewer
-				if ( $this->debug) \sys::logger( '_controller->getView :: ' . $commonPath);
-				if ( $this->debug) \sys::logger( '_controller->getView :: check system view : ' . preg_replace( '@^' . $commonPath . '@', '', $altView));
-				if ( file_exists( $altView)) {
-					$view = $altView;
+		if ( file_exists( $altView))
+			return ( $altView);
 
-				}
-				else {
-					$altView = sprintf( '%s/app/views/%s.php', $this->rootPath, $viewName );
-					if ( $this->debug) \sys::logger( '_controller->getView :: check local view : ' . preg_replace( '@^' . $commonPath . '@', '', $altView));
-					if ( file_exists( $altView)) {
-						$view = $altView;
+		/*-- -------- --*/
 
-					}
-					else {
-						$altView = sprintf( '%s/views/%s.php', __DIR__, $viewName );
-						if ( $this->debug) \sys::logger( '_controller->getView :: check local default view : ' . preg_replace( '@^' . $commonPath . '@', '', $altView));
-						if ( file_exists( $altView)) {
-							$view = $altView;
+		/* there is nothing in the [application]/views/[controller]/ folder
+			=> look in [app]/views/ folder */
 
-						}
-						else {
-							$altView = sprintf( '%s/app/views/%s.md', $this->rootPath, $viewName );
-							if ( $this->debug) \sys::logger( '_controller->getView :: check for local markdown : ' . preg_replace( '@^' . $commonPath . '@', '', $altView));
-							if ( file_exists( $altView)) {
-								$view = $altView;
+		$altView = sprintf( '%s/app/views/%s.php', $this->rootPath, $viewName );	// php
+		if ( $this->debug) \sys::logger( '_controller->getView :: check local view : ' .
+		 	preg_replace( '@^' . $commonPath . '@', '', $altView));
 
-							}
-							else {
-								if ( $this->debug) \sys::logger( '_controller->getView :: no view found');
+		if ( file_exists( $altView))
+			return ( $altView);
 
-							}
+		/*-- ---- --*/
 
-						}
+		$altView = sprintf( '%s/app/views/%s.md', $this->rootPath, $viewName );	// markdown
+		if ( $this->debug) \sys::logger( '_controller->getView :: check for local markdown : ' .
+		 	preg_replace( '@^' . $commonPath . '@', '', $altView));
 
-					}
+		if ( file_exists( $altView))
+			return ( $altView);
 
-				}
+		/* there is nothing in then [application]
 
-			}
+			first look for a php view, then a markdown
 
-		}
+			look to tye [system] folders
+				[system]/views/[controller]
+				[system]/app/views/	*/
 
-		if ( config::$CREATE_CONTROLLER_SYMLINKS) {
-			/*****************************************
-			 * This is a pure programming thing
-			 *	- if the view folder exists, and there is not a link to the controller, create one
-			 *
-			 *	just makes it easier to open the controller when you are programming
-			 *
-			 *	to implement this the views/folders need to be writable to the server
-			 *
-			 **/
-			if ( !( preg_match( '@$win@i', PHP_OS ))) {	// not on windows
-				$_controller = sprintf( '%s/views/%s/_%s.php', $this->rootPath, $this->name, $this->name );
-				if ( !file_exists( $_controller)) {
-					$viewDir = sprintf( '%s/views/%s/', $this->rootPath, $this->name );
-					if ( file_exists($viewDir) && is_writable( $viewDir)) {
-						$_self = sprintf( '%s/controller/%s.php', $this->rootPath, $this->name );
-						$src = explode( '/', $_self );
-						$tgt = explode( '/', $_controller );
-						while ( count( $src) && count( $tgt)) {
-							if ( $src[0] != $tgt[0])
-								break;
+		/*-- ---- [system]/views/[controller] folder ---- --*/
+		$altView = sprintf( '%s/views/%s/%s.php', __DIR__, $controller, $viewName );	// php
+		if ( $this->debug) \sys::logger( '_controller->getView :: check system view : ' .
+		 	preg_replace( '@^' . $commonPath . '@', '', $altView));
 
-							array_shift( $src);
-							array_shift( $tgt);
+		if ( file_exists( $altView))
+			return ( $altView);
 
-						}
+		$altView = sprintf( '%s/views/%s/%s.md', __DIR__, $controller, $viewName );	// md
+		if ( $this->debug) \sys::logger( '_controller->getView :: check system view : ' .
+		 	preg_replace( '@^' . $commonPath . '@', '', $altView));
 
-						if ( count( $src)) {
-							array_unshift( $src, '..' );
-							array_unshift( $src, '..' );
-							$_self = implode( '/', $src );
+		if ( file_exists( $altView))
+			return ( $altView);
 
-							sys::logger( sprintf( 'controller link does not exist - create : %s => %s', $_controller, $_self));
-							symlink( $_self, $_controller);
+		/*-- ---- [system]/views/ folder ---- --*/
+		$altView = sprintf( '%s/views/%s.php', __DIR__, $viewName );	// php
+		if ( $this->debug) \sys::logger( '_controller->getView :: check local default view : ' .
+		 	preg_replace( '@^' . $commonPath . '@', '', $altView));
 
-						}
+		if ( file_exists( $altView))
+			return ( $altView);
 
-					}
-					else {
-						if ( file_exists($viewDir)) {
-							sys::logger( sprintf( 'controller link does not exist but %s is not writable', $viewDir));
+		$altView = sprintf( '%s/views/%s.md', __DIR__, $viewName );	// md
+		if ( $this->debug) \sys::logger( '_controller->getView :: check local default view : ' .
+		 	preg_replace( '@^' . $commonPath . '@', '', $altView));
 
-						}
+		if ( file_exists( $altView))
+			return ( $altView);
 
-					}
+		/*-- ---- --*/
 
-				}
+		if ( $this->debug) \sys::logger( '_controller->getView :: no view found');
 
-			}
-
-		}
-		elseif ( config::$REMOVE_CONTROLLER_SYMLINKS) {
-			/*****************************************
-			 * This is a pure programming thing
-			 *	- if the view folder exists, and there is not a link to the controller, create one
-			 *
-			 *	just makes it easier to open the controller when you are programming
-			 *
-			 *	to implement this the views/folders need to be writable to the server
-			 *
-			 **/
-			if ( !( preg_match( '@$win@i', PHP_OS ))) {	// not on windows
-				$_controller = sprintf( '%s/views/%s/_%s.php', $this->rootPath, $this->name, $this->name );
-				if ( file_exists( $_controller) && is_link( $_controller)) {
-					$viewDir = sprintf( '%s/views/%s/', $this->rootPath, $this->name );
-					if ( file_exists($viewDir) && is_writable( $viewDir)) {
-						unlink( $_controller);
-						sys::logger( 'removed controller link -  ' . $_controller);
-
-					}
-
-				}
-
-			}
-
-		}
-
-		return $view;
+		return __DIR__ . '/views/not-found.md';
 
 	}
 

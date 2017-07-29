@@ -11,5 +11,5 @@
 NameSpace dvc;
 
 abstract class config extends _config {
-	static $WEBNAME = 'My Demo System :)';
+	static $WEBNAME = 'A PSR style PHP Framework';
 }
