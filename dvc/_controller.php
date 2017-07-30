@@ -167,41 +167,59 @@ abstract class _controller {
 				[application]/views/[controller]
 				[application]/app/views/	*/
 
-		$view = sprintf( '%s/views/%s/%s.php', $this->rootPath, $controller, $viewName );		// php
-		if ( file_exists( $view))
-			return ( $view);
+		if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
+			$view = sprintf( '%s/views/%s/%s', $this->rootPath, $controller, $viewName );
+			if ( file_exists( $view))
+				return ( $view);
 
+		}
+		else {
+			$view = sprintf( '%s/views/%s/%s.php', $this->rootPath, $controller, $viewName );		// php
+			if ( file_exists( $view))
+				return ( $view);
+
+			/*-- ---- --*/
+
+			$altView = sprintf( '%s/views/%s/%s.md', $this->rootPath, $controller, $viewName);	// markdown
+
+			if ( file_exists( $altView))
+				return ( $altView);
+
+		}
 		/*-- ---- --*/
 
 		$commonPath = strings::getCommonPath( array( __DIR__, $this->rootPath));
 
-		$altView = sprintf( '%s/views/%s/%s.md', $this->rootPath, $controller, $viewName);	// markdown
-		if ( $this->debug) \sys::logger( '_controller->getView :: check for markdown : ' .
-		 	preg_replace( '@^' . $commonPath . '@', '', $altView));
-
-		if ( file_exists( $altView))
-			return ( $altView);
-
-		/*-- -------- --*/
-
 		/* there is nothing in the [application]/views/[controller]/ folder
 			=> look in [app]/views/ folder */
 
-		$altView = sprintf( '%s/app/views/%s.php', $this->rootPath, $viewName );	// php
-		if ( $this->debug) \sys::logger( '_controller->getView :: check local view : ' .
-		 	preg_replace( '@^' . $commonPath . '@', '', $altView));
+		if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
+			$altView = sprintf( '%s/app/views/%s', $this->rootPath, $viewName );
+			if ( $this->debug) \sys::logger( '_controller->getView :: check local view : ' .
+				preg_replace( '@^' . $commonPath . '@', '', $altView));
 
-		if ( file_exists( $altView))
-			return ( $altView);
+			if ( file_exists( $altView))
+				return ( $altView);
 
-		/*-- ---- --*/
+		}
+		else {
+			$altView = sprintf( '%s/app/views/%s.php', $this->rootPath, $viewName );	// php
+			if ( $this->debug) \sys::logger( '_controller->getView :: check local view : ' .
+				preg_replace( '@^' . $commonPath . '@', '', $altView));
 
-		$altView = sprintf( '%s/app/views/%s.md', $this->rootPath, $viewName );	// markdown
-		if ( $this->debug) \sys::logger( '_controller->getView :: check for local markdown : ' .
-		 	preg_replace( '@^' . $commonPath . '@', '', $altView));
+			if ( file_exists( $altView))
+				return ( $altView);
 
-		if ( file_exists( $altView))
-			return ( $altView);
+			/*-- ---- --*/
+
+			$altView = sprintf( '%s/app/views/%s.md', $this->rootPath, $viewName );	// markdown
+			if ( $this->debug) \sys::logger( '_controller->getView :: check for local markdown : ' .
+				preg_replace( '@^' . $commonPath . '@', '', $altView));
+
+			if ( file_exists( $altView))
+				return ( $altView);
+
+		}
 
 		/* there is nothing in then [application]
 
@@ -212,35 +230,58 @@ abstract class _controller {
 				[system]/app/views/	*/
 
 		/*-- ---- [system]/views/[controller] folder ---- --*/
-		$altView = sprintf( '%s/views/%s/%s.php', __DIR__, $controller, $viewName );	// php
-		if ( $this->debug) \sys::logger( '_controller->getView :: check system view : ' .
-		 	preg_replace( '@^' . $commonPath . '@', '', $altView));
+		if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
+			$altView = sprintf( '%s/views/%s/%s', __DIR__, $controller, $viewName );
+			if ( $this->debug) \sys::logger( '_controller->getView :: check system view : ' .
+				preg_replace( '@^' . $commonPath . '@', '', $altView));
 
-		if ( file_exists( $altView))
-			return ( $altView);
+			if ( file_exists( $altView))
+				return ( $altView);
 
-		$altView = sprintf( '%s/views/%s/%s.md', __DIR__, $controller, $viewName );	// md
-		if ( $this->debug) \sys::logger( '_controller->getView :: check system view : ' .
-		 	preg_replace( '@^' . $commonPath . '@', '', $altView));
+		}
+		else {
+			$altView = sprintf( '%s/views/%s/%s.php', __DIR__, $controller, $viewName );	// php
+			if ( $this->debug) \sys::logger( '_controller->getView :: check system view : ' .
+				preg_replace( '@^' . $commonPath . '@', '', $altView));
 
-		if ( file_exists( $altView))
-			return ( $altView);
+			if ( file_exists( $altView))
+				return ( $altView);
+
+			$altView = sprintf( '%s/views/%s/%s.md', __DIR__, $controller, $viewName );	// md
+			if ( $this->debug) \sys::logger( '_controller->getView :: check system view : ' .
+				preg_replace( '@^' . $commonPath . '@', '', $altView));
+
+			if ( file_exists( $altView))
+				return ( $altView);
+
+		}
 
 		/*-- ---- [system]/views/ folder ---- --*/
-		$altView = sprintf( '%s/views/%s.php', __DIR__, $viewName );	// php
-		if ( $this->debug) \sys::logger( '_controller->getView :: check local default view : ' .
-		 	preg_replace( '@^' . $commonPath . '@', '', $altView));
+		if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
+			$altView = sprintf( '%s/views/%s', __DIR__, $viewName );	// php
+			if ( $this->debug) \sys::logger( '_controller->getView :: check local default view : ' .
+				preg_replace( '@^' . $commonPath . '@', '', $altView));
 
-		if ( file_exists( $altView))
-			return ( $altView);
+			if ( file_exists( $altView))
+				return ( $altView);
 
-		$altView = sprintf( '%s/views/%s.md', __DIR__, $viewName );	// md
-		if ( $this->debug) \sys::logger( '_controller->getView :: check local default view : ' .
-		 	preg_replace( '@^' . $commonPath . '@', '', $altView));
+		}
+		else {
+			$altView = sprintf( '%s/views/%s.php', __DIR__, $viewName );	// php
+			if ( $this->debug) \sys::logger( '_controller->getView :: check local default view : ' .
+				preg_replace( '@^' . $commonPath . '@', '', $altView));
 
-		if ( file_exists( $altView))
-			return ( $altView);
+			if ( file_exists( $altView))
+				return ( $altView);
 
+			$altView = sprintf( '%s/views/%s.md', __DIR__, $viewName );	// md
+			if ( $this->debug) \sys::logger( '_controller->getView :: check local default view : ' .
+				preg_replace( '@^' . $commonPath . '@', '', $altView));
+
+			if ( file_exists( $altView))
+				return ( $altView);
+
+		}
 		/*-- ---- --*/
 
 		if ( $this->debug) \sys::logger( '_controller->getView :: no view found');

@@ -19,7 +19,7 @@
 
 * <a href="/hello" _target="blank">hello - sample controller</a>
   * The sample controller constructs a page using bootstrap
-    * More about the pages class [here](pages)
+    * More about the pages class [here](pages.md)
 <pre><code>
     &lt;?php
         class hello extends Controller {
