@@ -41,13 +41,15 @@ Header unset Cache-Control
 	ServerName dvc.your.dom
 
   # expose the public root, note we don't usually store anything here
-  DocumentRoot [path to example]/www/
+  DocumentRoot /opt/data/core/[project]/www/
 
 	AccessFileName .htaccess
-	<Directory [path to example parent]>
+
+	# this path needs to include the vendor files & the project files
+	<Directory /opt/data/core/>
 		AllowOverride All
 		Require all granted
-		php_admin_value open_basedir [path to example parent]:/tmp/
+		php_admin_value open_basedir /opt/data/core/:/tmp/
 
 	</Directory>
 
