@@ -21,7 +21,7 @@ spl_autoload_register(function ($class) {
 
 });
 
-$autoload = __DIR__ . '/../vendor/bravedave/dvc/autoloader.php';
+$autoload = __DIR__ . '/../../vendor/bravedave/dvc/autoloader.php';
 $autoloadLocal = __DIR__ . '/../../autoloader-local.php';
 //~ print __DIR__ . '<br />';
 //~ print realpath( __DIR__) . '<br />';
