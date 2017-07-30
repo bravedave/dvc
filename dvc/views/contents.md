@@ -1,11 +1,11 @@
 
 ## [Docs](/docs/index.md)
 
-- [installing](installing.md)
-  - [apache](apache.md)
-- [first app](firstapp.md)
+- [installing](/docs/installing.md)
+  - [apache](/docs/apache.md)
+- [first app](/docs/firstapp.md)
 
-### [Namespaces](namespaces.md)
+### [Namespaces](/docs/namespaces.md)
 
 ### Components
-- [Pages](pages.md)
+- [Pages](/docs/pages.md)
