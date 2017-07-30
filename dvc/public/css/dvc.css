@@ -245,8 +245,9 @@ input[type="text"].datepicker { width: 7em; }
 		background: none;
 		position: relative;
 	}
+	div[data-role="content-primary"] { padding-bottom: 35px; }
 	.content-primary {
-		padding: 5px 1% 10px 5px;
+		padding: 5px 1% 35px 5px;
 		position: relative;
 	}
 
@@ -264,6 +265,7 @@ input[type="text"].datepicker { width: 7em; }
 		position: relative;
 
 	}
+	div[data-role="content-primary"] { padding-bottom: 20px; }
 	.content-primary {
 		display: inline-block;
 
@@ -276,9 +278,10 @@ input[type="text"].datepicker { width: 7em; }
 		width: 30%;
 	}
 
+	div[data-role="content-primary"] { padding-bottom: 20px; }
 	.content-primary {
 		width: 66%;
-		padding: 5px;
+		padding: 5px 5px 20px;
 	}
 
 }
@@ -288,9 +291,10 @@ input[type="text"].datepicker { width: 7em; }
 		width: 25%;
 		padding-right:4%;
 	}
+	div[data-role="content-primary"] { padding-bottom: 35px; }
 	.content-primary {
 		width: 70%;
-		padding: 0 2% 0 1%;
+		padding: 0 2% 35px 1%;
 	}
 }
 
@@ -299,9 +303,10 @@ input[type="text"].datepicker { width: 7em; }
 		width: 24%;
 		padding-right:4%;
 	}
+	div[data-role="content-primary"] { padding-bottom: 35px; }
 	.content-primary {
 		width: 65%;
-		padding: 0 2% 0 1%;
+		padding: 0 2% 35px 1%;
 	}
 }
 
@@ -534,3 +539,5 @@ blockquote cite:before {
 .gravatar.gravatar-16 { width: 16px; }
 
 .wait { cursor: wait; }
+
+pre { padding: 10px 20px }

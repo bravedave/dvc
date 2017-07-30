@@ -33,7 +33,7 @@ class bootstrap extends page {
 	}
 
 	public function secondary( $class = NULL) {
-		return ( parent::primary( 'col-sm-4 col-md-3'));	// chain
+		return ( parent::secondary( 'col-sm-4 col-md-3'));	// chain
 
 	}
 

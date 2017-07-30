@@ -10,14 +10,13 @@
 
 class hello extends Controller {
 	function index() {
-		$p = new Page();
+		$p = new dvc\pages\bootstrap;
 			$p
 				->header()
 				->title();
 
 			$p->primary();
 				print 'hello<br />';
-				print dvc\html::icon( 'John Citizen');
 
 			$p->secondary();
 				print 'secondary';

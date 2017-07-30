@@ -17,7 +17,7 @@ class home extends Controller {
 
 		if ( $data == '') {
 			// just points into the documentation
-			$p = new Page();
+			$p = new dvc\pages\bootstrap;
 				$p
 					->header()
 					->title();

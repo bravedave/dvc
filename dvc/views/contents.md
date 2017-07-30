@@ -1,7 +1,11 @@
 
-## Contents
+## [Docs](/docs/index)
 
-- [docs](/docs/index)
-- [installing](/docs/installing)
+- [installing](installing)
   - [apache](/docs/apache)
 - [first app](/docs/firstapp)
+
+### [Namespaces](/docs/namespaces)
+
+### Components
+- [Pages](/docs/pages)
