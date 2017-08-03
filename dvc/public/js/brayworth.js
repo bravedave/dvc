@@ -110,13 +110,4 @@ $(document).ready( function() {
 	$.fn.swipeOn = _brayworth_.swipeOn;
 	$.fn.swipeOff = _brayworth_.swipeOff;
 
-	String.prototype.isEmail = function() {
-		if ( this.length < 3)
-			return ( false);
-
-		var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-		return emailReg.test(this);
-
-	}
-
 })( jQuery);
