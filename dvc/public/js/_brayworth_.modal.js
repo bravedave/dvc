@@ -189,6 +189,8 @@ _brayworth_.modal = function( params ) {
 
 	}));
 
+	return ( t.modal.data( 'modal'));	// the modal
+
 }
 
 _brayworth_.templates.buttonCSS = 'btn btn-default';
