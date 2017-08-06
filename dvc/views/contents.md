@@ -1,12 +1,15 @@
 
 ## [Docs](/docs/index.md)
 
-- [installing](/docs/installing.md)
-  - [apache](/docs/apache.md)
-  - [vps](/docs/vps.md)
-- [first app](/docs/firstapp.md)
+### [Getting Started](/docs/getting-started)
+- [installing](/docs/installing)
+  - [apache](/docs/apache)
+  - [vps](/docs/vps)
+- [first app](/docs/firstapp)
 
-### [Namespaces](/docs/namespaces.md)
+### [Namespaces](/docs/namespaces)
+### [Database](/docs/database)
+- [Connection](/docs/database-connections)
 
 ### Components
-- [Pages](/docs/pages.md)
+- [Pages](/docs/pages)
