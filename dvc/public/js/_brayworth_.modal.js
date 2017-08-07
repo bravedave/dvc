@@ -65,6 +65,8 @@ _brayworth_.modal = function( params ) {
 	$.extend( options, params);
 
 	var t = _brayworth_.templates.modal();
+	if ( options.className != '')
+		t.modal.addClass( options.className);
 
 	if ( !!options.width)
 		t.wrapper.width( options.width );
