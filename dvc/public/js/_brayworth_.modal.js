@@ -210,7 +210,7 @@ _brayworth_.templates.modal = function() {
 			modal : $('<div class="modal"></div>'),
 			wrapper : $('<div class="modal-content" role="dialog" aria-labelledby="modal-header-title"></div>'),
 			header : $('<div class="modal-header"></div>'),
-			close : $('<i class="fa fa-times close"></i>'),
+			close : $('<i class="fa close"></i>'),
 			H1 : $('<h1 id="modal-header-title"></h1>'),
 			body : $('<div class="modal-body"></div>'),
 			footer : function() {
