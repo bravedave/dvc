@@ -13,9 +13,9 @@ if ( typeof _brayworth_ == 'undefined')
 	var _brayworth_ = {};
 
 $.fn.modalDialog =
-_brayworth_.modalDialog = function ( _options) {
-	if ( /string/.test( typeof( _options))) {
-		if ( _options == 'close') {
+_brayworth_.modalDialog = function ( params) {
+	if ( /string/.test( typeof( params))) {
+		if ( params == 'close') {
 			var modal = this.data( 'modal');
 			modal.close();
 			return (modal);	// chain
@@ -26,13 +26,14 @@ _brayworth_.modalDialog = function ( _options) {
 
 	var modal = this;				// the modal
 	var options = {
+		className : '',
 		beforeClose : function() {},
 		afterClose : function() {},
 		onEnter : function() {},
 		onOpen : function() {},
 	};
 
-	$.extend( options, _options);
+	$.extend( options, params);
 
 	var close = $( '.close', this);	// Get the <span> element that closes the modal
 
@@ -50,6 +51,9 @@ _brayworth_.modalDialog = function ( _options) {
 
 	if ( _brayworth_.browser.isMobileDevice)
 		modal.addClass( 'modal-mobile');
+	if ( options.className != '')
+		modal.addClass( options.className);
+
 	modal.css( 'display', 'block').data('modal', modal);
 
 	var _AF = $('[autofocus]',modal);

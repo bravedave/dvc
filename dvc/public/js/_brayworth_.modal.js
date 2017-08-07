@@ -54,6 +54,7 @@ _brayworth_.modal = function( params ) {
 		title : '',
 		width : false,
 		fullScreen : _brayworth_.browser.isIPhone,
+		className :  '',
 		autoOpen : true,
 		buttons : {},
 		headButtons : {},
