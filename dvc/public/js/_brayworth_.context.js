@@ -32,10 +32,15 @@ _brayworth_.hideContexts = function() {
 _brayworth_.context = function() {
 	return ({
 		root : $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
+		items : [],
+		length : 0,
 		detachOnHide : true,
 
 		create : function( item) {
-			return ( $( '<li></li>').append( item).appendTo( this.root));
+			var el = $( '<li></li>').append( item).appendTo( this.root);
+			this.items.push( el);
+			this.length = this.items.length;
+			return ( el);
 
 		},
 
