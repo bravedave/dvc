@@ -58,6 +58,7 @@ _brayworth_.modal = function( params ) {
 		autoOpen : true,
 		buttons : {},
 		headButtons : {},
+		closeIcon : 'fa-times',
 		onOpen : function() {},
 
 	}
@@ -67,6 +68,7 @@ _brayworth_.modal = function( params ) {
 	var t = _brayworth_.templates.modal();
 	if ( options.className != '')
 		t.modal.addClass( options.className);
+	t.close.addClass( options.closeIcon);
 
 	if ( !!options.width)
 		t.wrapper.width( options.width );
@@ -207,7 +209,8 @@ _brayworth_.templates.modal = function() {
 		return {
 			modal : $('<div class="modal"></div>'),
 			wrapper : $('<div class="modal-content" role="dialog" aria-labelledby="modal-header-title"></div>'),
-			header : $('<div class="modal-header"><i class="fa fa-times close"></i></div>'),
+			header : $('<div class="modal-header"></div>'),
+			close : $('<i class="fa fa-times close"></i>'),
 			H1 : $('<h1 id="modal-header-title"></h1>'),
 			body : $('<div class="modal-body"></div>'),
 			footer : function() {
@@ -234,6 +237,7 @@ _brayworth_.templates.modal = function() {
 	})( jQuery);
 
 	_.wrapper.appendTo( _.modal);
+	_.close.appendTo( _.header);
 	_.header.appendTo( _.wrapper);
 	_.H1.appendTo( _.header);
 	_.body.appendTo( _.wrapper);

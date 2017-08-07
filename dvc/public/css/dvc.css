@@ -468,13 +468,14 @@ blockquote cite:before {
 
 .modal.modal-iphone-style .modal-content {
 	border-color: black;
-	border-width: 10px 5px;
+	border-width: 10px 5px 30px;
 	border-style: solid;
-    border-radius: 10px;
+    border-radius: 20px;
 }
 
 .modal.modal-iphone-style .modal-content .modal-header {
 	background-color: black;
+	padding: 3px 15px 8px;
 }
 
 @media screen and (max-width: 400px){
