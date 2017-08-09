@@ -18,7 +18,12 @@ abstract class userAgent {
 	}
 
 	static function isIE() {
-		return ( preg_match('/MSIE/', self::$useragent));
+		return ( preg_match('/MSIE|Trident/', self::$useragent));
+
+	}
+
+	static function isEdge() {
+		return ( preg_match('/Edge/', self::$useragent));
 
 	}
 
@@ -120,7 +125,7 @@ abstract class userAgent {
 			if ( isset( $_SERVER["HTTP_USER_AGENT"]))
 				self::$useragent = $_SERVER['HTTP_USER_AGENT'];
 
-			//~ sys::logger( self::$useragent);
+			sys::logger( self::$useragent);
 
 		}
 
