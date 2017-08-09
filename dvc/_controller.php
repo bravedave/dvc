@@ -186,11 +186,35 @@ abstract class _controller {
 				return ( $altView);
 
 		}
+
+
+		/* there is nothing in the [application]/views/[controller]/ folder
+			=> look in [app]/views/[controller]/ folder */
+
+		if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
+			$view = sprintf( '%s/app/views/%s/%s', $this->rootPath, $controller, $viewName );
+			if ( file_exists( $view))
+				return ( $view);
+
+		}
+		else {
+			$view = sprintf( '%s/app/views/%s/%s.php', $this->rootPath, $controller, $viewName );		// php
+			if ( file_exists( $view))
+				return ( $view);
+
+			/*-- ---- --*/
+
+			$altView = sprintf( '%s/app/views/%s/%s.md', $this->rootPath, $controller, $viewName);	// markdown
+
+			if ( file_exists( $altView))
+				return ( $altView);
+
+		}
 		/*-- ---- --*/
 
 		$commonPath = strings::getCommonPath( array( __DIR__, $this->rootPath));
 
-		/* there is nothing in the [application]/views/[controller]/ folder
+		/* there is nothing in the [application]/app/views/[controller]/ folder
 			=> look in [app]/views/ folder */
 
 		if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
