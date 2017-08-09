@@ -125,7 +125,7 @@ abstract class userAgent {
 			if ( isset( $_SERVER["HTTP_USER_AGENT"]))
 				self::$useragent = $_SERVER['HTTP_USER_AGENT'];
 
-			sys::logger( self::$useragent);
+			//~ sys::logger( self::$useragent);
 
 		}
 
