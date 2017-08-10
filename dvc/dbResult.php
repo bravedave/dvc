@@ -28,6 +28,17 @@ class dbResult {
 
 	}
 
+	public function data_seek( $i = 0) {
+		if ( $this->result)
+			$this->result->data_seek(0);
+
+	}
+
+	public function reset() {
+		$this->data_seek( 0);
+
+	}
+
 	public function fetch() {
 		return ( $this->result->fetch_assoc());
 
