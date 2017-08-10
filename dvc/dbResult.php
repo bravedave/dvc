@@ -65,8 +65,11 @@ class dbResult {
 	public function dtoSet( $func = NULL, $template = NULL) {
 		$ret = array();
 		if ( is_callable( $func)) {
-			while ( $dto = $this->dto( $template))
-				$ret[] = $func( $dto);
+			while ( $dto = $this->dto( $template)) {
+				if ( $d = $func( $dto))
+					$ret[] = $d;
+
+			}
 
 		}
 		else {
