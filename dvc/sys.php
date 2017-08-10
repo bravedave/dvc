@@ -286,6 +286,16 @@ abstract class sys {
 				if ( self::$debug) \sys::logger( sprintf( 'served: %s', $path));
 
 			}
+			elseif ( $ext == 'pdf' ) {
+				Response::pdf_headers( $path_parts['basename'], filemtime( $path));
+				readfile( $path);
+				if ( self::$debug) \sys::logger( sprintf( 'served: %s', $path));
+
+			}
+			elseif ( self::$debug) {
+				\sys::logger( sprintf( 'not serving (file type not served): %s', $path));
+
+			}
 
 		}
 		elseif ( self::$debug) {
