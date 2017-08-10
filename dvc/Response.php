@@ -158,8 +158,8 @@ OUTPUT;
 
 	}
 
-	static function csv_headers( $filename = "download.csv" ) {
-		self::_common_headers();
+	static function csv_headers( $filename = "download.csv", $modifyTime = 0, $expires = 0) {
+		self::_common_headers( $modifyTime, $expires);
 		header("Content-Description: File Transfer");
 		header("Content-disposition: attachment; filename=$filename");
 		header("Content-type: text/csv");

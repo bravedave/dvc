@@ -13,6 +13,8 @@ abstract class sys {
 	protected static $_loglevel = 1;
 	protected static $_logloader = 0;
 	protected static $_dbi = NULL;
+
+	static $debug = FALSE;
 	/**
 	 * text2html: basically converts plain text to html by swaping in <br /> for \n
 	 **/
@@ -157,6 +159,139 @@ abstract class sys {
 		$mail->SetFrom( \config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME);
 
 		return ( $mail);
+
+	}
+
+	static function serve( $path) {
+		if ( file_exists( $path)) {
+
+			$path_parts = pathinfo( $path);
+			$ext = strtolower( $path_parts['extension']);
+
+			if ( $ext == "css" ) {
+				Response::css_headers( filemtime( $path));
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "js" ) {
+				$expires = 0;
+				if ( strstr( $path, 'jquery-'))
+					$expires = \config::$JQUERY_EXPIRE_TIME;
+				elseif ( strstr( $path, 'inputosaurus.js'))
+					$expires = \config::$JQUERY_EXPIRE_TIME;
+				elseif ( strstr( $path, 'tinylib.js'))
+					$expires = \config::$JQUERY_EXPIRE_TIME;
+				elseif ( strstr( $path, 'moment.min.js'))
+					$expires = \config::$JQUERY_EXPIRE_TIME;
+				elseif ( strstr( $path, 'bootstrap.min.js'))
+					$expires = \config::$JQUERY_EXPIRE_TIME;
+				elseif ( strstr( $path, 'brayworthlib.js'))
+					$expires = \config::$JQUERY_EXPIRE_TIME;
+				elseif ( strings::endswith( $path, '.js'))
+					$expires = \config::$JS_EXPIRE_TIME;
+
+				Response::javascript_headers( filemtime( $path), $expires);
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "ico" ) {
+				Response::icon_headers( filemtime( $path), \config::$CORE_IMG_EXPIRE_TIME);
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "woff" || $ext == "woff2" ) {
+				Response::headers('application/font-woff', filemtime( $path), \config::$FONT_EXPIRE_TIME);
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "ttf" || $ext == "otf" ) {
+				Response::headers('application/font-sfnt', filemtime( $path), \config::$FONT_EXPIRE_TIME);
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "eot" ) {
+				Response::headers('application/vnd.ms-fontobject', filemtime( $path), \config::$FONT_EXPIRE_TIME);
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "png" ) {
+				if ( strstr( $path, url::$URL . 'images/'))
+					Response::png_headers( filemtime( $path), \config::$CORE_IMG_EXPIRE_TIME);
+				else
+					Response::png_headers( filemtime( $path));
+
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "jpg" ) {
+				if ( strstr( $path, url::$URL . 'images/'))
+					Response::jpg_headers( filemtime( $path), \config::$CORE_IMG_EXPIRE_TIME);
+				else
+					Response::jpg_headers( filemtime( $path));
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "txt" ) {
+				Response::text_headers( filemtime( $path));
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "gif" ) {
+				if ( strstr( $path, url::$URL . 'images/'))
+					Response::gif_headers( filemtime( $path), \config::$CORE_IMG_EXPIRE_TIME);
+				else
+					Response::gif_headers( filemtime( $path));
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "svg" ) {
+				/*
+				 * maybe the expire time is like javascript rather than images - this is conservative */
+				Response::headers('image/svg+xml', filemtime( $path), \config::$JS_EXPIRE_TIME);
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "map" ) {
+				Response::text_headers( filemtime( $path));
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "json" ) {
+				Response::json_headers( filemtime( $path));
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "xml" ) {
+				Response::xml_headers( filemtime( $path));
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == 'csv' ) {
+				Response::csv_headers( $path_parts['basename'], filemtime( $path));
+				readfile( $path);
+				if ( self::$debug) \sys::logger( sprintf( 'served: %s', $path));
+
+			}
+
+		}
+		elseif ( self::$debug) {
+			\sys::logger( sprintf( 'not serving (not found): %s', $path));
+
+		}
 
 	}
 
