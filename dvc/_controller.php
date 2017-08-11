@@ -131,22 +131,17 @@ abstract class _controller {
 	}
 
 	public function index() {
-		if ( $this->hasView())
-			$this->loadView();
-
-		else
-			$this->page404();
+		$this->page404();
 
 	}
 
 	public function page404() {
 		header('HTTP/1.0 404 Not Found');
-		$p = new Page('404 Not Found');
-			$p->header();
-			$p->title();
-
+		$p = new pages\page('404 Not Found');
 			$p->content();
-			$this->loadView('404');
+
+			$this->load('not-found');
+
 
 	}
 

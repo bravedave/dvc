@@ -33,7 +33,7 @@ class home extends Controller {
 
 		}
 		else {
-			$this->load('not-found');
+			parent::index();	// $this->load('not-found');
 
 		}
 
