@@ -139,6 +139,8 @@
 
 		}
 
+		options.top = Math.max( options.top, $(window).scrollTop());
+
 		var title = $('<h3></h3>');
 		var content = $('<div></div>');
 
