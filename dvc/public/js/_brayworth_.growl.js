@@ -66,7 +66,16 @@
 
 	var growlers = [];
 	_brayworth_.growl = function( params) {
-		var host = ( this == _brayworth_ ? 'body' : this)
+		var host = ( this == _brayworth_ ? $('body') : this)
+		if ( 'string' == typeof this)
+			host = $(host);
+		else if ( this instanceof String)
+			host = $(host.valueOf());
+		else if ( !( this instanceof jQuery))
+			host = $(host);
+
+		//~ console.log( typeof this, this instanceof String);
+		//~ console.log( host);
 
 		var options = {
 			top : 60,
@@ -111,7 +120,24 @@
 
 		}
 
-		options.top *= growlerIndex;	// this growler is offset down screen to avoid stacking
+		if ( host[0].tagName == 'BODY' || host.css('position') != 'static') {
+			options.top *= growlerIndex;	// this growler is offset down screen to avoid stacking
+		}
+		else {
+			try {
+				var offset = host.offset();
+				options.top = offset.top - 20;
+				options.right = Math.min( $(window).width(), offset.left + host.width() + 20);
+
+				//~ console.log( options.top, options.right);
+
+			}
+			catch (e) {
+				console.warn( host, e);
+
+			}
+
+		}
 
 		var title = $('<h3></h3>');
 		var content = $('<div></div>');
