@@ -146,7 +146,7 @@ class _application {
 
 		}
 
-
+		$this->countVisit();
 
 		$this->splitUrl();		// create array with URL parts in $url
 		/*
@@ -280,6 +280,8 @@ class _application {
 		$this->_app_executed = TRUE;
 
 	}
+
+	public function countVisit() {}
 
 	protected function serve( $path ) {
 		if ( self::$debug) sys::$debug = TRUE;
