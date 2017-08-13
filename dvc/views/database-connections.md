@@ -2,7 +2,7 @@
 
 ## Specify the Connections
 ### Automatic Generation
-- The JSOn method maybe automated at the address [/install/db], it creates a db.json in the [application]/data folder
+- The JSOn method maybe automated at the address [/install/db](/install/db), it creates a db.json in the [application]/data folder
 ### JSON
 
 - Location of file : [application]/data
