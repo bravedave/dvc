@@ -1,6 +1,8 @@
 # Databases
 
 ## Specify the Connections
+### Automatic Generation
+- The JSOn method maybe automated at the address [/install/db], it creates a db.json in the [application]/data folder
 ### JSON
 
 - Location of file : [application]/data
