@@ -53,7 +53,8 @@ _brayworth_.modal = function( params ) {
 	var options = {
 		title : '',
 		width : false,
-		fullScreen : _brayworth_.browser.isIPhone,
+		mobile : _brayworth_.browser.isMobileDevice,
+		fullScreen : _brayworth_.browser.isMobileDevice,
 		className :  '',
 		autoOpen : true,
 		buttons : {},
@@ -175,6 +176,7 @@ _brayworth_.modal = function( params ) {
 	t.appendTo( 'body');
 
 	t.modal.data( 'modal', _brayworth_.modalDialog.call( t.modal, {
+		mobile : options.mobile,
 		onOpen : options.onOpen,
 		afterClose : function() {
 			t.modal.remove();
