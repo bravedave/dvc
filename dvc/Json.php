@@ -23,7 +23,7 @@ class Json {
 	}
 
 	function __construct( $a = NULL ) {
-		if ( $a )
+		if ( !is_null( $a))
 			$this->_json = (array)$a;
 
 	}
