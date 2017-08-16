@@ -26,6 +26,7 @@ _brayworth_.modalDialog = function ( _options) {
 
 	var modal = this;				// the modal
 	var options = {
+		mobile : _brayworth_.browser.isMobileDevice,
 		beforeClose : function() {},
 		afterClose : function() {},
 		onEnter : function() {},
@@ -48,7 +49,7 @@ _brayworth_.modalDialog = function ( _options) {
 
 	}
 
-	if ( _brayworth_.browser.isMobileDevice)
+	if ( options.mobile)
 		modal.addClass( 'modal-mobile');
 	modal.css( 'display', 'block').data('modal', modal);
 
