@@ -1,0 +1,40 @@
+<?php
+/*
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
+
+	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+		http://creativecommons.org/licenses/by/4.0/
+
+	*/
+
+Namespace dvc\sqlite;
+
+class dbResult {
+	protected $result;
+	protected $db;
+
+	public function __construct(  $result = NULL, $db = NULL) {
+		if ( $result)
+			$this->result = $result;
+
+		if ( $db)
+			$this->db = $db;
+
+	}
+
+	public function __destruct() {
+		if ( $this->result)
+			$this->result->finalize();
+
+	}
+
+	public function fetch() {
+		$a = [];
+
+		return ( $this->result->fetchArray( SQLITE3_ASSOC));
+
+	}
+
+}
