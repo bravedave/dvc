@@ -31,9 +31,15 @@ class dbResult {
 	}
 
 	public function fetch() {
-		$a = [];
-
 		return ( $this->result->fetchArray( SQLITE3_ASSOC));
+
+	}
+
+	public function dto() {
+		if ( $o = $this->fetch())
+			return ( $o);
+
+		return ( FALSE);
 
 	}
 
