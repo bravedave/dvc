@@ -97,5 +97,64 @@ class db extends \SQLite3 {
 
 	}
 
+	public function dump() {
+		if ( $tables = $this->tables()) {
+
+			$uID = 0;
+			foreach ( $tables as $table) {
+
+				printf( '<span data-role="visibility-toggle" data-target="bqt%s">Table: %s</span><br />%s',
+					$uID,
+					$table,
+					PHP_EOL	);
+				printf( '<blockquote id=\'bqt%s\' style="font-family: monospace;" class="hidden">%s',
+					$uID++,
+					PHP_EOL	);
+
+				/* Get field information for all columns */
+				if ( $fields = $this->fieldList( $table)) {
+					//~ sys::dump( $fields);
+				// 	$finfo = $res->fetch_fields();
+
+				 	foreach ($fields as $field)
+				 		printf( '<br />%s %s %s', $field->name, $field->type, ( $field->pk ? 'primary key' : ''));
+
+				}
+
+				print "</blockquote>\n";
+
+			}
+
+		}
+
+	}
+
+	public function tables() {
+		$ret = [];
+		if ( $result = $this->result( "SELECT name FROM sqlite_master WHERE type='table'")) {
+			while ( $dto = $result->dto()) {
+				if ( !preg_match( '/^sqlite_/', $dto->name))
+					$ret[] = $dto->name;
+
+			}
+
+		}
+
+		return ( $ret );
+
+	}
+
+	public function fieldList( $table ) {
+		$ret = [];
+		if ( $result = $this->result( sprintf( 'PRAGMA table_info(%s)', $table))) {
+			while ( $dto = $result->dto())
+				$ret[] = $dto;
+
+		}
+
+		return ( $ret );
+
+	}
+
 }
 
