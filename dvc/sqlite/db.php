@@ -11,10 +11,21 @@
 
 Namespace dvc\sqlite;
 
-class db extends \SQLite3 {
+class db {
 	public $log = FALSE;
+	protected $_db = FALSE;
 
-	function __construct() {
+	protected static $_instance = FALSE;
+
+	static function instance() {
+		if ( !self::$_instance)
+			self::$_instance = new self;
+
+		return ( self::$_instance);
+
+	}
+
+	private function __construct() {
 		$root = sprintf('%s', \application::app()->getRootPath());
 		$path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
 
@@ -26,7 +37,7 @@ class db extends \SQLite3 {
 				throw new \Exception( 'error/nodatapath');
 
 			$path = sprintf('%s%ssqlite.db', $path, DIRECTORY_SEPARATOR );
-			$this->open( $path);
+			$this->_db = new \SQLite3( $path);
 			return;
 
 		}
@@ -38,12 +49,12 @@ class db extends \SQLite3 {
 	}
 
 	function __destruct() {
-		$this->close();
+		$this->_db->close();
 
 	}
 
 	public function escape( $value ) {
-		return $this->escapeString( $value );
+		return $this->_db->escapeString( $value );
 
 	}
 
@@ -58,8 +69,8 @@ class db extends \SQLite3 {
 
 		$sql = sprintf( 'INSERT INTO `%s`(`%s`) VALUES("%s")', $table, implode( "`,`", $fA ), implode( '","', $fV ));
 
-		$this->exec( $sql);
-		return ( $this->lastInsertRowID());
+		$this->_db->exec( $sql);
+		return ( $this->_db->lastInsertRowID());
 
 	}
 
@@ -75,13 +86,13 @@ class db extends \SQLite3 {
 
 	public function Q( string $sql) {
 		if ( $this->log) \sys::logSQL( $sql);
-		if ( $result = $this->query( $sql)) return ( $result);
+		if ( $result = $this->_db->query( $sql)) return ( $result);
 
 		/****************************************
 		  * You are here because there was an error **/
 		$message = sprintf( "Error : SQLite : %s\nError : SQLite : %s",
 			$query,
-			$this->lastErrorMsg );
+			$this->_db->lastErrorMsg );
 
 		\sys::logSQL( $sql);
 		foreach ( debug_backtrace() as $e )
