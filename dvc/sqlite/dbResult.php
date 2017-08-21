@@ -37,7 +37,7 @@ class dbResult {
 
 	public function dto() {
 		if ( $o = $this->fetch())
-			return ( $o);
+			return ( (object)$o);
 
 		return ( FALSE);
 
