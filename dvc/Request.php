@@ -169,7 +169,7 @@ class Request {
 
 	}
 
-	protected function getSubNet( $ip) {
+	protected static function getSubNet( $ip) {
 		$a = explode( '.', $ip);
 		return ( sprintf( '%d.%d.%d', $a[0], $a[1], $a[2]));
 
