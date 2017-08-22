@@ -11,7 +11,14 @@
 Namespace dvc\sqlite;
 
 abstract class _dbinfo {
-	abstract function check() {}
+	protected $db;
+
+	function __construct( db $db = NULL) {
+		$this->db = $db;
+
+	}
+
+	function check() {}
 
 }
 

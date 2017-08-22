@@ -16,7 +16,7 @@ class dbinfo extends _dbinfo {
 	 *
 	 * from there store you structure files in <application>/dao/db folder
 	 */
-	protected function check() {
+	function check() {
 		parent::check();
 
 		//~ \sys::logger( 'checking ' . dirname( __FILE__ ) . '/db/*.php' );
