@@ -27,6 +27,8 @@ class _dbinfo extends _dao {
 
 	function dump() {
 		$this->check();
+		$this->db->dump();
+		return;
 
 		//~ \sys::logger( "SHOW TABLES FROM " . \config::$DB_NAME );
 

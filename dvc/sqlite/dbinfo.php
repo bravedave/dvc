@@ -10,7 +10,7 @@
 	*/
 Namespace dvc\sqlite;
 
-class dbinfo extends _dbinfo {
+class dbinfo extends \dvc\sqlite\_dbinfo {
 	/*
 	 * it is probably sufficient to copy this file into the <application>/app/dao folder
 	 *
@@ -18,8 +18,6 @@ class dbinfo extends _dbinfo {
 	 */
 	function check() {
 		parent::check();
-
-		//~ \sys::logger( 'checking ' . dirname( __FILE__ ) . '/db/*.php' );
 
 		if ( glob( dirname( __FILE__ ) . '/db/*.php')) {
 			foreach ( glob( dirname( __FILE__ ) . '/db/*.php') as $f ) {
@@ -33,4 +31,3 @@ class dbinfo extends _dbinfo {
 	}
 
 }
-
