@@ -171,7 +171,7 @@ class db {
 					PHP_EOL	);
 
 				/* Get field information for all columns */
-				if ( $res = $this->db->result( sprintf( 'SELECT * FROM `%s` LIMIT 1', $this->escape( $row[0] )))) {
+				if ( $res = $this->result( sprintf( 'SELECT * FROM `%s` LIMIT 1', $this->escape( $row[0] )))) {
 					$finfo = $res->fetch_fields();
 
 					foreach ($finfo as $val)
