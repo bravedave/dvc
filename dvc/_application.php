@@ -355,7 +355,7 @@ class _application {
 	}
 
 	public function getInstallPath() {
-		return ( __DIR__ );
+		return ( __DIR__ . '/../');
 
 	}
 
