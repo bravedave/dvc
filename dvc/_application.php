@@ -354,6 +354,11 @@ class _application {
 
 	}
 
+	public function getInstallPath() {
+		return ( __DIR__ );
+
+	}
+
 	public function return_url() {
 		return ( $this->url_served);
 	}
