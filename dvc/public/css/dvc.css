@@ -65,12 +65,17 @@ footer nav > ul > li, .footer nav > ul > li, .copyright {
     text-align: center;
 }
 
+.navbar-nav a { text-decoration: none; }
 .navbar-nav > li > a {
     padding-top: 0px;
     padding-bottom: 0px;
 }
 
 .navbar-brand, .navbar-nav > li > a { line-height: 80px; }
+.navbar-default {
+    background-color: #f8f8f8;
+    border-color: #e7e7e7;
+}
 
 .navbar-brand {
 	padding-top: 0;
