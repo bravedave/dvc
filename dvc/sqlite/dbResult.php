@@ -12,7 +12,7 @@
 Namespace dvc\sqlite;
 
 class dbResult {
-	protected $result;
+	protected $result = FALSE;
 	protected $db;
 
 	public function __construct(  $result = NULL, $db = NULL) {
@@ -24,11 +24,7 @@ class dbResult {
 
 	}
 
-	public function __destruct() {
-		if ( $this->result)
-			$this->result->finalize();
-
-	}
+	public function __destruct() {}
 
 	public function fetch() {
 		return ( $this->result->fetchArray( SQLITE3_ASSOC));

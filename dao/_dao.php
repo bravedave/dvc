@@ -38,7 +38,7 @@ abstract class _dao {
 
 	public function Insert( $a ) {
 		if ( is_null( $this->db_name()))
-			throw new \Exception( '_db_name not set' );
+			throw new Exception\DBNameIsNull;
 
 		$a = (array)$a;
 		if ( isset( $a['id']))
@@ -51,7 +51,7 @@ abstract class _dao {
 
 	public function Update( $a, $condition ) {
 		if ( is_null( $this->db_name()))
-			throw new \Exception( '_db_name not set' );
+			throw new Exception\DBNameIsNull;
 
 		$this->db->log = $this->log;
 		return ( $this->db->Update( $this->db_name(), $a, $condition ));
@@ -146,7 +146,7 @@ abstract class _dao {
 
 	public function getAll( $fields = '*', $order = '' ) {
 		if ( is_null( $this->_db_name))
-			throw new \Exception( 'db_name is NULL' );
+			throw new Exception\DBNameIsNull;
 
 		$this->db->log = $this->log;
 		return ( $this->Result( sprintf( 'SELECT %s FROM %s %s', $fields, $this->db_name(), $order )));
@@ -155,7 +155,7 @@ abstract class _dao {
 
 	public function getByID( $id) {
 		if ( is_null( $this->_db_name))
-			throw new \Exception( 'db_name is NULL' );
+			throw new Exception\DBNameIsNull;
 
 		$this->db->log = $this->log;
 		if ( $res = $this->Result( sprintf( 'SELECT * FROM %s WHERE id = %d', $this->_db_name, (int)$id )))

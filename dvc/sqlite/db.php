@@ -49,7 +49,10 @@ class db {
 	}
 
 	function __destruct() {
-		$this->_db->close();
+		if ( $this->_db)
+			$this->_db->close();
+
+		$this->_db = FALSE;
 
 	}
 
@@ -113,7 +116,6 @@ class db {
 
 			$uID = 0;
 			foreach ( $tables as $table) {
-
 				printf( '<span data-role="visibility-toggle" data-target="bqt%s">Table: %s</span><br />%s',
 					$uID,
 					$table,
