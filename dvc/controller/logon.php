@@ -12,10 +12,11 @@ class logon extends Controller {
 	public $RequireValidation = FALSE;
 
 	public function index() {
-		if ( auth::GoogleAuthEnabled()) {
+		if ( auth::GoogleAuthEnabled())
 			Response::redirect( \url::tostring( 'auth/request'));
 
-		}
+		else
+			throw new dvc\Exceptions\NoAuthenticationMethodsAvailable;	// home page
 
 	}
 
