@@ -37,11 +37,17 @@ class dbCheck extends _dao {
 		if ( ( $type == "int" || $type == "bigint" || $type == "double" || $type == "float" ) && $default == "" )
 			$default = "0";
 
-		if ( ( $type == "int" || $type == "bigint" || $type == "double" || $type == "float" ) && ( is_null( $len) || (int)$len < 1))
-			$len = 20;
+		if ( is_null( $len) || (int)$len < 1) {
+			if ( ( $type == "int" ))
+				$len = 11;
 
-		if ( is_null( $len) || (int)$len < 1)
-			$len = 45;
+			elseif ( ( $type == "bigint" || $type == "double" || $type == "float" ))
+				$len = 20;
+
+			else
+				$len = 45;	// probably varchar
+
+		}
 
 		$this->structure[] = Array(
 			"name" => $name,

@@ -37,6 +37,15 @@ class dbCheck {	// extends _dao {
 		if ( $name == "" )
 			return ( FALSE );
 
+		if ( strtolower( $type) == 'bigint')
+			$type = 'INT';
+		elseif ( strtolower( $type) == 'varchar')
+			$type = 'TEXT';
+		elseif ( strtolower( $type) == 'float')
+			$type = 'REAL';
+		elseif ( strtolower( $type) == 'double')
+			$type = 'REAL';
+
 		$this->structure[] = [
 			"name" => $name,
 			"type" => strtoupper( $type),
