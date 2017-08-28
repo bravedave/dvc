@@ -114,6 +114,10 @@ class dbCheck extends _dao {
 				$fields[] = "`" . $fld["name"] . "`  mediumblob";
 
 			}
+			elseif ( $fld["type"] == "longblob" ) {
+				$fields[] = "`" . $fld["name"] . "`  longblob";
+
+			}
 			else {
 				die( "unknown field type dbCheck => check -> " . $fld["type"] );
 
@@ -217,6 +221,10 @@ class dbCheck extends _dao {
 				}
 				elseif ( $fld["type"] == "mediumblob" ) {
 					$sql = "alter table `" . $this->table . "` add column `" . $fld["name"] . "` mediumblob $after";
+
+				}
+				elseif ( $fld["type"] == "longblob" ) {
+					$sql = "alter table `" . $this->table . "` add column `" . $fld["name"] . "` longblob $after";
 
 				}
 				else {
