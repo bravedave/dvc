@@ -46,19 +46,21 @@ class HttpGet {
 		curl_setopt($this->ch, CURLOPT_REFERER, $referer);
 
 	}
+
+	public function url_builder() {
+		if ( count($this->params) > 0 )
+			return ( $this->url . '?' . http_build_query( $this->params));
+
+		return ( $this->url);
+
+	}
+
 	/**
 	 * Make the GET request to the server
 	 */
 	public function send() {
-		if ( count($this->params) > 0 ) {
-			curl_setopt($this->ch, CURLOPT_URL, $this->url . '?' . http_build_query( $this->params));
-			//~ sys::logger( $this->url . '?' . http_build_query( $this->params));
-		}
-		else
-			curl_setopt($this->ch, CURLOPT_URL, $this->url);
-
+		curl_setopt($this->ch, CURLOPT_URL, $this->url_builder());
 		$this->httpResponse = curl_exec( $this->ch );
-
 		return ( $this->httpResponse);
 
 	}
