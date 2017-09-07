@@ -8,8 +8,16 @@
 
 */
 
-if ( typeof _brayworth_ == 'undefined')
+if ( 'undefined' == typeof _brayworth_ )
 	var _brayworth_ = {
 		_brayworth_ : true,
 		templates : {},
-		};
+		.urlwrite = function( _url) {
+			if ( typeof _url == 'undefined')
+				_url = '';
+
+			return ( '/' + _url);
+
+		}
+
+	};
