@@ -13,7 +13,7 @@ if ( 'undefined' == typeof _brayworth_ )
 		_brayworth_ : true,
 		templates : {},
 		.urlwrite = function( _url) {
-			if ( typeof _url == 'undefined')
+			if ( 'undefined' == typeof _url)
 				_url = '';
 
 			return ( '/' + _url);

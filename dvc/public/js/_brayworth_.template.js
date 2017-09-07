@@ -81,7 +81,7 @@
 
 			$.ajax({
 				type : 'post',
-				url : '/',
+				url : _brayworth_.urlwrite(),
 				data : {
 					action : 'get-template',
 					template : options.template,
