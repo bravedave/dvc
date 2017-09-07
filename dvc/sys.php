@@ -316,7 +316,7 @@ abstract class sys {
 
 	}
 
-	function getTemplate( $template) {
+	static function getTemplate( $template) {
 		if ( $template) {
 			if ( $template = preg_replace( '/[^\da-z]/i', '', $template)) {
 				$template .= '.html';

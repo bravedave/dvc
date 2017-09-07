@@ -86,7 +86,7 @@ abstract class cssmin {
 
 		}
 		else {
-			sys::logger( application::app()->getRootPath() . '/app/public/ does not exist');
+			sys::logger( '[root]/app/public/ does not exist');
 
 		}
 		return ( FALSE);

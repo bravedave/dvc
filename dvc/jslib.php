@@ -88,7 +88,7 @@ abstract class jslib {
 
 		}
 		else {
-			sys::logger( application::app()->getRootPath() . '/app/public/ does not exist');
+			sys::logger( '[root]/app/public/ does not exist');
 
 		}
 		return ( FALSE);
@@ -193,8 +193,8 @@ abstract class jslib {
 			'js/_brayworth_.modalDialog.js',
 			'js/_brayworth_.swipe.js',
 			'js/_brayworth_.strings.js',
-			'js/_brayworth_.template.js',
 			'js/brayworth.js',
+			'js/templation.js',
 			'js/js.cookie.js' );
 
 		$files = array();
