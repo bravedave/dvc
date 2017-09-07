@@ -297,6 +297,12 @@ abstract class sys {
 				if ( self::$debug) \sys::logger( sprintf( 'served: %s', $path));
 
 			}
+			elseif ( $ext == 'html' ) {
+				Response::html_headers( $path_parts['basename'], filemtime( $path));
+				readfile( $path);
+				if ( self::$debug) \sys::logger( sprintf( 'served: %s', $path));
+
+			}
 			elseif ( self::$debug) {
 				\sys::logger( sprintf( 'not serving (file type not served): %s', $path));
 
@@ -305,6 +311,40 @@ abstract class sys {
 		}
 		elseif ( self::$debug) {
 			\sys::logger( sprintf( 'not serving (not found): %s', $path));
+
+		}
+
+	}
+
+	function getTemplate( $template) {
+		if ( $template) {
+			if ( $template = preg_replace( '/[^\da-z]/i', '', $template)) {
+				$template .= '.html';
+
+				$path = sprintf( '%s%sapp%stemplates%s%s',
+					\application::app()->getRootPath(),
+					DIRECTORY_SEPARATOR,
+					DIRECTORY_SEPARATOR,
+					DIRECTORY_SEPARATOR,
+					$template);
+
+				if ( file_exists( $path)) {
+					\sys::serve( $path);
+
+				}
+				else {
+					$path = sprintf( '%s%stemplates%s%s',
+						__DIR__,
+						DIRECTORY_SEPARATOR,
+						DIRECTORY_SEPARATOR,
+						$template);
+
+					if ( file_exists( $path))
+						\sys::serve( $path);
+
+				}
+
+			}
 
 		}
 
