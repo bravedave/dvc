@@ -1,4 +1,5 @@
 autoloader-local.php
-example/application/app/public/js/brayworthlib.js
-example/application/app/public/css/dvc.min.css
+example/application/app/public/
+dvc/public/.bak/
 dvc/public/js/.bak/
+dvc/sqlite/.bak/
