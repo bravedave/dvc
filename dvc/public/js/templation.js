@@ -39,11 +39,13 @@ var templation = {
 (function() {
 	/*
 		some predefined templates
-		add more with templates.loadHTML('tr','<tr></tr>');
+		add more with templation.loadHTML('tr','<tr></tr>');
 	*/
 	var cache = {
 		table : '<table><tbody></tbody></table>',
 		tr : '<tr></tr>',
+		modal : '<div class="modal"><div class="modal-content" role="dialog" aria-labelledby="modal-header-title"><div class="modal-header"><i class="fa close"></i><h1 id="modal-header-title"></h1></div><div class="modal-body"></div></div></div>',
+
 	};
 
 	function _t( src) {
@@ -51,7 +53,18 @@ var templation = {
 			src : src,
 			_element : false,
 			get : function( k) {
-				return $(k, this._element);
+				if ( 'undefined' == typeof k)
+					return ( this._element);
+				else
+					return $( k, this._element);
+
+			},
+
+			data : function( k, v) {
+				if ( 'undefined' == typeof v)
+					return ( this._element.data( k));
+				else
+					return ( this._element.data( k, v));
 
 			},
 

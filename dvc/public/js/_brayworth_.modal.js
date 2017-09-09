@@ -9,6 +9,9 @@
 	This is similar to bootstraps modal in construction,
 	but also has similarity to jquery-ui functionality
 
+	load:
+		$('<script></script>').attr('src','/js/_brayworth_.modal.js').appendTo('head');
+
 	Test:
 		_brayworth_.modal.call( $('<div title="fred">hey jude</div>'))
 		_brayworth_.modal.call( $('<div title="fred">hey jude</div>'), {
@@ -24,6 +27,7 @@
 
 		_brayworth_.modal({ title : 'fred', text : 'hey jude'});
 		_brayworth_.modal({
+			width : 300,
 			title : 'fred',
 			text : 'hey jude',
 			buttons : {
@@ -38,10 +42,11 @@
 
 */
 
-_brayworth_.modal = function( params ) {
-	if ( /string/.test( typeof params)) {
-		/*
-		 * This is a command - jquery-ui style */
+_brayworth_.modal = function( params) {
+	jQuery.fn.modal = _brayworth_.modal;	// to be sure, bootstrap has it's own modal
+
+	if ( 'string' == typeof params) {
+		/* This is a command - jquery-ui style */
 		var _m = $(this).data( 'modal');
 		if ( 'close' == params)
 			_m.close();
@@ -68,30 +73,28 @@ _brayworth_.modal = function( params ) {
 
 	var t = _brayworth_.templates.modal();
 	if ( options.className != '')
-		t.modal.addClass( options.className);
-	t.close.addClass( options.closeIcon);
+		t.get().addClass( options.className);
+	t.get('.close').addClass( options.closeIcon);
 
 	if ( !!options.width)
-		t.wrapper.width( options.width );
+		t.get('.modal-content').width( options.width );
 	else
-		t.wrapper.addClass( _brayworth_.templates.modalDefaultClass);
+		t.get('.modal-content').addClass( _brayworth_.templates.modalDefaultClass);
 
 	var content = ( !!options.text ? options.text : '');
-	if ( typeof this != 'undefined') {
+	if ( 'undefined' != typeof this) {
 		if ( !this._brayworth_ ) {
 			var content = ( this instanceof jQuery ? this : $(this));
-			if ( options.title == '' && ( typeof content.attr('title') == 'string'))
+			if ( options.title == '' && ( 'string' == typeof content.attr('title')))
 				options.title = content.attr('title');
-
-			//~ console.log( this, _el, 'title', options.title);
 
 		}
 
 	}
 
-	t.append( content);	/* this is the content */
+	t.html('H1','').append( options.title);	// jquery-ui style
 
-	t.H1.html('').append( options.title);	// jquery-ui style
+	t.append( content);		// this is the content
 
 	if ( Object.keys( options.buttons).length > 0) {	// jquery-ui style
 		$.each( options.buttons, function( i, el) {
@@ -100,9 +103,8 @@ _brayworth_.modal = function( params ) {
 				click : function( e) {}
 			}
 
-			if ( /function/.test(el))
+			if ( 'function' == typeof el)
 				j.click = el;
-
 			else
 				$.extend( j, el) ;
 
@@ -110,7 +112,7 @@ _brayworth_.modal = function( params ) {
 				.addClass( _brayworth_.templates.buttonCSS)
 				.html( j.text)
 				.on( 'click', function( e) {
-					j.click.call( t.modal, e);
+					j.click.call( t.get(), e);
 
 				})
 				.appendTo( t.footer());
@@ -125,12 +127,11 @@ _brayworth_.modal = function( params ) {
 				text : i,
 				title : false,
 				icon : false,
-				click : function( e) {}
+				click : function( e) {},
 			}
 
-			if ( /function/.test(el))
+			if ( 'function' == typeof el)
 				j.click = el;
-
 			else
 				$.extend( j, el);
 
@@ -145,7 +146,7 @@ _brayworth_.modal = function( params ) {
 			if ( !!j.title)
 				b.attr( 'title', j.title)
 
-			b.on( 'click', function( e) { j.click.call( t.modal, e); })	// wrap the call an call it against the modal
+			b.on( 'click', function( e) { j.click.call( t.get(), e); })	// wrap the call and call it against the modal
 			t.header.prepend( b);
 
 		})
@@ -167,26 +168,24 @@ _brayworth_.modal = function( params ) {
 
 		})
 
-		t.wrapper.css({ 'width' : 'auto', 'margin' : 0 });
+		t.get('.modal-content').css({ 'width' : 'auto', 'margin' : 0 });
 
 	}
 
 	var previousElement = document.activeElement;
 
 	t.appendTo( 'body');
-
-	t.modal.data( 'modal', _brayworth_.modalDialog.call( t.modal, {
+	t.data( 'modal', _brayworth_.modalDialog.call( t.get(), {
 		mobile : options.mobile,
 		onOpen : options.onOpen,
 		afterClose : function() {
-			t.modal.remove();
-			if ( !!options.afterClose && /function/.test( typeof options.afterClose))
+			t.get().remove();
+			if ( !!options.afterClose && 'function' == typeof options.afterClose)
 				options.afterClose.call( t.modal);
 
 			/* re-activate the body elements */
 			$.each( bodyElements, function( i, el){
-				var _el = $(el);
-				_el.removeClass('hidden');
+				$(el).removeClass('hidden');
 
 			})
 
@@ -196,54 +195,33 @@ _brayworth_.modal = function( params ) {
 
 	}));
 
-	return ( t.modal.data( 'modal'));	// the modal
+	return ( t.data( 'modal'));	// the modal
 
 }
 
 _brayworth_.templates.buttonCSS = 'btn btn-default';
 _brayworth_.templates.modalDefaultClass = '';
 _brayworth_.templates.modal = function() {
-
-	var _ = ( function( $) {
-
-		$.fn.modal = _brayworth_.modal;	// to be sure, bootstrap has it's own modal
-
-		return {
-			modal : $('<div class="modal"></div>'),
-			wrapper : $('<div class="modal-content" role="dialog" aria-labelledby="modal-header-title"></div>'),
-			header : $('<div class="modal-header"></div>'),
-			close : $('<i class="fa close"></i>'),
-			H1 : $('<h1 id="modal-header-title"></h1>'),
-			body : $('<div class="modal-body"></div>'),
-			footer : function() {
-				if ( !this._footer) {
-					this._footer = $('<div class="modal-footer text-right"></div>');
-					this.wrapper.append( this._footer);
-
-				}
-
-				return ( this._footer);
-
-			},
-			append( el) {
-				this.body.append( el);
-
-			},
-			appendTo( el) {
-				this.modal.appendTo( el);
-
-			},
+	var _ = templation.template('modal');
+		_.header = _.get( '.modal-header');
+		_.body = _.get( '.modal-body');
+		_.append = function( p) {
+			this.body.append( p);
+			return ( this);
 
 		}
 
-	})( jQuery);
+		_.footer = function() {
+			if ( !this._footer) {
+				this._footer = $('<div class="modal-footer text-right"></div>');
+				this.get('.modal-content').append( this._footer);
 
-	_.wrapper.appendTo( _.modal);
-	_.close.appendTo( _.header);
-	_.header.appendTo( _.wrapper);
-	_.H1.appendTo( _.header);
-	_.body.appendTo( _.wrapper);
+			}
 
-	return _;
+			return ( this._footer);
+
+		};
+
+	return (_);
 
 }

@@ -18,6 +18,10 @@ if ( 'undefined' == typeof _brayworth_ )
 
 			return ( '/' + _url);
 
+		},
+		loadScript( src) {
+			$('<script></script>').attr('src', src).appendTo('head');
+
 		}
 
 	};

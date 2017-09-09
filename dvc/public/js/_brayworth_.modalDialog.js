@@ -6,14 +6,11 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 
-	Test
+	test:
 		_brayworth_.modalDialog.call( $('<div class="modal"><div class="modal-content"><div class="modal-header"><i class="fa fa-times close"></i><h1>Header</h1></div><div class="modal-body">Hello World</div></div></div>').appendTo('body'))
 */
-if ( typeof _brayworth_ == 'undefined')
-	var _brayworth_ = {};
 
-$.fn.modalDialog =
-_brayworth_.modalDialog = function ( _options) {
+$.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 	if ( /string/.test( typeof( _options))) {
 		if ( _options == 'close') {
 			var modal = this.data( 'modal');
@@ -40,7 +37,7 @@ _brayworth_.modalDialog = function ( _options) {
 	modal.close = function() {
 		options.beforeClose.call( modal);
 		modal.css( 'display', 'none');
-		$(window).off('click');
+		//~ $(window).off('click');
 		options.afterClose.call( modal);
 
 		modal = false;
@@ -91,4 +88,3 @@ _brayworth_.modalDialog = function ( _options) {
 	return ( modal);	// chain
 
 }
-
