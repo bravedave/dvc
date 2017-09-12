@@ -45,7 +45,7 @@ var templation = {
 		container : '<div class="container"></div>',
 		row : '<div class="row"></div>',
 		form : '<form></form>',
-		table : '<table><tbody></tbody></table>',
+		table : '<table><thead></thead><tbody></tbody><tfoot></tfoot></table>',
 		tr : '<tr></tr>',
 		modal : '<div class="modal"><div class="modal-content" role="dialog" aria-labelledby="modal-header-title"><div class="modal-header"><i class="fa close"></i><h1 id="modal-header-title"></h1></div><div class="modal-body"></div></div></div>',
 
