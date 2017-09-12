@@ -42,6 +42,8 @@ var templation = {
 		add more with templation.loadHTML('tr','<tr></tr>');
 	*/
 	var cache = {
+		container : '<div class="container"></div>',
+		row : '<div class="row"></div>',
 		form : '<form></form>',
 		table : '<table><tbody></tbody></table>',
 		tr : '<tr></tr>',
