@@ -103,6 +103,12 @@ var templation = {
 
 			},
 
+			prependTo : function( p) {
+				this._element.prependTo( p);
+				return (this);
+
+			},
+
 			reset : function() {
 				this._element = $(this.src);
 				return (this);
