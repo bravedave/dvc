@@ -42,6 +42,7 @@ var templation = {
 		add more with templation.loadHTML('tr','<tr></tr>');
 	*/
 	var cache = {
+		form : '<form></form>',
 		table : '<table><tbody></tbody></table>',
 		tr : '<tr></tr>',
 		modal : '<div class="modal"><div class="modal-content" role="dialog" aria-labelledby="modal-header-title"><div class="modal-header"><i class="fa close"></i><h1 id="modal-header-title"></h1></div><div class="modal-body"></div></div></div>',
