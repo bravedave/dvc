@@ -109,6 +109,12 @@ var templation = {
 
 			},
 
+			remove : function( p) {
+				this._element.remove();
+				return (this);
+
+			},
+
 			reset : function() {
 				this._element = $(this.src);
 				return (this);
