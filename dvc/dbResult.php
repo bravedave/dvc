@@ -62,6 +62,13 @@ class dbResult {
 
 	}
 
+	/*
+		extend like:
+			$dtoSet = $res->dtoSet( function( $dto) {
+				return $dto;
+
+			});
+		*/
 	public function dtoSet( $func = NULL, $template = NULL) {
 		$ret = array();
 		if ( is_callable( $func)) {

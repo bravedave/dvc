@@ -19,6 +19,7 @@ class element {
 	protected static $indent = 1;
 
 	var $selfClosing = FALSE;
+	static $EOL = PHP_EOL;
 
 	function __construct( $tag, $content = NULL, $attributes = NULL ) {
 		$this->tag = $tag;
@@ -80,11 +81,11 @@ class element {
 			foreach ( $this->attributes as $k => $v )
 				$a[] = sprintf( '%s="%s"', $k, $v );
 
-			$r[] = sprintf( '%s%s<%s %s %s>', PHP_EOL, str_repeat( chr(9), self::$indent ), $this->tag, implode( ' ', $a ), $selfCloser );
+			$r[] = sprintf( '%s%s<%s %s %s>', self::$EOL, str_repeat( chr(9), self::$indent ), $this->tag, implode( ' ', $a ), $selfCloser );
 
 		}
 		else {
-			$r[] = sprintf( '%s%s<%s %s>', PHP_EOL, str_repeat( chr(9), self::$indent ), $this->tag, $selfCloser);
+			$r[] = sprintf( '%s%s<%s %s>', self::$EOL, str_repeat( chr(9), self::$indent ), $this->tag, $selfCloser);
 
 		}
 
@@ -104,9 +105,9 @@ class element {
 		self::$indent --;
 		if ( !$this->selfClosing ) {
 			if ( count( $this->children ) > 0 )
-				$r[] = sprintf( '%s</%s>%s', str_repeat( chr(9), self::$indent ), $this->tag, PHP_EOL );
+				$r[] = sprintf( '%s</%s>%s', str_repeat( chr(9), self::$indent ), $this->tag, self::$EOL );
 			else
-				$r[] = sprintf( '</%s>%s', $this->tag, PHP_EOL );
+				$r[] = sprintf( '</%s>%s', $this->tag, self::$EOL );
 
 		}
 
