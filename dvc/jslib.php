@@ -185,6 +185,7 @@ abstract class jslib {
 			'js/_brayworth_.browser.js',
 			'js/_brayworth_.context.js',
 			'js/_brayworth_.growl.js',
+			'js/_brayworth_.fileDragDropHandler.js',
 			'js/_brayworth_.hashScroll.js',
 			'js/_brayworth_.InitHRefs.js',
 			'js/_brayworth_.initDatePickers.js',

@@ -66,6 +66,16 @@ abstract class _controller {
 
 		$this->authorized = $this->authorised;	// american spelling accepted (doh)
 
+		$this->before();
+
+	}
+
+	protected function before() {
+		/*
+		 Inspired by something I read in the fuelPHP documentation
+		 this method is called at the end of __connstruct and can
+		 be used to modify the _controller class */
+
 	}
 
 	protected function getParam( $v = '', $default = FALSE ) {

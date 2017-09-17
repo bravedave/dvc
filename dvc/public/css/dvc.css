@@ -559,3 +559,28 @@ blockquote cite:before {
 .wait { cursor: wait; }
 
 pre { padding: 10px 20px }
+
+@media screen {
+	/* file upload css */
+	.box__dragndrop, .box__uploading, .box__success, .box__error { display: none; }
+	.has-advanced-upload {
+		outline: 2px dotted #337ab7;
+		padding: 5px;
+		outline-offset: -4px;
+		background: white url( images/drag-files-here-to-upload.png ) no-repeat left bottom;
+
+	}
+	.has-advanced-upload .box__fill,
+	.has-advanced-upload .box__uploading,
+	.has-advanced-upload .box__dragndrop {
+		padding: 10px;
+	}
+	.has-advanced-upload .box__fill { display: none; }
+	.has-advanced-upload .box__dragndrop { display: inline; }
+	.is-dragover { background-color: grey; }
+	.is-uploading { position: relative; min-height: 62px; }
+	.is-uploading input[type="file"],
+	.is-uploading .box__input { visibility: none; display: none; }
+	.is-uploading .box__uploading { display: block; position: absolute; top: 0; left: 0; width: 100%; }
+	.is-uploading .box__fill { display: block; top: 0; left: 0; position: absolute; background-color: rgba(60, 118, 61, 0.4);  }
+}
