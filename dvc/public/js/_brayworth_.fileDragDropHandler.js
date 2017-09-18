@@ -9,7 +9,7 @@
 	Apply drag drop capabilities to a container
 
 	load:
-		_brayworth_.loadScript( _brayworth_.urlwrite('js/_brayworth_.fileDragDropHandler.js');
+		$.getScript( _brayworth_.urlwrite('js/_brayworth_.fileDragDropHandler.js'));
 
 	test:
 		var c = _brayworth_.fileDragDropContainer().appendTo('body');	// or where ever you want to append to;
