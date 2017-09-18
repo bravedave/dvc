@@ -83,6 +83,15 @@ abstract class userAgent {
 
 	}
 
+	static function isGoogleBot() {
+		// HTTP_USER_AGENT => Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+		if( preg_match('/Googlebot/', self::$useragent))
+			return ( TRUE);
+
+		return ( FALSE );
+
+	}
+
 	static function os() {
 		$os_array = array(
 				'/windows nt 10/i'     =>  'Windows 10',

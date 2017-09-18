@@ -31,14 +31,15 @@ abstract class _controller {
 
 	static $url;
 
-	/**
-	 * Whenever a controller is created, open a database connection too.
-	 * The idea behind is to have ONE connection that can be used by multiple models.
-	 */
 	function __construct( $rootPath ) {
 		if ( $this->debug) \sys::logger( __FILE__ . ' :: start construct');
 		$this->rootPath = $rootPath;
 		$this->title = config::$WEBNAME;
+
+		/**
+		 * Whenever a controller is created, open a database connection too.
+		 * The aim is to have ONE connection that can be used globally.
+		 */
 		$this->db = application::app()->dbi();
 
 		if ( $this->debug) \sys::logger( __FILE__ . ' :: checking authority');
@@ -56,7 +57,7 @@ abstract class _controller {
 				if ( !\currentUser::isadmin()) {
 					$state = new dao\state( $this->db);
 					if ( $state->offline())
-						Response::redirect( \url::$URL . "offline" );
+						Response::redirect( \url::tostring( 'offline'));
 
 				}
 
@@ -65,7 +66,6 @@ abstract class _controller {
 		}
 
 		$this->authorized = $this->authorised;	// american spelling accepted (doh)
-
 		$this->before();
 
 	}
@@ -115,6 +115,9 @@ abstract class _controller {
 			}
 
 		}
+
+		if ( \userAgent::isGoogleBot())
+			exit;	// quietly
 
 		if ( $this->Redirect_OnLogon)
 			Response::redirect( \url::tostring( sprintf( 'logon?referer=%s', $this->Redirect_OnLogon)));
