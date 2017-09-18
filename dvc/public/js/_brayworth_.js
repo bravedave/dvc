@@ -19,8 +19,11 @@ if ( 'undefined' == typeof _brayworth_ )
 			return ( '/' + _url);
 
 		},
-		loadScript( src) {
-			$('<script></script>').attr('src', src).appendTo('head');
+		loadScript( src, callBack) {
+			if ( 'undefined' == typeof callBack)
+				callBack = function() {};
+
+			$('<script></script>').on('load', callBack).attr('src', src).appendTo('head');
 
 		}
 

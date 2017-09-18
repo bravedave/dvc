@@ -130,7 +130,7 @@ abstract class errsys {
 				sprintf( "%s\n", $e->getTraceAsString()) .
 				sprintf( "--------------------------------------------\nExposed:\n%s\n", $exposed );
 			if( isset($_SERVER['HTTP_REFERER']))
-				$mailMessage .= sprintf( "'Referer: %s\n", $_SERVER['HTTP_REFERER']);
+				$mailMessage .= sprintf( "Referer: %s\n", $_SERVER['HTTP_REFERER']);
 
 			if ( self::$_currentUser)
 				$mailMessage .= sprintf( "Current User:%s\n", self::$_currentUser );
