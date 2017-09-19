@@ -86,6 +86,10 @@ class dbCheck extends _dao {
 				$fields[] = "`" . $fld["name"] . "` text";
 
 			}
+			elseif ( $fld["type"] == "mediumtext" ) {
+				$fields[] = "`" . $fld["name"] . "` mediumtext";
+
+			}
 			elseif ( $fld["type"] == "bigint" ) {
 				$fields[] = "`" . $fld["name"] . "` bigint(" . (string)$fld["length"] . ") default '" . (int)$fld["default"] . "'";
 
@@ -189,6 +193,10 @@ class dbCheck extends _dao {
 				}
 				elseif ( $fld["type"] == "text" ) {
 					$sql = "alter table `" . $this->table . "` add column `" . $fld["name"] . "` text $after";
+
+				}
+				elseif ( $fld["type"] == "mediumtext" ) {
+					$sql = "alter table `" . $this->table . "` add column `" . $fld["name"] . "` mediumtext $after";
 
 				}
 				elseif ( $fld["type"] == "bigint" ) {
