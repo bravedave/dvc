@@ -12,14 +12,12 @@ NameSpace dvc\pages;
 class page extends _page {
 	public $timer = NULL;
 
-	public $jQuery3 = FALSE;
-
 	protected $boolOpen = FALSE;
 
 	static public $MainContextMenu = TRUE;
 
 	protected static $vuejs = FALSE;
-	protected $topOfPage = array();
+	protected $topOfPage = [];
 
 	protected function _viewjs( $title = '' ) {
 		$this->meta = [];
@@ -44,7 +42,7 @@ class page extends _page {
 
 		}
 
-		$aCss = array( 'custom');
+		$aCss = [ 'custom'];
 		if ( \application::app())
 			$aCss[] = \application::app()->controller();
 
@@ -56,21 +54,9 @@ class page extends _page {
 
 		}
 
-		if ( \userAgent::isLegacyIE()) {
-			$this->scripts = [];
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-1.11.3.min.js'));
-
-		}
-		elseif ( $this->jQuery3) {
-			$this->scripts = [];
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-3.2.1.min.js'));
-
-		}
-
 	}
 
 	function __construct( $title = '' ) {
-		$this->jQuery3 = ( \config::$JQUERY == 3);
 		parent::__construct( $title);
 
 		if ( self::$vuejs)

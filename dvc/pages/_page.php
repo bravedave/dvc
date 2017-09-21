@@ -20,26 +20,35 @@ class _page {
 	public $title = '';
 	public $data = FALSE;
 	public $charset = FALSE;
+	public $jQuery3 = FALSE;
 
-	public $meta = array(),
-		$scripts = array(),
-		$latescripts = array(),
-		$css = array(),
-		$closeTags = array(),
-		$closeContentTags = array(),
+	public $meta = [],
+		$scripts = [],
+		$latescripts = [],
+		$css = [],
+		$closeTags = [],
+		$closeContentTags = [],
 		$footer = TRUE,
 		$bodyClass = FALSE,
 		$debug = FALSE;
 
 	function __construct( $title = '' ) {
-		$this->data = (object)array( 'title' => '');
+		$this->jQuery3 = ( \config::$JQUERY == 3);
+		$this->data = (object)['title' => ''];
 
 		$this->data->title = $this->title = ( $title == '' ? \config::$WEBNAME : $title );
 
 		$this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
 		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
 
-		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-2.2.4.min.js'));
+		if ( \userAgent::isLegacyIE())
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-1.11.3.min.js'));
+
+		elseif ( $this->jQuery3)
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-3.2.1.min.js'));
+
+		else
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-2.2.4.min.js'));
 
 		if ( \jslib::brayworth()) {
 			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \jslib::$brayworthlib );
@@ -256,7 +265,7 @@ OUTPUT;
 			foreach ( $this->closeTags as $tag )
 				print $tag;
 
-			$this->closeTags = array();
+			$this->closeTags = [];
 
 			foreach ( $this->latescripts as $script )
 				print "\t" . $script . PHP_EOL;
