@@ -22,12 +22,12 @@ class page extends _page {
 	protected $topOfPage = array();
 
 	protected function _viewjs( $title = '' ) {
-		$this->meta = array();
-		$this->scripts = array();
-		$this->latescripts = array();
-		$this->css = array();
+		$this->meta = [];
+		$this->scripts = [];
+		$this->latescripts = [];
+		$this->css = [];
 
-		//~ $this->css = array();
+		//~ $this->css = [];
 		$this->meta[] = '<meta name="page-constructor" content="_vuejs" />';
 		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/vue.js'));
 
@@ -38,7 +38,7 @@ class page extends _page {
 		$this->topOfPage[] = '	<div id="top-of-page"></div>';
 
 		if ( \config::$CSS_BASE == 'mini') {
-			$this->css = array();
+			$this->css = [];
 			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring('css/mini-default.min.css'));
 			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring('css/mini-custom.css'));
 
@@ -57,19 +57,20 @@ class page extends _page {
 		}
 
 		if ( \userAgent::isLegacyIE()) {
-			$this->scripts = array();
+			$this->scripts = [];
 			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-1.11.3.min.js'));
 
 		}
 		elseif ( $this->jQuery3) {
-			$this->scripts = array();
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-3.1.1.min.js'));
+			$this->scripts = [];
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-3.2.1.min.js'));
 
 		}
 
 	}
 
 	function __construct( $title = '' ) {
+		$this->jQuery3 = ( \config::$JQUERY == 3);
 		parent::__construct( $title);
 
 		if ( self::$vuejs)
