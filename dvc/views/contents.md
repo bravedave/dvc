@@ -3,9 +3,15 @@
 
 ### [Getting Started](/docs/getting-started)
 - [installing](/docs/installing)
+  - [php](/docs/php)
   - [apache](/docs/apache)
   - [vps](/docs/vps)
 - [first app](/docs/firstapp)
+
+### [Structure](/docs/structure)
+- [Data Modelling](/docs/structureData)
+- [View](/docs/structureView)
+- [Controller](/docs/structureController)
 
 ### [Namespaces](/docs/namespaces)
 ### [Database](/docs/database)
