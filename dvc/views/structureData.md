@@ -4,7 +4,7 @@
 
 ### The Modelling
 
-The Data model is the interface between the database (SQL Server) and the controller
+The Data model is the layer between the database (SQL Server) and the controller
 
 This software uses a DAO / DTO model
 - DAO - Data Access Object
@@ -45,7 +45,26 @@ This software uses a DAO / DTO model
 
 </table>
 
-### Examples
+### How to Use
+* DAO - Required
+* DTO - Optional
+   * If the dto requires no customization, there is no requirement to create a dto file
+
+1. Create a folder for DAO files under the [root]app folder i.e. [root]app/dao
+2. Create a DAO file
+
+### Example DAO
+```
+<?php
+NameSpace dao;
+
+class users extends _dao {
+	protected $_db_name = 'users';
+
+}
+```
+
+### Example DAO Use
 ```
 $dao = new dao\users;
 if ( $res = $dao->getAll()) {
