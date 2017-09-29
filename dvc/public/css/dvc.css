@@ -402,6 +402,12 @@ blockquote cite:before {
 	background-color: rgb(0,0,0); /* Fallback color */
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
+th, .modal-header {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
 
 /* The Close Button */
 .fa.close,
@@ -423,6 +429,26 @@ blockquote cite:before {
     text-decoration: none;
     cursor: pointer;
 }
+
+/*-- --[]-- --*/
+.modal-header input[type="submit"],
+.modal-header input[type="reset"],
+.modal-header button,
+.modal-header a.button,
+.modal-header a:visited.button {
+	margin-top: -3px;
+	padding: 3px 10px;
+	background-color: inherit;
+	color: white;
+	line-height: normal;
+}
+.modal-header a.button,
+.modal-header a:visited.button {
+	border: 1px solid white;
+}
+
+/*-- --[]-- --*/
+
 
 /* Modal Header, Body & Footer */
 .modal-footer { padding: 10px 15px 5px; }
