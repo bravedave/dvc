@@ -443,11 +443,6 @@ th, .modal-header {
 	color: white;
 	line-height: normal;
 }
-.modal-header button,
-.modal-header a.button,
-.modal-header a:visited.button {
-	border: 1px solid white;
-}
 /*-- --[]-- --*/
 
 
