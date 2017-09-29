@@ -437,6 +437,7 @@ th, .modal-header {
 .modal-header a.button,
 .modal-header a:visited.button {
 	margin-top: -3px;
+	margin-right: 10px;
 	padding: 3px 10px;
 	background-color: inherit;
 	color: white;
