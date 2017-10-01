@@ -200,6 +200,8 @@ OUTPUT;
 
 		}
 
+		return ( $this);	// chain
+
 	}
 
 	public function section( $name = 'content', $class = 'content', $role = 'content') {
@@ -236,12 +238,17 @@ OUTPUT;
 
 	}
 
-	public function pagefooter() {
-		$this
+	protected function _pagefooter() {
+		return $this
 			->header()
 			->pageHeader()
 			->closeSection()
 			->closeContent();
+
+	}
+
+	public function pagefooter() {
+		$this->_pagefooter();
 
 		$v = new \view;
 			$v->load( 'footer');

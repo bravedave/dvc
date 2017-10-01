@@ -12,7 +12,7 @@
 NameSpace dvc\html;
 
 class initialicon extends element {
-	static $debug = TRUE;
+	//~ static $debug = TRUE;
 	static $EOL = '';
 
 	static function rendered( $content = NULL, $attributes = NULL) {

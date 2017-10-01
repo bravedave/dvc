@@ -195,11 +195,7 @@ OUTPUT;
 	}
 
 	public function pagefooter() {
-		$this
-			->header()
-			->pageHeader()
-			->closeSection()
-			->closeContent();
+		$this->_pagefooter();
 
 		$v = new \view;
 		if ( \config::$CSS_BASE == 'mini')
