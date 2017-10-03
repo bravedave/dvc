@@ -15,29 +15,34 @@ NameSpace dvc;
 abstract class bCrypt {
 	static function crypt( $input ) {
 
-		$cipher = mcrypt_module_open(MCRYPT_TRIPLEDES, '', 'ecb', '');
-		mcrypt_generic_init( $cipher, \config::$CRYPT_KEY, \config::$CRYPT_IV );
+		//~ $cipher = mcrypt_module_open(MCRYPT_TRIPLEDES, '', 'ecb', '');
+		//~ mcrypt_generic_init( $cipher, \config::$CRYPT_KEY, \config::$CRYPT_IV );
 
-		$encrypted_data = mcrypt_generic( $cipher, $input );
+		//~ $encrypted_data = mcrypt_generic( $cipher, $input );
 
-		mcrypt_generic_deinit( $cipher );
-		mcrypt_module_close( $cipher );
+		//~ mcrypt_generic_deinit( $cipher );
+		//~ mcrypt_module_close( $cipher );
 
-		return base64_encode( $encrypted_data);
+		//~ return base64_encode( $encrypted_data);
+
+		return base64_encode( openssl_encrypt( $input, 'bf-cbc', \config::$CRYPT_KEY, 0, \config::$CRYPT_IV ));
 
 	}
 
 	static function decrypt( $encrypted_text ) {
 
-		$cipher = mcrypt_module_open( MCRYPT_TRIPLEDES, '', 'ecb', '');
+		//~ $cipher = mcrypt_module_open( MCRYPT_TRIPLEDES, '', 'ecb', '');
 
-		mcrypt_generic_init($cipher, \config::$CRYPT_KEY, \config::$CRYPT_IV);
+		//~ mcrypt_generic_init($cipher, \config::$CRYPT_KEY, \config::$CRYPT_IV);
 
-		$decrypted_data = mdecrypt_generic( $cipher, base64_decode($encrypted_text));
+		//~ $decrypted_data = mdecrypt_generic( $cipher, base64_decode($encrypted_text));
 
-		mcrypt_generic_deinit( $cipher);
-		mcrypt_module_close( $cipher);
-		return $decrypted_data;
+		//~ mcrypt_generic_deinit( $cipher);
+		//~ mcrypt_module_close( $cipher);
+
+		//~ return $decrypted_data;
+
+		return openssl_decrypt( base64_decode( $encrypted_text), 'bf-cbc', \config::$CRYPT_KEY, 0, \config::$CRYPT_IV );
 
 	}
 
