@@ -255,7 +255,9 @@ class Request {
 
 		$response = [
 			'response' => 'ack',
-			'description' => []
+			'description' => [],
+			'files' => [],
+
 		];
 
 		if ( \is_null($accept)) {
@@ -275,45 +277,46 @@ class Request {
 
 		}
 
-	foreach ( $_FILES as $file ) {
-		if ( $debug) sys::logger( sprintf( '/upload: %s', $file['name']));
-		if ( $file['error'] == UPLOAD_ERR_INI_SIZE ) {
-			if ( $debug) sys::logger( sprintf( 'upload: %s is too large (ini)', $file['name']));
-			$response['description'][] = $file['name'] . ' is too large (ini)';
-			$response['response'] = 'nak';
-
-		}
-		elseif ( $file['error'] == UPLOAD_ERR_FORM_SIZE ) {
-			if ( $debug) sys::logger( sprintf( 'upload: %s is too large (form)', $file['name']));
-			$response['description'][] = $file['name'] . ' is too large (form)';
-			$response['response'] = 'nak';
-
-		}
-		elseif ( is_uploaded_file( $file['tmp_name'] )) {
-			$strType = $file['type'];
-			if ( $debug) sys::logger( sprintf( 'upload: %s (%s)', $file['name'], $strType));
-
-			$ok = TRUE;
-			if ( in_array( $strType, $accept)) {
-				$source = $file['tmp_name'];
-				$target = sprintf( '%s/%s', $path, $file['name']);
-
-				if ( file_exists( $target ))
-					unlink( $target );
-
-				if ( move_uploaded_file( $source, $target)) {
-					chmod( $target, 0666 );
-					$response['description'][] = $file['name'] . ' uploaded';
-
-				}
-				else {
-					if ( $debug) sys::logger("Possible file upload attack!  Here's some debugging info:\n" . var_export($_FILES, TRUE));
-
-				}
+		foreach ( $_FILES as $file ) {
+			if ( $debug) sys::logger( sprintf( '/upload: %s', $file['name']));
+			if ( $file['error'] == UPLOAD_ERR_INI_SIZE ) {
+				if ( $debug) sys::logger( sprintf( 'upload: %s is too large (ini)', $file['name']));
+				$response['description'][] = $file['name'] . ' is too large (ini)';
+				$response['response'] = 'nak';
 
 			}
-			elseif ( $strType == "" ) {
-				if ( $debug) sys::logger( sprintf( 'upload: %s invalid file type', $file['name']));
+			elseif ( $file['error'] == UPLOAD_ERR_FORM_SIZE ) {
+				if ( $debug) sys::logger( sprintf( 'upload: %s is too large (form)', $file['name']));
+				$response['description'][] = $file['name'] . ' is too large (form)';
+				$response['response'] = 'nak';
+
+			}
+			elseif ( is_uploaded_file( $file['tmp_name'] )) {
+				$strType = $file['type'];
+				if ( $debug) sys::logger( sprintf( 'upload: %s (%s)', $file['name'], $strType));
+
+				$ok = TRUE;
+				if ( in_array( $strType, $accept)) {
+					$source = $file['tmp_name'];
+					$target = sprintf( '%s/%s', $path, $file['name']);
+
+					if ( file_exists( $target ))
+						unlink( $target );
+
+					if ( move_uploaded_file( $source, $target)) {
+						chmod( $target, 0666 );
+						$response['description'][] = $file['name'] . ' uploaded';
+						$response['files'][] = $file['name'];
+
+					}
+					else {
+						if ( $debug) sys::logger("Possible file upload attack!  Here's some debugging info:\n" . var_export($_FILES, TRUE));
+
+					}
+
+				}
+				elseif ( $strType == "" ) {
+					if ( $debug) sys::logger( sprintf( 'upload: %s invalid file type', $file['name']));
 					$response['description'][] = $file['name'] . ' invalid file type ..';
 					$response['response'] = 'nak';
 
