@@ -71,6 +71,8 @@
 			host = $(host);
 		else if ( this instanceof String)
 			host = $(host.valueOf());
+		else if ( 'object' typeof this  && !!this.xhr)
+			host = $('body');
 		else if ( !( this instanceof jQuery))
 			host = $(host);
 

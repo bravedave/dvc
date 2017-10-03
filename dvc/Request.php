@@ -250,8 +250,8 @@ class Request {
 		/*
 			upload files to path from POST
 			*/
-		$debug = TRUE;
-		// $debug = FALSE;
+		//~ $debug = TRUE;
+		$debug = FALSE;
 
 		$response = [
 			'response' => 'ack',
