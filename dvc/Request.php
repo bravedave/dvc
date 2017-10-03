@@ -279,7 +279,7 @@ class Request {
 		}
 
 		foreach ( $_FILES as $key => $file ) {
-			if ( $debug) sys::logger( sprintf( '/upload: %s', $file['name']));
+			if ( $debug) sys::logger( sprintf( '/upload: %s : %s', $key, $file['name']));
 			if ( $file['error'] == UPLOAD_ERR_INI_SIZE ) {
 				if ( $debug) sys::logger( sprintf( 'upload: %s is too large (ini)', $file['name']));
 				$response['description'][] = $file['name'] . ' is too large (ini)';
@@ -299,7 +299,7 @@ class Request {
 				$ok = TRUE;
 				if ( in_array( $strType, $accept)) {
 					$source = $file['tmp_name'];
-					$target = sprintf( '%s/%s', $path, $key);
+					$target = sprintf( '%s/%s', $path, $file['name']);
 
 					if ( file_exists( $target ))
 						unlink( $target );
@@ -307,7 +307,7 @@ class Request {
 					if ( move_uploaded_file( $source, $target)) {
 						chmod( $target, 0666 );
 						$response['description'][] = $file['name'] . ' uploaded';
-						$response['files'][] = $file['name'];
+						$response['files'][$key] = $file['name'];
 
 					}
 					else {
