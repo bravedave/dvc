@@ -165,11 +165,16 @@ OUTPUT;
 
 		}
 
-		$this->closeSection();
-		$this->openContent();
-		$this->sectionOPEN = TRUE;
-		$this->sectionNAME = 'content-primary';
-		printf( '		<div class="%s" data-role="content-primary">%s', $class, PHP_EOL );
+		$this
+			->header()
+			->closeSection()
+			->openContent()
+			->section( 'content-primary', $class, 'content-primary');
+		//~ $this->closeSection();
+		//~ $this->openContent();
+		//~ $this->sectionOPEN = TRUE;
+		//~ $this->sectionNAME = 'content-primary';
+		//~ printf( '		<div class="%s" data-role="content-primary">%s', $class, PHP_EOL );
 
 		return ( $this);	// chain
 
@@ -184,11 +189,16 @@ OUTPUT;
 
 		}
 
-		$this->closeSection();
-		$this->openContent();
-		$this->sectionOPEN = TRUE;
-		$this->sectionNAME = 'content-secondary';
-		printf( '		<div class="%s" data-role="content-secondary">%s', $class, PHP_EOL );
+		$this
+			->header()
+			->closeSection()
+			->openContent()
+			->section( 'content-secondary', $class, 'content-secondary');
+		//~ $this->closeSection();
+		//~ $this->openContent();
+		//~ $this->sectionOPEN = TRUE;
+		//~ $this->sectionNAME = 'content-secondary';
+		//~ printf( '		<div class="%s" data-role="content-secondary">%s', $class, PHP_EOL );
 
 		return ( $this);	// chain
 
