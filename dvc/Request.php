@@ -278,7 +278,7 @@ class Request {
 
 		}
 
-		foreach ( $_FILES as $key as $file ) {
+		foreach ( $_FILES as $key => $file ) {
 			if ( $debug) sys::logger( sprintf( '/upload: %s', $file['name']));
 			if ( $file['error'] == UPLOAD_ERR_INI_SIZE ) {
 				if ( $debug) sys::logger( sprintf( 'upload: %s is too large (ini)', $file['name']));
