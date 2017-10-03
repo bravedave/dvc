@@ -261,7 +261,8 @@ class Request {
 		];
 
 		if ( \is_null($accept)) {
-			$accept = ['image/png',
+			$accept = [
+				'image/png',
 				'image/x-png',
 				'image/jpeg',
 				'image/pjpeg',
@@ -277,7 +278,7 @@ class Request {
 
 		}
 
-		foreach ( $_FILES as $file ) {
+		foreach ( $_FILES as $key as $file ) {
 			if ( $debug) sys::logger( sprintf( '/upload: %s', $file['name']));
 			if ( $file['error'] == UPLOAD_ERR_INI_SIZE ) {
 				if ( $debug) sys::logger( sprintf( 'upload: %s is too large (ini)', $file['name']));
@@ -298,7 +299,7 @@ class Request {
 				$ok = TRUE;
 				if ( in_array( $strType, $accept)) {
 					$source = $file['tmp_name'];
-					$target = sprintf( '%s/%s', $path, $file['name']);
+					$target = sprintf( '%s/%s', $path, $key);
 
 					if ( file_exists( $target ))
 						unlink( $target );
