@@ -95,15 +95,22 @@ _brayworth_.context = function() {
 
 			}
 
-			/* add helper class to display the menu on left	*
-			 * if the window width is restrictive on the right	*/
+
+			/* add helper class to display the submenu on left
+			 * if the window width is restrictive on the right
+			 */
 			if ( offset.left > ( $(window).width() - (this.root.width()* 2)))
 				this.root.addClass( 'menu-contextmenu-right');
 			else
 				this.root.removeClass( 'menu-contextmenu-right');
 
-			//~ console.log( offset.left, $(window).width() * .8);
-			//~ console.log( this.root.width());
+			/* add helper class to display the submenu high
+			 * if the window height is restrictive at bottom
+			 */
+			if ( offset.top + ( this.root.height() * 1.2) > ( $(window).height()+$(window).scrollTop()))
+				this.root.addClass( 'menu-contextmenu-low');
+			else
+				this.root.removeClass( 'menu-contextmenu-low');
 
 			return ( this);
 
