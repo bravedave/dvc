@@ -155,6 +155,8 @@ _brayworth_.modal = function( params) {
 
 	}
 
+	var previousElement = document.activeElement;
+
 	var bodyElements = [];
 	if ( options.fullScreen) {
 		/* hide all the body elements */
@@ -171,8 +173,6 @@ _brayworth_.modal = function( params) {
 		t.get('.modal-content').css({ 'width' : 'auto', 'margin' : 0 });
 
 	}
-
-	var previousElement = document.activeElement;
 
 	t.appendTo( 'body');
 	t.data( 'modal', _brayworth_.modalDialog.call( t.get(), {

@@ -53,8 +53,11 @@ ul.menu.menu-contextmenu > li:not(:hover) > * > ul { display: none; }
 
 ul.menu.menu-contextmenu > li { position: relative; }
 
-ul.menu.menu-contextmenu > li > ul,
-ul.menu.menu-contextmenu > li > * > ul { position: absolute; top: 0; }
+ul:not(.menu-contextmenu-low).menu.menu-contextmenu > li > ul,
+ul:not(.menu-contextmenu-low).menu.menu-contextmenu > li > * > ul { position: absolute; top: 0; }
+
+ul.menu.menu-contextmenu.menu-contextmenu-low > li > ul,
+ul.menu.menu-contextmenu.menu-contextmenu-low > li > * > ul { position: absolute; bottom: 0; }
 
 ul:not(.menu-contextmenu-right).menu.menu-contextmenu > li > ul,
 ul:not(.menu-contextmenu-right).menu.menu-contextmenu > li > * > ul { left: 100%; }
