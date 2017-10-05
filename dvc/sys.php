@@ -11,6 +11,8 @@ NameSpace dvc;
 
 abstract class sys {
 	protected static $_loglevel = 1;
+	protected static $_loaderCount = 0;
+	protected static $_loaderCounter = NULL;
 	protected static $_logloader = 0;
 	protected static $_dbi = NULL;
 
@@ -90,14 +92,23 @@ abstract class sys {
 	}
 
 	static function logloaderon( $b) {
-		if ( (bool)$b)
-			self::$_logloader = 1;
+		self::$_logloader = (bool)$b;
+
+	}
+
+	static function loaderCounter( hitter $hitter) {
+		self::$_loaderCounter = $hitter;
 
 	}
 
 	static function logloader( $v) {
+		self::$_loaderCount++;
+
+		if ( self::$_loaderCounter)
+			self::$_loaderCounter->hits( self::$_loaderCount);
+
 		if ( (bool)self::$_logloader)
-			error_log( sprintf( '%d. %s', self::$_logloader++, $v));
+			error_log( sprintf( '%d. %s', self::$_loaderCount, $v));
 
 	}
 

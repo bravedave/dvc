@@ -25,6 +25,11 @@ class home extends Controller {
 		//~ if ( !config::checkDBconfigured())
 			//~ Response::redirect( url::$URL . 'install/db' );
 
+		/*
+			if you set this you will get some stats in the system log
+			about how many loads have occurrered	*/
+		//~ sys::loaderCounter( new dvc\hitter('total loads'));
+
 		if ( $this->isPost()) {
 			$this->postHandler();
 
