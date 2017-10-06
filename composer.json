@@ -16,8 +16,7 @@
 		"MatthiasMullie/Minify" : "*",
 		"runmybusiness/initialcon": "*",
 		"phpmailer/phpmailer": "~5.2",
-		"erusev/parsedown":"*",
-		"google/apiclient": "*"
+		"erusev/parsedown":"*"
 
 	}
 
