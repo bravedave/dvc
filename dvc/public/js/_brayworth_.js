@@ -9,7 +9,9 @@
 */
 
 if ( 'undefined' == typeof _brayworth_ )
-	var _brayworth_ = {
+	var _brayworth_ = function() { return ( _brayworth_); }
+
+$.extend( _brayworth_, {
 		_brayworth_ : true,
 		templates : {},
 		urlwrite : function( _url) {
@@ -20,4 +22,4 @@ if ( 'undefined' == typeof _brayworth_ )
 
 		}
 
-	};
+	});

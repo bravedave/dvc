@@ -175,7 +175,8 @@ _brayworth_.modal = function( params) {
 	}
 
 	t.appendTo( 'body');
-	t.data( 'modal', _brayworth_.modalDialog.call( t.get(), {
+
+	var _modal = _brayworth_.modalDialog.call( t.get(), {
 		mobile : options.mobile,
 		onOpen : options.onOpen,
 		afterClose : function() {
@@ -193,7 +194,16 @@ _brayworth_.modal = function( params) {
 
 		},
 
-	}));
+	})
+
+	t.data( 'modal', _modal);
+	if ( 'undefined' != typeof this && !this._brayworth_ ) {
+		if ( this instanceof jQuery)
+			this.data('modal', _modal);
+		else
+			$(this).data('modal', _modal);
+
+	}
 
 	return ( t.data( 'modal'));	// the modal
 
