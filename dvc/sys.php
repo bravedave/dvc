@@ -158,7 +158,7 @@ abstract class sys {
 		}
 
 
-		new html\dump( htmlentities( $v), $title );
+		new html\dump( $v, $title );
 		if ( $title == 'dvc\dbResult') {
 			while ( $r = $v->dto())
 				new html\dump( $r, get_class( $r));
