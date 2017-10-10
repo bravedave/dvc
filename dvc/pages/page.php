@@ -47,10 +47,19 @@ class page extends _page {
 			$aCss[] = \application::app()->controller();
 
 		foreach ( $aCss as $cssFile) {
-			if ( file_exists( realpath( '.' ) . '/css/' . $cssFile . '.css' ))
-				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( sprintf( 'css/%s.css', $cssFile)));
-			elseif ( file_exists( \application::app()->getRootPath() . '/app/public/css/' . $cssFile . '.css' ))
-				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( sprintf( 'css/%s.css', $cssFile )));
+			if ( file_exists( $_file = realpath( '.' ) . '/css/' . $cssFile . '.css' )) {
+				$modtime = filemtime( $_file);
+				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( sprintf( 'css/%s.css?v=%s', $cssFile, $modtime)));
+
+			}
+			else {
+				if ( file_exists( $_file = \application::app()->getRootPath() . '/app/public/css/' . $cssFile . '.css' )) {
+					$modtime = filemtime( $_file);
+					$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( sprintf( 'css/%s.css?v=%s', $cssFile, $modtime )));
+
+				}
+
+			}
 
 		}
 
