@@ -341,6 +341,8 @@ abstract class _controller {
 
 		}
 
+		return ( $this);
+
 	}
 
 	public function logout() {
