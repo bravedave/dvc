@@ -15,6 +15,7 @@ class page extends _page {
 	protected $boolOpen = FALSE;
 
 	static public $MainContextMenu = TRUE;
+	static public $BootStrap = FALSE;
 
 	protected static $vuejs = FALSE;
 	protected $topOfPage = [];
@@ -129,22 +130,22 @@ OUTPUT;
 
 		$this->contextmenu();
 
-		if ( \config::$CSS_BASE == 'mini') {
+		if ( \config::$CSS_BASE == 'mini' || self::$BootStrap) {
+
 			$this->closeContentTags[] = '	</div></div><!-- /_page:Main Content Area -->' . PHP_EOL;
-			print <<<OUTPUT
 
-	<div class="main-content-wrapper"><div class="row"><!-- _page:Main Content Area -->
+			if ( self::$BootStrap)
+				printf( '%s%s	<div class="main-content-wrapper container-fluid"><div class="row"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, PHP_EOL);
 
-OUTPUT;
+			else
+				printf( '%s%s	<div class="main-content-wrapper"><div class="row"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, PHP_EOL);
 
 		}
 		else {
+
 			$this->closeContentTags[] = '	</div><!-- /_page:Main Content Area -->' . PHP_EOL;
-			print <<<OUTPUT
 
-	<div class="main-content-wrapper"><!-- _page:Main Content Area -->
-
-OUTPUT;
+			printf( '%s%s	<div class="main-content-wrapper"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, PHP_EOL);
 
 		}
 
