@@ -19,7 +19,7 @@ _brayworth_.ScrollTo = function( el) {
 	}
 	else {
 		var hdr = $('body>header');
-		if ( hdr.length ) {
+		if ( hdr.length )
 			t -= ( hdr.height());
 
 	}
