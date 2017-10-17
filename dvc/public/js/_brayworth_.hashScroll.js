@@ -8,15 +8,21 @@
 
 */
 _brayworth_.ScrollTo = function( el) {
-	var _el = el;
-	if ( !( _el instanceof jQuery))
-		_el = $(el);
+	var _el = ( el instanceof jQuery ? el : $(el));
 
 	var t = _el.offset().top;
-	var nav = $('body>nav');
 
-	if ( nav.length )
+	var nav = $('body>nav');
+	if ( nav.length ) {
 		t -= ( nav.height());
+
+	}
+	else {
+		var hdr = $('body>header');
+		if ( hdr.length ) {
+			t -= ( hdr.height());
+
+	}
 
 	t = Math.max( 20, t);
 
