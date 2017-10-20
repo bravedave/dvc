@@ -11,4 +11,4 @@
 	Copy it to <application>/app/views/ and modify it there
 	*/
 	if ( ! defined( "APPLICATION")) exit;	?>
-	<div>&nbsp;</div>
+			<div>&nbsp;</div>

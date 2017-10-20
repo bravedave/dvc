@@ -134,18 +134,25 @@ OUTPUT;
 
 			$this->closeContentTags[] = '	</div></div><!-- /_page:Main Content Area -->' . PHP_EOL;
 
+			$classes = ['main-content-wrapper'];
 			if ( self::$BootStrap)
-				printf( '%s%s	<div class="main-content-wrapper container-fluid"><div class="row"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, PHP_EOL);
+				$classes[] = 'container-fluid';
 
-			else
-				printf( '%s%s	<div class="main-content-wrapper"><div class="row"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, PHP_EOL);
+			if ( $this->hasTitleBar)
+				$classes[] = 'with-nav-bar';
+
+			printf( '%s%s	<div class="%s"><div class="row"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
 
 		}
 		else {
 
 			$this->closeContentTags[] = '	</div><!-- /_page:Main Content Area -->' . PHP_EOL;
 
-			printf( '%s%s	<div class="main-content-wrapper"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, PHP_EOL);
+			$classes = ['main-content-wrapper'];
+			if ( $this->hasTitleBar)
+				$classes[] = 'with-nav-bar';
+
+			printf( '%s%s	<div class="%s"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
 
 		}
 

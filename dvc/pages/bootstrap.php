@@ -46,12 +46,18 @@ class bootstrap extends page {
 	//~ }
 
 	public function primary( $class = NULL) {
-		return ( parent::primary( 'col-sm-8 col-md-9'));	// chain
+		if ( is_null( $class))
+			$class =  'col-sm-8 col-md-9';
+
+		return ( parent::primary( $class));	// chain
 
 	}
 
 	public function secondary( $class = NULL) {
-		return ( parent::secondary( 'col-sm-4 col-md-3'));	// chain
+		if ( is_null( $class))
+			$class =  'col-sm-4 col-md-3';
+
+		return ( parent::secondary( $class));	// chain
 
 	}
 

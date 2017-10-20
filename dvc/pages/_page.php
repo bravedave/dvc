@@ -10,12 +10,13 @@
 NameSpace dvc\pages;
 
 class _page {
-	protected $boolHeader = FALSE;
-	protected $boolpageHeader = FALSE;
-	protected $headerOPEN = FALSE;
-	protected $contentOPEN = FALSE;
-	protected $sectionOPEN = FALSE;
-	protected $sectionNAME = '';
+	protected $boolHeader = FALSE,
+		$boolpageHeader = FALSE,
+		$headerOPEN = FALSE,
+		$contentOPEN = FALSE,
+		$sectionOPEN = FALSE,
+		$sectionNAME = '',
+		$hasTitleBar = FALSE;
 
 	public $title = '';
 	public $data = FALSE;
@@ -169,6 +170,8 @@ OUTPUT;
 		$v = new \view( $this->data);
 			$v->load( $navbar);
 
+		$this->hasTitleBar = TRUE;
+
 		return ( $this);
 
 	}
@@ -178,11 +181,13 @@ OUTPUT;
 			return ( $this);
 
 		$this->closeContentTags[] = '	</div><!-- /_page:Main Content Area -->' . PHP_EOL;
-		print <<<OUTPUT
+		$classes = ['main-content-wrapper'];
+		if ( $this->hasTitleBar)
+			$classes[] = 'with-nav-bar';
 
-	<div class="main-content-wrapper"><!-- _page:Main Content Area -->
+		printf( ' <<<OUTPUT
 
-OUTPUT;
+	<div class="%s"><!-- _page:Main Content Area -->%s', implode( ' ', $classes), PHP_EOL);
 
 		$this->contentOPEN = TRUE;
 
