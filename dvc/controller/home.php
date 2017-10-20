@@ -9,7 +9,7 @@
 	*/
 
 class home extends Controller {
-	public $RequireValidation = FALSE;
+	public $RequireValidation = \config::lockdown;
 
 	protected function postHandler() {
 		$action = $this->getPost('action');

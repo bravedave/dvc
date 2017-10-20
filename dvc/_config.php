@@ -20,11 +20,13 @@ abstract class _config {
 	 * If you populate the oauth keys, Google Auth Methods will be enabled
 	 * see https://console.cloud.google.com/
 	 */
-	static $google_api_key = NULL;		// for use with google maps etc
+	static $google_api_key = NULL;	// for use with google maps etc
 	static $oauth2_client_id = NULL; 	// Client ID
-	static $oauth2_secret = NULL;  		// Client Secret
+	static $oauth2_secret = NULL;  	// Client Secret
 	static $oauth2_redirect = NULL; 	// Redirect URI
-	static $oauth2_scope = 0; 			// Permission to read email
+	static $oauth2_scope = 0; 		// Permission to read email
+
+	const lockdown = FALSE;			// affects the home page and docs page set this and they will require auth
 
 	const GMAIL_BASIC = 0;
 	const GMAIL_READ = 1;

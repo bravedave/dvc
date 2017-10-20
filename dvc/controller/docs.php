@@ -12,7 +12,7 @@
 	*/
 
 class docs extends Controller {
-	public $RequireValidation = FALSE;
+	public $RequireValidation = \config::lockdown;
 
 	public function index( $view = 'index') {
 		if ( !$view)

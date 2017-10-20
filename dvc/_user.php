@@ -20,6 +20,10 @@ class _user {
 	var $email = '';
 
 	public function valid() {
+		/**
+		 * if this function returns true you are logged in
+		 */
+
 		return ( TRUE );
 
 	}
