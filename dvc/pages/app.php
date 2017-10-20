@@ -12,11 +12,13 @@ NameSpace dvc\pages;
 class app extends _page {
 	public $headerTemplate = 'app-header';
 	public $footerTemplate = 'footer';
+	public $webAppCapable = TRUE;
 
 	function __construct( $title = '' ) {
 		parent::__construct( $title);
 		$this->meta[] = '<meta name="viewport" content="width=device-width, initial-scale=1" />';
-		$this->meta[] = '<meta name="apple-mobile-web-app-capable" content="yes" />';
+		if ( $this->webAppCapable)
+			$this->meta[] = '<meta name="apple-mobile-web-app-capable" content="yes" />';
 
 		$aCss = array( 'custom');
 		if ( \application::app())
