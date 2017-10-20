@@ -12,7 +12,8 @@ NameSpace dvc\pages;
 class app extends _page {
 	public $headerTemplate = 'app-header';
 	public $footerTemplate = 'footer';
-	public $webAppCapable = TRUE;
+
+	static $webAppCapable = TRUE;
 
 	function __construct( $title = '' ) {
 		parent::__construct( $title);
