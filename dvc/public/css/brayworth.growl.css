@@ -1,0 +1,53 @@
+/*
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
+
+	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+		http://creativecommons.org/licenses/by/4.0/
+	*/
+.growler {
+	max-width: 400px;
+	margin: 0; padding: 10px 10px 10px 50px; border-radius: 10px;
+	color: white;
+	background: rgb(48,48,48);
+	background: rgba(16,16,16, 0.75);
+	border: 1px solid rgba(81, 203, 238, 1);
+	box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+	z-index: 1500;
+}
+.growler h3{ margin-top: 0; }
+.growler.information:before {
+	content: "";
+	background: url('growl/information.png') no-repeat;
+	padding: 0; margin-left: -40px; width: 32px; height: 32px; display: block; float: left;
+}
+.growler.success:before {
+	content: "";
+	background: url('growl/check.png') no-repeat;
+	padding: 0; margin-left: -40px; width: 32px; height: 32px; display: block; float: left;
+}
+.growler.error:before {
+	content: "";
+	background: url('growl/error.png') no-repeat;
+	padding: 0; margin-left: -40px; width: 32px; height: 32px; display: block; float: left;
+}
+
+@media screen and (max-width: 767px) {
+	.growler {
+		padding: 1px 8px 4px 32px; border-radius: 5px;
+	}
+	.growler.information:before {
+		background: url('growl/information-16x16.png') no-repeat;
+		margin: 5px 0 0 -24px; width: 16px; height: 16px;
+	}
+	.growler.success:before {
+		background: url('growl/check-16x16.png') no-repeat;
+		margin: 5px 0 0 -24px; width: 16px; height: 16px;
+	}
+	.growler.error:before {
+		background: url('growl/error-16x16.png') no-repeat;
+		margin: 5px 0 0 -24px; width: 16px; height: 16px;
+	}
+
+}

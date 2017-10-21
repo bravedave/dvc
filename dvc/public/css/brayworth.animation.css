@@ -1,0 +1,27 @@
+/*
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
+
+	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+		http://creativecommons.org/licenses/by/4.0/
+
+	Modal Content Animation
+	*/
+@-webkit-keyframes animatebottom {
+	from {top: 100%; opacity: 0}
+	to {top: 50%; opacity: 1}
+}
+@keyframes animatebottom {
+	from {top: 100%; opacity: 0}
+	to {top: 50%; opacity: 1}
+}
+/* Add Animation */
+@-webkit-keyframes animatetop {
+	from {top: -300px; opacity: 0}
+	to {top: 0; opacity: 1}
+}
+@keyframes animatetop {
+	from {top: -300px; opacity: 0}
+	to {top: 0; opacity: 1}
+}

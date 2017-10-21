@@ -21,6 +21,7 @@ NameSpace dvc;
 abstract class cssmin {
 	public static $debug = FALSE;
 	public static $dvcmin = FALSE;
+	public static $dvcminFiles = FALSE;
 
 	protected static $rootPath = NULL;
 
@@ -100,19 +101,29 @@ abstract class cssmin {
 		$cssdir = (string)$cssdir;
 
 		if ( (string)$version == '4') {
-			$files = [
-				__DIR__ . '/public/css/dvc-4.css',
-				__DIR__ . '/public/css/brayworth.context.css' ];
+			self::$dvcminFiles = [
+				'css/dvc-4.css',
+				'css/brayworth.context.css',
+				'css/brayworth.growl.css',
+				'css/brayworth.animation.css',
+				'css/brayworth.modal.css' ];
 			if ( is_null( $minfile)) $minfile =  'dvc-4.min.css';
 
 		}
 		else {
-			$files = [
-				__DIR__ . '/public/css/dvc.css',
-				__DIR__ . '/public/css/brayworth.context.css' ];
+			self::$dvcminFiles = [
+				'css/dvc.css',
+				'css/brayworth.context.css',
+				'css/brayworth.growl.css',
+				'css/brayworth.animation.css',
+				'css/brayworth.modal.css' ];
 			if ( is_null( $minfile)) $minfile =  'dvc.min.css';
 
 		}
+
+		$files = [];
+		foreach( self::$dvcminFiles as $f)
+			$files[] = __DIR__ . '/public/' . $f;
 
 		if ( !application::app())
 			throw new \Exceptions\ExternalUseViolation;
