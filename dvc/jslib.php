@@ -186,6 +186,7 @@ abstract class jslib {
 			'js/_brayworth_.InitHRefs.js',
 			'js/_brayworth_.initDatePickers.js',
 			'js/_brayworth_.lazyImageLoader.js',
+			'js/_brayworth_.logonModal.js',
 			'js/_brayworth_.modal.js',
 			'js/_brayworth_.modalDialog.js',
 			'js/_brayworth_.swipe.js',

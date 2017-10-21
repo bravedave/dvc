@@ -59,7 +59,7 @@
 
 
 /* Modal Header, Body & Footer */
-.modal-footer { padding: 10px 15px 5px; }
+.modal-footer { padding: 4px 15px 4px; }
 .modal-body { padding: 5px 15px; }
 .modal-body > .container-fluid { margin: -5px -15px -25px; }
 .modal-header { padding: 3px 15px; }
