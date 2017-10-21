@@ -41,7 +41,7 @@ class _application {
 
 	private $rootPath = null;
 
-	private $Request = null;
+	static private $_request = null;
 
 	protected $_timer = null;
 
@@ -69,6 +69,14 @@ class _application {
 
 	}
 
+	static function Request() {
+		if ( is_null( self::$_request))
+			self::$_request = Request::get();
+
+		return ( self::$_request);
+
+	}
+
 	/**
 	* "Start" the application:
 	* Analyze the URL elements and calls the according controller/method or the fallback
@@ -88,10 +96,7 @@ class _application {
 		ini_set ('date.timezone', $tz);
 		ini_set ('SMTP', $mailserver);
 
-		$this->Request = Request::get();
-		//~ if ( self::$debug) \sys::logger( sprintf( '$this->Request->getUrl() :: %s', $this->Request->getUrl() ));
-
-		$_url = trim( $this->Request->getUrl(), '/. ');
+		$_url = trim( self::Request()->getUrl(), '/. ');
 		if (preg_match('/\.(?:png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml)(\?.*)?$/', $_url)) {
 			/*
 			 * You are only here because
@@ -112,7 +117,7 @@ class _application {
 			$_file = sprintf( '%s/app/public/%s', $this->rootPath, $_url);
 			if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
 			if ( file_exists( $_file)) {
-				$this->url_served = url::$PROTOCOL . url::$URL . $this->Request->getUrl();
+				$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
 				$this->serve( $_file);
 				return;
 
@@ -121,7 +126,7 @@ class _application {
 			$_file = sprintf( '%s/public/%s', $this->rootPath, $_url);
 			if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
 			if ( file_exists( $_file)) {
-				$this->url_served = url::$PROTOCOL . url::$URL . $this->Request->getUrl();
+				$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
 				$this->serve( $_file);
 				return;
 
@@ -131,7 +136,7 @@ class _application {
 			$_file = sprintf( '%s/public/%s', __DIR__, $_url);
 			if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
 			if ( file_exists( $_file)) {
-				$this->url_served = url::$PROTOCOL . url::$URL . $this->Request->getUrl();
+				$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
 				$this->serve( $_file);
 				return;
 
@@ -151,7 +156,7 @@ class _application {
 
 				if ( file_exists( $_file)) {
 					if ( self::$debug) \sys::logger( sprintf( 'file not found : %s : serving :: %s', $_url, $_file));
-					$this->url_served = url::$PROTOCOL . url::$URL . $this->Request->getUrl();
+					$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
 					$this->serve( $_file);
 					return;
 
@@ -236,12 +241,11 @@ class _application {
 		$url_controller_name = $this->url_controller;
 		$this->url_controller = new $this->url_controller( $this->rootPath );
 		$this->url_controller->name = $url_controller_name;
-		$this->url_controller->Request = $this->Request;
 		$this->url_controller->timer = $this->_timer;
 		$this->url_controller->init( $url_controller_name);
 
-		$this->Request->setControllerName($url_controller_name);
-		$this->Request->setActionName($this->url_action);
+		self::Request()->setControllerName($url_controller_name);
+		self::Request()->setActionName($this->url_action);
 
 		/*
 		 * Between here and the end of this function the application will execute
@@ -249,7 +253,7 @@ class _application {
 		 * check for method: does such a method exist in the controller ? */
 		if ( method_exists($this->url_controller, $this->url_action)) {
 
-			$this->url_served = sprintf( '%s%s%s/%s', url::$PROTOCOL, url::$URL, $this->Request->getControllerName(), $this->Request->getActionName());
+			$this->url_served = sprintf( '%s%s%s/%s', url::$PROTOCOL, url::$URL, self::Request()->getControllerName(), self::Request()->getActionName());
 
 			// call the method and pass the arguments to it
 			if (isset($this->url_parameter_3)) {
@@ -285,14 +289,14 @@ class _application {
 
 		}
 		else {
-			$this->url_served = sprintf( '%s%s%s', url::$PROTOCOL, url::$URL, $this->Request->getControllerName());
+			$this->url_served = sprintf( '%s%s%s', url::$PROTOCOL, url::$URL, self::Request()->getControllerName());
 
 			if ( self::$debug) \sys::logger( 'fallback');
 			if ( self::$debug) \sys::logger( sprintf( '%s->index(%s)', $this->url_controller->name, $this->url_action));
 
 			// default/fallback: call the index() method of a selected controller
 			//~ $this->exclude_from_sitemap = TRUE;
-			//~ sys::logger( sprintf( 'excluded from exclude_from_sitemap (fallback) => %s/%s', $this->Request->getControllerName(), $this->Request->getActionName()));
+			//~ sys::logger( sprintf( 'excluded from exclude_from_sitemap (fallback) => %s/%s', self::Request()->getControllerName(), self::Request()->getActionName()));
 			$this->url_controller->index( $this->url_action);
 			//~ sys::logger( sprintf( '%s - %s', $this->url_controller->name, $this->url_action ));
 
@@ -315,8 +319,8 @@ class _application {
 		/**
 		* Get and split the URL
 		*/
-		$url = $this->Request->getUrl();
-		if ( $this->Request->ReWriteBase() != '' && '/' . $url == $this->Request->ReWriteBase()) {
+		$url = self::Request()->getUrl();
+		if ( self::Request()->ReWriteBase() != '' && '/' . $url == self::Request()->ReWriteBase()) {
 			if ( self::$debug) \sys::logger( sprintf( 'ReWriteBase = %s', Request::get()->ReWriteBase()));
 			$url = '';
 
@@ -328,7 +332,7 @@ class _application {
 			// split URL
 			//~ $url = filter_var($url, FILTER_SANITIZE_URL);
 			//~ $url = explode('/', $url);
-			$url = $this->Request->getSegments();
+			$url = self::Request()->getSegments();
 
 			// Put URL parts into according properties
 			//~ $this->url_controller = (isset($url[0]) ? $url[0] : null);
@@ -337,11 +341,11 @@ class _application {
 			//~ $this->url_parameter_2 = (isset($url[3]) ? $url[3] : null);
 			//~ $this->url_parameter_3 = (isset($url[4]) ? $url[4] : null);
 
-			$this->url_controller = $this->Request->getSegment(0);
-			$this->url_action = $this->Request->getSegment(1);
-			$this->url_parameter_1 = $this->Request->getSegment(2);
-			$this->url_parameter_2 = $this->Request->getSegment(3);
-			$this->url_parameter_3 = $this->Request->getSegment(4);
+			$this->url_controller = self::Request()->getSegment(0);
+			$this->url_action = self::Request()->getSegment(1);
+			$this->url_parameter_1 = self::Request()->getSegment(2);
+			$this->url_parameter_2 = self::Request()->getSegment(3);
+			$this->url_parameter_3 = self::Request()->getSegment(4);
 
 			// for debugging. uncomment this if you have problems with the URL
 			if ( self::$debug) \sys::logger( 'Controller: ' . $this->url_controller);

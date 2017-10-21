@@ -41,6 +41,7 @@ abstract class _controller {
 		 * The aim is to have ONE connection that can be used globally.
 		 */
 		$this->db = application::app()->dbi();
+		$this->Request = application::Request();
 
 		if ( $this->debug) \sys::logger( __FILE__ . ' :: checking authority');
 		$this->authorised = \currentUser::valid();
