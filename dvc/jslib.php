@@ -194,7 +194,7 @@ abstract class jslib {
 			'js/templation.js',
 			'js/js.cookie.js' );
 
-		$files = array();
+		$files = [];
 		foreach( self::$brayworthlibFiles as $f)
 			$files[] = __DIR__ . '/public/' . $f;
 

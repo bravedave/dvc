@@ -84,7 +84,7 @@
 			right : 20,
 			text : '',
 			title : '',
-			timeout : 3000,
+			timeout : 2000,
 			growlClass : 'information',
 
 		}

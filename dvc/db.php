@@ -166,7 +166,7 @@ class db {
 					$uID,
 					$row[0],
 					PHP_EOL	);
-				printf( '<blockquote id=\'bqt%s\' style="font-family: monospace;" class="hidden">%s',
+				printf( '<blockquote id="bqt%s" style="font-family: monospace; display: none;">%s',
 					$uID++,
 					PHP_EOL	);
 
