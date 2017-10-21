@@ -22,22 +22,26 @@ class Page extends pages\page {
 		$this->bootstrap = config::$BOOTSTRAP;
 
 		if ( $this->bootstrap) {
+			$css = [ \url::tostring( 'bootstrap.3/css/bootstrap.min.css')];
+			$js = [\url::tostring( 'bootstrap.3/js/bootstrap.min.js')];
 			if ( $this->datepicker) {
-				array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', url::tostring( 'css/bootstrap-datepicker.min.css' )));
-				$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', url::tostring( 'js/bootstrap-datepicker.min.js' ));
+				$css[] = \url::tostring( 'bootstrap.3/css/bootstrap-datepicker.min.css');
+				$js[] = \url::tostring( 'bootstrap.3/js/bootstrap-datepicker.min.js');
 
 			}
 
-			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', url::tostring( 'css/bootstrap.min.css' )));
-			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', url::tostring( 'js/bootstrap.min.js' ));
+			foreach ( $css as $c)
+				array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $c));
+
+			foreach ( $js as $j)
+				$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $j);
 
 		}
 
 	}
 
 	public function title( $navbar =  'navbar-inverse') {
-		parent::title( $navbar);
-		return ( $this);
+		return ( parent::title( $navbar));
 
 	}
 
