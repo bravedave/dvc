@@ -28,6 +28,13 @@ abstract class _config {
 
 	const lockdown = FALSE;			// affects the home page and docs page set this and they will require auth
 
+	/**
+	 * exposes a popup logon if authentication is required
+	 *
+	 * if you use this, the home controller must accept the submission and authenticate
+	 */
+	const use_inline_logon = FALSE;
+
 	const GMAIL_BASIC = 0;
 	const GMAIL_READ = 1;
 	const GMAIL_SEND = 2;

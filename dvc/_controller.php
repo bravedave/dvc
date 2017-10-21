@@ -120,11 +120,25 @@ abstract class _controller {
 		if ( \userAgent::isGoogleBot())
 			exit;	// quietly
 
-		if ( $this->Redirect_OnLogon)
-			Response::redirect( \url::tostring( sprintf( 'logon?referer=%s', $this->Redirect_OnLogon)));
+		if ( \config::use_inline_logon) {
+			$p = new \page( 'Log On' );
+				$p->latescripts[] = '<script>$(document).ready( function() { _brayworth_.logonModal(); })</script>';
+				$p->meta[] = '<meta name="viewport" content="initial-scale=1" />';
+				$p
+					->header()
+					->content();
+				//~ $this->loadView( 'logon');
 
-		else
-			Response::redirect( \url::tostring( 'logon'));
+		}
+		else {
+			if ( $this->Redirect_OnLogon)
+				Response::redirect( \url::tostring( sprintf( 'logon?referer=%s', $this->Redirect_OnLogon)));
+
+			else
+				Response::redirect( \url::tostring( 'logon'));
+
+		}
+		die;
 
 	}
 
