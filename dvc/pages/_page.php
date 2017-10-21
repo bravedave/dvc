@@ -16,7 +16,8 @@ class _page {
 		$contentOPEN = FALSE,
 		$sectionOPEN = FALSE,
 		$sectionNAME = '',
-		$hasTitleBar = FALSE;
+		$hasTitleBar = FALSE,
+		$dvc = '';
 
 	public $title = '';
 	public $data = FALSE;
@@ -64,10 +65,20 @@ class _page {
 
 
 		$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'css/font-awesome.min.css'));
-		if ( \cssmin::dvc())
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \cssmin::$dvcmin );
-		else
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'css/dvc.css'));
+		if ( $this->dvc == '4') {
+			if ( \cssmin::dvc( NULL, NULL, '4'))
+				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \cssmin::$dvcmin );
+			else
+				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'css/dvc-4.css'));
+
+		}
+		else {
+			if ( \cssmin::dvc())
+				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \cssmin::$dvcmin );
+			else
+				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'css/dvc.css'));
+
+		}
 
 	}
 

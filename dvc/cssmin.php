@@ -93,20 +93,29 @@ abstract class cssmin {
 
 	}
 
-	public static function dvc( $minfile = 'dvc.min.css', $cssdir = '') {
+	public static function dvc( $minfile = NULL, $cssdir = NULL, $version = NULL) {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
 
-		$files = array(
-			__DIR__ . '/public/css/dvc.css',
-			__DIR__ . '/public/css/brayworth.context.css' );
+		$cssdir = (string)$cssdir;
 
-		if ( !application::app()) {
-			sys::logger( 'you cannot use this external to application()');
-			throw new \Exception( 'you cannot use this external to application()');
-			return ( FALSE);
+		if ( (string)$version == '4') {
+			$files = [
+				__DIR__ . '/public/css/dvc-4.css',
+				__DIR__ . '/public/css/brayworth.context.css' ];
+			if ( is_null( $minfile)) $minfile =  'dvc-4.min.css';
 
 		}
+		else {
+			$files = [
+				__DIR__ . '/public/css/dvc.css',
+				__DIR__ . '/public/css/brayworth.context.css' ];
+			if ( is_null( $minfile)) $minfile =  'dvc.min.css';
+
+		}
+
+		if ( !application::app())
+			throw new \Exceptions\ExternalUseViolation;
 
 		if ( $cssdir) {
 			self::$dvcmin = sprintf( '%scss/%s/%s?v=%s', \url::$URL, $cssdir, $minfile, \config::$VERSION );

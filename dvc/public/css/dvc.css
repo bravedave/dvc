@@ -1,5 +1,11 @@
-/* Sticky footer styles
--------------------------------------------------- */
+/*
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
+
+	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+		http://creativecommons.org/licenses/by/4.0/
+*/
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { font-family: sans-serif; }
 html {
@@ -99,8 +105,10 @@ footer nav > ul > li, .footer nav > ul > li, .copyright {
 
 	.navbar-brand, .navbar-nav > li > a { line-height: 50px; }
 
-	body > .container, body > .container-fluid, body > .main-content-wrapper {
-		padding: 55px 15px 0;
+	body > .container.with-nav-bar,
+	body > .container-fluid.with-nav-bar,
+	body > .main-content-wrapper.with-nav-bar {
+		padding: 51px 15px 0;
 	}
 
 }
@@ -119,7 +127,9 @@ footer nav > ul > li, .footer nav > ul > li, .copyright {
 	.navbar-fixed-top { min-height: 60px; }
 	.navbar-brand, .navbar-nav > li > a { line-height: 60px; }
 
-	body > .container, body > .container-fluid, body > .main-content-wrapper {
+	body > .container.with-nav-bar,
+	body > .container-fluid.with-nav-bar,
+	body > .main-content-wrapper.with-nav-bar {
 		padding: 65px 15px 0;
 	}
 
@@ -135,7 +145,8 @@ footer nav > ul > li, .footer nav > ul > li, .copyright {
 	.navbar-brand, .navbar-nav > li > a { line-height: 70px; }
 
 	.navbar { margin-bottom: 0; }
-	body > .container, body > .container-fluid, body > .main-content-wrapper {
+	body > .container, body > .container-fluid.with-nav-bar,
+	body > .main-content-wrapper.with-nav-bar {
 		padding-top: 70px;
 
 	}

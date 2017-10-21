@@ -11,9 +11,9 @@
 	Copy it to <application>/app/views/ and modify it there
 	*/	?>
 	<footer>
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row no-margin-bottom">
-				<div class="col-full" id="brayworthLOGO">
+				<div class="col text-right" id="brayworthLOGO">
 					<a title="software by BrayWorth using php" href="https://brayworth.com" target="_blank">BrayWorth</a>
 
 				</div>

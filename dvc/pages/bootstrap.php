@@ -17,6 +17,9 @@ class bootstrap extends page {
 
 	function __construct( $title = '' ) {
 		self::$BootStrap = TRUE;
+		if ( self::$BootStrap_Version == '4')
+			$this->dvc = '4';
+
 		parent::__construct( $title );
 
 		if ( self::$BootStrap_Version == '3' || self::$BootStrap_Version == '4') {

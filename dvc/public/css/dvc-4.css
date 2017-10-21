@@ -1,0 +1,70 @@
+/*
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
+
+	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+		http://creativecommons.org/licenses/by/4.0/
+*/
+/*-- --[ colors ]-- --*/
+.navbar-default {
+    background-color: #f8f8f8;
+    border-color: #e7e7e7;
+}
+.navbar-default .navbar-brand { color: #777; }
+/*-- --[ end: colors ]-- --*/
+.navbar-brand, .navbar-nav > li > a { line-height: 80px; }
+.navbar-brand {
+	padding-top: 0;
+	font: normal 20px/1em sans-serif;
+}
+@media screen and (max-width: 424px) {
+	.navbar-brand { font-size: 20px; line-height: 40px; }
+	.navbar, .navbar-brand { padding-top: 5px; padding-bottom: 0; }
+}
+@media screen and (min-width: 425px) and (max-width: 767px) {
+	.navbar-brand { font-size: 24px; line-height: 40px; }
+	.navbar, .navbar-brand { padding-top: 5px; padding-bottom: 0; }
+}
+@media screen and (min-width: 768px) and (max-width: 1099px) {
+	.navbar-brand { font-size: 32px; line-height: 40px; }
+	.navbar, .navbar-brand { padding-top: 5px; padding-bottom: 0; }
+}
+@media screen and (min-width: 1100px){
+	.navbar-brand { font-size: 36px; line-height: 40px; }
+	.navbar, .navbar-brand { padding-top: 5px; padding-bottom: 0; }
+}
+
+
+footer, .footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background-color: #f5f5f5;
+}
+
+footer nav > ul, .footer nav > ul, .copyright {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
+}
+
+footer nav > ul > li, .footer nav > ul > li, .copyright {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 0 3px;
+    line-height: 20px;
+    text-align: center;
+}
+
+div#brayworthLOGO a {
+	font-size: 8pt; font-style: italic;
+	display: inline-block;
+	font-weight: bold;
+	text-decoration: none;
+	border-bottom: 2px solid #fbc02d;
+	color: black;
+	padding: 4px 4px 0;
+}
+

@@ -11,11 +11,8 @@
 	Copy it to <application>/app/views/ and modify it there
 	*/	?>
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" >
-		<div class="container-fluid" >
-			<div class="navbar-header" >
-				<?php printf( '<a href="%s" class="navbar-brand" >%s</a>', \url::$URL, $this->data->title);	?>
-
-			</div>
+		<div class="navbar-header" >
+			<?php printf( '<a href="%s" class="navbar-brand" >%s</a>', \url::$URL, $this->data->title);	?>
 
 		</div>
 

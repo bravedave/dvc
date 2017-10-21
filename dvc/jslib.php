@@ -112,12 +112,8 @@ abstract class jslib {
 
 		}
 
-		if ( !application::app()) {
-			sys::logger( 'you cannot use this external to application()');
-			throw new \Exception( 'you cannot use this external to application()');
-			return ( FALSE);
-
-		}
+		if ( !application::app())
+			throw new \Exceptions\ExternalUseViolation;
 
 		self::$tinylib = sprintf( '%sjs/%s/%s?v=', \url::$URL, $libdir, $lib);
 		$jslib = sprintf( '%s/app/public/js/%s/%s', application::app()->getRootPath(), $libdir, $lib);
@@ -202,12 +198,8 @@ abstract class jslib {
 		foreach( self::$brayworthlibFiles as $f)
 			$files[] = __DIR__ . '/public/' . $f;
 
-		if ( !application::app()) {
-			sys::logger( 'you cannot use this external to application()');
-			throw new \Exception( 'you cannot use this external to application()');
-			return ( FALSE);
-
-		}
+		if ( !application::app())
+			throw new \Exceptions\ExternalUseViolation;
 
 		if ( $libdir) {
 			self::$brayworthlib = sprintf( '%sjs/%s/%s?v=', \url::$URL, $libdir, $lib);
