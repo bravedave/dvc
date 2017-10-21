@@ -49,20 +49,15 @@ $(document).ready( function() {
 	})
 
 	$('[data-role="visibility-toggle"]').each( function( i, el ) {
-		//~ console.log('processing : window.history.back()');
-		var o = $(el);
-		var target = o.data('target');
+		var _el= $(el);
+		var target = _el.data('target');
 		var oT = $('#' + target);
-		if (oT) {
-
-			o
+		if ( oT) {
+			_el
 			.css('cursor','pointer')
 			.on('click', function( evt ) {
 				evt.stopPropagation(); evt.preventDefault();
-				if ( oT.hasClass( 'hidden'))
-					oT.removeClass( 'hidden' );
-				else
-					oT.addClass( 'hidden' );
+				oT.toggle();
 
 			})
 

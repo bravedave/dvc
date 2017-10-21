@@ -38,7 +38,9 @@ class dbCheck {	// extends _dao {
 			return ( FALSE );
 
 		if ( strtolower( $type) == 'bigint')
-			$type = 'INT';
+			$type = 'INTEGER';
+		elseif ( strtolower( $type) == 'int')
+			$type = 'INTEGER';
 		elseif ( strtolower( $type) == 'varchar')
 			$type = 'TEXT';
 		elseif ( strtolower( $type) == 'float')
