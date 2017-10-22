@@ -19,7 +19,8 @@ abstract class Response {
 
 		}
 		elseif ( ! ( preg_match( '@^(http|//)@i', (string)$url ))) {
-			$url = \url::$URL . $url;
+			if ( '/' != $url)
+				$url = \url::$URL . $url;
 			//~ sys::logger( 'Fixed URL:' . $url );
 
 		}
