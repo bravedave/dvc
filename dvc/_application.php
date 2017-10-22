@@ -54,6 +54,8 @@ class _application {
 
 	protected static $instance = NULL;
 
+	const use_full_url = FALSE;
+
 	static $debug = FALSE;
 
 	static function app() {

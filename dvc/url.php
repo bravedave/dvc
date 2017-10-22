@@ -35,10 +35,17 @@ abstract class url {
 			if ( !( defined( 'URL' ))) {
 				if ( isset( $_SERVER['SERVER_SOFTWARE'] )) {
 					if ( preg_match( '@^PHP@', $_SERVER['SERVER_SOFTWARE'] )) {
-						if ( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] != 80)
-							define( 'URL', sprintf( '//localhost:%s/', $_SERVER['SERVER_PORT']));
-						else
-							define( 'URL', '//localhost/' );
+						if ( application::use_full_url) {
+							if ( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] != 80)
+								define( 'URL', sprintf( '//localhost:%s/', $_SERVER['SERVER_PORT']));
+							else
+								define( 'URL', '//localhost/' );
+
+						}
+						else {
+							define( 'URL', '/' );
+
+						}
 
 					}
 
@@ -47,23 +54,30 @@ abstract class url {
 			}
 
 			if ( !( defined( 'URL' ) && defined( 'URL_APPLICATION' ) ) ) {
-				$ServerName = "";
-				if ( isset( $_SERVER["SERVER_NAME"] ))
-					$ServerName = strtolower( $_SERVER["SERVER_NAME"] );
+				$ServerName = '';
+				if ( isset( $_SERVER['SERVER_NAME'] ))
+					$ServerName = strtolower( $_SERVER['SERVER_NAME'] );
 				$ServerName = preg_replace( '@\/$@', '', $ServerName );
 
-				$ScriptName = "";
-				if ( isset( $_SERVER["SCRIPT_NAME"] ))
-					$ScriptName = dirname( $_SERVER["SCRIPT_NAME"] );
+				$ScriptName = '';
+				if ( isset( $_SERVER['SCRIPT_NAME'] ))
+					$ScriptName = dirname( $_SERVER['SCRIPT_NAME'] );
 				$ScriptName = preg_replace( '@(\/|\\\)$@', '', $ScriptName );
 
 				if ( !( defined( 'URL_APPLICATION' )))
 					define( 'URL_APPLICATION', '//' . $ServerName . $ScriptName . '/' );
 
 				if ( !( defined( 'URL' ))) {
-					$ScriptName = preg_replace( '@/application$@', '', $ScriptName );
-					define( 'URL', '//' . $ServerName . $ScriptName . '/' );
-					sys::logger( sprintf( 'defining URL as %s - %s', $ServerName, $ScriptName ), 3 );
+					if ( application::use_full_url) {
+						$ScriptName = preg_replace( '@/application$@', '', $ScriptName );
+						define( 'URL', '//' . $ServerName . $ScriptName . '/' );
+						sys::logger( sprintf( 'defining URL as %s - %s', $ServerName, $ScriptName ), 3 );
+
+					}
+					else {
+						define( 'URL', '/' );
+
+					}
 
 				}
 
