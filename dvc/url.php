@@ -33,9 +33,16 @@ abstract class url {
 		if ( !isset( self::$URL )) {
 
 			if ( !( defined( 'URL' ))) {
-				if ( isset( $_SERVER["SERVER_SOFTWARE"] ))
-					if ( preg_match( '@^PHP@', $_SERVER["SERVER_SOFTWARE"] ))
-						define( 'URL', '//localhost/' );
+				if ( isset( $_SERVER['SERVER_SOFTWARE'] )) {
+					if ( preg_match( '@^PHP@', $_SERVER['SERVER_SOFTWARE'] )) {
+						if ( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] != 80)
+							define( 'URL', sprintf( '//localhost:%s/', $_SERVER['SERVER_PORT']));
+						else
+							define( 'URL', '//localhost/' );
+
+					}
+
+				}
 
 			}
 
