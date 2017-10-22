@@ -10,4 +10,7 @@
 	*/
 NameSpace dvc\Exceptions;
 
-class ExternalUseViolation extends Exception {}
+class ExternalUseViolation extends Exception {
+	protected $_dvc = 'External Use Violation';
+
+}

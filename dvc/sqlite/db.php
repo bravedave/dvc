@@ -26,25 +26,8 @@ class db {
 	}
 
 	private function __construct() {
-		$root = sprintf('%s', \application::app()->getRootPath());
-		$path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
-
-		if ( is_writable( $root ) || is_writable( $path)) {
-			if ( !is_dir( $path))
-				mkdir( $path, '0777');
-
-			if ( !is_dir( $path))
-				throw new \Exception( 'error/nodatapath');
-
-			$path = sprintf('%s%ssqlite.db', $path, DIRECTORY_SEPARATOR );
-			$this->_db = new \SQLite3( $path);
-			return;
-
-		}
-		printf( 'please create a writable data folder : %s', $path );
-		printf( '<br /><br />mkdir --mode=0777 %s', $path );
-
-		throw new \Exception( 'unable to open database');
+		$path = sprintf('%s%ssqlite.db', \config::dataPath(), DIRECTORY_SEPARATOR );
+		$this->_db = new \SQLite3( $path);	// throws exception on failure
 
 	}
 
@@ -62,15 +45,24 @@ class db {
 	}
 
 	public function Insert( $table, $a ) {
-		$fA = array();
-		$fV = array();
+		/**
+		 * Insert values into SQLite table
+		 *
+		 * Note: SQLite values must delimit with ' (single quote)
+		 *
+		 * Parameters: 	Table to update
+		 * 				array of key => values
+		 *
+		 */
+		$fA = [];
+		$fV = [];
 		foreach ( $a as $k => $v ) {
 			$fA[] = $k;
 			$fV[] = $this->escape($v);
 
 		}
 
-		$sql = sprintf( 'INSERT INTO `%s`(`%s`) VALUES("%s")', $table, implode( "`,`", $fA ), implode( '","', $fV ));
+		$sql = sprintf( "INSERT INTO `%s`(`%s`) VALUES('%s')", $table, implode( "`,`", $fA ), implode( "','", $fV ));
 
 		$this->_db->exec( $sql);
 		return ( $this->_db->lastInsertRowID());
@@ -78,7 +70,16 @@ class db {
 	}
 
 	public function Update( $table, $a, $scope ) {
-		$aX = array();
+		/**
+		 * Update values into SQLite table
+		 *
+		 * Note: SQLite values must delimit with ' (single quote)
+		 *
+		 * Parameters: 	Table to update
+		 * 				array of key => values
+		 * 				scope of update : e.g. 'WHERE id = 1'
+		 */
+		$aX = [];
 		foreach ( $a as $k => $v )
 			$aX[] = "`$k` = '" . $this->escape($v) . "'";
 

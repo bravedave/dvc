@@ -10,7 +10,7 @@
 	*/
 NameSpace dvc\Exceptions;
 
-class NoAuthenticationMethodsAvailable extends Exception {
-	protected $_dvc = 'No Authentication Methods Available';
+class UnableToOpenDatabase extends Exception {
+	protected $_dvc = 'Unable To Open Database';
 
 }

@@ -123,6 +123,29 @@ abstract class _config {
 
 	}
 
+	static public function dataPath() {
+		$root = sprintf('%s', \application::app()->getRootPath());
+		$path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
+
+		if ( is_writable( $root ) || is_writable( $path)) {
+			if ( !is_dir( $path)) {
+				mkdir( $path, '0777');
+				chown( $path, '0777');
+
+			}
+
+			if ( !is_dir( $path))
+				throw new \Exception( 'error/nodatapath');
+
+			return ( $path);
+
+		}
+		printf( 'please create a writable data folder : %s', $path );
+		printf( '<br /><br />mkdir --mode=0777 %s', $path );
+		throw new \Exception( 'error/datapath not writable');
+
+	}
+
 	static function dbInit() {
 		/** This is a local overwrite of the db and google parameters
 		 */
