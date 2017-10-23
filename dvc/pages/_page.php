@@ -208,7 +208,7 @@ OUTPUT;
 		if ( $this->hasTitleBar)
 			$classes[] = 'with-nav-bar';
 
-		printf( ' <<<OUTPUT
+		printf( '
 
 	<div class="%s"><!-- _page:Main Content Area -->%s', implode( ' ', $classes), PHP_EOL);
 

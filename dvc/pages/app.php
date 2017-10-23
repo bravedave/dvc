@@ -21,7 +21,7 @@ class app extends _page {
 		if ( self::$webAppCapable)
 			$this->meta[] = '<meta name="apple-mobile-web-app-capable" content="yes" />';
 
-		$aCss = array( 'custom');
+		$aCss = [ 'custom'];
 		if ( \application::app())
 			$aCss[] = \application::app()->controller();
 
