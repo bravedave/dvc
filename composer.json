@@ -12,6 +12,7 @@
 		"homepage": "http://brayworth.com"
 	}],
 	"require": {
+		"php": ">=5.4",
 		"MatthiasMullie/Minify" : "*",
 		"runmybusiness/initialcon": "*",
 		"phpmailer/phpmailer": "~5.2",
