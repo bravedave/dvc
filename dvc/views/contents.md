@@ -7,6 +7,7 @@
   - [apache](/docs/apache)
   - [vps](/docs/vps)
 - [first app](/docs/firstapp)
+- [how dows it work](/docs/how-does-it-work)
 
 ### [Structure](/docs/structure)
 - [Data Modelling](/docs/structureData)
