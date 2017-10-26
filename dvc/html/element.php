@@ -23,10 +23,10 @@ class element {
 
 	function __construct( $tag, $content = NULL, $attributes = NULL ) {
 		$this->tag = $tag;
-		$this->children = array();
+		$this->children = [];
 		$this->attributes = (array)$attributes;
 
-		$this->selfClosing = in_array( $tag, array( 'img', 'hr', 'br', 'link' ));
+		$this->selfClosing = in_array( $tag, [ 'img', 'hr', 'br', 'link' ]);
 
 		$contentType = gettype( $content);
 		if ( $contentType == 'object' ) {

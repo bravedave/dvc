@@ -18,7 +18,7 @@ class img extends element {
 		if ( is_null( $alt ))
 			$alt = $src;
 
-		$this->attributes( array( 'src' => $src, 'alt' => $alt ));
+		$this->attributes( ['src' => $src, 'alt' => $alt ]);
 
 	}
 

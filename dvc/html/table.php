@@ -18,7 +18,7 @@ class table extends element {
 		parent::__construct( 'table' );
 
 		if ( !( is_null( $class )))
-			$this->attributes( array( 'class' => (string)$class ));
+			$this->attributes( ['class' => (string)$class ]);
 
 		$this->_head = new thead();
 		$this->_body = new tbody();
