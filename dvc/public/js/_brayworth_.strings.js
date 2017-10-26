@@ -155,5 +155,24 @@
 
 	}
 
+	Number.prototype.formatComma = function(x) {
+		return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+	}
+
+	Number.prototype.formatCurrency = function() {
+		var parts = this.toString().split(".");
+		if ( parts.length < 2)
+			parts.push( '00');
+		else if ( parts[1].length < 1)
+			parts[1] += '00';
+		else if ( parts[1].length < 2)
+			parts[1] += '0';
+
+		parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		return parts.join(".");
+
+	}
+
 })();
 

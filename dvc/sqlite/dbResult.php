@@ -39,4 +39,31 @@ class dbResult {
 
 	}
 
+	/**
+	 *	extend like:
+	 *		$dtoSet = $res->dtoSet( function( $dto) {
+	 *			return $dto;
+	 *
+	 *		});
+	 */
+	public function dtoSet( $func = NULL, $template = NULL) {
+		$ret = [];
+		if ( is_callable( $func)) {
+			while ( $dto = $this->dto( $template)) {
+				if ( $d = $func( $dto))
+					$ret[] = $d;
+
+			}
+
+		}
+		else {
+			while ( $dto = $this->dto( $template))
+				$ret[] = $dto;
+
+		}
+
+		return ( $ret);
+
+	}
+
 }
