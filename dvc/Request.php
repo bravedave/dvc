@@ -176,6 +176,9 @@ class Request {
 	}
 
 	public function ClientIsLocal() {
+		if ( $_SERVER['SERVER_NAME'] == 'localhost')
+			return ( TRUE);
+
 		$thisIP = $this->getServerIP();
 		$remoteIP = $this->getRemoteIP();
 
