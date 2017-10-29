@@ -176,7 +176,7 @@ class Request {
 	}
 
 	public function ClientIsLocal() {
-		if ( $_SERVER['SERVER_NAME'] == 'localhost')
+		if ( isset( $_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost')
 			return ( TRUE);
 
 		$thisIP = $this->getServerIP();
