@@ -24,7 +24,7 @@ class Exception extends \Exception {
 		if ( $this->_text == '')
 			$this->_text = $sContext;
 		else
-			$this->_text = $sContext . ' :: ' . $this->_cms;
+			$this->_text = $sContext . ' :: ' . $this->_text;
 
 		if ( 0 !== strlen( $message))
 			$this->_text .= ' : ' . (string)$message;
