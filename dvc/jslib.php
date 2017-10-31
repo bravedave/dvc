@@ -52,7 +52,7 @@ abstract class jslib {
 			}
 
 			if ( is_writable( $outputDIR)) {
-				$contents = array();
+				$contents = [];
 				foreach ( $files as $file) {
 					if ( realpath( $file)) {
 						$contents[] = file_get_contents( $file);
@@ -99,9 +99,9 @@ abstract class jslib {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
 
-		$files = array(
+		$files = [
 			__DIR__ . '/public/js/tinymce/tinymce.min.js',
-			__DIR__ . '/public/js/tinymce/themes/modern/theme.min.js' );
+			__DIR__ . '/public/js/tinymce/themes/modern/theme.min.js' ];
 
 		foreach( explode( ',', $plugins) as $plugin)
 			$files[] = sprintf( '%s/public/js/tinymce/plugins/%s/plugin.min.js', __DIR__, trim( $plugin));
@@ -124,7 +124,7 @@ abstract class jslib {
 			$modtime = 0;
 			foreach ( $files as $file) {
 				if ( realpath( $file))
-					$modtime = max( array( $modtime, filemtime( $file)));
+					$modtime = max( [ $modtime, filemtime( $file)]);
 
 				else
 					sys::logger( 'cannot locate library file ' . $file);
@@ -174,7 +174,7 @@ abstract class jslib {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
 
-		self::$brayworthlibFiles = array(
+		self::$brayworthlibFiles = [
 			'js/jquery.visible.js',
 			'js/_brayworth_.js',
 			'js/_brayworth_.bootstrapModalPop.js',
@@ -193,7 +193,7 @@ abstract class jslib {
 			'js/_brayworth_.strings.js',
 			'js/brayworth.js',
 			'js/templation.js',
-			'js/js.cookie.js' );
+			'js/js.cookie.js' ];
 
 		$files = [];
 		foreach( self::$brayworthlibFiles as $f)
@@ -220,7 +220,7 @@ abstract class jslib {
 			$modtime = 0;
 			foreach ( $files as $file) {
 				if ( realpath( $file))
-					$modtime = max( array( $modtime, filemtime( $file)));
+					$modtime = max( [ $modtime, filemtime( $file)]);
 
 				else
 					sys::logger( 'cannot locate library file ' . $file);
