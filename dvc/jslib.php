@@ -213,7 +213,7 @@ abstract class jslib {
 
 		}
 
-		if ( realpath( $jslib)) {
+		if ( realpath( $jslib) && file_exists( $jslib)) {
 
 			if ( $debug) sys::logger( sprintf( 'jslib::brayworth :: found :: %s', $jslib));
 
