@@ -52,8 +52,15 @@ class dbi extends db {
 	}
 
 	public function result(  $query ) {
-		$dbResult = new dbResult( $this->Q( $query), $this);
-		return ( $dbResult );
+		try {
+			$dbResult = new dbResult( $this->Q( $query), $this);
+			return ( $dbResult );
+
+		}
+		catch( \Exception $e) {
+			throw new Exceptions\SQLException;
+
+		}
 
 	}
 

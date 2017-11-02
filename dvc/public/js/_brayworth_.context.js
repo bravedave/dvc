@@ -163,7 +163,7 @@ _brayworth_.context = function() {
 				if ( evt.shiftKey)
 					return;
 
-				if ( /^(input|textarea|img|a|select)$/i.test( evt.target.nodeName ))
+				if ( /^(input|textarea|img|a|select)$/i.test( evt.target.nodeName ) || $(evt.target).closest('a').length > 0)
 					return;
 
 				if ( $(evt.target).closest('table').data('nocontextmenu') == 'yes' )

@@ -13,11 +13,24 @@
 NameSpace dvc\Exceptions;
 
 class Exception extends \Exception {
-	public function __construct( $sMessage = '', $iCode = 0, $oPrevious = null) {
-		$sMessage = 0 === strlen( $sMessage) ? str_replace('\\', '-', get_class($this)).' ('.
-			basename($this->getFile()).' ~ '.$this->getLine().')' : $sMessage;
+	protected $_text = FALSE;
 
-		parent::__construct( $sMessage, $iCode, $oPrevious);
+	public function __construct($message = null, $code = 0, Exception $previous = null) {
+
+		if ( !$this->_text)
+			$this->_text = '';
+
+		$sContext = str_replace('\\', '-', get_class($this)).' ('. basename($this->getFile()).' ~ '.$this->getLine().')';
+		if ( $this->_text == '')
+			$this->_text = $sContext;
+		else
+			$this->_text = $sContext . ' :: ' . $this->_text;
+
+		if ( 0 !== strlen( $message))
+			$this->_text .= ' : ' . (string)$message;
+
+		// make sure everything is assigned properly
+		parent::__construct( $this->_text, $code, $previous);
 
 	}
 
