@@ -50,7 +50,7 @@ class dbResult {
 	}
 
 	public function dto( $template = NULL) {
-		if ( $dto =  $this->result->fetch_assoc()) {
+		if ( $dto = $this->result->fetch_assoc()) {
 			if ( is_null( $template))
 				return ( new \dao\dto\dto( $dto));
 

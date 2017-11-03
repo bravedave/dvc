@@ -31,9 +31,14 @@ class dbResult {
 
 	}
 
-	public function dto() {
-		if ( $o = $this->fetch())
-			return ( (object)$o);
+	public function dto( $template = NULL) {
+		if ( $dto = $this->fetch()) {
+			if ( is_null( $template))
+				return ( new \dao\dto\dto( $dto));
+
+			return ( new $template( $dto));
+
+		}
 
 		return ( FALSE);
 
