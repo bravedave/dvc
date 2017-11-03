@@ -18,8 +18,8 @@ _brayworth_.logonModal = function() {
 
 	var dlg = $('<div class="container" />');
 	var form = $('<form class="form" />').appendTo( dlg);
-		$('<div class="row" />').append( $( '<div class="col" />').append( flds.user)).appendTo( form);
-		$('<div class="row" />').append( $( '<div class="col" />').append( flds.pass)).appendTo( form);
+		$('<div class="row py-1" />').append( $( '<div class="col" />').append( flds.user)).appendTo( form);
+		$('<div class="row py-1" />').append( $( '<div class="col" />').append( flds.pass)).appendTo( form);
 
 	function submitter() {
 		var u = flds.user.val();
