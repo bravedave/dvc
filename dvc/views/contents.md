@@ -1,7 +1,7 @@
 
-## [Docs](/docs/index.md)
+### [Docs](/docs/index.md)
 
-### [Getting Started](/docs/getting-started)
+#### [Getting Started](/docs/getting-started)
 - [installing](/docs/installing)
   - [php](/docs/php)
   - [apache](/docs/apache)
@@ -9,14 +9,14 @@
 - [first app](/docs/firstapp)
 - [how dows it work](/docs/how-does-it-work)
 
-### [Structure](/docs/structure)
+#### [Structure](/docs/structure)
 - [Data Modelling](/docs/structureData)
 - [View](/docs/structureView)
 - [Controller](/docs/structureController)
 
-### [Namespaces](/docs/namespaces)
-### [Database](/docs/database)
+#### [Namespaces](/docs/namespaces)
+#### [Database](/docs/database)
 - [Connection](/docs/database-connections)
 
-### Components
+#### Components
 - [Pages](/docs/pages)
