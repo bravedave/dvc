@@ -18,5 +18,5 @@
 #### [Database](/docs/database)
 - [Connection](/docs/database-connections)
 
-#### Components
+#### [Components](/docs/component)
 - [Pages](/docs/pages)
