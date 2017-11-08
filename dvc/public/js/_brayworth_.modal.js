@@ -10,7 +10,7 @@
 	but also has similarity to jquery-ui functionality
 
 	load:
-		$('<script></script>').attr('src','/js/_brayworth_.modal.js').appendTo('head');
+		$('<script />').attr('src','/js/_brayworth_.modal.js').appendTo('head');
 
 	Test:
 		_brayworth_.modal.call( $('<div title="fred">hey jude</div>'))
@@ -108,7 +108,7 @@ _brayworth_.modal = function( params) {
 			else
 				$.extend( j, el) ;
 
-			$('<button></button>')
+			$('<button />')
 				.addClass( _brayworth_.templates.buttonCSS)
 				.html( j.text)
 				.on( 'click', function( e) {
@@ -136,10 +136,10 @@ _brayworth_.modal = function( params) {
 				$.extend( j, el);
 
 			if ( !!j.icon)
-				var b = $( '<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;"></i>').addClass( j.icon);
+				var b = $( '<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;" />').addClass( j.icon);
 
 			else
-				var b = $('<button class="pull-right"></button>')
+				var b = $('<button class="pull-right" />')
 					.html( j.text)
 					.addClass( _brayworth_.templates.buttonCSS);
 
@@ -223,7 +223,7 @@ _brayworth_.templates.modal = function() {
 
 		_.footer = function() {
 			if ( !this._footer) {
-				this._footer = $('<div class="modal-footer text-right"></div>');
+				this._footer = $('<div class="modal-footer text-right" />');
 				this.get('.modal-content').append( this._footer);
 
 			}
@@ -232,6 +232,6 @@ _brayworth_.templates.modal = function() {
 
 		};
 
-	return (_);
+	return ( _ );
 
 }
