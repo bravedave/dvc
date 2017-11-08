@@ -10,7 +10,7 @@
 	DO NOT change this file
 	Copy it to <application>/app/views/ and modify it there
 	*/	?>
-	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" >
+	<nav class="navbar navbar-default" role="navigation" >
 		<div class="navbar-header" >
 			<?php printf( '<a href="%s" class="navbar-brand" >%s</a>', \url::$URL, $this->data->title);	?>
 

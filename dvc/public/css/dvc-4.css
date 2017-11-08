@@ -18,9 +18,6 @@
 	padding-top: 0;
 	font: normal 20px/1em sans-serif;
 }
-.main-content-wrapper.with-nav-bar {
-    margin-top: 61px;
-}
 @media screen and (max-width: 424px) {
 	.navbar-brand { font-size: 20px; line-height: 40px; }
 	.navbar, .navbar-brand { padding-top: 5px; padding-bottom: 0; }
