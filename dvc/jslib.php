@@ -113,7 +113,7 @@ abstract class jslib {
 		}
 
 		if ( !application::app())
-			throw new \Exceptions\ExternalUseViolation;
+			throw new Exceptions\ExternalUseViolation;
 
 		self::$tinylib = sprintf( '%sjs/%s/%s?v=', \url::$URL, $libdir, $lib);
 		$jslib = sprintf( '%s/app/public/js/%s/%s', application::app()->getRootPath(), $libdir, $lib);
@@ -200,7 +200,7 @@ abstract class jslib {
 			$files[] = __DIR__ . '/public/' . $f;
 
 		if ( !application::app())
-			throw new \Exceptions\ExternalUseViolation;
+			throw new Exceptions\ExternalUseViolation;
 
 		if ( $libdir) {
 			self::$brayworthlib = sprintf( '%sjs/%s/%s?v=', \url::$URL, $libdir, $lib);
@@ -264,6 +264,108 @@ abstract class jslib {
 		}
 
 		return ( FALSE);
+
+	}
+
+	protected static function _js_create( $options) {
+		$gi = new \GlobIterator( $options->jsFiles, \FilesystemIterator::KEY_AS_FILENAME);
+
+		$input = [];
+		foreach ($gi as $key => $item) {
+			if ( $options->leadKey && $key == $options->leadKey) {
+				if ( $options->debug) sys::logger( sprintf( '%s :: prepending leadKey %s', $options->libName, $options->leadKey));
+				array_unshift( $input, file_get_contents( $item->getRealPath()));
+
+			}
+			else {
+				if ( $options->debug) sys::logger( sprintf( '%s :: appending key %s', $options->libName, $key));
+				$input[] = file_get_contents( $item->getRealPath());
+
+			}
+
+		}
+
+		if ( count($input)) {
+			$minifier = new \MatthiasMullie\Minify\JS;
+			$minifier->add( $input);
+
+			file_put_contents( $options->libFile, $minifier->minify());
+
+		}
+		else {
+			file_put_contents( $options->libFile, '');
+
+		}
+
+	}
+
+	protected static function _js_serve( $options) {
+
+		$expires = \config::$JS_EXPIRE_TIME;
+		$modTime = filemtime( $options->libFile);
+		$age = time() - $modTime;
+		if ( $age < 3600)
+			$expires = 36;
+
+		if ( $options->debug) sys::logger( sprintf( '%s :: serving(%s) %s', $options->libName, $expires, $options->libFile));
+		Response::javascript_headers( filemtime( $options->libFile), $expires);
+		print file_get_contents( $options->libFile);
+
+	}
+
+	public static function viewjs( $params) {
+		$options = (object)array_merge([
+			'debug' => FALSE,
+			'libName' => '',
+			'leadKey' => FALSE,
+			'jsFiles' => FALSE,
+			'libFile' => FALSE
+			], $params);
+
+		if ( $options->libFile ) {
+			if ( $options->jsFiles ) {
+				if ( file_exists( $options->libFile )) {
+					/* test to see if requires update */
+					$modtime = 0;
+					$gi = new \GlobIterator( $options->jsFiles, \FilesystemIterator::KEY_AS_FILENAME);
+					foreach ($gi as $key => $item)
+						$modtime = max( array( $modtime, filemtime( $item->getRealPath())));
+
+					$libmodtime = filemtime( $options->libFile);
+					if ( $libmodtime < $modtime) {
+						if ( $options->debug) sys::logger( sprintf( '%s :: updating %s, latest mod time = %s', $options->libName, $options->libFile, date( 'r', $modtime)));
+
+						self::_js_create( $options);
+						self::_js_serve( $options);
+
+					}
+					else {
+						if ( $options->debug) sys::logger( sprintf( '%s :: latest version (%s)', $options->libName, $options->libFile));
+						self::_js_serve( $options);
+
+					}
+
+				}
+				else {
+					/* create and serve */
+					if ( $options->debug) sys::logger( sprintf( '%s :: creating %s', $options->libName, $options->libFile));
+
+					self::_js_create( $options);
+					self::_js_serve( $options);
+
+				}
+
+			}
+			else {
+				throw new Exceptions\LibraryFilesNotSpecified;
+
+			}
+
+		}
+		else {
+			throw new Exceptions\FileNotSpecified;
+
+		}
 
 	}
 

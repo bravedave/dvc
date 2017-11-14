@@ -8,9 +8,10 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-NameSpace dvc\Exceptions;
 
-class ExternalUseViolation extends Exception {
-	protected $_text = 'External Use Violation';
+NameSpace Exceptions;
+
+class FileNotSpecified extends Exception {
+	protected $_text = 'the file or path was not specified when calling the function';
 
 }

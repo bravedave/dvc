@@ -8,9 +8,10 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
+
 NameSpace dvc\Exceptions;
 
-class ExternalUseViolation extends Exception {
-	protected $_text = 'External Use Violation';
+class LibraryFilesNotSpecified extends Exception {
+	protected $_text = 'The files required to create the Library were Not Specified';
 
 }
