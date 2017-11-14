@@ -6,20 +6,16 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 
-
-	load:
-		$('<script></script>').attr('src','/js/templation.js').appendTo('head');
-
 	test - get:
 		In this example d contains a template object - sort of vuejs ish (not very)
-		templation({template:'sample'}).done( function( d) { console.log( d)});
+		templation.load({template:'sample'}).done( function( d) { console.log( d)});
 
 	usage:
 		$('body').html('');	// clear the page
 		var t = templation.template('table').appendTo('body');
 		for ( var i = 1; i < 10; i++) {
 			var r = templation.template('tr').appendTo( t.get('tbody'));
-			r.append( $('<td></td>').html( i));
+			r.append( $('<td />').html( i));
 
 		}
 
@@ -39,14 +35,14 @@ var templation = {
 (function() {
 	/*
 		some predefined templates
-		add more with templation.loadHTML('tr','<tr></tr>');
+		add more with templation.loadHTML('tr','<tr />');
 	*/
 	var cache = {
-		container : '<div class="container"></div>',
-		row : '<div class="row"></div>',
-		form : '<form></form>',
+		container : '<div class="container" />',
+		row : '<div class="row" />',
+		form : '<form />',
 		table : '<table><thead></thead><tbody></tbody><tfoot></tfoot></table>',
-		tr : '<tr></tr>',
+		tr : '<tr />',
 		modal : '<div class="modal"><div class="modal-content" role="dialog" aria-labelledby="modal-header-title"><div class="modal-header"><i class="fa close"></i><h1 id="modal-header-title"></h1></div><div class="modal-body"></div></div></div>',
 
 	};
