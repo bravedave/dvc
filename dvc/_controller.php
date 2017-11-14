@@ -37,8 +37,8 @@ abstract class _controller {
 		$this->title = config::$WEBNAME;
 
 		/**
-		 * Whenever a controller is created, open a database connection too.
-		 * The aim is to have ONE connection that can be used globally.
+		 * When a controller is created, open a database connection.
+		 * There is ONE connection that is used globally.
 		 */
 		$this->db = application::app()->dbi();
 		$this->Request = application::Request();
@@ -50,6 +50,20 @@ abstract class _controller {
 		if ( $this->RequireValidation ) {
 			if ( !( $this->authorised))
 				$this->authorize();
+
+		}
+		elseif ( $this->isPost()) {
+			/**
+			 * possibly authentication is not turned
+			 * on but they have a page that requires
+			 * validation
+			 */
+			$action = $this->getPost( 'action');
+			if ( $action == '-system-logon-') {
+				if ( !( $this->authorised))
+					$this->authorize();
+
+			}
 
 		}
 
@@ -72,10 +86,11 @@ abstract class _controller {
 	}
 
 	protected function before() {
-		/*
-		 Inspired by something I read in the fuelPHP documentation
-		 this method is called at the end of __connstruct and can
-		 be used to modify the _controller class */
+		/**
+		 * Inspired by something I read in the fuelPHP documentation
+		 * this method is called at the end of __connstruct and can
+		 * be used to modify the _controller class
+		 */
 
 	}
 
