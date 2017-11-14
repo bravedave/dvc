@@ -6,6 +6,13 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 
+	note:
+		to use this library, by default it is going
+		to call the home Controller
+		to return the template:
+		it won't work if you don't do that prep work
+
+
 	test - get:
 		In this example d contains a template object - sort of vuejs ish (not very)
 		templation.load({template:'sample'}).done( function( d) { console.log( d)});
@@ -176,6 +183,12 @@ var templation = {
 					})
 					.done( function( d) {
 						cache[options.template] = d;
+
+						if ( d == '') {
+							console.warn( 'templation:\n did you read the notes about the home controller\n > the home Controller must return the template apon\n   receiving the get-template request');
+
+						}
+
 						resolve( _t( d)); // fulfilled
 
 					});
