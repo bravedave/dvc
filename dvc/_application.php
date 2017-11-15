@@ -238,7 +238,7 @@ class _application {
 		if ( !file_exists( $controllerFile))
 			die( 'cannot locate the controller file');
 
-		self::Request()->setControllerName( $url_controller_name);
+		self::Request()->setControllerName( $this->url_controller);
 		self::Request()->setActionName( $this->url_action);
 
 		require $controllerFile;
@@ -247,6 +247,8 @@ class _application {
 		$this->url_controller = new $this->url_controller( $this->rootPath );
 		$this->url_controller->name = $url_controller_name;
 		$this->url_controller->timer = $this->_timer;
+
+
 		$this->url_controller->init( $url_controller_name);
 
 		/*
