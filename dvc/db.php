@@ -25,6 +25,7 @@ class db {
 		$this->mysqli = @new \mysqli( $host, $user, $pass, $database );
 
 		if ($this->mysqli->connect_error) {
+			sys::logger( sprintf( '\mysqli( %s, %s, ***, %s )',	$host, $user, $database));
 			sys::logger( sprintf( 'Connect Error (%s) %s', $this->mysqli->connect_errno, $this->mysqli->connect_error));
 			throw new Exceptions\UnableToSelectDatabase;
 
