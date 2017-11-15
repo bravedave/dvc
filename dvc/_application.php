@@ -238,6 +238,9 @@ class _application {
 		if ( !file_exists( $controllerFile))
 			die( 'cannot locate the controller file');
 
+		self::Request()->setControllerName( $url_controller_name);
+		self::Request()->setActionName( $this->url_action);
+
 		require $controllerFile;
 
 		$url_controller_name = $this->url_controller;
@@ -245,9 +248,6 @@ class _application {
 		$this->url_controller->name = $url_controller_name;
 		$this->url_controller->timer = $this->_timer;
 		$this->url_controller->init( $url_controller_name);
-
-		self::Request()->setControllerName($url_controller_name);
-		self::Request()->setActionName($this->url_action);
 
 		/*
 		 * Between here and the end of this function the application will execute
@@ -359,7 +359,6 @@ class _application {
 		}
 
 	}
-
 
 	public function controller() {
 		if ( is_string( $this->url_controller))
