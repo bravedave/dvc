@@ -12,6 +12,8 @@
 	*/
 
 class install extends Controller {
+	public $RequireValidation = \config::lockdown;
+	
 	public function error( $sError = 'generic' ) {
 		$p = new Page();
 		$p->header();
