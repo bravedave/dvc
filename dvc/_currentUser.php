@@ -58,4 +58,9 @@ abstract class _currentUser {
 
 	}
 
+	static public function exchangeAuth() {
+		throw new Exceptions\exchangeAuthIsAStub;
+
+	}
+
 }
