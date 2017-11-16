@@ -8,7 +8,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-NameSpace ews\Exceptions;
+NameSpace dvc\ews\Exceptions;
 
 class InvalidExchangeServer extends Exception {
   protected $_text = 'Invalid or No Exchange Server Specified';

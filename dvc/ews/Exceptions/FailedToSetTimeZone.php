@@ -8,7 +8,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-NameSpace ews\Exceptions;
+NameSpace dvc\ews\Exceptions;
 
 class FailedToSetTimeZone extends Exception {
 	protected $_text = 'Failed To Set TimeZone on Exchange Server';
