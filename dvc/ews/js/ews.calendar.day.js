@@ -19,6 +19,7 @@ ews.calendar.day = function( params) {
 		host : 'body',
 		seed : _brayworth_.moment(),
 		url : _brayworth_.urlwrite( 'ews/'),
+		user : 0,
 
 	}
 
@@ -36,6 +37,7 @@ ews.calendar.day = function( params) {
 		data : {
 			start : options.seed.format( 'YYYY-MM-DD 00:00'),
 			end : options.seed.format( 'YYYY-MM-DD 23:59'),
+			user : options.user,
 
 		}
 
