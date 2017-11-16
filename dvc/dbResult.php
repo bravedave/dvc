@@ -62,14 +62,13 @@ class dbResult {
 
 	}
 
-	/*
-		extend like:
-			$dtoSet = $res->dtoSet( function( $dto) {
-				return $dto;
-
-			});
-		*/
 	public function dtoSet( $func = NULL, $template = NULL) {
+		/**
+		 * extend like:
+		 * $dtoSet = $res->dtoSet( function( $dto) {
+		 * 	return $dto;
+		 * });
+		 */
 		$ret = array();
 		if ( is_callable( $func)) {
 			while ( $dto = $this->dto( $template)) {
@@ -103,7 +102,6 @@ class dbResult {
 		return ( $this->result->field_count );
 
 	}
-
 
 	public function fetch_fields() {
 		return ( $this->result->fetch_fields());
