@@ -340,19 +340,6 @@ input[type="text"].datepicker { width: 7em; }
 .tile-on { background-color: #1995dc; }
 .tile-on > a { color: #fff }
 
-.initial-icon {
-	background-color: blue;
-	color: white;
-	border-radius: 16px;
-	display: inline-block;
-	width: 32px;
-	height: 32px;
-	line-height: 32px;
-	text-align: center;
-	font-size: 14px;
-	margin: auto;
-}
-
 /* Featurettes
 ------------------------- */
 

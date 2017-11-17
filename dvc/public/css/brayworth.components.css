@@ -1,0 +1,22 @@
+/*
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
+
+	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+		http://creativecommons.org/licenses/by/4.0/
+
+	Components
+	*/
+.initial-icon {
+	background-color: blue;
+	color: white;
+	border-radius: 16px;
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	font-size: 14px;
+	margin: auto;
+}

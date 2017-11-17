@@ -103,20 +103,24 @@ abstract class cssmin {
 		if ( (string)$version == '4') {
 			self::$dvcminFiles = [
 				'css/dvc-4.css',
+				'css/brayworth.animation.css',
+				'css/brayworth.components.css',
 				'css/brayworth.context.css',
 				'css/brayworth.growl.css',
-				'css/brayworth.animation.css',
-				'css/brayworth.modal.css' ];
+				'css/brayworth.modal.css'
+			];
 			if ( is_null( $minfile)) $minfile =  'dvc-4.min.css';
 
 		}
 		else {
 			self::$dvcminFiles = [
 				'css/dvc.css',
+				'css/brayworth.animation.css',
+				'css/brayworth.components.css',
 				'css/brayworth.context.css',
 				'css/brayworth.growl.css',
-				'css/brayworth.animation.css',
-				'css/brayworth.modal.css' ];
+				'css/brayworth.modal.css'
+			];
 			if ( is_null( $minfile)) $minfile =  'dvc.min.css';
 
 		}
@@ -176,4 +180,3 @@ abstract class cssmin {
 	}
 
 }
-
