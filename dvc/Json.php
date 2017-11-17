@@ -10,15 +10,15 @@
 NameSpace dvc;
 
 class Json {
-	protected $_json = Array();
+	protected $_json = [];
 
 	static function nak( $description) {
-		return ( new Json( array( 'response' => 'nak', 'description' => $description)));
+		return ( new Json( [ 'response' => 'nak', 'description' => $description]));
 
 	}
 
 	static function ack( $description) {
-		return ( new Json( array( 'response' => 'ack', 'description' => $description)));
+		return ( new Json( [ 'response' => 'ack', 'description' => $description]));
 
 	}
 
@@ -61,6 +61,12 @@ class Json {
 	function __destruct() {
 		Response::json_headers();
 		print json_encode( $this->_json );
+
+	}
+
+	function dump() {
+		$this->_json = [];
+		\sys::dump( $this->_json );
 
 	}
 
