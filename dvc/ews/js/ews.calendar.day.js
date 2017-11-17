@@ -56,13 +56,17 @@ ews.calendar.day = function( params) {
 				var sEnd = seed.clone();
 					sEnd.add( interval, 'minutes');
 				var r = templation.template('tr').appendTo( t.get('tbody'));
+					if ( h < 7)
+						r.get().addClass( 'early');
+					else if ( h > 19)
+						r.get().addClass( 'late');
 					r.data( 'time_start', seed.format())
 					r.data( 'time_end', sEnd.format())
 					//~ console.log( seed.format());
 				if ( m == 0)
-					r.append( $('<td class="text-center small" />').html( seed.format('h:mm a')));
+					r.append( $('<td class="text-center small" />').html( seed.format('h:mma').replace( /m$/, '')));
 				else
-					r.append( '<td />');
+					r.append( '<td>&nbsp;</td>');
 
 				r.append( '<td today />')
 
@@ -99,13 +103,16 @@ ews.calendar.day.populate = function( params) {
 		seed : _brayworth_.moment(),
 		url : _brayworth_.urlwrite( 'ews/'),
 		user : 0,
+		left : 0,
+		width : '100%',
+		color : 'black',
+		backgroundColor : '#90caf9',
 
 	}
 
 	$.extend( options, params);
 
-	$.ajax({
-		type : 'post',
+	_brayworth_.post({
 		url: options.url,
 		data : {
 			start : options.seed.format( 'YYYY-MM-DD 00:00'),
@@ -128,11 +135,19 @@ ews.calendar.day.populate = function( params) {
 				var time_end = _brayworth_.moment( $(row).data('time_end'));
 				//~ console.log( time, evt.start);
 				if ( evtStart >= time_start && time_end > evtStart) {
-					var c = $('<div style="position: relative; width: 100%;"></div>');
+					var c = $('<div style="position: relative; width: 100%;" />');
 					$('td[today]', row).append(c)
 
-					var content = $('<div style="position: absolute; width: 100%; background-color: #ccc;"></div>').appendTo( c);
-					content.html(evt.title);
+					var content = $('<div class="planner-cell" planner-label />')
+						.data('user', options.user)
+						.css({
+							'left' : options.left + '%',
+							'width' : options.width,
+							'color' : options.color,
+							'background-color' : options.backgroundColor,
+							})
+						.appendTo( c);
+					content.html( evt.title);
 					//~ console.log( 'found');
 
 					// how many rows will the box cover
@@ -147,15 +162,9 @@ ews.calendar.day.populate = function( params) {
 								var height = offSet.top - contentoffSet.top + _row.height();
 								content.height( height);
 
-					//~ console.log( 'finish : ', evtEnd, time_end, height, contentoffSet, offSet);
-
 								return ( false);
 
 							}
-					//~ else {
-					//~ console.log( 'cont .. ', time_end.format('llll'), evtEnd.format('llll'));
-
-					//~ }
 
 						}
 
@@ -174,6 +183,7 @@ ews.calendar.day.populate = function( params) {
 	})
 
 }
+
 
 ews.calendar.day.test = function() {
 	//~ $(document).off('contextmenu');
