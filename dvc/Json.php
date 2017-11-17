@@ -66,7 +66,7 @@ class Json {
 
 	function dump() {
 		$this->_json = [];
-		\sys::dump( $this->_json );
+		\sys::dump( json_encode( $this->_json ));
 
 	}
 
