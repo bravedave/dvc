@@ -61,11 +61,11 @@ class calendar {
 		}
 
 		if ( isset($item->ItemId)) {
-			$x->change = $item->ItemId->Id;
+			$x->change = $x->id = $item->ItemId->Id;
 			$x->changekey = $item->ItemId->ChangeKey;
-			$x->item = $item;
 
 		}
+		$x->item = $item;
 
 		return ( $x );
 

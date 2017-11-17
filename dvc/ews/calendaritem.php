@@ -19,7 +19,11 @@ class calendaritem {
 		$startUTC = '',
 		$endUTC = '',
 		$timelabel = '',
-		$invitees = '';
+		$invitees = '',
+		$id = '',
+		$change = '',
+		$changekey = ''
+		;
 
 	public function tostring() {
 		return ( sprintf( '%s - %s : Subject: %s, Location: %s :: utc: %s - %s',
