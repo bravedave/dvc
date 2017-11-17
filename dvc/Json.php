@@ -11,6 +11,7 @@ NameSpace dvc;
 
 class Json {
 	protected $_json = [];
+	protected $dumpOnDestruct = TRUE;
 
 	static function nak( $description) {
 		return ( new Json( [ 'response' => 'nak', 'description' => $description]));
@@ -59,14 +60,17 @@ class Json {
 	}
 
 	function __destruct() {
-		Response::json_headers();
-		print json_encode( $this->_json );
+		if ( $this->dumpOnDestruct) {
+			Response::json_headers();
+			print json_encode( $this->_json );
+			
+		}
 
 	}
 
 	function dump() {
-		\sys::dump( json_encode( $this->_json ));
-		$this->_json = [];
+		$this->dumpOnDestruct = FALSE;
+		\sys::dump( $this->_json );
 
 	}
 
