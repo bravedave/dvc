@@ -34,6 +34,8 @@ class _page {
 		$bodyClass = FALSE,
 		$debug = FALSE;
 
+	static $FullCalendar = FALSE;	// load fullCalendar sources
+
 	function __construct( $title = '' ) {
 		$this->jQuery3 = ( \config::$JQUERY == 3);
 		$this->data = (object)['title' => ''];
@@ -89,6 +91,13 @@ class _page {
 					$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( $src));
 
 			}
+
+		}
+
+		if ( self::$FullCalendar ) {
+			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" href="%s" />', url::tostring('fullcalendar/fullcalendar.min.css'));
+			$this->css[] = sprintf('<link type="text/css" rel="stylesheet" href="%s" media="print" />', url::tostring('fullcalendar/fullcalendar.print.css'));
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', url::tostring('fullcalendar/fullcalendar.min.js'));
 
 		}
 
