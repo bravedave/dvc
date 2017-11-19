@@ -34,6 +34,7 @@ class _page {
 		$bodyClass = FALSE,
 		$debug = FALSE;
 
+	static $momentJS = FALSE;	// load momentJS sources
 	static $FullCalendar = FALSE;	// load fullCalendar sources
 
 	function __construct( $title = '' ) {
@@ -53,6 +54,13 @@ class _page {
 
 		else
 			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-2.2.4.min.js'));
+
+		/*
+		 * momentJS is required for fullCalendar
+		 * otherwise optional
+		 */
+		if ( self::$momentJS || self::$FullCalendar )
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring('js/moment.min.js'));
 
 		if ( \jslib::brayworth()) {
 			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \jslib::$brayworthlib );
