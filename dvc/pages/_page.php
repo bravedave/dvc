@@ -95,9 +95,9 @@ class _page {
 		}
 
 		if ( self::$FullCalendar ) {
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" href="%s" />', url::tostring('fullcalendar/fullcalendar.min.css'));
-			$this->css[] = sprintf('<link type="text/css" rel="stylesheet" href="%s" media="print" />', url::tostring('fullcalendar/fullcalendar.print.css'));
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', url::tostring('fullcalendar/fullcalendar.min.js'));
+			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" href="%s" />', \url::tostring('fullcalendar/fullcalendar.min.css'));
+			$this->css[] = sprintf('<link type="text/css" rel="stylesheet" href="%s" media="print" />', \url::tostring('fullcalendar/fullcalendar.print.css'));
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring('fullcalendar/fullcalendar.min.js'));
 
 		}
 
