@@ -46,7 +46,7 @@ ews.calendar.day = function( params) {
 			t.get().addClass('table table-striped table-header-fixed dayplanner').css('margin','auto');
 
 		var r = templation.template('tr').appendTo( t.get('thead'));
-			r.append( $('<td class="text-center" colspan="2" />').html( seed.format('dddd')))
+			r.append( $('<td class="text-center" colspan="2" />').html( seed.format('dddd MMM D')))
 
 		seed.second( 0);
 		for ( var h = 0; h < 24; h++) {
