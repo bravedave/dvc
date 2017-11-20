@@ -8,9 +8,10 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-use \jamesiarmes\PhpEws;
 
 NameSpace dvc\ews;
+
+use \jamesiarmes\PhpEws;
 
 class response {
 	public $ResponseCode = '',
