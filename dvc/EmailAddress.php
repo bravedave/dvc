@@ -1,5 +1,5 @@
 <?php
-/*
+/**
 	David Bray
 	BrayWorth Pty Ltd
 	e. david@brayworth.com.au
@@ -20,9 +20,12 @@ class EmailAddress {
 			$a = explode( "<", $el );
 
 			/* remove quote enclosures */
-			$this->name = preg_replace([
-				'/^("|\')/',
-				'/("|\')$/' ), '', trim( $a[0] ]);
+			$this->name = preg_replace(
+				[
+					'/^("|\')/',
+					'/("|\')$/'
+				],
+				'', trim( $a[0] ));
 
 			$this->email = trim( $a[1] );
 
