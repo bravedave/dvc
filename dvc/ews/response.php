@@ -30,19 +30,12 @@ class response {
 		if ( isset( $ResponseMessage[0]))
 			$ResponseMessage = $ResponseMessage[0];
 
-		//~ if ( currentUser::isdavid()) {
-			//~ \sys::dump( $ResponseMessage, NULL, TRUE);
-			//~ \sys::dump( self::Response( $response));
-
-		//~ }
-
-
 		$this->ResponseCode = $ResponseMessage->ResponseCode;
 		$this->ResponseClass = $ResponseMessage->ResponseClass;
 		$this->ResponseMessage = $ResponseMessage->MessageText;
 
 		if ($this->ResponseClass != Enumeration\ResponseClassType::SUCCESS) {
-			\sys::logger( sprintf( 'xChangeResponse failed with "%s: %s"', $this->ResponseCode, $this->ResponseMessage));
+			\sys::logger( sprintf( 'dvc\ews\response :: failed with "%s: %s"', $this->ResponseCode, $this->ResponseMessage));
 
 		}
 
@@ -60,25 +53,25 @@ class response {
 
 					}
 					else {
-						\sys::logger( "xChangeResponse / CalendarItem : not ItemId->id");
+						\sys::logger( 'dvc\ews\response :: CalendarItem : not ItemId->id');
 
 					}
 
 				}
 				else {
-					\sys::logger( "xChangeResponse / CalendarItem : not ItemId");
+					\sys::logger( 'dvc\ews\response :: CalendarItem : not ItemId');
 
 				}
 
 			}
 			else {
-				\sys::logger( "xChangeResponse / not CalendarItem : " . print_r( $ResponseMessage, TRUE));
+				\sys::logger( 'dvc\ews\response :: not CalendarItem : ' . print_r( $ResponseMessage, TRUE));
 
 			}
 
 		}
 		else {
-			\sys::logger( "xChangeResponse / no items");
+			\sys::logger( 'dvc\ews\response :: / no items');
 
 		}
 
