@@ -20,6 +20,7 @@ class calendaritem {
 		$endUTC = '',
 		$timelabel = '',
 		$invitees = '',
+		$IsAllDayEvent = FALSE,
 		$id = '',
 		$change = '',
 		$changekey = ''

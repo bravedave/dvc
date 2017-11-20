@@ -43,11 +43,12 @@ abstract class calendar {
 	}
 
 	static protected function Item( $item ) {
-		//~ \sys::dump( $item);
-		$x = new calendaritem();
+		// \sys::dump( $item, NULL, FALSE);
+		$x = new calendaritem;
 		$x->subject = ( isset( $item->Start ) ? $item->Subject : '' );
 		$x->location = ( isset( $item->Location ) ? $item->Location : '' );
 		$x->notes = ( isset( $item->Body ) ? $item->Body : '' );
+		$x->IsAllDayEvent = ( $item->IsAllDayEvent ? 1 : 0);
 		$x->start = ( isset( $item->Start ) ? strtotime( $item->Start ) : '' );
 		$x->startUTC = ( isset( $item->Start ) ? date( 'c', strtotime( $item->Start )) : '' );
 		$x->end = ( isset( $item->End ) ? strtotime( $item->End ) : '' );
@@ -83,9 +84,9 @@ abstract class calendar {
 			$request->Traversal = PhpEws\Enumeration\ItemQueryTraversalType::SHALLOW;
 
 			$request->ItemShape = new PhpEws\Type\ItemResponseShapeType;
-			$request->ItemShape->BaseShape = PhpEws\Enumeration\DefaultShapeNamesType::DEFAULT_PROPERTIES;
+			// $request->ItemShape->BaseShape = PhpEws\Enumeration\DefaultShapeNamesType::DEFAULT_PROPERTIES;
 			/* this will return the notes as well, but adds a significant overhead */
-			//~ $request->ItemShape->BaseShape = PhpEws\Enumeration\DefaultShapeNamesType::ALL_PROPERTIES;
+			$request->ItemShape->BaseShape = PhpEws\Enumeration\DefaultShapeNamesType::ALL_PROPERTIES;
 
 			$request->CalendarView = new PhpEws\Type\CalendarViewType();
 			$request->CalendarView->StartDate = date("c", strtotime( date("Y-m-d", $start) . " 00:00:00"));	// current time in my timezone
