@@ -13,7 +13,7 @@ NameSpace dvc\ews;
 use \sys;
 use \jamesiarmes\PhpEws;
 
-class calendar {
+abstract class calendar {
 	static public function agenda( $date = FALSE, $creds = NULL ) {
 		if ( $date) {
 			if ( is_object( $date)) {
