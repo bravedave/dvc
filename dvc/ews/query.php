@@ -11,31 +11,35 @@
 NameSpace dvc\ews;
 
 use \jamesiarmes\PhpEws;
+use \jamesiarmes\PhpEws\ArrayType;
+use \jamesiarmes\PhpEws\Enumeration;
+use \jamesiarmes\PhpEws\Request;
+use \jamesiarmes\PhpEws\Type;
 
 abstract class query {
 	static public function GetItemByID( $itemID, $creds = NULL) {
 		if ( $ews = client::instance( $creds)) {
 			// Build the request for the parts.
-			$request = new PhpEws\Request\GetItemType;
+			$request = new Request\GetItemType;
 
-			$request->ItemShape = new PhpEws\Type\ItemResponseShapeType;
-			$request->ItemShape->BaseShape = PhpEws\Enumeration\DefaultShapeNamesType::ALL_PROPERTIES;
+			$request->ItemShape = new Type\ItemResponseShapeType;
+			$request->ItemShape->BaseShape = Enumeration\DefaultShapeNamesType::ALL_PROPERTIES;
 			// You can get the body as HTML, text or "best".
 			//~ $request->ItemShape->BodyType = PhpEws\Enumeration\BodyTypeResponseType::BEST;
-			$request->ItemShape->BodyType = PhpEws\Enumeration\BodyTypeResponseType::TEXT;
+			$request->ItemShape->BodyType = Enumeration\BodyTypeResponseType::TEXT;
 
 			// Add the body property.
-			$body_property = new PhpEws\Type\PathToUnindexedFieldType;
-			$body_property->FieldURI = PhpEws\Enumeration\UnindexedFieldURIType::ITEM_BODY;
+			$body_property = new Type\PathToUnindexedFieldType;
+			$body_property->FieldURI = Enumeration\UnindexedFieldURIType::ITEM_BODY;
 
-			$request->ItemShape->AdditionalProperties = new PhpEws\ArrayType\NonEmptyArrayOfPathsToElementType;
+			$request->ItemShape->AdditionalProperties = new ArrayType\NonEmptyArrayOfPathsToElementType;
 			$request->ItemShape->AdditionalProperties->FieldURI = [ $body_property ];
 
-			$request->ItemIds = new PhpEws\ArrayType\NonEmptyArrayOfBaseItemIdsType;
+			$request->ItemIds = new ArrayType\NonEmptyArrayOfBaseItemIdsType;
 			$request->ItemIds->ItemId = [];
 
 			// Add the message to the request.
-			$message_item = new PhpEws\Type\ItemIdType;
+			$message_item = new Type\ItemIdType;
 			$message_item->Id = $itemID;
 			$request->ItemIds->ItemId[] = $message_item;
 
