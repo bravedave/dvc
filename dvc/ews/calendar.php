@@ -327,25 +327,13 @@ abstract class calendar {
 			}
 
 			try {
-				//~ if ( currentUser::isdavid())
-					//~ \sys::dump( $request, NULL, FALSE);
-
-				$response = $ews->UpdateItem( $request);
-				//~ if ( currentUser::isdavid())
-					//~ \sys::dump( self::Response( $response->ResponseMessages->UpdateItemResponseMessage));
-
-				if ( $response)
+				if ( $response = $ews->UpdateItem( $request))
 					return ( self::Response( $response->ResponseMessages->UpdateItemResponseMessage));
 
 				return ( FALSE);
-				//~ return ( self::Response( $ews->UpdateItem($request)));
 
 			}
 			catch ( \Exception $e) {
-				//~ if ( currentUser::isdavid()) {
-					//~ \sys::dump( $e);
-
-				//~ }
 				\dvc\errsys::email_support( $e, 'contained at : dvc\ews\calendar::UpdateAppointment :: EWS Client  Update Failure');
 				\sys::logger( 'dvc\ews\calendar::UpdateAppointment :: EWS Client Update Failure' );
 				return ( FALSE );
@@ -354,8 +342,7 @@ abstract class calendar {
 
 		}
 		else {
-			\sys::logger( 'Failed to Create EWS Client' );
-			return ( FALSE );
+			throw new Exceptions\FailedtoCreateEWSClient;
 
 		}
 
