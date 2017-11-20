@@ -12,8 +12,17 @@ NameSpace dvc\ews;
 
 use \sys;
 use \jamesiarmes\PhpEws;
+use \jamesiarmes\PhpEws\ArrayType;
+use \jamesiarmes\PhpEws\Enumeration;
+use \jamesiarmes\PhpEws\Request;
+use \jamesiarmes\PhpEws\Type;
 
 abstract class calendar {
+	/**
+	* Query the exchange calendar and return array of Json
+	*
+	* return : object
+	*/
 	static public function agenda( $date = FALSE, $creds = NULL ) {
 		if ( $date) {
 			if ( is_object( $date)) {
@@ -80,23 +89,23 @@ abstract class calendar {
 			//~ \sys::dump( $cred = credentials::getCurrentUser());
 			//~ \sys::dump( $ews );
 
-			$request = new PhpEws\Request\FindItemType;
-			$request->Traversal = PhpEws\Enumeration\ItemQueryTraversalType::SHALLOW;
+			$request = new Request\FindItemType;
+			$request->Traversal = Enumeration\ItemQueryTraversalType::SHALLOW;
 
-			$request->ItemShape = new PhpEws\Type\ItemResponseShapeType;
+			$request->ItemShape = new Type\ItemResponseShapeType;
 			// $request->ItemShape->BaseShape = PhpEws\Enumeration\DefaultShapeNamesType::DEFAULT_PROPERTIES;
 			/* this will return the notes as well, but adds a significant overhead */
-			$request->ItemShape->BaseShape = PhpEws\Enumeration\DefaultShapeNamesType::ALL_PROPERTIES;
+			$request->ItemShape->BaseShape = Enumeration\DefaultShapeNamesType::ALL_PROPERTIES;
 
-			$request->CalendarView = new PhpEws\Type\CalendarViewType();
+			$request->CalendarView = new Type\CalendarViewType();
 			$request->CalendarView->StartDate = date("c", strtotime( date("Y-m-d", $start) . " 00:00:00"));	// current time in my timezone
 			$request->CalendarView->EndDate = date("c", strtotime( date("Y-m-d", $end) . " 23:59:59"));	// current time in my timezone
 
 			//~ \sys::logger( sprintf( '  CalendarQuery :: date :: %s - %s', $request->CalendarView->StartDate, $request->CalendarView->EndDate));
 
-			$request->ParentFolderIds = new PhpEws\ArrayType\NonEmptyArrayOfBaseFolderIdsType;
-			$request->ParentFolderIds->DistinguishedFolderId = new PhpEws\Type\DistinguishedFolderIdType;
-			$request->ParentFolderIds->DistinguishedFolderId->Id = PhpEws\Enumeration\DistinguishedFolderIdNameType::CALENDAR;
+			$request->ParentFolderIds = new ArrayType\NonEmptyArrayOfBaseFolderIdsType;
+			$request->ParentFolderIds->DistinguishedFolderId = new Type\DistinguishedFolderIdType;
+			$request->ParentFolderIds->DistinguishedFolderId->Id = Enumeration\DistinguishedFolderIdNameType::CALENDAR;
 
 			$response = $ews->FindItem( $request);
 
@@ -180,16 +189,16 @@ abstract class calendar {
 		//~ \sys::dump( $item);
 
 		if ( $ews = client::instance( $creds)) {
-			$request = new PhpEws\Request\CreateItemType;
-			$request->SendMeetingInvitations = PhpEws\Enumeration\CalendarItemCreateOrDeleteOperationType::SEND_TO_NONE;
+			$request = new Request\CreateItemType;
+			$request->SendMeetingInvitations = Enumeration\CalendarItemCreateOrDeleteOperationType::SEND_TO_NONE;
 			//~ $request->SendMeetingInvitations = CalendarItemCreateOrDeleteOperationType::SEND_ONLY_TO_ALL;
 
 			//~ $request->SavedItemFolderId = new TargetFolderIdType();
 				//~ $request->SavedItemFolderId->DistinguishedFolderId = new DistinguishedFolderIdType();
 				//~ $request->SavedItemFolderId->DistinguishedFolderId->Id = DistinguishedFolderIdNameType::CALENDAR;
 
-			$request->Items = new PhpEws\ArrayType\NonEmptyArrayOfAllItemsType;
-				$request->Items->CalendarItem = new PhpEws\Type\CalendarItemType;
+			$request->Items = new ArrayType\NonEmptyArrayOfAllItemsType;
+				$request->Items->CalendarItem = new Type\CalendarItemType;
 					$request->Items->CalendarItem->IsAllDayEvent = false;
 					$request->Items->CalendarItem->LegacyFreeBusyStatus = 'Free';
 					//~ $request->Items->CalendarItem->Categories->String = $category;
@@ -209,24 +218,24 @@ abstract class calendar {
 			}
 
 			if ( count( $invitees) > 0) {
-				$request->Items->CalendarItem->OptionalAttendees = new PhpEws\ArrayType\NonEmptyArrayOfAttendeesType;
+				$request->Items->CalendarItem->OptionalAttendees = new ArrayType\NonEmptyArrayOfAttendeesType;
 				foreach ( (array)$invitees as $e) {
 					\sys::logger( sprintf( 'invitee : %s', $e->email ));
-					$attendee = new PhpEws\Type\AttendeeType;
-						$attendee->Mailbox = new PhpEws\Type\EmailAddressType;
+					$attendee = new Type\AttendeeType;
+						$attendee->Mailbox = new Type\EmailAddressType;
 							$attendee->Mailbox->EmailAddress = $e->email;
-							$attendee->Mailbox->RoutingType = PhpEws\Enumeration\RoutingType::SMTP;
+							$attendee->Mailbox->RoutingType = Enumeration\RoutingType::SMTP;
 
 					$request->Items->CalendarItem->OptionalAttendees->Attendee[] = $attendee;
 
 				}
-				$request->SendMeetingInvitations = PhpEws\Enumeration\CalendarItemCreateOrDeleteOperationType::SEND_TO_ALL_AND_SAVE_COPY;
+				$request->SendMeetingInvitations = Enumeration\CalendarItemCreateOrDeleteOperationType::SEND_TO_ALL_AND_SAVE_COPY;
 				//~ $request->SendMeetingInvitations = CalendarItemCreateOrDeleteOperationType::SEND_ONLY_TO_ALL;
 
 			}
 
-			$request->Items->CalendarItem->Body = new PhpEws\Type\BodyType;
-				$request->Items->CalendarItem->Body->BodyType = PhpEws\Enumeration\BodyTypeType::TEXT;
+			$request->Items->CalendarItem->Body = new Type\BodyType;
+				$request->Items->CalendarItem->Body->BodyType = Enumeration\BodyTypeType::TEXT;
 				$request->Items->CalendarItem->Body->_ = utf8_encode( $item->notes);
 
 			$response = $ews->CreateItem( $request);
@@ -241,43 +250,44 @@ abstract class calendar {
 		return ( FALSE );
 
 	}
+
 	static private function field( $uri ) {
 
-		$field = new PhpEws\Type\SetItemFieldType;
-			$field->FieldURI = new PhpEws\Type\PathToUnindexedFieldType;
+		$field = new Type\SetItemFieldType;
+			$field->FieldURI = new Type\PathToUnindexedFieldType;
 				$field->FieldURI->FieldURI = $uri;
-			$field->CalendarItem = new PhpEws\Type\CalendarItemType;
+			$field->CalendarItem = new Type\CalendarItemType;
 		return ( $field );
 
 	}
 
 	static public function UpdateAppointment( calendaritem $item, $creds = NULL ) {
 		if ( $ews = client::instance( $creds)) {
-			$request = new PhpEws\Request\UpdateItemType();
-				$request->ConflictResolution = PhpEws\Enumeration\ConflictResolutionType::ALWAYS_OVERWRITE;
+			$request = new Request\UpdateItemType();
+				$request->ConflictResolution = Enumeration\ConflictResolutionType::ALWAYS_OVERWRITE;
 				//~ $request->SendMeetingInvitationsOrCancellations = PhpEws\Enumeration\CalendarItemUpdateOperationType::SEND_TO_CHANGED_AND_SAVE_COPY;
-				$request->SendMeetingInvitationsOrCancellations = PhpEws\Enumeration\CalendarItemUpdateOperationType::SEND_TO_ALL_AND_SAVE_COPY;
+				$request->SendMeetingInvitationsOrCancellations = Enumeration\CalendarItemUpdateOperationType::SEND_TO_ALL_AND_SAVE_COPY;
 
-			$change = new PhpEws\Type\ItemChangeType();
-				$change->ItemId = new PhpEws\Type\ItemIdType();
+			$change = new Type\ItemChangeType();
+				$change->ItemId = new Type\ItemIdType();
 					$change->ItemId->Id = $item->change;
 					$change->ItemId->ChangeKey = $item->changekey;
 
-			$f = self::field( 'item:Subject');
+			$f = self::field( Enumeration\UnindexedFieldURIType::ITEM_SUBJECT);
 				$f->CalendarItem->Subject = $item->subject;
 				$change->Updates->SetItemField[] = $f;
 
-			$f = self::field( 'calendar:Start');
+			$f = self::field( Enumeration\UnindexedFieldURIType::CALENDAR_START);
 				$f->CalendarItem->Start = $item->startUTC;
 				$change->Updates->SetItemField[] = $f;
 
-			$f = self::field( 'calendar:End');
+			$f = self::field( Enumeration\UnindexedFieldURIType::CALENDAR_END);
 				$f->CalendarItem->End = $item->endUTC;
 				$change->Updates->SetItemField[] = $f;
 
-			$f = self::field( 'item:Body');
-				$f->CalendarItem->Body = new PhpEws\Type\BodyType;
-				$f->CalendarItem->Body->BodyType = PhpEws\Enumeration\BodyTypeType::TEXT;
+			$f = self::field( Enumeration\UnindexedFieldURIType::ITEM_BODY);
+				$f->CalendarItem->Body = new Type\BodyType;
+				$f->CalendarItem->Body->BodyType = Enumeration\BodyTypeType::TEXT;
 				$f->CalendarItem->Body->_ = utf8_encode( $item->notes);
 				$change->Updates->SetItemField[] = $f;
 
@@ -293,26 +303,24 @@ abstract class calendar {
 			}
 
 			if ( count( $invitees) > 0) {
-				$f = self::field( PhpEws\Enumeration\UnindexedFieldURIType::CALENDAR_OPTIONAL_ATTENDEES);
-					$f->CalendarItem->OptionalAttendees = new PhpEws\ArrayType\NonEmptyArrayOfAttendeesType();
+				$f = self::field( Enumeration\UnindexedFieldURIType::CALENDAR_OPTIONAL_ATTENDEES);
+					$f->CalendarItem->OptionalAttendees = new ArrayType\NonEmptyArrayOfAttendeesType();
 					foreach ( (array)$invitees as $e) {
 						\sys::logger( sprintf( 'invitee : %s', $e->email ));
-						$attendee = new PhpEws\Type\AttendeeType;
-							$attendee->Mailbox = new PhpEws\Type\EmailAddressType;
+						$attendee = new Type\AttendeeType;
+							$attendee->Mailbox = new Type\EmailAddressType;
 								$attendee->Mailbox->EmailAddress = $e->email;
-								$attendee->Mailbox->RoutingType = PhpEws\Enumeration\RoutingType::SMTP;
+								$attendee->Mailbox->RoutingType = Enumeration\RoutingType::SMTP;
 
 						$f->CalendarItem->OptionalAttendees->Attendee[] = $attendee;
 
 					}
 					$change->Updates->SetItemField[] = $f;
 
-					// $change->ConflictResolution = ConflictResolutionType.AutoResolve;
-					//~ $request->ConflictResolution = PhpEws\Request\ConflictResolutionType::AUTO_RESOLVE;
-					$request->ConflictResolution = PhpEws\Enumeration\ConflictResolutionType::ALWAYS_OVERWRITE;
-					//~ $change->SendMeetingInvitationsOrCancellations = CalendarItemUpdateOperationType.SendToAllAndSaveCopy;
-					//~ $request->SendMeetingInvitationsOrCancellations = PhpEws\Enumeration\CalendarItemUpdateOperationType::SEND_TO_ALL_AND_SAVE_COPY;
-					$request->SendMeetingInvitationsOrCancellations = PhpEws\Enumeration\CalendarItemUpdateOperationType::SEND_TO_CHANGED_AND_SAVE_COPY;
+					//~ $request->ConflictResolution = Request\ConflictResolutionType::AUTO_RESOLVE;
+					$request->ConflictResolution = Enumeration\ConflictResolutionType::ALWAYS_OVERWRITE;
+					//~ $request->SendMeetingInvitationsOrCancellations = Enumeration\CalendarItemUpdateOperationType::SEND_TO_ALL_AND_SAVE_COPY;
+					$request->SendMeetingInvitationsOrCancellations = Enumeration\CalendarItemUpdateOperationType::SEND_TO_CHANGED_AND_SAVE_COPY;
 
 					//~ $change->SendMeetingInvitationsOrCancellationsSpecified = true;
 

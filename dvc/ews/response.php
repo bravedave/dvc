@@ -12,6 +12,7 @@
 NameSpace dvc\ews;
 
 use \jamesiarmes\PhpEws;
+use \jamesiarmes\PhpEws\Enumeration;
 
 class response {
 	public $ResponseCode = '',
@@ -40,7 +41,7 @@ class response {
 		$this->ResponseClass = $ResponseMessage->ResponseClass;
 		$this->ResponseMessage = $ResponseMessage->MessageText;
 
-		if ($this->ResponseClass != PhpEws\Enumeration\ResponseClassType::SUCCESS) {
+		if ($this->ResponseClass != Enumeration\ResponseClassType::SUCCESS) {
 			\sys::logger( sprintf( 'xChangeResponse failed with "%s: %s"', $this->ResponseCode, $this->ResponseMessage));
 
 		}
