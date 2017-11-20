@@ -10,6 +10,8 @@
 	*/
 use \jamesiarmes\PhpEws;
 
+NameSpace dvc\ews;
+
 class response {
 	public $ResponseCode = '',
 		$ResponseClass = '',
