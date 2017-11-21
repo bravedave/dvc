@@ -75,6 +75,10 @@ abstract class query {
 			}
 
 		}
+		else {
+			throw new Exceptions\FailedtoCreateEWSClient;
+
+		}
 
 	}
 
@@ -85,6 +89,37 @@ abstract class query {
 			return ( array_shift( $items->CalendarItem));
 
 		return ( FALSE);
+
+	}
+
+	static public function DeleteItem( $itemID, $creds = NULL ) {
+		if ( $ews = client::instanceForDelete( $creds)) {
+			$request = new Request\DeleteItemType;
+
+			// Identify the items to delete.
+			$request->ItemIds = new ArrayType\NonEmptyArrayOfBaseItemIdsType;
+				$request->ItemIds->ItemId = new Type\ItemIdType;
+					$request->ItemIds->ItemId->Id = $itemID;
+
+			// Identify how deleted items are handled.
+			$request->DeleteType = Enumeration\DisposalType::MOVE_TO_DELETED_ITEMS;
+			$request->AffectedTaskOccurrences = Enumeration\AffectedTaskOccurrencesType::SPECIFIED;
+			//~ $request->AffectedTaskOccurrencesSpecified = TRUE;
+
+			$request->SendMeetingCancellations = Enumeration\CalendarItemCreateOrDeleteOperationType::SEND_ONLY_TO_ALL;
+			//~ $request->SendMeetingCancellationsSpecified = TRUE;
+
+			//~ throw new \Exception( "I\'m still working on this" );
+			//~ \sys::dump( $request);
+			$response = $ews->DeleteItem($request);
+			\sys::logger( 'dvc\ews\query :: DeleteItem :: deleted item');
+			return ( TRUE );
+
+		}
+		else {
+			throw new Exceptions\FailedtoCreateEWSClient;
+
+		}
 
 	}
 
