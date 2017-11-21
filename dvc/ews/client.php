@@ -14,7 +14,7 @@ use \jamesiarmes\PhpEws;
 
 class client extends PhpEws\Client {
 
-	static function instance( Credentials $cred = NULL ) {
+	static protected function _instance( Credentials $cred = NULL ) {
 		if ( is_null( $cred))
 			$cred = credentials::getCurrentUser();
 
@@ -31,14 +31,27 @@ class client extends PhpEws\Client {
 
 			}
 
-			if ( isset( \config::$exchange_timezone))
-				$client->setTimezone( \config::$exchange_timezone);
-
 			return ( $client);
 
 		}
 
 		return ( FALSE );
+
+	}
+
+	static function instance( Credentials $cred = NULL ) {
+		if ( $client = self::_instance( $cred)) {
+			if ( isset( \config::$exchange_timezone))
+				$client->setTimezone( \config::$exchange_timezone);
+
+		}
+
+		return ( $client);
+
+	}
+
+	static function instanceForDelete( Credentials $cred = NULL ) {
+		return ( self::_instance( $cred));
 
 	}
 
