@@ -10,7 +10,7 @@
 	DO NOT change this file
 	Copy it to <application>/app/views/ and modify it there
 	*/	?>
-<a style="position: absolute; top: 0; right: 0; border: 0; display: block; z-index: 10000;"
+<a style="position: absolute; top: 0; right: 0; border: 0; display: block; z-index: 10;"
 	href="https://github.com/bravedave/">
 	<img src="<?php url::write( 'images/forkme_right_green.png') ?>" alt="Fork me on GitHub" />
 
