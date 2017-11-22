@@ -53,7 +53,7 @@ ews.calendar.fullcalendar = function( params) {
 
 			},
 			agendaDay : {
-				displayEventTime : true,
+				displayEventTime : false,
 
 			},
 
