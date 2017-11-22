@@ -94,10 +94,23 @@
 		else if ( /string/i.test( typeof params ))
 			options.text = params;
 
+		if ( options.title == '' && options.text == '') {
+			// this is a little repetitive - it's an ajax response
+			if ( !!params.response && params.response == 'ack')
+				options.growlClass = 'success';
+
+			if ( !!params.description)
+				options.text = params.description;
+
+			if ( !!params.timeout)
+				options.timeout = params.timeout;
+
+		}
+
 		if ( options.title == '' && options.text == '')
 			return;	// abandon ship
 
-		var growler = $('<div class="growler"></div>');
+		var growler = $('<div class="growler" />');
 
 		/*
 		 * you have to find a place in the growlers for this one
@@ -143,8 +156,8 @@
 
 		options.top = Math.max( options.top, $(window).scrollTop());
 
-		var title = $('<h3></h3>');
-		var content = $('<div></div>');
+		var title = $('<h3 />');
+		var content = $('<div />');
 
 		if ( options.title != '')
 			title.html(options.title).appendTo( growler);
