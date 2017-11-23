@@ -37,4 +37,20 @@ class calendaritem {
 
 	}
 
+	public function clone() {
+		$c = new calendaritem();
+
+		$c->start = $this->start;
+		$c->end = $this->end;
+		$c->location = $this->location;
+		$c->subject = $this->subject;
+		$c->notes = $this->notes;
+		$c->startUTC = $this->startUTC;
+		$c->endUTC = $this->endUTC;
+		$c->IsAllDayEvent = $this->IsAllDayEvent;
+
+		return ( $c);
+
+	}
+
 }
