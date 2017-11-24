@@ -7,8 +7,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	test:
-		x = '0418745334';
-		x.IsMobilePhone();
+		'0418745334'.IsMobilePhone();
 	*/
 (function() {	// strings
 	String.prototype.trim = function() {return this.replace(/^\s+|\s+$/g,"");}
