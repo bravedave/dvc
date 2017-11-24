@@ -123,4 +123,43 @@ abstract class query {
 
 	}
 
+	static public function getFolderIds( $creds = NULL) {
+		$ret = [];
+
+		$request = new Request\FindFolderType;
+			$request->Traversal = Enumeration\FolderQueryTraversalType::SHALLOW;
+			// $request->Traversal = Enumeration\FolderQueryTraversalType::DEEP;	// subfolders too
+
+		$request->FolderShape = new Type\FolderResponseShapeType;
+			// Options => ALL_PROPERTIES, DEFAULT_PROPERTIES, ID_ONLY
+			// $request->FolderShape->BaseShape = Enumeration\DefaultShapeNamesType::ALL_PROPERTIES;
+			$request->FolderShape->BaseShape = Enumeration\DefaultShapeNamesType::DEFAULT_PROPERTIES;
+			//~ $request->FolderShape->BaseShape = Enumeration\DefaultShapeNamesType::ID_ONLY;
+
+		// configure the view
+		$request->IndexedPageFolderView = new Type\IndexedPageViewType;
+			$request->IndexedPageFolderView->BasePoint = Enumeration\IndexBasePointType::BEGINNING;
+			$request->IndexedPageFolderView->Offset = 0;
+
+		$request->ParentFolderIds = new ArrayType\NonEmptyArrayOfBaseFolderIdsType();
+
+			// use a distinguished folder name to find folders inside it
+			$request->ParentFolderIds->DistinguishedFolderId = new Type\DistinguishedFolderIdType;
+				$request->ParentFolderIds->DistinguishedFolderId->Id = Enumeration\DistinguishedFolderIdNameType::MESSAGE_ROOT;
+
+		if ( $ews = client::instance( $creds)) {
+			try
+				{ return new response\FindFolderResponseMessage( $ews->FindFolder($request)); }
+
+			catch (Exception $e)
+				{ sys::logger( "Exception : $e" ); }
+
+			return ( $ret );
+
+		}
+		else
+			{ throw new Exceptions\FailedtoCreateEWSClient; }
+
+	}
+
 }

@@ -55,4 +55,9 @@ class client extends PhpEws\Client {
 
 	}
 
+	static function instanceForSync( Credentials $cred = NULL ) {
+		return ( self::_instance( $cred));
+
+	}
+
 }
