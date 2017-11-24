@@ -124,9 +124,9 @@
 			if ( re.test(ns)) {
 				//~ ns = "(" + RegExp.$1 + ") " + RegExp.$2 + " " + RegExp.$3;
 				if ( !!useCompactPhoneFormat)
-					ns = RegExp.$1 + " " + RegExp.$2 + '' + RegExp.$3;
+					ns = RegExp.$1 + ' ' + RegExp.$2 + '' + RegExp.$3;
 				else
-					ns = RegExp.$1 + " " + RegExp.$2 + ' ' + RegExp.$3;
+					ns = RegExp.$1 + ' ' + RegExp.$2 + ' ' + RegExp.$3;
 				return( ns );
 
 			}
@@ -136,7 +136,7 @@
 			re = /(\S\S\S\S)(\S+)/;
 			if ( re.test(ns)) {
 				//~ ns = "(" + RegExp.$1 + ") " + RegExp.$2;
-				ns = RegExp.$1 + " " + RegExp.$2;
+				ns = RegExp.$1 + ' ' + RegExp.$2;
 				return( ns );
 
 			}
@@ -175,4 +175,3 @@
 	}
 
 })();
-
