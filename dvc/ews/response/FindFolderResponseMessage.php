@@ -34,17 +34,18 @@ class FindFolderResponseMessage {
 		$this->folders = [];
 		if ( $r->RootFolder->TotalItemsInView > 0) {
 			foreach ( $r->RootFolder->Folders as $folderName => $folder ) {
-				if ( $folderName == "ContactsFolder" ) {
-					foreach ( $folder as $sub ) {
-						if ( isset( $sub->FolderId)) {
-							$this->folders[] = $this->contacts = (object)[
-								'id' => $sub->FolderId->Id,
-								'name' => ( $sub->DisplayName ? $sub->DisplayName : $folderName),
+				foreach ( $folder as $sub ) {
+					if ( isset( $sub->FolderId)) {
+						$_fldr = (object)[
+							'id' => $sub->FolderId->Id,
+							'name' => ( $sub->DisplayName ? $sub->DisplayName : $folderName),
 
-							];
+						];
 
-						}
-
+						$this->folders[] = $_fldr;
+						if ( $folderName == "ContactsFolder" )
+							$this->contacts = $_fldr;
+							
 					}
 
 				}
