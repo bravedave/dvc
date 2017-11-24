@@ -22,8 +22,9 @@ class FindFolderResponseMessage {
 	//~ protected $FindFolderResponseMessage;
 	//~ protected $RootFolder;
 
-	var $folders = FALSE;
 	var $contacts = FALSE;
+	var $FolderNames = [];
+	var $folders = FALSE;
 
 	function __construct( Response\FindFolderResponseType $response) {
 		//~ $this->_FindFolderResponseType = $response;
@@ -34,18 +35,20 @@ class FindFolderResponseMessage {
 		$this->folders = [];
 		if ( $r->RootFolder->TotalItemsInView > 0) {
 			foreach ( $r->RootFolder->Folders as $folderName => $folder ) {
+				$this->FolderNames[] = $folderName;
 				foreach ( $folder as $sub ) {
 					if ( isset( $sub->FolderId)) {
 						$_fldr = (object)[
 							'id' => $sub->FolderId->Id,
 							'name' => ( $sub->DisplayName ? $sub->DisplayName : $folderName),
+							'folderName' => $folderName,
 
 						];
 
 						$this->folders[] = $_fldr;
-						if ( $folderName == "ContactsFolder" )
+						if ( $folderName == 'ContactsFolder' && $_fldr->name != 'Suggested Contacts' )
 							$this->contacts = $_fldr;
-							
+
 					}
 
 				}
