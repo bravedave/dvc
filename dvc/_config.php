@@ -116,7 +116,7 @@ abstract class _config {
 	}
 
 	static public function checkDBconfigured() {
-		if ( config::$DB_TYPE == 'mysql' || config::$DB_TYPE == 'sqlite' )
+		if ( self::$DB_TYPE == 'mysql' || self::$DB_TYPE == 'sqlite' )
 			return TRUE;
 
 		return FALSE;
@@ -191,4 +191,4 @@ abstract class _config {
 
 }
 
-\config::dbInit();
+_config::dbInit();
