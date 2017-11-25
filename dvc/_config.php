@@ -116,7 +116,7 @@ abstract class _config {
 	}
 
 	static public function checkDBconfigured() {
-		if ( self::$DB_TYPE == 'mysql' || self::$DB_TYPE == 'sqlite' )
+		if ( \config::$DB_TYPE == 'mysql' || \config::$DB_TYPE == 'sqlite' )
 			return TRUE;
 
 		return FALSE;
@@ -150,36 +150,31 @@ abstract class _config {
 		/** This is a local overwrite of the db and google parameters
 		 */
 		if ( !( is_null( \application::app()))) {
-			$path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
-			// $path = sprintf('%s%sdata', self::dataPath(), DIRECTORY_SEPARATOR );
+			// $path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
+			$path = sprintf('%s%sdata', \config::dataPath(), DIRECTORY_SEPARATOR );
 			if ( is_dir( $path)) {
 				$path = sprintf('%s%sdb.json', $path, DIRECTORY_SEPARATOR );
 				if ( file_exists( $path)) {
 					$a = json_decode( file_get_contents( $path));
 					if ( isset( $a->db_type)) {
-						self::$DB_TYPE = $a->db_type;
-						self::$DB_HOST = $a->db_host;
-						self::$DB_NAME = $a->db_name;
-						self::$DB_USER = $a->db_user;
-						self::$DB_PASS = $a->db_pass;
+						\config::$DB_TYPE = $a->db_type;
+						\config::$DB_HOST = $a->db_host;
+						\config::$DB_NAME = $a->db_name;
+						\config::$DB_USER = $a->db_user;
+						\config::$DB_PASS = $a->db_pass;
 
 					} // if ( isset( $a['db_type']))
 
 				} // if ( file_exists( $path))
 
-				$path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
-				// $path = sprintf('%s%sdata%sgoogle.json',  self::dataPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
+				// $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
+				$path = sprintf('%s%sdata%sgoogle.json',  \config::dataPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
 				if ( file_exists( $path)) {
 					$a = json_decode( file_get_contents( $path));
 					if ( isset( $a->web)) {
-						self::$oauth2_client_id = $a->web->client_id;
-						self::$oauth2_secret = $a->web->client_secret;
-						self::$oauth2_redirect = \url::$PROTOCOL . \url::tostring( 'auth/response/');
-						//~ print '<pre>';
-						//~ printf( '%s<br />', self::$oauth2_client_id);
-						//~ printf( '%s<br />', self::$oauth2_secret);
-						//~ printf( '%s<br />', self::$oauth2_redirect);
-						//~ die;
+						\config::$oauth2_client_id = $a->web->client_id;
+						\config::$oauth2_secret = $a->web->client_secret;
+						\config::$oauth2_redirect = \url::$PROTOCOL . \url::tostring( 'auth/response/');
 
 					} // if ( isset( $a->web))
 

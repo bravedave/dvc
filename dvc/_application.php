@@ -94,8 +94,8 @@ class _application {
 
 		\config::initialize();	// this initializes config
 
-		$tz = config::$TIMEZONE;
-		$mailserver = config::$MAILSERVER;
+		$tz = \config::$TIMEZONE;
+		$mailserver = \config::$MAILSERVER;
 
 		ini_set ('date.timezone', $tz);
 		ini_set ('SMTP', $mailserver);
