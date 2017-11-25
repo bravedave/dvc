@@ -92,7 +92,7 @@ class _application {
 
 		$this->_timer = new timer();
 
-		config::initialize();	// this initializes config
+		\config::initialize();	// this initializes config
 
 		$tz = config::$TIMEZONE;
 		$mailserver = config::$MAILSERVER;
