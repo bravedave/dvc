@@ -153,15 +153,19 @@ abstract class _config {
 			// $path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
 			$path = sprintf( '%sdb.json', \config::dataPath());
 			if ( file_exists( $path)) {
-				$a = json_decode( file_get_contents( $path));
-				if ( isset( $a->db_type)) {
-					\config::$DB_TYPE = $a->db_type;
-					\config::$DB_HOST = $a->db_host;
-					\config::$DB_NAME = $a->db_name;
-					\config::$DB_USER = $a->db_user;
-					\config::$DB_PASS = $a->db_pass;
-
-				} // if ( isset( $a['db_type']))
+				$_a = [
+					'db_type' => '',
+					'db_host' => '',
+					'db_name' => '',
+					'db_user' => '',
+					'db_pass' => '',
+				];
+				$a = (object)array_merge( $_a, (array)json_decode( file_get_contents( $path)));
+				\config::$DB_TYPE = $a->db_type;
+				\config::$DB_HOST = $a->db_host;
+				\config::$DB_NAME = $a->db_name;
+				\config::$DB_USER = $a->db_user;
+				\config::$DB_PASS = $a->db_pass;
 
 			} // if ( file_exists( $path))
 
