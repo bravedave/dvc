@@ -151,36 +151,32 @@ abstract class _config {
 		 */
 		if ( !( is_null( \application::app()))) {
 			// $path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
-			$path = sprintf('%s%sdata', \config::dataPath(), DIRECTORY_SEPARATOR );
-			if ( is_dir( $path)) {
-				$path = sprintf('%s%sdb.json', $path, DIRECTORY_SEPARATOR );
-				if ( file_exists( $path)) {
-					$a = json_decode( file_get_contents( $path));
-					if ( isset( $a->db_type)) {
-						\config::$DB_TYPE = $a->db_type;
-						\config::$DB_HOST = $a->db_host;
-						\config::$DB_NAME = $a->db_name;
-						\config::$DB_USER = $a->db_user;
-						\config::$DB_PASS = $a->db_pass;
+			$path = sprintf( '%sdb.json', \config::dataPath());
+			if ( file_exists( $path)) {
+				$a = json_decode( file_get_contents( $path));
+				if ( isset( $a->db_type)) {
+					\config::$DB_TYPE = $a->db_type;
+					\config::$DB_HOST = $a->db_host;
+					\config::$DB_NAME = $a->db_name;
+					\config::$DB_USER = $a->db_user;
+					\config::$DB_PASS = $a->db_pass;
 
-					} // if ( isset( $a['db_type']))
+				} // if ( isset( $a['db_type']))
 
-				} // if ( file_exists( $path))
+			} // if ( file_exists( $path))
 
-				// $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
-				$path = sprintf('%s%sdata%sgoogle.json',  \config::dataPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
-				if ( file_exists( $path)) {
-					$a = json_decode( file_get_contents( $path));
-					if ( isset( $a->web)) {
-						\config::$oauth2_client_id = $a->web->client_id;
-						\config::$oauth2_secret = $a->web->client_secret;
-						\config::$oauth2_redirect = \url::$PROTOCOL . \url::tostring( 'auth/response/');
+			// $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
+			$path = sprintf('%sgoogle.json',  \config::dataPath());
+			if ( file_exists( $path)) {
+				$a = json_decode( file_get_contents( $path));
+				if ( isset( $a->web)) {
+					\config::$oauth2_client_id = $a->web->client_id;
+					\config::$oauth2_secret = $a->web->client_secret;
+					\config::$oauth2_redirect = \url::$PROTOCOL . \url::tostring( 'auth/response/');
 
-					} // if ( isset( $a->web))
+				} // if ( isset( $a->web))
 
-				} // if ( file_exists( $path))
-
-			} // if ( is_dir( $path))
+			} // if ( file_exists( $path))
 
 		} // if ( !( is_null( \application::app())))
 
