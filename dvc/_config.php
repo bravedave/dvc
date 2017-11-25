@@ -116,7 +116,7 @@ abstract class _config {
 	}
 
 	static public function checkDBconfigured() {
-		if ( config::$DB_TYPE == 'mysql' )
+		if ( config::$DB_TYPE == 'mysql' || config::$DB_TYPE == 'sqlite' )
 			return TRUE;
 
 		return FALSE;
@@ -150,7 +150,7 @@ abstract class _config {
 		/** This is a local overwrite of the db and google parameters
 		 */
 		if ( !( is_null( \application::app()))) {
-			$path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
+			$path = sprintf('%s%sdata', self::dataPath(), DIRECTORY_SEPARATOR );
 			if ( is_dir( $path)) {
 				$path = sprintf('%s%sdb.json', $path, DIRECTORY_SEPARATOR );
 				if ( file_exists( $path)) {
@@ -166,7 +166,7 @@ abstract class _config {
 
 				} // if ( file_exists( $path))
 
-				$path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
+				$path = sprintf('%s%sdata%sgoogle.json',  self::dataPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
 				if ( file_exists( $path)) {
 					$a = json_decode( file_get_contents( $path));
 					if ( isset( $a->web)) {
@@ -191,4 +191,4 @@ abstract class _config {
 
 }
 
-_config::dbInit();
+\config::dbInit();
