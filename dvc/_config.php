@@ -146,7 +146,7 @@ abstract class _config {
 
 	}
 
-	static function dbInit() {
+	static function initialize() {
 		/** This is a local overwrite of the db and google parameters
 		 */
 		if ( !( is_null( \application::app()))) {
@@ -192,5 +192,3 @@ abstract class _config {
 	} // static function init2()
 
 }
-
-_config::dbInit();

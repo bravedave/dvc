@@ -92,7 +92,9 @@ class _application {
 
 		$this->_timer = new timer();
 
-		$tz = config::$TIMEZONE;	// this initializes config
+		config::initialize();	// this initializes config
+
+		$tz = config::$TIMEZONE;
 		$mailserver = config::$MAILSERVER;
 
 		ini_set ('date.timezone', $tz);
