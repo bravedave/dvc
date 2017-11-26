@@ -65,6 +65,50 @@ _brayworth_.logonModal = function() {
 
 	}
 
+	function retrievePassword() {
+		var u = flds.user.val();
+
+		if ( u.trim() == '') {
+			$('body').growlError( 'empty user');
+			flds.user.focus();
+			return;
+
+		}
+
+		$.ajax({
+			type : 'post',
+			url : _brayworth_.urlwrite(),
+			data : {
+				action : '-send-password-',
+				u : u,
+
+			}
+
+		})
+		.done( function( d) {
+			$('body').growlAjax( d);
+			if ( !!d.response && d.response == 'ack') {
+				_brayworth_.modal({
+					width : 300,
+					title : d.description,
+					text : d.message,
+					buttons : {
+						OK : function(e) {
+							$(this).modal( 'close');
+							flds.user.focus();
+
+						}
+
+					}
+
+				});
+
+			}
+
+		});
+
+	}
+
 	form.on( 'submit', function() {
 		submitter();
 		return false;
@@ -72,14 +116,17 @@ _brayworth_.logonModal = function() {
 	})
 	.append( '<input type="submit" style="display: none;" />');
 
+	var buttons = {};
+	if ( _brayworth_.logon_retrieve_password)
+		buttons['Send Password'] = retrievePassword;
+
+	buttons.logon = submitter;
+
 	var modal = _brayworth_.modal({
 		width : 300,
 		title : 'logon',
 		text : dlg,
-		buttons : {
-			logon : submitter
-
-		}
+		buttons : buttons
 
 	});
 

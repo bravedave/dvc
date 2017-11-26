@@ -13,6 +13,7 @@ if ( 'undefined' == typeof _brayworth_ )
 
 $.extend( _brayworth_, {
 		_brayworth_ : true,
+		logon_retrieve_password : false,
 		templates : {},
 		urlwrite : function( _url) {
 			if ( 'undefined' == typeof _url)
