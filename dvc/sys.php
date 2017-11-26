@@ -23,10 +23,10 @@ abstract class sys {
 	static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = FALSE ) {
 
 		if ( $maxrows > 0 ) {
-			$a = array(
+			$a = [
 				"/\\\\n/",
 				"/(\n)|(\\\\n)/"
-			);
+			];
 			$x = preg_split( "/\n/", $inText );
 			while ( count( $x ) > ($maxrows+1) )
 				array_pop( $x );
@@ -34,19 +34,21 @@ abstract class sys {
 
 		}
 
-		$a = array(
+		$a = [
 			"/\r\n/",
 			"/---\\n/",
 			"/\\\\n/",
 			"/\n/",
-			"/$\*/" );
+			"/$\*/"
+		];
 
-		$aR = array(
+		$aR = [
 			"\n",
 			'<hr align="left" style="width: 200px; margin: 0;" />',
 			'<br />',
 			'<br />',
-			'<br />&bull;' );
+			'<br />&bull;'
+		];
 
 		if ( $allAsteriskAsList ) {
 			$a[] = "/\*/";
