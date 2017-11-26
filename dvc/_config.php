@@ -31,7 +31,8 @@ abstract class _config {
 	/**
 	 * exposes a popup logon if authentication is required
 	 *
-	 * if you use this, the home controller must accept the submission and authenticate
+	 * if you use this, the home controller must accept the
+	 * submission and authenticate
 	 */
 	const use_inline_logon = FALSE;
 
@@ -96,8 +97,12 @@ abstract class _config {
 
 	static $CONTENT_SECURITY_ENABLED = TRUE;
 
-	/* settings for the cache expire time
-	 * set in the response headers */
+	/**
+	 settings for the cache expire time
+	 set in the response headers
+
+	 this unit is seconds
+	 */
 	static $JS_EXPIRE_TIME = 300;
 	static $JQUERY_EXPIRE_TIME = 900;
 	static $FONT_EXPIRE_TIME = 14400;
@@ -106,7 +111,7 @@ abstract class _config {
 	static $CORE_IMG_EXPIRE_TIME = 60;	// set on images that come from the /image location
 
 	static function tempdir() {
-		/*
+		/**
 		 * return a writable path with a trailing slash
 		 */
 
