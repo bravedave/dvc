@@ -41,25 +41,32 @@ class response {
 
 		if ( isset( $ResponseMessage->Items)) {
 			if ( isset( $ResponseMessage->Items->CalendarItem)) {
-				$ci = $ResponseMessage->Items->CalendarItem[0];
+				if ( count( $ResponseMessage->Items->CalendarItem)) {
+					$ci = $ResponseMessage->Items->CalendarItem[0];
 
-				//~ \sys::logger( print_r( $ci, TRUE));
-				//~ \sys::logger( '-------------------------');
-				$this->ResponseType = 'CalendarItem';
-				if ( isset( $ci->ItemId)) {
-					if ( isset( $ci->ItemId->Id)) {
-						$this->Id = $ci->ItemId->Id;
-						$this->ChangeKey = $ci->ItemId->ChangeKey;
+					//~ \sys::logger( print_r( $ci, TRUE));
+					//~ \sys::logger( '-------------------------');
+					$this->ResponseType = 'CalendarItem';
+					if ( isset( $ci->ItemId)) {
+						if ( isset( $ci->ItemId->Id)) {
+							$this->Id = $ci->ItemId->Id;
+							$this->ChangeKey = $ci->ItemId->ChangeKey;
+
+						}
+						else {
+							\sys::logger( 'dvc\ews\response :: CalendarItem : no ItemId->id');
+
+						}
 
 					}
 					else {
-						\sys::logger( 'dvc\ews\response :: CalendarItem : not ItemId->id');
+						\sys::logger( 'dvc\ews\response :: CalendarItem : no ItemId');
 
 					}
 
-				}
+				};
 				else {
-					\sys::logger( 'dvc\ews\response :: CalendarItem : not ItemId');
+					\sys::logger( 'dvc\ews\response :: CalendarItem : no items returned');
 
 				}
 
