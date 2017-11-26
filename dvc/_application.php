@@ -136,7 +136,7 @@ class _application {
 
 			}
 
-			/* this would be a system level document - this is the core distribution javascript */
+			/* this is a system level document - this is the core distribution javascript */
 			$_file = sprintf( '%s/public/%s', __DIR__, $_url);
 			if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
 			if ( file_exists( $_file)) {
@@ -253,10 +253,11 @@ class _application {
 
 		$this->url_controller->init( $url_controller_name);
 
-		/*
+		/**
 		 * Between here and the end of this function the application will execute
 		 *
-		 * check for method: does such a method exist in the controller ? */
+		 * check for method: does such a method exist in the controller ?
+		 */
 		if ( method_exists($this->url_controller, $this->url_action)) {
 
 			$this->url_served = sprintf( '%s%s%s/%s', url::$PROTOCOL, url::$URL, self::Request()->getControllerName(), self::Request()->getActionName());
@@ -288,7 +289,11 @@ class _application {
 			else {
 				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}()', $this->url_controller->name, $this->url_action));
 
-				// if no parameters given, just call the method without parameters, like $this->home->method();
+				/**
+				 * if no parameters given, just call the
+				 * method without parameters,
+				 * like $this->home->method();
+				 */
 				$this->url_controller->{$this->url_action}();
 
 			}
@@ -300,12 +305,7 @@ class _application {
 			if ( self::$debug) \sys::logger( 'fallback');
 			if ( self::$debug) \sys::logger( sprintf( '%s->index(%s)', $this->url_controller->name, $this->url_action));
 
-			// default/fallback: call the index() method of a selected controller
-			//~ $this->exclude_from_sitemap = TRUE;
-			//~ sys::logger( sprintf( 'excluded from exclude_from_sitemap (fallback) => %s/%s', self::Request()->getControllerName(), self::Request()->getActionName()));
 			$this->url_controller->index( $this->url_action);
-			//~ sys::logger( sprintf( '%s - %s', $this->url_controller->name, $this->url_action ));
-
 
 		}
 
@@ -336,24 +336,16 @@ class _application {
 			if ( self::$debug) \sys::logger( 'Url: ' . $url);
 
 			// split URL
-			//~ $url = filter_var($url, FILTER_SANITIZE_URL);
-			//~ $url = explode('/', $url);
 			$url = self::Request()->getSegments();
 
 			// Put URL parts into according properties
-			//~ $this->url_controller = (isset($url[0]) ? $url[0] : null);
-			//~ $this->url_action = (isset($url[1]) ? $url[1] : null);
-			//~ $this->url_parameter_1 = (isset($url[2]) ? $url[2] : null);
-			//~ $this->url_parameter_2 = (isset($url[3]) ? $url[3] : null);
-			//~ $this->url_parameter_3 = (isset($url[4]) ? $url[4] : null);
-
 			$this->url_controller = self::Request()->getSegment(0);
 			$this->url_action = self::Request()->getSegment(1);
 			$this->url_parameter_1 = self::Request()->getSegment(2);
 			$this->url_parameter_2 = self::Request()->getSegment(3);
 			$this->url_parameter_3 = self::Request()->getSegment(4);
 
-			// for debugging. uncomment this if you have problems with the URL
+			// turn debug on if you have problems with the URL
 			if ( self::$debug) \sys::logger( 'Controller: ' . $this->url_controller);
 			if ( self::$debug) \sys::logger( 'Action: ' . $this->url_action);
 			if ( self::$debug) \sys::logger( 'Parameter 1: ' . $this->url_parameter_1);
@@ -400,18 +392,19 @@ class _application {
 				$path = $this->return_url();
 
 				try {
-					$dao = new dao\sitemap();
+					$dao = new dao\sitemap;
 					if ( $dto = $dao->getDTObyPath( $path)) {
-						//~ sys::logger( 'found path : ' . $path);
-						$this->db->Q( 'UPDATE sitemap SET visits = visits + 1 WHERE id = ' . (int)$dto->id);
+						$this->db->Q( sprintf( 'UPDATE sitemap SET visits = visits + 1 WHERE id = %d', (int)$dto->id));
 
 
 					}
 					else {
 						//~ sys::logger( 'not found path : ' . $path);
-						$a = array( 'path' => $path,
+						$a = [
+							'path' => $path,
 							'visits' => 1,
-							'exclude_from_sitemap' => ((bool)$this->exclude_from_sitemap ? 1 : 0 ));
+							'exclude_from_sitemap' => ((bool)$this->exclude_from_sitemap ? 1 : 0 )
+						];
 
 						$this->db->Insert( 'sitemap', $a);
 
