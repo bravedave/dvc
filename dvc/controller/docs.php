@@ -23,6 +23,8 @@ class docs extends Controller {
 				->header()
 				->title();
 
+			$this->load( 'fork-me');
+
 			$p->secondary();
 				$this->load('contents');
 
