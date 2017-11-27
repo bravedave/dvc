@@ -64,7 +64,7 @@ class response {
 
 					}
 
-				};
+				}
 				else {
 					\sys::logger( 'dvc\ews\response :: CalendarItem : no items returned');
 
