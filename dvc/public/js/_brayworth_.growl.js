@@ -89,9 +89,9 @@
 
 		}
 
-		if ( /object/.test( typeof params))
+		if ( 'object' == typeof params)
 			$.extend( options, params);
-		else if ( /string/i.test( typeof params ))
+		else if ( 'string' = typeof params )
 			options.text = params;
 
 		if ( options.title == '' && options.text == '') {
