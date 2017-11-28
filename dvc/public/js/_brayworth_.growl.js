@@ -96,8 +96,8 @@
 
 		if ( options.title == '' && options.text == '') {
 			// this is a little repetitive - it's an ajax response
-			if ( !!params.response && params.response == 'ack')
-				options.growlClass = 'success';
+			if ( !!params.response)
+				options.growlClass = ( params.response == 'ack' ? 'success' : 'error' );
 
 			if ( !!params.description)
 				options.text = params.description;
