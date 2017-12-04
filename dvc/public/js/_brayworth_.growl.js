@@ -7,11 +7,16 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 
-	test : _brayworth_.growl( 'howdy');
-	test : _brayworth_.growl({
-		growlClass : 'error',
-		text : 'not good',
-	});
+	tests :
+	 	_brayworth_.growl( 'howdy');
+		_brayworth_.growl({
+			growlClass : 'error',
+			text : 'not good',
+		});
+		_brayworth_.growl({
+			response : 'nak',
+			description : 'not good',
+		});
 
 */
 
@@ -30,7 +35,7 @@
 	}
 
 	_brayworth_.growlError = function(params) {
-		var options = { growlClass : 'error' }
+		var options = { growlClass : 'error', timeout : 5000 }
 
 		if ( /object/.test( typeof params))
 			$.extend( options, params);
@@ -50,13 +55,15 @@
 		 */
 
 		var options = { growlClass : 'error', text : 'no description' }
-		if ( !!j.response) {
-			if ( j.response == 'ack')
-				options.growlClass = 'success';
+		if ( !!j.response && j.response == 'ack')
+			options.growlClass = 'success';
 
-		}
 		if ( !!j.description)
 			options.text = j.description;
+
+		if ( options.growlClass == 'error')
+			options.timeout = 5000;
+
 		if ( !!j.timeout)
 			options.timeout = j.timeout;
 
@@ -104,6 +111,8 @@
 
 			if ( !!params.timeout)
 				options.timeout = params.timeout;
+			else if ( options.growlClass == 'error')
+				options.timeout = 5000;
 
 		}
 
