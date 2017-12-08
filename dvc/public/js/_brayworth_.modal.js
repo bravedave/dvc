@@ -136,7 +136,7 @@ _brayworth_.modal = function( params) {
 				$.extend( j, el);
 
 			if ( !!j.icon)
-				var b = $( '<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;" />').addClass( j.icon);
+				var b = $( '<i class="fa fa-fw pull-right" style="margin-right: 1rem; padding-right: 1rem; cursor: pointer;" />').addClass( j.icon);
 
 			else
 				var b = $('<button class="pull-right" />')
