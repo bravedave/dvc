@@ -17,7 +17,7 @@ class _page {
 		$sectionOPEN = FALSE,
 		$sectionNAME = '',
 		$hasTitleBar = FALSE,
-		$dvc = '';
+		$dvc = '3';
 
 	public $title = '';
 	public $data = FALSE;
@@ -88,7 +88,7 @@ class _page {
 			}
 
 		}
-		else {
+		elseif ( $this->dvc) {
 			if ( \cssmin::dvc()) {
 				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \cssmin::$dvcmin );
 
