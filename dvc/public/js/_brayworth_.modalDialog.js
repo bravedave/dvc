@@ -56,7 +56,7 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 
 	}
 	else {
-		_AF = $('textarea, input, button',modal);
+		_AF = $('textarea, input, button, a',modal);
 		if ( _AF.length > 0)
 			_AF.first().focus();
 
