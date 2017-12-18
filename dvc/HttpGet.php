@@ -47,6 +47,11 @@ class HttpGet {
 
 	}
 
+	public function setHTTPHeaders($headers) {
+		curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);
+
+	}
+
 	public function url_builder() {
 		if ( count($this->params) > 0 )
 			return ( $this->url . '?' . http_build_query( $this->params));
