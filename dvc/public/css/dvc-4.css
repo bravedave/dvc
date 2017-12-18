@@ -13,7 +13,7 @@
 }
 .navbar-default .navbar-brand { color: #777; }
 /*-- --[ end: colors ]-- --*/
-.navbar-brand, .navbar-nav > li > a { line-height: 80px; }
+header .navbar-brand, header .navbar-nav > li > a { line-height: 80px; }
 .navbar-brand {
 	padding-top: 0;
 	font: normal 20px/1em sans-serif;
@@ -50,11 +50,13 @@ footer nav > ul, .footer nav > ul, .copyright {
 	font-weight: normal;
 }
 
-footer nav > ul > li, .footer nav > ul > li, .copyright {
-    display: inline-block;
+/*
     padding: 10px 15px;
     margin: 0 3px;
     line-height: 20px;
+*/
+footer nav > ul > li, .footer nav > ul > li, .copyright {
+    display: inline-block;
     text-align: center;
 }
 
@@ -67,4 +69,3 @@ div#brayworthLOGO a {
 	color: black;
 	padding: 4px 4px 0;
 }
-

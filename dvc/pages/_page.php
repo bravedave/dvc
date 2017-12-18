@@ -17,7 +17,7 @@ class _page {
 		$sectionOPEN = FALSE,
 		$sectionNAME = '',
 		$hasTitleBar = FALSE,
-		$dvc = '';
+		$dvc = '3';
 
 	public $title = '';
 	public $data = FALSE;
@@ -88,7 +88,7 @@ class _page {
 			}
 
 		}
-		else {
+		elseif ( $this->dvc) {
 			if ( \cssmin::dvc()) {
 				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \cssmin::$dvcmin );
 
@@ -138,11 +138,7 @@ class _page {
 
 		print \Response::html_docType();
 
-		print <<<OUTPUT
-
-<head>
-
-OUTPUT;
+		printf( '%s<head>%s', PHP_EOL, PHP_EOL);
 
 		if ( !$this->charset)
 			$this->charset = 'utf-8';
@@ -168,14 +164,8 @@ OUTPUT;
 
 	public function closeHeader() {
 		if ( $this->headerOPEN) {
-
 			$this->headerOPEN = FALSE;
-
-			print <<<OUTPUT
-
-</head>
-
-OUTPUT;
+			printf( '%s</head>%s', PHP_EOL, PHP_EOL);
 
 		}
 
@@ -225,9 +215,7 @@ OUTPUT;
 		if ( $this->hasTitleBar)
 			$classes[] = 'with-nav-bar';
 
-		printf( '
-
-	<div class="%s"><!-- _page:Main Content Area -->%s', implode( ' ', $classes), PHP_EOL);
+		printf( '%s%s	<div class="%s"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
 
 		$this->contentOPEN = TRUE;
 
@@ -269,7 +257,6 @@ OUTPUT;
 		return ( $this);	// chain
 
 	}
-
 
 	public function content() {
 		$this

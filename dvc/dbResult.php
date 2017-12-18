@@ -69,7 +69,7 @@ class dbResult {
 		 * 	return $dto;
 		 * });
 		 */
-		$ret = array();
+		$ret = [];
 		if ( is_callable( $func)) {
 			while ( $dto = $this->dto( $template)) {
 				if ( $d = $func( $dto))

@@ -14,6 +14,7 @@ abstract class _dao {
 	var $db;
 	protected $_db_name = NULL;
 	protected $_db_allways_check_structure = TRUE;
+	protected $template = NULL;
 
 	public static function dbTimeStamp() {
 		return ( \db::dbTimeStamp());
@@ -159,7 +160,7 @@ abstract class _dao {
 
 		$this->db->log = $this->log;
 		if ( $res = $this->Result( sprintf( 'SELECT * FROM %s WHERE id = %d', $this->_db_name, (int)$id )))
-			return ( $res->dto());
+			return ( $res->dto( $this->template));
 
 		return ( FALSE);
 
