@@ -185,7 +185,7 @@ var templation = {
 						cache[options.template] = d;
 
 						if ( d == '') {
-							console.warn( 'templation:\n did you read the notes about the home controller\n > the home Controller must return the template apon\n   receiving the get-template request');
+							console.warn( 'templation:\n did you read the notes about the home controller\n > the home Controller must return the template upon\n   receiving the get-template request');
 
 						}
 
