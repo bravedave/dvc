@@ -331,7 +331,7 @@ abstract class sys {
 
 	static function getTemplate( $template) {
 		if ( $template) {
-			if ( $template = preg_replace( '/[^\da-z]/i', '', $template)) {
+			if ( $template = preg_replace( '/[^\da-z_]/i', '', $template)) {
 				$template .= '.html';
 
 				$path = sprintf( '%s%sapp%stemplates%s%s',
