@@ -9,7 +9,6 @@
 	Modal Content
 	*/
 .modal {
-	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
 	z-index: 1050; /* Sit on top, compatible with bootstrap */
 	left: 0;
@@ -19,6 +18,9 @@
 	overflow: auto; /* Enable scroll if needed */
 	background-color: rgb(0,0,0); /* Fallback color */
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.modal:not(.modal-active) {
+	display: none; /* Hidden by default */
 }
 /* The Close Button */
 .fa.close,
@@ -123,4 +125,3 @@
 	.modal:not(.modal-mobile) .modal-content.modal-content-700,
 	.modal:not(.modal-mobile) .modal-content { width: 95%; }
 }
-
