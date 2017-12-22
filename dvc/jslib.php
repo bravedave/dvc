@@ -193,6 +193,8 @@ abstract class jslib {
 			'js/_brayworth_.post.js',
 			'js/_brayworth_.swipe.js',
 			'js/_brayworth_.strings.js',
+			'js/_brayworth_.Vue.js',
+			'js/_brayworth_.Vue.block.js',
 			'js/brayworth.js',
 			'js/templation.js',
 			'js/js.cookie.js' ];

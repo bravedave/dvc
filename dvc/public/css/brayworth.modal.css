@@ -22,6 +22,9 @@
 .modal:not(.modal-active) {
 	display: none; /* Hidden by default */
 }
+.modal.modal-active {
+	display: block; /* Hidden by default */
+}
 /* The Close Button */
 .fa.close,
 .modal .close {

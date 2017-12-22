@@ -22,9 +22,9 @@ class page extends _page {
 
 	protected function _viewjs( $title = '' ) {
 		$this->meta = [];
-		$this->scripts = [];
+		// $this->scripts = [];
 		$this->latescripts = [];
-		$this->css = [];
+		// $this->css = [];
 
 		//~ $this->css = [];
 		$this->meta[] = '<meta name="page-constructor" content="_vuejs" />';

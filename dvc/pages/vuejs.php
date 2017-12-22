@@ -13,11 +13,19 @@
 NameSpace dvc\pages;
 
 class vuejs extends page {
+	static public $BootStrap_Version = '4';
+
 	function __construct( $title = '' ) {
 		self::$vuejs = TRUE;
+		$this->dvc = '4';
+
 		$this->_footer = NULL;
 
 		parent::__construct( $title);
+		$css = [ \url::tostring( sprintf( 'bootstrap.%s/css/bootstrap.min.css', self::$BootStrap_Version))];
+
+		foreach ( $css as $c)
+			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $c));
 
 	}
 

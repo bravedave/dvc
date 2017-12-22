@@ -69,3 +69,6 @@ div#brayworthLOGO a {
 	color: black;
 	padding: 4px 4px 0;
 }
+
+[v-cloak] > * { display:none }
+[v-cloak]::before { content: "loading…" }

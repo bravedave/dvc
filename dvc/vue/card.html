@@ -1,0 +1,11 @@
+<!--
+	test:
+	_cms_.Vue.block({block:'panel-primary'}).then( function( d) { console.log( d); });
+
+-->
+<div class="card" v-cloak>
+  <div class="card-header bg-primary text-white">{{title | capitalize }}</div>
+	<div class="card-body">{{body}}</div>
+	<footer class="card-footer" v-if="'undefined' !== typeof this.footer">{{footer}}</footer>
+
+</div>
