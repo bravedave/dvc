@@ -13,39 +13,28 @@ Use \dao;
 define( 'APPLICATION', 1 );
 
 class _application {
-	/** @var null The controller */
-	private $url_controller = null;
-
-	/** @var null The method (of the above controller), often also named "action" */
-	private $url_action = null;
-
-	/** @var null Parameter one */
-	private $url_parameter_1 = null;
-
-	/** @var null Parameter two */
-	private $url_parameter_2 = null;
-
-	/** @var null Parameter three */
-	private $url_parameter_3 = null;
-
-	private $url_served = '';
-
-	public $exclude_from_sitemap = FALSE;
-
+	protected $url_controller = null;
+	protected $url_action = null;
+	protected $url_parameter_1 = null;
+	protected $url_parameter_2 = null;
+	protected $url_parameter_3 = null;
 	protected $_app_executed = FALSE;
+
+	protected $url_served = '';
+	public $exclude_from_sitemap = FALSE;
 
 	public function app_executed() {
 		return $this->_app_executed;
 
 	}
 
-	private $rootPath = null;
+	protected $rootPath = null;
 
-	static private $_request = null;
+	protected static $_request = null;
 
 	protected $_timer = null;
 
-	private $db = FALSE;
+	protected $db = FALSE;
 
 	public $defaultController = NULL;
 
@@ -118,55 +107,8 @@ class _application {
 			// sanitize, noting that it may have / in the string, and that's ok because leading /. have been removed
 			$_url = preg_replace( '@[^a-zA-Z0-9\_\-\./]@', '', $_url);
 
-			$_file = sprintf( '%s/app/public/%s', $this->rootPath, $_url);
-			if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
-			if ( file_exists( $_file)) {
-				$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
-				$this->serve( $_file);
+			if ( $this->publicFile( $_url))
 				return;
-
-			}
-
-			$_file = sprintf( '%s/public/%s', $this->rootPath, $_url);
-			if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
-			if ( file_exists( $_file)) {
-				$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
-				$this->serve( $_file);
-				return;
-
-			}
-
-			/* this is a system level document - this is the core distribution javascript */
-			$_file = sprintf( '%s/public/%s', __DIR__, $_url);
-			if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
-			if ( file_exists( $_file)) {
-				$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
-				$this->serve( $_file);
-				return;
-
-			}
-
-			// ok, can't find it - perhaps serve a blank
-			if (preg_match('/\.(?:png|jpg|jpeg|gif)(\?.*)?$/', $_url)) {
-
-				//~ self::$debug = TRUE;
-
-				if (preg_match('/\.(?:png)(\?.*)?$/', $_url))
-					$_file = sprintf( '%s/public/images/1x1.png', __DIR__);
-				elseif (preg_match('/\.(?:jpg|jpeg)(\?.*)?$/', $_url))
-					$_file = sprintf( '%s/public/images/1x1.jpg', __DIR__);
-				elseif (preg_match('/\.(?:gif)(\?.*)?$/', $_url))
-					$_file = sprintf( '%s/public/images/1x1.gif', __DIR__);
-
-				if ( file_exists( $_file)) {
-					if ( self::$debug) \sys::logger( sprintf( 'file not found : %s : serving :: %s', $_url, $_file));
-					$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
-					$this->serve( $_file);
-					return;
-
-				}
-
-			}
 
 		}
 
@@ -238,7 +180,7 @@ class _application {
 		}
 
 		if ( !file_exists( $controllerFile))
-			die( 'cannot locate the controller file');
+			throw new Exceptions\CannotLocateController;
 
 		self::Request()->setControllerName( $this->url_controller);
 		self::Request()->setActionName( $this->url_action);
@@ -250,7 +192,6 @@ class _application {
 		$this->url_controller->name = $url_controller_name;
 		$this->url_controller->timer = $this->_timer;
 
-
 		$this->url_controller->init( $url_controller_name);
 
 		/**
@@ -260,34 +201,56 @@ class _application {
 		 */
 		if ( method_exists($this->url_controller, $this->url_action)) {
 
-			$this->url_served = sprintf( '%s%s%s/%s', url::$PROTOCOL, url::$URL, self::Request()->getControllerName(), self::Request()->getActionName());
+			$this->url_served = sprintf( '%s%s%s/%s', url::$PROTOCOL,
+				url::$URL,
+				self::Request()->getControllerName(),
+				self::Request()->getActionName());
 
 			// call the method and pass the arguments to it
 			if (isset($this->url_parameter_3)) {
 				// will translate to something like $this->home->method($param_1, $param_2, $param_3);
-				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s, %s, %s)', $this->url_controller->name, $this->url_action, $this->url_parameter_1, $this->url_parameter_2, $this->url_parameter_3));
+				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s, %s, %s)',
+				 	$this->url_controller->name,
+					$this->url_action,
+					$this->url_parameter_1,
+					$this->url_parameter_2,
+					$this->url_parameter_3));
 
-				$this->url_controller->{$this->url_action}($this->url_parameter_1, $this->url_parameter_2, $this->url_parameter_3);
+				$this->url_controller->{$this->url_action}(
+					$this->url_parameter_1,
+					$this->url_parameter_2,
+					$this->url_parameter_3);
 
 			}
 			elseif (isset($this->url_parameter_2)) {
 
-				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s, %s)', $this->url_controller->name, $this->url_action, $this->url_parameter_1, $this->url_parameter_2));
+				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s, %s)',
+					$this->url_controller->name,
+					$this->url_action,
+					$this->url_parameter_1,
+					$this->url_parameter_2));
 
 				// will translate to something like $this->home->method($param_1, $param_2);
-				$this->url_controller->{$this->url_action}($this->url_parameter_1, $this->url_parameter_2);
+				$this->url_controller->{$this->url_action}(
+					$this->url_parameter_1,
+					$this->url_parameter_2);
 
 			}
 			elseif (isset($this->url_parameter_1)) {
 
-				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s)', $this->url_controller->name, $this->url_action, $this->url_parameter_1));
+				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s)',
+					$this->url_controller->name,
+					$this->url_action,
+					$this->url_parameter_1));
 
 				// will translate to something like $this->home->method($param_1);
 				$this->url_controller->{$this->url_action}($this->url_parameter_1);
 
 			}
 			else {
-				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}()', $this->url_controller->name, $this->url_action));
+				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}()',
+				 	$this->url_controller->name,
+					$this->url_action));
 
 				/**
 				 * if no parameters given, just call the
@@ -313,6 +276,61 @@ class _application {
 
 	}
 
+	protected function publicFile( $_url) {
+		$_file = sprintf( '%s/app/public/%s', $this->rootPath, $_url);
+		if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
+		if ( file_exists( $_file)) {
+			$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
+			$this->serve( $_file);
+			return true;
+
+		}
+
+		$_file = sprintf( '%s/public/%s', $this->rootPath, $_url);
+		if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
+		if ( file_exists( $_file)) {
+			\sys::logger( sprintf( 'DEPRECATED FILE LOCATION :: %s', $_file));
+			\sys::logger( sprintf( 'Please use app/public :: %s', $_file));
+			$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
+			$this->serve( $_file);
+			return true;
+
+		}
+
+		/* this is a system level document - this is the core distribution javascript */
+		$_file = sprintf( '%s/public/%s', __DIR__, $_url);
+		if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
+		if ( file_exists( $_file)) {
+			$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
+			$this->serve( $_file);
+			return true;
+
+		}
+
+		// ok, can't find it - perhaps serve a blank if it is an image
+		if (preg_match('/\.(?:png|jpg|jpeg|gif)(\?.*)?$/', $_url)) {
+
+			//~ self::$debug = TRUE;
+
+			if (preg_match('/\.(?:png)(\?.*)?$/', $_url))
+				$_file = sprintf( '%s/public/images/1x1.png', __DIR__);
+			elseif (preg_match('/\.(?:jpg|jpeg)(\?.*)?$/', $_url))
+				$_file = sprintf( '%s/public/images/1x1.jpg', __DIR__);
+			elseif (preg_match('/\.(?:gif)(\?.*)?$/', $_url))
+				$_file = sprintf( '%s/public/images/1x1.gif', __DIR__);
+
+			if ( file_exists( $_file)) {
+				if ( self::$debug) \sys::logger( sprintf( 'file not found : %s : serving :: %s', $_url, $_file));
+				$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
+				$this->serve( $_file);
+				return true;
+
+			}
+
+		}
+
+	}
+
 	public function countVisit() {}
 
 	protected function serve( $path ) {
@@ -321,7 +339,7 @@ class _application {
 
 	}
 
-	private function splitUrl() {
+	protected function splitUrl() {
 		/**
 		* Get and split the URL
 		*/
