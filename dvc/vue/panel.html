@@ -1,0 +1,17 @@
+<!--
+	test:
+	_cms_.Vue.block({block:'panel-primary'}).then( function( d) { console.log( d); });
+
+-->
+<div class="panel panel-primary" v-cloak>
+  <div class="panel panel-header">
+    {{title | capitalize }}
+  </div>
+	<div class="panel-body">
+    {{body}}
+	</div>
+	<div class="panel-footer" v-if="'undefined' !== typeof footer">
+    {{footer}}
+	</div>
+
+</div>
