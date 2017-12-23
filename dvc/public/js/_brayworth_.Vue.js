@@ -14,21 +14,10 @@ _brayworth_.Vue = function( params) {
 	var filters = {
 		capitalize: function (value) {
 			if (!value) return ''
-			value = value.toString()
-			var words = value.split(' ');
-			var ret = [];
-			$.each( words, function( i, word) {
-				if ( 'string' == typeof word)
-					ret.push( word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
-				else
-					ret.push( word);
-
-			});
-
-			return ret.join(' ');
-			//~ return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+			return value.toCapitalCase();
 
 		}
+		
 	};
 
 	$.extend( options, params);

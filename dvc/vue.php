@@ -13,7 +13,7 @@ NameSpace dvc;
 abstract class vue {
 	static function getBlock( $block) {
 		if ( $block) {
-			if ( $block = preg_replace( '/[^\da-z_]/i', '', $block)) {
+			if ( $block = preg_replace( '/[^\da-z_\-]/i', '', $block)) {
 				$block .= '.html';
 
 				$path = sprintf( '%s%sapp%svue%s%s',
