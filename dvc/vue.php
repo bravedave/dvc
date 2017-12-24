@@ -44,4 +44,38 @@ abstract class vue {
 
 	}
 
+	static function getAllBlocks() {
+		$a = [];
+		$path = sprintf( '%s%sapp%svue%s*.html',
+			__DIR__,
+			DIRECTORY_SEPARATOR,
+			DIRECTORY_SEPARATOR,
+			DIRECTORY_SEPARATOR);
+		$gi = new \GlobIterator( $path, \FilesystemIterator::KEY_AS_FILENAME);
+		foreach ($gi as $key => $item) {
+			$file = pathinfo( $item->getRealPath());
+			$a[ $file['filename']] = file_get_contents( $item->getRealPath());
+
+		}
+
+		$path = sprintf( '%s%sapp%svue%s',
+			\application::app()->getRootPath(),
+			DIRECTORY_SEPARATOR,
+			DIRECTORY_SEPARATOR,
+			DIRECTORY_SEPARATOR);
+		if ( is_dir( $path)) {
+			$gi = new \GlobIterator( $path . '*.html', \FilesystemIterator::KEY_AS_FILENAME);
+
+			foreach ($gi as $key => $item) {
+				$file = pathinfo( $item->getRealPath());
+				$a[ $file['filename']] = file_get_contents( $item->getRealPath());
+
+			}
+
+			return ( $a);
+
+		}
+
+	}
+
 }
