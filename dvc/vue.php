@@ -46,9 +46,8 @@ abstract class vue {
 
 	static function getAllBlocks() {
 		$a = [];
-		$path = sprintf( '%s%sapp%svue%s*.html',
+		$path = sprintf( '%s%svue%s*.html',
 			__DIR__,
-			DIRECTORY_SEPARATOR,
 			DIRECTORY_SEPARATOR,
 			DIRECTORY_SEPARATOR);
 		$gi = new \GlobIterator( $path, \FilesystemIterator::KEY_AS_FILENAME);
