@@ -28,11 +28,11 @@ class page extends _page {
 		// $this->css = [];
 
 		//~ $this->css = [];
+
 		$this->meta[] = '<meta name="page-constructor" content="_vuejs" />';
-		if ( self::$developer)
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/vue.min.js'));
-		else
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/vue.js'));
+
+		$src = ( self::$developer ? 'js/vue.js' : 'js/vue.min.js');
+		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( $src));
 
 	}
 
