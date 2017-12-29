@@ -18,6 +18,7 @@ class page extends _page {
 	static public $BootStrap = FALSE;
 
 	protected static $vuejs = FALSE;
+	protected static $developer = FALSE;
 	protected $topOfPage = [];
 
 	protected function _viewjs( $title = '' ) {
@@ -27,8 +28,11 @@ class page extends _page {
 		// $this->css = [];
 
 		//~ $this->css = [];
+
 		$this->meta[] = '<meta name="page-constructor" content="_vuejs" />';
-		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/vue.js'));
+
+		$src = ( self::$developer ? 'js/vue.js' : 'js/vue.min.js');
+		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( $src));
 
 	}
 
