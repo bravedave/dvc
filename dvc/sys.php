@@ -17,8 +17,13 @@ abstract class sys {
 	protected static $_dbi = NULL;
 
 	static $debug = FALSE;
+
 	/**
-	 * text2html: basically converts plain text to html by swaping in <br /> for \n
+	 * text2html: converts plain text to html by swaping in <br /> for \n
+	 *
+	 * $inText : text to be converted
+	 * $maxRows : the number of rows to convert - default -1 == all
+	 * $allAsteriskAsList : convert * (asterisk) to list (<ul><li>{text}</li></ul>)
 	 **/
 	static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = FALSE ) {
 
@@ -161,7 +166,7 @@ abstract class sys {
 
 
 		new html\dump( $v, $title );
-		if ( $title == 'dvc\dbResult') {
+		if ( $title == 'dvc\dbResult' || $title == 'dvc\sqlite\dbResult') {
 			while ( $r = $v->dto())
 				new html\dump( $r, get_class( $r));
 
