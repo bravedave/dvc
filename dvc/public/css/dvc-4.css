@@ -70,5 +70,7 @@ div#brayworthLOGO a {
 	padding: 4px 4px 0;
 }
 
+.bg-inherit { background-color: inherit; }
+
 [v-cloak] > * { display:none }
 [v-cloak]::before { content: "loading…" }

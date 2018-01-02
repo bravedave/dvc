@@ -50,7 +50,7 @@ class bootstrap extends page {
 
 	public function primary( $class = NULL) {
 		if ( is_null( $class))
-			$class =  'col-sm-8 col-md-9 py-3';
+			$class =  'col-sm-8 col-md-9 py-3 bg-inherit';
 
 		return ( parent::primary( $class));	// chain
 
@@ -58,7 +58,7 @@ class bootstrap extends page {
 
 	public function secondary( $class = NULL) {
 		if ( is_null( $class))
-			$class =  'col-sm-4 col-md-3 py-4';
+			$class =  'col-sm-4 col-md-3 py-4 bg-inherit';
 
 		return ( parent::secondary( $class));	// chain
 
