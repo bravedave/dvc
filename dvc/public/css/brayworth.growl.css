@@ -51,3 +51,8 @@
 	}
 
 }
+
+@media print {
+	.growler { display: none; }
+
+}
