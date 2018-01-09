@@ -123,7 +123,7 @@ class session {
 
 	}
 
-	static function domain( $domain = NULL ) {
+	function domain( $domain = NULL ) {
 		$ret =  $this->domain;
 		if ( !is_null( $domain))
 			$this->domain = $domain;
