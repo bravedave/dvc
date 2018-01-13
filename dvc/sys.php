@@ -164,11 +164,14 @@ abstract class sys {
 
 		}
 
-
-		new html\dump( $v, $title );
 		if ( $title == 'dvc\dbResult' || $title == 'dvc\sqlite\dbResult') {
 			while ( $r = $v->dto())
 				new html\dump( $r, get_class( $r));
+
+		}
+		else {
+			printf( '<h1>%s</h1>', $title);
+			new html\dump( $v, $title );
 
 		}
 
