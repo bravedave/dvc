@@ -194,7 +194,24 @@ _brayworth_.modal = function( params) {
 
 		},
 
-	})
+	});
+
+	_modal.load = function( url, data, complete) {
+		/*
+		 * this is a wrapper on the modal->body element
+		 * for jQuery.load
+		 */
+	 	return new Promise( function( resolve, reject) {
+			var d = $('<div />');
+			t.append( d);
+			d.load( url, function( data) {
+				resolve( data);
+
+			});
+
+		})
+
+	}
 
 	t.data( 'modal', _modal);
 	if ( 'undefined' != typeof this && !this._brayworth_ ) {
