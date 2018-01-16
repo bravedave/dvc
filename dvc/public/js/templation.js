@@ -50,7 +50,7 @@ var templation = {
 		form : '<form />',
 		table : '<table><thead></thead><tbody /><tfoot /></table>',
 		tr : '<tr />',
-		modal : '<div class="modal"><div class="modal-content" role="dialog" aria-labelledby="modal-header-title"><div class="modal-header"><i class="fa fa-times close" /><h1 id="modal-header-title" /></div><div class="modal-body" /></div></div>',
+		modal : '<div class="modal"><div class="modal-content" role="dialog" aria-labelledby="modal-header-title"><div class="modal-header"><div class="row"><div class="col"><i class="fa fa-times close" /><h1 id="modal-header-title" /></div></div></div><div class="modal-body" /></div></div>',
 
 	};
 
