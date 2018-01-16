@@ -85,6 +85,14 @@ abstract class _controller {
 
 	}
 
+	/*
+	 * Abstract method placeholder for use by
+	 * the child class. This method is called
+	 * at the end of __construct()
+	 *
+	 * avoid replacing the default __construct
+	 * method use before instead
+	 */
 	protected function before() {
 		/**
 		 * Inspired by something I read in the fuelPHP documentation
@@ -157,6 +165,10 @@ abstract class _controller {
 
 	}
 
+	/*
+	 * Return a SQL Data Result using
+	 * the default data adapter
+	 */
 	protected function dbResult( $query) {
 		if ( is_null( $this->db ))
 			return ( FALSE);
@@ -165,6 +177,22 @@ abstract class _controller {
 
 	}
 
+	/*
+ 	 * Perform an SQL Command using
+	 * the default data adapter
+	 */
+	protected function SQL( $query) {
+		if ( is_null( $this->db ))
+			return ( FALSE);
+
+		return ( $this->db->SQL( $query));
+
+	}
+
+	/*
+ 	 * Escape a string for inclusing in an SQL
+	 * Command using the default data adapter
+	 */
 	protected function dbEscape( $s) {
 		if ( is_null( $this->db ))
 			return ( $s);

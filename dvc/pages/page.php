@@ -115,7 +115,7 @@ OUTPUT;
 
 	}
 
-	public function title( $navbar =  '') {
+	public function title( $navbar = '') {
 		if ( (string)$navbar == '') {
 			if ( \config::$CSS_BASE == 'mini')
 				$navbar = 'navbar-mini';
