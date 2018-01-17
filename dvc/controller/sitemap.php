@@ -19,12 +19,17 @@ class sitemap extends Controller {
 	public function txt() {
 		Response::text_headers();
 
-		print url::$PROTOCOL . url::$URL . PHP_EOL;
+		$url = url::$PROTOCOL . url::$URL;
 
-		$dao = new dao\sitemap();
+		print $url . PHP_EOL;
+
+		$dao = new dao\sitemap;
 		if ( $dtos = $dao->getSiteMap()) {
-			foreach( $dtos as $dto)
-				print $dto->path . PHP_EOL;
+			foreach( $dtos as $dto) {
+				if ( substr($dto->path, 0, strlen($url)) === $url)
+					print $dto->path . PHP_EOL;
+
+			}
 
 		}
 
@@ -34,10 +39,11 @@ class sitemap extends Controller {
 		if ( currentUser::valid()) {
 			if ( currentUser::isadmin()) {
 				if ( (int)$id > 0 ) {
-					$dao = new dao\sitemap();
+					$dao = new dao\sitemap;
 					if ( $dto = $dao->getById( $id)) {
-						$this->db->Update( 'sitemap', array(
-							'exclude_from_sitemap' => ( $dto->exclude_from_sitemap ? 0 : 1 )), 'where id = ' . $id );
+						$this->db->UpdateByID( 'sitemap', [
+							'exclude_from_sitemap' => ( $dto->exclude_from_sitemap ? 0 : 1 )
+						], $id);
 
 						Response::redirect( 'sitemap/report', 'Updated ..' );
 
