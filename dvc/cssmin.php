@@ -150,7 +150,7 @@ abstract class cssmin {
 			$modtime = 0;
 			foreach ( $files as $file) {
 				if ( realpath( $file))
-					$modtime = max( array( $modtime, filemtime( $file)));
+					$modtime = max( [ $modtime, filemtime( $file)]);
 
 				else
 					sys::logger( 'cannot locate css.min file ' . $file);
