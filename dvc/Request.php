@@ -53,7 +53,10 @@ class Request {
 			$this->url = $this->uri;
 
 		$url = filter_var( $this->url, FILTER_SANITIZE_URL);
-		$this->segments = explode('/', $url);
+		if ( $url == 'sitemap.txt')
+			$this->segments = ['sitemap','txt'];
+		else
+			$this->segments = explode('/', $url);
 
 	}
 
