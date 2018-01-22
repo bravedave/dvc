@@ -10,11 +10,9 @@
 
 class sitemap extends Controller {
 	public $RequireValidation = \config::lockdown;
-	
-	function __construct( $rootPath ) {
-		parent::__construct( $rootPath );
-		application::app()->exclude_from_sitemap = TRUE;
 
+	function before() {
+		application::app()->exclude_from_sitemap = TRUE;
 
 	}
 
