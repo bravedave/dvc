@@ -17,6 +17,17 @@ class db {
 
 	protected static $_instance = FALSE;
 
+	public function valid() {
+		if ( !self::$_instance)
+			self::$_instance = new self;
+
+		if ( self::$_instance)
+			return ( TRUE);
+
+		return ( FALSE);
+
+	}
+
 	static function instance() {
 		if ( !self::$_instance)
 			self::$_instance = new self;
@@ -180,4 +191,3 @@ class db {
 	}
 
 }
-
