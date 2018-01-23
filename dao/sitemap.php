@@ -66,9 +66,11 @@ class sitemap extends _dao {
 	}
 
 	public function getSiteMap() {
-		return ( self::asDTO( $this->db->Result( 'SELECT * FROM sitemap WHERE exclude_from_sitemap = 0')));
+		if ( $this->db->valid())
+			return ( self::asDTO( $this->db->Result( 'SELECT * FROM sitemap WHERE exclude_from_sitemap = 0')));
+
+		return ( FALSE);
 
 	}
 
 }
-

@@ -93,6 +93,8 @@ abstract class _dao {
 	}
 
 	protected function TableChecks() {
+		if ( !$this->db->valid())
+			return;
 
 		if ( is_null( $this->_db_name))
 			return ( FALSE);

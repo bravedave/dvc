@@ -13,6 +13,12 @@ Namespace dvc;
 
 class dbi extends db {
 	protected static $dbiCount = 0;
+	protected $_valid = FALSE;
+
+	function valid() {
+		return ( $this->_valid);
+
+	}
 
 	static function getDBI() {
 		return ( \sys::dbi());
@@ -48,6 +54,8 @@ class dbi extends db {
 			config::$DB_HOST, config::$DB_NAME, config::$DB_USER, config::$DB_PASS), 5 );
 
 		parent::__construct( config::$DB_HOST, config::$DB_NAME, config::$DB_USER, config::$DB_PASS);
+
+		$this->_valid = TRUE;
 
 	}
 

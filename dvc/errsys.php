@@ -159,7 +159,15 @@ abstract class errsys {
 			$headers = implode( "\r\n", $header );
 			$scriptname = strtolower( $_SERVER[ "SCRIPT_NAME" ]);
 
-			mail( \config::$SUPPORT_EMAIL, \config::$WEBNAME . " PHP Error", $mailMessage, $headers, "-f" . \config::$SUPPORT_EMAIL );
+			try {
+				mail( \config::$SUPPORT_EMAIL, \config::$WEBNAME . " PHP Error", $mailMessage, $headers, "-f" . \config::$SUPPORT_EMAIL );
+
+			}
+			catch( \Exception $e) {
+				print '<h1>Could not send error report</h1>';
+				print $mailMessage;
+
+			}
 
 		}
 		else {
