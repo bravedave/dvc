@@ -121,7 +121,7 @@ _brayworth_.modal = function( params) {
 
 	}
 
-	if ( Object.keys(options.headButtons).length > 0) {
+	if ( Object.keys( options.headButtons).length > 0) {
 		$.each( options.headButtons, function( i, el) {
 			var j = {
 				text : i,
@@ -171,6 +171,15 @@ _brayworth_.modal = function( params) {
 		})
 
 		t.get('.modal-content').css({ 'width' : 'auto', 'margin' : 0 });
+
+	}
+	else {
+		if ( !!options.height) {
+			t.get('.modal-content')
+				.height( options.height )
+				.css({'overflow-y' : 'auto', 'overflow-x' : 'hidden'});
+
+		}
 
 	}
 
