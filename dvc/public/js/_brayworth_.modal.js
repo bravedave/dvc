@@ -58,6 +58,7 @@ _brayworth_.modal = function( params) {
 	var options = {
 		title : '',
 		width : false,
+		height : false,
 		mobile : _brayworth_.browser.isMobileDevice,
 		fullScreen : _brayworth_.browser.isMobileDevice,
 		className :  '',
@@ -175,7 +176,7 @@ _brayworth_.modal = function( params) {
 	}
 	else {
 		if ( !!options.height) {
-			t.get('.modal-content')
+			t.get('.modal-body')
 				.height( options.height )
 				.css({'overflow-y' : 'auto', 'overflow-x' : 'hidden'});
 
