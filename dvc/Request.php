@@ -47,10 +47,23 @@ class Request {
 		if ( isset(  $_SERVER['REQUEST_URI']))
 			$this->uri = trim( $_SERVER['REQUEST_URI'] ,'/');
 
-		if ( isset( $_GET['url']))
+		if ( isset( $_GET['url'])) {
+			\sys::logger( 'DEPRECATION:');
+			\sys::logger( ' .htaccess');
+			\sys::logger( ' use FallbackResource instead of ReWriteEngine');
+			\sys::logger( ' ---');
+			\sys::logger( ' RewriteEngine Off');
+			\sys::logger( '');
+			\sys::logger( ' FallbackResource /_dvc.php');
+			\sys::logger( '');
+
 			$this->url = trim( $_GET['url'] ,'/');
-		else
+
+		}
+		else {
 			$this->url = $this->uri;
+
+		}
 
 		$url = filter_var( $this->url, FILTER_SANITIZE_URL);
 		$url = preg_replace( '/\?(.*)$/', '', $url);
