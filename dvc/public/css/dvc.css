@@ -252,15 +252,10 @@ thead tr td table tbody tr td { font-size: .8em; }
 .report tbody tr td, .report .tbody tr td { font-size: 0.7em; }
 input[type="text"].datepicker { width: 7em; }
 
-/*.content,
-.content-primary {
-	margin: 0 15px;
-} */
 @media screen and (max-width: 767px){
 	.content-secondary {
 		text-align: left;
-		margin: 0 5px 20px 2%;
-		padding: 20px 4% 20px 2%;
+		padding: 20px 4% 40px 4%;
 		background: none;
 		position: relative;
 	}
@@ -311,7 +306,7 @@ input[type="text"].datepicker { width: 7em; }
 	}
 	div[data-role="content-primary"] { padding-bottom: 35px; }
 	.content-primary {
-		width: 70%;
+		width: 75%;
 		padding: 0 2% 35px 1%;
 	}
 }
@@ -323,7 +318,7 @@ input[type="text"].datepicker { width: 7em; }
 	}
 	div[data-role="content-primary"] { padding-bottom: 35px; }
 	.content-primary {
-		width: 65%;
+		width: 76%;
 		padding: 0 2% 35px 1%;
 	}
 }
