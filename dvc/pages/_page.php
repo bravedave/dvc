@@ -74,7 +74,8 @@ class _page {
 		}
 
 
-		$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'css/font-awesome.min.css'));
+		// $this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'css/font-awesome.min.css'));
+		$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'fontawesome5/css/fontawesome-all.css'));
 		if ( $this->dvc == '4') {
 			if ( \cssmin::dvc( NULL, NULL, '4')) {
 				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \cssmin::$dvcmin );
