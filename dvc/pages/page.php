@@ -81,17 +81,12 @@ class page extends _page {
 
 	}
 
-
 	public function closeHeader() {
 		if ( $this->headerOPEN) {
 
 			$this->headerOPEN = FALSE;
 
-			print <<<OUTPUT
-
-</head>
-
-OUTPUT;
+			printf( '%s	</head>%s', PHP_EOL, PHP_EOL);
 
 			/* this is a bit legacy ish
 				originally closeheader opened the page */
@@ -191,11 +186,6 @@ OUTPUT;
 			->closeSection()
 			->openContent()
 			->section( 'content-primary', $class, 'content-primary');
-		//~ $this->closeSection();
-		//~ $this->openContent();
-		//~ $this->sectionOPEN = TRUE;
-		//~ $this->sectionNAME = 'content-primary';
-		//~ printf( '		<div class="%s" data-role="content-primary">%s', $class, PHP_EOL );
 
 		return ( $this);	// chain
 
@@ -215,11 +205,6 @@ OUTPUT;
 			->closeSection()
 			->openContent()
 			->section( 'content-secondary', $class, 'content-secondary');
-		//~ $this->closeSection();
-		//~ $this->openContent();
-		//~ $this->sectionOPEN = TRUE;
-		//~ $this->sectionNAME = 'content-secondary';
-		//~ printf( '		<div class="%s" data-role="content-secondary">%s', $class, PHP_EOL );
 
 		return ( $this);	// chain
 

@@ -28,9 +28,9 @@ ol, ul {
 .clearfix:after {
   visibility: hidden;
   display: block;
-  font-size: 0;
-  content: " ";
+  content: "";
   clear: both;
+	font-size: 0;
   height: 0;
 }
 * html .clearfix             { zoom: 1; } /* IE6 */
