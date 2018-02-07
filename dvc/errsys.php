@@ -86,7 +86,9 @@ abstract class errsys {
 			/*
 			 * error is logged in the exception
 			 */
-			//~ error_log( sprintf( '%s: %s %s %s %s<br /><pre>', $type, $errstr, $errno, $errfile, $errline));
+			error_log( '---[probable duplicate    : error is logged in the exception]---');
+			error_log( sprintf( '%s: %s %s %s %s', $type, $errstr, $errno, $errfile, $errline));
+			error_log( '---[end probable duplicate: error is logged in the exception]---');
 			$exception = new \Exception( sprintf( '%s: %s %s %s %s %s', $type, $errstr, $errno, PHP_EOL, $errfile, $errline));
 
 			if ( $exit ) {
