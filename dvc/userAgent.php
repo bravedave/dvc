@@ -12,33 +12,13 @@ NameSpace dvc;
 abstract class userAgent {
 	protected static $useragent;
 
-	static function toString() {
-		return self::$useragent;
+	static function isAndroid() {
+		return ( preg_match('/Android/', self::$useragent));
 
 	}
 
-	static function isIE() {
-		return ( preg_match('/MSIE|Trident/', self::$useragent));
-
-	}
-
-	static function isEdge() {
-		return ( preg_match('/Edge/', self::$useragent));
-
-	}
-
-	static function isIPhoneWebApp() {
-		return ( self::isSafari() && self::isIPhone());
-
-	}
-
-	static function isSafari() {
-		return ( preg_match('/Safari/', self::$useragent));
-
-	}
-
-	static function isIPhone() {
-		return ( preg_match('/iPhone|iPod/', self::$useragent));
+	static function isBlackberry() {
+		return ( preg_match('/BlackBerry/', self::$useragent));
 
 	}
 
@@ -49,24 +29,33 @@ abstract class userAgent {
 
 	static function isChromeOnIOS() {
 		if ( self::isIPhone())
-			return ( preg_match('/CriOS/', self::$useragent));
+		return ( preg_match('/CriOS/', self::$useragent));
 
 		return ( FALSE);
 
 	}
 
-	static function isMobileDevice() {
-		return ( self::isIPhone() || self::isBlackberry() || self::isAndroid() || self::isIPad());
+	static function isEdge() {
+		return ( preg_match('/Edge/', self::$useragent));
 
 	}
 
-	static function isBlackberry() {
-		return ( preg_match('/BlackBerry/', self::$useragent));
+	static function isFirefox() {
+		return ( preg_match('/Gecko/', self::$useragent));
 
 	}
 
-	static function isAndroid() {
-		return ( preg_match('/Android/', self::$useragent));
+	static function isGoogleBot() {
+		// HTTP_USER_AGENT => Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
+		if( preg_match('/Googlebot/', self::$useragent))
+		return ( TRUE);
+
+		return ( FALSE );
+
+	}
+
+	static function isIE() {
+		return ( preg_match('/MSIE|Trident/', self::$useragent));
 
 	}
 
@@ -75,20 +64,51 @@ abstract class userAgent {
 
 	}
 
+	static function isIPhone() {
+		return ( preg_match('/iPhone|iPod/', self::$useragent));
+
+	}
+
+	static function isIPhoneWebApp() {
+		return ( self::isSafari() && self::isIPhone());
+
+	}
+
 	static function isLegacyIE() {
 		if( preg_match('/(?i)msie [5-8]/', self::$useragent))
-			return ( TRUE);
+		return ( TRUE);
 
 		return ( FALSE );
 
 	}
 
-	static function isGoogleBot() {
-		// HTTP_USER_AGENT => Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
-		if( preg_match('/Googlebot/', self::$useragent))
+	static function isLegit() {
+		sys::logger( self::$useragent);
+
+		if ( self::isChrome())
 			return ( TRUE);
 
-		return ( FALSE );
+		if ( self::isFirefox())
+			return ( TRUE);
+
+		if ( self::isSafari())
+			return ( TRUE);
+
+		if ( self::isEdge())
+			return ( TRUE);
+
+		if ( self::isIE())
+			return ( TRUE);
+
+	}
+
+	static function isMobileDevice() {
+		return ( self::isIPhone() || self::isBlackberry() || self::isAndroid() || self::isIPad());
+
+	}
+
+	static function isSafari() {
+		return ( preg_match('/Safari/', self::$useragent));
 
 	}
 
@@ -137,6 +157,11 @@ abstract class userAgent {
 			//~ sys::logger( self::$useragent);
 
 		}
+
+	}
+
+	static function toString() {
+		return self::$useragent;
 
 	}
 
