@@ -79,6 +79,10 @@ abstract class _config {
 	/*
 	 *	Caching using APCu, Interfaced through https://www.scrapbook.cash/
 	 * 	see dao\_dao
+	 *
+	 *	NOTE: If you enable this you need to have installed
+	 *		* APC => dnf install php-pecl-apcu
+	 *		* matthiasmullie/scrapbook => composer require matthiasmullie/scrapbook
 	 */
 	static $DB_CACHE = '';	// values = 'APC'
 	static $DB_CACHE_DEBUG = FALSE;
