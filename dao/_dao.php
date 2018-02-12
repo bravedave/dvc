@@ -60,6 +60,16 @@ abstract class _dao {
 	}
 
 	public function UpdateByID( $a, $id ) {
+		if ( is_null( $this->db_name()))
+			throw new Exception\DBNameIsNull;
+
+		if ( \config::$DB_CACHE == 'APC') {
+			$cache = \dvc\cache::instance();
+			$key = sprintf( '%s.%s', $this->db_name(), $id);
+			$cache->delete( $key);
+
+		}
+
 		return ( $this->Update( $a, sprintf( 'WHERE id = %d', $id)));
 
 	}
@@ -159,6 +169,14 @@ abstract class _dao {
 	public function getByID( $id) {
 		if ( is_null( $this->_db_name))
 			throw new Exceptions\DBNameIsNull;
+
+		if ( \config::$DB_CACHE == 'APC') {
+			$cache = \dvc\cache::instance();
+			$key = sprintf( '%s.%s', $this->db_name(), $id);
+			if ( $dto = $cache->get( $key))
+				return ( $dto);
+
+		}
 
 		$this->db->log = $this->log;
 		if ( $res = $this->Result( sprintf( 'SELECT * FROM %s WHERE id = %d', $this->_db_name, (int)$id )))

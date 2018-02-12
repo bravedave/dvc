@@ -76,6 +76,12 @@ abstract class _config {
 	static $DB_USER = 'dbuser';
 	static $DB_PASS = '';
 	static $DB_ALTER_FIELD_STRUCTURES = FALSE;	// experimental
+	/*
+	 *	Caching using APCu, Interfaced through https://www.scrapbook.cash/
+	 * 	see dao\_dao
+	 */
+	static $DB_CACHE = '';	// values = 'APC'
+	static $DB_CACHE_DEBUG = FALSE;
 
 	static $TIMEZONE = 'UTC';
 	static $MAILSERVER = 'localhost';
