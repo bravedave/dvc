@@ -75,7 +75,7 @@ class cache {
 		if ( \config::$DB_CACHE_DEBUG)
 			\sys::logger( sprintf( 'dvc\cache : delete(%s)', $key));
 
-		$this->_cache->delete( $key, $value);
+		$this->_cache->delete( $key);
 
 	}
 
