@@ -149,8 +149,22 @@
 		if ( this.length < 3)
 			return ( false);
 
-		var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-		return emailReg.test(this);
+		/*
+		 *	if the email is in format
+		 *	"David Bray <david@brayworth.com.au>",
+		 *	strip all before the <
+		 */
+
+	 	var e = this;
+		if ( /</.test( e) && />$/.test( e))
+		 	e = e.replace(/^.*</,'').replace(/>$/,'');
+
+		// console.log( e);
+
+		// var rex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+		// https://stackoverflow.com/questions/46155/how-can-an-email-address-be-validated-in-javascript
+    var rex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		return rex.test( e.toLowerCase());
 
 	}
 
