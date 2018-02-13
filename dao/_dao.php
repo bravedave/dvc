@@ -179,8 +179,16 @@ abstract class _dao {
 		}
 
 		$this->db->log = $this->log;
-		if ( $res = $this->Result( sprintf( 'SELECT * FROM %s WHERE id = %d', $this->_db_name, (int)$id )))
-			return ( $res->dto( $this->template));
+		if ( $res = $this->Result( sprintf( 'SELECT * FROM %s WHERE id = %d', $this->_db_name, (int)$id ))) {
+			if ( $dto = $res->dto( $this->template)) {
+				if ( \config::$DB_CACHE == 'APC')
+					$cache->set( $key, $dto);
+
+			}
+
+			return ( $dto);
+
+		}
 
 		return ( FALSE);
 
