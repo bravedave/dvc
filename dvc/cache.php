@@ -43,10 +43,18 @@ class cache {
 	}
 
 	function get( $key) {
-		if ( \config::$DB_CACHE_DEBUG)
-			\sys::logger( sprintf( 'dvc\cache : get(%s)', $key));
 
-		return ( $this->_cache->get( $key));
+		if ( $res = $this->_cache->get( $key)) {
+			if ( \config::$DB_CACHE_DEBUG)
+				\sys::logger( sprintf( 'dvc\cache : get(%s) (hit)', $key));
+
+		}
+		elseif ( \config::$DB_CACHE_DEBUG) {
+			\sys::logger( sprintf( 'dvc\cache : get(%s) (miss)', $key));
+
+		}
+
+		return ( $res);
 		//~ // get item from Pool
 		//~ $item = $this->_pool->getItem( $key);
 
@@ -56,10 +64,11 @@ class cache {
 	}
 
 	function set( $key, $value) {
-		if ( \config::$DB_CACHE_DEBUG)
-			\sys::logger( sprintf( 'dvc\cache : set(%s)', $key));
+		if ( $this->_cache->set( $key, $value, $this->ttl)) {
+			if ( \config::$DB_CACHE_DEBUG)
+				\sys::logger( sprintf( 'dvc\cache : set(%s)', $key));
 
-		$this->_cache->set( $key, $value, $this->ttl);
+		}
 
 		//~ // get item from Pool
 		//~ $item = $this->_pool->getItem( $key);
