@@ -212,7 +212,7 @@ _brayworth_.modal = function( params) {
 		 * for jQuery.load
 		 */
 	 	return new Promise( function( resolve, reject) {
-			var d = $('<div />');
+			var d = $('<div class="container-fluid" />');
 			t.append( d);
 			d.load( url, function() {
 				resolve( _modal);
