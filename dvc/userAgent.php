@@ -83,11 +83,20 @@ abstract class userAgent {
 	}
 
 	static function isLegit() {
+
+		if ( self::isChrome()) {
+			if ( self::version() > 60) {
+				// sys::logger( sprintf( 'Valid Chrome: %s : %s', self::version(), self::$useragent));
+				return ( TRUE);
+
+			}
+
+			sys::logger( sprintf( 'Invalid Chrome: %s : %s', self::version(), self::$useragent));
+			return ( FALSE);
+
+		}
+
 		sys::logger( self::$useragent);
-
-		if ( self::isChrome())
-			return ( TRUE);
-
 		if ( self::isFirefox())
 			return ( TRUE);
 
@@ -113,7 +122,7 @@ abstract class userAgent {
 	}
 
 	static function os() {
-		$os_array = array(
+		$os_array = [
 				'/windows nt 10/i'     =>  'Windows 10',
 				'/windows nt 6.3/i'     =>  'Windows 8.1',
 				'/windows nt 6.2/i'     =>  'Windows 8',
@@ -136,7 +145,7 @@ abstract class userAgent {
 				'/ipad/i'               =>  'iPad',
 				'/android/i'            =>  'Android',
 				'/blackberry/i'         =>  'BlackBerry',
-				'/webos/i'              =>  'Mobile' );
+				'/webos/i'              =>  'Mobile' ];
 
 		foreach ($os_array as $regex => $value) {
 			if ( preg_match($regex, self::$useragent))
@@ -145,6 +154,19 @@ abstract class userAgent {
 		}
 
 		return ( sprintf( 'Unknown OS Platform (%s)', self::$useragent));
+
+	}
+
+	static function version() {
+		if ( ini_get('browscap')) {
+			$browser = get_browser( null, false);
+			// sys::dump( $browser);
+			if ( isset( $browser->version))
+				return ( $browser->version);
+
+		}
+
+		return ( 0);
 
 	}
 
