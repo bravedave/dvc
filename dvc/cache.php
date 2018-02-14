@@ -26,12 +26,6 @@ class cache {
 		// create Scrapbook KeyValueStore object
 		$this->_cache = new \MatthiasMullie\Scrapbook\Adapters\Apc;
 
-		//~ // create stampede protector layer over our real cache
-		//~ $this->_cache = new \MatthiasMullie\Scrapbook\Scale\StampedeProtector( $cache);
-
-		//~ // create Pool (psr/cache) object from cache engine
-		//~ $this->_pool = new \MatthiasMullie\Scrapbook\Psr6\Pool( $this->_cache);
-
 	}
 
 	static function instance() {
@@ -55,11 +49,6 @@ class cache {
 		}
 
 		return ( $res);
-		//~ // get item from Pool
-		//~ $item = $this->_pool->getItem( $key);
-
-		//~ // get item value
-		//~ return ( $item->get());
 
 	}
 
@@ -69,14 +58,6 @@ class cache {
 				\sys::logger( sprintf( 'dvc\cache : set(%s)', $key));
 
 		}
-
-		//~ // get item from Pool
-		//~ $item = $this->_pool->getItem( $key);
-
-		//~ // ... or change the value & store it to cache
-		//~ $item->set( $value);
-
-		//~ $this->_pool->save($item);
 
 	}
 
