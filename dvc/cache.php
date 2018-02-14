@@ -17,7 +17,7 @@ Namespace dvc;
 class cache {
 	protected static $_instance;
 	protected $_cache;
-	protected $ttl = 60;
+	protected $ttl = 30;
 
 	protected function __construct() {
 		if ( \config::$DB_CACHE_DEBUG)
