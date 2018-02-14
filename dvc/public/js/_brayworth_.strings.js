@@ -164,6 +164,9 @@
 		// var rex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 		// https://stackoverflow.com/questions/46155/how-can-an-email-address-be-validated-in-javascript
     var rex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		if ( /.con$/i.test( e.toLowerCase()))
+			return ( false);	// dickhead
+			
 		return rex.test( e.toLowerCase());
 
 	}
