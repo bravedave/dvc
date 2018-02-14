@@ -56,7 +56,15 @@ abstract class _dao {
 
 		if ( \config::$DB_CACHE == 'APC') {
 			if ( (bool)$flushCache) {
-				// update is not reconcilable so master flush is required
+				/*
+				 * the automatic caching is controlled by:
+				 *	=> getByID addes to cache
+				 *  => UpdateByID flushes the cache selectively
+				 *		 - and sets flushCache to FALSE - so you won't be here
+				 *
+				 *	if you are here it is because Update was called casually outside
+				 *	of UpdateByID <=> a master flush is required
+				 */
 				$cache = \dvc\cache::instance();
 				$cache->flush();
 
