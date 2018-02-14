@@ -110,6 +110,11 @@ class db {
 				 */
 				$cache = \dvc\cache::instance();
 				$cache->flush();
+				if ( \config::$DB_CACHE_DEBUG) {
+					foreach ( debug_backtrace() as $e )
+						sys::logger( sprintf( 'post flush: %s(%s)', $e['file'], $e['line'] ));
+
+				}
 
 			}
 
