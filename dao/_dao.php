@@ -50,7 +50,7 @@ abstract class _dao {
 
 	}
 
-	public function Update( $a, $condition, $flushCache) {
+	public function Update( $a, $condition, $flushCache = TRUE) {
 		if ( is_null( $this->db_name()))
 			throw new Exception\DBNameIsNull;
 
