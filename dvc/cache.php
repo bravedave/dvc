@@ -17,11 +17,13 @@ Namespace dvc;
 class cache {
 	protected static $_instance;
 	protected $_cache;
-	protected $ttl = 30;
+	protected $ttl = 60;
 
 	protected function __construct() {
 		if ( \config::$DB_CACHE_DEBUG)
 			\sys::logger( 'dvc\cache : __construct');
+
+		$this->ttl = \config::$DB_CACHE_TTL;
 
 		// create Scrapbook KeyValueStore object
 		$this->_cache = new \MatthiasMullie\Scrapbook\Adapters\Apc;
