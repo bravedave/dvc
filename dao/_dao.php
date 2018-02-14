@@ -50,30 +50,12 @@ abstract class _dao {
 
 	}
 
-	public function Update( $a, $condition, $flushCache = TRUE) {
+	public function Update( $a, $condition, $flushCache) {
 		if ( is_null( $this->db_name()))
 			throw new Exception\DBNameIsNull;
 
-		if ( \config::$DB_CACHE == 'APC') {
-			if ( (bool)$flushCache) {
-				/*
-				 * the automatic caching is controlled by:
-				 *	=> getByID addes to cache
-				 *  => UpdateByID flushes the cache selectively
-				 *		 - and sets flushCache to FALSE - so you won't be here
-				 *
-				 *	if you are here it is because Update was called casually outside
-				 *	of UpdateByID <=> a master flush is required
-				 */
-				$cache = \dvc\cache::instance();
-				$cache->flush();
-
-			}
-
-		}
-
 		$this->db->log = $this->log;
-		return ( $this->db->Update( $this->db_name(), $a, $condition ));
+		return ( $this->db->Update( $this->db_name(), $a, $condition, $flushCache ));
 
 	}
 
