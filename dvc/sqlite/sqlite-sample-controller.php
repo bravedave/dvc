@@ -24,7 +24,7 @@ class sqlite extends Controller {
 				$db->Q('CREATE TABLE IF NOT EXISTS foo ( id INTEGER PRIMARY KEY AUTOINCREMENT, bar STRING)');
 				$db->Insert('foo', ['bar' => 'This is a test']);
 				$id = $db->Insert('foo', ['bar' => 'This is a test 2']);
-				$db->Update('foo', ['bar' => 'This is a test - number 2'], 'WHERE id = ' . $id);
+				$db->UpdateByID('foo', ['bar' => 'This is a test - number 2'], $id);
 
 				if ( $result = $db->result('SELECT * FROM foo')) {
 					while ( $dto = $result->fetch())
