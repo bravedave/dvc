@@ -85,7 +85,7 @@ abstract class _config {
 	 *		* matthiasmullie/scrapbook => composer require matthiasmullie/scrapbook
 	 */
 	static $DB_CACHE = '';	// values = 'APC'
-	static $DB_CACHE_TTL = 300;	// values = 'APC'
+	static $DB_CACHE_TTL = 300;
 	static $DB_CACHE_DEBUG = FALSE;
 
 	static $TIMEZONE = 'UTC';
