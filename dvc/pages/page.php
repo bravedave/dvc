@@ -161,12 +161,20 @@ class page extends _page {
 
 	}
 
-	public function content() {
+	public function content( $class = NULL) {
+		if ( is_null( $class)) {
+			if ( \config::$CSS_BASE == 'mini')
+				$class = 'col-sm-12';
+			else
+				$class = 'content';
+
+		}
+
 		$this
 			->header()
 			->closeSection()
 			->openContent()
-			->section( 'content', 'content', 'content');
+			->section( 'content', $class, 'content');
 
 		return ( $this);	// chain
 

@@ -23,7 +23,7 @@ class bootstrap extends page {
 		parent::__construct( $title );
 
 		$this->meta[] = '<meta name="viewport" content="width=device-width, initial-scale=1" />';
-		
+
 		if ( self::$BootStrap_Version == '3' || self::$BootStrap_Version == '4') {
 			$css = [ \url::tostring( sprintf( 'bootstrap.%s/css/bootstrap.min.css', self::$BootStrap_Version))];
 			$js = [\url::tostring( sprintf( 'bootstrap.%s/js/bootstrap.min.js', self::$BootStrap_Version))];
@@ -49,6 +49,14 @@ class bootstrap extends page {
 		//~ return ( $this);
 
 	//~ }
+
+	public function content( $class = NULL) {
+		if ( is_null( $class))
+			$class =  'col py-3';
+
+		return ( parent::content( $class));	// chain
+
+	}
 
 	public function primary( $class = NULL) {
 		if ( is_null( $class))

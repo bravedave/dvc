@@ -70,7 +70,7 @@ abstract class _controller {
 		if ( $this->CheckOffline ) {
 			if ( $this->authorised) {
 				if ( !\currentUser::isadmin()) {
-					$state = new dao\state( $this->db);
+					$state = new dao\state;
 					if ( $state->offline())
 						Response::redirect( \url::tostring( 'offline'));
 
