@@ -36,6 +36,7 @@ abstract class _config {
 	 * submission and authenticate
 	 */
 	const use_inline_logon = FALSE;
+	const allow_password_recovery = FALSE;
 
 	const GMAIL_BASIC = 0;
 	const GMAIL_READ = 1;

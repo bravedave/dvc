@@ -145,7 +145,15 @@ abstract class _controller {
 
 		if ( \config::use_inline_logon) {
 			$p = new \page( 'Log On' );
-				$p->latescripts[] = '<script>$(document).ready( function() { _brayworth_.logonModal(); })</script>';
+				if ( \config::allow_password_recovery) {
+					$p->latescripts[] = '<script>$(document).ready( function() { _brayworth_.logon_retrieve_password = true; _brayworth_.logonModal(); })</script>';
+
+				}
+				else {
+					$p->latescripts[] = '<script>$(document).ready( function() { _brayworth_.logonModal(); })</script>';
+
+				}
+
 				$p->meta[] = '<meta name="viewport" content="initial-scale=1" />';
 				$p
 					->header()
