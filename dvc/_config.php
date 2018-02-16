@@ -165,7 +165,10 @@ abstract class _config {
 	}
 
 	static function initialize() {
-		/** This is a local overwrite of the db and google parameters
+		/*
+		 * config initialize is called in _application->__construct()
+		 *
+		 * This is a local overwrite of the db and google parameters
 		 */
 		if ( !( is_null( \application::app()))) {
 			// $path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );

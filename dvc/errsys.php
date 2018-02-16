@@ -159,7 +159,7 @@ abstract class errsys {
 			$header[] = sprintf( 'X-Mailer: PHP v%s', phpversion());
 
 			$headers = implode( "\r\n", $header );
-			$scriptname = strtolower( $_SERVER[ "SCRIPT_NAME" ]);
+			// $scriptname = strtolower( $_SERVER[ "SCRIPT_NAME" ]);
 
 			try {
 				mail( \config::$SUPPORT_EMAIL, \config::$WEBNAME . " PHP Error", $mailMessage, $headers, "-f" . \config::$SUPPORT_EMAIL );
