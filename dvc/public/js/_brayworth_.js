@@ -15,7 +15,7 @@ $.extend( _brayworth_, {
 		_brayworth_ : true,
 		logon_retrieve_password : false,
 		templates : {},
-		urlwrite : function( _url) {
+		url : function( _url) {
 			if ( 'undefined' == typeof _url)
 				_url = '';
 
@@ -39,3 +39,5 @@ $.extend( _brayworth_, {
 		}
 
 	});
+
+_brayworth_.urlwrite = _brayworth_.url;
