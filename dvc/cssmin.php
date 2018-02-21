@@ -107,7 +107,8 @@ abstract class cssmin {
 				'css/brayworth.components.css',
 				'css/brayworth.context.css',
 				'css/brayworth.growl.css',
-				'css/brayworth.modal.css'
+				'css/brayworth.modal.css',
+				'css/brayworth.utility.css'
 			];
 			if ( is_null( $minfile)) $minfile =  'dvc-4.min.css';
 
@@ -119,7 +120,8 @@ abstract class cssmin {
 				'css/brayworth.components.css',
 				'css/brayworth.context.css',
 				'css/brayworth.growl.css',
-				'css/brayworth.modal.css'
+				'css/brayworth.modal.css',
+				'css/brayworth.utility.css'
 			];
 			if ( is_null( $minfile)) $minfile =  'dvc.min.css';
 

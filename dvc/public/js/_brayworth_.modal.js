@@ -136,13 +136,18 @@ _brayworth_.modal = function( params) {
 			else
 				$.extend( j, el);
 
-			if ( !!j.icon)
-				var b = $( '<i class="fa fa-fw pull-right" style="margin-right: 1rem; padding-right: 1rem; cursor: pointer;" />').addClass( j.icon);
+			if ( !!j.icon) {
+				var b = $( '<div class="pull-right pointer pt-1 px-2" />').append(
+					$('<i class="fa m-0" style="cursor: pointer;" />').addClass( j.icon));
+				// var b = $( '<i class="fa fa-fw pull-right" style="margin-right: 1rem; padding-right: 1rem; cursor: pointer;" />').addClass( j.icon);
 
-			else
+			}
+			else {
 				var b = $('<button class="pull-right" />')
 					.html( j.text)
 					.addClass( _brayworth_.templates.buttonCSS);
+
+			}
 
 			if ( !!j.title)
 				b.attr( 'title', j.title)
