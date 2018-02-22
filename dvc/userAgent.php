@@ -97,24 +97,25 @@ abstract class userAgent {
 		}
 		elseif ( self::isFirefox()) {
 			if ( self::version() < 50) {
+				/* this is probably nightly */
 				$v = preg_replace( '@^.*Firefox\/@', '', self::$useragent);
- 		 		if ( (float)$v > 60) {
+ 		 		if ( (float)$v > 59) {
 					return ( TRUE);
 
 				}
 
-				 sys::logger( sprintf( 'query Firefox: %s : %s', (float)$v, self::$useragent));
+				sys::logger( sprintf( 'query Firefox: %s : %s : %s', (float)$v, $v, self::$useragent));
 
 			}
 
 			if ( self::version() > 50) {
-				sys::logger( sprintf( 'Valid Firefox: %s : %s', self::version(), self::$useragent));
+				// sys::logger( sprintf( 'Valid Firefox: %s : %s', self::version(), self::$useragent));
 				return ( TRUE);
 
 			}
 
 			sys::logger( sprintf( 'Invalid Firefox: %s : %s', self::version(), self::$useragent));
-			return ( TRUE);
+			return ( FALSE);
 
 		}
 
