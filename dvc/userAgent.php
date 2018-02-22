@@ -95,10 +95,19 @@ abstract class userAgent {
 			return ( FALSE);
 
 		}
+		elseif ( self::isFirefox()) {
+			if ( self::version() > 50) {
+				sys::logger( sprintf( 'Valid Firefox: %s : %s', self::version(), self::$useragent));
+				return ( TRUE);
+
+			}
+
+			sys::logger( sprintf( 'Invalid Firefox: %s : %s', self::version(), self::$useragent));
+			return ( TRUE);
+
+		}
 
 		sys::logger( self::$useragent);
-		if ( self::isFirefox())
-			return ( TRUE);
 
 		if ( self::isSafari())
 			return ( TRUE);
