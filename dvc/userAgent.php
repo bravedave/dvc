@@ -97,9 +97,13 @@ abstract class userAgent {
 		}
 		elseif ( self::isFirefox()) {
 			if ( self::version() < 50) {
-				 $v = preg_replace( '@^.*Firefox\/@', '', self::$useragent);
-				 sys::logger( sprintf( 'query Firefox: %s : %s', (float)$v, self::$useragent));
+				$v = preg_replace( '@^.*Firefox\/@', '', self::$useragent);
+ 		 		if ( (float)$v > 60) {
+					return ( TRUE);
 
+				}
+
+				 sys::logger( sprintf( 'query Firefox: %s : %s', (float)$v, self::$useragent));
 
 			}
 
