@@ -53,8 +53,8 @@
 .modal-header button,
 .modal-header a.button,
 .modal-header a:visited.button {
-	margin-right: 10px;
-	padding: 3px 10px;
+	margin-right: .6em;
+	padding: .16em .6em;
 	background-color: inherit;
 	color: white;
 	line-height: normal;
