@@ -76,6 +76,22 @@ abstract class strings {
 
 	}
 
+	static function asShortDate( $date) {
+		if ( (string)$date == '0000-00-00')
+			return ( FALSE);
+
+		if ( ( $t = strtotime( $date)) !== FALSE) {
+			if ( date( 'Y', $t) == date( 'Y'))
+				return ( date( 'd-M', $t));
+			else
+				return ( date( config::$DATE_FORMAT, $t));
+
+		}
+
+		return FALSE;
+
+	}
+
 	static function getDateAsANSI( $strDate) {
 
 		if ( preg_match("@^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$@", $strDate))
