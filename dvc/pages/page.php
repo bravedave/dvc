@@ -164,7 +164,7 @@ class page extends _page {
 	public function content( $class = NULL) {
 		if ( is_null( $class)) {
 			if ( \config::$CSS_BASE == 'mini')
-				$class = 'col-sm-12';
+				$class = 'col';
 			else
 				$class = 'content';
 
@@ -183,7 +183,7 @@ class page extends _page {
 	public function primary( $class = NULL) {
 		if ( is_null( $class)) {
 			if ( \config::$CSS_BASE == 'mini')
-				$class = 'col-sm-12 col-md-9';
+				$class = 'col col-12 col-md-9';
 			else
 				$class = 'content-primary';
 
@@ -202,7 +202,7 @@ class page extends _page {
 	public function secondary( $class= NULL) {
 		if ( is_null( $class)) {
 			if ( \config::$CSS_BASE == 'mini')
-				$class = 'col-sm-12 col-md-3';
+				$class = 'col col-12 col-md-3';
 			else
 				$class = 'content-secondary';
 

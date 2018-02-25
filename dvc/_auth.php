@@ -69,11 +69,11 @@ abstract class _auth {
 
 						$a = new html\a( \url::$URL . ( currentUser::valid() ? 'auth/logout' : 'auth/request' ),'');
 						if ( currentUser::valid()) {
-							$a->appendChild( new html\img( \url::$URL . 'images/logout-left9x54.png', 'logout'));
+							$a->appendChild( new html\img( \url::$URL . 'images/logout-left9x50.png', 'logout'));
 							$img = new html\img( currentUser::avatar(), 'avatar');
 								$img->attributes( array( 'title' => currentUser::DisplayName()));
 							$a->appendChild( $img);
-							$a->appendChild( new html\img( \url::$URL . 'images/logout-63x54.png', 'logout'));
+							$a->appendChild( new html\img( \url::$URL . 'images/logout-63x50.png', 'logout'));
 
 						}
 						else {
@@ -85,11 +85,11 @@ abstract class _auth {
 
 						$a = new html\a( \url::$URL . ( currentUser::valid() ? 'fbauth/logout' : 'fbauth/request' ),'');
 						if ( currentUser::valid()) {
-							$a->appendChild( new html\img( \url::$URL . 'images/logout-left9x54.png', 'logout'));
+							$a->appendChild( new html\img( \url::$URL . 'images/logout-left9x50.png', 'logout'));
 							$img = new html\img( currentUser::avatar(), 'avatar');
 								$img->attributes( array( 'title' => currentUser::DisplayName()));
 							$a->appendChild( $img);
-							$a->appendChild( new html\img( \url::$URL . 'images/logout-63x54.png', 'logout'));
+							$a->appendChild( new html\img( \url::$URL . 'images/logout-63x50.png', 'logout'));
 
 						}
 						else {
@@ -101,11 +101,11 @@ abstract class _auth {
 
 						$a = new html\a( \url::$URL . ( currentUser::valid() ? 'odauth/logout' : 'odauth/request' ),'');
 						if ( currentUser::valid()) {
-							$a->appendChild( new html\img( \url::$URL . 'images/logout-left9x54.png', 'logout'));
+							$a->appendChild( new html\img( \url::$URL . 'images/logout-left9x50.png', 'logout'));
 							$img = new html\img( currentUser::avatar(), 'avatar');
 								$img->attributes( array( 'title' => currentUser::DisplayName()));
 							$a->appendChild( $img);
-							$a->appendChild( new html\img( \url::$URL . 'images/logout-63x54.png', 'logout'));
+							$a->appendChild( new html\img( \url::$URL . 'images/logout-63x50.png', 'logout'));
 
 						}
 						else {
@@ -122,10 +122,10 @@ abstract class _auth {
 			if ( currentUser::valid()) {
 				return ( sprintf( '<a href="%s"><img alt="logout" src="%s" /><img alt="avatar" class="user-avatar" title="%s" src="%s" /><img alt="logout" src="%s" /></a>',
 					url::tostring( 'auth/logout'),
-					url::tostring( 'images/logout-left9x54.png'),
+					url::tostring( 'images/logout-left9x50.png'),
 					currentUser::user()->name,
 					currentUser::avatar(),
-					url::tostring( 'images/logout-63x54.png')
+					url::tostring( 'images/logout-63x50.png')
 					));
 
 			}

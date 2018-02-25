@@ -18,21 +18,21 @@ header .navbar-brand, header .navbar-nav > li > a { line-height: 80px; }
 	padding-top: 0;
 	font: normal 20px/1em sans-serif;
 }
+@media screen {
+  .navbar, .navbar-brand { padding: .1rem 1rem; }
+  .navbar-right img { max-height: 50px; }
+}
 @media screen and (max-width: 424px) {
 	.navbar-brand { font-size: 20px; line-height: 40px; }
-	.navbar, .navbar-brand { padding-top: 5px; padding-bottom: 0; }
 }
 @media screen and (min-width: 425px) and (max-width: 767px) {
 	.navbar-brand { font-size: 24px; line-height: 40px; }
-	.navbar, .navbar-brand { padding-top: 5px; padding-bottom: 0; }
 }
 @media screen and (min-width: 768px) and (max-width: 1099px) {
 	.navbar-brand { font-size: 32px; line-height: 40px; }
-	.navbar, .navbar-brand { padding-top: 5px; padding-bottom: 0; }
 }
 @media screen and (min-width: 1100px){
 	.navbar-brand { font-size: 36px; line-height: 40px; }
-	.navbar, .navbar-brand { padding-top: 5px; padding-bottom: 0; }
 }
 
 
