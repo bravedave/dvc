@@ -32,7 +32,7 @@ _brayworth_.fileDragDropContainer = function() {
 	return ( c);
 
 }
-
+;
 
 _brayworth_.fileDragDropHandler = function( params) {
 	var _el = $(this);
@@ -143,3 +143,4 @@ _brayworth_.fileDragDropHandler = function( params) {
 	}	// if (isAdvancedUpload && !_el.hasClass('has-advanced-upload'))
 
 }
+;

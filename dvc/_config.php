@@ -128,7 +128,7 @@ abstract class _config {
 		 * return a writable path with a trailing slash
 		 */
 
-		$dir = trim( sys_get_temp_dir(), '/\\');
+		$dir = rtrim( sys_get_temp_dir(), '/\\');
 		return ( $dir . DIRECTORY_SEPARATOR);
 
 	}
