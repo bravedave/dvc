@@ -77,7 +77,7 @@ footer nav > ul > li, .footer nav > ul > li, .copyright {
     padding-bottom: 0px;
 }
 
-.navbar-brand, .navbar-nav > li > a { line-height: 1.42857143; }
+/* .navbar-brand, .navbar-nav > li > a { line-height: 1.42857143; } */
 .navbar-default {
     background-color: #f8f8f8;
     border-color: #e7e7e7;
