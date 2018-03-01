@@ -83,10 +83,10 @@ footer nav > ul > li, .footer nav > ul > li, .copyright {
     border-color: #e7e7e7;
 }
 
-.navbar-brand {
+/* .navbar-brand {
 	padding-top: 0;
 	font: normal 20px/1em 'Permanent Marker', arial, sans-serif;
-}
+} */
 
 @media screen and (max-width: 330px) {
 	.navbar-brand {
