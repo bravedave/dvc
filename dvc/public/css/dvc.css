@@ -85,7 +85,7 @@ footer nav > ul > li, .footer nav > ul > li, .copyright {
 
 /* .navbar-brand {
 	padding-top: 0;
-	font: normal 20px/1em 'Permanent Marker', arial, sans-serif;
+	font: normal 20px/1.42857143 'Permanent Marker', arial, sans-serif;
 } */
 
 @media screen and (max-width: 330px) {
@@ -325,7 +325,7 @@ input[type="text"].datepicker { width: 7em; }
 }
 
 .tile {
-	font: normal 1.2em/1em 'Permanent Marker', arial, sans-serif;
+	font: normal 1.2em/1.42857143 'Permanent Marker', arial, sans-serif;
 	text-align: center;
 	height: 3em;
 	padding: 1em .2em;
