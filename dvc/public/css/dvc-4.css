@@ -20,7 +20,7 @@ header .navbar-brand, header .navbar-nav > li > a { line-height: 80px; }
 }
 @media screen {
   .navbar { padding-top: .1rem; padding-bottom: .1rem; }
-  .navbar-brand { padding: .4em 0; }
+  .navbar-brand { padding: .2em 0; }
   .navbar-right img { max-height: 50px; }
 }
 @media screen and (max-width: 424px) {
