@@ -19,7 +19,8 @@ header .navbar-brand, header .navbar-nav > li > a { line-height: 80px; }
 	font: normal 20px/1em sans-serif;
 }
 @media screen {
-  .navbar, .navbar-brand { padding: .1rem 1rem; }
+  .navbar { padding-top: .1rem; padding-bottom: .1rem; }
+  .navbar-brand { padding: .2em 0; }
   .navbar-right img { max-height: 50px; }
 }
 @media screen and (max-width: 424px) {
