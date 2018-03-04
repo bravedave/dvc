@@ -23,7 +23,11 @@ abstract class html {
 		if ( is_null( $title))
 			return ( self::_icon( $s));
 
-		return ( self::_icon( $s, array( 'title' => $title)));
+		$attribs = $title;
+		if ( !is_array( $title))
+			$attribs = [ 'title' => $title];
+
+		return ( self::_icon( $s, $attribs));
 
 	}
 
