@@ -68,7 +68,7 @@ class bootstrap extends page {
 
 	public function secondary( $class = NULL) {
 		if ( is_null( $class))
-			$class =  'col col-sm-4 col-md-3 pt-3 pb-4';
+			$class =  'col col-sm-4 col-md-3 pt-3 pb-4 d-print-none';
 
 		return ( parent::secondary( $class));	// chain
 
