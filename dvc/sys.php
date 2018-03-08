@@ -180,10 +180,44 @@ abstract class sys {
 
 	}
 
-	static function mailer() {
-		$mail = new \PHPMailer(); // defaults to using php "mail()"
-		$mail->SetFrom( \config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME);
+	static function isWindows() {
+		return ( 'WIN' === strtoupper(substr(PHP_OS, 0, 3)));
 
+	}
+
+	static function mailer() {
+		if (self::isWindows()) {
+
+			$mail = new \PHPMailer; // use smtp with server set to mail
+
+			$mail->isSMTP();
+
+			/*
+			* This is weighted to my own enviroment
+			*
+			* It probably should be more dynamic
+			*
+			*/
+			$mail->Host = 'mail';
+			$mail->Port = 25;
+			$mail->SMTPSecure = 'tls';
+			$mail->SMTPOptions = [
+				'ssl' => [
+					'verify_peer' => false,
+					'verify_peer_name' => false,
+					'allow_self_signed' => true
+
+				]
+
+			];
+
+		}
+		else {
+			$mail = new \PHPMailer; // defaults to using php "mail()"
+
+		}
+
+		$mail->SetFrom( \config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME);
 		return ( $mail);
 
 	}
