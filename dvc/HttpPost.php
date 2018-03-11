@@ -20,12 +20,24 @@ class HttpPost {
 	 *
 	 * @param url the url to be accessed
 	 */
-	public function __construct($url) {
+	public function __construct($url, $options = []) {
 		$this->url = $url;
 		$this->ch = curl_init( $this->url );
-		curl_setopt( $this->ch, CURLOPT_FOLLOWLOCATION, false );
-		curl_setopt( $this->ch, CURLOPT_HEADER, false );
-		curl_setopt( $this->ch, CURLOPT_RETURNTRANSFER, true );
+		// curl_setopt( $this->ch, CURLOPT_FOLLOWLOCATION, false );
+		// curl_setopt( $this->ch, CURLOPT_HEADER, false );
+		// curl_setopt( $this->ch, CURLOPT_RETURNTRANSFER, true );
+
+		$params = [
+			CURLOPT_FOLLOWLOCATION => false,
+			CURLOPT_HEADER => false,
+			CURLOPT_RETURNTRANSFER => true
+		];
+
+		$_p = array_merge( $params, (array)$options);
+
+		//~ sys::dump( $_p);
+		curl_setopt_array( $this->ch, $_p);
+
 	}
 
 	/**
@@ -33,6 +45,7 @@ class HttpPost {
 	 */
 	public function __destruct() {
 		curl_close($this->ch);
+		
 	}
 
 	/**
