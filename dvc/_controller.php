@@ -445,6 +445,8 @@ abstract class _controller {
 
 		}
 
+		return ( $p);
+
 	}
 
 	public function logout() {
