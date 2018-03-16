@@ -411,6 +411,42 @@ abstract class _controller {
 
 	}
 
+	protected function render( $params) {
+		$defaults = [
+			'primary' => FALSE,
+			'secondary' => FALSE,
+			'content' => FALSE,
+			'template' => \config::$PAGE_TEMPLATE,
+			'title' => $this->title];
+
+		$options = (object)array_merge( $defaults, $params);
+
+		//~ sys::dump( $options);
+
+		$p = new $options->template( $options->title);
+		$p	->header()
+  			->title();
+
+		if ( $options->primary) {
+  			$p->primary();
+			$this->load( $options->primary);
+
+		}
+
+		if ( $options->secondary) {
+			$p->secondary();
+			$this->load( $options->secondary);
+
+		}
+
+		if ( $options->content) {
+			$p->content();
+			$this->load( $options->content);
+
+		}
+
+	}
+
 	public function logout() {
 		\session::destroy();
 		\Response::redirect( \url::$URL );

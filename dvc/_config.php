@@ -71,44 +71,50 @@ abstract class _config {
 	static $SUPPORT_EMAIL = 'support@example.dom';
 	static $EMAIL_ERRORS_TO_SUPPORT = FALSE;
 
+	static $AUTHENTICATION_EXPIRES_DAYS = 1;
+
+	static $BOOTSTRAP = TRUE;
+
+	static $COOKIE_AUTHENTICATION_EXPIRES_DAYS = 7;
+	static $CSS_BASE = 'dvc';
+
+	static $CONTENT_SECURITY_ENABLED = TRUE;
+
+	static $DATE_FORMAT = 'Y-m-d';
+
 	static $DB_HOST = 'localhost';
 	static $DB_TYPE = 'none';	// needs to be mysql or sqlite to run
 	static $DB_NAME = 'dbname';
 	static $DB_USER = 'dbuser';
 	static $DB_PASS = '';
 	static $DB_ALTER_FIELD_STRUCTURES = FALSE;	// experimental
+
 	/*
-	 *	Caching using APCu, Interfaced through https://www.scrapbook.cash/
-	 * 	see dao\_dao
-	 *
-	 *	NOTE: If you enable this you need to have installed
-	 *		* APC => dnf install php-pecl-apcu
-	 *		* matthiasmullie/scrapbook => composer require matthiasmullie/scrapbook
-	 */
+	*	Caching using APCu, Interfaced through https://www.scrapbook.cash/
+	* 	see dao\_dao
+	*
+	*	NOTE: If you enable this you need to have installed
+	*		* APC => dnf install php-pecl-apcu
+	*		* matthiasmullie/scrapbook => composer require matthiasmullie/scrapbook
+	*/
 	static $DB_CACHE = '';	// values = 'APC'
 	static $DB_CACHE_TTL = 300;
 	static $DB_CACHE_DEBUG = FALSE;
 
-	static $TIMEZONE = 'UTC';
-	static $MAILSERVER = 'localhost';
-	static $MAILER = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
-	static $DATE_FORMAT = 'Y-m-d';
-	static $EMAILDOMAIN = 'example.com';
-	static $AUTHENTICATION_EXPIRES_DAYS = 1;
-	static $COOKIE_AUTHENTICATION_EXPIRES_DAYS = 7;
-
-	static $EMAIL_STATIONARY = 'email.html';
-	static $TEMPLATES_DIR = NULL;
-	static $TEMPLATES_DIR_CSS = NULL;
-
-	static $CSS_BASE = 'dvc';
-	static $BOOTSTRAP = TRUE;
-
-	static $SITEMAPS = FALSE;
-
 	static $DEFAULT_CONTROLLER = 'home';
 
-	static $CONTENT_SECURITY_ENABLED = TRUE;
+	static $EMAILDOMAIN = 'example.com';
+	static $EMAIL_STATIONARY = 'email.html';
+
+	static $MAILSERVER = 'localhost';
+	static $MAILER = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
+
+	static $PAGE_TEMPLATE = '\cms\page';
+	static $SITEMAPS = FALSE;
+
+	static $TEMPLATES_DIR = NULL;
+	static $TEMPLATES_DIR_CSS = NULL;
+	static $TIMEZONE = 'UTC';
 
 	/**
 	 settings for the cache expire time
