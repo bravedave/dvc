@@ -417,9 +417,9 @@ abstract class _controller {
 			'title' => $this->title
 		];
 
-		$options = (object)array_merge( $defaults, $params);
+		$options = array_merge( $defaults, $params);
 
-		return ( new $options->template( $options->title));
+		return ( new $options->template( $options['title']));
 
 	}
 
@@ -431,7 +431,7 @@ abstract class _controller {
 
 		];
 
-		$options = (object)array_merge( $defaults, $params);
+		$options = array_merge( $defaults, $params);
 
 		//~ sys::dump( $options);
 
@@ -439,21 +439,21 @@ abstract class _controller {
 		$p	->header()
   			->title();
 
-		if ( $options->primary) {
-  			$p->primary();
-			$this->load( $options->primary);
+		if ( $options['primary']) {
+			$p->primary();
+			$this->load( $options['primary']);
 
 		}
 
-		if ( $options->secondary) {
+		if ( $options['secondary']) {
 			$p->secondary();
-			$this->load( $options->secondary);
+			$this->load( $options['secondary']);
 
 		}
 
-		if ( $options->content) {
+		if ( $options['content']) {
 			$p->content();
-			$this->load( $options->content);
+			$this->load( $options['content']);
 
 		}
 
