@@ -11,10 +11,21 @@
 _brayworth_.hideContext = function( el) {
 	var _el = $(el);
 	if ( !!_el.data('hide')) {
-		if ( _el.data('hide') == 'hide')
-			$(el).addClass('hidden');	// connotes there is a hidden class
-		else
+		if ( _el.data('hide') == 'hide') {
+			if ( _brayworth_.bootstrap_version() >= 4) {
+				$(el).addClass('d-none');	// connotes there is a hidden class
+
+			}
+			else {
+				$(el).addClass('hidden');	// connotes there is a hidden class
+
+			}
+
+		}
+		else {
 			$(el).remove();
+
+		}
 
 	}
 	else {
@@ -72,7 +83,7 @@ _brayworth_.context = function() {
 				//~ console.log( this.root.parent());
 				if ( this.root.parent().length < 1)
 					this.root.appendTo( 'body').data('hide', 'hide');
-				this.root.css(css).removeClass('hidden');
+				this.root.css(css).removeClass('hidden d-none');
 
 			}
 
