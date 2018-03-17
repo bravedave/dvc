@@ -16,7 +16,7 @@ $.extend( _brayworth_, {
 		logon_retrieve_password : false,
 		templates : {},
 		bootstrap_version : function() {
-			if ( !!bootstrap) {
+			if ( 'undefined' != typeof bootstrap) {
 				if ( !!bootstrap.Alert) {
 					if ( /4/.test( bootstrap.Alert.VERSION)) {
 						return 4;
