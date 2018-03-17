@@ -27,28 +27,25 @@ class bootstrap extends page {
 		if ( self::$BootStrap_Version == '3' || self::$BootStrap_Version == '4') {
 			$css = [ \url::tostring( sprintf( 'bootstrap.%s/css/bootstrap.min.css', self::$BootStrap_Version))];
 			$js = [\url::tostring( sprintf( 'bootstrap.%s/js/bootstrap.min.js', self::$BootStrap_Version))];
-			if ( self::$BootStrap_Version == '4')
+			if ( self::$BootStrap_Version == '4') {
 				array_unshift( $js, \url::tostring( sprintf( 'bootstrap.%s/js/popper.min.js', self::$BootStrap_Version)));
 
-			foreach ( $css as $c)
+			}
+
+			foreach ( $css as $c) {
 				array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $c));
 
-			foreach ( $js as $j)
+			}
+
+			foreach ( $js as $j) {
 				$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $j);
 
-		}
-		else {
-			throw new \Exception( 'invalid bootstrap version');
+			}
 
 		}
+		else { throw new \Exceptions\InvalidBootstrapVersion; }
 
 	}
-
-	//~ public function title( $navbar =  'navbar-inverse') {
-		//~ parent::title( $navbar);
-		//~ return ( $this);
-
-	//~ }
 
 	public function content( $class = NULL) {
 		if ( is_null( $class))
