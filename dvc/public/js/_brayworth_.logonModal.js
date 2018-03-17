@@ -118,7 +118,7 @@ _brayworth_.logonModal = function() {
 
 	var buttons = {};
 	if ( _brayworth_.logon_retrieve_password)
-		buttons['Send Password'] = retrievePassword;
+		buttons['Reset Password'] = retrievePassword;
 
 	buttons.logon = submitter;
 
