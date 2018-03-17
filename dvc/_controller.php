@@ -411,19 +411,31 @@ abstract class _controller {
 
 	}
 
+	protected function page( $params) {
+		$defaults = [
+			'template' => \config::$PAGE_TEMPLATE,
+			'title' => $this->title
+		];
+
+		$options = (object)array_merge( $defaults, $params);
+
+		return ( new $options->template( $options->title));
+
+	}
+
 	protected function render( $params) {
 		$defaults = [
 			'primary' => FALSE,
 			'secondary' => FALSE,
-			'content' => FALSE,
-			'template' => \config::$PAGE_TEMPLATE,
-			'title' => $this->title];
+			'content' => FALSE
+
+		];
 
 		$options = (object)array_merge( $defaults, $params);
 
 		//~ sys::dump( $options);
 
-		$p = new $options->template( $options->title);
+		$p = $this->page( $options);
 		$p	->header()
   			->title();
 
