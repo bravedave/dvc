@@ -15,6 +15,25 @@ $.extend( _brayworth_, {
 		_brayworth_ : true,
 		logon_retrieve_password : false,
 		templates : {},
+		bootstrap_version : function() {
+			if ( !!bootstrap) {
+				if ( !!bootstrap.Alert) {
+					if ( /4/.test( bootstrap.Alert.VERSION)) {
+						return 4;
+
+					}
+					else if ( /3/.test( bootstrap.Alert.VERSION)) {
+						return 3;
+
+					}
+
+				}
+
+			}
+
+			return 0;
+
+		},
 		url : function( _url) {
 			if ( 'undefined' == typeof _url)
 				_url = '';
