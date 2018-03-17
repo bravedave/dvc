@@ -162,6 +162,30 @@ abstract class errsys {
 			// $scriptname = strtolower( $_SERVER[ "SCRIPT_NAME" ]);
 
 			try {
+				$mail = \sys::mailer();
+				$mail->IsHTML(false);
+				$mail->CharSet = 'UTF-8';
+				$mail->Encoding = 'base64';
+
+				$mail->Subject  = \config::$WEBNAME . " PHP Error";
+				$mail->AddAddress( \config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME );
+
+				$mail->Body = $mailMessage;
+				if ( $mail->send()) {
+					\sys::logger( 'error - send email');
+
+				}
+				else {
+					\sys::logger( 'error - send email failed - fallback to mail ' . $mail->ErrorInfo);
+
+
+
+					mail( \config::$SUPPORT_EMAIL, \config::$WEBNAME . " PHP Error", $mailMessage, $headers, "-f" . \config::$SUPPORT_EMAIL );
+
+				}
+
+			}
+			catch ( \Exception $e) {
 				mail( \config::$SUPPORT_EMAIL, \config::$WEBNAME . " PHP Error", $mailMessage, $headers, "-f" . \config::$SUPPORT_EMAIL );
 
 			}
