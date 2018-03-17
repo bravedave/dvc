@@ -419,7 +419,7 @@ abstract class _controller {
 
 		$options = array_merge( $defaults, $params);
 
-		return ( new $options->template( $options['title']));
+		return ( new $options['template']( $options['title']));
 
 	}
 
