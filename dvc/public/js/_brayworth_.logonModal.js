@@ -12,8 +12,8 @@
 	*/
 _brayworth_.logonModal = function() {
 	var flds = {
-		user : $('<input type="text" class="form-control" placeholder="username" />'),
-		pass : $('<input type="password" class="form-control" placeholder="password" />'),
+		user : $('<input type="text" class="form-control" placeholder="username or email" autocomplete="username" />'),
+		pass : $('<input type="password" class="form-control" placeholder="password" autocomplete="current-password" />'),
 	}
 
 	var dlg = $('<div class="container" />');
@@ -43,7 +43,7 @@ _brayworth_.logonModal = function() {
 
 		$.ajax({
 			type : 'post',
-			url : _brayworth_.urlwrite(),
+			url : _brayworth_.url(),
 			data : {
 				action : '-system-logon-',
 				u : u,
@@ -54,12 +54,14 @@ _brayworth_.logonModal = function() {
 		})
 		.done( function( d) {
 			$('body').growlAjax( d);
-			if ( !!d.response && d.response == 'ack')
+			if ( 'ack' == d.response) {
 				window.location.reload();
 
-			else
+			}
+			else {
 				setTimeout( _brayworth_.logonModal, 2000);
 
+			}
 
 		});
 
