@@ -183,6 +183,41 @@ class _application {
 			throw new Exceptions\CannotLocateController;
 
 		self::Request()->setControllerName( $this->url_controller);
+
+		/*
+		* Quiet Security - some actions are protected
+		* from outside calling, don't broadcast the error
+		*/
+		$_protectedActions = [
+			'__construct',
+			'__destruct',
+			'authorize',
+			'before',
+			'dbResult',
+			'dbEscape',
+			'getParam',
+			'hasView',
+			'getView',
+			'loadView',
+			'load',
+			'init',
+			'page',
+			'render',
+			'isPost',
+			'getPost',
+			'sql'
+		];
+
+		if ( in_array( strtolower( $this->url_action), $_protectedActions)) {
+			\sys::logger( sprintf( 'protecting action %s => %s', $this->url_action, 'index'));
+			$this->url_action = 'index';
+
+		}
+		// else {
+		// 	\sys::logger( sprintf( 'unprotected action %s', $this->url_action));
+		//
+		// }
+
 		self::Request()->setActionName( $this->url_action);
 
 		require $controllerFile;
