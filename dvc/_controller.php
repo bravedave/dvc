@@ -438,12 +438,12 @@ abstract class _controller {
 		//~ sys::dump( $options);
 
 		$p = $this->page( $options);
-		foreach ( $options->scripts as $script) {
+		foreach ( $options['scripts'] as $script) {
 			$this->scripts[] = $script;
 
 		}
-		
-		foreach ( $options->css as $css) {
+
+		foreach ( $options['css'] as $css) {
 			$this->css[] = $css;
 
 		}
