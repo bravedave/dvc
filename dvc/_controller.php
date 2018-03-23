@@ -425,12 +425,12 @@ abstract class _controller {
 		$p = new $options['template']( $options['title']);
 
 		foreach ( $options['scripts'] as $script) {
-			$p->scripts[] = $script;
+			$p->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $script );
 
 		}
 
 		foreach ( $options['css'] as $css) {
-			$p->css[] = $css;
+			$p->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css);
 
 		}
 
