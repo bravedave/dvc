@@ -201,14 +201,14 @@ abstract class jslib {
 			'js/templation.js',
 			'js/js.cookie.js' ];
 
-		if ( 4 <= (int)\dvc\pages\bootstrap::$BootStrap_Version) {
-			self::$brayworthlibFiles[] = 'bootstrap.4/js/typeahead.bundle.js';
-			if ( !$lib) {
-				$lib = 'brayworthlib4.js';
-
-			}
-
-		}
+		// if ( 4 <= (int)\dvc\pages\bootstrap::$BootStrap_Version) {
+		// 	self::$brayworthlibFiles[] = 'bootstrap.4/js/typeahead.bundle.js';
+		// 	if ( !$lib) {
+		// 		$lib = 'brayworthlib4.js';
+		//
+		// 	}
+		//
+		// }
 
 		if ( !$lib) {
 			$lib = 'brayworthlib.js';
