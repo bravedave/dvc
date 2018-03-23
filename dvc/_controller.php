@@ -427,7 +427,9 @@ abstract class _controller {
 		$defaults = [
 			'primary' => FALSE,
 			'secondary' => FALSE,
-			'content' => FALSE
+			'content' => FALSE,
+			'scripts' => [],
+			'css' => [],
 
 		];
 
@@ -436,6 +438,16 @@ abstract class _controller {
 		//~ sys::dump( $options);
 
 		$p = $this->page( $options);
+		foreach ( $options->scripts as $script) {
+			$this->scripts[] = $script;
+
+		}
+		
+		foreach ( $options->css as $css) {
+			$this->css[] = $css;
+
+		}
+
 		$p	->header()
   			->title();
 
