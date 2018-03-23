@@ -414,12 +414,27 @@ abstract class _controller {
 	protected function page( $params) {
 		$defaults = [
 			'template' => \config::$PAGE_TEMPLATE,
-			'title' => $this->title
+			'title' => $this->title,
+			'scripts' => [],
+			'css' => [],
+
 		];
 
 		$options = array_merge( $defaults, $params);
 
-		return ( new $options['template']( $options['title']));
+		$p = new $options['template']( $options['title']);
+
+		foreach ( $options['scripts'] as $script) {
+			$p->scripts[] = $script;
+
+		}
+
+		foreach ( $options['css'] as $css) {
+			$p->css[] = $css;
+
+		}
+
+		return ( $p);
 
 	}
 
@@ -428,25 +443,12 @@ abstract class _controller {
 			'primary' => FALSE,
 			'secondary' => FALSE,
 			'content' => FALSE,
-			'scripts' => [],
-			'css' => [],
 
 		];
 
 		$options = array_merge( $defaults, $params);
 
-		//~ sys::dump( $options);
-
 		$p = $this->page( $options);
-		foreach ( $options['scripts'] as $script) {
-			$this->scripts[] = $script;
-
-		}
-
-		foreach ( $options['css'] as $css) {
-			$this->css[] = $css;
-
-		}
 
 		$p	->header()
   			->title();
