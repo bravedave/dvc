@@ -203,10 +203,8 @@ div#brayworthLOGO a {
 .text-center { text-align: center; }
 .text-right { text-align: right; }
 .text-left { text-align: left; }
-.float-left,
 .pull-left { float: left !important; }
 .center { margin: auto; }
-.float-right,
 .pull-right { float: right !important; }
 
 .table-centered {
