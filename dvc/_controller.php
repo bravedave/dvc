@@ -455,19 +455,28 @@ abstract class _controller {
 
 		if ( $options['primary']) {
 			$p->primary();
-			$this->load( $options['primary']);
+			foreach( (array)$options['primary'] as $view){
+				$this->load( $view);
+
+			}
 
 		}
 
 		if ( $options['secondary']) {
 			$p->secondary();
-			$this->load( $options['secondary']);
+			foreach( (array)$options['secondary'] as $view) {
+				$this->load( $view);
+
+			}
 
 		}
 
 		if ( $options['content']) {
 			$p->content();
-			$this->load( $options['content']);
+			foreach( (array)$options['content'] as $view) {
+				$this->load( $view);
+
+			}
 
 		}
 
