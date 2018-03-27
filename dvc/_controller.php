@@ -438,6 +438,14 @@ abstract class _controller {
 
 	}
 
+	protected function _render( $view) {
+		foreach( (array)$view as $view){
+			$this->load( $view);
+
+		}
+
+	}
+
 	protected function render( $params) {
 		$defaults = [
 			'primary' => FALSE,
@@ -455,28 +463,19 @@ abstract class _controller {
 
 		if ( $options['primary']) {
 			$p->primary();
-			foreach( (array)$options['primary'] as $view){
-				$this->load( $view);
-
-			}
+			$this->_render( $options['primary']);
 
 		}
 
 		if ( $options['secondary']) {
 			$p->secondary();
-			foreach( (array)$options['secondary'] as $view) {
-				$this->load( $view);
-
-			}
+			$this->_render( $options['secondary']);
 
 		}
 
 		if ( $options['content']) {
 			$p->content();
-			foreach( (array)$options['content'] as $view) {
-				$this->load( $view);
-
-			}
+			$this->_render( $options['content']);
 
 		}
 
