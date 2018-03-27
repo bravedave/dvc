@@ -451,6 +451,7 @@ abstract class _controller {
 			'primary' => FALSE,
 			'secondary' => FALSE,
 			'content' => FALSE,
+			'navbar' => '',
 
 		];
 
@@ -459,7 +460,7 @@ abstract class _controller {
 		$p = $this->page( $options);
 
 		$p	->header()
-  			->title();
+  			->title( $options['navbar']);
 
 		if ( $options['primary']) {
 			$p->primary();
