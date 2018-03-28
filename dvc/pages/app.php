@@ -11,7 +11,7 @@ NameSpace dvc\pages;
 
 class app extends _page {
 	public $headerTemplate = 'app-header';
-	public $footerTemplate = 'footer';
+	static $footerTemplate = 'footer';
 
 	static $webAppCapable = TRUE;
 
@@ -55,7 +55,7 @@ class app extends _page {
 			->pageHeader();
 
 		$v = new \view;
-		$v->load( $this->footerTemplate);
+		$v->load( self::$footerTemplate);
 
 		return ( $this);	// chain
 
