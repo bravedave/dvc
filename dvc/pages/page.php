@@ -221,13 +221,12 @@ class page extends _page {
 	public function pagefooter() {
 		$this->_pagefooter();
 
-		$v = new \view;
-		if ( \config::$CSS_BASE == 'mini')
-			$v->load( 'footer-mini');
-		else
-			$v->load( 'footer');
+		if ( '' == self::$footer) {
+			self::$footer = ( \config::$CSS_BASE == 'mini' ? 'footer-mini' : 'footer');
 
-		return ( $this);	// chain
+		}
+
+		return ( parent::pagefooter());	// chain
 
 	}
 
