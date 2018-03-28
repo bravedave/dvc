@@ -36,7 +36,7 @@ class _page {
 
 	static $momentJS = FALSE;	// load momentJS sources
 	static $FullCalendar = FALSE;	// load fullCalendar sources
-	static $footer = '';
+	static $footerTemplate = '';
 
 	function __construct( $title = '' ) {
 		$this->jQuery3 = ( \config::$JQUERY == 3);
@@ -285,7 +285,7 @@ class _page {
 		$this->_pagefooter();
 
 		$v = new \view;
-			$v->load( self::$footer ? self::$footer : 'footer');
+			$v->load( self::$footerTemplate ? self::$footerTemplate : 'footer');
 
 		return ( $this);	// chain
 

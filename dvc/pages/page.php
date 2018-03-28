@@ -221,8 +221,8 @@ class page extends _page {
 	public function pagefooter() {
 		$this->_pagefooter();
 
-		if ( '' == self::$footer) {
-			self::$footer = ( \config::$CSS_BASE == 'mini' ? 'footer-mini' : 'footer');
+		if ( '' == self::$footerTemplate) {
+			self::$footerTemplate = ( \config::$CSS_BASE == 'mini' ? 'footer-mini' : 'footer');
 
 		}
 
