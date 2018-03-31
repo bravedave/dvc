@@ -59,11 +59,17 @@ class Json {
 
 	}
 
+	function print() {
+		$this->dumpOnDestruct = FALSE;
+		print json_encode( $this->_json );
+
+	}
+
 	function __destruct() {
 		if ( $this->dumpOnDestruct) {
 			Response::json_headers();
 			print json_encode( $this->_json );
-			
+
 		}
 
 	}
