@@ -185,7 +185,7 @@ class dbResult {
 
 		}
 
-		$table = new html\table( 'table table-striped');
+		$table = new html\table( 'table table-sm table-striped');
 			$table->append( $head);
 			$table->append( $body);
 
