@@ -29,6 +29,24 @@ abstract class _dao {
 			$this->db = $db;
 
 		$this->TableChecks();
+		$this->before();
+
+	}
+
+	/*
+	 * Abstract method placeholder for use by
+	 * the child class. This method is called
+	 * at the end of __construct()
+	 *
+	 * avoid replacing the default __construct
+	 * method use before instead
+	 */
+	protected function before() {
+		/**
+		 * Inspired by something I read in the fuelPHP documentation
+		 * this method is called at the end of __construct and can
+		 * be used to modify the _controller class
+		 */
 
 	}
 
