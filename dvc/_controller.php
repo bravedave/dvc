@@ -96,7 +96,7 @@ abstract class _controller {
 	protected function before() {
 		/**
 		 * Inspired by something I read in the fuelPHP documentation
-		 * this method is called at the end of __connstruct and can
+		 * this method is called at the end of __construct and can
 		 * be used to modify the _controller class
 		 */
 
