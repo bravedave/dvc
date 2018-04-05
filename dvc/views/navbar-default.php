@@ -16,4 +16,10 @@
 
 		</div>
 
+		<a style="position: absolute; top: 0; right: 0; border: 0; display: block; z-index: 1050;"
+			href="https://github.com/bravedave/">
+			<img src="<?php url::write( 'images/forkme_right_green.png') ?>" alt="Fork me on GitHub" />
+
+		</a>
+
 	</nav>
