@@ -28,7 +28,23 @@ class home extends Controller {
 
 	}
 
-	public function index( $data = '' ) {
+	protected function _index( $data = '' ) {
+		// just points into the documentation
+		if ( $data == '') {
+			$this->render([
+				'title' => $this->title,
+				'primary' => 'index',
+				'secondary' => ['contents']]);
+
+		}
+		else {
+			parent::index();
+
+		}
+
+	}
+
+	public function index( $data = '') {
 		//~ if ( !config::checkDBconfigured())
 			//~ Response::redirect( url::$URL . 'install/db' );
 
@@ -37,34 +53,10 @@ class home extends Controller {
 			about how many loads have occurrered	*/
 		//~ sys::loaderCounter( new dvc\hitter('total loads'));
 
-		if ( $this->isPost()) {
-			$this->postHandler();
+		$this->isPost() ?
+			$this->postHandler() :
+			$this->_index( $data);
 
-		}
-		else {
-			if ( $data == '') {
-				// just points into the documentation
-				$p = new dvc\pages\bootstrap;
-					$p
-						->header()
-						->title();
-
-					$this->load( 'fork-me');
-
-					$p->secondary();
-						$this->load('contents');
-
-					$p->primary();
-						$this->load( 'index');
-
-
-			}
-			else {
-				parent::index();	// $this->load('not-found');
-
-			}
-
-		}
 
 	}
 
