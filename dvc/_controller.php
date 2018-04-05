@@ -417,12 +417,18 @@ abstract class _controller {
 			'title' => $this->title,
 			'scripts' => [],
 			'css' => [],
+			'data' => FALSE,
 
 		];
 
 		$options = array_merge( $defaults, $params);
 
 		$p = new $options['template']( $options['title']);
+		$p->data = (object)$options['data'];
+		if ( !( isset( $p->data->title))) {
+			$p->data->title = $options['title'];
+
+		}
 
 		foreach ( $options['scripts'] as $script) {
 			$p->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $script );
