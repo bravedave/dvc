@@ -28,7 +28,6 @@
 /* The Close Button
 .fa.close,
 .modal .close {
-	color: #aaa;
 	float: right;
 }
 .modal .close:not(.fa) {
@@ -37,7 +36,8 @@
 */
 .modal-header .close, .modal-header .fa {
 	margin: 0;
-    font-size: 1.4rem;
+	color: #aaa;
+	font-size: 1.4rem;
 	padding: 2px 15px 2px 0;
 }
 
