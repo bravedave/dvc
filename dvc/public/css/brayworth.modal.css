@@ -25,19 +25,20 @@
 .modal.modal-active {
 	display: block; /* Hidden by default */
 }
-/* The Close Button */
+/* The Close Button
 .fa.close,
 .modal .close {
-    color: #aaa;
-    float: right;
-}
-.modal-header .close, .modal-header .fa {
-	margin: 0;
-    font-size: 1.4rem;
-	padding: 2px 15px 2px 0;
+	float: right;
 }
 .modal .close:not(.fa) {
-    font-weight: bold;
+	font-weight: bold;
+}
+*/
+.modal-header .close, .modal-header .fa {
+	margin: 0;
+	color: #aaa;
+	font-size: 1.4rem;
+	padding: 2px 15px 2px 0;
 }
 
 .modal .close:not(.fa):hover,
