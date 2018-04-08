@@ -65,6 +65,11 @@ ews.calendar.fullcalendar = function( params) {
 
 	};
 
+	if (_brayworth_.bootstrap_version() >= 4) {
+		options.themeSystem = 'bootstrap4';
+
+	}
+
 	$.extend( options, params);
 
 	if ( 'string' == typeof options.host)
