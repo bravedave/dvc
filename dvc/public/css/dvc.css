@@ -392,10 +392,6 @@ th {
 	user-select: none;
 }
 
-.gravatar.gravatar-80 { width: 80px; }
-.gravatar.gravatar-32 { width: 32px; }
-.gravatar.gravatar-16 { width: 16px; }
-
 .wait { cursor: wait; }
 
 pre { padding: 10px 20px }

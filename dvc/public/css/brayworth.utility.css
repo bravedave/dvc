@@ -7,3 +7,6 @@
 		http://creativecommons.org/licenses/by/4.0/
 	*/
 .pointer { cursor: pointer; }
+.gravatar.gravatar-80 { width: 80px; }
+.gravatar.gravatar-32 { width: 32px; }
+.gravatar.gravatar-16 { width: 16px; }
