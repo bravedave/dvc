@@ -416,6 +416,7 @@ abstract class _controller {
 			'template' => \config::$PAGE_TEMPLATE,
 			'title' => $this->title,
 			'scripts' => [],
+			'latescripts' => [],
 			'css' => [],
 			'data' => FALSE,
 
@@ -432,6 +433,15 @@ abstract class _controller {
 
 		foreach ( $options['scripts'] as $script) {
 			$p->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $script );
+
+		}
+
+		/*
+		* latescripts are prepended
+		* - if something like tinymce is appended after it would be slower
+		*/
+		foreach ( $options['latescripts'] as $script) {
+			array_unshift( $p->latescripts, sprintf( '<script type="text/javascript" src="%s"></script>', $script));
 
 		}
 
