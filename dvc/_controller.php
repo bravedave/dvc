@@ -144,7 +144,7 @@ abstract class _controller {
 			exit;	// quietly
 
 		if ( \config::use_inline_logon) {
-			$p = new \page( 'Log On' );
+			$p = new \config::$PAGE_TEMPLATE_LOGON( 'Log On' );
 				if ( \config::allow_password_recovery) {
 					$p->latescripts[] = '<script>$(document).ready( function() { _brayworth_.logon_retrieve_password = true; _brayworth_.logonModal(); })</script>';
 
