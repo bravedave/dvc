@@ -110,7 +110,7 @@ abstract class _config {
 	static $MAILER = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
 
 	static $PAGE_TEMPLATE = '\dvc\pages\bootstrap';
-	static $PAGE_TEMPLATE_LOGON = '\dvc\pages\bootstrap';
+	static $PAGE_TEMPLATE_LOGON = '\dvc\pages\bootstrap4';
 	static $SITEMAPS = FALSE;
 
 	static $TEMPLATES_DIR = NULL;

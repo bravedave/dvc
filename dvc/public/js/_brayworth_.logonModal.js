@@ -16,10 +16,9 @@ _brayworth_.logonModal = function() {
 		pass : $('<input type="password" class="form-control" placeholder="password" autocomplete="current-password" />'),
 	}
 
-	var dlg = $('<div class="container" />');
-	var form = $('<form class="form" />').appendTo( dlg);
-		$('<div class="row py-1" />').append( $( '<div class="col" />').append( flds.user)).appendTo( form);
-		$('<div class="row py-1" />').append( $( '<div class="col" />').append( flds.pass)).appendTo( form);
+	var form = $('<form />');
+		$('<div class="form-group" />').append( flds.user).appendTo( form);
+		$('<div class="form-group" />').append( flds.pass).appendTo( form);
 
 	function submitter() {
 		var u = flds.user.val();
@@ -53,7 +52,7 @@ _brayworth_.logonModal = function() {
 
 		})
 		.done( function( d) {
-			$('body').growlAjax( d);
+			$('body').growl( d);
 			if ( 'ack' == d.response) {
 				window.location.reload();
 
@@ -88,7 +87,7 @@ _brayworth_.logonModal = function() {
 
 		})
 		.done( function( d) {
-			$('body').growlAjax( d);
+			$('body').growl( d);
 			if ( !!d.response && d.response == 'ack') {
 				_brayworth_.modal({
 					width : 300,
@@ -127,7 +126,7 @@ _brayworth_.logonModal = function() {
 	var modal = _brayworth_.modal({
 		width : 300,
 		title : 'logon',
-		text : dlg,
+		text : form,
 		buttons : buttons
 
 	});
