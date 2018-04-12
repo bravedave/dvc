@@ -32,7 +32,7 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 
 	$.extend( options, _options);
 
-	var close = $( '.close', this);	// Get the <span> element that closes the modal
+	var close = $( '.modal-header .close', this);	// Get the <span> element that closes the modal
 
 	modal.close = function() {
 		options.beforeClose.call( modal);
