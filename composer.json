@@ -13,7 +13,7 @@
 	}],
 	"require": {
 		"php": ">=5.4",
-		"MatthiasMullie/Minify" : "*",
+		"MatthiasMullie/Minify" : "1.3.58",
 		"phpmailer/phpmailer": "~5.2",
 		"erusev/parsedown":"*"
 
