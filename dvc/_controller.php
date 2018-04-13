@@ -420,12 +420,14 @@ abstract class _controller {
 			'latescripts' => [],
 			'css' => [],
 			'data' => FALSE,
+			'footer' => TRUE,
 
 		];
 
 		$options = array_merge( $defaults, $params);
 
 		$p = new $options['template']( $options['title']);
+		$p->footer = $options['footer'];
 		$p->data = (object)$options['data'];
 		if ( !( isset( $p->data->title))) {
 			$p->data->title = $options['title'];
