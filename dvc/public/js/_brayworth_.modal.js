@@ -153,7 +153,9 @@ _brayworth_.modal = function( params) {
 				b.attr( 'title', j.title)
 
 			b.on( 'click', function( e) { j.click.call( t.get(), e); })	// wrap the call and call it against the modal
-			t.header.prepend( b);
+			_brayworth_.bootstrap_version() < 4 ?
+				t.header.prepend( b) :
+				t.header.append( b);
 
 		})
 
