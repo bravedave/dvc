@@ -159,7 +159,9 @@ _brayworth_.modal = function( params) {
 
 		})
 
-		t.header.prepend( $('.close', t.header));
+		_brayworth_.bootstrap_version() < 4 ?
+			t.header.prepend( $('.close', t.header)) :
+			t.header.append( $('.close', t.header));
 
 	}
 
