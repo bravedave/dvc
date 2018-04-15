@@ -74,5 +74,5 @@ div#brayworthLOGO a {
 [v-cloak] > * { display:none }
 [v-cloak]::before { content: "loading…" }
 
-ul.menu { background-color: var(--light); }
+ul.menu { background-color: var(--white); }
 .modal-legacy .modal-header { display: block; }
