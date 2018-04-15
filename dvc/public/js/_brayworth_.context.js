@@ -214,6 +214,20 @@ _brayworth_.context = function() {
 
 		}
 
-	})
+	});
 
 };
+
+$(document).ready( function() {
+	$(document).on( 'click.removeContexts', function( evt) {
+		if ( $(evt.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
+			if ( /^(a)$/i.test( evt.target.nodeName ))
+				return;
+
+		}
+
+		_brayworth_.hideContexts();
+
+	});
+
+});
