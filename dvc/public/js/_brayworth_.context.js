@@ -61,17 +61,17 @@ _brayworth_.context = function() {
 
 		},
 
-		open : function( evt) {
+		open : function( e) {
 			var css = {
 				position: 'absolute',
 				top : 10,
 				left : $(document).width() - 140,
 				}
 
-			if ( !!evt.pageY)
-				css.top = Math.max( evt.pageY - 10, 0);
-			if ( !!evt.pageX)
-				css.left = Math.max( evt.pageX - 40, 0);
+			if ( !!e.pageY)
+				css.top = Math.max( e.pageY - 10, 0);
+			if ( !!e.pageX)
+				css.left = Math.max( e.pageX - 40, 0);
 
 			//~ console.log( this.root.width());
 
@@ -154,9 +154,9 @@ _brayworth_.context = function() {
 
 			$( parent)
 			.off( 'click.removeContexts')
-			.on( 'click.removeContexts', function( evt) {
-				if ( $(evt.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
-					if ( /^(a)$/i.test( evt.target.nodeName ))
+			.on( 'click.removeContexts', function( e) {
+				if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
+					if ( /^(a)$/i.test( e.target.nodeName ))
 						return;
 
 				}
@@ -164,35 +164,33 @@ _brayworth_.context = function() {
 				_brayworth_.hideContexts();
 
 			})
-			.on( 'contextmenu', function( evt) {
+			.on( 'contextmenu', function( e) {
 				/*--[ check for abandonment ]--*/
-				if( $(evt.target).closest('[data-role="contextmenu"]').length)
+				if( $(e.target).closest('[data-role="contextmenu"]').length)
 					return;
 
 				_brayworth_.hideContexts();
 
-				if ( evt.shiftKey)
+				if ( e.shiftKey)
 					return;
 
-				if ( /^(input|textarea|img|a|select)$/i.test( evt.target.nodeName ) || $(evt.target).closest('a').length > 0)
+				if ( /^(input|textarea|img|a|select)$/i.test( e.target.nodeName ) || $(e.target).closest('a').length > 0)
 					return;
 
-				if ( $(evt.target).closest('table').data('nocontextmenu') == 'yes' )
+				if ( $(e.target).closest('table').data('nocontextmenu') == 'yes' )
 					return;
 
-				if ( $(evt.target).hasClass('modal' ) || $(evt.target).closest('.modal').length > 0)
+				if ( $(e.target).hasClass('modal' ) || $(e.target).closest('.modal').length > 0)
 					return;
 
 				/** This stops the menu of jquery-ui dialogs */
-				if ( $(evt.target).hasClass('ui-widget-overlay' ) || $(evt.target).closest( '.ui-dialog').length > 0)
+				if ( $(e.target).hasClass('ui-widget-overlay' ) || $(e.target).closest( '.ui-dialog').length > 0)
 					return;
-
-				//~ console.log( evt.target);
 
 				if (typeof window.getSelection != "undefined") {
 					var sel = window.getSelection();
 					if (sel.rangeCount) {
-						if ( sel.anchorNode.parentNode == evt.target ) {
+						if ( sel.anchorNode.parentNode == e.target ) {
 							var frag = sel.getRangeAt(0).cloneContents();
 							var text = frag.textContent;
 							if ( text.length > 0 )
@@ -205,8 +203,8 @@ _brayworth_.context = function() {
 				}
 				/*--[ end: check for abandonment ]--*/
 
-				evt.preventDefault();
-				_me.open( evt);
+				e.preventDefault();
+				_me.open( e);
 
 			});
 
@@ -219,9 +217,19 @@ _brayworth_.context = function() {
 };
 
 $(document).ready( function() {
-	$(document).on( 'click.removeContexts', function( evt) {
-		if ( $(evt.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
-			if ( /^(a)$/i.test( evt.target.nodeName ))
+	$(document).on( 'click.removeContexts', function( e) {
+		if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
+			if ( /^(a)$/i.test( e.target.nodeName ))
+				return;
+
+		}
+
+		_brayworth_.hideContexts();
+
+	})
+	.on( 'contextmenu.removeContexts', function( e) {
+		if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
+			if ( /^(a)$/i.test( e.target.nodeName ))
 				return;
 
 		}
