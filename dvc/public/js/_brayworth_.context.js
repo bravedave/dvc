@@ -42,13 +42,14 @@ _brayworth_.hideContexts = function() {
 
 _brayworth_.context = function() {
 	return ({
-		root : $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
+		root : $('<ul class="menu menu-contextmenu" data-role="contextmenu" />'),
 		items : [],
 		length : 0,
 		detachOnHide : true,
+		hideClass : ( _brayworth_.bootstrap_version() < 4 ? 'hidden' : 'd-none'),
 
 		create : function( item) {
-			var el = $( '<li></li>').append( item).appendTo( this.root);
+			var el = $( '<li />').append( item).appendTo( this.root);
 			this.items.push( el);
 			this.length = this.items.length;
 			return ( el);
@@ -134,7 +135,7 @@ _brayworth_.context = function() {
 
 			}
 			else {
-				this.root.addClass('hidden');	// connotes there is a hidden class
+				this.root.addClass( this.hideClass);	// connotes there is a hidden class
 				//~ console.log( 'hide context menu');
 
 			}
