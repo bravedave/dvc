@@ -15,6 +15,8 @@ NameSpace dvc\pages;
 class bootstrap extends page {
 	static public $BootStrap_Version = '3';
 
+	static $SCALE = 1;
+
 	function __construct( $title = '' ) {
 		self::$BootStrap = TRUE;
 		if ( self::$BootStrap_Version == '4' && $this->dvc) {
@@ -24,7 +26,7 @@ class bootstrap extends page {
 
 		parent::__construct( $title );
 
-		$this->meta[] = '<meta name="viewport" content="width=device-width, initial-scale=1" />';
+		$this->meta[] = sprintf('<meta name="viewport" content="width=device-width, initial-scale=%s" />', self::$SCALE);
 
 		if ( self::$BootStrap_Version == '3' || self::$BootStrap_Version == '4') {
 			$css = [ \url::tostring( sprintf( 'bootstrap.%s/css/bootstrap.min.css', self::$BootStrap_Version))];
