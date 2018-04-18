@@ -11,16 +11,24 @@ NameSpace dvc;
 
 abstract class strings {
 	static function asShortDate( $date, $time = FALSE) {
-		if ( (string)$date == '0000-00-00')
-		return ( FALSE);
+		if ( (string)$date == '0000-00-00') {
+			return ( FALSE);
+
+		}
 
 		if ( ( $t = strtotime( $date)) !== FALSE) {
-			if ( $time && date( 'Y-m-d', $t) == date( 'Y-m-d'))
-			return ( date( 'g:ia', $t));
-			elseif ( date( 'Y', $t) == date( 'Y'))
-			return ( date( 'd-M', $t));
-			else
-			return ( date( config::$DATE_FORMAT, $t));
+			if ( $time && date( 'Y-m-d', $t) == date( 'Y-m-d')) {
+				return ( date( 'g:ia', $t));
+
+			}
+			elseif ( date( 'Y', $t) == date( 'Y')) {
+				return ( date( 'd-M', $t));
+
+			}
+			else {
+				return ( date( config::$DATE_FORMAT, $t));
+
+			}
 
 		}
 
@@ -29,8 +37,10 @@ abstract class strings {
 	}
 
 	static function array2csv(array &$array) {
-		if (count($array) == 0)
-		return null;
+		if (count($array) == 0) {
+			return null;
+
+		}
 
 		ob_start();
 		$df = fopen("php://output", 'w');
