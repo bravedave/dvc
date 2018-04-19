@@ -73,8 +73,8 @@
 
 .modal-header {
 	color: white;
-	background-color: #337ab7; }
-.modal-footer{ color: #337ab7; background-color: #eee; }
+	background-color: #007bff; }
+.modal-footer{ color: #007bff; background-color: #eee; }
 .modal-body { height: calc( 100% - 90px); min-height: 80px; }
 
 .modal .modal-content {
