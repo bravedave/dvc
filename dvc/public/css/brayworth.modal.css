@@ -8,7 +8,7 @@
 
 	Modal Content
 	*/
-.modal {
+.modal:not(.modal-bootstrap) {
 	position: fixed; /* Stay in place */
 	z-index: 1050; /* Sit on top, compatible with bootstrap */
 	left: 0;
@@ -82,7 +82,7 @@
 	padding: 0;
 	border: 1px solid #888;
 }
-.modal:not(.modal-mobile) .modal-content {
+.modal:not(.modal-mobile):not(.modal-bootstrap) .modal-content {
 	position: fixed;
 	top: 50%;
 	left: 50%;
