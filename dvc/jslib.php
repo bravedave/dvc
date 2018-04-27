@@ -197,6 +197,7 @@ abstract class jslib {
 			'js/_brayworth_.table.sort.js',
 			'js/_brayworth_.Vue.js',
 			'js/_brayworth_.Vue.block.js',
+			'js/autofill.js',
 			'js/brayworth.js',
 			'js/templation.js',
 			'js/js.cookie.js' ];
