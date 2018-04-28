@@ -43,7 +43,10 @@
 */
 
 _brayworth_.modal = function( params) {
-	jQuery.fn.modal = _brayworth_.modal;	// to be sure, bootstrap has it's own modal
+	if ( _brayworth_.map.modal) {
+		jQuery.fn.modal = _brayworth_.modal;	// to be sure, bootstrap has it's own modal
+
+	}
 
 	if ( 'string' == typeof params) {
 		/* This is a command - jquery-ui style */
@@ -93,7 +96,8 @@ _brayworth_.modal = function( params) {
 
 	}
 
-	t.html('H1','').append( options.title);	// jquery-ui style
+	t.html('.modal-title','').append( options.title);	// jquery-ui style
+	// console.log( t.html('.modal-title'));
 
 	t.append( content);		// this is the content
 
@@ -244,7 +248,7 @@ _brayworth_.modal = function( params) {
 _brayworth_.templates.buttonCSS = 'btn btn-default';
 _brayworth_.templates.modalDefaultClass = '';
 _brayworth_.templates.modal = function() {
-	var _ = templation.template('modal');
+	let _ = templation.template('modal');
 		_.header = _.get( '.modal-header');
 		_.body = _.get( '.modal-body');
 		_.append = function( p) {

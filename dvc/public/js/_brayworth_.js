@@ -13,6 +13,9 @@ if ( 'undefined' == typeof _brayworth_ )
 
 $.extend( _brayworth_, {
 		_brayworth_ : true,
+		map : {
+			modal : true
+		},
 		logon_retrieve_password : false,
 		templates : {},
 		bootstrap_version : function() {
@@ -59,4 +62,4 @@ $.extend( _brayworth_, {
 
 	});
 
-_brayworth_.urlwrite = _brayworth_.url;
+_brayworth_.urlwrite = _brayworth_.url;	// legacy
