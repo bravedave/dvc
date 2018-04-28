@@ -296,7 +296,7 @@ $.fn.autofill = function( params) {
 		if ( e.shiftKey)
 			return;
 
-		console.log( 'keyup.autofill', e.keyCode);
+		// console.log( 'keyup.autofill', e.keyCode);
 		if ( e.keyCode == 13) {
 			keyMove.select( e);
 			return;
