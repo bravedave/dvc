@@ -180,7 +180,9 @@ _brayworth_.modal = function( params) {
 
 		})
 
-		t.get('.modal-content').css({ 'width' : 'auto', 'margin' : 0 });
+		t.get('.modal').addClass('modal-fullscreen');
+		t.get('.modal-dialog').addClass('m-0');
+		t.get('.modal-content').removeClass('w-25 w-50 w-75').addClass('w-100');
 
 	}
 	else {
@@ -248,14 +250,20 @@ _brayworth_.modal = function( params) {
 
 		};
 
+		return ( this);
+
 	}
 
 	t.data( 'modal', _modal);
 	if ( 'undefined' != typeof this && !this._brayworth_ ) {
-		if ( this instanceof jQuery)
+		if ( this instanceof jQuery) {
 			this.data('modal', _modal);
-		else
+
+		}
+		else {
 			$(this).data('modal', _modal);
+
+		}
 
 	}
 
