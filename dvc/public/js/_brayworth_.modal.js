@@ -165,15 +165,15 @@ _brayworth_.modal = function( params) {
 
 	}
 
-	var previousElement = document.activeElement;
-
-	var bodyElements = [];
+	let previousElement = document.activeElement;
+	let hideClass = _brayworth_.bootstrap_version() < 4 ? 'hidden' : 'd-none'
+	let bodyElements = [];
 	if ( options.fullScreen) {
 		/* hide all the body elements */
 		$('body > *').each( function( i, el){
 			var _el = $(el);
-			if ( !_el.hasClass('hidden')) {
-				_el.addClass('hidden');
+			if ( !_el.hasClass(hideClass)) {
+				_el.addClass(hideClass);
 				bodyElements.push( _el);
 
 			}
@@ -195,7 +195,7 @@ _brayworth_.modal = function( params) {
 
 	t.appendTo( 'body');
 
-	var _modal = _brayworth_.modalDialog.call( t.get(), {
+	let _modal = _brayworth_.modalDialog.call( t.get(), {
 		mobile : options.mobile,
 		onOpen : options.onOpen,
 		afterClose : function() {
@@ -205,7 +205,7 @@ _brayworth_.modal = function( params) {
 
 			/* re-activate the body elements */
 			$.each( bodyElements, function( i, el){
-				$(el).removeClass('hidden');
+				$(el).removeClass(hideClass);
 
 			})
 
@@ -214,6 +214,8 @@ _brayworth_.modal = function( params) {
 		},
 
 	});
+
+	_modal.modal = _brayworth_.modal;	// to be sure, bootstrap has it's own modal
 
 	_modal.load = function( url) {
 		/*
