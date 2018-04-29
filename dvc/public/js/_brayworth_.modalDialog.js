@@ -80,7 +80,7 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 
 	close
 	.off('click')
-	.css({cursor:'pointer'})
+	.addClass('pointer')
 	.on('click', function(e) { modal.close(); });	// When the user clicks on <span> (x), close the modal
 
 	options.onOpen.call( modal);

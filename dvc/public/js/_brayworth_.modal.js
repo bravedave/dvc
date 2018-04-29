@@ -234,6 +234,22 @@ _brayworth_.modal = function( params) {
 
 	}
 
+	_modal.checkHeight = function() {
+		/*
+		* check that the dialog fits on screen
+		*/
+		let h = $('.modal-body', this).height();
+		let mh = $(window).height() * .9;
+
+		if ( h > mh) {
+			$('.modal-body', this)
+			.height( mh)
+			.css({'overflow-y' : 'auto', 'overflow-x' : 'hidden'});
+
+		};
+
+	}
+
 	t.data( 'modal', _modal);
 	if ( 'undefined' != typeof this && !this._brayworth_ ) {
 		if ( this instanceof jQuery)
