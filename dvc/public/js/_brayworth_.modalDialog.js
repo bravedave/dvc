@@ -36,7 +36,7 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 
 	modal.close = function() {
 		options.beforeClose.call( modal);
-		modal.css( 'display', 'none');
+		modal.removeClass( 'modal-active');
 		//~ $(window).off('click');
 		options.afterClose.call( modal);
 
@@ -48,7 +48,7 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 
 	if ( options.mobile)
 		modal.addClass( 'modal-mobile');
-	modal.css( 'display', 'block').data('modal', modal);
+	modal.addClass( 'modal-active').data('modal', modal);
 
 	var _AF = $('[autofocus]',modal);
 	if ( _AF.length > 0) {
