@@ -63,14 +63,13 @@
 /*-- --[]-- --*/
 
 
-/* Modal Header, Body & Footer
+/* Modal Header, Body & Footer */
 .modal-footer { padding: 4px 15px 4px; }
 .modal-body { padding: 5px 15px; }
 .modal-body > .container-fluid { margin: -5px -15px -25px; }
 .modal-header { padding: 3px 15px; }
 .modal-header h1 { margin: 0; font-size: 1.5em }
 .modal-header h2 { margin: 0; font-size: 1.2em }
-*/
 
 .modal-header {
 	color: white;
