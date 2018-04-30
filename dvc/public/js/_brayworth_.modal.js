@@ -17,7 +17,7 @@
 		_brayworth_.modal.call( $('<div title="fred">hey jude</div>'), {
 			buttons : {
 				Close : function(e) {
-					$(this).modal( 'close');
+					this.modal( 'close');
 
 				}
 
@@ -32,7 +32,7 @@
 			text : 'hey jude',
 			buttons : {
 				Close : function(e) {
-					$(this).modal( 'close');
+					this.modal( 'close');
 
 				}
 

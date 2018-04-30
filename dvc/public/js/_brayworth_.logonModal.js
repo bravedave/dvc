@@ -88,14 +88,14 @@ _brayworth_.logonModal = function() {
 		})
 		.done( function( d) {
 			$('body').growl( d);
-			if ( !!d.response && d.response == 'ack') {
+			if ( 'ack' == d.response) {
 				_brayworth_.modal({
 					width : 300,
 					title : d.description,
 					text : d.message,
 					buttons : {
 						OK : function(e) {
-							$(this).modal( 'close');
+							this.modal( 'close');
 							flds.user.focus();
 
 						}
