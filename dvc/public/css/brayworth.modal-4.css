@@ -18,10 +18,11 @@
 .modal.modal-active {
 	display: block; /* Hidden by default */
 }
+/*
 .modal-header .close, .modal-header .fa {
 	margin: 0;
 }
-
+*/
 .modal.modal-fullscreen {
 	position: fixed;
 	top: 0;
