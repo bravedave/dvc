@@ -285,7 +285,7 @@ _brayworth_.templates.modal = function() {
 
 		_.footer = function() {
 			if ( !this._footer) {
-				this._footer = $('<div class="modal-footer text-right" />');
+				this._footer = $('<div class="modal-footer py-1 text-right" />');
 				this.get('.modal-content').append( this._footer);
 
 			}
