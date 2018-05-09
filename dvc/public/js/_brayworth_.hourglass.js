@@ -14,7 +14,7 @@ var hourglass = _brayworth_.hourglass = {
 
 		let inner = $('<i class="fa fa-spinner fa-pulse fa-4x text-white" style="position: fixed; top: 50%; left: 48%" />');
 		if (!!msg) {
-			inner = $('<h1 class="p-4 text-white text-center" style="position: fixed; top: 50%; left: 30% width: 40%" />')
+			inner = $('<h1 class="p-4 text-white text-center" style="position: fixed; top: 50%; left: 30%; width: 40%" />')
 				.html( msg)
 				.append('<i class="fa fa-fw fa-spinner fa-pulse text-white ml-2" />');
 
