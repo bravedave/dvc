@@ -17,7 +17,7 @@
 		_brayworth_.modal.call( $('<div title="fred">hey jude</div>'), {
 			buttons : {
 				Close : function(e) {
-					$(this).modal( 'close');
+					this.modal( 'close');
 
 				}
 
@@ -32,7 +32,7 @@
 			text : 'hey jude',
 			buttons : {
 				Close : function(e) {
-					$(this).modal( 'close');
+					this.modal( 'close');
 
 				}
 
@@ -180,7 +180,9 @@ _brayworth_.modal = function( params) {
 
 		})
 
-		t.get('.modal-content').css({ 'width' : 'auto', 'margin' : 0 });
+		t.get('.modal').addClass('modal-fullscreen');
+		t.get('.modal-dialog').addClass('m-0');
+		t.get('.modal-content').removeClass('w-25 w-50 w-75').addClass('w-100');
 
 	}
 	else {
@@ -223,7 +225,7 @@ _brayworth_.modal = function( params) {
 		 * for jQuery.load
 		 */
 	 	return new Promise( function( resolve, reject) {
-			var d = $('<div class="container-fluid" />');
+			var d = $('<div />');
 			t.append( d);
 			d.load( url, function() {
 				resolve( _modal);
@@ -234,12 +236,34 @@ _brayworth_.modal = function( params) {
 
 	}
 
+	_modal.checkHeight = function() {
+		/*
+		* check that the dialog fits on screen
+		*/
+		let h = $('.modal-body', this).height();
+		let mh = $(window).height() * .9;
+
+		if ( h > mh) {
+			$('.modal-body', this)
+			.height( mh)
+			.css({'overflow-y' : 'auto', 'overflow-x' : 'hidden'});
+
+		};
+
+		return ( this);
+
+	}
+
 	t.data( 'modal', _modal);
 	if ( 'undefined' != typeof this && !this._brayworth_ ) {
-		if ( this instanceof jQuery)
+		if ( this instanceof jQuery) {
 			this.data('modal', _modal);
-		else
+
+		}
+		else {
 			$(this).data('modal', _modal);
+
+		}
 
 	}
 
@@ -261,7 +285,7 @@ _brayworth_.templates.modal = function() {
 
 		_.footer = function() {
 			if ( !this._footer) {
-				this._footer = $('<div class="modal-footer text-right" />');
+				this._footer = $('<div class="modal-footer py-1 text-right" />');
 				this.get('.modal-content').append( this._footer);
 
 			}
