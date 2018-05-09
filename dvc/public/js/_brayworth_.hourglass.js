@@ -21,7 +21,7 @@ var hourglass = _brayworth_.hourglass = {
 		inner.css({
 			'position' : 'fixed',
 			'top' : '50%',
-			'left' : '50%'
+			'left' : '45%'
 		});
 
 		this.h = $('<div class="modal" />')
