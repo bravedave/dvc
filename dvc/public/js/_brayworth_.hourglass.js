@@ -9,14 +9,21 @@
 var hourglass = _brayworth_.hourglass = {
 	h : false,
 
-	on  : function() {
-		if ( !this.h ) {
-			this.h = $('<div class="modal" />')
-				.append( '<i class="fa fa-spinner fa-pulse fa-4x" style="position: fixed; top: 50%; left: 50%" />')
-				.appendTo( 'body')
-				.css('display', 'block');
+	on  : function( msg) {
+		if ( this.h) this.off();
+
+		let inner = $('<i class="fa fa-spinner fa-pulse fa-4x text-white" style="position: fixed; top: 50%; left: 48%" />');
+		if (!!msg) {
+			inner = $('<h1 class="p-4 text-white text-center" style="position: fixed; top: 50%; width: 100%" />')
+				.html( msg)
+				.append('<i class="fa fa-fw fa-spinner fa-pulse text-white ml-2" />');
 
 		}
+
+		this.h = $('<div class="modal" />')
+			.append( inner)
+			.appendTo( 'body')
+			.css('display', 'block');
 
 		return (this);
 
