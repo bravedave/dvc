@@ -26,7 +26,7 @@ class bootstrap extends page {
 
 		parent::__construct( $title );
 
-		$this->meta[] = sprintf('<meta name="viewport" content="width=device-width, initial-scale=%s" />', self::$SCALE);
+		$this->meta[] = sprintf('<meta name="viewport" content="width=device-width, initial-scale=%s, shrink-to-fit=no" />', self::$SCALE);
 
 		if ( self::$BootStrap_Version == '3' || self::$BootStrap_Version == '4') {
 			$css = [ \url::tostring( sprintf( 'bootstrap.%s/css/bootstrap.min.css', self::$BootStrap_Version))];
