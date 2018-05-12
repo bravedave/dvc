@@ -10,7 +10,7 @@
 		'0418745334'.IsMobilePhone();
 	*/
 (function() {	// strings
-	String.prototype.trim = function() {return this.replace(/^\s+|\s+$/g,"");}
+	// String.prototype.trim = function() {return this.replace(/^\s+|\s+$/g,"");}
 	String.prototype.ltrim = function() {return this.replace(/^\s+/,"");}
 	String.prototype.rtrim = function() {return this.replace(/\s+$/,"");}
 	String.prototype.pad = function(len, padChar){
@@ -166,7 +166,7 @@
     var rex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		if ( /.con$/i.test( e.toLowerCase()))
 			return ( false);	// dickhead
-			
+
 		return rex.test( e.toLowerCase());
 
 	}

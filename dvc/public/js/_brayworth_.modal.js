@@ -103,8 +103,9 @@ _brayworth_.modal = function( params) {
 
 	if ( Object.keys( options.buttons).length > 0) {	// jquery-ui style
 		$.each( options.buttons, function( i, el) {
-			var j = {
+			let j = {
 				text : i,
+				title : '',
 				click : function( e) {}
 			}
 
@@ -113,7 +114,7 @@ _brayworth_.modal = function( params) {
 			else
 				$.extend( j, el) ;
 
-			$('<button />')
+			let btn = $('<button />')
 				.addClass( _brayworth_.templates.buttonCSS)
 				.html( j.text)
 				.on( 'click', function( e) {
@@ -121,6 +122,11 @@ _brayworth_.modal = function( params) {
 
 				})
 				.appendTo( t.footer());
+
+			if ( !!j.title) {
+				btn.attr('title', j.title);
+
+			}
 
 		})
 
