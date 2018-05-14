@@ -14,24 +14,35 @@
 	String.prototype.ltrim = function() {return this.replace(/^\s+/,"");}
 	String.prototype.rtrim = function() {return this.replace(/\s+$/,"");}
 	String.prototype.pad = function(len, padChar){
+		console.warn( 'debrecated - use string.padStart()')
+
 		if ( padChar == undefined ) {padChar = " ";}
 		if ( isNaN(len) ) { len = this.length; }
+
 		var res = this;
 		while ( res.length < len ) {res = res.concat(padChar);}
 		return ( res );
+
 	};
 
 	String.prototype.padLeft = function(len, padChar){
-			if ( padChar == undefined ) {padChar = " ";}
-			if ( isNaN(len) ) { len = this.length; }
-			var res = this;
-			if (res.length > len) {
-				var iStart = ( res.length - len );
-				res = res.substring( iStart );
-			} else {
-				while ( res.length < len ) {res = padChar.concat(res);};
-			}
-			return ( res );
+		console.warn( 'debrecated - use string.padEnd()')
+
+		if ( padChar == undefined ) {padChar = " ";}
+		if ( isNaN(len) ) { len = this.length; }
+		var res = this;
+		if (res.length > len) {
+			var iStart = ( res.length - len );
+			res = res.substring( iStart );
+
+		}
+		else {
+			while ( res.length < len ) {res = padChar.concat(res);};
+
+		}
+
+		return ( res );
+
 	};
 
 	String.prototype.format = function () {
