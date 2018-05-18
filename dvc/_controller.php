@@ -82,17 +82,23 @@ abstract class _controller {
 
 		$this->authorized = $this->authorised;	// american spelling accepted (doh)
 
-		/*
-		* The user is $authorised
-		* check the _acl - if it returns FALSE
-		* redirect to the home page
-		*/
-		if ( $this->access_control()) {
-			$this->before();
+		if ( $this->RequireValidation) {
+			if ( $this->access_control()) {
+				$this->before();
+
+			}
+			else {
+				/*
+				* The user is $authorised, but denied access by their _acl
+				*/
+				Response::redirect( url::tostring());
+
+			}
 
 		}
 		else {
-			Response::redirect( url::tostring());
+			// no acl required for anon access
+			$this->before();
 
 		}
 
