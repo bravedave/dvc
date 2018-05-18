@@ -81,13 +81,33 @@ abstract class _controller {
 		}
 
 		$this->authorized = $this->authorised;	// american spelling accepted (doh)
-		$this->before();
+
+		/*
+		* The user is $authorised
+		* check the _acl - if it returns FALSE
+		* redirect to the home page
+		*/
+		if ( $this->access_control()) {
+			$this->before();
+
+		}
+		else {
+			Response::redirect( url::tostring());
+
+		}
+
+	}
+
+
+	protected function access_control() {
+		// warning - don't impose an access_control of FALSE on the home page !
+		return ( TRUE);
 
 	}
 
 	/*
-	 * Abstract method placeholder for use by
-	 * the child class. This method is called
+	 * Placeholder for use by the child class.
+	 * This method is called
 	 * at the end of __construct()
 	 *
 	 * avoid replacing the default __construct
