@@ -62,7 +62,7 @@
 			options.text = j.description;
 
 		if ( options.growlClass == 'error')
-			options.timeout = 5000;
+			options.timeout = 0;
 
 		if ( !!j.timeout)
 			options.timeout = j.timeout;
