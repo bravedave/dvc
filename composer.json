@@ -12,9 +12,9 @@
 		"homepage": "http://brayworth.com"
 	}],
 	"require": {
-		"php": ">=5.4",
+		"php": ">=7.0",
 		"MatthiasMullie/Minify" : "*",
-		"phpmailer/phpmailer": "~5.2",
+		"phpmailer/phpmailer": "*",
 		"erusev/parsedown":"*"
 
 	}
