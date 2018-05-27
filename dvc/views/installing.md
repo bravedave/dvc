@@ -7,11 +7,30 @@ to an empty folder and run **composer install**
 
 ## Getting Started
 
-1. Download https://github.com/bravedave/dvc-template/archive/master.zip and unzip to a folder
-1. *Optional:* Rename the example folder to reflect your project
-1. Switch to that folder:
-  * run *composer install*
-  * review the *run.cmd*
-    * consider the path to php.exe
-  * run the *run.cmd*
-1. The web site is available at http://localhost/
+### Clone or download this repo
+* Start the Git Bash Shell
+  Composer seems to work best here, depending on how you installed Git
+```
+$ MD C:\Data\
+$ CD C:\Data
+$ git clone https://github.com/bravedave/dvc-template
+```
+  optionally change the name and change to the folder
+```
+$ ren dvc-template my-project
+$ cd my-project
+$ composer install
+```
+* or download as zip and extract
+  https://github.com/bravedave/dvc-template/archive/master.zip
+
+* or setup as new project
+```
+$ composer create-project --repository='{"type":"vcs","url":"https://github.com/bravedave/dvc-template"}' bravedave/dvc-template my-project @dev
+```
+  optionally change the name and change to the folder
+```
+$ ren dvc-template my-project
+$ cd my-project
+$ composer install
+```
