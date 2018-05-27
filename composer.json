@@ -14,7 +14,7 @@
 	"require": {
 		"php": ">=7.0",
 		"MatthiasMullie/Minify" : "*",
-		"phpmailer/phpmailer": "*",
+		"phpmailer/phpmailer": "~5.2",
 		"erusev/parsedown":"*"
 
 	}
