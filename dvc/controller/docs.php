@@ -18,7 +18,7 @@ class docs extends Controller {
 		if ( !$view)
 			$view = 'index';
 
-		$p = new dvc\pages\bootstrap;
+		$p = new dvc\pages\bootstrap4;
 			$p
 				->header()
 				->title();
