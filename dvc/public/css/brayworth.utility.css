@@ -18,9 +18,17 @@
 		outline: 2px dotted #337ab7;
 		padding: 5px;
 		outline-offset: -4px;
-		background: white url( images/drag-files-here-to-upload.png ) no-repeat left bottom;
+		background-color: white;
 
 	}
+  .has-advanced-upload::after {
+  	display: inline-block;
+  	width: 90%;
+  	margin-left: 0.25em;
+  	vertical-align: 0.25em;
+  	content: "drag files here to watermark";
+  	color: #9e9e9e;
+  }
 	.has-advanced-upload .box__fill,
 	.has-advanced-upload .box__uploading,
 	.has-advanced-upload .box__dragndrop {

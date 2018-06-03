@@ -21,7 +21,7 @@
 
 	*/
 _brayworth_.fileDragDropContainer = function() {
-	var c = $('<div>&nbsp;</div>');
+	var c = $('<div />');
 
 	var _c = $('<div class="box__uploading"></div>').appendTo( c);
 
