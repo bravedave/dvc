@@ -118,7 +118,7 @@ _brayworth_.modal = function( params) {
 				.addClass( _brayworth_.templates.buttonCSS)
 				.html( j.text)
 				.on( 'click', function( e) {
-					j.click.call( t.get(), e);
+					j.click.call( t.get(), e, this);
 
 				})
 				.appendTo( t.footer());
