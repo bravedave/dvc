@@ -56,11 +56,7 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 
 	}
 	else {
-<<<<<<< HEAD
 		_AF = $('textarea:not([readonly]), input:not([readonly]), button:not([disabled]), a:not([tabindex="0"])',modal);
-=======
-		_AF = $('textarea:not([readonly]), input:not([readonly]), button:not([disabled]), a:not([tabindex=0])',modal);
->>>>>>> 117ed2ca1c9283f3fa77ed139e1ce34d7a906861
 		if ( _AF.length > 0)
 			_AF.first().focus();
 
