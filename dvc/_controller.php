@@ -440,13 +440,14 @@ abstract class _controller {
 
 	protected function page( $params) {
 		$defaults = [
-			'template' => \config::$PAGE_TEMPLATE,
-			'title' => $this->title,
-			'scripts' => [],
-			'latescripts' => [],
 			'css' => [],
 			'data' => FALSE,
 			'footer' => TRUE,
+			'latescripts' => [],
+			'meta' => [],
+			'scripts' => [],
+			'title' => $this->title,
+			'template' => \config::$PAGE_TEMPLATE,
 
 		];
 
@@ -457,6 +458,16 @@ abstract class _controller {
 		$p->data = (object)$options['data'];
 		if ( !( isset( $p->data->title))) {
 			$p->data->title = $options['title'];
+
+		}
+
+		foreach ( $options['css'] as $css) {
+			$p->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css);
+
+		}
+
+		foreach ( $options['meta'] as $meta) {
+			$p->meta[] = $meta;
 
 		}
 
@@ -471,11 +482,6 @@ abstract class _controller {
 		*/
 		foreach ( $options['latescripts'] as $script) {
 			array_unshift( $p->latescripts, sprintf( '<script type="text/javascript" src="%s"></script>', $script));
-
-		}
-
-		foreach ( $options['css'] as $css) {
-			$p->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css);
 
 		}
 
