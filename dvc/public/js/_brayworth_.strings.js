@@ -122,7 +122,7 @@
 	String.prototype.IsMobilePhone = function() {
 		var p = this;
 		var ns = this.replace(/[^0-9\+]/g,'');
-		if ( ns.length == 10 || ( ns.substring(0,1) == '+' && ns.length == 12))
+		if ( ns.length == 10 || ( ns.substring(0,1) == '+' && ns.length == 12) || ( ns.substring(0,2) == '61' && ns.length == 11))
 			return ( true);
 
 		return( false);
