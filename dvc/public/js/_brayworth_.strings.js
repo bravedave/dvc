@@ -14,7 +14,7 @@
 	String.prototype.ltrim = function() {return this.replace(/^\s+/,"");}
 	String.prototype.rtrim = function() {return this.replace(/\s+$/,"");}
 	String.prototype.pad = function(len, padChar){
-		console.warn( 'debrecated - use string.padStart()')
+		console.warn( 'deprecated - use string.padStart()')
 
 		if ( padChar == undefined ) {padChar = " ";}
 		if ( isNaN(len) ) { len = this.length; }
@@ -109,22 +109,43 @@
 
 	};
 
-	String.prototype.IsMobilePhone = function() {
+	String.prototype.IsPhone = function() {
 		var p = this;
-		var ns = this.replace(/\s+|\(|\)|\-/g,"");
-		if ( ns.length == 10 )
+		var ns = this.replace(/[^0-9\+]/g,'');
+		if ( ns.length == 8 || ns.length == 10 || ( ns.substring(0,1) == '+' && ns.length == 12))
 			return ( true);
-
-		else if ( /^(\+|0011)/.test( ns)) {
-			re = /(\S\S\S\S)(\S+)/;
-			if ( re.test(ns))
-				return( true);
-
-		}
 
 		return( false);
 
 	};
+
+	String.prototype.IsMobilePhone = function() {
+		var p = this;
+		var ns = this.replace(/[^0-9\+]/g,'');
+		if ( ns.length == 10 || ( ns.substring(0,1) == '+' && ns.length == 12))
+			return ( true);
+
+		return( false);
+
+	};
+
+	// String.prototype.IsMobilePhone = function() {
+	// 	var p = this;
+	// 	var ns = this.replace(/[^0-9\+]/g,'');
+	// 	// var ns = this.replace(/\s+|\(|\)|\-/g,"");
+	// 	if ( ns.length == 10 )
+	// 		return ( true);
+	//
+	// 	else if ( /^(\+|0011)/.test( ns)) {
+	// 		re = /(\S\S\S\S)(\S+)/;
+	// 		if ( re.test(ns))
+	// 			return( true);
+	//
+	// 	}
+	//
+	// 	return( false);
+	//
+	// };
 
 	String.prototype.AsMobilePhone = function() {
 		var p = this;
