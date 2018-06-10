@@ -140,7 +140,7 @@ class page extends _page {
 			if ( $this->hasTitleBar)
 				$classes[] = 'with-nav-bar';
 
-			printf( '%s%s	<div class="%s"><div class="row"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
+			printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><div class="row"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
 
 		}
 		else {
