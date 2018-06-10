@@ -217,7 +217,7 @@ class _page {
 		if ( $this->hasTitleBar)
 			$classes[] = 'with-nav-bar';
 
-		printf( '%s%s	<div class="%s"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
+		printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
 
 		$this->contentOPEN = TRUE;
 
