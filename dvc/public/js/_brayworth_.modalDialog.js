@@ -37,6 +37,7 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 	modal.close = function() {
 		options.beforeClose.call( modal);
 		modal.removeClass( 'modal-active');
+		$('body').removeClass( 'modal-open').css('padding-right', '');	// credit bootstrap class
 		//~ $(window).off('click');
 		options.afterClose.call( modal);
 
@@ -45,6 +46,16 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 		$(document).unbind('keypress.modal');
 
 	}
+
+	$('body').addClass( 'modal-open');	// bootstrap class
+	(function() {
+		let rect = document.body.getBoundingClientRect();
+		if (document.body.scrollHeight > window.innerHeight) {
+			$('body').css('padding-right', '17px');	// credit bootstrap
+
+		}
+
+	})();
 
 	if ( options.mobile)
 		modal.addClass( 'modal-mobile');
