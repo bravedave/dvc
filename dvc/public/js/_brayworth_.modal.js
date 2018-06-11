@@ -186,7 +186,7 @@ _brayworth_.modal = function( params) {
 
 		})
 
-		t.get('.modal').addClass('modal-fullscreen');
+		t.get('.modal').addClass('modal-fullscreen').removeClass('modal-dialog-centered');
 		t.get('.modal-dialog').addClass('m-0');
 		t.get('.modal-content').removeClass('w-25 w-50 w-75').addClass('w-100');
 
