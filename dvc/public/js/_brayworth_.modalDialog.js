@@ -13,7 +13,7 @@
 $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 	if ( /string/.test( typeof( _options))) {
 		if ( _options == 'close') {
-			var modal = this.data( 'modal');
+			let modal = this.data( 'modal');
 			modal.close();
 			return (modal);	// chain
 
@@ -21,8 +21,8 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 
 	}
 
-	var modal = this;				// the modal
-	var options = {
+	let modal = this;				// the modal
+	let options = {
 		mobile : _brayworth_.browser.isMobileDevice,
 		beforeClose : function() {},
 		afterClose : function() {},
@@ -32,7 +32,7 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 
 	$.extend( options, _options);
 
-	var close = $( '.modal-header .close', this);	// Get the <span> element that closes the modal
+	let close = $( '.modal-header .close', this);	// Get the <span> element that closes the modal
 
 	modal.close = function() {
 		options.beforeClose.call( modal);
@@ -48,20 +48,26 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 	}
 
 	$('body').addClass( 'modal-open');	// bootstrap class
-	(function() {
-		let rect = document.body.getBoundingClientRect();
-		if (document.body.scrollHeight > window.innerHeight) {
-			$('body').css('padding-right', '17px');	// credit bootstrap
 
-		}
-
-	})();
-
-	if ( options.mobile)
+	if ( options.mobile) {
 		modal.addClass( 'modal-mobile');
+
+	}
+	else {
+		(function() {
+			let rect = document.body.getBoundingClientRect();
+			if (document.body.scrollHeight > window.innerHeight) {
+				$('body').css('padding-right', '17px');	// credit bootstrap
+
+			}
+
+		})();
+
+	}
+
 	modal.addClass( 'modal-active').data('modal', modal);
 
-	var _AF = $('[autofocus]',modal);
+	let _AF = $('[autofocus]',modal);
 	if ( _AF.length > 0) {
 		_AF.first().focus();
 
