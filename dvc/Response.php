@@ -43,7 +43,7 @@ abstract class Response {
 			$p->footer = FALSE;
 			$p->additionalScripts = array();
 		if ( userAgent::isMobileDevice())
-			$p->meta[] = '<meta name="viewport" content="initial-scale=0.8" />';
+			$p->meta[] = '<meta name="viewport" content="initial-scale=1" />';
 
 		if ( $auto ) {
 			$p->header( FALSE );
@@ -60,9 +60,9 @@ OUTPUT;
 
 		}
 
-		printf( '<div style="height: 50px;">&nbsp;</div><div style="margin: auto; padding: 20px; border: 1px solid silver; max-width: 600px;">
+		printf( '<div style="margin: auto; margin: 50px 10px 10px 10px; padding: 10px; border: 1px solid silver; max-width: 600px;">
 
-		<p style="font-size: 14pt; margin: 30px;">%s</p>
+		<p style="margin-top: 15px; margin-bottom: 15px;">%s</p>
 
 		<div style="text-align: right; padding-right: 20x;">
 			<a style="text-decoration: none; font-style: italic;" href="%s">%s .... .</a>
