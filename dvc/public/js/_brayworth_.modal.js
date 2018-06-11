@@ -70,6 +70,7 @@ _brayworth_.modal = function( params) {
 		headButtons : {},
 		closeIcon : 'fa-times',
 		onOpen : function() {},
+		onEnter : function() {},
 
 	}
 
@@ -206,6 +207,7 @@ _brayworth_.modal = function( params) {
 	let _modal = _brayworth_.modalDialog.call( t.get(), {
 		mobile : options.mobile,
 		onOpen : options.onOpen,
+		onEnter : options.onEnter,
 		afterClose : function() {
 			t.get().remove();
 			if ( !!options.afterClose && 'function' == typeof options.afterClose)
