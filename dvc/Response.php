@@ -60,7 +60,7 @@ OUTPUT;
 
 		}
 
-		printf( '<div style="margin: auto; margin: 50px 10px 10px 10px; padding: 10px; border: 1px solid silver; max-width: 600px;">
+		printf( '<div style="margin: 50px auto 10px auto; padding: 10px; border: 1px solid silver; max-width: 600px;">
 
 		<p style="margin-top: 15px; margin-bottom: 15px;">%s</p>
 
