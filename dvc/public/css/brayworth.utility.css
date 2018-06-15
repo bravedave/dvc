@@ -34,7 +34,7 @@
 	.has-advanced-upload .box__dragndrop {
 		padding: 10px;
 	}
-	.has-advanced-upload .box__fill { display: none; }
+	.has-advanced-upload .box__fill { display: none; padding: 7px; }
 	.has-advanced-upload .box__dragndrop { display: inline; }
 	.is-dragover { background-color: grey; }
 	.is-uploading { position: relative; min-height: 62px; }

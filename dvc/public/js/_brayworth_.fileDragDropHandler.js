@@ -25,9 +25,9 @@ _brayworth_.fileDragDropContainer = function() {
 
 	var _c = $('<div class="box__uploading"></div>').appendTo( c);
 
-	var __c = $('<div class="box__fill text-center">uploading</div>').appendTo( _c);
+	var __c = $('<div class="box__fill text-center text-truncate">uploading</div>').appendTo( _c);
 
-	$('<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>').appendTo( __c);
+	$('<i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>').appendTo( __c);
 
 	return ( c);
 
