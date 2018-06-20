@@ -38,14 +38,22 @@ class dbCheck extends _dao {
 			$default = "0";
 
 		if ( is_null( $len) || (int)$len < 1) {
-			if ( ( $type == "int" ))
+			if ( ( $type == "int" )) {
 				$len = 11;
 
-			elseif ( ( $type == "bigint" || $type == "double" || $type == "float" ))
+			}
+			elseif ( ( $type == "varbinary" )) {
+				$len = 32;
+
+			}
+			elseif ( ( $type == "bigint" || $type == "double" || $type == "float" )) {
 				$len = 20;
 
-			else
+			}
+			else {
 				$len = 45;	// probably varchar
+
+			}
 
 		}
 
@@ -108,6 +116,10 @@ class dbCheck extends _dao {
 			}
 			elseif ( $fld["type"] == "float" ) {
 				$fields[] = "`" . $fld["name"] . "`  float default '" . (int)$fld["default"] . "'";
+
+			}
+			elseif ( $fld["type"] == "varbinary" ) {
+				$fields[] = sprintf('`%s` varbinary(%s)',$fld["name"], (string)$fld["length"]);
 
 			}
 			elseif ( $fld["type"] == "blob" ) {
@@ -217,6 +229,11 @@ class dbCheck extends _dao {
 				elseif ( $fld["type"] == "float" ) {
 					$sql = "alter table `" . $this->table . "` add column `" . $fld["name"] .
 						"` float default '" . (int)$fld["default"] . "' $after";
+
+				}
+				elseif ( $fld["type"] == "varbinary" ) {
+					$sql = sprintf( 'alter table `%s` add column `%s` varbinary(%s) %s',
+					 	$this->table, $fld["name"], (string)$fld["length"], $after);
 
 				}
 				elseif ( $fld["type"] == "tinyint" ) {

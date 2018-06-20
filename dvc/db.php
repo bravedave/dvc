@@ -165,7 +165,7 @@ class db {
 	}
 
 	public function field_type( $v ) {
-		return ( db::mysqli_field_type($v));
+		return ( self::mysqli_field_type($v));
 
 	}
 
@@ -178,7 +178,7 @@ class db {
 			foreach ($constants['mysqli'] as $c => $n) if (preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) $types[$n] = $m[1];
 		}
 
-		return array_key_exists($type_id, $types)? $types[$type_id] : "inKnown";
+		return array_key_exists($type_id, $types)? $types[$type_id] : "unKnown";
 
 	}
 
