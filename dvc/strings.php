@@ -101,7 +101,7 @@ abstract class strings {
 	}
 
 	static function getGUID() {
-		return ( sprint( '{%s}', self::getUID()));
+		return ( sprintf( '{%s}', self::getUID()));
 
 	}
 
