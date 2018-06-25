@@ -18,7 +18,7 @@
 	[data-role="content-secondary"] {
     position: -webkit-sticky;
 		position: sticky;
-		height: calc(100vh - 48px - 30px);
+		height: calc(100vh - 35px);
 		padding-top: .5rem;
 		overflow-x: hidden;
 		overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
