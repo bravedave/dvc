@@ -179,7 +179,7 @@ abstract class _config {
 		 */
 		if ( !( is_null( \application::app()))) {
 			// $path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
-			$path = sprintf( '%sdb.json', \config::dataPath());
+			$path = sprintf( '%s%sdb.json', DIRECTORY_SEPARATOR, \config::dataPath());
 			if ( file_exists( $path)) {
 				$_a = [
 					'db_type' => '',
