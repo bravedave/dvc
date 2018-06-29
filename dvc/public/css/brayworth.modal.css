@@ -83,15 +83,3 @@
 	-ms-user-select: none;
 	user-select: none;
 }
-@media screen and (max-width: 400px){
-	.modal:not(.modal-mobile) .modal-content.modal-content-400 { width: 95%; }
-}
-
-@media screen and (max-width: 600px){
-	.modal:not(.modal-mobile) .modal-content.modal-content-600 { width: 95%; }
-}
-
-@media screen and (max-width: 768px){
-	.modal:not(.modal-mobile) .modal-content.modal-content-700,
-	.modal:not(.modal-mobile) .modal-content { width: 95%; }
-}
