@@ -18,11 +18,6 @@
 .modal.modal-active {
 	display: block; /* Hidden by default */
 }
-/*
-.modal-header .close, .modal-header .fa {
-	margin: 0;
-}
-*/
 .modal.modal-fullscreen {
 	position: fixed;
 	top: 0;
@@ -61,70 +56,15 @@
 }
 /*-- --[]-- --*/
 
-
-/* Modal Header, Body & Footer
-.modal-footer { padding: 4px 15px 4px; }
-.modal-body { padding: 5px 15px; }
-.modal-body > .container-fluid { margin: -5px -15px -25px; }
-.modal-header { padding: 3px 15px; }
-.modal-header h1 { margin: 0; font-size: 1.5em }
-.modal-header h2 { margin: 0; font-size: 1.2em }
-*/
-
 .modal-header {
 	color: white;
 	background-color: #007bff; }
 .modal-footer{ color: #007bff; background-color: #eee; }
 .modal-body { height: calc( 100% - 90px); min-height: 80px; }
 
-.modal .modal-content {
-	background-color: #fefefe;
-	padding: 0;
-	border: 1px solid #888;
-}
-.modal:not(.modal-mobile):not(.modal-bootstrap) .modal-content {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	min-width: 300px;
-	transform: translate(-50%,-50%);
-	border-radius: 2px;
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-	-webkit-animation-name: animatebottom;
-	-webkit-animation-duration: 0.4s;
-	animation-name: animatebottom;
-	animation-duration: 0.4s
-}
-.modal:not(.modal-mobile) .modal-content.modal-content-400 { width: 400px; }
-.modal:not(.modal-mobile) .modal-content.modal-content-600 { width: 600px; }
-.modal:not(.modal-mobile) .modal-content.modal-content-700 { width: 700px; }
-
-.modal.modal-iphone-style .modal-content {
-	border-color: black;
-	border-width: 10px 5px 30px;
-	border-style: solid;
-    border-radius: 20px;
-}
-
-.modal.modal-iphone-style .modal-content .modal-header {
-	background-color: black;
-	padding: 3px 15px 8px;
-}
 .modal-header {
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-}
-@media screen and (max-width: 400px){
-	.modal:not(.modal-mobile) .modal-content.modal-content-400 { width: 95%; }
-}
-
-@media screen and (max-width: 600px){
-	.modal:not(.modal-mobile) .modal-content.modal-content-600 { width: 95%; }
-}
-
-@media screen and (max-width: 768px){
-	.modal:not(.modal-mobile) .modal-content.modal-content-700,
-	.modal:not(.modal-mobile) .modal-content { width: 95%; }
 }
