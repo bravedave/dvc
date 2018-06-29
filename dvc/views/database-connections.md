@@ -1,14 +1,16 @@
 # Databases
 
 ## Specify the Connections
-### Automatic Generation
+
+#### Automatic Generation
 - The JSOn method maybe automated at the address [/install/db](/install/db), it creates a db.json in the [application]/data folder
-### JSON
+
+#### JSON
 
 - Location of file : [application]/data
 - Name of File : db.json
 - Sample File:
-<pre><code>
+```json
 {
 	"db_type":"mysql",
 	"db_host":"localhost",
@@ -16,14 +18,14 @@
 	"db_user":"user name",
 	"db_pass":"password"
 }
-</code></pre>
+```
 
-### CONFIG File
-
+#### CONFIG File
+*note : this is only required if you DO NOT have the db.json, or which to overide the settings*
 - Location of file : [application]/app/dvc
 - Name of File : config.php
 - Sample File:
-<pre><code>
+```php
 	static $DB_TYPE = 'mysql';					// effectively activates the default sql system
 
 	/**
@@ -33,4 +35,4 @@
 	static $DB_NAME = 'database name';
 	static $DB_USER = 'user name';
 	static $DB_PASS = 'password';
-</code></pre>
+```

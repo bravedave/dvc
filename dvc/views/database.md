@@ -1,9 +1,9 @@
 # Databases
 
-DVC principally supports MySQL data connections. Some work has been done
-on SQLite, but mainly I se MySQL - and the development maturity reflects this.
+DVC supports MySQL and SQLite data connections.
 
-There are a range if support structures hich including query, insert, update,
+There are a range if support structures which including query, insert, update,
 create and maintenance. All fully encapsulated including escaping of values.
 
-## [Connect the Database](/docs/database-connections)
+* [Connect the Database](/docs/database-connections)
+* [DAO/DTO](/docs/dao-dto)
