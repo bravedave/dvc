@@ -15,21 +15,27 @@ class docs extends Controller {
 	public $RequireValidation = \config::lockdown;
 
 	public function index( $view = 'index') {
-		if ( !$view)
+		if ( !$view) {
 			$view = 'index';
 
-		$p = new dvc\pages\bootstrap4;
-			$p
-				->header()
-				->title();
+		}
+		// $p = new dvc\pages\bootstrap4;
+		// 	$p
+		// 		->header()
+		// 		->title();
 
-			$this->load( 'fork-me');
+		// $this->load( 'fork-me');
 
-			$p->secondary();
-				$this->load('contents');
+		// $p->secondary();
+		// 	$this->load('contents');
 
-			$p->primary();
-				$this->load( (string)$view);
+		// $p->primary();
+		// 	$this->load( (string)$view);
+		$this->render([
+			'title' => 'hello world',
+			'primary' => (string)$view,
+			'secondary' =>'contents'
+		]);
 
 	}
 
