@@ -3,10 +3,10 @@
 I have these activated
 
 ## .php.ini
-```
-extension=php_fileinfo.dll
-extension=php_gd2.dll
-extension=php_mbstring.dll
-extension=php_openssl.dll
-extension=php_sqlite3.dll
+```ini
+extension=fileinfo
+extension=sqlite3
+extension=mbstring
+extension=openssl
+extension=gd2
 ```
