@@ -27,6 +27,7 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 		beforeClose : function() {},
 		afterClose : function() {},
 		onEnter : function() {},
+		onEscape : function() { this.close(); },
 		onOpen : function() {},
 	};
 
@@ -83,22 +84,24 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 	.on( 'keyup.modal', function( e) {
 		if (e.keyCode == 27) {
 			// escape key maps to keycode `27`
-			if ( modal)
-				modal.close();
+			if ( modal) {
+				options.onEscape.call( modal, e);
+
+			}
 
 		}
 
 	})
 	.on( 'keypress.modal', function( e) {
-		if (e.keyCode == 13)
+		if (e.keyCode == 13) {
 			options.onEnter.call( modal, e);
 
-	})
+		}
 
-	close
-	.off('click')
-	.addClass('pointer')
-	.on('click', function(e) { modal.close(); });	// When the user clicks on <span> (x), close the modal
+	});
+
+	// When the user clicks on <span> (x), close the modal
+	close.off('click').addClass('pointer').on('click', function(e) { modal.close(); });
 
 	options.onOpen.call( modal);
 
