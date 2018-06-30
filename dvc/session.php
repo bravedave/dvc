@@ -29,11 +29,12 @@ class session {
 			$CookieParams['path'],
 			$CookieParams['domain'],
 			$CookieParams['secure'],
-			$CookieParams['httponly'] );
+			$CookieParams['httponly']
 
+		);
 
-		session_start();
 		session_cache_expire(30);
+		session_start();
 
 		$this->__session = $_SESSION;
 
