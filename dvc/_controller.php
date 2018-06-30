@@ -538,6 +538,7 @@ abstract class _controller {
 	public function logout() {
 		\session::destroy();
 		\Response::redirect( \url::$URL );
+		header('HTTP/1.1 401 Unauthorized');
 
 	}
 
