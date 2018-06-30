@@ -145,7 +145,7 @@ class Request {
 
 	}
 
-	public function getQuery($name = ''){
+	public function getQuery( $name = ''){
 		if(!$name)
 			return $this->query;
 
@@ -164,11 +164,12 @@ class Request {
 
 	}
 
-	public function getServer($name){
-		if(isset($_SERVER[$name]))
-			return $_SERVER[$name];
+	public function getReferer(){
+		if( isset($_SERVER['HTTP_REFERER']))
+		return $_SERVER['HTTP_REFERER'];
 
-		return '';
+		return url::$URL;
+
 	}
 
 	public function getRemoteIP(){
@@ -180,6 +181,13 @@ class Request {
 
 		return '0.0.0.0';
 
+	}
+
+	public function getServer($name){
+		if(isset($_SERVER[$name]))
+		return $_SERVER[$name];
+
+		return '';
 	}
 
 	public function getServerIP(){
@@ -215,14 +223,6 @@ class Request {
 		//~ \sys::logger( sprintf( '%s/%s :: %s/%s', $thisIP, $thisSubNet, $remoteIP, $remoteSubNet));
 
 		return ( $thisSubNet == $remoteSubNet);
-
-	}
-
-	public function getReferer(){
-		if( isset($_SERVER['HTTP_REFERER']))
-			return $_SERVER['HTTP_REFERER'];
-
-		return url::$URL;
 
 	}
 
