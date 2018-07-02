@@ -367,31 +367,36 @@ $.fn.autofill = function( params) {
 		}
 		else {
 
-			//~ console.log( typeof options.source);
-			//~ console.log( 'autofill', _data.iterant);
 			window.setTimeout( function() {
 				if ( _data.iterant != iterant) {
-					//~ console.log( 'hold', _data.iterant, iterant);
 					return;
 
 				}
 
-				var render = function( el) {
+				let render = function( el) {
 					//~ console.log( _data.term, el);
 
-					var _pad = $('<div class="text-truncate" tabindex="-1" />')	;
+					let _pad = $('<div class="text-truncate" tabindex="-1" />')	;
 					_pad.html( !!el.label ? el.label : ( !!el.value ? el.value : el));
 					//~ console.log( _pad.html());
 
-					var _li = $('<li class="list-group-item p-1" tabindex="-1" />').append( _pad);
+					let _li = $('<li class="list-group-item p-1" tabindex="-1" />').append( _pad);
 
-					var touchStartTimeout = false;
+					let touchStartTimeout = false;
 
 					_li.data( 'item', el)
 					.css('border','1px solid dashed')
-					.on( 'click', function( e) { keyMove.selectitem.call( this, e); })
+					.on( 'mousedown', function( event ) {
+						// Prevent moving focus out of the text field
+						event.preventDefault();
+
+					})
+					.on( 'click', function( e) {
+						keyMove.selectitem.call( this, e);
+
+					})
 					.on( 'touchstart', function( e) {
-						var _me = this;
+						let _me = this;
 						keyMove.activate( _me);
 
 						touchStartTimeout = window.setTimeout( function() {
@@ -413,7 +418,10 @@ $.fn.autofill = function( params) {
 						}
 
 					})
-					.on( 'mouseover', function() { keyMove.activate( this) });
+					.on( 'mouseover', function() {
+						keyMove.activate( this)
+
+					});
 
 					return ( _li);
 
