@@ -16,7 +16,7 @@ abstract class strings {
 
 		}
 
-		if ( ( $t = strtotime( $date)) !== FALSE) {
+		if ( ( $t = strtotime( $date)) > 0) {
 			if ( $time && date( 'Y-m-d', $t) == date( 'Y-m-d')) {
 				return ( date( 'g:ia', $t));
 
