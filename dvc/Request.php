@@ -78,12 +78,17 @@ class Request {
 
 	}
 
+	public function DNT() {
+		return ( 1 == (int)$this->getServer('HTTP_DNT'));
+
+	}
+
 	public function ReWriteBase() {
 		return ( $this->_RewriteBase);
 
 	}
 
-	public function SetReWriteBase( $htaccess) {
+	public function setReWriteBase( $htaccess) {
 		$a = explode( "\n", $htaccess);
 		$rwb = '';
 
@@ -183,11 +188,14 @@ class Request {
 
 	}
 
-	public function getServer($name){
-		if(isset($_SERVER[$name]))
-		return $_SERVER[$name];
+	public function getServer( $name){
+		if(isset($_SERVER[$name])) {
+			return $_SERVER[$name];
+
+		}
 
 		return '';
+
 	}
 
 	public function getServerIP(){
@@ -205,8 +213,10 @@ class Request {
 	}
 
 	public function ServerIsLocal() {
-		if ( isset( $_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost')
+		if ( isset( $_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
 			return ( TRUE);
+
+		}
 
 	}
 
@@ -231,9 +241,10 @@ class Request {
 		if( isset($_SERVER['DOCUMENT_ROOT'])) {
 			$root = $_SERVER['DOCUMENT_ROOT'];
 
-			if ( ! preg_match( '@/$@', $root ))
+			if ( ! preg_match( '@/$@', $root )) {
 				$root .= '/';
 
+			}
 
 		}
 
@@ -262,7 +273,7 @@ class Request {
 
 	}
 
-	public function getParam($name = '', $default = FALSE){
+	public function getParam( $name = '', $default = FALSE){
 		if( !$name)
 			return $this->params;
 
