@@ -88,7 +88,7 @@ _brayworth_.modal = function( params) {
 		t.get('.modal-dialog').css({'width' : options.width, 'max-width' : options.width});
 
 	}
-	else if ( options.className != '') {
+	else if ( options.className == '') {
 		t.get('.modal-dialog').addClass( _brayworth_.templates.modalDefaultClass);
 
 	}
