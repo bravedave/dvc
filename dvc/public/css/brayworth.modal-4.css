@@ -43,11 +43,11 @@
 }
 
 /*-- --[]-- --*/
-.modal-header input[type="submit"],
-.modal-header input[type="reset"],
-.modal-header button,
-.modal-header a.button,
-.modal-header a:visited.button {
+.modal-brayworth .modal-header input[type="submit"],
+.modal-brayworth .modal-header input[type="reset"],
+.modal-brayworth .modal-header button,
+.modal-brayworth .modal-header a.button,
+.modal-brayworth .modal-header a:visited.button {
 	margin-right: .6em;
 	padding: .16em .6em;
 	background-color: inherit;
@@ -58,9 +58,9 @@
 
 .modal-header {
 	color: white;
-	background-color: #007bff; }
-.modal-footer{ color: #007bff; background-color: #eee; }
-.modal-body { height: calc( 100% - 90px); min-height: 80px; }
+	background-color: var(--primary); }
+.modal-footer{ color: var(--primary); background-color: #eee; }
+.modal-brayworth .modal-body { height: calc( 100% - 90px); min-height: 80px; }
 
 .modal-header {
 	-webkit-user-select: none;
