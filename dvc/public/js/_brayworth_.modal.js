@@ -81,10 +81,14 @@ _brayworth_.modal = function( params) {
 		t.get().addClass( options.className);
 	t.get('.close').addClass( options.closeIcon);
 
-	if ( !!options.width)
-		t.get('.modal-content').width( options.width );
-	else
-		t.get('.modal-content').addClass( _brayworth_.templates.modalDefaultClass);
+	if ( !!options.width){
+		t.get('.modal-dialog').width( options.width );
+
+	}
+	else {
+		t.get('.modal-dialog').addClass( _brayworth_.templates.modalDefaultClass);
+
+	}
 
 	var content = ( !!options.text ? options.text : '');
 	if ( 'undefined' != typeof this) {
