@@ -77,15 +77,18 @@ _brayworth_.modal = function( params) {
 	$.extend( options, params);
 
 	var t = _brayworth_.templates.modal();
-	if ( options.className != '')
-		t.get().addClass( options.className);
 	t.get('.close').addClass( options.closeIcon);
+
+	if ( options.className != '') {
+		t.get('.modal-dialog').addClass( options.className);
+
+	}
 
 	if ( !!options.width){
 		t.get('.modal-dialog').css({'width' : options.width, 'max-width' : options.width});
 
 	}
-	else {
+	else if ( options.className != '') {
 		t.get('.modal-dialog').addClass( _brayworth_.templates.modalDefaultClass);
 
 	}
