@@ -82,7 +82,7 @@ _brayworth_.modal = function( params) {
 	t.get('.close').addClass( options.closeIcon);
 
 	if ( !!options.width){
-		t.get('.modal-dialog').width( options.width );
+		t.get('.modal-dialog').css({'width' : options.width, 'max-width' : options.width});
 
 	}
 	else {
