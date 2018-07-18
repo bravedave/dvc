@@ -257,6 +257,11 @@ _brayworth_.modal = function( params) {
 		*/
 		let h = $('.modal-body', this).height();
 		let mh = $(window).height() * .9;
+		let ftr = $('.modal-footer', this);
+		if ( ftr.length > 0) {
+			mh -= ftr.height();
+
+		}
 
 		if ( h > mh) {
 			$('.modal-body', this)
