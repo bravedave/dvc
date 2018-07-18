@@ -499,6 +499,7 @@ abstract class _controller {
 
 	protected function render( $params) {
 		$defaults = [
+			'left-interface' => FALSE,
 			'primary' => FALSE,
 			'secondary' => FALSE,
 			'content' => FALSE,
@@ -513,15 +514,32 @@ abstract class _controller {
 		$p	->header()
   			->title( $options['navbar']);
 
-		if ( $options['primary']) {
-			$p->primary();
-			$this->_render( $options['primary']);
+		if ( $options['left-interface']) {
+			if ( $options['secondary']) {
+				$p->secondary();
+				$this->_render( $options['secondary']);
+
+			}
+
+			if ( $options['primary']) {
+				$p->primary();
+				$this->_render( $options['primary']);
+				
+			}
 
 		}
+		else {
+			if ( $options['primary']) {
+				$p->primary();
+				$this->_render( $options['primary']);
 
-		if ( $options['secondary']) {
-			$p->secondary();
-			$this->_render( $options['secondary']);
+			}
+
+			if ( $options['secondary']) {
+				$p->secondary();
+				$this->_render( $options['secondary']);
+
+			}
 
 		}
 
