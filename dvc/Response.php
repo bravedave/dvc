@@ -79,9 +79,17 @@ OUTPUT;
 		$docType = ( userAgent::isIE() ? 'html4' : 'html5' );
 
 		if ( $docType == 'html5' ) {
-			return ( "<!DOCTYPE html>\n<html lang=\"en\">" );
+			if ( userAgent::isMobileDevice()) {
+				return ( "<!DOCTYPE html>\n<html lang=\"en\">" );
 
-		} else {
+			}
+			else {
+				return ( "<!DOCTYPE html>\n<html class=\"desktop\" lang=\"en\">" );
+
+			}
+
+		}
+		else {
 			return ( "<!DOCTYPE html
 		PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"
 		\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">
