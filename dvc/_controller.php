@@ -24,10 +24,11 @@ abstract class _controller {
 	public $timer = NULL;
 	public $rootPath  = '';
 	public $defaultController = 'home';
-	public $title;
+	public $title, $label;
 	public $debug = FALSE;
 
 	protected $Redirect_OnLogon = FALSE;
+	protected $label = NULL;
 
 	static $url;
 
@@ -35,6 +36,10 @@ abstract class _controller {
 		if ( $this->debug) \sys::logger( __FILE__ . ' :: start construct');
 		$this->rootPath = $rootPath;
 		$this->title = config::$WEBNAME;
+		if ( is_null( $this->label)) {
+			$this->label = ucwords( get_class( $this));
+
+		}
 
 		/**
 		 * When a controller is created, open a database connection.
@@ -48,8 +53,10 @@ abstract class _controller {
 		if ( $this->debug) \sys::logger( __FILE__ . ' :: checking authority :: ' . ( $this->authorised ? 'private' : 'public'));
 
 		if ( $this->RequireValidation ) {
-			if ( !( $this->authorised))
+			if ( !( $this->authorised)) {
 				$this->authorize();
+
+			}
 
 		}
 		elseif ( $this->isPost()) {
@@ -88,9 +95,7 @@ abstract class _controller {
 
 			}
 			else {
-				/*
-				* The user is $authorised, but denied access by their _acl
-				*/
+				/* The user is $authorised, but denied access by their _acl	*/
 				Response::redirect( url::tostring());
 
 			}
@@ -524,7 +529,7 @@ abstract class _controller {
 			if ( $options['primary']) {
 				$p->primary();
 				$this->_render( $options['primary']);
-				
+
 			}
 
 		}
