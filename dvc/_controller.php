@@ -24,7 +24,7 @@ abstract class _controller {
 	public $timer = NULL;
 	public $rootPath  = '';
 	public $defaultController = 'home';
-	public $title, $label;
+	public $title;
 	public $debug = FALSE;
 
 	protected $Redirect_OnLogon = FALSE;
