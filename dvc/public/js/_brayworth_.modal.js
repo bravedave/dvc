@@ -43,11 +43,6 @@
 */
 
 _brayworth_.modal = function( params) {
-	if ( _brayworth_.map.modal) {
-		jQuery.fn.modal = _brayworth_.modal;	// to be sure, bootstrap has it's own modal
-
-	}
-
 	if ( 'string' == typeof params) {
 		/* This is a command - jquery-ui style */
 		var _m = $(this).data( 'modal');
