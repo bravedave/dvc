@@ -366,7 +366,16 @@ class _application {
 
 	}
 
-	public function countVisit() {}
+	public function countVisit() {
+		/*
+		*	countVisit is called during __construct
+		*
+		* use this method to gather statistics
+		*
+		*/
+
+
+	}
 
 	protected function serve( $path ) {
 		if ( self::$debug) sys::$debug = TRUE;
