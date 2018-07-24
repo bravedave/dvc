@@ -22,7 +22,6 @@ class _page {
 	public $title = '';
 	public $data = FALSE;
 	public $charset = FALSE;
-	public $jQuery3 = FALSE;
 
 	public $meta = [],
 		$scripts = [],
@@ -39,7 +38,6 @@ class _page {
 	static $footerTemplate = '';
 
 	function __construct( $title = '' ) {
-		$this->jQuery3 = ( \config::$JQUERY == 3);
 		$this->data = (object)['title' => ''];
 
 		$this->data->title = $this->title = ( $title == '' ? \config::$WEBNAME : $title );
@@ -47,14 +45,14 @@ class _page {
 		$this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
 		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
 
-		if ( \userAgent::isLegacyIE())
+		if ( \userAgent::isLegacyIE()) {
 			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-1.11.3.min.js'));
 
-		elseif ( $this->jQuery3)
+		}
+		else {
 			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-3.3.1.min.js'));
 
-		else
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-2.2.4.min.js'));
+		}
 
 		/*
 		 * momentJS is required for fullCalendar
