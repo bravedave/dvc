@@ -61,7 +61,6 @@ abstract class _config {
 	static $CRYPT_IV = 'hdreWHuR';// 8 bit IV
 	static $CRYPT_KEY = 'E4Hhjgs4dfscnuyFFDDE562G';// 24 bit Key
 
-	static $JQUERY = 2;
 	static $VERSION = '0.0.0';
 	static $WEBNAME = 'Brayworth Demonstration System';
 	static $WEBEMAIL = 'webmaster@example.dom';
