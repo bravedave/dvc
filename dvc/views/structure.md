@@ -11,3 +11,5 @@ Display of Data
 ## Controller
 Navigation, routing, API
 
+## Application
+Established the environment and Calls on the controller to execute the application
