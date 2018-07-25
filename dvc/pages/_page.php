@@ -31,7 +31,7 @@ class _page {
 		$closeContentTags = [],
 		$footer = TRUE,
 		$bodyClass = FALSE,
-		$debug = FALSE;
+		$debug = FALSE,
 		$jQuery2 = FALSE;
 
 	static $momentJS = FALSE;	// load momentJS sources
