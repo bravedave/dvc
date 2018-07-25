@@ -414,7 +414,7 @@ abstract class _controller {
 		}
 		/*-- ---- --*/
 
-		if ( $this->debug) \sys::logger( '_controller->getView :: no view found');
+		\sys::logger( sprintf( '_controller->getView :: view not found : %s', $viewName));
 
 		return __DIR__ . '/views/not-found.md';
 
