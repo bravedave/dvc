@@ -452,6 +452,7 @@ abstract class _controller {
 			'meta' => [],
 			'scripts' => [],
 			'title' => $this->title,
+			'bodyClass' => FALSE,
 			'template' => \config::$PAGE_TEMPLATE,
 
 		];
@@ -459,6 +460,7 @@ abstract class _controller {
 		$options = array_merge( $defaults, $params);
 
 		$p = new $options['template']( $options['title']);
+		$p->bodyClass = $options['bodyClass'];
 		$p->footer = $options['footer'];
 		$p->data = (object)$options['data'];
 		if ( !( isset( $p->data->title))) {
