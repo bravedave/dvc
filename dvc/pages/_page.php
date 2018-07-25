@@ -32,6 +32,7 @@ class _page {
 		$footer = TRUE,
 		$bodyClass = FALSE,
 		$debug = FALSE;
+		$jQuery2 = FALSE;
 
 	static $momentJS = FALSE;	// load momentJS sources
 	static $FullCalendar = FALSE;	// load fullCalendar sources
@@ -47,6 +48,10 @@ class _page {
 
 		if ( \userAgent::isLegacyIE()) {
 			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-1.11.3.min.js'));
+
+		}
+		elseif ( $this->jQuery2) {
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-2.2.4.min.js'));
 
 		}
 		else {

@@ -19,7 +19,11 @@ class bootstrap extends page {
 
 	function __construct( $title = '' ) {
 		self::$BootStrap = TRUE;
-		if ( self::$BootStrap_Version == '4' && $this->dvc) {
+		if ( self::$BootStrap_Version == '3') {
+			$this->jQuery2 = TRUE;
+			
+		}
+		elseif ( self::$BootStrap_Version == '4' && $this->dvc) {
 			$this->dvc = '4';
 
 		}
