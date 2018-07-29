@@ -9,7 +9,7 @@
 */
 
 _brayworth_.hideContext = function( el) {
-	var _el = $(el);
+	let _el = $(el);
 	if ( !!_el.data('hide')) {
 		if ( _el.data('hide') == 'hide') {
 			if ( _brayworth_.bootstrap_version() >= 4) {
@@ -49,7 +49,7 @@ _brayworth_.context = function() {
 		hideClass : ( _brayworth_.bootstrap_version() < 4 ? 'hidden' : 'd-none'),
 
 		create : function( item) {
-			var el = $( '<li />').append( item).appendTo( this.root);
+			let el = $( '<li />').append( item).appendTo( this.root);
 			this.items.push( el);
 			this.length = this.items.length;
 			return ( el);
@@ -63,11 +63,12 @@ _brayworth_.context = function() {
 		},
 
 		open : function( e) {
-			var css = {
+			let css = {
 				position: 'absolute',
 				top : 10,
 				left : $(document).width() - 140,
-				}
+
+			}
 
 			if ( !!e.pageY)
 				css.top = Math.max( e.pageY - 10, 0);
@@ -82,17 +83,20 @@ _brayworth_.context = function() {
 			}
 			else {
 				//~ console.log( this.root.parent());
-				if ( this.root.parent().length < 1)
+				if ( this.root.parent().length < 1) {
 					this.root.appendTo( 'body').data('hide', 'hide');
+
+				}
+
 				this.root.css(css).removeClass('hidden d-none');
 
 			}
 
-			var offset = this.root.offset();
+			let offset = this.root.offset();
 			/* try to keep menu on screen horizontally */
 			if ( offset.left + this.root.width() > $(window).width()) {
 				//~ console.log( 'uh oh - right!');
-				var l = $(window).width()-this.root.width()-5;
+				let l = $(window).width()-this.root.width()-5;
 				this.root.css( 'left', Math.max( l, 2));
 				offset = this.root.offset();
 
@@ -101,7 +105,7 @@ _brayworth_.context = function() {
 			/* try to keep menu on screen vertically */
 			if ( offset.top + this.root.height() > ( $(window).height()+$(window).scrollTop())) {
 				//~ console.log( 'uh oh - top!');
-				var t = ($(window).height()+$(window).scrollTop())-this.root.height()-5;
+				let t = ($(window).height()+$(window).scrollTop())-this.root.height()-5;
 				this.root.css( 'top', Math.max( t, $(window).scrollTop()+2));
 				offset = this.root.offset();
 
@@ -109,19 +113,15 @@ _brayworth_.context = function() {
 
 
 			/* add helper class to display the submenu on left
-			 * if the window width is restrictive on the right
-			 */
-			if ( offset.left > ( $(window).width() - (this.root.width()* 2)))
-				this.root.addClass( 'menu-contextmenu-right');
-			else
+			 * if the window width is restrictive on the right */
+			( offset.left > ( $(window).width() - (this.root.width()* 2))) ?
+				this.root.addClass( 'menu-contextmenu-right') :
 				this.root.removeClass( 'menu-contextmenu-right');
 
 			/* add helper class to display the submenu high
-			 * if the window height is restrictive at bottom
-			 */
-			if ( offset.top + ( this.root.height() * 1.2) > ( $(window).height()+$(window).scrollTop()))
-				this.root.addClass( 'menu-contextmenu-low');
-			else
+			 * if the window height is restrictive at bottom */
+			( offset.top + ( this.root.height() * 1.2) > ( $(window).height()+$(window).scrollTop())) ?
+				this.root.addClass( 'menu-contextmenu-low') :
 				this.root.removeClass( 'menu-contextmenu-low');
 
 			return ( this);
@@ -151,14 +151,16 @@ _brayworth_.context = function() {
 
 		attachTo : function( parent) {
 
-			var _me = this;
+			let _me = this;
 
 			$( parent)
 			.off( 'click.removeContexts')
 			.on( 'click.removeContexts', function( e) {
 				if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
-					if ( /^(a)$/i.test( e.target.nodeName ))
+					if ( /^(a)$/i.test( e.target.nodeName )) {
 						return;
+
+					}
 
 				}
 
@@ -167,33 +169,45 @@ _brayworth_.context = function() {
 			})
 			.on( 'contextmenu', function( e) {
 				/*--[ check for abandonment ]--*/
-				if( $(e.target).closest('[data-role="contextmenu"]').length)
+				if( $(e.target).closest('[data-role="contextmenu"]').length) {
 					return;
+
+				}
 
 				_brayworth_.hideContexts();
 
-				if ( e.shiftKey)
+				if ( e.shiftKey) {
 					return;
 
-				if ( /^(input|textarea|img|a|select)$/i.test( e.target.nodeName ) || $(e.target).closest('a').length > 0)
+				}
+
+				if ( /^(input|textarea|img|a|select)$/i.test( e.target.nodeName ) || $(e.target).closest('a').length > 0) {
 					return;
 
-				if ( $(e.target).closest('table').data('nocontextmenu') == 'yes' )
+				}
+
+				if ( $(e.target).closest('table').data('nocontextmenu') == 'yes' ) {
 					return;
 
-				if ( $(e.target).hasClass('modal' ) || $(e.target).closest('.modal').length > 0)
+				}
+
+				if ( $(e.target).hasClass('modal' ) || $(e.target).closest('.modal').length > 0) {
 					return;
 
-				/** This stops the menu of jquery-ui dialogs */
-				if ( $(e.target).hasClass('ui-widget-overlay' ) || $(e.target).closest( '.ui-dialog').length > 0)
+				}
+
+				/** This stops the menu on jquery-ui dialogs */
+				if ( $(e.target).hasClass('ui-widget-overlay' ) || $(e.target).closest( '.ui-dialog').length > 0) {
 					return;
+
+				}
 
 				if (typeof window.getSelection != "undefined") {
-					var sel = window.getSelection();
+					let sel = window.getSelection();
 					if (sel.rangeCount) {
 						if ( sel.anchorNode.parentNode == e.target ) {
-							var frag = sel.getRangeAt(0).cloneContents();
-							var text = frag.textContent;
+							let frag = sel.getRangeAt(0).cloneContents();
+							let text = frag.textContent;
 							if ( text.length > 0 )
 								return;
 
@@ -218,7 +232,15 @@ _brayworth_.context = function() {
 };
 
 $(document).ready( function() {
-	$(document).on( 'click.removeContexts', function( e) {
+	$(document)
+	.on( 'keyup.removeContexts', function( e) {
+		if ( 27 == e.keyCode) {
+			_brayworth_.hideContexts();
+
+		}
+
+	})
+	.on( 'click.removeContexts', function( e) {
 		if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
 			if ( /^(a)$/i.test( e.target.nodeName ))
 				return;
