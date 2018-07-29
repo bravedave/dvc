@@ -55,12 +55,14 @@
 	line-height: normal;
 }
 /*-- --[]-- --*/
-
+/*
 .modal-header {
 	color: white;
 	background-color: var(--primary); }
 .modal-footer{ color: var(--primary); background-color: #eee; }
 .modal-brayworth .modal-body { height: calc( 100% - 90px); min-height: 80px; }
+*/
+
 
 .modal-header {
 	-webkit-user-select: none;
