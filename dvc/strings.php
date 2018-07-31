@@ -10,6 +10,8 @@
 NameSpace dvc;
 
 abstract class strings {
+	const html_tick = '&#10003;';
+
 	static function asShortDate( $date, $time = FALSE) {
 		if ( (string)$date == '0000-00-00') {
 			return ( FALSE);
