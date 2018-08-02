@@ -222,6 +222,16 @@ OUTPUT;
 
 	}
 
+	static function zip_headers( $filename = NULL, $modifyTime = 0) {
+		self::_common_headers( $modifyTime);
+		header("Content-type: application/zip");
+		if ( is_null( $filename))
+			$filename = 'binary-' . date( 'Y-m-d') . '.zip';
+
+		header( sprintf( 'Content-Disposition: attachment; filename="%s"', $filename));
+
+	}
+
 	static function xml_docType() {
 		return ( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" . html_docType() );
 
