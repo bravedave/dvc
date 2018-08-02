@@ -50,8 +50,8 @@ class session {
 
 	protected function _edit() {
 		if ( !$this->open) {
-			session_start();
 			session_cache_expire(30);
+			session_start();
 			$this->open = TRUE;
 
 		}
