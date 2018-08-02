@@ -14,6 +14,7 @@ Namespace dvc\sqlite;
 class db {
 	public $log = FALSE;
 	protected $_db = FALSE;
+	protected $_path = NULL;
 
 	protected static $_instance = FALSE;
 
@@ -36,26 +37,71 @@ class db {
 
 	}
 
-	private function __construct() {
-		$path = sprintf('%s%ssqlite.db', \config::dataPath(), DIRECTORY_SEPARATOR );
-		if ( file_exists( $path)) {
-			$this->_db = new \SQLite3( $path);	// throws exception on failure
+	protected function __construct() {
+		$this->_path = sprintf('%s%ssqlite.db', \config::dataPath(), DIRECTORY_SEPARATOR );
+		if ( file_exists( $this->_path)) {
+			$this->_db = new \SQLite3( $this->_path);	// throws exception on failure
 
 		}
 		else {
 			// I prefer this naming convention because in windows you can associate the extension
-			$path = sprintf('%s%sdb.sqlite', \config::dataPath(), DIRECTORY_SEPARATOR );
-			$this->_db = new \SQLite3( $path);	// throws exception on failure
+			$this->_path = sprintf('%s%sdb.sqlite', \config::dataPath(), DIRECTORY_SEPARATOR );
+			$this->_db = new \SQLite3( $this->_path);	// throws exception on failure
 
 		}
 
 	}
 
-	function __destruct() {
-		if ( $this->_db)
+	public function __destruct() {
+		if ( $this->_db) {
 			$this->_db->close();
 
+		}
+
 		$this->_db = FALSE;
+
+	}
+
+	public function getPath() {
+		return ( $this->_path);
+
+	}
+
+	public function zip() {
+		$debug = FALSE;
+		// $debug = TRUE;
+
+		$zip = new \ZipArchive();
+		$filename = sprintf( '%s%sdb.zip', \config::dataPath(), DIRECTORY_SEPARATOR);
+
+		if ( file_exists( $filename)) {
+			unlink( $filename);
+
+		}
+
+		if ( $debug) \sys::logger( sprintf( 'sqlite\db->zip() : <%s>', $filename));
+
+		if ( $zip->open($filename, \ZipArchive::CREATE) !==TRUE ) {
+			\sys::logger( sprintf( 'sqlite\db->zip() : cannot open <%s>', $filename));
+
+		}
+		else {
+			// $this->_db->close();
+			// $this->_db = NULL;
+
+			if ( $debug) \sys::logger( sprintf( 'sqlite\db->zip() : adding <%s>', $this->_path));
+			$zip->addFile( $this->_path, 'db.sqlite');
+
+			if ( $debug) \sys::logger( sprintf( 'sqlite\db->zip() : numfiles : %s', $zip->numFiles));
+			if ( $debug) \sys::logger( sprintf( 'sqlite\db->zip() : status : %s', $zip->status));
+
+			$zip->close();
+
+			return ( $filename);
+
+			// $this->_db = new \SQLite3( $this->_path);	// throws exception on failure
+
+		}
 
 	}
 
