@@ -83,7 +83,7 @@ abstract class sys {
 		if ( is_null( self::$_dbi)) {
 			if ( config::$DB_TYPE == 'sqlite' ) {
 				self::$_dbi = sqlite\db::instance();
-				
+
 			}
 			else {
 				self::$_dbi = new dbi();
@@ -352,6 +352,12 @@ abstract class sys {
 			}
 			elseif ( $ext == 'pdf' ) {
 				Response::pdf_headers( $path_parts['basename'], filemtime( $path));
+				readfile( $path);
+				if ( self::$debug) \sys::logger( sprintf( 'served: %s', $path));
+
+			}
+			elseif ( $ext == 'zip' ) {
+				Response::zip_headers( $path_parts['basename'], filemtime( $path));
 				readfile( $path);
 				if ( self::$debug) \sys::logger( sprintf( 'served: %s', $path));
 
