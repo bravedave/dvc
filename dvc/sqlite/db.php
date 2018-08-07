@@ -50,7 +50,7 @@ class db {
 
 		}
 
-		if ( $this->db) {
+		if ( $this->_db) {
 			$this->_db->busyTimeout( 6000 );	// 6 seconds
 			\sys::logger( 'set timeout to 6 millisecs');
 
