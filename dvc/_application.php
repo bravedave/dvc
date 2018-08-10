@@ -90,7 +90,7 @@ class _application {
 		ini_set ('SMTP', $mailserver);
 
 		$_url = trim( self::Request()->getUrl(), '/. ');
-		if (preg_match('/\.(?:png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml)(\?.*)?$/', $_url)) {
+		if (preg_match('/\.(?:png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml)(\?.*)?$/i', $_url)) {
 			/*
 			 * You are only here because
 			 *	the file was not found in the <webroot>
