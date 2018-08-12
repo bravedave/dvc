@@ -21,7 +21,7 @@ class bootstrap extends page {
 		self::$BootStrap = TRUE;
 		if ( self::$BootStrap_Version == '3') {
 			$this->jQuery2 = TRUE;
-			
+
 		}
 		elseif ( self::$BootStrap_Version == '4' && $this->dvc) {
 			$this->dvc = '4';
@@ -32,23 +32,22 @@ class bootstrap extends page {
 
 		$this->meta[] = sprintf('<meta name="viewport" content="width=device-width, initial-scale=%s, shrink-to-fit=no" />', self::$SCALE);
 
-		if ( self::$BootStrap_Version == '3' || self::$BootStrap_Version == '4') {
-			$css = [ \url::tostring( sprintf( 'bootstrap.%s/css/bootstrap.min.css', self::$BootStrap_Version))];
-			$js = [\url::tostring( sprintf( 'bootstrap.%s/js/bootstrap.min.js', self::$BootStrap_Version))];
-			if ( self::$BootStrap_Version == '4') {
-				array_unshift( $js, \url::tostring( sprintf( 'bootstrap.%s/js/popper.min.js', self::$BootStrap_Version)));
+		if ( self::$BootStrap_Version == '3') {
+			$css = \url::tostring( 'bootstrap.3/css/bootstrap.min.css');
+			$js = \url::tostring( 'bootstrap.3/js/bootstrap.min.js');
 
-			}
+			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
 
-			foreach ( $css as $c) {
-				array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $c));
+			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
 
-			}
+		}
+		elseif ( self::$BootStrap_Version == '4') {
+			$css = \url::tostring( 'assets/bootstrap/css');
+			$js = \url::tostring( 'assets/bootstrap/js');
 
-			foreach ( $js as $j) {
-				$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $j);
+			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
 
-			}
+			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
 
 		}
 		else { throw new \Exceptions\InvalidBootstrapVersion; }

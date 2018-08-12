@@ -15,7 +15,8 @@
 		"php": ">=7.0",
 		"MatthiasMullie/Minify" : "*",
 		"phpmailer/phpmailer": "~5.2",
-		"erusev/parsedown":"*"
+		"erusev/parsedown":"*",
+		"twbs/bootstrap": "^4.1"
 
 	}
 
