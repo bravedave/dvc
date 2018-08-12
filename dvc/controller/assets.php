@@ -40,4 +40,18 @@ class assets extends Controller {
 
   }
 
+  public function jquery() {
+    $root = realpath( sprintf( '%s/../../../../components/jquery', __DIR__));
+    if ( $root) {
+      $path = realpath( sprintf( '%s/jquery.min.js', $root));
+      \sys::serve( $path);
+
+    }
+    else {
+      throw new \Exception( 'Cannot locate twbs bootstrap - install with compose require twbs/bootstrap');
+
+    }
+
+  }
+
 }
