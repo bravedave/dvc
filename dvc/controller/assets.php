@@ -9,6 +9,8 @@
 	*/
 
 class assets extends Controller {
+  public $RequireValidation = FALSE;
+  
   protected function _index() {}
 
   public function bootstrap( $type = 'css', $version = 4) {
