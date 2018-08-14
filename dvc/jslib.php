@@ -215,11 +215,14 @@ abstract class jslib {
 		}
 
 		$files = [];
-		foreach( self::$brayworthlibFiles as $f)
+		foreach( self::$brayworthlibFiles as $f) {
 			$files[] = __DIR__ . '/public/' . $f;
 
-		if ( !application::app())
+		}
+
+		if ( !application::app()) {
 			throw new Exceptions\ExternalUseViolation;
+		}
 
 		if ( $libdir) {
 			self::$brayworthlib = sprintf( '%sjs/%s/%s?v=', \url::$URL, $libdir, $lib);
@@ -346,9 +349,22 @@ abstract class jslib {
 				if ( file_exists( $options->libFile )) {
 					/* test to see if requires update */
 					$modtime = 0;
-					$gi = new \GlobIterator( $options->jsFiles, \FilesystemIterator::KEY_AS_FILENAME);
-					foreach ($gi as $key => $item)
-						$modtime = max( array( $modtime, filemtime( $item->getRealPath())));
+
+					if ( is_array( $options->jsFiles)) {
+						foreach ($options->jsFiles as $item) {
+							$modtime = max( array( $modtime, filemtime( $item)));
+
+						}
+
+					}
+					else {
+						$gi = new \GlobIterator( $options->jsFiles, \FilesystemIterator::KEY_AS_FILENAME);
+						foreach ($gi as $key => $item) {
+							$modtime = max( array( $modtime, filemtime( $item->getRealPath())));
+
+						}
+
+					}
 
 					$libmodtime = filemtime( $options->libFile);
 					if ( $libmodtime < $modtime) {
