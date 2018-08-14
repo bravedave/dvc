@@ -22,7 +22,33 @@ abstract class jslib {
 	public static $debug = FALSE;
 	public static $tinylib = FALSE;
 	public static $brayworthlib = FALSE;
-	public static $brayworthlibFiles = FALSE;
+	public static $brayworthlibFiles = [
+		'js/jquery.visible.js',
+		'js/_brayworth_.js',
+		'js/_brayworth_.bootstrapModalPop.js',
+		'js/_brayworth_.browser.js',
+		'js/_brayworth_.context.js',
+		'js/_brayworth_.fileDragDropHandler.js',
+		'js/_brayworth_.growl.js',
+		'js/_brayworth_.hashScroll.js',
+		'js/_brayworth_.hourglass.js',
+		'js/_brayworth_.initDatePickers.js',
+		'js/_brayworth_.InitHRefs.js',
+		'js/_brayworth_.lazyImageLoader.js',
+		'js/_brayworth_.logonModal.js',
+		'js/_brayworth_.modal.js',
+		'js/_brayworth_.modalDialog.js',
+		'js/_brayworth_.post.js',
+		'js/_brayworth_.swipe.js',
+		'js/_brayworth_.strings.js',
+		'js/_brayworth_.table.js',
+		'js/_brayworth_.table.sort.js',
+		'js/_brayworth_.Vue.js',
+		'js/_brayworth_.Vue.block.js',
+		'js/autofill.js',
+		'js/brayworth.js',
+		'js/templation.js',
+		'js/js.cookie.js' ];
 
 	protected static $rootPath = NULL;
 
@@ -173,34 +199,6 @@ abstract class jslib {
 	public static function brayworth( $lib = FALSE, $libdir = '') {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
-
-		self::$brayworthlibFiles = [
-			'js/jquery.visible.js',
-			'js/_brayworth_.js',
-			'js/_brayworth_.bootstrapModalPop.js',
-			'js/_brayworth_.browser.js',
-			'js/_brayworth_.context.js',
-			'js/_brayworth_.fileDragDropHandler.js',
-			'js/_brayworth_.growl.js',
-			'js/_brayworth_.hashScroll.js',
-			'js/_brayworth_.hourglass.js',
-			'js/_brayworth_.initDatePickers.js',
-			'js/_brayworth_.InitHRefs.js',
-			'js/_brayworth_.lazyImageLoader.js',
-			'js/_brayworth_.logonModal.js',
-			'js/_brayworth_.modal.js',
-			'js/_brayworth_.modalDialog.js',
-			'js/_brayworth_.post.js',
-			'js/_brayworth_.swipe.js',
-			'js/_brayworth_.strings.js',
-			'js/_brayworth_.table.js',
-			'js/_brayworth_.table.sort.js',
-			'js/_brayworth_.Vue.js',
-			'js/_brayworth_.Vue.block.js',
-			'js/autofill.js',
-			'js/brayworth.js',
-			'js/templation.js',
-			'js/js.cookie.js' ];
 
 		// if ( 4 <= (int)\dvc\pages\bootstrap::$BootStrap_Version) {
 		// 	self::$brayworthlibFiles[] = 'bootstrap.4/js/typeahead.bundle.js';

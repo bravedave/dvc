@@ -10,7 +10,7 @@
 
 class assets extends Controller {
   public $RequireValidation = FALSE;
-  
+
   protected function _index() {}
 
   public function bootstrap( $type = 'css', $version = 4) {
@@ -53,6 +53,23 @@ class assets extends Controller {
       throw new \Exception( 'Cannot locate twbs bootstrap - install with compose require twbs/bootstrap');
 
     }
+
+  }
+
+  public function brayworth() {
+    $files = [];
+    foreach( \jslib::$brayworthlibFiles as $f) {
+      $files[] = sprintf( '%s/../public/%s', __DIR__, $f);
+
+    }
+
+    jslib::viewjs([
+      'debug' => FALSE,
+      'libName' => 'brayworth',
+      'jsFiles' => $files,
+      'libFile' => config::tempdir()  . '_brayworth_tmp.js'
+
+    ]);
 
   }
 
