@@ -56,29 +56,34 @@ class assets extends Controller {
 
   }
 
-  public function brayworth() {
-    // sys::dump( \jslib::$brayworthlibFiles);
-    $files = [];
-    foreach( \jslib::$brayworthlibFiles as $f) {
-      $path = sprintf( '%s/../public/%s', __DIR__, $f);
-      // printf( '%s<br />', $path);
-      if ( $_f = realpath( $path)) {
-        $key = basename( $_f);
-        $files[ $key] = $_f;
+  public function brayworth( $type = 'css') {
+    if ( 'css' == $type) {
+    }
+    else {
+      // sys::dump( \jslib::$brayworthlibFiles);
+      $files = [];
+      foreach( \jslib::$brayworthlibFiles as $f) {
+        $path = sprintf( '%s/../public/%s', __DIR__, $f);
+        // printf( '%s<br />', $path);
+        if ( $_f = realpath( $path)) {
+          $key = basename( $_f);
+          $files[ $key] = $_f;
+
+        }
 
       }
 
+      // sys::dump( $files);
+
+      jslib::viewjs([
+        'debug' => FALSE,
+        'libName' => 'brayworth',
+        'jsFiles' => $files,
+        'libFile' => config::tempdir()  . '_brayworth_tmp.js'
+
+      ]);
+
     }
-
-    // sys::dump( $files);
-
-    jslib::viewjs([
-      'debug' => FALSE,
-      'libName' => 'brayworth',
-      'jsFiles' => $files,
-      'libFile' => config::tempdir()  . '_brayworth_tmp.js'
-
-    ]);
 
   }
 

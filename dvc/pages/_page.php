@@ -69,19 +69,7 @@ class _page {
 
 		}
 
-		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'assets/brayworth'));
-
-		// if ( \jslib::brayworth()) {
-		// 	$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \jslib::$brayworthlib );
-		//
-		// }
-		// else {
-		// 	$this->scripts[] = '<!-- no minified library :: normally we would bundle the scripts -->';
-		// 	foreach ( \jslib::$brayworthlibFiles as $src)
-		// 		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( $src));
-		//
-		// }
-		//
+		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'assets/brayworth/js'));
 
 		$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'css/font-awesome.min.css'));
 		// $this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'fontawesome5/css/fontawesome-all.css'));

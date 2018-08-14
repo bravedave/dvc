@@ -39,16 +39,16 @@ abstract class jslib {
 		'js/_brayworth_.modal.js',
 		'js/_brayworth_.modalDialog.js',
 		'js/_brayworth_.post.js',
-		'js/_brayworth_.swipe.js',
 		'js/_brayworth_.strings.js',
+		'js/_brayworth_.swipe.js',
 		'js/_brayworth_.table.js',
 		'js/_brayworth_.table.sort.js',
 		'js/_brayworth_.Vue.js',
 		'js/_brayworth_.Vue.block.js',
 		'js/autofill.js',
 		'js/brayworth.js',
-		'js/templation.js',
-		'js/js.cookie.js' ];
+		'js/js.cookie.js',
+		'js/templation.js'];
 
 	protected static $rootPath = NULL;
 
@@ -56,13 +56,19 @@ abstract class jslib {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
 
-		if ( is_null( self::$rootPath))
+		if ( is_null( self::$rootPath)) {
 			self::$rootPath = application::app()->getRootPath() . '/app/public/js';
 
-		if ( $libdir)
+		}
+
+		if ( $libdir) {
 			$outputDIR = sprintf( '%s/%s', self::$rootPath, $libdir);
-		else
+
+		}
+		else {
 			$outputDIR = self::$rootPath;
+
+		}
 
 		$output = sprintf( '%s/%s', $outputDIR, $jslib);
 		//~ sys::logger( $jslib);
@@ -216,7 +222,7 @@ abstract class jslib {
 
 		$files = [];
 		foreach( self::$brayworthlibFiles as $f) {
-			$files[] = __DIR__ . '/public/' . $f;
+			$files[] = __DIR__ . '/' . $f;
 
 		}
 
