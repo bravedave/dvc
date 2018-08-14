@@ -57,11 +57,20 @@ class assets extends Controller {
   }
 
   public function brayworth() {
+    // sys::dump( \jslib::$brayworthlibFiles);
     $files = [];
     foreach( \jslib::$brayworthlibFiles as $f) {
-      $files[] = sprintf( '%s/../public/%s', __DIR__, $f);
+      $path = sprintf( '%s/../public/%s', __DIR__, $f);
+      // printf( '%s<br />', $path);
+      if ( $_f = realpath( $path)) {
+        $key = basename( $_f);
+        $files[ $key] = $_f;
+
+      }
 
     }
+
+    // sys::dump( $files);
 
     jslib::viewjs([
       'debug' => FALSE,
