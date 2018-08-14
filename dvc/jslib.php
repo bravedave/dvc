@@ -290,18 +290,37 @@ abstract class jslib {
 	}
 
 	protected static function _js_create( $options) {
-		$gi = new \GlobIterator( $options->jsFiles, \FilesystemIterator::KEY_AS_FILENAME);
-
 		$input = [];
-		foreach ($gi as $key => $item) {
-			if ( $options->leadKey && $key == $options->leadKey) {
-				if ( $options->debug) sys::logger( sprintf( '%s :: prepending leadKey %s', $options->libName, $options->leadKey));
-				array_unshift( $input, file_get_contents( $item->getRealPath()));
+
+		if ( is_array( $options->jsFiles)) {
+			foreach ($options->jsFiles as $key => $item) {
+				if ( $options->leadKey && $key == $options->leadKey) {
+					if ( $options->debug) sys::logger( sprintf( '%s :: prepending leadKey %s', $options->libName, $options->leadKey));
+					array_unshift( $input, file_get_contents( $item->getRealPath()));
+
+				}
+				else {
+					if ( $options->debug) sys::logger( sprintf( '%s :: appending key %s', $options->libName, $key));
+					$input[] = file_get_contents( $item->getRealPath());
+
+				}
 
 			}
-			else {
-				if ( $options->debug) sys::logger( sprintf( '%s :: appending key %s', $options->libName, $key));
-				$input[] = file_get_contents( $item->getRealPath());
+
+		}
+		else {
+			$gi = new \GlobIterator( $options->jsFiles, \FilesystemIterator::KEY_AS_FILENAME);
+			foreach ($gi as $key => $item) {
+				if ( $options->leadKey && $key == $options->leadKey) {
+					if ( $options->debug) sys::logger( sprintf( '%s :: prepending leadKey %s', $options->libName, $options->leadKey));
+					array_unshift( $input, file_get_contents( $item->getRealPath()));
+
+				}
+				else {
+					if ( $options->debug) sys::logger( sprintf( '%s :: appending key %s', $options->libName, $key));
+					$input[] = file_get_contents( $item->getRealPath());
+
+				}
 
 			}
 
