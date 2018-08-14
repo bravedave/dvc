@@ -296,12 +296,12 @@ abstract class jslib {
 			foreach ($options->jsFiles as $key => $item) {
 				if ( $options->leadKey && $key == $options->leadKey) {
 					if ( $options->debug) sys::logger( sprintf( '%s :: prepending leadKey %s', $options->libName, $options->leadKey));
-					array_unshift( $input, file_get_contents( $item->getRealPath()));
+					array_unshift( $input, file_get_contents( $item);
 
 				}
 				else {
 					if ( $options->debug) sys::logger( sprintf( '%s :: appending key %s', $options->libName, $key));
-					$input[] = file_get_contents( $item->getRealPath());
+					$input[] = file_get_contents( $item);
 
 				}
 
