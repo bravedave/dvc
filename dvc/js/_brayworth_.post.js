@@ -9,7 +9,7 @@
 	*/
 _brayworth_.post = function( params) {
 	var options = {
-		url : _brayworth_.urlwrite(),
+		url : _brayworth_.url(),
 		type : 'POST',
 		data : {},
 		growl : function( d) {
@@ -23,4 +23,3 @@ _brayworth_.post = function( params) {
 	return $.ajax(options);
 
 }
-

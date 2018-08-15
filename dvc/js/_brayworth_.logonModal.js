@@ -11,18 +11,18 @@
 
 	*/
 _brayworth_.logonModal = function() {
-	var flds = {
-		user : $('<input type="text" class="form-control" placeholder="username or email" autocomplete="username" />'),
+	let flds = {
+		user : $('<input type="text" class="form-control" placeholder="username or email" autocomplete="username" autofocus />'),
 		pass : $('<input type="password" class="form-control" placeholder="password" autocomplete="current-password" />'),
 	}
 
-	var form = $('<form />');
+	let form = $('<form />');
 		$('<div class="form-group" />').append( flds.user).appendTo( form);
 		$('<div class="form-group" />').append( flds.pass).appendTo( form);
 
 	function submitter() {
-		var u = flds.user.val();
-		var p = flds.pass.val();
+		let u = flds.user.val();
+		let p = flds.pass.val();
 
 		if ( u.trim() == '') {
 			$('body').growlError( 'empty user');
@@ -40,9 +40,7 @@ _brayworth_.logonModal = function() {
 
 		modal.modal('close');
 
-		$.ajax({
-			type : 'post',
-			url : _brayworth_.url(),
+		_brayworth_.post({
 			data : {
 				action : '-system-logon-',
 				u : u,
@@ -76,9 +74,7 @@ _brayworth_.logonModal = function() {
 
 		}
 
-		$.ajax({
-			type : 'post',
-			url : _brayworth_.urlwrite(),
+		_brayworth_.post({
 			data : {
 				action : '-send-password-',
 				u : u,
@@ -117,9 +113,11 @@ _brayworth_.logonModal = function() {
 	})
 	.append( '<input type="submit" style="display: none;" />');
 
-	var buttons = {};
-	if ( _brayworth_.logon_retrieve_password)
+	let buttons = {};
+	if ( _brayworth_.logon_retrieve_password) {
 		buttons['Reset Password'] = retrievePassword;
+
+	}
 
 	buttons.logon = submitter;
 
