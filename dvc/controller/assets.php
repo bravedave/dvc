@@ -63,7 +63,7 @@ class assets extends Controller {
       // sys::dump( \jslib::$brayworthlibFiles);
       $files = [];
       foreach( \jslib::$brayworthlibFiles as $f) {
-        $path = sprintf( '%s/../public/%s', __DIR__, $f);
+        $path = sprintf( '%s/../%s', __DIR__, $f);
         // printf( '%s<br />', $path);
         if ( $_f = realpath( $path)) {
           $key = basename( $_f);
