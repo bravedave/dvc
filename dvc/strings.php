@@ -156,6 +156,11 @@ abstract class strings {
 
 	}
 
+	static function isEmail( $email) {	// compatible case and naming with my javascript routine
+		return ( self::CheckEmailAddress($email));
+
+	}
+
 	static function isOurEmailDomain( $email) {
 		$email_array = explode("@", $email);
 		$domains = explode( ',', config::$EMAILDOMAIN);
