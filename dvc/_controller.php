@@ -398,23 +398,40 @@ abstract class _controller {
 		}
 		else {
 			$altView = sprintf( '%s/views/%s.php', __DIR__, $viewName );	// php
-			if ( $this->debug) \sys::logger( '_controller->getView :: check local default view : ' .
-				preg_replace( '@^' . $commonPath . '@', '', $altView));
+			if ( $this->debug) {
+				\sys::logger(
+					sprintf( '_controller->getView :: check local default view : %s',
+					preg_replace( '@^' . $commonPath . '@', '', $altView))
 
-			if ( file_exists( $altView))
+				);
+
+			}
+
+			if ( file_exists( $altView)) {
 				return ( $altView);
+
+			}
 
 			$altView = sprintf( '%s/views/%s.md', __DIR__, $viewName );	// md
-			if ( $this->debug) \sys::logger( '_controller->getView :: check local default view : ' .
-				preg_replace( '@^' . $commonPath . '@', '', $altView));
+			if ( $this->debug) {
+				\sys::logger(
+					sprintf( '_controller->getView :: check local default view : %s',
+					preg_replace( '@^' . $commonPath . '@', '', $altView))
 
-			if ( file_exists( $altView))
+				);
+
+			}
+
+			if ( file_exists( $altView)) {
 				return ( $altView);
+
+			}
 
 		}
 		/*-- ---- --*/
 
-		\sys::logger( sprintf( '_controller->getView :: view not found : %s', $viewName));
+		// \sys::logger( sprintf( '_controller->getView :: view not found : %s', $viewName));
+		\sys::trace( sprintf( '_controller->getView :: view not found : %s', $viewName));
 
 		return __DIR__ . '/views/not-found.md';
 
