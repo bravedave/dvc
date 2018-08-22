@@ -11,7 +11,7 @@ _brayworth_.lazyImageLoader = function() {
 	var imgStack = [];
 
 	$('div[data-delayedimg="true"]').each( function( i, el) {
-		var _ = $(el);
+		let _ = $(el);
 		if ( _.visible( true))
 			_
 			.css({'background-image' : 'url("' + _.data('src') + '")'})
@@ -20,13 +20,13 @@ _brayworth_.lazyImageLoader = function() {
 		else
 			imgStack.push( _);
 
-	})
+	});
 
 	if ( imgStack.length > 0) {
 		//~ console.log( 'unloaded images', imgStack.length);
 
 		$(document).on('scroll', function( e) {
-			var unProcessed = 0;
+			let unProcessed = 0;
 			$.each( imgStack, function( i, el) {
 				var _ = $(el);
 				if ( _.data('delayedimg')) {
@@ -44,7 +44,7 @@ _brayworth_.lazyImageLoader = function() {
 
 				}
 
-			})
+			});
 
 			//~ console.log( 'checking unloaded images', unProcessed);
 			if ( unProcessed < 1) {
@@ -53,7 +53,7 @@ _brayworth_.lazyImageLoader = function() {
 
 			}
 
-		})
+		});
 
 	}
 
