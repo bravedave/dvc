@@ -180,6 +180,9 @@ abstract class userAgent {
 
 	static function version() {
 		if ( ini_get('browscap')) {
+			/*
+			 * get latest version of browscap.ini here: http://browscap.org/
+			 */
 			$browser = get_browser( null, false);
 			// sys::dump( $browser);
 			if ( isset( $browser->version))
