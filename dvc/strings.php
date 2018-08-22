@@ -22,7 +22,7 @@ abstract class strings {
 
 		if ( ( $t = strtotime( $date)) > 0) {
 			if ( $time && date( 'Y-m-d', $t) == date( 'Y-m-d')) {
-				return ( date( 'g:ia', $t));
+				return ( preg_replace( '/m$/','',date( 'g:ia', $t)));
 
 			}
 			elseif ( date( 'Y', $t) == date( 'Y')) {
