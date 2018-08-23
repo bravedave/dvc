@@ -131,10 +131,18 @@ abstract class sys {
 
 	}
 
-	static function trace( $v ) {
+	static function trace( $v, $level = 0 ) {
 		self::logger( $v);
-		foreach ( debug_backtrace() as $e )
+		$level = (int)$level;
+		$ilevel = 0;
+		foreach ( debug_backtrace() as $e ) {
 			self::logger( sprintf( '%s(%s)', $e['file'], $e['line'] ));
+			if ( $level > 0 && ++$iLevel > $level ) {
+				break;
+
+			}
+
+		}
 
 	}
 
