@@ -122,30 +122,30 @@
 	String.prototype.IsMobilePhone = function() {
 		var p = this;
 		var ns = this.replace(/[^0-9\+]/g,'');
-		if ( ns.length == 10 || ( ns.substring(0,1) == '+' && ns.length == 12) || ( ns.substring(0,2) == '61' && ns.length == 11))
+
+		if ( ns.length == 10) {
 			return ( true);
+		}
+		else if ( ns.substring(0,1) == '+' && ns.length == 12) {
+			return ( true);
+
+		}
+		else if ( ns.substring(0,2) == '61' && ns.length == 11) {	/* australian mobile */
+			return ( true);
+
+		}
+		else if ( ns.substring(0,1) == '+' && ns.length == 13) {	/* italian mobile */
+			return ( true);
+
+		}
+		else if ( ns.substring(0,2) == '39' && ns.length == 12) {	/* italian mobile */
+			return ( true);
+
+		}
 
 		return( false);
 
 	};
-
-	// String.prototype.IsMobilePhone = function() {
-	// 	var p = this;
-	// 	var ns = this.replace(/[^0-9\+]/g,'');
-	// 	// var ns = this.replace(/\s+|\(|\)|\-/g,"");
-	// 	if ( ns.length == 10 )
-	// 		return ( true);
-	//
-	// 	else if ( /^(\+|0011)/.test( ns)) {
-	// 		re = /(\S\S\S\S)(\S+)/;
-	// 		if ( re.test(ns))
-	// 			return( true);
-	//
-	// 	}
-	//
-	// 	return( false);
-	//
-	// };
 
 	String.prototype.AsMobilePhone = function() {
 		var p = this;
@@ -163,11 +163,22 @@
 			}
 
 		}
-		else if ( /^(\+|0011)/.test( ns )) {
+		else if ( /^0011/.test( ns )) {
 			re = /(\S\S\S\S)(\S+)/;
 			if ( re.test(ns)) {
 				//~ ns = "(" + RegExp.$1 + ") " + RegExp.$2;
 				ns = RegExp.$1 + ' ' + RegExp.$2;
+				return( ns );
+
+			}
+
+		}
+		else if ( /^\+/.test( ns )) {
+			/* australian | italy */
+			re = /(\S\S\S)(\S\S\S)(\S+)/;
+			if ( re.test(ns)) {
+				//~ ns = "(" + RegExp.$1 + ") " + RegExp.$2;
+				ns = RegExp.$1 + ' ' + RegExp.$2 + ' ' + RegExp.$3;
 				return( ns );
 
 			}
