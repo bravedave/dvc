@@ -113,9 +113,9 @@ abstract class _dao {
 
 	}
 
-	public static function asDTO( \dvc\dbResult $res ) {
+	public static function asDTO( \dvc\dbResult $res, $template = NULL) {
 		$r = [];
-		while ( $dto = $res->dto( $this->template)) {
+		while ( $dto = $res->dto( $template)) {
 			$r[] = $dto;
 
 		}
@@ -146,7 +146,7 @@ abstract class _dao {
 
 	}
 
-	protected function TableExists( $table = NULL ) {
+	protected function TableExists( $table = NULL) {
 		if ( is_null( $table)) {
 			$table = $this->db_name();
 
@@ -184,12 +184,12 @@ abstract class _dao {
 
 	}
 
-	protected function structure( $name = NULL ) {
+	protected function structure( $name = NULL) {
 		return ( FALSE );
 
 	}
 
-	public function getAll( $fields = '*', $order = '' ) {
+	public function getAll( $fields = '*', $order = '') {
 		if ( is_null( $this->_db_name)) {
 			throw new Exceptions\DBNameIsNull;
 
