@@ -10,8 +10,8 @@
 NameSpace dao;
 
 abstract class _dao {
-	var $log = FALSE;
-	var $db;
+	public $log = FALSE;
+	public $db;
 	protected $_db_name = NULL;
 	protected $_db_allways_check_structure = TRUE;
 	protected $template = NULL;
@@ -56,12 +56,16 @@ abstract class _dao {
 	}
 
 	public function Insert( $a ) {
-		if ( is_null( $this->db_name()))
+		if ( is_null( $this->db_name())) {
 			throw new Exceptions\DBNameIsNull;
 
+		}
+
 		$a = (array)$a;
-		if ( isset( $a['id']))
+		if ( isset( $a['id'])) {
 			unset( $a['id']);
+
+		}
 
 		$this->db->log = $this->log;
 		return ( $this->db->Insert( $this->db_name(), $a ));
@@ -110,9 +114,9 @@ abstract class _dao {
 	}
 
 	public static function asDTO( \dvc\dbResult $res ) {
-		$r = array();
-		while ( $row = $res->fetch()) {
-			$r[] = new dto\dto( $row);
+		$r = [];
+		while ( $dto = $res->dto( $this->template)) {
+			$r[] = $dto;
 
 		}
 
@@ -121,26 +125,37 @@ abstract class _dao {
 	}
 
 	protected function TableChecks() {
-		if ( !$this->db->valid())
+		if ( !$this->db->valid()) {
 			return;
 
-		if ( is_null( $this->_db_name))
+		}
+
+		if ( is_null( $this->_db_name)) {
 			return ( FALSE);
 
-		if ( $this->_db_allways_check_structure )
+		}
+
+		if ( $this->_db_allways_check_structure ) {
 			$this->check();
 
-		elseif ( !( $this->TableExists()))
+		}
+		elseif ( !( $this->TableExists())) {
 			$this->check();
+
+		}
 
 	}
 
 	protected function TableExists( $table = NULL ) {
-		if ( is_null( $table))
+		if ( is_null( $table)) {
 			$table = $this->db_name();
 
-		if ( is_null( $table))
+		}
+
+		if ( is_null( $table)) {
 			return ( FALSE);
+
+		}
 
 		//~ \sys::logger( "checking for: $table" );
 
@@ -150,11 +165,10 @@ abstract class _dao {
 			end t")) {
 
 			if ( $row = $res->fetch()) {
-
-				if ( $row['t'] == 1 )
+				if ( $row['t'] == 1 ) {
 					return TRUE;
 
-
+				}
 
 			}
 
@@ -176,8 +190,10 @@ abstract class _dao {
 	}
 
 	public function getAll( $fields = '*', $order = '' ) {
-		if ( is_null( $this->_db_name))
+		if ( is_null( $this->_db_name)) {
 			throw new Exceptions\DBNameIsNull;
+
+		}
 
 		$this->db->log = $this->log;
 		return ( $this->Result( sprintf( 'SELECT %s FROM %s %s', $fields, $this->db_name(), $order )));
@@ -185,22 +201,27 @@ abstract class _dao {
 	}
 
 	public function getByID( $id) {
-		if ( is_null( $this->_db_name))
+		if ( is_null( $this->_db_name)) {
 			throw new Exceptions\DBNameIsNull;
+
+		}
 
 		if ( \config::$DB_CACHE == 'APC') {
 			$cache = \dvc\cache::instance();
 			$key = sprintf( '%s.%s', $this->db_name(), $id);
-			if ( $dto = $cache->get( $key))
+			if ( $dto = $cache->get( $key)) {
 				return ( $dto);
+
+			}
 
 		}
 
 		$this->db->log = $this->log;
 		if ( $res = $this->Result( sprintf( 'SELECT * FROM %s WHERE id = %d', $this->_db_name, (int)$id ))) {
 			if ( $dto = $res->dto( $this->template)) {
-				if ( \config::$DB_CACHE == 'APC')
+				if ( \config::$DB_CACHE == 'APC') {
 					$cache->set( $key, $dto);
+				}
 
 			}
 
@@ -213,8 +234,10 @@ abstract class _dao {
 	}
 
 	public function delete( $id) {
-		if ( is_null( $this->_db_name))
+		if ( is_null( $this->_db_name)) {
 			throw new Exceptions\DBNameIsNull;
+
+		}
 
 		$this->db->log = $this->log;
 		$this->Q( sprintf( 'DELETE FROM %s WHERE id = %d', $this->_db_name, (int)$id ));
