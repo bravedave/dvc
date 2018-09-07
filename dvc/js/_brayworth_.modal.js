@@ -190,7 +190,7 @@ _brayworth_.modal = function( params) {
 		})
 
 		t.get('.modal').addClass('modal-fullscreen');
-		t.get('.modal-dialog').addClass('m-0').removeClass('modal-dialog-centered');
+		t.get('.modal-dialog').addClass('m-auto').removeClass('modal-dialog-centered');
 		t.get('.modal-content').removeClass('w-25 w-50 w-75').addClass('w-100');
 
 	}

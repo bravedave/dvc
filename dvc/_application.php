@@ -126,10 +126,15 @@ class _application {
 		 * example: if controller would be "car",
 		 * then this line would translate into: $this->car = new car();
 		 */
-		if ( is_null( $this->defaultController ))
+		if ( is_null( $this->defaultController )) {
 			$this->defaultController = config::$DEFAULT_CONTROLLER;
-		if ( trim( $this->url_controller == '' ))
+
+		}
+
+		if ( trim( $this->url_controller == '' )) {
 			$this->url_controller = $this->defaultController;
+
+		}
 
 		$controllerFile = $this->rootPath . '/controller/' . $this->url_controller . '.php';
 
