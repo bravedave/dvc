@@ -14,13 +14,13 @@ _brayworth_.ScrollTo = function( el) {
 
 	var nav = $('body>nav');
 	if ( nav.length ) {
-		t -= ( nav.height());
+		t -= ( nav.outerHeight());
 
 	}
 	else {
 		var hdr = $('body>header');
 		if ( hdr.length )
-			t -= ( hdr.height());
+			t -= ( hdr.outerHeight());
 
 	}
 
