@@ -12,22 +12,22 @@
 		$.getScript( _brayworth_.urlwrite('js/_brayworth_.fileDragDropHandler.js'));
 
 	test:
-		var c = _brayworth_.fileDragDropContainer().appendTo('body');	// or where ever you want to append to;
+		let c = _brayworth_.fileDragDropContainer().appendTo('body');	// or where ever you want to append to;
 		maybe:
-			var c = _brayworth_.fileDragDropContainer().appendTo('body');
+			let c = _brayworth_.fileDragDropContainer().appendTo('body');
 			_brayworth_.fileDragDropHandler.call( c, {
 				url : url
 			});
 
 	*/
 _brayworth_.fileDragDropContainer = function() {
-	var c = $('<div />');
+	let c = $('<div />');
 
-	var _c = $('<div class="box__uploading"></div>').appendTo( c);
+	let _c = $('<div class="box__uploading" />').appendTo( c);
 
-	var __c = $('<div class="box__fill text-center text-truncate">uploading</div>').appendTo( _c);
+	let __c = $('<div class="box__fill text-center text-truncate">uploading</div>').appendTo( _c);
 
-	$('<i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>').appendTo( __c);
+	$('<i class="fa fa-spinner fa-pulse fa-2x fa-fw" />').appendTo( __c);
 
 	return ( c);
 
@@ -35,9 +35,9 @@ _brayworth_.fileDragDropContainer = function() {
 ;
 
 _brayworth_.fileDragDropHandler = function( params) {
-	var _el = $(this);
+	let _el = $(this);
 
-	var options = {
+	let options = {
 		url : false,
 		postData : {},
 		onUpload : function( response) {},
@@ -48,8 +48,8 @@ _brayworth_.fileDragDropHandler = function( params) {
 	if ( !options.url)
 		throw 'Invalid upload url';
 
-	var isAdvancedUpload = (function() {
-		var div = document.createElement('div');
+	let isAdvancedUpload = (function() {
+		let div = document.createElement('div');
 		return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
 	})();
 
@@ -68,15 +68,17 @@ _brayworth_.fileDragDropHandler = function( params) {
 		})
 		.on('drop', function(e) {
 			e.preventDefault();
-			var droppedFiles = e.originalEvent.dataTransfer.files;
+			let droppedFiles = e.originalEvent.dataTransfer.files;
 			//~ console.log( droppedFiles);
 
 			if (droppedFiles) {
 				//~ console.log( 'droppedFiles');
 
-				var data = new FormData();
-				for(var o in options.postData)
+				let data = new FormData();
+				for(let o in options.postData) {
 					data.append( o, options.postData[o]);
+
+				}
 
 				$.each( droppedFiles, function(i, file) {
 					data.append('files-'+i, file);
@@ -87,7 +89,7 @@ _brayworth_.fileDragDropHandler = function( params) {
 				_el.addClass('is-uploading');
 
 				$.ajax({
-					url: options.handler,
+					url: options.url,
 					type: 'POST',
 					data: data,
 					dataType: 'json',
@@ -95,7 +97,7 @@ _brayworth_.fileDragDropHandler = function( params) {
 					contentType: false,
 					processData: false,
 					xhr: function() {
-						var xhr = new window.XMLHttpRequest();
+						let xhr = new window.XMLHttpRequest();
 						xhr.upload.addEventListener("progress", function (e) {
 							if (e.lengthComputable)
 								$('.box__fill', _el).css('width', ( e.loaded / e.total * 100) + '%');
@@ -108,15 +110,15 @@ _brayworth_.fileDragDropHandler = function( params) {
 
 				})
 				.done( function( response) {
-					if ( response.response == 'ack') {
+					if ( 'ack' == response.response) {
 						$.each( response.data, function( i, j) {
-							$('body').growlAjax( j);
+							$('body').growl( j);
 
 						})
 
 					}
 					else {
-						$('body').growlAjax( response);
+						$('body').growl( response);
 
 					}
 
