@@ -16,6 +16,8 @@ abstract class _dao {
 	protected $_db_allways_check_structure = TRUE;
 	protected $template = NULL;
 
+	protected static $_sql_getByID = 'SELECT * FROM %s WHERE id = %d';
+
 	public static function dbTimeStamp() {
 		return ( \db::dbTimeStamp());
 
@@ -217,7 +219,7 @@ abstract class _dao {
 		}
 
 		$this->db->log = $this->log;
-		if ( $res = $this->Result( sprintf( 'SELECT * FROM %s WHERE id = %d', $this->_db_name, (int)$id ))) {
+		if ( $res = $this->Result( sprintf( self::$_sql_getByID, $this->_db_name, (int)$id ))) {
 			if ( $dto = $res->dto( $this->template)) {
 				if ( \config::$DB_CACHE == 'APC') {
 					$cache->set( $key, $dto);
