@@ -16,7 +16,7 @@ abstract class _dao {
 	protected $_db_allways_check_structure = TRUE;
 	protected $template = NULL;
 
-	protected $this->_sql_getByID = 'SELECT * FROM %s WHERE id = %d';
+	protected $_sql_getByID = 'SELECT * FROM %s WHERE id = %d';
 
 	public static function dbTimeStamp() {
 		return ( \db::dbTimeStamp());
