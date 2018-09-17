@@ -17,6 +17,7 @@ abstract class _dao {
 	protected $template = NULL;
 
 	protected $_sql_getByID = 'SELECT * FROM %s WHERE id = %d';
+	protected $_sql_getAll = 'SELECT %s FROM %s %s';
 
 	public static function dbTimeStamp() {
 		return ( \db::dbTimeStamp());
@@ -198,7 +199,7 @@ abstract class _dao {
 		}
 
 		$this->db->log = $this->log;
-		return ( $this->Result( sprintf( 'SELECT %s FROM %s %s', $fields, $this->db_name(), $order )));
+		return ( $this->Result( sprintf( $this->_sql_getAll, $fields, $this->db_name(), $order )));
 
 	}
 
