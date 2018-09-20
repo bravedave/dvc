@@ -52,6 +52,11 @@ class HttpGet {
 
 	}
 
+	public function setUserAgent( $agent) {
+		curl_setopt($this->ch, CURLOPT_USERAGENT, $agent);
+
+	}
+
 	public function url_builder() {
 		if ( count($this->params) > 0 )
 			return ( $this->url . '?' . http_build_query( $this->params));
