@@ -7,9 +7,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 */
-
-if ( 'undefined' == typeof _brayworth_ )
-	let _brayworth_ = function() { return ( _brayworth_); }
+let _brayworth_ = {}
 
 $.extend( _brayworth_, {
 		_brayworth_ : true,
