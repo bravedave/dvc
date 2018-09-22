@@ -7,9 +7,15 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 */
-_brayworth_.browser = {}
+_brayworth_.browser = (function() {
+	let j = {
+		isIPhone : navigator.userAgent.toLowerCase().indexOf('iphone') > -1,
+		isIPad : navigator.userAgent.toLowerCase().indexOf('ipad') > -1,
 
-_brayworth_.browser.isIPhone = navigator.userAgent.toLowerCase().indexOf('iphone') > -1;
-_brayworth_.browser.isIPad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;
-_brayworth_.browser.isChromeOniOS = _brayworth_.browser.isIPhone && navigator.userAgent.toLowerCase().indexOf('CriOS') > -1;
-_brayworth_.browser.isMobileDevice = _brayworth_.browser.isIPhone || _brayworth_.browser.isIPad;
+	}
+	j.isChromeOniOS : j.isIPhone && navigator.userAgent.toLowerCase().indexOf('CriOS') > -1;
+	j.isMobileDevice : j.isIPhone || j.isIPad;
+
+	return j;
+
+})();
