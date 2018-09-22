@@ -13,8 +13,8 @@ _brayworth_.browser = (function() {
 		isIPad : navigator.userAgent.toLowerCase().indexOf('ipad') > -1,
 
 	}
-	j.isChromeOniOS : j.isIPhone && navigator.userAgent.toLowerCase().indexOf('CriOS') > -1;
-	j.isMobileDevice : j.isIPhone || j.isIPad;
+	j.isChromeOniOS = j.isIPhone && navigator.userAgent.toLowerCase().indexOf('CriOS') > -1;
+	j.isMobileDevice = j.isIPhone || j.isIPad;
 
 	return j;
 
