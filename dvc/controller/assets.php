@@ -43,18 +43,6 @@ class assets extends Controller {
   }
 
   public function jquery() {
-    // $root = realpath( sprintf( '%s/../../../../components/jquery', __DIR__));
-    // if ( $root) {
-    //   $path = realpath( sprintf( '%s/jquery.min.js', $root));
-    //   \sys::serve( $path);
-    //
-    // }
-    // else {
-    //   throw new \Exception( 'Cannot locate twbs bootstrap - install with compose require twbs/bootstrap');
-    //
-    // }
-    \sys::logger( realpath( sprintf('%s/../js/', __DIR__)));
-    \sys::logger( realpath( sprintf('%s/../js/%s', __DIR__, 'jquery-3.3.1.min.js')));
     \sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.3.1.min.js'));
 
   }
@@ -73,6 +61,11 @@ class assets extends Controller {
           $files[ $key] = $_f;
 
         }
+
+      }
+
+      if ( $type == 'bundle') {
+        array_unshift( $files, sprintf('%s/../js/%s', __DIR__, 'jquery-3.3.1.min.js'));
 
       }
 
