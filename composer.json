@@ -16,8 +16,7 @@
 		"MatthiasMullie/Minify" : "*",
 		"phpmailer/phpmailer": "~5.2",
 		"erusev/parsedown":"*",
-		"twbs/bootstrap": "^4.1",
-		"components/jquery": "^3.3"
+		"twbs/bootstrap": "^4.1"
 
 	}
 
