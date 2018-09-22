@@ -9,7 +9,7 @@
 */
 
 if ( 'undefined' == typeof _brayworth_ )
-	var _brayworth_ = function() { return ( _brayworth_); }
+	let _brayworth_ = function() { return ( _brayworth_); }
 
 $.extend( _brayworth_, {
 		_brayworth_ : true,
@@ -51,7 +51,7 @@ $.extend( _brayworth_, {
 				 *	b. you could/will redefine this function to control
 				 * 		 the timezone being operated in
 				 */
-			 	var d = moment( a,b,c,d)
+			 	let d = moment( a,b,c,d)
 		 		// d.utcOffset( desirable timezone);
 		 		return (d);
 

@@ -8,9 +8,9 @@
 	*/
 
 _brayworth_.table.sortOn = function( table, key, sorttype, order) {
-	//~ var debug = true;
-	var debug = false;
-	var tbody = $('tbody', table);
+	//~ let debug = true;
+	let debug = false;
+	let tbody = $('tbody', table);
 	if ( !tbody) tbody = table;
 
 	if ( 'undefined' == typeof order)
@@ -20,15 +20,15 @@ _brayworth_.table.sortOn = function( table, key, sorttype, order) {
 	if ( !sorttype)
 		sorttype = 'string';
 
-	var warn = true;
+	let warn = true;
 
-	var items = tbody.children('tr');
+	let items = tbody.children('tr');
 
 	if ( debug) console.log( key, sorttype, order, items.length );
 
 	items.sort(function sortItem(a, b) {
-		var ae = $(a).data(key);
-		var be = $(b).data(key);
+		let ae = $(a).data(key);
+		let be = $(b).data(key);
 		if ( /undefined/.test( typeof ae ) || /undefined/.test( typeof ae )) {
 			ae = $(a).data('key-' + key);
 			be = $(b).data('key-' + key);
@@ -63,13 +63,13 @@ _brayworth_.table.sortOn = function( table, key, sorttype, order) {
 	});
 
 	$.each(items, function (i, e) { (order == "desc" ? tbody.prepend(e) : tbody.append(e)); });
-	var lines = $('tr>[role="line-number"]', tbody);
+	let lines = $('tr>[role="line-number"]', tbody);
 	if ( lines.length > 0) {
 		lines.each( function( i, e ) { $(e).html(i+1); });
 
 	}
 	else {
-		var lines = $('tr>td>[role="line-number"]', tbody);
+		lines = $('tr>td>[role="line-number"]', tbody);
 		if ( lines.length > 0) {
 			lines.each( function( i, e ) { $(e).html(i+1); });
 
@@ -84,15 +84,16 @@ _brayworth_.table.sort = function( e) {
 
 	_brayworth_.hideContexts();
 
-	var table = $(this).closest( 'table' );
-	if ( !table) return;
+	let table = $(this).closest( 'table' );
+	if ( table.length > 0) {
+		let key = $(this).data("key");
+		if ( 'undefined' != typeof key) {
+			let sorttype = $(this).data("sorttype");
+			_brayworth_.table.sortOn( table, key, sorttype);	//~ console.log( key );
 
-	var key = $(this).data("key");
-	if ( !key) return;
+		}
 
-	var sorttype = $(this).data("sorttype");
-
-	_brayworth_.table.sortOn( table, key, sorttype);	//~ console.log( key );
+	}
 
 }
 ;
