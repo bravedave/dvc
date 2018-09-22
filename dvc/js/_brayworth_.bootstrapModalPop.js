@@ -72,16 +72,23 @@ _brayworth_.bootstrapModalPop = function( params ) {
 
 	if ( Object.keys(options.headButtons).length > 0) {
 		$.each( options.headButtons, function( i, el) {
-			if ( !!el.icon)
-				let b = $('<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;" />').addClass( el.icon);
+			if ( !!el.icon) {
+				let b = $('<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;" />')
+				b.addClass( el.icon);
 
-			else
-				let b = $('<button class="button button-raised pull-right" />').html( i);
+			}
+			else {
+				let b = $('<button class="button button-raised pull-right" />')
+				b.html( i);
 
-			if ( !!el.title)
-				b.attr( 'title', el.title)
+			}
 
-			b.on( 'click', function( e) { el.click.call( modal, e); })	// wrap the call an call it against the modal
+			if ( !!el.title) {
+				b.attr( 'title', el.title);
+
+			}
+
+			b.on( 'click', function( e) { el.click.call( modal, e); });	// wrap the call an call it against the modal
 			header.prepend( b);
 			//~ console.log( el);
 
