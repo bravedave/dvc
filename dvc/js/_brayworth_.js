@@ -7,7 +7,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 */
-var _brayworth_ = function() { return ( _brayworth_); }
+window._brayworth_ = function() { return ( window._brayworth_); }
 
 $.extend( _brayworth_, {
 	_brayworth_ : true,
