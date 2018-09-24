@@ -7,7 +7,9 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 */
-var _brayworth_ = {
+var _brayworth_ = function() { return ( _brayworth_); }
+
+$.extend( _brayworth_, {
 	_brayworth_ : true,
 	logon_retrieve_password : false,
 	templates : {},
@@ -53,6 +55,6 @@ var _brayworth_ = {
 
 	}
 
-};
+});
 
 _brayworth_.urlwrite = _brayworth_.url;	// legacy
