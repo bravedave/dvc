@@ -28,7 +28,7 @@ _brayworth_.ScrollTo = function( el) {
 
 	$('html, body').animate({ scrollTop: t }, 1000);
 
-}
+};
 
 _brayworth_.hashScroll = function() {
 	/** Scrolls the content into view **/

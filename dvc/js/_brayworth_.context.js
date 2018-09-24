@@ -33,12 +33,12 @@ _brayworth_.hideContext = function( el) {
 
 	}
 
-}
+};
 
 _brayworth_.hideContexts = function() {
 	$('[data-role="contextmenu"]').each( function( i, el ) { _brayworth_.hideContext( el); });
 
-}
+};
 
 _brayworth_.context = function() {
 	return ({

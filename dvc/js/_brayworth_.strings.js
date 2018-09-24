@@ -212,12 +212,12 @@
 
 		return rex.test( e.toLowerCase());
 
-	}
+	};
 
 	Number.prototype.formatComma = function(x) {
 		return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-	}
+	};
 
 	Number.prototype.formatCurrency = function() {
 		var parts = this.toString().split(".");
