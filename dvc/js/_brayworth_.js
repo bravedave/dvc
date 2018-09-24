@@ -7,7 +7,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 */
-let _brayworth_ = {
+var _brayworth_ = {
 	_brayworth_ : true,
 	logon_retrieve_password : false,
 	templates : {},
