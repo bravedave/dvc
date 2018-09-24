@@ -109,3 +109,4 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 	return ( modal);	// chain
 
 }
+;

@@ -64,7 +64,7 @@ _brayworth_.swipeOn = function( params) {
 
 		return (j);
 
-	}
+	};
 
 	$(this)
 	.on('mousedown touchstart', function (e) {

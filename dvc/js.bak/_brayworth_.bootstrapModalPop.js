@@ -7,22 +7,18 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 */
-
-if ( typeof _brayworth_ == 'undefined')
-	var _brayworth_ = {};
-
 _brayworth_.bootstrapModalPop = function( params ) {
 	if ( /string/.test( typeof params)) {
-		var modal = $(this).data( 'modal');
 		if ( /close/i.test( params)) {
-			modal.close();
+			let _modal = $(this).data( 'modal');
+			_modal.close();
 			return;
 
 		}
 
 	}
 
-	var options = {
+	let options = {
 		title : '',
 		width : false,
 		autoOpen : true,
@@ -32,14 +28,14 @@ _brayworth_.bootstrapModalPop = function( params ) {
 
 	$.extend( options, params);
 
-	var header = $('<div class="modal-header"><i class="fa fa-times close"></i><h1></h1></div>');
-	var body = $('<div class="modal-body"></div>');
+	let header = $('<div class="modal-header"><i class="fa fa-times close" /><h1></h1></div>');
+	let body = $('<div class="modal-body" />');
 		body.append( this);
-	var footer = $('<div class="modal-footer text-right"></div>');
-	var modal = $('<div class="modal"></div>');
+	let footer = $('<div class="modal-footer text-right" />');
+	let modal = $('<div class="modal" />');
 
 	/*---[wrapper]---*/
-	var wrapper = $('<div class="modal-content"></div>');
+	let wrapper = $('<div class="modal-content" />');
 		if ( options.width)
 			wrapper.css({ 'width' : '300px' });
 		else
@@ -50,20 +46,20 @@ _brayworth_.bootstrapModalPop = function( params ) {
 			.appendTo( modal);
 	/*---[end: wrapper]---*/
 
-	var _el = $(this)
-	var s = _el.attr('title');
+	let _el = $(this)
+	let s = _el.attr('title');
 
 	//~ console.log( s);
 	$('h1', header).html('').append( s);
 
 	if ( Object.keys(options.buttons).length > 0) {
 		$.each( options.buttons, function( i, el) {
-			var b = $('<button class="button button-raised"></button>')
-				b.html( i);
-				b.on( 'click', function( e) {
-					el.click.call( modal, e);
+			let b = $('<button class="button button-raised" />');
+			b.html( i);
+			b.on( 'click', function( e) {
+				el.click.call( modal, e);
 
-				})
+			})
 
 			footer.append( b);
 			//~ console.log( el);
@@ -76,16 +72,23 @@ _brayworth_.bootstrapModalPop = function( params ) {
 
 	if ( Object.keys(options.headButtons).length > 0) {
 		$.each( options.headButtons, function( i, el) {
-			if ( !!el.icon)
-				var b = $('<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;"></i>').addClass( el.icon);
+			if ( !!el.icon) {
+				let b = $('<i class="fa fa-fw pull-right" style="margin-right: 3px; padding-right: 12px; cursor: pointer;" />')
+				b.addClass( el.icon);
 
-			else
-				var b = $('<button class="button button-raised pull-right"></button>').html( i);
+			}
+			else {
+				let b = $('<button class="button button-raised pull-right" />')
+				b.html( i);
 
-			if ( !!el.title)
-				b.attr( 'title', el.title)
+			}
 
-			b.on( 'click', function( e) { el.click.call( modal, e); })	// wrap the call an call it against the modal
+			if ( !!el.title) {
+				b.attr( 'title', el.title);
+
+			}
+
+			b.on( 'click', function( e) { el.click.call( modal, e); });	// wrap the call an call it against the modal
 			header.prepend( b);
 			//~ console.log( el);
 

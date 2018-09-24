@@ -244,7 +244,7 @@ _brayworth_.modal = function( params) {
 
 		})
 
-	}
+	};
 
 	_modal.checkHeight = function() {
 		/*
@@ -284,7 +284,7 @@ _brayworth_.modal = function( params) {
 
 	return ( t.data( 'modal'));	// the modal
 
-}
+};
 
 _brayworth_.templates.buttonCSS = 'btn btn-default';
 _brayworth_.templates.modalDefaultClass = '';
@@ -311,4 +311,4 @@ _brayworth_.templates.modal = function() {
 
 	return ( _ );
 
-}
+};

@@ -8,9 +8,6 @@
 
 */
 
-if ( typeof _brayworth_ == 'undefined')
-	var _brayworth_ = {};
-
 _brayworth_.initDatePickers = function( parent) {
 	if ( $.fn.datepicker ) {
 		if ( !parent)
@@ -40,4 +37,3 @@ _brayworth_.initDatePickers = function( parent) {
 	}
 
 };
-
