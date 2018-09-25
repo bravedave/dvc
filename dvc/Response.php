@@ -36,12 +36,12 @@ abstract class Response {
 
 		}
 
-		\Page::$MainContextMenu = FALSE;
+		\dvc\pages\page::$MainContextMenu = FALSE;
 
-		$p = new \Page();
+		$p = new \dvc\pages\bootstrap4;
 			$p->title = $message;
 			$p->footer = FALSE;
-			$p->additionalScripts = array();
+			$p->additionalScripts = [];
 		if ( userAgent::isMobileDevice())
 			$p->meta[] = '<meta name="viewport" content="initial-scale=1" />';
 
