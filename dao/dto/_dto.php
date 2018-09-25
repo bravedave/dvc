@@ -11,6 +11,11 @@ Namespace dao\dto;
 
 class _dto {
 	public function __construct( $row = NULL ) {
+		$this->populate( $row);
+
+	}
+
+	protected function populate( $row = NULL ) {
 		if ( !( is_null( $row ))) {
 			foreach ( $row as $k => $v ) {
 				$this->{$k} = $v;
@@ -31,4 +36,3 @@ class _dto {
 	}
 
 }
-
