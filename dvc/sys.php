@@ -268,20 +268,14 @@ abstract class sys {
 				if ( self::$debug) \sys::logger( "served: $path");
 
 			}
-			elseif ( $ext == "ico" ) {
-				Response::icon_headers( filemtime( $path), \config::$CORE_IMG_EXPIRE_TIME);
+			elseif ( $ext == "doc" ) {
+				Response::headers('application/msword', filemtime( $path));
 				readfile( $path);
 				if ( self::$debug) \sys::logger( "served: $path");
 
 			}
-			elseif ( $ext == "woff" || $ext == "woff2" ) {
-				Response::headers('application/font-woff', filemtime( $path), \config::$FONT_EXPIRE_TIME);
-				readfile( $path);
-				if ( self::$debug) \sys::logger( "served: $path");
-
-			}
-			elseif ( $ext == "ttf" || $ext == "otf" ) {
-				Response::headers('application/font-sfnt', filemtime( $path), \config::$FONT_EXPIRE_TIME);
+			elseif ( $ext == "docx" ) {
+				Response::headers('application/vnd.openxmlformats-officedocument.wordprocessingml.document', filemtime( $path));
 				readfile( $path);
 				if ( self::$debug) \sys::logger( "served: $path");
 
@@ -292,12 +286,30 @@ abstract class sys {
 				if ( self::$debug) \sys::logger( "served: $path");
 
 			}
+			elseif ( $ext == "ico" ) {
+				Response::icon_headers( filemtime( $path), \config::$CORE_IMG_EXPIRE_TIME);
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
 			elseif ( $ext == "png" ) {
 				if ( strstr( $path, url::$URL . 'images/'))
-					Response::png_headers( filemtime( $path), \config::$CORE_IMG_EXPIRE_TIME);
+				Response::png_headers( filemtime( $path), \config::$CORE_IMG_EXPIRE_TIME);
 				else
-					Response::png_headers( filemtime( $path));
+				Response::png_headers( filemtime( $path));
 
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "ttf" || $ext == "otf" ) {
+				Response::headers('application/font-sfnt', filemtime( $path), \config::$FONT_EXPIRE_TIME);
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "woff" || $ext == "woff2" ) {
+				Response::headers('application/font-woff', filemtime( $path), \config::$FONT_EXPIRE_TIME);
 				readfile( $path);
 				if ( self::$debug) \sys::logger( "served: $path");
 
