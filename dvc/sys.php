@@ -268,6 +268,12 @@ abstract class sys {
 				if ( self::$debug) \sys::logger( "served: $path");
 
 			}
+			elseif ( $ext == "avi" ) {
+				Response::headers('video/x-msvideo', filemtime( $path));
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
 			elseif ( $ext == "doc" ) {
 				Response::headers('application/msword', filemtime( $path));
 				readfile( $path);
@@ -276,6 +282,18 @@ abstract class sys {
 			}
 			elseif ( $ext == "docx" ) {
 				Response::headers('application/vnd.openxmlformats-officedocument.wordprocessingml.document', filemtime( $path));
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "mov" ) {
+				Response::headers('video/quicktime', filemtime( $path));
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( $ext == "mp4" ) {
+				Response::headers('video/mp4', filemtime( $path));
 				readfile( $path);
 				if ( self::$debug) \sys::logger( "served: $path");
 
