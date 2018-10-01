@@ -13,6 +13,7 @@
 - [Data Modelling](/docs/structureData)
 - [View](/docs/structureView)
 - [Controller](/docs/structureController)
+  - [Example](/docs/exampleController)
 
 #### [Namespaces](/docs/namespaces)
 #### [Database](/docs/database)
