@@ -314,7 +314,7 @@ abstract class sys {
 				if ( self::$debug) \sys::logger( "served: $path");
 
 			}
-			elseif ( $ext == 'jpg' ) {
+			elseif ( $ext == 'jpg'|| $ext == 'jpeg' ) {
 				if ( strstr( $path, url::$URL . 'images/')) {
 					Response::jpg_headers( filemtime( $path), \config::$CORE_IMG_EXPIRE_TIME);
 
