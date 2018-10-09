@@ -124,38 +124,42 @@ class page extends _page {
 	}
 
 	protected function openContent() {
-		if ( $this->contentOPEN )
-			return ( $this);
+		if ( !$this->contentOPEN ) {
+			$this->contextmenu();
 
-		$this->contextmenu();
+			if ( \config::$CSS_BASE == 'mini' || self::$BootStrap) {
 
-		if ( \config::$CSS_BASE == 'mini' || self::$BootStrap) {
+				$this->closeContentTags[] = '	</div></div><!-- /_page:Main Content Area -->' . PHP_EOL;
 
-			$this->closeContentTags[] = '	</div></div><!-- /_page:Main Content Area -->' . PHP_EOL;
+				$classes = ['main-content-wrapper'];
+				if ( self::$BootStrap) {
+					$classes[] = 'container-fluid';
 
-			$classes = ['main-content-wrapper'];
-			if ( self::$BootStrap)
-				$classes[] = 'container-fluid';
+				}
 
-			if ( $this->hasTitleBar)
+				if ( $this->hasTitleBar) {
+					$classes[] = 'with-nav-bar';
+
+				}
+
+				printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><div class="row"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
+
+			}
+			else {
+
+				$this->closeContentTags[] = '	</div><!-- /_page:Main Content Area -->' . PHP_EOL;
+
+				$classes = ['main-content-wrapper'];
+				if ( $this->hasTitleBar)
 				$classes[] = 'with-nav-bar';
 
-			printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><div class="row"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
+				printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
+
+			}
+
+			$this->contentOPEN = TRUE;
 
 		}
-		else {
-
-			$this->closeContentTags[] = '	</div><!-- /_page:Main Content Area -->' . PHP_EOL;
-
-			$classes = ['main-content-wrapper'];
-			if ( $this->hasTitleBar)
-				$classes[] = 'with-nav-bar';
-
-			printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
-
-		}
-
-		$this->contentOPEN = TRUE;
 
 		return ( $this);
 
