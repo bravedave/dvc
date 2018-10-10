@@ -222,6 +222,16 @@ OUTPUT;
 
 	}
 
+	static function tiff_headers( $filename = NULL, $modifyTime = 0) {
+		self::_common_headers( $modifyTime);
+		header("Content-type: image/tiff");
+		if ( is_null( $filename))
+			$filename = 'binary-' . date( 'Y-m-d') . '.tiff';
+
+		header( sprintf( 'Content-Disposition: inline; filename="%s"', $filename));
+
+	}
+
 	static function zip_headers( $filename = NULL, $modifyTime = 0) {
 		self::_common_headers( $modifyTime);
 		header("Content-type: application/zip");
