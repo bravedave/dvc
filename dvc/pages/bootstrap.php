@@ -23,6 +23,7 @@ class bootstrap extends page {
 
 	function __construct( $title = '' ) {
 		self::$BootStrap = TRUE;
+		self::$pageContainer = 'container-fluid';
 		if ( self::$BootStrap_Version == '3') {
 			$this->jQuery2 = TRUE;
 

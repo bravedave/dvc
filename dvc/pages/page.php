@@ -16,6 +16,7 @@ class page extends _page {
 
 	static public $MainContextMenu = TRUE;
 	static public $BootStrap = FALSE;
+	static public $pageContainer = '';
 
 	protected static $vuejs = FALSE;
 	protected static $developer = FALSE;
@@ -79,7 +80,7 @@ class page extends _page {
 
 			$this->headerOPEN = FALSE;
 
-			printf( '%s	</head>%s', PHP_EOL, PHP_EOL);
+			printf( '%s</head>%s', PHP_EOL, PHP_EOL);
 
 			/* this is a bit legacy ish
 				originally closeheader opened the page */
@@ -122,8 +123,8 @@ class page extends _page {
 				$this->closeContentTags[] = '	</div></div><!-- /_page:Main Content Area -->' . PHP_EOL;
 
 				$classes = ['main-content-wrapper'];
-				if ( self::$BootStrap) {
-					$classes[] = 'container-fluid';
+				if ( self::$pageContainer) {
+					$classes[] = self::$pageContainer;
 
 				}
 
