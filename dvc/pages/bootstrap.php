@@ -23,7 +23,7 @@ class bootstrap extends page {
 	static $secondaryClass = 'col-sm-4 col-md-3 pt-3 pb-4 bg-light d-print-none';
 
 	function __construct( $title = '' ) {
-		// parent::$pageContainer = self::$pageContainer;
+		parent::$pageContainer = self::$pageContainer;
 		self::$BootStrap = TRUE;
 		if ( self::$BootStrap_Version == '3') {
 			$this->jQuery2 = TRUE;
