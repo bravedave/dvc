@@ -17,13 +17,14 @@ class bootstrap extends page {
 
 	static $SCALE = 1;
 
+	static $pageContainer = 'container-fluid';
 	static $contentClass = 'col pt-3 pb-4';
 	static $primaryClass = 'col-sm-8 col-md-9 pt-3 pb-4';
 	static $secondaryClass = 'col-sm-4 col-md-3 pt-3 pb-4 bg-light d-print-none';
 
 	function __construct( $title = '' ) {
+		// parent::$pageContainer = self::$pageContainer;
 		self::$BootStrap = TRUE;
-		self::$pageContainer = 'container-fluid';
 		if ( self::$BootStrap_Version == '3') {
 			$this->jQuery2 = TRUE;
 
