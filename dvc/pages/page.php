@@ -40,13 +40,6 @@ class page extends _page {
 		$this->meta[] = '<meta name="page-constructor" content="_default" />';
 		$this->topOfPage[] = '	<div id="top-of-page"></div>';
 
-		if ( \config::$CSS_BASE == 'mini') {
-			$this->css = [];
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring('css/mini-default.min.css'));
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring('css/mini-custom.css'));
-
-		}
-
 		$aCss = [ 'custom'];
 		if ( \application::app())
 			$aCss[] = \application::app()->controller();
@@ -112,10 +105,7 @@ class page extends _page {
 
 	public function title( $navbar = '') {
 		if ( (string)$navbar == '') {
-			if ( \config::$CSS_BASE == 'mini')
-				$navbar = 'navbar-mini';
-			else
-				$navbar = 'navbar-default';
+			$navbar = 'navbar-default';
 
 		}
 
@@ -127,7 +117,7 @@ class page extends _page {
 		if ( !$this->contentOPEN ) {
 			$this->contextmenu();
 
-			if ( \config::$CSS_BASE == 'mini' || self::$BootStrap) {
+			if ( self::$BootStrap) {
 
 				$this->closeContentTags[] = '	</div></div><!-- /_page:Main Content Area -->' . PHP_EOL;
 
@@ -167,10 +157,7 @@ class page extends _page {
 
 	public function content( $class = NULL) {
 		if ( is_null( $class)) {
-			if ( \config::$CSS_BASE == 'mini')
-				$class = 'col';
-			else
-				$class = 'content';
+			$class = 'content';
 
 		}
 
@@ -186,10 +173,7 @@ class page extends _page {
 
 	public function primary( $class = NULL) {
 		if ( is_null( $class)) {
-			if ( \config::$CSS_BASE == 'mini')
-				$class = 'col col-12 col-md-9';
-			else
-				$class = 'content-primary';
+			$class = 'content-primary';
 
 		}
 
@@ -205,10 +189,7 @@ class page extends _page {
 
 	public function secondary( $class= NULL) {
 		if ( is_null( $class)) {
-			if ( \config::$CSS_BASE == 'mini')
-				$class = 'col col-12 col-md-3';
-			else
-				$class = 'content-secondary';
+			$class = 'content-secondary';
 
 		}
 
@@ -226,7 +207,7 @@ class page extends _page {
 		$this->_pagefooter();
 
 		if ( '' == self::$footerTemplate) {
-			self::$footerTemplate = ( \config::$CSS_BASE == 'mini' ? 'footer-mini' : 'footer');
+			self::$footerTemplate = 'footer';
 
 		}
 

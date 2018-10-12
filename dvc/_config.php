@@ -75,7 +75,6 @@ abstract class _config {
 	static $BOOTSTRAP = TRUE;
 
 	static $COOKIE_AUTHENTICATION_EXPIRES_DAYS = 7;
-	static $CSS_BASE = 'dvc';
 
 	static $CONTENT_SECURITY_ENABLED = TRUE;
 
