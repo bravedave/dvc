@@ -17,6 +17,10 @@ class bootstrap extends page {
 
 	static $SCALE = 1;
 
+	static $contentClass = 'col pt-3 pb-4';
+	static $primaryClass = 'col-sm-8 col-md-9 pt-3 pb-4';
+	static $secondaryClass = 'col-sm-4 col-md-3 pt-3 pb-4 bg-light d-print-none';
+
 	function __construct( $title = '' ) {
 		self::$BootStrap = TRUE;
 		if ( self::$BootStrap_Version == '3') {
@@ -56,7 +60,7 @@ class bootstrap extends page {
 
 	public function content( $class = NULL) {
 		if ( is_null( $class))
-			$class =  'col pt-3 pb-4';
+			$class = self::$contentClass;
 
 		return ( parent::content( $class));	// chain
 
@@ -64,7 +68,7 @@ class bootstrap extends page {
 
 	public function primary( $class = NULL) {
 		if ( is_null( $class))
-			$class =  'col-sm-8 col-md-9 pt-3 pb-4';
+			$class = self::$primaryClass;
 
 		return ( parent::primary( $class));	// chain
 
@@ -72,7 +76,7 @@ class bootstrap extends page {
 
 	public function secondary( $class = NULL) {
 		if ( is_null( $class))
-			$class =  'col-sm-4 col-md-3 pt-3 pb-4 bg-light d-print-none';
+			$class =  self::$secondaryClass;
 
 		return ( parent::secondary( $class));	// chain
 
