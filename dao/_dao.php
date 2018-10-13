@@ -62,7 +62,7 @@ abstract class _dao {
 
 	}
 
-	protected function create() {
+	function create() {
 		/*
 		* returns a new dto of the file
 		*/
