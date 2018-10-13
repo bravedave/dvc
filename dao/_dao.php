@@ -107,13 +107,13 @@ abstract class _dao {
 
 		});
 
-		$a = [];
+		$o = new dto\dto;
 		foreach( $dtoSet as $dto) {
-			$a[$dto->Field] = $dto->Default;
+			$o->{$dto->Field} = $dto->Default;
 
 		}
 
-		return ( $a);
+		return ( $o);
 
 	}
 
@@ -122,7 +122,7 @@ abstract class _dao {
 		* returns a new dto of the file
 		*/
 		if ( is_null( $this->template)) {
-			return ( (object)$this->_create());
+			return ( $this->_create());
 
 		}
 
