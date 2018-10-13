@@ -62,12 +62,67 @@ abstract class _dao {
 
 	}
 
+	protected function _create() {
+		//~ $fields = $this->db->fieldList( $this->table);
+		//~ $struct = $this->db->fetchFields( $this->db_name());
+		$res = $this->Result( sprintf( 'SHOW COLUMNS FROM %s', $this->db_name()));
+		$dtoSet = $res->dtoSet( function( $dto) {
+			/*
+				in:
+
+				[Field] => id
+				[Type] => bigint(20)
+				[Null] => NO
+				[Key] => PRI
+				[Default] =>
+				[Extra] => auto_increment
+
+			*/
+
+			//~ $field->Dec
+			$dto->Len = 0;
+			$type = strtoupper( preg_replace( '@\(.*$@', '', $dto->Type));
+
+			if ( 'BIGINT' == $type || 'SMALLINT' == $type || 'TINYINT' == $type || 'INT' == $type) {
+				$dto->Len = trim( preg_replace( '@^.*\(@', '', $dto->Type),') ');
+				$dto->Type = $type;
+				$dto->Default = (int)$dto->Default;
+
+			}
+			elseif ( 'DATE' == $type || 'DATETIME' == $type) {
+				$dto->Type = $type;
+
+			}
+			elseif ( 'MEDIUMTEXT' == $type || 'TEXT' == $type) {
+				$dto->Type = $type;
+
+			}
+			elseif ( 'VARCHAR' == $type || 'VARBINARY' == $type) {
+				$dto->Len = trim( preg_replace( '@^.*\(@', '', $dto->Type),') ');
+				$dto->Type = $type;
+
+			}
+
+			return ( $dto);
+
+		});
+
+		$a = [];
+		foreach( $dtoSet as $dto) {
+			$a[$dto->Field] = $dto->Default;
+
+		}
+
+		return ( $a);
+
+	}
+
 	function create() {
 		/*
 		* returns a new dto of the file
 		*/
 		if ( is_null( $this->template)) {
-			return ( (object)[]);
+			return ( (object)$this->_create());
 
 		}
 

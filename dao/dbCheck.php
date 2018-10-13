@@ -75,7 +75,7 @@ class dbCheck extends _dao {
 
 	function check() {
 
-		$fields = array( $this->pk . " bigint(20) NOT NULL auto_increment" );
+		$fields = [ $this->pk . " bigint(20) NOT NULL auto_increment" ];
 		foreach ( $this->structure as $fld ) {
 
 			if ( $fld["type"] == "varchar" ) {
@@ -150,8 +150,8 @@ class dbCheck extends _dao {
 		//~ print $sql;
 		$this->db->Q( $sql );
 
-		$fields = $this->db->fieldList( $this->table );
-		$fieldStructures = $this->db->fetchFields( $this->table );
+		$fields = $this->db->fieldList( $this->table);
+		$fieldStructures = $this->db->fetchFields( $this->table);
 		$charset = $this->db->getCharSet();
 		$after = "";
 		foreach ( $this->structure as $fld ) {
