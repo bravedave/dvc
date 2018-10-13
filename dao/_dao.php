@@ -10,21 +10,16 @@
 NameSpace dao;
 
 abstract class _dao {
-	public $log = FALSE;
-	public $db;
-	protected $_db_name = NULL;
-	protected $_db_allways_check_structure = TRUE;
-	protected $template = NULL;
-
 	protected $_sql_getByID = 'SELECT * FROM %s WHERE id = %d';
 	protected $_sql_getAll = 'SELECT %s FROM %s %s';
 
-	public static function dbTimeStamp() {
-		return ( \db::dbTimeStamp());
+	public $db;
+	protected $_db_name = null;
+	protected $_db_allways_check_structure = true;
+	public $log = false;
+	protected $template = null;
 
-	}
-
-	function __construct( \dvc\dbi $db = NULL ) {
+	function __construct( \dvc\dbi $db = null ) {
 		if ( is_null( $db ))
 			$this->db = \sys::dbi();
 
@@ -36,25 +31,117 @@ abstract class _dao {
 
 	}
 
-	/*
-	 * Abstract method placeholder for use by
-	 * the child class. This method is called
-	 * at the end of __construct()
-	 *
-	 * avoid replacing the default __construct
-	 * method use before instead
-	 */
+	public static function asDTO( \dvc\dbResult $res, $template = null) {
+		$r = [];
+		while ( $dto = $res->dto( $template)) {
+			$r[] = $dto;
+
+		}
+
+		return ( $r);
+
+	}
+
 	protected function before() {
-		/**
-		 * Inspired by something I read in the fuelPHP documentation
-		 * this method is called at the end of __construct and can
-		 * be used to modify the _controller class
-		 */
+		/*
+		* Abstract method placeholder for use by the child class.
+		* This method is called at the end of __construct()
+		*
+		* avoid replacing the default __construct method - use before instead
+		*
+		* Inspired by something I read in the fuelPHP documentation
+		* this method is called at the end of __construct and can
+		* be used to modify the _controller class
+		*/
+
+	}
+
+	protected function check() {
+		if ( $dbc = $this->structure())
+		$dbc->check();
+
+	}
+
+	protected function create() {
+		/*
+		* returns a new dto of the file
+		*/
+		if ( is_null( $this->template)) {
+			return ( (object)[]);
+
+		}
+
+		return new $this->template;
 
 	}
 
 	public function db_name() {
 		return ( $this->_db_name );
+
+	}
+
+	public static function dbTimeStamp() {
+		return ( \db::dbTimeStamp());
+
+	}
+
+	public function delete( $id) {
+		if ( is_null( $this->_db_name)) {
+			throw new Exceptions\DBNameIsNull;
+
+		}
+
+		$this->db->log = $this->log;
+		$this->Q( sprintf( 'DELETE FROM %s WHERE id = %d', $this->_db_name, (int)$id ));
+
+	}
+
+	public function escape( $s ) {
+		return ( $this->db->escape($s));
+
+	}
+
+	public function getAll( $fields = '*', $order = '') {
+		if ( is_null( $this->_db_name)) {
+			throw new Exceptions\DBNameIsNull;
+
+		}
+
+		$this->db->log = $this->log;
+		return ( $this->Result( sprintf( $this->_sql_getAll, $fields, $this->db_name(), $order )));
+
+	}
+
+	public function getByID( $id) {
+		if ( is_null( $this->_db_name)) {
+			throw new Exceptions\DBNameIsNull;
+
+		}
+
+		if ( \config::$DB_CACHE == 'APC') {
+			$cache = \dvc\cache::instance();
+			$key = sprintf( '%s.%s', $this->db_name(), $id);
+			if ( $dto = $cache->get( $key)) {
+				return ( $dto);
+
+			}
+
+		}
+
+		$this->db->log = $this->log;
+		if ( $res = $this->Result( sprintf( $this->_sql_getByID, $this->_db_name, (int)$id ))) {
+			if ( $dto = $res->dto( $this->template)) {
+				if ( \config::$DB_CACHE == 'APC') {
+					$cache->set( $key, $dto);
+				}
+
+			}
+
+			return ( $dto);
+
+		}
+
+		return ( FALSE);
 
 	}
 
@@ -101,7 +188,7 @@ abstract class _dao {
 
 	public function Result( $query ) {
 		$this->db->log = $this->log;
-		return ( $this->db->Result( $query ));
+		return ( $this->db->Result( $query));
 
 	}
 
@@ -111,19 +198,8 @@ abstract class _dao {
 
 	}
 
-	public function escape( $s ) {
-		return ( $this->db->escape($s));
-
-	}
-
-	public static function asDTO( \dvc\dbResult $res, $template = NULL) {
-		$r = [];
-		while ( $dto = $res->dto( $template)) {
-			$r[] = $dto;
-
-		}
-
-		return ( $r);
+	protected function structure( $name = NULL) {
+		return ( FALSE );
 
 	}
 
@@ -178,72 +254,6 @@ abstract class _dao {
 		}
 
 		return ( FALSE);
-
-	}
-
-	protected function check() {
-		if ( $dbc = $this->structure())
-			$dbc->check();
-
-	}
-
-	protected function structure( $name = NULL) {
-		return ( FALSE );
-
-	}
-
-	public function getAll( $fields = '*', $order = '') {
-		if ( is_null( $this->_db_name)) {
-			throw new Exceptions\DBNameIsNull;
-
-		}
-
-		$this->db->log = $this->log;
-		return ( $this->Result( sprintf( $this->_sql_getAll, $fields, $this->db_name(), $order )));
-
-	}
-
-	public function getByID( $id) {
-		if ( is_null( $this->_db_name)) {
-			throw new Exceptions\DBNameIsNull;
-
-		}
-
-		if ( \config::$DB_CACHE == 'APC') {
-			$cache = \dvc\cache::instance();
-			$key = sprintf( '%s.%s', $this->db_name(), $id);
-			if ( $dto = $cache->get( $key)) {
-				return ( $dto);
-
-			}
-
-		}
-
-		$this->db->log = $this->log;
-		if ( $res = $this->Result( sprintf( $this->_sql_getByID, $this->_db_name, (int)$id ))) {
-			if ( $dto = $res->dto( $this->template)) {
-				if ( \config::$DB_CACHE == 'APC') {
-					$cache->set( $key, $dto);
-				}
-
-			}
-
-			return ( $dto);
-
-		}
-
-		return ( FALSE);
-
-	}
-
-	public function delete( $id) {
-		if ( is_null( $this->_db_name)) {
-			throw new Exceptions\DBNameIsNull;
-
-		}
-
-		$this->db->log = $this->log;
-		$this->Q( sprintf( 'DELETE FROM %s WHERE id = %d', $this->_db_name, (int)$id ));
 
 	}
 
