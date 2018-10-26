@@ -517,11 +517,11 @@ abstract class _controller {
 		$defaults = [
 			'title' => sprintf( '%s Modal', \config::$WEBNAME),
 			'class' => '',
-			'header-class' => cms\theme::modalHeader(),
+			'header-class' => 'text-white bg-secondary',
 			'load' => false,
 			'text' => false,
 		];
-		
+
 		$options = array_merge( $defaults, $params);
 
 		\Response::html_headers();
