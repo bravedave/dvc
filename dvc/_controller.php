@@ -525,7 +525,7 @@ abstract class _controller {
 		$options = array_merge( $defaults, $params);
 
 		\Response::html_headers();
-		$m = new dvc\pages\modal([
+		$m = new pages\modal([
 			'title' => $options['title'],
 			'class' => $options['class'],
 			'header-class' => $options['header-class'],
