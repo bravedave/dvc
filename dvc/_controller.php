@@ -513,6 +513,44 @@ abstract class _controller {
 
 	}
 
+	protected function modal( $params = []) {
+		$defaults = [
+			'title' => sprintf( '%s Modal', \config::$WEBNAME),
+			'class' => '',
+			'header-class' => cms\theme::modalHeader(),
+			'load' => false,
+			'text' => false,
+		];
+		
+		$options = array_merge( $defaults, $params);
+
+		\Response::html_headers();
+		$m = new cms\modal([
+			'title' => $options['title'],
+			'class' => $options['class'],
+			'header-class' => $options['header-class'],
+		]);
+
+		$m->open();
+
+		if ( $options['load']) {
+			foreach ( (array)$options['load'] as $_) {
+				$this->load( $_);
+
+			}
+
+		}
+
+		if ( $options['text']) {
+			foreach ( (array)$options['text'] as $_) {
+				print $_;
+
+			}
+
+		}
+
+	}
+
 	protected function _render( $view) {
 		foreach( (array)$view as $view){
 			$this->load( $view);
