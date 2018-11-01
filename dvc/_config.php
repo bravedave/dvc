@@ -26,8 +26,9 @@ abstract class _config {
 	static $oauth2_secret = NULL;  	// Client Secret
 	static $oauth2_redirect = NULL; 	// Redirect URI
 	static $oauth2_scope = 0; 		// Permission to read email
+	static $captcha = false; 		// Permission to read email
 
-	const lockdown = FALSE;			// affects the home page and docs page set this and they will require auth
+	const lockdown = false;			// affects the home page and docs page set this and they will require auth
 
 	/**
 	 * exposes a popup logon if authentication is required
@@ -35,8 +36,8 @@ abstract class _config {
 	 * if you use this, the home controller must accept the
 	 * submission and authenticate
 	 */
-	const use_inline_logon = FALSE;
-	const allow_password_recovery = FALSE;
+	const use_inline_logon = false;
+	const allow_password_recovery = false;
 
 	const GMAIL_BASIC = 0;
 	const GMAIL_READ = 1;
@@ -68,7 +69,7 @@ abstract class _config {
 
 	static $SUPPORT_NAME = 'Software Support';
 	static $SUPPORT_EMAIL = 'support@example.dom';
-	static $EMAIL_ERRORS_TO_SUPPORT = FALSE;
+	static $EMAIL_ERRORS_TO_SUPPORT = false;
 
 	static $AUTHENTICATION_EXPIRES_DAYS = 1;
 
@@ -85,7 +86,7 @@ abstract class _config {
 	static $DB_NAME = 'dbname';
 	static $DB_USER = 'dbuser';
 	static $DB_PASS = '';
-	static $DB_ALTER_FIELD_STRUCTURES = FALSE;	// experimental
+	static $DB_ALTER_FIELD_STRUCTURES = false;	// experimental
 
 	/*
 	*	Caching using APCu, Interfaced through https://www.scrapbook.cash/
@@ -97,7 +98,7 @@ abstract class _config {
 	*/
 	static $DB_CACHE = '';	// values = 'APC'
 	static $DB_CACHE_TTL = 300;
-	static $DB_CACHE_DEBUG = FALSE;
+	static $DB_CACHE_DEBUG = false;
 
 	static $DEFAULT_CONTROLLER = 'home';
 
@@ -109,13 +110,13 @@ abstract class _config {
 
 	static $PAGE_TEMPLATE = '\dvc\pages\bootstrap4';
 	static $PAGE_TEMPLATE_LOGON = '\dvc\pages\bootstrap4';
-	static $SITEMAPS = FALSE;
+	static $SITEMAPS = false;
 
 	static $TEMPLATES_DIR = NULL;
 	static $TEMPLATES_DIR_CSS = NULL;
 	static $TIMEZONE = 'UTC';
 
-	/**
+	/*
 	 settings for the cache expire time
 	 set in the response headers
 
@@ -129,7 +130,7 @@ abstract class _config {
 	static $CORE_IMG_EXPIRE_TIME = 60;	// set on images that come from the /image location
 
 	static function tempdir() {
-		/**
+		/*
 		 * return a writable path with a trailing slash
 		 */
 
@@ -142,7 +143,7 @@ abstract class _config {
 		if ( \config::$DB_TYPE == 'mysql' || \config::$DB_TYPE == 'sqlite' )
 			return TRUE;
 
-		return FALSE;
+		return false;
 
 	}
 
@@ -203,6 +204,20 @@ abstract class _config {
 					\config::$oauth2_client_id = $a->web->client_id;
 					\config::$oauth2_secret = $a->web->client_secret;
 					\config::$oauth2_redirect = \url::$PROTOCOL . \url::tostring( 'auth/response/');
+
+				} // if ( isset( $a->web))
+
+			} // if ( file_exists( $path))
+
+			// $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
+			$path = sprintf('%srecaptcha.json',  \config::dataPath());
+			if ( file_exists( $path)) {
+				$a = json_decode( file_get_contents( $path));
+				if ( isset( $a->public)) {
+					\config::$captcha = (object)[
+						'public' => $a->public,
+						'private' => $a->private
+					];
 
 				} // if ( isset( $a->web))
 
