@@ -197,7 +197,7 @@ abstract class _config {
 			} // if ( file_exists( $path))
 
 			// $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
-			$path = sprintf('%sgoogle.json',  \config::dataPath());
+			$path = sprintf('%s%sgoogle.json', \config::dataPath(), DIRECTORY_SEPARATOR);
 			if ( file_exists( $path)) {
 				$a = json_decode( file_get_contents( $path));
 				if ( isset( $a->web)) {
@@ -210,7 +210,7 @@ abstract class _config {
 			} // if ( file_exists( $path))
 
 			// $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
-			$path = sprintf('%srecaptcha.json',  \config::dataPath());
+			$path = sprintf('%s%srecaptcha.json', \config::dataPath(), DIRECTORY_SEPARATOR);
 			if ( file_exists( $path)) {
 				$a = json_decode( file_get_contents( $path));
 				if ( isset( $a->public)) {
