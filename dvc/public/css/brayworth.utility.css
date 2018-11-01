@@ -28,6 +28,7 @@
   	vertical-align: 0.25em;
   	content: "drag files here to upload";
   	color: #9e9e9e;
+		font-size: .75rem;
   }
 	.has-advanced-upload .box__fill,
 	.has-advanced-upload .box__uploading,
