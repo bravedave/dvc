@@ -27,9 +27,8 @@ _brayworth_.ScrollTo = function( el) {
 
 		t = Math.max( 20, t);
 
-		$('html, body').animate({
-			scrollTop: t,
-			duration : 1000,
+		$('html, body').animate({ scrollTop: t}, {
+			duration : 800,
 			complete : resolve,
 			fail : reject,
 
