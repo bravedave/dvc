@@ -30,7 +30,7 @@ _brayworth_.ScrollTo = function( el) {
 		$('html, body').animate({
 			scrollTop: t,
 			duration : 1000,
-			done : resolve,
+			complete : resolve,
 			fail : reject,
 
 		});
