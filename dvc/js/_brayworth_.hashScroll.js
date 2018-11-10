@@ -8,25 +8,33 @@
 
 */
 _brayworth_.ScrollTo = function( el) {
-	var _el = ( el instanceof jQuery ? el : $(el));
+	return ( new Promise( function( resolve, reject) {
+		let _el = ( el instanceof jQuery ? el : $(el));
 
-	var t = _el.offset().top;
+		let t = _el.offset().top;
 
-	var nav = $('body>nav');
-	if ( nav.length ) {
-		t -= ( nav.outerHeight());
+		let nav = $('body>nav');
+		if ( nav.length ) {
+			t -= ( nav.outerHeight());
 
-	}
-	else {
-		var hdr = $('body>header');
-		if ( hdr.length )
-			t -= ( hdr.outerHeight());
+		}
+		else {
+			let hdr = $('body>header');
+			if ( hdr.length )
+				t -= ( hdr.outerHeight());
 
-	}
+		}
 
-	t = Math.max( 20, t);
+		t = Math.max( 20, t);
 
-	$('html, body').animate({ scrollTop: t }, 1000);
+		$('html, body').animate({ scrollTop: t}, {
+			duration : 800,
+			complete : resolve,
+			fail : reject,
+
+		});
+
+	}));
 
 }
 
@@ -34,7 +42,7 @@ _brayworth_.hashScroll = function() {
 	/** Scrolls the content into view **/
 	$('a[href*="#"]:not([href="#"] , .carousel-control, .ui-tabs-anchor)').on('click', function() {
 		if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-			var target = $(this.hash);
+			let target = $(this.hash);
 			target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
 			if (target.length) {
 				if ( /nav/i.test( target.prop('tagName')))
