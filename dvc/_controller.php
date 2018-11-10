@@ -517,7 +517,7 @@ abstract class _controller {
 		$defaults = [
 			'title' => sprintf( '%s Modal', \config::$WEBNAME),
 			'class' => '',
-			'header-class' => 'text-white bg-secondary',
+			'header-class' => 'text-white bg-secondary py-2',
 			'load' => false,
 			'text' => false,
 		];
