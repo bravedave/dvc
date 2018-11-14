@@ -170,7 +170,7 @@ class dbCheck extends _dao {
 											$this->table, $fld["name"],
 											$fld["name"], (string)$fld["length"], $this->db->escape( $fld["default"] ));
 
-										\sys::logger( sprintf( 'field length %s < %s', $fieldLength, ( (int)$fieldStructure->length / 3)));
+										\sys::logger( sprintf( 'field length %s < %s', $fieldLength, ( (int)$fld["length"])));
 										\sys::logSQL( $sql);
 
 									}
