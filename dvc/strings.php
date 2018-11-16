@@ -180,6 +180,47 @@ abstract class strings {
 
 	}
 
+	static function replaceWordCharacters( $text) {
+
+		// Replaces commonly-used Windows 1252 encoded chars
+		// that do not exist in ASCII or ISO-8859-1 with
+		// ISO-8859-1 cognates.
+		$str = $text;
+
+		$s = [];
+		$r = [];
+
+		// smart single quotes and apostrophe
+		//~ $s[] = sprintf( '@(\x{2018}|\x{2019}|\x{201A})@');
+		$s[] = sprintf( '@(%s|%s|%s)@', "\u{2018}", "\u{2019}", "\u{201A}");
+		sys::logger( $s[0]);
+
+		$r[] = "'";
+
+		// smart double quotes
+		$s[] = sprintf( '@(%s|%s|%s)@', "\u{201C}", "\u{201D}", "\u{201E}");
+		$r[] = '"';
+
+		/* TODO */
+
+		//~ // ellipsis
+		//~ s = s.replace(/\u2026/g, "...");
+		//~ // dashes
+		//~ s = s.replace(/[\u2013|\u2014]/g, "-");
+		//~ // circumflex
+		//~ s = s.replace(/\u02C6/g, "^");
+		//~ // open angle bracket
+		//~ s = s.replace(/\u2039/g, "<");
+		//~ // close angle bracket
+		//~ s = s.replace(/\u203A/g, ">");
+		//~ // spaces
+		//~ s = s.replace(/[\u02DC|\u00A0]/g, " ");
+
+		return preg_replace( $s, $r, $str);
+		//~ return $str;
+
+	}
+
 	static function SmartCase($name) {
 		$name = strtolower($name);
 		$name = join("'", array_map('ucwords', explode("'", $name)));
