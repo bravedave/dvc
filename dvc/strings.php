@@ -193,7 +193,7 @@ abstract class strings {
 		// smart single quotes and apostrophe
 		//~ $s[] = sprintf( '@(\x{2018}|\x{2019}|\x{201A})@');
 		$s[] = sprintf( '@(%s|%s|%s)@', "\u{2018}", "\u{2019}", "\u{201A}");
-		sys::logger( $s[0]);
+		// sys::logger( $s[0]);
 
 		$r[] = "'";
 
