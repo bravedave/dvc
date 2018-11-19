@@ -167,6 +167,40 @@ abstract class _dao {
 
 	}
 
+	public function getFieldByID( $id, $fld) {
+		if ( is_null( $this->_db_name)) {
+			throw new Exceptions\DBNameIsNull;
+
+		}
+
+		if ( \config::$DB_CACHE == 'APC') {
+			$cache = \dvc\cache::instance();
+			$key = sprintf( '%s.%s.%s', $this->db_name(), $id, $fld);
+			if ( $v = $cache->get( $key)) {
+				return ( $v);
+
+			}
+
+		}
+
+		$this->db->log = $this->log;
+		if ( $res = $this->Result( sprintf( $this->_sql_getByID, $this->_db_name, (int)$id ))) {
+			if ( $dto = $res->dto( $this->template)) {
+				if ( \config::$DB_CACHE == 'APC') {
+					$cache->set( $key, $dto->{$fld});
+
+				}
+
+			}
+
+			return ( $dto->{$fld});
+
+		}
+
+		return ( FALSE);
+
+	}
+
 	public function getByID( $id) {
 		if ( is_null( $this->_db_name)) {
 			throw new Exceptions\DBNameIsNull;
@@ -188,6 +222,7 @@ abstract class _dao {
 			if ( $dto = $res->dto( $this->template)) {
 				if ( \config::$DB_CACHE == 'APC') {
 					$cache->set( $key, $dto);
+
 				}
 
 			}
