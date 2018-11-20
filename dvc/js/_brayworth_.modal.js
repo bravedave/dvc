@@ -126,6 +126,8 @@ _brayworth_.modal = function( params) {
 				})
 				.appendTo( t.footer());
 
+			if ( 'object' == typeof el) el.button = b;	// object now accessible to calling function
+
 			if ( !!j.title) {
 				btn.attr('title', j.title);
 
@@ -162,11 +164,12 @@ _brayworth_.modal = function( params) {
 
 			}
 
-			if ( !!j.title)
-				b.attr( 'title', j.title)
+			if ( !!j.title) b.attr( 'title', j.title)
 
 			b.on( 'click', function( e) { j.click.call( t.get(), e); })	// wrap the call and call it against the modal
 			t.header.prepend( b);
+			
+			if ( 'object' == typeof el) el.button = b;	// object now accessible to calling function
 
 		})
 
