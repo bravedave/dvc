@@ -15,8 +15,7 @@ namespace dvc\pages;
 class bootstrap4 extends bootstrap {
 
 	function __construct( $title = '' ) {
-		self::$BootStrap_Version = '4';
-
+		parent::$BootStrap_Version = '4';
 		parent::__construct( $title );
 
 		$this->topOfPage = [];
