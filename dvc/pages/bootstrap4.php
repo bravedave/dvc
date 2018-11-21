@@ -19,6 +19,8 @@ class bootstrap4 extends bootstrap {
 
 		parent::__construct( $title );
 
+		$this->topOfPage = [];
+
 	}
 
 }
