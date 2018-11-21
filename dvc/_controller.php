@@ -10,25 +10,25 @@
 	**
 	* This is the "base controller class". All other "real" controllers extend this class.
 	*/
-NameSpace dvc;
-Use dao;
+namespace dvc;
+use dao;
 
 abstract class _controller {
-	public $authorized = FALSE;
-	public $authorised = FALSE;
-	public $RequireValidation = TRUE;
-	public $CheckOffline = TRUE;
-	public $db = NULL;
+	public $authorized = false;
+	public $authorised = false;
+	public $RequireValidation = true;
+	public $CheckOffline = true;
+	public $db = null;
 	public $name = 'home';
-	public $Request = NULL;
-	public $timer = NULL;
+	public $Request = null;
+	public $timer = null;
 	public $rootPath  = '';
 	public $defaultController = 'home';
 	public $title;
-	public $debug = FALSE;
+	public $debug = false;
 
-	protected $Redirect_OnLogon = FALSE;
-	protected $label = NULL;
+	protected $Redirect_OnLogon = false;
+	protected $label = null;
 
 	static $url;
 

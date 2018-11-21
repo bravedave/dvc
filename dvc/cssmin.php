@@ -16,7 +16,7 @@
 	in theory - only used it once ...
 
 	*/
-NameSpace dvc;
+namespace dvc;
 
 abstract class cssmin {
 	public static $debug = FALSE;
@@ -179,6 +179,115 @@ abstract class cssmin {
 			return ( self::__createmin( $cssdir, $minfile, $files, TRUE));
 
 		}
+
+	}
+
+	protected static function _css_create( $options) {
+
+		$input = [];
+
+		if ( is_array( $options->cssFiles)) {
+			foreach ( $options->cssFiles as $file) {
+				if ( $options->debug) sys::logger( sprintf( '%s :: appending file %s', $options->libName, $file));
+				$input[] = file_get_contents( realpath( $file));
+
+			}
+
+		}
+		else {
+			$gi = new GlobIterator( $options->cssFiles, FilesystemIterator::KEY_AS_FILENAME);
+
+			foreach ($gi as $key => $item) {
+				if ( $options->leadKey && $key == $options->leadKey) {
+					if ( $options->debug) sys::logger( sprintf( '%s :: prepending leadKey %s', $options->libName, $options->leadKey));
+					array_unshift( $input, file_get_contents( $item->getRealPath()));
+
+				}
+				else {
+					if ( $options->debug) sys::logger( sprintf( '%s :: appending key %s', $options->libName, $key));
+					$input[] = file_get_contents( $item->getRealPath());
+
+				}
+
+			}
+
+		}
+
+		$minifier = new \MatthiasMullie\Minify\CSS;
+		$minifier->add( implode( "\n", $input));
+		$content = $minifier->minify();
+
+		file_put_contents( $options->libFile, $minifier->minify());
+
+	}
+
+	protected static function _css_serve( $options) {
+
+		$expires = \config::$CSS_EXPIRE_TIME;
+		$modTime = filemtime( $options->libFile);
+		$age = time() - $modTime;
+		if ( $age < 3600)
+			$expires = 36;
+
+		if ( $options->debug) sys::logger( sprintf( '%s :: serving(%s) %s', $options->libName, $expires, $options->libFile));
+		Response::css_headers( filemtime( $options->libFile), $expires);
+		print file_get_contents( $options->libFile);
+
+	}
+
+	public static function viewcss( $params) {
+		$options = (object)array_merge([
+			'debug' => false,
+			'libName' => '',
+			'leadKey' => false,
+			'cssFiles' => false,
+			'libFile' => false
+		], $params);
+
+		if ( $options->libFile ) {
+			if ( $options->cssFiles ) {
+				if ( file_exists( $options->libFile )) {
+					/* test to see if requires update */
+					$modtime = 0;
+					if ( is_array( $options->cssFiles)) {
+						foreach ( $options->cssFiles as $file)
+							$modtime = max( [ $modtime, filemtime( realpath( $file))]);
+
+					}
+					else {
+						$gi = new GlobIterator( $options->cssFiles, FilesystemIterator::KEY_AS_FILENAME);
+						foreach ($gi as $key => $item)
+							$modtime = max( [ $modtime, filemtime( $item->getRealPath())]);
+
+					}
+
+					$libmodtime = filemtime( $options->libFile);
+					if ( $libmodtime < $modtime) {
+						if ( $options->debug) sys::logger( sprintf( '%s :: updating %s, latest mod time = %s', $options->libName, $options->libFile, date( 'r', $modtime)));
+
+						self::_css_create( $options);
+						self::_css_serve( $options);
+
+					}
+					else {
+						if ( $options->debug) sys::logger( sprintf( '%s :: latest version (%s)', $options->libName, $options->libFile));
+							self::_css_serve( $options);
+
+					}
+
+				}
+				else {
+					/* create and serve */
+					if ( $options->debug) sys::logger( sprintf( '%s :: creating %s', $options->libName, $options->libFile));
+
+					self::_css_create( $options);
+					self::_css_serve( $options);
+
+				}
+
+			} else { throw new \Exceptions\LibraryFilesNotSpecified; }
+
+		} else { throw new \Exceptions\FileNotSpecified; }
 
 	}
 
