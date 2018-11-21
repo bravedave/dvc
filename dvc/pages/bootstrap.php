@@ -15,6 +15,7 @@ NameSpace dvc\pages;
 class bootstrap extends page {
 
 	static $SCALE = 1;
+	static public $BootStrap_Version = '3';
 
 	static $pageContainer = 'container-fluid';
 	static $contentClass = 'col pt-3 pb-4';
@@ -23,7 +24,7 @@ class bootstrap extends page {
 
 	function __construct( $title = '' ) {
 		parent::$pageContainer = self::$pageContainer;
-		self::$BootStrap_Version = '3';
+		parent::$BootStrap_Version = self::$BootStrap_Version;
 		self::$BootStrap = true;
 		if ( self::$BootStrap_Version == '3') {
 			$this->jQuery2 = true;
