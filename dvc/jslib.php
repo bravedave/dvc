@@ -206,21 +206,9 @@ abstract class jslib {
 
 	public static function brayworth( $lib = FALSE, $libdir = '') {
 		$debug = self::$debug;
-		//~ $debug = TRUE;
+		//~ $debug = true;
 
-		// if ( 4 <= (int)\dvc\pages\bootstrap::$BootStrap_Version) {
-		// 	self::$brayworthlibFiles[] = 'bootstrap.4/js/typeahead.bundle.js';
-		// 	if ( !$lib) {
-		// 		$lib = 'brayworthlib4.js';
-		//
-		// 	}
-		//
-		// }
-
-		if ( !$lib) {
-			$lib = 'brayworthlib.js';
-
-		}
+		if ( !$lib) { $lib = 'brayworthlib.js'; }
 
 		$files = [];
 		foreach( self::$brayworthlibFiles as $f) {

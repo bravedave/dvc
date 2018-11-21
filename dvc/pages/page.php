@@ -7,7 +7,7 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 	*/
-NameSpace dvc\pages;
+namespace dvc\pages;
 
 class page extends _page {
 	public $timer = null;
@@ -16,7 +16,6 @@ class page extends _page {
 
 	static public $MainContextMenu = true;
 	static public $BootStrap = false;
-	static public $BootStrap_Version = false;
 	static public $pageContainer = '';
 
 	protected static $vuejs = false;
@@ -125,14 +124,14 @@ class page extends _page {
 
 				$classes = [];
 
-				if ( (int)self::$BootStrap_Version == 3) $classes[] = 'main-content-wrapper';
+				if ( (int)\config::$BOOTSTRAP_VERSION == 3) $classes[] = 'main-content-wrapper';
 
 				if ( self::$pageContainer) {
 					$classes[] = self::$pageContainer;
 
 				}
 
-				if ( $this->hasTitleBar && (int)self::$BootStrap_Version == 3) $classes[] = 'with-nav-bar';
+				if ( $this->hasTitleBar && (int)\config::$BOOTSTRAP_VERSION == 3) $classes[] = 'with-nav-bar';
 
 				printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><div class="row"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
 

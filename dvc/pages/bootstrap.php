@@ -15,7 +15,6 @@ NameSpace dvc\pages;
 class bootstrap extends page {
 
 	static $SCALE = 1;
-	static public $BootStrap_Version = '3';
 
 	static $pageContainer = 'container-fluid';
 	static $contentClass = 'col pt-3 pb-4';
@@ -24,13 +23,12 @@ class bootstrap extends page {
 
 	function __construct( $title = '' ) {
 		parent::$pageContainer = self::$pageContainer;
-		parent::$BootStrap_Version = self::$BootStrap_Version;
 		self::$BootStrap = true;
-		if ( self::$BootStrap_Version == '3') {
+		if ( \config::$BOOTSTRAP_VERSION == '3') {
 			$this->jQuery2 = true;
 
 		}
-		elseif ( self::$BootStrap_Version == '4' && $this->dvc) {
+		elseif ( \config::$BOOTSTRAP_VERSION == '4' && $this->dvc) {
 			$this->dvc = '4';
 
 		}
@@ -39,7 +37,7 @@ class bootstrap extends page {
 
 		$this->meta[] = sprintf('<meta name="viewport" content="width=device-width, initial-scale=%s, shrink-to-fit=no" />', self::$SCALE);
 
-		if ( self::$BootStrap_Version == '3') {
+		if ( \config::$BOOTSTRAP_VERSION == '3') {
 			$css = \url::tostring( 'bootstrap.3/css/bootstrap.min.css');
 			$js = \url::tostring( 'bootstrap.3/js/bootstrap.min.js');
 
@@ -48,7 +46,7 @@ class bootstrap extends page {
 			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
 
 		}
-		elseif ( self::$BootStrap_Version == '4') {
+		elseif ( \config::$BOOTSTRAP_VERSION == '4') {
 			$css = \url::tostring( 'assets/bootstrap/css');
 			$js = \url::tostring( 'assets/bootstrap/js');
 

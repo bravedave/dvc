@@ -74,6 +74,7 @@ abstract class _config {
 	static $AUTHENTICATION_EXPIRES_DAYS = 1;
 
 	static $BOOTSTRAP = TRUE;
+	static $BOOTSTRAP_VERSION = '4';
 
 	static $COOKIE_AUTHENTICATION_EXPIRES_DAYS = 7;
 
