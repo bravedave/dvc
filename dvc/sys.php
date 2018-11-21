@@ -439,7 +439,7 @@ abstract class sys {
 
 	}
 
-	public function serveBootStrap() {
+	public function serveBootStrap( $type = 'css') {
 		$root = realpath( __DIR__ . '/../../../twbs');
 		if ( $root) {
 			$path = realpath( sprintf( '%s/bootstrap/dist', $root));
