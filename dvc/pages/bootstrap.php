@@ -13,7 +13,6 @@
 NameSpace dvc\pages;
 
 class bootstrap extends page {
-	static public $BootStrap_Version = '3';
 
 	static $SCALE = 1;
 
@@ -24,9 +23,10 @@ class bootstrap extends page {
 
 	function __construct( $title = '' ) {
 		parent::$pageContainer = self::$pageContainer;
-		self::$BootStrap = TRUE;
+		self::$BootStrap_Version = '3';
+		self::$BootStrap = true;
 		if ( self::$BootStrap_Version == '3') {
-			$this->jQuery2 = TRUE;
+			$this->jQuery2 = true;
 
 		}
 		elseif ( self::$BootStrap_Version == '4' && $this->dvc) {

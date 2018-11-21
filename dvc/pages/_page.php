@@ -29,7 +29,7 @@ class _page {
 		$css = [],
 		$closeTags = [],
 		$closeContentTags = [],
-		$footer = TRUE,
+		$footer = true,
 		$bodyClass = FALSE,
 		$debug = FALSE,
 		$jQuery2 = FALSE;
@@ -115,7 +115,7 @@ class _page {
 	}
 
 	public function open() {
-		$this->boolOpen = TRUE;
+		$this->boolOpen = true;
 
 	}
 
@@ -124,12 +124,12 @@ class _page {
 
 	}
 
-	public function header( $boolCloseHeader = TRUE ) {
+	public function header( $boolCloseHeader = true ) {
 		if ( $this->boolHeader )
 			return ( $this);
 
-		$this->boolHeader = TRUE;
-		$this->headerOPEN = TRUE;
+		$this->boolHeader = true;
+		$this->headerOPEN = true;
 
 		$this->open();
 		\Response::html_headers( $this->charset);
@@ -175,7 +175,7 @@ class _page {
 		if ( $this->boolpageHeader )
 			return ( $this);
 
-		$this->boolpageHeader = TRUE;
+		$this->boolpageHeader = true;
 
 		$this->closeHeader();
 
@@ -198,7 +198,7 @@ class _page {
 		$v = new \view( $this->data);
 			$v->load( $navbar);
 
-		$this->hasTitleBar = TRUE;
+		$this->hasTitleBar = true;
 
 		return ( $this);
 
@@ -215,7 +215,7 @@ class _page {
 
 		printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
 
-		$this->contentOPEN = TRUE;
+		$this->contentOPEN = true;
 
 		return ( $this);
 
@@ -237,7 +237,7 @@ class _page {
 
 	public function section( $name = 'content', $class = 'content', $role = 'content') {
 		$this->closeSection();
-		$this->sectionOPEN = TRUE;
+		$this->sectionOPEN = true;
 		$this->sectionNAME = $name;
 
 		printf( '		<div class="%s" data-role="%s">%s', $class, $role, PHP_EOL );
