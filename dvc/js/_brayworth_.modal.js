@@ -105,6 +105,7 @@ _brayworth_.modal = function( params) {
 	t.append( content);		// this is the content
 
 	if ( Object.keys( options.buttons).length > 0) {	// jquery-ui style
+		let btnGrp = $('<div class="btn-group btn-group-sm" />').appendTo( t.footer());
 		$.each( options.buttons, function( i, el) {
 			let j = {
 				text : i,
@@ -124,7 +125,7 @@ _brayworth_.modal = function( params) {
 					j.click.call( t.get(), e, this);
 
 				})
-				.appendTo( t.footer());
+				.appendTo( btnGrp);
 
 			if ( 'object' == typeof el) el.button = btn;	// object now accessible to calling function
 
