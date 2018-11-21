@@ -9,78 +9,58 @@
 	*/
 
 class assets extends Controller {
-  public $RequireValidation = FALSE;
+	public $RequireValidation = FALSE;
 
-  protected function _index() {}
+	protected function _index() {}
 
-  public function bootstrap( $type = 'css', $version = 4) {
-    if ( 4 == (int)$version) {
-      $root = realpath( sprintf( '%s/../../../../twbs', __DIR__));
-      if ( $root) {
-        $path = realpath( sprintf( '%s/bootstrap/dist', $root));
-        // printf( '%s<br />', $path);
-        if ( 'css' == $type) {
-          $lib = sprintf( '%s/css/bootstrap.min.css',$path);
-          \sys::serve( $lib);
-          // printf( '%s<br />', $lib);
+	public function bootstrap( $type = 'css', $version = 4) {
+		if ( 4 == (int)$version) {
+			sys::serveBootStrap( $type);
 
-        }
-        elseif ( 'js' == $type) {
-          $lib = sprintf( '%s/js/bootstrap.bundle.min.js',$path);
-          \sys::serve( $lib);
-          // printf( '%s<br />', $lib);
+		}
 
-        }
+	}
 
-      }
-      else {
-        throw new \Exception( 'Cannot locate twbs bootstrap - install with compose require twbs/bootstrap');
+	public function jquery() {
+		\sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.3.1.min.js'));
 
-      }
+	}
 
-    }
+	public function brayworth( $type = 'css') {
+		if ( 'css' == $type) {
 
-  }
+		}
+		else {
+			// sys::dump( \jslib::$brayworthlibFiles);
+			$files = [];
+			foreach( \jslib::$brayworthlibFiles as $f) {
+				$path = sprintf( '%s/../%s', __DIR__, $f);
+				// printf( '%s<br />', $path);
+				if ( $_f = realpath( $path)) {
+					$key = basename( $_f);
+					$files[ $key] = $_f;
 
-  public function jquery() {
-    \sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.3.1.min.js'));
+				}
 
-  }
+			}
 
-  public function brayworth( $type = 'css') {
-    if ( 'css' == $type) {
-    }
-    else {
-      // sys::dump( \jslib::$brayworthlibFiles);
-      $files = [];
-      foreach( \jslib::$brayworthlibFiles as $f) {
-        $path = sprintf( '%s/../%s', __DIR__, $f);
-        // printf( '%s<br />', $path);
-        if ( $_f = realpath( $path)) {
-          $key = basename( $_f);
-          $files[ $key] = $_f;
+			if ( $type == 'bundle') {
+				array_unshift( $files, sprintf('%s/../js/%s', __DIR__, 'jquery-3.3.1.min.js'));
 
-        }
+			}
 
-      }
+			// sys::dump( $files);
 
-      if ( $type == 'bundle') {
-        array_unshift( $files, sprintf('%s/../js/%s', __DIR__, 'jquery-3.3.1.min.js'));
+			jslib::viewjs([
+				'debug' => FALSE,
+				'libName' => 'brayworth',
+				'jsFiles' => $files,
+				'libFile' => config::tempdir()  . '_brayworth_tmp.js'
 
-      }
+			]);
 
-      // sys::dump( $files);
+		}
 
-      jslib::viewjs([
-        'debug' => FALSE,
-        'libName' => 'brayworth',
-        'jsFiles' => $files,
-        'libFile' => config::tempdir()  . '_brayworth_tmp.js'
-
-      ]);
-
-    }
-
-  }
+	}
 
 }
