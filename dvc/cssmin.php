@@ -19,13 +19,13 @@
 namespace dvc;
 
 abstract class cssmin {
-	public static $debug = FALSE;
-	public static $dvcmin = FALSE;
-	public static $dvcminFiles = FALSE;
+	public static $debug = false;
+	public static $dvcmin = false;
+	public static $dvcminFiles = false;
 
-	protected static $rootPath = NULL;
+	protected static $rootPath = null;
 
-	protected static function __createmin( $mindir, $cssmin, $files, $minify = FALSE) {
+	protected static function __createmin( $mindir, $cssmin, $files, $minify = false) {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
 
@@ -94,7 +94,7 @@ abstract class cssmin {
 
 	}
 
-	public static function dvc( $minfile = NULL, $cssdir = NULL, $version = NULL) {
+	public static function dvc( $minfile = null, $cssdir = null, $version = null) {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
 

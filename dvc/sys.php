@@ -7,25 +7,125 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 	*/
-NameSpace dvc;
+namespace dvc;
 
 abstract class sys {
 	protected static $_loglevel = 1;
 	protected static $_loaderCount = 0;
-	protected static $_loaderCounter = NULL;
+	protected static $_loaderCounter = null;
 	protected static $_logloader = 0;
-	protected static $_dbi = NULL;
+	protected static $_dbi = null;
 
-	static $debug = FALSE;
+	static $debug = false;
 
-	/**
-	 * text2html: converts plain text to html by swaping in <br /> for \n
-	 *
-	 * $inText : text to be converted
-	 * $maxRows : the number of rows to convert - default -1 == all
-	 * $allAsteriskAsList : convert * (asterisk) to list (<ul><li>{text}</li></ul>)
-	 **/
+	static function dbi() {
+		if ( is_null( self::$_dbi)) {
+			if ( config::$DB_TYPE == 'sqlite' ) {
+				self::$_dbi = sqlite\db::instance();
+
+			}
+			else {
+				self::$_dbi = new dbi();
+
+			}
+
+		}
+
+		return ( self::$_dbi);
+
+	}
+
+	static function getTemplate( $template) {
+		if ( $template) {
+			if ( $template = preg_replace( '/[^\da-z_]/i', '', $template)) {
+				$template .= '.html';
+
+				$path = sprintf( '%s%sapp%stemplates%s%s',
+					\application::app()->getRootPath(),
+					DIRECTORY_SEPARATOR,
+					DIRECTORY_SEPARATOR,
+					DIRECTORY_SEPARATOR,
+					$template);
+
+				if ( file_exists( $path)) {
+					\sys::serve( $path);
+
+				}
+				else {
+					$path = sprintf( '%s%stemplates%s%s',
+						__DIR__,
+						DIRECTORY_SEPARATOR,
+						DIRECTORY_SEPARATOR,
+						$template);
+
+					if ( file_exists( $path))
+						\sys::serve( $path);
+
+				}
+
+			}
+
+		}
+
+	}
+
+	static function logging( $level = NULL ) {
+		/**
+		 * Debug logging
+		 *	I just use 1-5, stuff fromthe application class is output if log level is 3
+		 **/
+		$oldLevel = self::$_loglevel;
+
+		if ( !( is_null( $level )))
+			self::$_loglevel = $level;
+
+		return ( $oldLevel);
+
+	}
+
+	static function logger( $v, $level = 0 ) {
+		if ( (int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel )
+			error_log( $v );
+
+	}
+
+	static function logloaderon( $b) {
+		self::$_logloader = (bool)$b;
+
+	}
+
+	static function loaderCounter( hitter $hitter) {
+		self::$_loaderCounter = $hitter;
+
+	}
+
+	static function logloader( $v) {
+		self::$_loaderCount++;
+
+		if ( self::$_loaderCounter)
+			self::$_loaderCounter->hits( self::$_loaderCount);
+
+		if ( (bool)self::$_logloader)
+			error_log( sprintf( '%d. %s', self::$_loaderCount, $v));
+
+	}
+
+	static function logSQL( $v, $level = 0 ) {
+		if ( (int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel ) {
+			self::logger( preg_replace( array( "@\r\n@","@\n@","@\t@","@\s\s*@" ), " ", $v ), $level);
+
+		}
+
+	}
+
 	static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = FALSE ) {
+		/**
+		 * text2html: converts plain text to html by swaping in <br /> for \n
+		 *
+		 * $inText : text to be converted
+		 * $maxRows : the number of rows to convert - default -1 == all
+		 * $allAsteriskAsList : convert * (asterisk) to list (<ul><li>{text}</li></ul>)
+		 **/
 
 		if ( $maxrows > 0 ) {
 			$a = [
@@ -62,72 +162,6 @@ abstract class sys {
 		}
 
 		return ( preg_replace( $a, $aR, $inText));
-
-	}
-
-	/**
-	 * Debug logging
-	 *	I just use 1-5, stuff fromthe application class is output if log level is 3
-	 **/
-	static function logging( $level = NULL ) {
-		$oldLevel = self::$_loglevel;
-
-		if ( !( is_null( $level )))
-			self::$_loglevel = $level;
-
-		return ( $oldLevel);
-
-	}
-
-	static function dbi() {
-		if ( is_null( self::$_dbi)) {
-			if ( config::$DB_TYPE == 'sqlite' ) {
-				self::$_dbi = sqlite\db::instance();
-
-			}
-			else {
-				self::$_dbi = new dbi();
-
-			}
-
-		}
-
-		return ( self::$_dbi);
-
-	}
-
-	static function logger( $v, $level = 0 ) {
-		if ( (int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel )
-			error_log( $v );
-
-	}
-
-	static function logloaderon( $b) {
-		self::$_logloader = (bool)$b;
-
-	}
-
-	static function loaderCounter( hitter $hitter) {
-		self::$_loaderCounter = $hitter;
-
-	}
-
-	static function logloader( $v) {
-		self::$_loaderCount++;
-
-		if ( self::$_loaderCounter)
-			self::$_loaderCounter->hits( self::$_loaderCount);
-
-		if ( (bool)self::$_logloader)
-			error_log( sprintf( '%d. %s', self::$_loaderCount, $v));
-
-	}
-
-	static function logSQL( $v, $level = 0 ) {
-		if ( (int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel ) {
-			self::logger( preg_replace( array( "@\r\n@","@\n@","@\t@","@\s\s*@" ), " ", $v ), $level);
-
-		}
 
 	}
 
@@ -405,35 +439,24 @@ abstract class sys {
 
 	}
 
-	static function getTemplate( $template) {
-		if ( $template) {
-			if ( $template = preg_replace( '/[^\da-z_]/i', '', $template)) {
-				$template .= '.html';
-
-				$path = sprintf( '%s%sapp%stemplates%s%s',
-					\application::app()->getRootPath(),
-					DIRECTORY_SEPARATOR,
-					DIRECTORY_SEPARATOR,
-					DIRECTORY_SEPARATOR,
-					$template);
-
-				if ( file_exists( $path)) {
-					\sys::serve( $path);
-
-				}
-				else {
-					$path = sprintf( '%s%stemplates%s%s',
-						__DIR__,
-						DIRECTORY_SEPARATOR,
-						DIRECTORY_SEPARATOR,
-						$template);
-
-					if ( file_exists( $path))
-						\sys::serve( $path);
-
-				}
+	public function serveBootStrap() {
+		$root = realpath( __DIR__ . '/../../../twbs');
+		if ( $root) {
+			$path = realpath( sprintf( '%s/bootstrap/dist', $root));
+			if ( 'css' == $type) {
+				$lib = sprintf( '%s/css/bootstrap.min.css',$path);
+				self::serve( $lib);
 
 			}
+			elseif ( 'js' == $type) {
+				$lib = sprintf( '%s/js/bootstrap.bundle.min.js',$path);
+				self::serve( $lib);
+
+			}
+
+		}
+		else {
+			throw new \Exception( 'Cannot locate twbs bootstrap - install with compose require twbs/bootstrap');
 
 		}
 
