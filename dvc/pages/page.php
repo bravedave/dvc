@@ -125,7 +125,7 @@ class page extends _page {
 
 				$classes = [];
 
-				if ( (int)self::$BootStrap_Version == 3) $classes[] = ['main-content-wrapper'];
+				if ( (int)self::$BootStrap_Version == 3) $classes[] = 'main-content-wrapper';
 
 				if ( self::$pageContainer) {
 					$classes[] = self::$pageContainer;
