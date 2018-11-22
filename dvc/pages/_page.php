@@ -7,21 +7,21 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 	*/
-NameSpace dvc\pages;
+namespace dvc\pages;
 
 class _page {
-	protected $boolHeader = FALSE,
-		$boolpageHeader = FALSE,
-		$headerOPEN = FALSE,
-		$contentOPEN = FALSE,
-		$sectionOPEN = FALSE,
+	protected $boolHeader = false,
+		$boolpageHeader = false,
+		$headerOPEN = false,
+		$contentOPEN = false,
+		$sectionOPEN = false,
 		$sectionNAME = '',
-		$hasTitleBar = FALSE,
+		$hasTitleBar = false,
 		$dvc = '3';
 
 	public $title = '';
-	public $data = FALSE;
-	public $charset = FALSE;
+	public $data = false;
+	public $charset = false;
 
 	public $meta = [],
 		$scripts = [],
@@ -30,12 +30,12 @@ class _page {
 		$closeTags = [],
 		$closeContentTags = [],
 		$footer = true,
-		$bodyClass = FALSE,
-		$debug = FALSE,
-		$jQuery2 = FALSE;
+		$bodyClass = false,
+		$debug = false,
+		$jQuery2 = false;
 
-	static $momentJS = FALSE;	// load momentJS sources
-	static $FullCalendar = FALSE;	// load fullCalendar sources
+	static $momentJS = false;	// load momentJS sources
+	static $FullCalendar = false;	// load fullCalendar sources
 	static $footerTemplate = '';
 
 	function __construct( $title = '' ) {
@@ -235,12 +235,12 @@ class _page {
 
 	}
 
-	public function section( $name = 'content', $class = 'content', $role = 'content') {
+	public function section( $name = 'content', $class = 'content', $role = 'content', $more = '') {
 		$this->closeSection();
 		$this->sectionOPEN = true;
 		$this->sectionNAME = $name;
 
-		printf( '		<div class="%s" data-role="%s">%s', $class, $role, PHP_EOL );
+		printf( '		<div class="%s" data-role="%s" %s>%s', $class, $role, $more, PHP_EOL );
 
 		return ( $this);	// chain
 

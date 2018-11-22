@@ -156,7 +156,7 @@ class page extends _page {
 
 	}
 
-	public function content( $class = NULL) {
+	public function content( $class = null, $more = null) {
 		if ( is_null( $class)) {
 			$class = 'content';
 
@@ -166,13 +166,13 @@ class page extends _page {
 			->header()
 			->closeSection()
 			->openContent()
-			->section( 'content', $class, 'content');
+			->section( 'content', $class, 'content', $more);
 
 		return ( $this);	// chain
 
 	}
 
-	public function primary( $class = NULL) {
+	public function primary( $class = null, $more = null) {
 		if ( is_null( $class)) {
 			$class = 'content-primary';
 
@@ -182,13 +182,13 @@ class page extends _page {
 			->header()
 			->closeSection()
 			->openContent()
-			->section( 'content-primary', $class, 'content-primary');
+			->section( 'content-primary', $class, 'content-primary', $more);
 
 		return ( $this);	// chain
 
 	}
 
-	public function secondary( $class= NULL) {
+	public function secondary( $class= null, $more = null) {
 		if ( is_null( $class)) {
 			$class = 'content-secondary';
 
@@ -198,7 +198,7 @@ class page extends _page {
 			->header()
 			->closeSection()
 			->openContent()
-			->section( 'content-secondary', $class, 'content-secondary');
+			->section( 'content-secondary', $class, 'content-secondary', $more);
 
 		return ( $this);	// chain
 
