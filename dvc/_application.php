@@ -347,27 +347,27 @@ class _application {
 
 		}
 
-		// ok, can't find it - perhaps serve a blank if it is an image
-		if (preg_match('/\.(?:png|jpg|jpeg|gif)(\?.*)?$/', $_url)) {
-
-			//~ self::$debug = TRUE;
-
-			if (preg_match('/\.(?:png)(\?.*)?$/', $_url))
-				$_file = sprintf( '%s/public/images/1x1.png', __DIR__);
-			elseif (preg_match('/\.(?:jpg|jpeg)(\?.*)?$/', $_url))
-				$_file = sprintf( '%s/public/images/1x1.jpg', __DIR__);
-			elseif (preg_match('/\.(?:gif)(\?.*)?$/', $_url))
-				$_file = sprintf( '%s/public/images/1x1.gif', __DIR__);
-
-			if ( file_exists( $_file)) {
-				if ( self::$debug) \sys::logger( sprintf( 'file not found : %s : serving :: %s', $_url, $_file));
-				$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
-				$this->serve( $_file);
-				return true;
-
-			}
-
-		}
+		// // ok, can't find it - perhaps serve a blank if it is an image
+		// if (preg_match('/\.(?:png|jpg|jpeg|gif)(\?.*)?$/', $_url)) {
+		//
+		// 	//~ self::$debug = TRUE;
+		//
+		// 	if (preg_match('/\.(?:png)(\?.*)?$/', $_url))
+		// 		$_file = sprintf( '%s/public/images/1x1.png', __DIR__);
+		// 	elseif (preg_match('/\.(?:jpg|jpeg)(\?.*)?$/', $_url))
+		// 		$_file = sprintf( '%s/public/images/1x1.jpg', __DIR__);
+		// 	elseif (preg_match('/\.(?:gif)(\?.*)?$/', $_url))
+		// 		$_file = sprintf( '%s/public/images/1x1.gif', __DIR__);
+		//
+		// 	if ( file_exists( $_file)) {
+		// 		if ( self::$debug) \sys::logger( sprintf( 'file not found : %s : serving :: %s', $_url, $_file));
+		// 		$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
+		// 		$this->serve( $_file);
+		// 		return true;
+		//
+		// 	}
+		//
+		// }
 
 	}
 

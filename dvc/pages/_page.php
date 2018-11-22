@@ -250,7 +250,7 @@ class _page {
 		if ( $this->sectionOPEN )
 			printf( '%s		</div><!-- %s -->%s%s', PHP_EOL, $this->sectionNAME, PHP_EOL, PHP_EOL );
 
-		$this->sectionOPEN = FALSE;
+		$this->sectionOPEN = false;
 
 		return ( $this);	// chain
 
