@@ -10,7 +10,7 @@
 	DO NOT change this file
 	Copy it to <application>/app/dvc/ and modify it there
 	*/
-NameSpace dvc\pages;
+namespace dvc\pages;
 
 class bootstrap extends page {
 
@@ -59,27 +59,27 @@ class bootstrap extends page {
 
 	}
 
-	public function content( $class = NULL) {
+	public function content( $class = null, $more = null) {
 		if ( is_null( $class))
 			$class = self::$contentClass;
 
-		return ( parent::content( $class));	// chain
+		return ( parent::content( $class, $more));	// chain
 
 	}
 
-	public function primary( $class = NULL) {
+	public function primary( $class = null, $more = null) {
 		if ( is_null( $class))
 			$class = self::$primaryClass;
 
-		return ( parent::primary( $class));	// chain
+		return ( parent::primary( $class, $more));	// chain
 
 	}
 
-	public function secondary( $class = NULL) {
+	public function secondary( $class = null, $more = null) {
 		if ( is_null( $class))
 			$class =  self::$secondaryClass;
 
-		return ( parent::secondary( $class));	// chain
+		return ( parent::secondary( $class, $more));	// chain
 
 	}
 
