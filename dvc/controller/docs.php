@@ -19,22 +19,12 @@ class docs extends Controller {
 			$view = 'index';
 
 		}
-		// $p = new dvc\pages\bootstrap4;
-		// 	$p
-		// 		->header()
-		// 		->title();
 
-		// $this->load( 'fork-me');
-
-		// $p->secondary();
-		// 	$this->load('contents');
-
-		// $p->primary();
-		// 	$this->load( (string)$view);
 		$this->render([
-			'title' => 'hello world',
+			'title' => $this->title = sprintf( 'Docs - %s', $view),
 			'primary' => (string)$view,
 			'secondary' =>'contents'
+
 		]);
 
 	}
