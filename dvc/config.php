@@ -10,6 +10,6 @@
 	DO NOT change this file
 	Copy it to <application>/app/dvc/ and modify it there
 	*/
-NameSpace dvc;
+namespace dvc;
 
 abstract class config extends _config {}
