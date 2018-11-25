@@ -30,7 +30,7 @@ class assets extends Controller {
 		if ( 'css' == $type) {
 			$files = [];
 			foreach( cssmin::$dvc4Files as $f) {
-				$path = sprintf( '%s/public/%s', __DIR__, $f);
+				$path = sprintf( '%s/../public/%s', __DIR__, $f);
 				printf( '%s<br />', $path);
 				if ( $_f = realpath( $path)) {
 					$key = basename( $_f);
