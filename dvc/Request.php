@@ -7,7 +7,7 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 	*/
-NameSpace dvc;
+namespace dvc;
 
 class Request {
 	protected $controllerName = 'Home';
@@ -22,7 +22,7 @@ class Request {
 
 	protected static $instance;
 
-	public static function get( $var = '', $default = FALSE ) {
+	public static function get( $var = '', $default = false ) {
 		if ( !isset( self::$instance ))
 			self::$instance = new Request();
 
@@ -214,9 +214,11 @@ class Request {
 
 	public function ServerIsLocal() {
 		if ( isset( $_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
-			return ( TRUE);
+			return ( true);
 
 		}
+
+		return ( false);
 
 	}
 

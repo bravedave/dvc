@@ -463,13 +463,13 @@ abstract class _controller {
 	protected function page( $params) {
 		$defaults = [
 			'css' => [],
-			'data' => FALSE,
-			'footer' => TRUE,
+			'data' => false,
+			'footer' => true,
 			'latescripts' => [],
 			'meta' => [],
 			'scripts' => [],
 			'title' => $this->title,
-			'bodyClass' => FALSE,
+			'bodyClass' => false,
 			'template' => \config::$PAGE_TEMPLATE,
 
 		];
@@ -561,10 +561,10 @@ abstract class _controller {
 
 	protected function render( $params) {
 		$defaults = [
-			'left-interface' => FALSE,
-			'primary' => FALSE,
-			'secondary' => FALSE,
-			'content' => FALSE,
+			'left-interface' => false,
+			'primary' => false,
+			'secondary' => false,
+			'content' => false,
 			'navbar' => '',
 
 		];
