@@ -18,32 +18,18 @@ class page extends _page {
 	static public $BootStrap = false;
 	static public $pageContainer = '';
 
-	protected static $vuejs = false;
 	protected static $developer = false;
 	protected $topOfPage = [];
 
-	protected function _viewjs( $title = '' ) {
-		$this->meta = [];
-		// $this->scripts = [];
-		$this->latescripts = [];
-		// $this->css = [];
+	function __construct( $title = '' ) {
+		parent::__construct( $title);
 
-		//~ $this->css = [];
-
-		$this->meta[] = '<meta name="page-constructor" content="_vuejs" />';
-
-		$src = ( self::$developer ? 'js/vue.js' : 'js/vue.min.js');
-		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( $src));
-
-	}
-
-	protected function __default_construct( $title = '' ) {
 		$this->meta[] = '<meta name="page-constructor" content="_default" />';
 		$this->topOfPage[] = '	<div id="top-of-page"></div>';
 
 		$aCss = [ 'custom'];
 		if ( \application::app())
-			$aCss[] = \application::app()->controller();
+		$aCss[] = \application::app()->controller();
 
 		foreach ( $aCss as $cssFile) {
 			if ( file_exists( $_file = realpath( '.' ) . '/css/' . $cssFile . '.css' )) {
@@ -61,17 +47,6 @@ class page extends _page {
 			}
 
 		}
-
-	}
-
-	function __construct( $title = '' ) {
-		parent::__construct( $title);
-
-		if ( self::$vuejs)
-			$this->_viewjs( $title);
-
-		else
-			$this->__default_construct( $title);
 
 	}
 

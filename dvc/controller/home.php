@@ -19,12 +19,6 @@ class home extends Controller {
 			sys::getTemplate( $template);
 
 		}
-		elseif ( $action == 'get-vue-block') {
-			$block = $this->getPost( 'block');
-			// sys::logger( sprintf( 'home :: get-vue-block request : %s', $block));
-			vue::getBlock( $block);
-
-		}
 
 	}
 
