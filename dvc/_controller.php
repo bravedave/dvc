@@ -248,11 +248,11 @@ abstract class _controller {
 
 	public function page404() {
 		header('HTTP/1.0 404 Not Found');
-		$p = new pages\page('404 Not Found');
-			$p->content();
+		$this->render([
+			'title' => '404 Not Found',
+			'content' => 'not-found'
 
-			$this->load('not-found');
-
+		]);
 
 	}
 
