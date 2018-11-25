@@ -10,10 +10,10 @@
 NameSpace dvc;
 
 abstract class errsys {
-	protected static $_shutup = FALSE;
-	protected static $_currentUser = FALSE;
+	protected static $_shutup = false;
+	protected static $_currentUser = false;
 
-	public static function shutup( $state = NULL ) {
+	public static function shutup( $state = null) {
 		$ret = self::$_shutup;
 
 		if ( !( is_null( $state )))
@@ -23,7 +23,7 @@ abstract class errsys {
 
 	}
 
-	public static function currentUser( $name = NULL ) {
+	public static function currentUser( $name = null ) {
 		$ret = self::$_currentUser;
 
 		if ( !( is_null( $name )))
@@ -102,11 +102,14 @@ abstract class errsys {
 				exit();
 
 			}
-			else
+			else {
 				throw $exception;
 
+			}
+
 		}
-		return FALSE;
+
+		return false;
 
 	}
 
@@ -145,8 +148,11 @@ abstract class errsys {
 
 		}
 
+		if ( Request::ServerIsLocal()) {
+			printf( '<pre>%s</pre>', $mailMessage);
 
-		if ( \config::$EMAIL_ERRORS_TO_SUPPORT ) {
+		}
+		elseif ( \config::$EMAIL_ERRORS_TO_SUPPORT ) {
 			$header = array(
 				sprintf( 'From: %s <%s>', \config::$WEBNAME, \config::$WEBEMAIL ),
 				sprintf( 'Reply-To: %s <%s>', \config::$WEBNAME, \config::$SUPPORT_EMAIL ),
