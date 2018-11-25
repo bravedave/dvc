@@ -28,6 +28,25 @@ class assets extends Controller {
 
 	public function brayworth( $type = 'css') {
 		if ( 'css' == $type) {
+			$files = [];
+			foreach( \jslib::$dvc4Files as $f) {
+				$path = sprintf( '%s/public/css/%s', __DIR__, $f);
+				// printf( '%s<br />', $path);
+				if ( $_f = realpath( $path)) {
+					$key = basename( $_f);
+					$files[ $key] = $_f;
+
+				}
+
+			}
+
+			cssmin::viewcss([
+         'debug' => false,
+         'libName' => 'dvc-4',
+         'cssFiles' => $files,
+         'libFile' => config::tempdir()  . '_dvc-4_.css'
+
+      ]);
 
 		}
 		else {

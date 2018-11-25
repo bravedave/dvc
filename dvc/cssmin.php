@@ -22,6 +22,16 @@ abstract class cssmin {
 	public static $debug = false;
 	public static $dvcmin = false;
 	public static $dvcminFiles = false;
+	public static $dvc4Files = [
+		'css/dvc-4.css',
+		'css/brayworth.animation.css',
+		'css/brayworth.components.css',
+		'css/brayworth.context.css',
+		'css/brayworth.growl.css',
+		'css/brayworth.modal-4.css',
+		'css/brayworth.typeahead.css',
+		'css/brayworth.utility.css'
+	];
 
 	protected static $rootPath = null;
 
@@ -101,16 +111,7 @@ abstract class cssmin {
 		$cssdir = (string)$cssdir;
 
 		if ( (string)$version == '4') {
-			self::$dvcminFiles = [
-				'css/dvc-4.css',
-				'css/brayworth.animation.css',
-				'css/brayworth.components.css',
-				'css/brayworth.context.css',
-				'css/brayworth.growl.css',
-				'css/brayworth.modal-4.css',
-				'css/brayworth.typeahead.css',
-				'css/brayworth.utility.css'
-			];
+			self::$dvcminFiles = self::$dvc4Files;
 			if ( is_null( $minfile)) $minfile =  'dvc-4.min.css';
 
 		}

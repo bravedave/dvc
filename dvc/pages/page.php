@@ -28,8 +28,10 @@ class page extends _page {
 		$this->topOfPage[] = '	<div id="top-of-page"></div>';
 
 		$aCss = [ 'custom'];
-		if ( \application::app())
-		$aCss[] = \application::app()->controller();
+		if ( \application::app()) {
+			$aCss[] = \application::app()->controller();
+
+		}
 
 		foreach ( $aCss as $cssFile) {
 			if ( file_exists( $_file = realpath( '.' ) . '/css/' . $cssFile . '.css' )) {
@@ -57,7 +59,7 @@ class page extends _page {
 
 			printf( '%s</head>%s', PHP_EOL, PHP_EOL);
 
-			/* this is a bit legacy ish
+			/* this is a bit legacy-ish
 				originally closeheader opened the page */
 			$this->pageHeader();
 
@@ -72,8 +74,10 @@ class page extends _page {
 			return ( $this);
 
 		$ret = parent::pageHeader();
-		foreach ( $this->topOfPage as $s)
+		foreach ( $this->topOfPage as $s) {
 			print $s . PHP_EOL;
+
+		}
 
 		return ( $ret);
 
@@ -116,8 +120,10 @@ class page extends _page {
 				$this->closeContentTags[] = '	</div><!-- /_page:Main Content Area -->' . PHP_EOL;
 
 				$classes = ['main-content-wrapper'];
-				if ( $this->hasTitleBar)
-				$classes[] = 'with-nav-bar';
+				if ( $this->hasTitleBar) {
+					$classes[] = 'with-nav-bar';
+
+				}
 
 				printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
 
