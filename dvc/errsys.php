@@ -151,9 +151,8 @@ abstract class errsys {
 			printf( '<pre>%s</pre>', self::msg( $e));
 
 		}
-		else
+		else {
 			printf( "ERROR<hr /><pre>%s</pre><hr /><a href='%s'>return to home page</a>", $message, \url::$URL );
-
 			error_log( $message);
 			self::email_support( $e, $message );
 
