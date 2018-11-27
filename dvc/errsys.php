@@ -122,7 +122,7 @@ abstract class errsys {
 			$msg = [
 				sprintf( "%s(%s)", $e->getMessage(), $e->getCode()),
 				sprintf( "%s(%s)", $e->getFile(), $e->getLine()),
-				sprintf( "%s", $e->getTraceAsString());
+				sprintf( "%s", $e->getTraceAsString())
 			];
 
 			if( isset($_SERVER['HTTP_REFERER'])) $msg[] = sprintf( "Referer: %s\n", $_SERVER['HTTP_REFERER']);
