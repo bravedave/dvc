@@ -113,46 +113,75 @@ abstract class errsys {
 
 	}
 
+	protected static function msg( $e) {
+		if ( method_exists($e, 'format' )) {
+			return $e->format();
+
+		}
+		else {
+			$msg = [
+				sprintf( "%s(%s)", $e->getMessage(), $e->getCode()),
+				sprintf( "%s(%s)", $e->getFile(), $e->getLine()),
+				sprintf( "%s", $e->getTraceAsString());
+			];
+
+			if( isset($_SERVER['HTTP_REFERER'])) $msg[] = sprintf( "Referer: %s\n", $_SERVER['HTTP_REFERER']);
+			if ( self::$_currentUser) $msg[] = sprintf( "Current User:%s\n", self::$_currentUser );
+
+			return implode( PHP_EOL, $msg);
+
+		}
+
+	}
+
 	static public function exc_handler( $e ) {
 		if ( self::$_shutup )
 			return;
 
-		if ( method_exists($e, 'format' ))
-			$message = $e->format();
-
-		else
-			$message = sprintf( "%s(%s)\n", $e->getMessage(), $e->getCode());
-
-		printf( "ERROR<hr /><pre>%s</pre><hr /><a href='%s'>return to home page</a>", $message, \url::$URL );
-
-		error_log( $message);
-		self::email_support( $e, $message );
-
-	}
-
-	static public function email_support( $e, $exposed = '' ) {
 		if ( method_exists($e, 'format' )) {
-			$mailMessage = $e->format();
+			$message = $e->format();
 
 		}
 		else {
-			$mailMessage = sprintf( "%s(%s)\n", $e->getMessage(), $e->getCode()) .
-				sprintf( "%s(%s)\n", $e->getFile(), $e->getLine() ) .
-				sprintf( "%s\n", $e->getTraceAsString()) .
-				sprintf( "--------------------------------------------\nExposed:\n%s\n", $exposed );
-			if( isset($_SERVER['HTTP_REFERER']))
-				$mailMessage .= sprintf( "Referer: %s\n", $_SERVER['HTTP_REFERER']);
-
-			if ( self::$_currentUser)
-				$mailMessage .= sprintf( "Current User:%s\n", self::$_currentUser );
+			$message = sprintf( "%s(%s)\n", $e->getMessage(), $e->getCode());
 
 		}
 
 		if ( Request::ServerIsLocal()) {
-			printf( '<pre>%s</pre>', $mailMessage);
+			printf( '<pre>%s</pre>', self::msg( $e));
 
 		}
-		elseif ( \config::$EMAIL_ERRORS_TO_SUPPORT ) {
+		else
+			printf( "ERROR<hr /><pre>%s</pre><hr /><a href='%s'>return to home page</a>", $message, \url::$URL );
+
+			error_log( $message);
+			self::email_support( $e, $message );
+
+		}
+
+	}
+
+	static public function email_support( $e, $exposed = '' ) {
+		$mailMessage = self::msg($e);
+
+		// if ( method_exists($e, 'format' )) {
+		// 	$mailMessage = $e->format();
+		//
+		// }
+		// else {
+		// 	$mailMessage = sprintf( "%s(%s)\n", $e->getMessage(), $e->getCode()) .
+		// 		sprintf( "%s(%s)\n", $e->getFile(), $e->getLine() ) .
+		// 		sprintf( "%s\n", $e->getTraceAsString()) .
+		// 		sprintf( "--------------------------------------------\nExposed:\n%s\n", $exposed );
+		// 	if( isset($_SERVER['HTTP_REFERER']))
+		// 		$mailMessage .= sprintf( "Referer: %s\n", $_SERVER['HTTP_REFERER']);
+		//
+		// 	if ( self::$_currentUser)
+		// 		$mailMessage .= sprintf( "Current User:%s\n", self::$_currentUser );
+		//
+		// }
+
+		if ( \config::$EMAIL_ERRORS_TO_SUPPORT ) {
 			$header = array(
 				sprintf( 'From: %s <%s>', \config::$WEBNAME, \config::$WEBEMAIL ),
 				sprintf( 'Reply-To: %s <%s>', \config::$WEBNAME, \config::$SUPPORT_EMAIL ),
@@ -161,11 +190,7 @@ abstract class errsys {
 				sprintf( 'Date: %s', date(DATE_RFC2822)) );
 
 			// These two to help avoid spam
-			$host = '';
-			if ( isset( $_SERVER['SERVER_NAME'] ))
-				$host = $_SERVER['SERVER_NAME'];
-			else
-				$host = getenv('HOSTNAME');
+			$host = ( isset( $_SERVER['SERVER_NAME'] ) ? $_SERVER['SERVER_NAME'] : getenv('HOSTNAME'));
 
 			$header[] = sprintf( 'Message-ID: <%s>', date('YmdHis') . 'TheSystem@' . $host);
 			$header[] = sprintf( 'X-Mailer: PHP v%s', phpversion());
