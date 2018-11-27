@@ -9,23 +9,23 @@
 
 	*/
 
-Namespace dvc\sqlite;
+namespace dvc\sqlite;
 
 class db {
-	public $log = FALSE;
-	protected $_db = FALSE;
-	protected $_path = NULL;
+	public $log = false;
+	protected $_db = false;
+	protected $_path = null;
 
-	protected static $_instance = FALSE;
+	protected static $_instance = false;
 
 	public function valid() {
 		if ( !self::$_instance)
 			self::$_instance = new self;
 
 		if ( self::$_instance)
-			return ( TRUE);
+			return ( true);
 
-		return ( FALSE);
+		return ( false);
 
 	}
 
@@ -64,7 +64,7 @@ class db {
 
 		}
 
-		$this->_db = FALSE;
+		$this->_db = false;
 
 	}
 
@@ -74,7 +74,7 @@ class db {
 	}
 
 	public function zip() {
-		$debug = FALSE;
+		$debug = false;
 		// $debug = TRUE;
 
 		$zip = new \ZipArchive();
