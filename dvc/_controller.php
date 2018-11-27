@@ -486,7 +486,14 @@ abstract class _controller {
 		}
 
 		foreach ( $options['css'] as $css) {
-			$p->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css);
+			if ( preg_match('/^<link/', $script)) {
+				$p->css[] = $css;
+
+			}
+			else {
+				$p->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css);
+
+			}
 
 		}
 
@@ -496,7 +503,14 @@ abstract class _controller {
 		}
 
 		foreach ( $options['scripts'] as $script) {
-			$p->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $script );
+			if ( preg_match('/^<script/', $script)) {
+				$p->scripts[] = $script;
+
+			}
+			else {
+				$p->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $script );
+
+			}
 
 		}
 
@@ -505,7 +519,14 @@ abstract class _controller {
 		* - if something like tinymce is appended after it would be slower
 		*/
 		foreach ( $options['latescripts'] as $script) {
-			array_unshift( $p->latescripts, sprintf( '<script type="text/javascript" src="%s"></script>', $script));
+			if ( preg_match('/^<script/', $script)) {
+				array_unshift( $p->latescripts, $script);
+
+			}
+			else {
+				array_unshift( $p->latescripts, sprintf( '<script type="text/javascript" src="%s"></script>', $script));
+
+			}
 
 		}
 
