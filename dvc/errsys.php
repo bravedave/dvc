@@ -10,10 +10,10 @@
 NameSpace dvc;
 
 abstract class errsys {
-	protected static $_shutup = false;
-	protected static $_currentUser = false;
+	static protected $_shutup = false;
+	static protected $_currentUser = false;
 
-	public static function shutup( $state = null) {
+	static public function shutup( $state = null) {
 		$ret = self::$_shutup;
 
 		if ( !( is_null( $state )))
@@ -23,7 +23,7 @@ abstract class errsys {
 
 	}
 
-	public static function currentUser( $name = null ) {
+	static public function currentUser( $name = null ) {
 		$ret = self::$_currentUser;
 
 		if ( !( is_null( $name )))
@@ -33,7 +33,7 @@ abstract class errsys {
 
 	}
 
-	public static function initiate( $log = false ) {
+	static public function initiate( $log = false ) {
 		set_error_handler(function( $errno, $errstr, $errfile, $errline, $errcontext) {
 			errsys::err_handler( $errno, $errstr, $errfile, $errline, $errcontext);
 		});
@@ -113,7 +113,7 @@ abstract class errsys {
 
 	}
 
-	protected static function msg( $e) {
+	static protected function msg( $e) {
 		if ( method_exists($e, 'format' )) {
 			return $e->format();
 
@@ -135,8 +135,7 @@ abstract class errsys {
 	}
 
 	static public function exc_handler( $e ) {
-		if ( self::$_shutup )
-			return;
+		if ( self::$_shutup ) return;
 
 		if ( method_exists($e, 'format' )) {
 			$message = $e->format();
