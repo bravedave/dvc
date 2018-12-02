@@ -22,8 +22,8 @@ class assets extends Controller {
 			}
 			elseif ( 'js' == $type) {
 				$files = [
-					__DIR__ . 'bootstrap4/js/bootstrap.js',
-					__DIR__ . 'bootstrap4/js/popper.js',
+					__DIR__ . '/bootstrap4/js/bootstrap.js',
+					__DIR__ . '/bootstrap4/js/popper.js',
 
 				];
 
