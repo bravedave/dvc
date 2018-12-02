@@ -73,12 +73,13 @@ abstract class _config {
 
    static $AUTHENTICATION_EXPIRES_DAYS = 1;
 
-   static $BOOTSTRAP = TRUE;
+   static $BOOTSTRAP = true;
+   static $BOOTSTRAP_REQUIRE_POPPER = false;
    static $BOOTSTRAP_VERSION = '4';
 
    static $COOKIE_AUTHENTICATION_EXPIRES_DAYS = 7;
 
-   static $CONTENT_SECURITY_ENABLED = TRUE;
+   static $CONTENT_SECURITY_ENABLED = true;
 
    static $DATE_FORMAT = 'Y-m-d';
 

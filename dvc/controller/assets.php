@@ -21,19 +21,27 @@ class assets extends Controller {
 
 			}
 			elseif ( 'js' == $type) {
-				$files = [
-					__DIR__ . '/bootstrap4/js/bootstrap.js',
-					__DIR__ . '/bootstrap4/js/popper.js',
+				if (\config::$BOOTSTRAP_REQUIRE_POPPER) {
+					$files = [
+						__DIR__ . '/bootstrap4/js/bootstrap.js',
+						__DIR__ . '/bootstrap4/js/popper.js',
 
-				];
+					];
 
-				jslib::viewjs([
-					'debug' => false,
-					'libName' => 'bootstrap4',
-					'jsFiles' => $files,
-					'libFile' => config::tempdir()  . '_bootstrap4_tmp.js'
+					jslib::viewjs([
+						'debug' => false,
+						'libName' => 'bootstrap4',
+						'jsFiles' => $files,
+						'libFile' => config::tempdir()  . '_bootstrap4_tmp.js'
 
-				]);
+					]);
+
+				}
+				else {
+					$lib = __DIR__ . '/bootstrap4/js/bootstrap.bundle.min.js';
+					sys::serve( $lib);
+
+				}
 
 			}
 
