@@ -16,7 +16,7 @@ class assets extends Controller {
 	public function bootstrap( $type = 'css', $version = 4) {
 		if ( 4 == (int)$version) {
 			if ( 'css' == $type) {
-				$lib = __DIR__ . 'bootstrap4/css/bootstrap.min.css';
+				$lib = __DIR__ . '/bootstrap4/css/bootstrap.min.css';
 				sys::serve( $lib);
 
 			}
