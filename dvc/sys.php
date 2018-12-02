@@ -449,8 +449,8 @@ abstract class sys {
 
 			}
 			elseif ( 'js' == $type) {
-				$lib = sprintf( '%s/js/bootstrap.bundle.min.js',$path);
-				self::logger( $lib);
+				$lib = sprintf( '%s/js/bootstrap.bundle.js',$path);
+				// self::logger( $lib);
 				self::serve( $lib);
 
 			}
