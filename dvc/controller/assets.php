@@ -15,7 +15,29 @@ class assets extends Controller {
 
 	public function bootstrap( $type = 'css', $version = 4) {
 		if ( 4 == (int)$version) {
-			sys::serveBootStrap( $type);
+			if ( 'css' == $type) {
+				$lib = __DIR__ . 'bootstrap4/css/bootstrap.min.css';
+				self::serve( $lib);
+
+			}
+			elseif ( 'js' == $type) {
+				$files = [
+					__DIR__ . 'bootstrap4/js/bootstrap.js',
+					__DIR__ . 'bootstrap4/js/popper.js',
+
+				];
+
+				jslib::viewjs([
+					'debug' => false,
+					'libName' => 'bootstrap4',
+					'jsFiles' => $files,
+					'libFile' => config::tempdir()  . '_bootstrap4_tmp.js'
+
+				]);
+
+			}
+
+			// sys::serveBootStrap( $type);
 
 		}
 
@@ -71,7 +93,7 @@ class assets extends Controller {
 			// sys::dump( $files);
 
 			jslib::viewjs([
-				'debug' => FALSE,
+				'debug' => false,
 				'libName' => 'brayworth',
 				'jsFiles' => $files,
 				'libFile' => config::tempdir()  . '_brayworth_tmp.js'
