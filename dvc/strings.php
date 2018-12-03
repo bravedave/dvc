@@ -61,13 +61,19 @@ abstract class strings {
 	static function BRITISHDateAsANSI( $strDate) {
 		// split it, must have 3 parts, dd/mm/yyyy
 		$a = explode( "/", $strDate );
-		if ( @checkdate( $a[1], $a[0], $a[2] ))
-		return $a[2] . "-" . str_pad( $a[1], 2, "0", STR_PAD_LEFT ) . "-" . str_pad( $a[0], 2, "0", STR_PAD_LEFT );
+		if ( @checkdate( $a[1], $a[0], $a[2] )) {
+			if ( 2 == strlen( $a[2])) {
+				$a[2] = substr( date('Y'), 0, 2) . $a[2];
+
+			}
+			return $a[2] . "-" . str_pad( $a[1], 2, "0", STR_PAD_LEFT ) . "-" . str_pad( $a[0], 2, "0", STR_PAD_LEFT );
+
+		}
 
 		return 0;
 
 	}
-
+	
 	static function CheckEmailAddress( $email) {
 		return ( filter_var($email, FILTER_VALIDATE_EMAIL));
 
