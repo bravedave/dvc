@@ -486,7 +486,7 @@ abstract class _controller {
 		}
 
 		foreach ( $options['css'] as $css) {
-			if ( preg_match('/^<link/', $script)) {
+			if ( preg_match('/^<link/', $css)) {
 				$p->css[] = $css;
 
 			}
