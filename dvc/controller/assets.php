@@ -56,7 +56,7 @@ class assets extends Controller {
 
 	}
 
-	public function brayworth( $type = 'css') {
+	public function brayworth( $type = 'css', $p2 = '') {
 		if ( 'css' == $type) {
 			$files = [];
 			foreach( cssmin::$dvc4Files as $f) {
@@ -77,6 +77,19 @@ class assets extends Controller {
          'libFile' => config::tempdir()  . '_dvc-4_.css'
 
       ]);
+
+		}
+		elseif ( 'growl' == $type) {
+			if ( $p2) {
+				if ( preg_match( '/\.(png|jpg)/i', $p2)) {
+					if ( file_exists( $f = __DIR__ . '/growl/' . $p2)) {
+						\sys::serve( $f);
+
+					}
+
+				}
+
+			}
 
 		}
 		else {

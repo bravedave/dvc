@@ -7,30 +7,6 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 */
-( function() {
-	//~ if ( true) {
-	if ( false) {
-		// Add feature check for Service Workers here
-		if('serviceWorker' in navigator) {
-			if ( /^https:/.test( window.location.href)) {
-				navigator.serviceWorker
-				.register('/js/service-worker.js')
-				.then(function() {
-					//~ console.log('Service Worker Registered');
-				});
-
-			}
-			//~ else {
-				//~ console.log( 'insecure location : not loading service worker');
-
-			//~ }
-
-		}
-
-	}
-
-})();
-
 $(document).ready( function() {
 	_brayworth_.InitHRefs();
 	_brayworth_.initDatePickers();
