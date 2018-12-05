@@ -194,6 +194,7 @@ class _page {
 		if ( $this->debug) \sys::logger( $navbar);
 
 		$v = new \view( $this->data);
+			$v->title = $this->title;
 			$v->load( $navbar);
 
 		$this->hasTitleBar = true;

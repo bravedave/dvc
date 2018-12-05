@@ -8,16 +8,17 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-NameSpace dvc;
+namespace dvc;
 
 class view {
-	var $data = NULL,
-		$rootPath = NULL,
-		$loadName = '?',
-		$wrap = array(),
-		$debug = FALSE;
+	public $data = null;
+	public $rootPath = null;
+	public $loadName = '?';
+	public $title = '';
+	public $wrap = [];
+	public $debug = false;
 
-	function __construct( $data = NULL ) {
+	function __construct( $data = null) {
 		if ( $app = application::app())
 			$this->rootPath = $app->getRootPath();
 
@@ -73,12 +74,12 @@ class view {
 
 	}
 
-	function loadView( $name ) {
+	function loadView( $name) {
 		return ( $this->load( $name ));
 
 	}
 
-	function load( $name ) {
+	function load( $name) {
 		if ( substr($name, 0, strlen($this->rootPath)) === $this->rootPath) {
 			if ( file_exists( $name)) {
 				$parts = pathinfo( $name);
@@ -100,7 +101,7 @@ class view {
 			$this->_load( $path);
 			$this->_unwrap();
 
-			return ( TRUE);
+			return ( true);
 
 		}
 		else {
@@ -112,18 +113,17 @@ class view {
 				$this->_load( $path);
 				$this->_unwrap();
 
-				return ( TRUE);
+				return ( true);
 
 			}
 			else {
 				printf( 'view::%s - not found', $name );
 
-
 			}
 
 		}
 
-		return ( FALSE);
+		return ( false);
 
 	}
 
