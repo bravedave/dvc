@@ -196,7 +196,7 @@ class _page {
 		$v = new \view( $this->data);
 			$v->title = $this->title;
 			foreach( (array)$navbar as $_){
-				$this->load( $_);
+				$v->load( $_);
 
 			}
 
