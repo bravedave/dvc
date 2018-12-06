@@ -112,13 +112,89 @@ class _page {
 
 	}
 
-	public function open() {
-		$this->boolOpen = true;
+	protected function _pagefooter() {
+		return $this
+			->header()
+			->pageHeader()
+			->closeSection()
+			->closeContent();
 
 	}
 
-	public function isOpen() {
-		return ( (bool)$this->boolOpen);
+	public function close() {
+		$this
+			->header()
+			->pageHeader()
+			->closeSection()
+			->closeContent();
+
+		$time = '';
+		if ( $this->boolOpen ) {
+			if ( $this->footer )
+				$this->pagefooter();
+
+			foreach ( $this->closeTags as $tag )
+				print $tag;
+
+			$this->closeTags = [];
+
+			foreach ( $this->latescripts as $script )
+				print "\t" . $script . PHP_EOL;
+
+			printf( '%s</body>%s</html>%s', PHP_EOL, PHP_EOL, PHP_EOL );
+
+		}
+
+		$this->boolOpen = FALSE;
+
+	}
+
+	protected function closeContent() {
+		$this->closeSection();	// added 20 July, 2017
+		if ( $this->contentOPEN ) {
+			foreach ( $this->closeContentTags as $tag )
+				print $tag;
+
+			$this->contentOPEN = FALSE;
+
+		}
+
+		return ( $this);	// chain
+
+	}
+
+	public function closeHeader() {
+		if ( $this->headerOPEN) {
+			$this->headerOPEN = FALSE;
+			printf( '%s</head>%s', PHP_EOL, PHP_EOL);
+
+		}
+
+		return ( $this);
+
+	}
+
+	public function closeSection() {
+		if ( $this->sectionOPEN )
+			printf( '%s		</div><!-- %s -->%s%s', PHP_EOL, $this->sectionNAME, PHP_EOL, PHP_EOL );
+
+		$this->sectionOPEN = false;
+
+		return ( $this);	// chain
+
+	}
+
+	public function content( $class = null, $more = null) {
+		if ( is_null( $class)) $class = 'content';
+
+		$this
+			->header()
+			->pageHeader()
+			->closeSection()
+			->openContent()
+			->section( 'content', $class, 'content', $more);
+
+		return ( $this);	// chain
 
 	}
 
@@ -158,14 +234,62 @@ class _page {
 
 	}
 
-	public function closeHeader() {
-		if ( $this->headerOPEN) {
-			$this->headerOPEN = FALSE;
-			printf( '%s</head>%s', PHP_EOL, PHP_EOL);
+	public function isOpen() {
+		return ( (bool)$this->boolOpen);
 
-		}
+	}
+
+	public function open() {
+		$this->boolOpen = true;
+
+	}
+
+	protected function openContent() {
+		if ( $this->contentOPEN )
+			return ( $this);
+
+		$this->closeContentTags[] = '	</div><!-- /_page:Main Content Area -->' . PHP_EOL;
+		$classes = ['main-content-wrapper'];
+		if ( $this->hasTitleBar)
+			$classes[] = 'with-nav-bar';
+
+		printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
+
+		$this->contentOPEN = true;
 
 		return ( $this);
+
+	}
+
+	public function newSection( $name = 'content', $class = 'content', $role = 'content', $more = '') {
+		$this
+			->header()
+			->closeSection()
+			->openContent()
+			->section( $name, $class, $role, $more);
+
+		return ( $this);	// chain
+
+	}
+
+	public function section( $name = 'content', $class = 'content', $role = 'content', $more = '') {
+		$this->closeSection();
+		$this->sectionOPEN = true;
+		$this->sectionNAME = $name;
+
+		printf( '		<div class="%s" data-role="%s" %s>%s', $class, $role, $more, PHP_EOL );
+
+		return ( $this);	// chain
+
+	}
+
+	public function pagefooter() {
+		$this->_pagefooter();
+
+		$v = new \view;
+			$v->load( self::$footerTemplate ? self::$footerTemplate : 'footer');
+
+		return ( $this);	// chain
 
 	}
 
@@ -187,6 +311,7 @@ class _page {
 
 	}
 
+
 	public function title( $navbar = 'navbar-default') {
 		if ( !$this->boolHeader )
 			$this->header();
@@ -203,117 +328,6 @@ class _page {
 		$this->hasTitleBar = true;
 
 		return ( $this);
-
-	}
-
-	protected function openContent() {
-		if ( $this->contentOPEN )
-			return ( $this);
-
-		$this->closeContentTags[] = '	</div><!-- /_page:Main Content Area -->' . PHP_EOL;
-		$classes = ['main-content-wrapper'];
-		if ( $this->hasTitleBar)
-			$classes[] = 'with-nav-bar';
-
-		printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
-
-		$this->contentOPEN = true;
-
-		return ( $this);
-
-	}
-
-	protected function closeContent() {
-		$this->closeSection();	// added 20 July, 2017
-		if ( $this->contentOPEN ) {
-			foreach ( $this->closeContentTags as $tag )
-				print $tag;
-
-			$this->contentOPEN = FALSE;
-
-		}
-
-		return ( $this);	// chain
-
-	}
-
-	public function section( $name = 'content', $class = 'content', $role = 'content', $more = '') {
-		$this->closeSection();
-		$this->sectionOPEN = true;
-		$this->sectionNAME = $name;
-
-		printf( '		<div class="%s" data-role="%s" %s>%s', $class, $role, $more, PHP_EOL );
-
-		return ( $this);	// chain
-
-	}
-
-	public function closeSection() {
-		if ( $this->sectionOPEN )
-			printf( '%s		</div><!-- %s -->%s%s', PHP_EOL, $this->sectionNAME, PHP_EOL, PHP_EOL );
-
-		$this->sectionOPEN = false;
-
-		return ( $this);	// chain
-
-	}
-
-	public function content() {
-		$this
-			->header()
-			->pageHeader()
-			->closeSection()
-			->openContent()
-			->section( 'content', 'content', 'content');
-
-		return ( $this);	// chain
-
-	}
-
-	protected function _pagefooter() {
-		return $this
-			->header()
-			->pageHeader()
-			->closeSection()
-			->closeContent();
-
-	}
-
-	public function pagefooter() {
-		$this->_pagefooter();
-
-		$v = new \view;
-			$v->load( self::$footerTemplate ? self::$footerTemplate : 'footer');
-
-		return ( $this);	// chain
-
-	}
-
-	public function close() {
-		$this
-			->header()
-			->pageHeader()
-			->closeSection()
-			->closeContent();
-
-		$time = '';
-		if ( $this->boolOpen ) {
-			if ( $this->footer )
-				$this->pagefooter();
-
-			foreach ( $this->closeTags as $tag )
-				print $tag;
-
-			$this->closeTags = [];
-
-			foreach ( $this->latescripts as $script )
-				print "\t" . $script . PHP_EOL;
-
-			printf( '%s</body>%s</html>%s', PHP_EOL, PHP_EOL, PHP_EOL );
-
-		}
-
-		$this->boolOpen = FALSE;
 
 	}
 

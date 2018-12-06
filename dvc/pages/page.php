@@ -138,10 +138,7 @@ class page extends _page {
 	}
 
 	public function content( $class = null, $more = null) {
-		if ( is_null( $class)) {
-			$class = 'content';
-
-		}
+		if ( is_null( $class)) $class = 'content';
 
 		$this
 			->header()
