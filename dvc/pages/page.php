@@ -24,6 +24,8 @@ class page extends _page {
 	protected $topOfPage = [];
 
 	function __construct( $title = '' ) {
+		\sys::logger( sprintf( 'Bootstrap_Version : page : %s', self::$Bootstrap_Version));
+
 		parent::__construct( $title);
 
 		$this->meta[] = '<meta name="page-constructor" content="_default" />';
@@ -105,7 +107,6 @@ class page extends _page {
 
 				$classes = [];
 
-				\sys::logger( sprintf( 'Bootstrap_Version : %s', self::$Bootstrap_Version));
 				if ( (int)\config::$BOOTSTRAP_VERSION == 3) $classes[] = 'main-content-wrapper';
 
 				if ( self::$pageContainer) {

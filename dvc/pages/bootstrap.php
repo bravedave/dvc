@@ -14,8 +14,6 @@ namespace dvc\pages;
 
 class bootstrap extends page {
 
-	static $Bootstrap_Version = '3';
-
 	static $SCALE = 1;
 
 	static $pageContainer = 'container-fluid';
@@ -24,7 +22,7 @@ class bootstrap extends page {
 	static $secondaryClass = 'col-sm-4 col-md-3 pt-3 pb-4 bg-light d-print-none';
 
 	function __construct( $title = '' ) {
-		// \sys::logger( sprintf( 'Bootstrap_Version : %s', self::$Bootstrap_Version));
+		\sys::logger( sprintf( 'Bootstrap_Version : bootstrap : %s', self::$Bootstrap_Version));
 
 		parent::$pageContainer = self::$pageContainer;
 		self::$BootStrap = true;
