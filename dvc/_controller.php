@@ -442,7 +442,7 @@ abstract class _controller {
 
 	}
 
-	protected function load( $viewName = 'index', $controller = NULL ) {
+	protected function load( $viewName = 'index', $controller = null ) {
 		$view = $this->getView( $viewName, $controller );
 		if ( substr_compare( $view, '.md', -3) === 0) {
 			if ( $this->debug) sys::logger( '_controller->loadView :: it\'s an md !');
@@ -573,8 +573,8 @@ abstract class _controller {
 	}
 
 	protected function _render( $view) {
-		foreach( (array)$view as $view){
-			$this->load( $view);
+		foreach( (array)$view as $_){
+			$this->load( $_);
 
 		}
 

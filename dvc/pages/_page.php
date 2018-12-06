@@ -195,7 +195,10 @@ class _page {
 
 		$v = new \view( $this->data);
 			$v->title = $this->title;
-			$v->load( $navbar);
+			foreach( (array)$navbar as $_){
+				$this->load( $_);
+
+			}
 
 		$this->hasTitleBar = true;
 
