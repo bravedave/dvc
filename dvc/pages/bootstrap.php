@@ -24,15 +24,15 @@ class bootstrap extends page {
 	static $secondaryClass = 'col-sm-4 col-md-3 pt-3 pb-4 bg-light d-print-none';
 
 	function __construct( $title = '' ) {
-		\sys::logger( sprintf( 'Bootstrap_Version : %s', self::$Bootstrap_Version));
-		
+		// \sys::logger( sprintf( 'Bootstrap_Version : %s', self::$Bootstrap_Version));
+
 		parent::$pageContainer = self::$pageContainer;
 		self::$BootStrap = true;
-		if ( \config::$BOOTSTRAP_VERSION == '3') {
+		if ( self::$Bootstrap_Version == '3') {
 			$this->jQuery2 = true;
 
 		}
-		elseif ( \config::$BOOTSTRAP_VERSION == '4' && $this->dvc) {
+		elseif ( self::$Bootstrap_Version == '4' && $this->dvc) {
 			$this->dvc = '4';
 
 		}
@@ -41,7 +41,7 @@ class bootstrap extends page {
 
 		$this->meta[] = sprintf('<meta name="viewport" content="width=device-width, initial-scale=%s, shrink-to-fit=no" />', self::$SCALE);
 
-		if ( \config::$BOOTSTRAP_VERSION == '3') {
+		if ( self::$Bootstrap_Version == '3') {
 			$css = \url::tostring( 'bootstrap.3/css/bootstrap.min.css');
 			$js = \url::tostring( 'bootstrap.3/js/bootstrap.min.js');
 
@@ -50,7 +50,7 @@ class bootstrap extends page {
 			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
 
 		}
-		elseif ( \config::$BOOTSTRAP_VERSION == '4') {
+		elseif ( self::$Bootstrap_Version == '4') {
 			$css = \url::tostring( 'assets/bootstrap/css');
 			$js = \url::tostring( 'assets/bootstrap/js');
 
