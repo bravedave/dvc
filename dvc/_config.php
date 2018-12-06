@@ -116,8 +116,11 @@ abstract class _config {
    static $PAGE_TEMPLATE_LOGON = '\dvc\pages\bootstrap4';
    static $SITEMAPS = false;
 
-   static $TEMPLATES_DIR = NULL;
-   static $TEMPLATES_DIR_CSS = NULL;
+   static $TEMPLATES_DIR = null;
+   static $TEMPLATES_DIR_CSS = null;
+
+   static $THEME = '';
+
    static $TIMEZONE = 'UTC';
 
    /*
