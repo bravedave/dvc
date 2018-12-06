@@ -63,8 +63,9 @@ abstract class _config {
    static $CRYPT_KEY = 'E4Hhjgs4dfscnuyFFDDE562G';// 24 bit Key
 
    static $VERSION = '0.0.0';
-   static $WEBNAME = 'Brayworth Demonstration System';
+   static $WEBNAME = 'Example System';
    static $WEBEMAIL = 'webmaster@example.dom';
+   static $WEBURL = 'http://example.dom';
    static $FOOTER = 'Brayworth Software Design';
 
    static $SUPPORT_NAME = 'Software Support';
