@@ -84,7 +84,7 @@ class page extends _page {
 	}
 
 	public function title( $navbar = '') {
-		if ( (string)$navbar == '') {
+		if ( !$navbar) {
 			$navbar = 'navbar-default';
 
 		}
