@@ -24,7 +24,7 @@ class page extends _page {
 	protected $topOfPage = [];
 
 	function __construct( $title = '' ) {
-		\sys::logger( sprintf( 'Bootstrap_Version : page : %s', self::$Bootstrap_Version));
+		// \sys::logger( sprintf( 'Bootstrap_Version : page : %s', self::$Bootstrap_Version));
 
 		parent::__construct( $title);
 
@@ -107,14 +107,14 @@ class page extends _page {
 
 				$classes = [];
 
-				if ( (int)\config::$BOOTSTRAP_VERSION == 3) $classes[] = 'main-content-wrapper';
+				if ( (int)self::$Bootstrap_Version == 3) $classes[] = 'main-content-wrapper';
 
 				if ( self::$pageContainer) {
 					$classes[] = self::$pageContainer;
 
 				}
 
-				if ( $this->hasTitleBar && (int)\config::$BOOTSTRAP_VERSION == 3) $classes[] = 'with-nav-bar';
+				if ( $this->hasTitleBar && (int)self::$Bootstrap_Version == 3) $classes[] = 'with-nav-bar';
 
 				printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><div class="row"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
 
