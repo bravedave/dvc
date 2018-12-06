@@ -14,6 +14,8 @@ class page extends _page {
 
 	protected $boolOpen = false;
 
+	static public $Bootstrap_Version = '3';
+
 	static public $MainContextMenu = true;
 	static public $BootStrap = false;
 	static public $pageContainer = '';
@@ -55,7 +57,7 @@ class page extends _page {
 	public function closeHeader() {
 		if ( $this->headerOPEN) {
 
-			$this->headerOPEN = FALSE;
+			$this->headerOPEN = false;
 
 			printf( '%s</head>%s', PHP_EOL, PHP_EOL);
 
@@ -103,6 +105,7 @@ class page extends _page {
 
 				$classes = [];
 
+				\sys::logger( sprintf( 'Bootstrap_Version : %s', self::$Bootstrap_Version));
 				if ( (int)\config::$BOOTSTRAP_VERSION == 3) $classes[] = 'main-content-wrapper';
 
 				if ( self::$pageContainer) {
