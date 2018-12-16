@@ -116,20 +116,18 @@ abstract class _controller {
 
 	}
 
-	/*
-	 * Placeholder for use by the child class.
-	 * This method is called
-	 * at the end of __construct()
-	 *
-	 * avoid replacing the default __construct
-	 * method use before instead
-	 */
 	protected function before() {
-		/**
-		 * Inspired by something I read in the fuelPHP documentation
-		 * this method is called at the end of __construct and can
-		 * be used to modify the _controller class
-		 */
+		/*
+		* Placeholder for use by the child class.
+		* This method is called
+		* at the end of __construct()
+		*
+		* avoid replacing the default __construct method - use before instead
+		*
+		* Inspired by something I read in the fuelPHP documentation
+		* this method is called at the end of __construct and can
+		* be used to modify the _controller class
+		*/
 
 	}
 
@@ -448,7 +446,11 @@ abstract class _controller {
 			if ( $this->debug) sys::logger( '_controller->loadView :: it\'s an md !');
 			$fc = file_get_contents( $view);
 
-			print \Parsedown::instance()->text( $fc);
+			printf(
+				'<div class="markdown-body">%s</div>',
+				\Parsedown::instance()->text( $fc)
+
+			);
 
 		}
 		else {

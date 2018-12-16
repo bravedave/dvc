@@ -117,10 +117,7 @@ abstract class _dao {
 
 	}
 
-	function create() {
-		/*
-		* returns a new dto of the file
-		*/
+	function create() {		/* returns a new dto of the file */
 		if ( is_null( $this->template)) {
 			return ( $this->_create());
 
