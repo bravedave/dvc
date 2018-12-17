@@ -63,11 +63,34 @@ class cache {
 
 	}
 
-	function delete( $key) {
-		if ( \config::$DB_CACHE_DEBUG)
-			\sys::logger( sprintf( 'dvc\cache : delete(%s)', $key));
+	function delete( $key, $wildcard = false) {
+		if ( $wildcard) {
+			if ( \config::$DB_CACHE_DEBUG) {
+				\sys::logger( sprintf( 'dvc\cache : wildard delete(%s)', $key));
 
-		$this->_cache->delete( $key);
+			}
+
+			$cachedKeys = new APCUIterator( $key);
+			foreach ($cachedKeys AS $_key) {
+				if ( \config::$DB_CACHE_DEBUG) {
+					\sys::logger( sprintf( 'dvc\cache : wildard delete(%s) => %s', $key, $_key));
+
+				}
+
+				$this->_cache->delete( $_key);
+
+			}
+
+		}
+		else {
+			if ( \config::$DB_CACHE_DEBUG) {
+				\sys::logger( sprintf( 'dvc\cache : delete(%s)', $key));
+
+			}
+
+			$this->_cache->delete( $key);
+
+		}
 
 	}
 

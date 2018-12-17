@@ -249,7 +249,7 @@ abstract class _dao {
 
 	}
 
-	public function Update( $a, $condition, $flushCache = TRUE) {
+	public function Update( $a, $condition, $flushCache = true) {
 		if ( is_null( $this->db_name()))
 			throw new Exception\DBNameIsNull;
 
@@ -264,12 +264,12 @@ abstract class _dao {
 
 		if ( \config::$DB_CACHE == 'APC') {
 			$cache = \dvc\cache::instance();
-			$key = sprintf( '%s.%s', $this->db_name(), $id);
-			$cache->delete( $key);
+			$key = sprintf( '/^%s\.%s/', $this->db_name(), $id);
+			$cache->delete( $key, true);
 
 		}
 
-		return ( $this->Update( $a, sprintf( 'WHERE id = %d', $id), $flushCache = FALSE));
+		return ( $this->Update( $a, sprintf( 'WHERE id = %d', $id), $flushCache = false));
 
 	}
 
