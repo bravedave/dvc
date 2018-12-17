@@ -194,7 +194,7 @@ abstract class _dao {
 
 		}
 
-		return ( FALSE);
+		return ( false);
 
 	}
 
