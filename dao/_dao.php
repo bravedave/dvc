@@ -188,9 +188,9 @@ abstract class _dao {
 
 				}
 
-			}
+				return ( $dto->{$fld});
 
-			return ( $dto->{$fld});
+			}
 
 		}
 
