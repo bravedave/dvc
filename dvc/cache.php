@@ -73,11 +73,11 @@ class cache {
 			$cachedKeys = new \APCUIterator( $key);
 			foreach ($cachedKeys AS $_key) {
 				if ( \config::$DB_CACHE_DEBUG) {
-					\sys::logger( sprintf( 'dvc\cache : wildard delete(%s) => %s', $key, $_key));
+					\sys::logger( sprintf( 'dvc\cache : wildard delete(%s) => %s', $key, $_key['key']));
 
 				}
 
-				$this->_cache->delete( $_key);
+				$this->_cache->delete( $_key['key']);
 
 			}
 
