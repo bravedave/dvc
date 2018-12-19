@@ -38,12 +38,16 @@ class view {
 	protected function _wrap() {
 		if ( count( (array)$this->wrap)) {
 			foreach( (array)$this->wrap as $wrap) {
-				if ( $wrap)
+				if ( $wrap) {
 					printf( '<div class="%s">', $wrap);
+
+				}
 
 			}
 
 		}
+
+		return ( $this);	// chain
 
 	}
 
@@ -56,6 +60,8 @@ class view {
 			}
 
 		}
+
+		return ( $this);	// chain
 
 	}
 
@@ -71,6 +77,8 @@ class view {
 			include $path;
 
 		}
+
+		return ( $this);	// chain
 
 	}
 
@@ -97,9 +105,10 @@ class view {
 		}
 
 		if ( file_exists( $path)) {
-			$this->_wrap();
-			$this->_load( $path);
-			$this->_unwrap();
+			$this
+				->_wrap()
+				->_load( $path)
+				->_unwrap();
 
 			return ( true);
 
@@ -109,35 +118,24 @@ class view {
 
 			$path = sprintf( '%s/views/%s.php', __DIR__, $name );
 			if ( file_exists( $path)) {
-				$this->_wrap();
-				$this->_load( $path);
-				$this->_unwrap();
+				$this
+					->_wrap()
+					->_load( $path)
+					->_unwrap();
 
 				return ( true);
 
 			}
 			else {
 				// we are going to allow vendor/bravedave/dvc/theme
-				$themePath = realpath( sprintf( '%s/../vendor/bravedave/dvc-theme', $this->rootPath));
-				if ( $themePath && $themePath !== '/' && substr($name, 0, strlen($themePath)) === $themePath) {
-					// printf( 'themePath::%s<br />', $themePath );
-					if ( file_exists( $name)) {
-						// printf( 'theme file exists ::%s<br />', $name);
-						$this->_wrap();
-						$this->_load( $name);
-						$this->_unwrap();
+				if ( class_exists( 'dvc\theme\view', /* autoload */ false)) {
+					if ( $themeView = theme\view::getView( $name)) {
+						$this
+							->_wrap()
+							->_load( $themeView)
+							->_unwrap();
 
 						return ( true);
-
-					}
-					elseif ( file_exists( $name . '.php')) {
-						// printf( 'theme file exists ::%s.php<br />', $name);
-						$this->_wrap();
-						$this->_load( $name . '.php');
-						$this->_unwrap();
-
-						return ( true);
-						//~ \sys::logger( sprintf( 'dvc\view->load :: rootpath in name %s', $this->loadName));
 
 					}
 
