@@ -109,7 +109,6 @@ abstract class _controller {
 
 	}
 
-
 	protected function access_control() {
 		// warning - don't impose an access_control of FALSE on the home page !
 		return ( TRUE);
@@ -203,37 +202,43 @@ abstract class _controller {
 
 	}
 
-	/*
-	 * Return a SQL Data Result using
-	 * the default data adapter
-	 */
 	protected function dbResult( $query) {
-		if ( is_null( $this->db ))
+		/*
+		* Return a SQL Data Result using
+		* the default data adapter
+		*/
+		if ( is_null( $this->db )) {
 			return ( FALSE);
+
+		}
 
 		return ( $this->db->Result( $query));
 
 	}
 
-	/*
- 	 * Perform an SQL Command using
-	 * the default data adapter
-	 */
 	protected function SQL( $query) {
-		if ( is_null( $this->db ))
+		/*
+		* Perform an SQL Command using
+		* the default data adapter
+		*/
+		if ( is_null( $this->db )) {
 			return ( FALSE);
+
+		}
 
 		return ( $this->db->SQL( $query));
 
 	}
 
-	/*
- 	 * Escape a string for inclusing in an SQL
-	 * Command using the default data adapter
-	 */
 	protected function dbEscape( $s) {
-		if ( is_null( $this->db ))
+		/*
+		* Escape a string for inclusing in an SQL
+		* Command using the default data adapter
+		*/
+		if ( is_null( $this->db )) {
 			return ( $s);
+
+		}
 
 		return ( $this->db->escape( $s));
 
@@ -350,12 +355,28 @@ abstract class _controller {
 		}
 
 		/* there is nothing in then [application]
+		*
+		*			first look for a php view, then a markdown
+		*
+		*			look to the [theme] folder
+		*				[theme]/views/
+		*/
+		if ( class_exists( 'dvc\theme\view', /* autoload */ false)) {
+			if ( $altView = theme\view::getView( $viewName)) {
+				return ( $altView);
 
-			first look for a php view, then a markdown
+			}
 
-			look to tye [system] folders
-				[system]/views/[controller]
-				[system]/app/views/	*/
+		}
+
+		/* there is nothing in then [application] || [theme]
+		*
+		*			first look for a php view, then a markdown
+		*
+		*			look to the [system] folders
+		*				[system]/views/[controller]
+		*				[system]/app/views/
+		*/
 
 		/*-- ---- [system]/views/[controller] folder ---- --*/
 		if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
