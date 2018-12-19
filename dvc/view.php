@@ -16,7 +16,7 @@ class view {
 	public $loadName = '?';
 	public $title = '';
 	public $wrap = [];
-	public $debug = false;
+	public $debug = true;
 
 	function __construct( $data = null) {
 		if ( $app = application::app())
@@ -117,7 +117,35 @@ class view {
 
 			}
 			else {
-				printf( 'view::%s - not found', $name );
+				// we are going to allow vendor/bravedave/dvc/theme
+				$themePath = realpath( sprintf( '%s/../vendor/bravedave/dvc-theme', $this->rootPath));
+				if ( $themePath && $themePath !== '/' && substr($name, 0, strlen($themePath)) === $themePath) {
+					// printf( 'themePath::%s<br />', $themePath );
+					if ( file_exists( $name)) {
+						// printf( 'theme file exists ::%s<br />', $name);
+						$this->_wrap();
+						$this->_load( $name);
+						$this->_unwrap();
+
+						return ( true);
+
+					}
+					elseif ( file_exists( $name . '.php')) {
+						// printf( 'theme file exists ::%s.php<br />', $name);
+						$this->_wrap();
+						$this->_load( $name . '.php');
+						$this->_unwrap();
+
+						return ( true);
+						//~ \sys::logger( sprintf( 'dvc\view->load :: rootpath in name %s', $this->loadName));
+
+					}
+
+				}
+
+				printf( 'view::%s - not found<br />', $name );
+				printf( 'root::%s<br />', $this->rootPath );
+				print '<br />';
 
 			}
 
