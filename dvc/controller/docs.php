@@ -22,7 +22,7 @@ class docs extends Controller {
 
 		$this->render([
 			'title' => $this->title = sprintf( 'Docs - %s', ucwords( $view)),
-			'primary' => (string)$view,
+			'primary' => [(string)$view, 'docs-format'],
 			'secondary' =>'contents'
 
 		]);
