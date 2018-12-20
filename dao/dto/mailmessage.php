@@ -8,10 +8,10 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-Namespace dao\dto;
+namespace dao\dto;
 
 class mailmessage extends _dto {
-	var $Flags = array();
+	var $Flags = [];
 	var $Folder = '';
 	var $From = '';
 	var $To = '';

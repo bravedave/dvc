@@ -7,7 +7,7 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 	*/
-Namespace dao\dto;
+namespace dao\dto;
 
 class _dto {
 	public function __construct( $row = NULL ) {
@@ -15,7 +15,7 @@ class _dto {
 
 	}
 
-	protected function populate( $row = NULL ) {
+	protected function populate( $row = null ) {
 		if ( !( is_null( $row ))) {
 			foreach ( $row as $k => $v ) {
 				$this->{$k} = $v;
@@ -28,8 +28,10 @@ class _dto {
 
 	public function toString() {
 		$s = array();
-		foreach ( $this as $k => $v)
+		foreach ( $this as $k => $v) {
 			$s[] = sprintf( '%s = %s', $k, $v);
+
+		}
 
 		return ( implode( PHP_EOL, $s));
 

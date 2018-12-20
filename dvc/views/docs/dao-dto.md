@@ -11,7 +11,7 @@ for administration;
 ### Namespace
 
 * dao
-  * dto
+  * [dto](dto)
   * db
 
 #### Dao Namespace

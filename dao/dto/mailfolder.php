@@ -8,14 +8,13 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-Namespace dao\dto;
+namespace dao\dto;
 
 class mailfolder extends _dto {
 	public $name = '';
 	public $fullname = '';
-	public $subFolders = FALSE;
+	public $subFolders = false;
 	public $type = 0;
 	public $delimiter = '.';
 
 }
-

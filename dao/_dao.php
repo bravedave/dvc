@@ -7,7 +7,7 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 	*/
-NameSpace dao;
+namespace dao;
 
 abstract class _dao {
 	protected $_sql_getByID = 'SELECT * FROM %s WHERE id = %d';
@@ -285,8 +285,8 @@ abstract class _dao {
 
 	}
 
-	protected function structure( $name = NULL) {
-		return ( FALSE );
+	protected function structure( $name = null) {
+		return ( false );
 
 	}
 
@@ -312,7 +312,7 @@ abstract class _dao {
 
 	}
 
-	protected function TableExists( $table = NULL) {
+	protected function TableExists( $table = null) {
 		if ( is_null( $table)) {
 			$table = $this->db_name();
 
