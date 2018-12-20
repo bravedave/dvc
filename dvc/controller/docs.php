@@ -21,7 +21,7 @@ class docs extends Controller {
 		}
 
 		$this->render([
-			'title' => $this->title = sprintf( 'Docs - %s', $view),
+			'title' => $this->title = sprintf( 'Docs - %s', ucwords( $view)),
 			'primary' => (string)$view,
 			'secondary' =>'contents'
 
