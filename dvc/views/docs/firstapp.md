@@ -43,7 +43,7 @@
     <br />
 </code></pre>
 
-## TIP: Disabling Documentation
+#### TIP: Disabling Documentation
 * If you create a controller called docs - it will disable this documentation, which on
   a production application may be what you want
 * Alternatively : Create a folder in your application/views folder - docs
