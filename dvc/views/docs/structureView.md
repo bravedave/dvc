@@ -1,5 +1,5 @@
-### Structure - Data (Model) View Controller
+# Structure - Data Model (View) Controller
 
-# Structure - View
+## Structure - View
 
 The Viewing

@@ -1,6 +1,6 @@
 # Pages
 
-## The philosphy being pages is restricted to:
+*The philosphy being pages is restricted to ..*
 * php has a __destruct method classes, so during that process you can close any open tags
 
 <pre><code>
@@ -42,6 +42,6 @@
 
 * the page closed automatically and a footer was added
 
-## Templates used
+#### Templates used
 * app/views/navbar-default.php
 * app/views/footer.php

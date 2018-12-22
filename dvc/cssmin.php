@@ -28,6 +28,7 @@ abstract class cssmin {
 		'css/brayworth.components.css',
 		'css/brayworth.context.css',
 		'css/brayworth.growl.css',
+		'css/brayworth.markdown.css',
 		'css/brayworth.modal-4.css',
 		'css/brayworth.typeahead.css',
 		'css/brayworth.utility.css'

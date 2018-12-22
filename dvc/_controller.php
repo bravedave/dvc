@@ -32,6 +32,8 @@ abstract class _controller {
 
 	static $url;
 
+	const viewNotFound = __DIR__ . '/views/not-found.md';
+
 	function __construct( $rootPath ) {
 		if ( $this->debug) \sys::logger( __FILE__ . ' :: start construct');
 		$this->rootPath = $rootPath;
@@ -130,7 +132,7 @@ abstract class _controller {
 
 	}
 
-	protected function getParam( $v = '', $default = FALSE ) {
+	protected function getParam( $v = '', $default = false ) {
 		if ( is_null( $this->Request ))
 			return ( FALSE);
 
@@ -146,9 +148,9 @@ abstract class _controller {
 
 	}
 
-	protected function getPost( $name = '', $default = FALSE ) {
+	protected function getPost( $name = '', $default = false ) {
 		if ( is_null( $this->Request ))
-			return ( FALSE);
+			return ( false);
 
 		return ( $this->Request->getPost( $name, $default ));
 
@@ -208,7 +210,7 @@ abstract class _controller {
 		* the default data adapter
 		*/
 		if ( is_null( $this->db )) {
-			return ( FALSE);
+			return ( false);
 
 		}
 
@@ -260,8 +262,9 @@ abstract class _controller {
 	}
 
 	protected function hasView( $viewName = 'index', $controller = NULL ) {
-		$view = $this->getView( $viewName, $controller);
-		return ( file_exists( $view));
+		return $this->getView( $viewName, $controller) != self::viewNotFound;
+		//~ $view = $this->getView( $viewName, $controller);
+		//~ return ( file_exists( $view));
 
 	}
 
@@ -451,8 +454,7 @@ abstract class _controller {
 
 		// \sys::logger( sprintf( '_controller->getView :: view not found : %s', $viewName));
 		\sys::trace( sprintf( '_controller->getView :: view not found : %s', $viewName));
-
-		return __DIR__ . '/views/not-found.md';
+		return self::viewNotFound;
 
 	}
 

@@ -19,11 +19,28 @@ class docs extends Controller {
 			$view = 'index';
 
 		}
+		//~ $this->debug = true;
+
+		$contents = 'contents';
+		if ( $this->hasView( $_c = sprintf( '%s-contents', $view))) {
+			$contents = $_c;
+
+		}
+		else if ( strpos( $view, '-') !== false) {
+			//~ die( $view);
+			//~ die( sprintf( '%s-contents', preg_replace( '/-.*/', '', $view)));
+
+			if ( $this->hasView( $_c = sprintf( '%s-contents', preg_replace( '/-.*/', '', $view)))) {
+				$contents = $_c;
+
+			}
+
+		}
 
 		$this->render([
 			'title' => $this->title = sprintf( 'Docs - %s', ucwords( $view)),
 			'primary' => [(string)$view, 'docs-format'],
-			'secondary' =>'contents'
+			'secondary' => $contents,
 
 		]);
 

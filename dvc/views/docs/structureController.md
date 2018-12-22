@@ -1,6 +1,6 @@
-### Structure - Data (Model) View Controller
+# Structure - Data Model View (Controller)
 
-# Structure - Controller
+## Structure - Controller
 
 The Controlling
 

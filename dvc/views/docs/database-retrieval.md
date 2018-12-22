@@ -9,13 +9,13 @@ If configured, you are connected to the default database and the connection is
  not being available).
 
 ### Basic
-As close to the datasource as exists, using $this->db-Q will return a
+As close to the datasource as exists, using $this->db->Q will return a
 MySQL/SQLite result which can then be iterated.
 ```
 class contacts extends Controller {
 	function listall() {
 		if ( $res = $this->db->Q('SELECT * FROM contacts')) {
-			while ( $row = $res->fetch_assoc()) {
+			while ( $row = $res->fetch()) {	// wrapper "fetch" works with both MySQL and SQLite
 				// do something
 
 			}
@@ -41,7 +41,7 @@ The result class can return all the rows of a given query in an array of dtos.
 ```
 class contacts extends Controller {
 	function listall() {
-		if ( $res = $this->Result('SELECT * FROM contacts')) {
+		if ( $res = $this->dbResult('SELECT * FROM contacts')) {
 			while ( $dto = $res->dto()) {
 				// do something
 

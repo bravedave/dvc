@@ -27,8 +27,10 @@ class home extends Controller {
 		if ( $data == '') {
 			$this->render([
 				'title' => $this->title,
-				'primary' => 'index',
-				'secondary' => ['contents']]);
+				'primary' => 'docs/index',
+				'secondary' => 'docs/contents'
+
+			]);
 
 		}
 		else {

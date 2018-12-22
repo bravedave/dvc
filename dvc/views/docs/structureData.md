@@ -1,24 +1,24 @@
-### Structure - Data (Model) View Controller
+# Structure - Data (Model) View Controller
 
-# Structure - Data (Model)
+### Structure - Data (Model)
 
-### The Modelling
+#### The Modelling
 
 The Data model is the layer between the database (SQL Server) and the controller
 
 This software uses a DAO / DTO model
-- DAO - Data Access Object
-- DTO - Data Transition Object
 
-#### DAO
+<img class="pull-right img-thumbnail" src="/images/dao-dto-path.png" />
+
+##### DAO - Data Access Object
 - NameSpace : dao
 - Are located in [root]app/dao
 
-#### DTO
+##### DTO - Data Transition Object
 - NameSpace : dao\dto
 - Are located in [root]app/dao/dto
 
-### Terms
+##### Terms
 
 <table class="table table-striped">
 	<thead>
@@ -45,7 +45,7 @@ This software uses a DAO / DTO model
 
 </table>
 
-### How to Use
+#### How to Use
 * DAO - Required
 * DTO - Optional
    * If the dto requires no customization, there is no requirement to create a dto file
@@ -53,7 +53,7 @@ This software uses a DAO / DTO model
 1. Create a folder for DAO files under the [root]app folder i.e. [root]app/dao
 2. Create a DAO file
 
-### Example DAO
+#### Example DAO
 ```
 <?php
 NameSpace dao;
@@ -64,7 +64,7 @@ class users extends _dao {
 }
 ```
 
-### Example DAO Use
+#### Example DAO Use
 ```
 $dao = new dao\users;
 if ( $res = $dao->getAll()) {
