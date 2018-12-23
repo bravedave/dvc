@@ -7,16 +7,38 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 	*/
-NameSpace dvc;
+namespace dvc;
 
 abstract class strings {
 	const html_tick = '&#10003;';
 	const html_sad = '<span style="font-family: Segoe UI Symbol; Verdana;">&#9785;</span>';
 	const html_happy = '<span style="font-family: Segoe UI Symbol; Verdana;">&#9786;</span>';
 
-	static function asShortDate( $date, $time = FALSE) {
+	static function asLocalDate( $date, $time = false) {
 		if ( (string)$date == '0000-00-00') {
-			return ( FALSE);
+			return ( false);
+
+		}
+
+		if ( ( $t = strtotime( $date)) > 0) {
+			if ( $time && date( 'Y-m-d', $t) == date( 'Y-m-d')) {
+				return ( preg_replace( '/m$/','',date( 'g:ia', $t)));
+
+			}
+			else {
+				return ( date( config::$DATE_FORMAT, $t));
+
+			}
+
+		}
+
+		return false;
+
+	}
+
+	static function asShortDate( $date, $time = false) {
+		if ( (string)$date == '0000-00-00') {
+			return ( false);
 
 		}
 
@@ -36,7 +58,7 @@ abstract class strings {
 
 		}
 
-		return FALSE;
+		return false;
 
 	}
 
@@ -73,7 +95,7 @@ abstract class strings {
 		return 0;
 
 	}
-	
+
 	static function CheckEmailAddress( $email) {
 		return ( filter_var($email, FILTER_VALIDATE_EMAIL));
 
