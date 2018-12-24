@@ -608,8 +608,11 @@ abstract class _controller {
 	protected function render( $params) {
 		$defaults = [
 			'left-interface' => false,
+			'main' => false,
+			'main-panel' => false,
 			'primary' => false,
 			'secondary' => false,
+			'sidebar' => false,
 			'content' => false,
 			'navbar' => '',
 
@@ -657,6 +660,38 @@ abstract class _controller {
 
 		}
 
+		if ( $options['sidebar']) {
+			/*
+			Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+			Tip 2: you can also add an image using data-image tag
+			*/
+			$more = null;
+			if ( 'lightdash' == \config::$THEME) {
+				$more = sprintf('data-color="orange" data-image="%s"', \url::tostring('theme/img/sidebar-5.jpg'));
+
+			}
+			elseif ( 'material-dashboard' == \config::$THEME) {
+				$more = sprintf('data-color="rose" data-background-color="black" data-image="%s"', \url::tostring('theme/img/sidebar-1.jpg'));
+
+			}
+
+			$p->newSection( $name = 'sidebar', $class = 'sidebar', $role = 'sidebar', $more = '');
+			$this->_render( $options['sidebar']);
+
+		}
+
+		if ( $options['main-panel']) {
+			$p->newSection( $name = 'main-panel', $class = 'main-panel', $role = 'main-panel', $more = '');
+			$this->_render( $options['main-panel']);
+
+		}
+
+		if ( $options['main']) {
+			$p->newSection( $name = 'main', $class = 'main', $role = 'main', $more = '');
+			$this->_render( $options['main']);
+
+		}
+		
 		return ( $p);
 
 	}
