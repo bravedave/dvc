@@ -440,24 +440,52 @@ abstract class sys {
 	}
 
 	public function serveBootStrap( $type = 'css') {
-		$root = realpath( __DIR__ . '/../../../twbs');
-		if ( $root) {
-			$path = realpath( sprintf( '%s/bootstrap/dist', $root));
+		if (\config::$BOOTSTRAP_REQUIRE_POPPER) {
 			if ( 'css' == $type) {
-				$lib = sprintf( '%s/css/bootstrap.min.css',$path);
+				$lib = __DIR__ . '/bootstrap4/css/bootstrap.min.css';
 				self::serve( $lib);
 
 			}
 			elseif ( 'js' == $type) {
-				$lib = sprintf( '%s/js/bootstrap.bundle.js',$path);
-				// self::logger( $lib);
-				self::serve( $lib);
+				$files = [
+					__DIR__ . '/bootstrap4/js/bootstrap.js',
+					__DIR__ . '/bootstrap4/js/popper.js',
+
+				];
+
+				jslib::viewjs([
+					'debug' => false,
+					'libName' => 'bootstrap4',
+					'jsFiles' => $files,
+					'libFile' => config::tempdir()  . '_bootstrap4_tmp.js'
+
+				]);
+
 
 			}
 
 		}
 		else {
-			throw new \Exception( 'Cannot locate twbs bootstrap - install with compose require twbs/bootstrap');
+			$root = realpath( __DIR__ . '/../../../twbs');
+			if ( $root) {
+				$path = realpath( sprintf( '%s/bootstrap/dist', $root));
+				if ( 'css' == $type) {
+					$lib = sprintf( '%s/css/bootstrap.min.css',$path);
+					self::serve( $lib);
+
+				}
+				elseif ( 'js' == $type) {
+					$lib = sprintf( '%s/js/bootstrap.bundle.min.js',$path);
+					// self::logger( $lib);
+					self::serve( $lib);
+
+				}
+
+			}
+			else {
+				throw new \Exception( 'Cannot locate twbs bootstrap - install with compose require twbs/bootstrap');
+
+			}
 
 		}
 

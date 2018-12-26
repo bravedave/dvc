@@ -15,37 +15,37 @@ class assets extends Controller {
 
 	public function bootstrap( $type = 'css', $version = 4) {
 		if ( 4 == (int)$version) {
-			if ( 'css' == $type) {
-				$lib = __DIR__ . '/bootstrap4/css/bootstrap.min.css';
-				sys::serve( $lib);
+			sys::serveBootStrap( $type);
 
-			}
-			elseif ( 'js' == $type) {
-				if (\config::$BOOTSTRAP_REQUIRE_POPPER) {
-					$files = [
-						__DIR__ . '/bootstrap4/js/bootstrap.js',
-						__DIR__ . '/bootstrap4/js/popper.js',
-
-					];
-
-					jslib::viewjs([
-						'debug' => false,
-						'libName' => 'bootstrap4',
-						'jsFiles' => $files,
-						'libFile' => config::tempdir()  . '_bootstrap4_tmp.js'
-
-					]);
-
-				}
-				else {
-					$lib = __DIR__ . '/bootstrap4/js/bootstrap.bundle.min.js';
-					sys::serve( $lib);
-
-				}
-
-			}
-
-			// sys::serveBootStrap( $type);
+			// if ( 'css' == $type) {
+			// 	$lib = __DIR__ . '/bootstrap4/css/bootstrap.min.css';
+			// 	sys::serve( $lib);
+			//
+			// }
+			// elseif ( 'js' == $type) {
+			// 	if (\config::$BOOTSTRAP_REQUIRE_POPPER) {
+			// 		$files = [
+			// 			__DIR__ . '/bootstrap4/js/bootstrap.js',
+			// 			__DIR__ . '/bootstrap4/js/popper.js',
+			//
+			// 		];
+			//
+			// 		jslib::viewjs([
+			// 			'debug' => false,
+			// 			'libName' => 'bootstrap4',
+			// 			'jsFiles' => $files,
+			// 			'libFile' => config::tempdir()  . '_bootstrap4_tmp.js'
+			//
+			// 		]);
+			//
+			// 	}
+			// 	else {
+			// 		$lib = __DIR__ . '/bootstrap4/js/bootstrap.bundle.min.js';
+			// 		sys::serve( $lib);
+			//
+			// 	}
+			//
+			// }
 
 		}
 
