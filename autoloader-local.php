@@ -21,7 +21,7 @@ spl_autoload_register(function ($class) {
 
 /*
 * upstream the autoload here by including some local file
-* autoload-local-path is included in .gitignore
+* autoload-local-path is excluded in .gitignore
 */
 if ( file_exists( __DIR__ . DIRECTORY_SEPARATOR . 'autoload-local-path.php')) {
 	include __DIR__ . DIRECTORY_SEPARATOR . 'autoload-local-path.php';
