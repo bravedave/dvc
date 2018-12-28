@@ -70,10 +70,8 @@ _brayworth_.context = function() {
 
 			}
 
-			if ( !!e.pageY)
-				css.top = Math.max( e.pageY - 10, 0);
-			if ( !!e.pageX)
-				css.left = Math.max( e.pageX - 40, 0);
+			if ( !!e.pageY) { css.top = Math.max( e.pageY + 10, 0); }
+			if ( !!e.pageX) { css.left = Math.max( e.pageX + 10, 0); }
 
 			//~ console.log( this.root.width());
 
@@ -242,8 +240,7 @@ $(document).ready( function() {
 	})
 	.on( 'click.removeContexts', function( e) {
 		if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
-			if ( /^(a)$/i.test( e.target.nodeName ))
-				return;
+			if ( /^(a)$/i.test( e.target.nodeName )) { return; }
 
 		}
 
@@ -252,8 +249,7 @@ $(document).ready( function() {
 	})
 	.on( 'contextmenu.removeContexts', function( e) {
 		if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
-			if ( /^(a)$/i.test( e.target.nodeName ))
-				return;
+			if ( /^(a)$/i.test( e.target.nodeName )) { return; }
 
 		}
 
