@@ -70,8 +70,8 @@ _brayworth_.context = function() {
 
 			}
 
-			if ( !!e.pageY) { css.top = Math.max( e.pageY + 5, 0); }
-			if ( !!e.pageX) { css.left = Math.max( e.pageX + 5, 0); }
+			if ( !!e.pageY) { css.top = Math.max( e.pageY + 2, 0); }
+			if ( !!e.pageX) { css.left = Math.max( e.pageX + 2, 0); }
 
 			//~ console.log( this.root.width());
 
