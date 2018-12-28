@@ -75,52 +75,51 @@ _brayworth_.context = function() {
 
 			//~ console.log( this.root.width());
 
+			let root = this.root;
+
 			if ( this.detachOnHide) {
-				this.root.css(css).appendTo( 'body').data('hide', 'detach');
+				root.css(css).appendTo( 'body').data('hide', 'detach');
 
 			}
 			else {
 				//~ console.log( this.root.parent());
-				if ( this.root.parent().length < 1) {
-					this.root.appendTo( 'body').data('hide', 'hide');
+				if ( root.parent().length < 1) {
+					root.appendTo( 'body').data('hide', 'hide');
 
 				}
 
-				this.root.css(css).removeClass('hidden d-none');
+				root.css(css).removeClass('hidden d-none');
 
 			}
 
-			let offset = this.root.offset();
+			let offset = root.offset();
+			let wH = $(window).height();
+			let wW = $(window).width();
+			let sT = $(window).scrollTop();
 			/* try to keep menu on screen horizontally */
-			if ( offset.left + this.root.width() > $(window).width()) {
+			if ( offset.left + root.width() > wW) {
 				//~ console.log( 'uh oh - right!');
-				let l = $(window).width()-this.root.width()-5;
-				this.root.css( 'left', Math.max( l, 2));
-				offset = this.root.offset();
+				let l = wW - root.width() - 5;
+				root.css( 'left', Math.max( l, 2));
+				offset = root.offset();
 
 			}
 
 			/* try to keep menu on screen vertically */
-			if ( offset.top + this.root.height() > ( $(window).height()+$(window).scrollTop())) {
+			if ( offset.top + this.root.height() > ( wH + sT)) {
 				//~ console.log( 'uh oh - top!');
-				let t = ($(window).height()+$(window).scrollTop())-this.root.height()-5;
-				this.root.css( 'top', Math.max( t, $(window).scrollTop()+2));
-				offset = this.root.offset();
+				let t = (wH + sT) - root.height() - 5;
+				root.css( 'top', Math.max( t, sT + 2));
+				offset = root.offset();
 
 			}
 
 
-			/* add helper class to display the submenu on left
-			 * if the window width is restrictive on the right */
-			( offset.left > ( $(window).width() - (this.root.width()* 2))) ?
-				this.root.addClass( 'menu-contextmenu-right') :
-				this.root.removeClass( 'menu-contextmenu-right');
+			/* add helper class to display the submenu on left if the window width is restrictive on the right */
+			( offset.left > ( wW - (root.width()* 2))) ? root.addClass( 'menu-contextmenu-right') : root.removeClass( 'menu-contextmenu-right');
 
-			/* add helper class to display the submenu high
-			 * if the window height is restrictive at bottom */
-			( offset.top + ( this.root.height() * 1.2) > ( $(window).height()+$(window).scrollTop())) ?
-				this.root.addClass( 'menu-contextmenu-low') :
-				this.root.removeClass( 'menu-contextmenu-low');
+			/* add helper class to display the submenu high if the window height is restrictive at bottom */
+			( offset.top + ( root.height() * 1.2) > ( wH + sT)) ? root.addClass( 'menu-contextmenu-low') : root.removeClass( 'menu-contextmenu-low');
 
 			return ( this);
 
