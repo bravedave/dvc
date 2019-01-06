@@ -10,7 +10,7 @@
 namespace dao\dto;
 
 class _dto {
-	public function __construct( $row = NULL ) {
+	public function __construct( $row = null ) {
 		$this->populate( $row);
 
 	}

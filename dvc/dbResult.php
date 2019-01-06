@@ -8,13 +8,13 @@
 		http://creativecommons.org/licenses/by/4.0/
 	*/
 
-Namespace dvc;
+namespace dvc;
 
 class dbResult {
 	var $result;
-	protected $db = FALSE;
+	protected $db = false;
 
-	public function __construct( \mysqli_result  $result = NULL, dbi $db = NULL) {
+	public function __construct( \mysqli_result  $result = null, dbi $db = null) {
 		if ( $result)
 			$this->result = $result;
 		if ( $db)
@@ -49,7 +49,7 @@ class dbResult {
 
 	}
 
-	public function dto( $template = NULL) {
+	public function dto( $template = null) {
 		if ( $dto = $this->result->fetch_assoc()) {
 			if ( is_null( $template))
 				return ( new \dao\dto\dto( $dto));
@@ -58,11 +58,11 @@ class dbResult {
 
 		}
 
-		return ( FALSE);
+		return ( false);
 
 	}
 
-	public function dtoSet( $func = NULL, $template = NULL) {
+	public function dtoSet( $func = null, $template = null) {
 		/**
 		 * extend like:
 		 * $dtoSet = $res->dtoSet( function( $dto) {
@@ -108,7 +108,7 @@ class dbResult {
 
 	}
 
-	public function csv( $formatter = NULL) {
+	public function csv( $formatter = null) {
 
 		$finfo = $this->fetch_fields();
 
