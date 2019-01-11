@@ -7,46 +7,39 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 	*/
-NameSpace dvc;
+namespace dvc;
 
 abstract class Response {
 
-	static function redirect( $url = NULL, $message = "", $auto = TRUE ) {
+	static function redirect( $url = null, $message = "", $auto = true ) {
 
 		if ( is_null( $url )) {
-			$url = \url::$URL;
-			//~ sys::logger( 'Set URL:' . $url );
+			$url = \url::$URL;	// default
 
 		}
 		elseif ( ! ( preg_match( '@^(http|//)@i', (string)$url ))) {
 			if ( '/' != $url)
 				$url = \url::$URL . $url;
-			//~ sys::logger( 'Fixed URL:' . $url );
 
 		}
 
-		//~ sys::logger( 'redirect at:' );
-		//~ foreach ( debug_backtrace() as $e )
-			//~ sys::logger( sprintf( '%s(%s)', $e['file'], $e['line'] ));
-
 		if ( $message == "" ) {
-			header( "location: $url\n" );
-			//~ sys::logger( 'Going to URL:' . $url );
+			header( sprintf( 'location: %s', $url));
 			exit;
 
 		}
 
-		\dvc\pages\page::$MainContextMenu = FALSE;
+		\dvc\pages\page::$MainContextMenu = false;
 
 		$p = new \dvc\pages\bootstrap4;
 			$p->title = $message;
-			$p->footer = FALSE;
+			$p->footer = false;
 			$p->additionalScripts = [];
 		if ( userAgent::isMobileDevice())
 			$p->meta[] = '<meta name="viewport" content="initial-scale=1" />';
 
 		if ( $auto ) {
-			$p->header( FALSE );
+			$p->header( false);
 			print <<<OUTPUT
 	<meta http-equiv="refresh" content="1; url=$url" />
 </head>
