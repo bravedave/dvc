@@ -8,8 +8,8 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	DO NOT change this file
-	Copy it to <application>/app and modify it there
+	Copy it to <application>/app/dvc/ and modify it there
 	*/
-NameSpace dvc;
+namespace dvc;
 
 class user extends _user {}

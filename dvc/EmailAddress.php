@@ -1,5 +1,5 @@
 <?php
-/**
+/*
 	David Bray
 	BrayWorth Pty Ltd
 	e. david@brayworth.com.au
@@ -7,14 +7,16 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 
+	DO NOT change this file
+	Copy it to <application>/app/dvc/ and modify it there
 	*/
-NameSpace dvc;
+namespace dvc;
 
 class EmailAddress {
 	var $email, $name;
 
 	function __construct( $el ) {
-		if ( strpos( $el, '<' ) !== FALSE ) {
+		if ( strpos( $el, '<' ) !== false ) {
 			if ( substr( $el, -1 ) == ">")
 				$el = substr( $el, 0, -1 );
 			$a = explode( "<", $el );

@@ -10,38 +10,15 @@
 	DO NOT change this file
 	Copy it to <application>/app/dvc/ and modify it there
 	*/
-NameSpace dvc;
+namespace dvc;
 
 abstract class bCrypt {
 	static function crypt( $input ) {
-
-		//~ $cipher = mcrypt_module_open(MCRYPT_TRIPLEDES, '', 'ecb', '');
-		//~ mcrypt_generic_init( $cipher, \config::$CRYPT_KEY, \config::$CRYPT_IV );
-
-		//~ $encrypted_data = mcrypt_generic( $cipher, $input );
-
-		//~ mcrypt_generic_deinit( $cipher );
-		//~ mcrypt_module_close( $cipher );
-
-		//~ return base64_encode( $encrypted_data);
-
 		return base64_encode( openssl_encrypt( $input, 'bf-cbc', \config::$CRYPT_KEY, 0, \config::$CRYPT_IV ));
 
 	}
 
 	static function decrypt( $encrypted_text ) {
-
-		//~ $cipher = mcrypt_module_open( MCRYPT_TRIPLEDES, '', 'ecb', '');
-
-		//~ mcrypt_generic_init($cipher, \config::$CRYPT_KEY, \config::$CRYPT_IV);
-
-		//~ $decrypted_data = mdecrypt_generic( $cipher, base64_decode($encrypted_text));
-
-		//~ mcrypt_generic_deinit( $cipher);
-		//~ mcrypt_module_close( $cipher);
-
-		//~ return $decrypted_data;
-
 		return openssl_decrypt( base64_decode( $encrypted_text), 'bf-cbc', \config::$CRYPT_KEY, 0, \config::$CRYPT_IV );
 
 	}

@@ -7,11 +7,13 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 
+	DO NOT change this file
+	Copy it to <application>/app/dvc/ and modify it there
 	*/
-Namespace dvc;
+namespace dvc;
 
 abstract class html {
-	protected static function _icon( $s, $attributes = NULL) {
+	protected static function _icon( $s, $attributes = null) {
 		if ( strlen( (string)$s) <= 2)
 			return ( html\initialicon::rendered( $s, $attributes));
 		else
@@ -19,7 +21,7 @@ abstract class html {
 
 	}
 
-	public static function icon( $s, $title = NULL) {
+	public static function icon( $s, $title = null) {
 		if ( is_null( $title))
 			return ( self::_icon( $s));
 
@@ -41,7 +43,7 @@ abstract class html {
 		$tmpDoc->loadHTML($source);
 
 		foreach ($tmpDoc->getElementsByTagName('body')->item(0)->childNodes as $node) {
-			$node = $parent->ownerDocument->importNode( $node, TRUE);
+			$node = $parent->ownerDocument->importNode( $node, true);
 			$parent->appendChild( $node);
 
 		}
