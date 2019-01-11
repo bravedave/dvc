@@ -503,7 +503,16 @@ abstract class _controller {
 
 		$p = new $options['template']( $options['title']);
 		$p->bodyClass = $options['bodyClass'];
-		$p->footer = $options['footer'];
+		if ( 'string' == gettype( $options['footer'])) {
+			$p->footer = true;
+			$options['template']::$footerTemplate = $options['footer'];
+
+		}
+		else {
+			$p->footer = $options['footer'];
+
+		}
+
 		$p->data = (object)$options['data'];
 		if ( !( isset( $p->data->title))) {
 			$p->data->title = $options['title'];
@@ -691,7 +700,7 @@ abstract class _controller {
 			$this->_render( $options['main']);
 
 		}
-		
+
 		return ( $p);
 
 	}
