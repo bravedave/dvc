@@ -73,6 +73,12 @@
 
 	}
 
+	if ( 4 == _brayworth_.bootstrap_version()) {
+		_brayworth_.growl = function( p) { return _brayworth_.toaster( p); }
+		return;
+
+	}
+
 	var growlers = [];
 	_brayworth_.growl = function( params) {
 
