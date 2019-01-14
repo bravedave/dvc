@@ -16,12 +16,12 @@
 	in theory - only used it once ...
 
 	*/
-NameSpace dvc;
+namespace dvc;
 
 abstract class jslib {
-	public static $debug = FALSE;
-	public static $tinylib = FALSE;
-	public static $brayworthlib = FALSE;
+	public static $debug = false;
+	public static $tinylib = false;
+	public static $brayworthlib = false;
 	public static $brayworthlibFiles = [
 		'js/jquery.visible.js',
 		'js/_brayworth_.js',
@@ -30,6 +30,7 @@ abstract class jslib {
 		'js/_brayworth_.context.js',
 		'js/_brayworth_.fileDragDropHandler.js',
 		'js/_brayworth_.get.js',
+		'js/_brayworth_.get.DataUri.js',
 		'js/_brayworth_.growl.js',
 		'js/_brayworth_.hashScroll.js',
 		'js/_brayworth_.hourglass.js',
@@ -52,9 +53,9 @@ abstract class jslib {
 		'js/js.cookie.js',
 		'js/templation.js'];
 
-	protected static $rootPath = NULL;
+	protected static $rootPath = null;
 
-	protected static function __createlib( $libdir, $jslib, $files, $minify = FALSE) {
+	protected static function __createlib( $libdir, $jslib, $files, $minify = false) {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
 
@@ -80,7 +81,7 @@ abstract class jslib {
 
 		if ( file_exists( application::app()->getRootPath() . '/app/public/' )) {
 			if ( !( file_exists( $outputDIR)) && is_writable( self::$rootPath)) {
-				mkdir( $outputDIR, 0777, TRUE);
+				mkdir( $outputDIR, 0777, true);
 				chmod( $outputDIR, 0777);
 
 			}
@@ -109,7 +110,7 @@ abstract class jslib {
 				}
 
 				file_put_contents( $output, $content);
-				return ( TRUE);
+				return ( true);
 				//~ sys::logger( 'no of files = ' . count( $contents));
 
 			}
@@ -125,7 +126,8 @@ abstract class jslib {
 			sys::logger( '[root]/app/public/ does not exist');
 
 		}
-		return ( FALSE);
+
+		return ( false);
 
 	}
 
@@ -141,8 +143,10 @@ abstract class jslib {
 			$files[] = sprintf( '%s/public/js/tinymce/plugins/%s/plugin.min.js', __DIR__, trim( $plugin));
 
 		if ( $debug) {
-			foreach ( $files as $file)
+			foreach ( $files as $file) {
 				sys::logger( 'tinylib file: ' . $file);
+
+			}
 
 		}
 
@@ -174,7 +178,7 @@ abstract class jslib {
 					$version = filemtime( $jslib);
 					self::$tinylib .= $version;
 
-					return ( TRUE);
+					return ( true);
 
 				}
 
@@ -185,7 +189,7 @@ abstract class jslib {
 				$version = filemtime( $jslib);
 				self::$tinylib .= $version;
 
-				return ( TRUE);
+				return ( true);
 
 			}
 
@@ -196,7 +200,7 @@ abstract class jslib {
 				$version = filemtime( $jslib);
 				self::$tinylib .= $version;
 
-				return ( TRUE);
+				return ( true);
 
 			}
 
@@ -204,7 +208,7 @@ abstract class jslib {
 
 	}
 
-	public static function brayworth( $lib = FALSE, $libdir = '') {
+	public static function brayworth( $lib = false, $libdir = '') {
 		$debug = self::$debug;
 		//~ $debug = true;
 
@@ -249,11 +253,11 @@ abstract class jslib {
 			if ( $libmodtime < $modtime) {
 				if ( $debug) sys::logger( 'jslib::brayworth :: latest mod time = ' . date( 'r', $modtime));
 				if ( $debug) sys::logger( 'jslib::brayworth :: you need to update ' . $jslib);
-				if ( self::__createlib( $libdir, $lib, $files, TRUE)) {
+				if ( self::__createlib( $libdir, $lib, $files, true)) {
 					$version = filemtime( $jslib);
 					self::$brayworthlib .= $version;
 
-					return ( TRUE);
+					return ( true);
 
 				}
 
@@ -264,24 +268,24 @@ abstract class jslib {
 				$version = filemtime( $jslib);
 				self::$brayworthlib .= $version;
 
-				return ( TRUE);
+				return ( true);
 
 			}
 
 		}
 		else {
 			if ( $debug) sys::logger( sprintf( 'jslib::brayworth :: not found :: %s - creating', $jslib));
-			if ( self::__createlib( $libdir, $lib, $files, TRUE)) {
+			if ( self::__createlib( $libdir, $lib, $files, true)) {
 				$version = filemtime( $jslib);
 				self::$brayworthlib .= $version;
 
-				return ( TRUE);
+				return ( true);
 
 			}
 
 		}
 
-		return ( FALSE);
+		return ( false);
 
 	}
 
@@ -352,11 +356,11 @@ abstract class jslib {
 
 	public static function viewjs( $params) {
 		$options = (object)array_merge([
-			'debug' => FALSE,
+			'debug' => false,
 			'libName' => '',
-			'leadKey' => FALSE,
-			'jsFiles' => FALSE,
-			'libFile' => FALSE
+			'leadKey' => false,
+			'jsFiles' => false,
+			'libFile' => false
 			], $params);
 
 		if ( $options->libFile ) {
