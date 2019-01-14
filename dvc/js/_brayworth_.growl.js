@@ -75,7 +75,12 @@
 
 	if ( 4 == _brayworth_.bootstrap_version()) {
 		_brayworth_.growl = function( p) { return _brayworth_.toaster( p); }
+		console.log( 'new growler', _brayworth_.bootstrap_version());
 		return;
+
+	}
+	else {
+		console.log( 'legacy growler', _brayworth_.bootstrap_version());
 
 	}
 
