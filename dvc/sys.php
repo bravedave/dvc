@@ -295,19 +295,19 @@ abstract class sys {
 			elseif ( $ext == 'js' ) {
 				$expires = 0;
 				if ( strstr( $path, 'jquery-'))
-				$expires = \config::$JQUERY_EXPIRE_TIME;
+					$expires = \config::$JQUERY_EXPIRE_TIME;
 				elseif ( strstr( $path, 'inputosaurus.js'))
-				$expires = \config::$JQUERY_EXPIRE_TIME;
+					$expires = \config::$JQUERY_EXPIRE_TIME;
 				elseif ( strstr( $path, 'tinylib.js'))
-				$expires = \config::$JQUERY_EXPIRE_TIME;
+					$expires = \config::$JQUERY_EXPIRE_TIME;
 				elseif ( strstr( $path, 'moment.min.js'))
-				$expires = \config::$JQUERY_EXPIRE_TIME;
+					$expires = \config::$JQUERY_EXPIRE_TIME;
 				elseif ( strstr( $path, 'bootstrap.min.js'))
-				$expires = \config::$JQUERY_EXPIRE_TIME;
+					$expires = \config::$JQUERY_EXPIRE_TIME;
 				elseif ( strstr( $path, 'brayworthlib.js'))
-				$expires = \config::$JQUERY_EXPIRE_TIME;
+					$expires = \config::$JQUERY_EXPIRE_TIME;
 				elseif ( strings::endswith( $path, '.js'))
-				$expires = \config::$JS_EXPIRE_TIME;
+					$expires = \config::$JS_EXPIRE_TIME;
 
 				Response::javascript_headers( filemtime( $path), $expires);
 				readfile( $path);

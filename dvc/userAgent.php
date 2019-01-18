@@ -7,7 +7,7 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 	*/
-NameSpace dvc;
+namespace dvc;
 
 abstract class userAgent {
 	protected static $useragent;
@@ -29,9 +29,9 @@ abstract class userAgent {
 
 	static function isChromeOnIOS() {
 		if ( self::isIPhone())
-		return ( preg_match('/CriOS/', self::$useragent));
+			return ( preg_match('/CriOS/', self::$useragent));
 
-		return ( FALSE);
+		return ( false);
 
 	}
 
@@ -48,9 +48,9 @@ abstract class userAgent {
 	static function isGoogleBot() {
 		// HTTP_USER_AGENT => Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
 		if( preg_match('/Googlebot/', self::$useragent))
-		return ( TRUE);
+			return ( true);
 
-		return ( FALSE );
+		return ( false );
 
 	}
 
@@ -76,9 +76,9 @@ abstract class userAgent {
 
 	static function isLegacyIE() {
 		if( preg_match('/(?i)msie [5-8]/', self::$useragent))
-		return ( TRUE);
+			return ( true);
 
-		return ( FALSE );
+		return ( false );
 
 	}
 
@@ -87,12 +87,12 @@ abstract class userAgent {
 		if ( self::isChrome()) {
 			if ( self::version() > 60) {
 				// sys::logger( sprintf( 'Valid Chrome: %s : %s', self::version(), self::$useragent));
-				return ( TRUE);
+				return ( true);
 
 			}
 
 			sys::logger( sprintf( 'Invalid Chrome: %s : %s', self::version(), self::$useragent));
-			return ( FALSE);
+			return ( false);
 
 		}
 		elseif ( self::isFirefox()) {
@@ -100,7 +100,7 @@ abstract class userAgent {
 				/* this is probably nightly */
 				$v = preg_replace( '@^.*Firefox\/@', '', self::$useragent);
  		 		if ( (float)$v > 59) {
-					return ( TRUE);
+					return ( true);
 
 				}
 
@@ -110,25 +110,25 @@ abstract class userAgent {
 
 			if ( self::version() > 50) {
 				// sys::logger( sprintf( 'Valid Firefox: %s : %s', self::version(), self::$useragent));
-				return ( TRUE);
+				return ( true);
 
 			}
 
 			sys::logger( sprintf( 'Invalid Firefox: %s : %s', self::version(), self::$useragent));
-			return ( FALSE);
+			return ( false);
 
 		}
 
 		sys::logger( self::$useragent);
 
 		if ( self::isSafari())
-			return ( TRUE);
+			return ( true);
 
 		if ( self::isEdge())
-			return ( TRUE);
+			return ( true);
 
 		if ( self::isIE())
-			return ( TRUE);
+			return ( true);
 
 	}
 
