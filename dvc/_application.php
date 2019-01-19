@@ -18,10 +18,10 @@ class _application {
 	protected $url_parameter_1 = null;
 	protected $url_parameter_2 = null;
 	protected $url_parameter_3 = null;
-	protected $_app_executed = FALSE;
+	protected $_app_executed = false;
 
 	protected $url_served = '';
-	public $exclude_from_sitemap = FALSE;
+	public $exclude_from_sitemap = false;
 
 	public function app_executed() {
 		return $this->_app_executed;
@@ -34,18 +34,18 @@ class _application {
 
 	protected $_timer = null;
 
-	protected $db = FALSE;
+	protected $db = false;
 
-	public $defaultController = NULL;
+	public $defaultController = null;
 
-	protected $minimum = FALSE;
-	protected $service = FALSE;
+	protected $minimum = false;
+	protected $service = false;
 
-	protected static $instance = NULL;
+	protected static $instance = null;
 
-	const use_full_url = TRUE;
+	const use_full_url = true;
 
-	static $debug = FALSE;
+	static $debug = false;
 
 	static function app() {
 		return ( self::$instance);
@@ -218,10 +218,6 @@ class _application {
 			$this->url_action = 'index';
 
 		}
-		// else {
-		// 	\sys::logger( sprintf( 'unprotected action %s', $this->url_action));
-		//
-		// }
 
 		self::Request()->setActionName( $this->url_action);
 
@@ -346,28 +342,6 @@ class _application {
 			return true;
 
 		}
-
-		// // ok, can't find it - perhaps serve a blank if it is an image
-		// if (preg_match('/\.(?:png|jpg|jpeg|gif)(\?.*)?$/', $_url)) {
-		//
-		// 	//~ self::$debug = TRUE;
-		//
-		// 	if (preg_match('/\.(?:png)(\?.*)?$/', $_url))
-		// 		$_file = sprintf( '%s/public/images/1x1.png', __DIR__);
-		// 	elseif (preg_match('/\.(?:jpg|jpeg)(\?.*)?$/', $_url))
-		// 		$_file = sprintf( '%s/public/images/1x1.jpg', __DIR__);
-		// 	elseif (preg_match('/\.(?:gif)(\?.*)?$/', $_url))
-		// 		$_file = sprintf( '%s/public/images/1x1.gif', __DIR__);
-		//
-		// 	if ( file_exists( $_file)) {
-		// 		if ( self::$debug) \sys::logger( sprintf( 'file not found : %s : serving :: %s', $_url, $_file));
-		// 		$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
-		// 		$this->serve( $_file);
-		// 		return true;
-		//
-		// 	}
-		//
-		// }
 
 	}
 
