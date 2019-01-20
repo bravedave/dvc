@@ -10,7 +10,7 @@
 	The New Checking Function
 
 	*/
-Namespace dvc\sqlite;
+namespace dvc\sqlite;
 
 class dbCheck {	// extends _dao {
 	protected $table;
@@ -19,7 +19,7 @@ class dbCheck {	// extends _dao {
 	protected $indexs = [];
 	protected $db;
 
-	function __construct( db $db = NULL, $table, $pk = "id" ) {
+	function __construct( db $db = null, $table, $pk = "id" ) {
 		$this->db = $db;
 		//~ parent::__construct( $db );
 
@@ -35,17 +35,15 @@ class dbCheck {	// extends _dao {
 	 */
 	function defineField( $name = "", $type = "TEXT", $default = "" ) {
 		if ( $name == "" )
-			return ( FALSE );
+			return ( false );
 
 		if ( strtolower( $type) == 'bigint')
 			$type = 'INTEGER';
-		elseif ( strtolower( $type) == 'int')
+		elseif ( in_array( strtolower( $type), ['int','tinyint']) !== false)
 			$type = 'INTEGER';
 		elseif ( strtolower( $type) == 'varchar')
 			$type = 'TEXT';
-		elseif ( strtolower( $type) == 'float')
-			$type = 'REAL';
-		elseif ( strtolower( $type) == 'double')
+		elseif ( in_array( strtolower( $type), ['float','double']) !== false)
 			$type = 'REAL';
 
 		$this->structure[] = [
