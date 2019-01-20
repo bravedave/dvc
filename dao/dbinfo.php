@@ -10,7 +10,7 @@
 	DO NOT change this file
 	Copy it to <application>/app/dao and modify it there
 	*/
-NameSpace dao;
+namespace dao;
 
 class dbinfo extends _dbinfo {
 	/*

@@ -22,7 +22,7 @@ class sitemap extends _dao {
 		if ( self::$_db_allways_check_sitemap) {
 			self::$_db_allways_check_sitemap = false;
 
-			$dbc = new \dbCheck( $this->db, $name );
+			$dbc = new dbCheck( $this->db, $name );
 
 			$dbc->defineField( 'path', 'text' );
 			$dbc->defineField( 'visits', 'bigint', 20 );
