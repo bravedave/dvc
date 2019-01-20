@@ -13,16 +13,16 @@ NameSpace dao;
 class sitemap extends _dao {
 	protected $_db_name = 'sitemap';
 
-	protected static $_db_allways_check_sitemap = TRUE;
+	protected static $_db_allways_check_sitemap = true;
 
-	protected function structure( $name = NULL ) {
+	protected function structure( $name = null ) {
 		if ( is_null( $name))
 			$name = $this->db_name();
 
 		if ( self::$_db_allways_check_sitemap) {
-			self::$_db_allways_check_sitemap = FALSE;
+			self::$_db_allways_check_sitemap = false;
 
-			$dbc = new dbCheck( $this->db, $name );
+			$dbc = new \dbCheck( $this->db, $name );
 
 			$dbc->defineField( 'path', 'text' );
 			$dbc->defineField( 'visits', 'bigint', 20 );
@@ -32,7 +32,7 @@ class sitemap extends _dao {
 
 		}
 
-		return ( FALSE);
+		return ( false);
 
 	}
 
@@ -43,7 +43,7 @@ class sitemap extends _dao {
 
 		}
 
-		return ( FALSE);
+		return ( false);
 
 	}
 
@@ -56,7 +56,7 @@ class sitemap extends _dao {
 
 		}
 
-		return ( FALSE);
+		return ( false);
 
 	}
 
@@ -69,7 +69,7 @@ class sitemap extends _dao {
 		if ( $this->db->valid())
 			return ( self::asDTO( $this->db->Result( 'SELECT * FROM sitemap WHERE exclude_from_sitemap = 0')));
 
-		return ( FALSE);
+		return ( false);
 
 	}
 

@@ -10,15 +10,15 @@
 	The New Checking Function
 
 	*/
-NameSpace dao;
+namespace dao;
 
 class dbCheck extends _dao {
 	protected $table;
 	protected $pk = "id";
-	protected $structure = Array();
-	protected $indexs = Array();
+	protected $structure = [];
+	protected $indexs = [];
 
-	function __construct( \dvc\db $db = NULL, $table, $pk = "id" ) {
+	function __construct( \dvc\db $db = null, $table, $pk = "id" ) {
 		parent::__construct( $db );
 
 		$this->table = $table;
