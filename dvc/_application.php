@@ -112,7 +112,6 @@ class _application {
 
 		}
 
-		$this->db = \sys::dbi();
 		if ( $this->minimum) {
 			if ( self::$debug) \sys::logger( 'exit: I am minimum');
 			return;	// job done
@@ -308,7 +307,7 @@ class _application {
 
 		}
 
-		$this->_app_executed = TRUE;
+		$this->_app_executed = true;
 
 	}
 
@@ -357,7 +356,7 @@ class _application {
 	}
 
 	protected function serve( $path ) {
-		if ( self::$debug) sys::$debug = TRUE;
+		if ( self::$debug) sys::$debug = true;
 		sys::serve( $path);
 
 	}
@@ -409,7 +408,7 @@ class _application {
 	}
 
 	public function dbi() {
-		return ( $this->db );
+		return ( \sys::dbi();
 
 	}
 
@@ -435,7 +434,7 @@ class _application {
 				try {
 					$dao = new dao\sitemap;
 					if ( $dto = $dao->getDTObyPath( $path)) {
-						$this->db->Q( sprintf( 'UPDATE sitemap SET visits = visits + 1 WHERE id = %d', (int)$dto->id));
+						$dao->Q( sprintf( 'UPDATE sitemap SET visits = visits + 1 WHERE id = %d', (int)$dto->id));
 
 
 					}
@@ -447,7 +446,7 @@ class _application {
 							'exclude_from_sitemap' => ((bool)$this->exclude_from_sitemap ? 1 : 0 )
 						];
 
-						$this->db->Insert( 'sitemap', $a);
+						$dao->Insert( $a);
 
 					}
 
