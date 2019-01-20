@@ -69,7 +69,7 @@ abstract class sys {
 
 	}
 
-	static function logging( $level = NULL ) {
+	static function logging( $level = null) {
 		/**
 		 * Debug logging
 		 *	I just use 1-5, stuff fromthe application class is output if log level is 3
@@ -118,7 +118,7 @@ abstract class sys {
 
 	}
 
-	static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = FALSE ) {
+	static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = false) {
 		/**
 		 * text2html: converts plain text to html by swaping in <br /> for \n
 		 *
@@ -201,7 +201,7 @@ abstract class sys {
 
 	}
 
-	static function dump( $v, $title = '', $lExit = TRUE ) {
+	static function dump( $v, $title = '', $lExit = true) {
 		if ( !$title) {
 			if ( gettype( $v) == 'object')
 				$title = get_class( $v);
@@ -235,7 +235,6 @@ abstract class sys {
 		if (self::isWindows()) {
 
 			$mail = new \PHPMailer; // use smtp with server set to mail
-
 			$mail->isSMTP();
 
 			/*

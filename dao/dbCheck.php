@@ -26,9 +26,9 @@ class dbCheck extends _dao {
 
 	}
 
-	function defineField( $name = "", $type = "varchar", $len = NULL, $dec = 0, $default = "" ) {
+	function defineField( $name = "", $type = "varchar", $len = null, $dec = 0, $default = "" ) {
 		if ( $name == "" )
-			return ( FALSE );
+			return ( false );
 
 		if ( $type == "date" && $default == "" )
 			$default = "0000-00-00";
@@ -57,19 +57,23 @@ class dbCheck extends _dao {
 
 		}
 
-		$this->structure[] = Array(
+		$this->structure[] = [
 			"name" => $name,
 			"type" => $type,
 			"length" => $len,
 			"decimal" => $dec,
-			"default" => $default );
+			"default" => $default
+
+		];
 
 	}
 
 	function defineIndex( $key, $field ) {
-		$this->indexs[] = Array(
+		$this->indexs[] = [
 			'key' => $key,
-			'field' => $field );
+			'field' => $field
+
+		];
 
 	}
 

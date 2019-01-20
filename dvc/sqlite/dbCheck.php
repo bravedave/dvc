@@ -8,7 +8,6 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	The New Checking Function
-
 	*/
 namespace dvc\sqlite;
 
@@ -39,7 +38,7 @@ class dbCheck {	// extends _dao {
 
 		if ( strtolower( $type) == 'bigint')
 			$type = 'INTEGER';
-		elseif ( in_array( strtolower( $type), ['int','tinyint']) !== false)
+		elseif ( in_array( strtolower( $type), ['int','bigint','tinyint']) !== false)
 			$type = 'INTEGER';
 		elseif ( strtolower( $type) == 'varchar')
 			$type = 'TEXT';
@@ -49,14 +48,18 @@ class dbCheck {	// extends _dao {
 		$this->structure[] = [
 			"name" => $name,
 			"type" => strtoupper( $type),
-			"default" => $default ];
+			"default" => $default
+
+		];
 
 	}
 
 	function defineIndex( $key, $field ) {
-		$this->indexs[] = Array(
+		$this->indexs[] = [
 			'key' => $key,
-			'field' => $field );
+			'field' => $field
+
+		];
 
 	}
 

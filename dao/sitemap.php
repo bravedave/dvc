@@ -15,7 +15,7 @@ class sitemap extends _dao {
 
 	protected static $_db_allways_check_sitemap = true;
 
-	protected function structure( $name = null ) {
+	protected function structure( $name = null) {
 		if ( is_null( $name))
 			$name = $this->db_name();
 
@@ -24,6 +24,7 @@ class sitemap extends _dao {
 
 			if ( \config::$DB_TYPE == 'sqlite' ) {
 				$dbc = new \dvc\sqlite\dbCheck( $this->db, $name );
+
 			}
 			else {
 				$dbc = new dbCheck( $this->db, $name );
