@@ -408,7 +408,7 @@ class _application {
 	}
 
 	public function dbi() {
-		return ( \sys::dbi();
+		return \sys::dbi();
 
 	}
 
