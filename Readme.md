@@ -1,6 +1,9 @@
 # DVC - Data View Controller
+## micro framework for PHP
 
 * https://brayworth.com/docs/
+
+A PHP framework for simple powerful web applications and APIs.
 
 * Can be configured to work with any client side framework
   * jquery-ui
