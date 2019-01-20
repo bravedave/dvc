@@ -8,7 +8,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-NameSpace dao;
+namespace dao;
 
 class sitemap extends _dao {
 	protected $_db_name = 'sitemap';
@@ -22,7 +22,13 @@ class sitemap extends _dao {
 		if ( self::$_db_allways_check_sitemap) {
 			self::$_db_allways_check_sitemap = false;
 
-			$dbc = new dbCheck( $this->db, $name );
+			if ( \config::$DB_TYPE == 'sqlite' ) {
+				$dbc = new \dvc\sqlite\dbCheck( $this->db, $name );
+			}
+			else {
+				$dbc = new dbCheck( $this->db, $name );
+
+			}
 
 			$dbc->defineField( 'path', 'text' );
 			$dbc->defineField( 'visits', 'bigint', 20 );
