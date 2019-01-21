@@ -11,4 +11,4 @@
 	Copy it to <application>/app/views/ and modify it there
 	*/	?>
 
-	<div>&nbsp;</div>
+	<div>Invalid</div>
