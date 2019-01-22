@@ -10,7 +10,7 @@
 	DO NOT change this file
 	Copy it to <application>/app and modify it there
 	*/
-NameSpace dvc;
+namespace dvc;
 
 abstract class _currentUser {
 	// THE only instance of the class
