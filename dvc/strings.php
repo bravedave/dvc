@@ -138,7 +138,7 @@ abstract class strings {
 	}
 
 	static function getUID(){
-		$charid = strtoupper(md5(uniqid(rand(), true)));
+		$charid = strtoupper(md5(self::rand()));
 		$uuid = sprintf( '%s-%s-%s-%s-%s',
 			substr($charid, 0, 8),
 			substr($charid, 8, 4),
@@ -205,6 +205,11 @@ abstract class strings {
 
 	static function lorum() {
 		return html\element::lorum();
+
+	}
+
+	static function rand( $prefix = 'uid_') {
+		return ( $prefix . bin2hex( random_bytes( 11)));
 
 	}
 

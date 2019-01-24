@@ -289,12 +289,12 @@ class Request {
 
 	}
 
-	public function fileUpload( $path, $accept = NULL) {
+	public function fileUpload( $path, $accept = null) {
 		/*
 			upload files to path from POST
 			*/
-		//~ $debug = TRUE;
-		$debug = FALSE;
+		//~ $debug = true;
+		$debug = false;
 
 		$response = [
 			'response' => 'ack',
