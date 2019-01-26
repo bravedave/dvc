@@ -10,7 +10,8 @@
 _brayworth_.ScrollTo = function( el, params) {
 
 	let options = {
-		marginTop : 0
+		marginTop : 0,
+		duration : 800
 
 	};
 
@@ -37,7 +38,7 @@ _brayworth_.ScrollTo = function( el, params) {
 		t = Math.max( 20, t);
 
 		$('html, body').animate({ scrollTop: t}, {
-			duration : 800,
+			duration : options.duration,
 			complete : resolve,
 			fail : reject,
 
