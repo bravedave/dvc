@@ -33,8 +33,8 @@ _brayworth_.ScrollTo = function( el, params) {
 
 		}
 
+		t -= options.marginTop;
 		t = Math.max( 20, t);
-		t += options.marginTop;
 
 		$('html, body').animate({ scrollTop: t}, {
 			duration : 800,
