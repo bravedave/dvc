@@ -7,7 +7,15 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 */
-_brayworth_.ScrollTo = function( el) {
+_brayworth_.ScrollTo = function( el, params) {
+
+	let options = {
+		marginTop : 0
+
+	};
+
+	$.extend( options, params);
+
 	return ( new Promise( function( resolve, reject) {
 		let _el = ( el instanceof jQuery ? el : $(el));
 
@@ -26,6 +34,7 @@ _brayworth_.ScrollTo = function( el) {
 		}
 
 		t = Math.max( 20, t);
+		t += options.marginTop;
 
 		$('html, body').animate({ scrollTop: t}, {
 			duration : 800,
