@@ -111,7 +111,7 @@ OUTPUT;
 
 	}
 
-	static function css_headers( $modifyTime = 0, $expires = NULL) {
+	static function css_headers( $modifyTime = 0, $expires = null) {
 
 		if ( is_null( $expires)) $expires = \config::$CSS_EXPIRE_TIME;
 
@@ -120,7 +120,7 @@ OUTPUT;
 
 	}
 
-	static function html_headers( $charset = FALSE) {
+	static function html_headers( $charset = false) {
 		if ( !$charset)
 			$charset = 'UTF-8';
 
@@ -145,7 +145,7 @@ OUTPUT;
 
 	}
 
-	static function icon_headers( $modifyTime = 0, $expires = NULL) {
+	static function icon_headers( $modifyTime = 0, $expires = null) {
 
 		if ( is_null( $expires)) $expires = \config::$IMG_EXPIRE_TIME;
 
@@ -168,7 +168,7 @@ OUTPUT;
 
 	}
 
-	static function png_headers( $modifyTime = 0, $expires = NULL) {
+	static function png_headers( $modifyTime = 0, $expires = null) {
 
 		if ( is_null( $expires)) $expires = \config::$IMG_EXPIRE_TIME;
 
@@ -177,7 +177,7 @@ OUTPUT;
 
 	}
 
-	static function jpg_headers( $modifyTime = 0, $expires = NULL) {
+	static function jpg_headers( $modifyTime = 0, $expires = null) {
 
 		if ( is_null( $expires)) $expires = \config::$IMG_EXPIRE_TIME;
 
@@ -186,7 +186,7 @@ OUTPUT;
 
 	}
 
-	static function gif_headers( $modifyTime = 0, $expires = NULL) {
+	static function gif_headers( $modifyTime = 0, $expires = null) {
 
 		if ( is_null( $expires)) $expires = \config::$IMG_EXPIRE_TIME;
 
@@ -195,9 +195,9 @@ OUTPUT;
 
 	}
 
-	static function pdf_headers( $filename = NULL, $modifyTime = 0) {
+	static function pdf_headers( $filename = null, $modifyTime = 0) {
 		self::_common_headers( $modifyTime);
-		header("Content-type: application/pdf");
+		header('Content-type: application/pdf');
 		if ( is_null( $filename))
 			$filename = 'pdf-' . date( 'Y-m-d') . '.pdf';
 
@@ -205,7 +205,7 @@ OUTPUT;
 
 	}
 
-	static function exe_headers( $filename = NULL, $modifyTime = 0) {
+	static function exe_headers( $filename = null, $modifyTime = 0) {
 		self::_common_headers( $modifyTime);
 		header("Content-type: application/octet-stream");
 		if ( is_null( $filename))
@@ -215,7 +215,7 @@ OUTPUT;
 
 	}
 
-	static function tiff_headers( $filename = NULL, $modifyTime = 0) {
+	static function tiff_headers( $filename = null, $modifyTime = 0) {
 		self::_common_headers( $modifyTime);
 		header("Content-type: image/tiff");
 		if ( is_null( $filename))
@@ -225,7 +225,7 @@ OUTPUT;
 
 	}
 
-	static function zip_headers( $filename = NULL, $modifyTime = 0) {
+	static function zip_headers( $filename = null, $modifyTime = 0) {
 		self::_common_headers( $modifyTime);
 		header("Content-type: application/zip");
 		if ( is_null( $filename))
