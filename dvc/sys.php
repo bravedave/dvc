@@ -259,7 +259,7 @@ abstract class sys {
 
 		}
 
-		$mail->SetFrom( \config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME);
+		$mail->setFrom( \config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME);
 		return ( $mail);
 
 	}
