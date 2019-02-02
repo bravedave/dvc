@@ -9,43 +9,13 @@
 	*/
 
 class assets extends Controller {
-	public $RequireValidation = FALSE;
+	public $RequireValidation = false;
 
 	protected function _index() {}
 
 	public function bootstrap( $type = 'css', $version = 4) {
 		if ( 4 == (int)$version) {
 			sys::serveBootStrap( $type);
-
-			// if ( 'css' == $type) {
-			// 	$lib = __DIR__ . '/bootstrap4/css/bootstrap.min.css';
-			// 	sys::serve( $lib);
-			//
-			// }
-			// elseif ( 'js' == $type) {
-			// 	if (\config::$BOOTSTRAP_REQUIRE_POPPER) {
-			// 		$files = [
-			// 			__DIR__ . '/bootstrap4/js/bootstrap.js',
-			// 			__DIR__ . '/bootstrap4/js/popper.js',
-			//
-			// 		];
-			//
-			// 		jslib::viewjs([
-			// 			'debug' => false,
-			// 			'libName' => 'bootstrap4',
-			// 			'jsFiles' => $files,
-			// 			'libFile' => config::tempdir()  . '_bootstrap4_tmp.js'
-			//
-			// 		]);
-			//
-			// 	}
-			// 	else {
-			// 		$lib = __DIR__ . '/bootstrap4/js/bootstrap.bundle.min.js';
-			// 		sys::serve( $lib);
-			//
-			// 	}
-			//
-			// }
 
 		}
 
@@ -71,25 +41,12 @@ class assets extends Controller {
 			}
 
 			cssmin::viewcss([
-         'debug' => false,
-         'libName' => 'dvc-4',
-         'cssFiles' => $files,
-         'libFile' => config::tempdir()  . '_dvc-4_.css'
+				'debug' => false,
+				'libName' => 'dvc-4',
+				'cssFiles' => $files,
+				'libFile' => config::tempdir()  . '_dvc-4_.css'
 
-      ]);
-
-		}
-		elseif ( 'growl' == $type) {
-			if ( $p2) {
-				if ( preg_match( '/\.(png|jpg)/i', $p2)) {
-					if ( file_exists( $f = __DIR__ . '/growl/' . $p2)) {
-						\sys::serve( $f);
-
-					}
-
-				}
-
-			}
+			]);
 
 		}
 		else {
