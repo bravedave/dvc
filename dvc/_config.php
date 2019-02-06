@@ -179,7 +179,7 @@ abstract class _config {
 	}
 
 	public function imagePath() {
-		return sprintf( '%s/app/public/images/', \application::app()->getRootPath());
+		return sprintf( '%s/app/public/images', \application::app()->getRootPath());
 
 	}
 
