@@ -18,18 +18,15 @@
 }
 .growler h3{ margin-top: 0; }
 .growler.information:before {
-	content: "";
-	background: url('growl/information.png') no-repeat;
+	content: "ℹ";
 	padding: 0; margin-left: -40px; width: 32px; height: 32px; display: block; float: left;
 }
 .growler.success:before {
-	content: "";
-	background: url('growl/check.png') no-repeat;
+	content: "✔";
 	padding: 0; margin-left: -40px; width: 32px; height: 32px; display: block; float: left;
 }
 .growler.error:before {
-	content: "";
-	background: url('growl/error.png') no-repeat;
+	content: "❗";
 	padding: 0; margin-left: -40px; width: 32px; height: 32px; display: block; float: left;
 }
 
@@ -38,15 +35,15 @@
 		padding: 1px 8px 4px 32px; border-radius: 5px;
 	}
 	.growler.information:before {
-		background: url('growl/information-16x16.png') no-repeat;
+		content: "ℹ";
 		margin: 5px 0 0 -24px; width: 16px; height: 16px;
 	}
 	.growler.success:before {
-		background: url('growl/check-16x16.png') no-repeat;
+		content: "✔";
 		margin: 5px 0 0 -24px; width: 16px; height: 16px;
 	}
 	.growler.error:before {
-		background: url('growl/error-16x16.png') no-repeat;
+		content: "❗";
 		margin: 5px 0 0 -24px; width: 16px; height: 16px;
 	}
 

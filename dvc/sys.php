@@ -232,10 +232,11 @@ abstract class sys {
 	}
 
 	static function mailer() {
-		if (self::isWindows()) {
+		$mail = new \PHPMailer;
+		$mail->XMailer = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
 
-			$mail = new \PHPMailer; // use smtp with server set to mail
-			$mail->isSMTP();
+		if (self::isWindows()) {
+			$mail->isSMTP(); // use smtp with server set to mail
 
 			/*
 			* This is weighted to my own enviroment
@@ -257,12 +258,8 @@ abstract class sys {
 			];
 
 		}
-		else {
-			$mail = new \PHPMailer; // defaults to using php "mail()"
 
-		}
-
-		$mail->SetFrom( \config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME);
+		$mail->setFrom( \config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME);
 		return ( $mail);
 
 	}
