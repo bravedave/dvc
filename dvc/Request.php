@@ -339,7 +339,7 @@ class Request {
 				$strType = $file['type'];
 				if ( $debug) sys::logger( sprintf( 'upload: %s (%s)', $file['name'], $strType));
 
-				$ok = TRUE;
+				$ok = true;
 				if ( in_array( $strType, $accept)) {
 					$source = $file['tmp_name'];
 					$target = sprintf( '%s/%s', $path, $file['name']);
