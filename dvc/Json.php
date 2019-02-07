@@ -7,11 +7,11 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 	*/
-NameSpace dvc;
+namespace dvc;
 
 class Json {
 	protected $_json = [];
-	protected $dumpOnDestruct = TRUE;
+	protected $dumpOnDestruct = true;
 
 	static function nak( $description) {
 		return ( new Json( [ 'response' => 'nak', 'description' => $description]));
@@ -67,7 +67,7 @@ class Json {
 
 	function __destruct() {
 		if ( $this->dumpOnDestruct) {
-			Response::json_headers();
+			\Response::json_headers();
 			print json_encode( $this->_json );
 
 		}
