@@ -101,6 +101,14 @@ abstract class strings {
 
 	}
 
+	static function endswith($string, $test) {
+		$strlen = strlen($string);
+		$testlen = strlen($test);
+		if ($testlen > $strlen) return false;
+		return substr_compare( $string, $test, $strlen - $testlen, $testlen, TRUE) === 0;
+
+	}
+
 	static function getCommonPath( $paths) {
 		$lastOffset = 1;
 		$common = '/';
@@ -147,6 +155,69 @@ abstract class strings {
 			substr($charid,20,12));
 
 		return $uuid;
+
+	}
+
+	static function html2text($document){
+		$search = array(
+			'@<[\/\!]*?[^<>]*?>@si',			// trim blank lines from beginning and end
+			'@<br[\s]/>@si',
+			'@&nbsp;@si',
+			'@&amp;@si'
+		);
+		$replace = array(
+			'\n',
+			'\n',
+			' ',
+			'&'
+		);
+		$text = trim( preg_replace($search, $replace, self::htmlSanitize( $document)), '\n');
+
+		/*
+		$search = array('@<script[^>]*?>.*?</script>@si',	// Strip out javascript
+						'@<style[^>]*?>.*?</style>@siU',	// Strip style tags properly
+						'@<![\s\S]*?--[ \t\n\r]*>@',		// Strip multi-line comments including CDATA
+						'@<[\/\!]*?[^<>]*?>@si'				// trim blank lines from beginning and end
+		);
+
+		$text = preg_replace($search, '', $text);
+		*/
+		//~ $text = $document;
+
+		$x = preg_split( "/\n/", $text );
+		while ( count($x) > 0 && trim( $x[0] ) == "" )
+			array_shift( $x );
+
+		while ( count($x) > 0 && trim( $x[(count($x)-1)] ) == "" )
+			array_pop( $x );
+
+		$text = implode( "\n", $x );
+
+		return $text;
+
+	}
+
+	static function htmlSanitize( $html ) {
+		/*
+			'@<style[^>]*?>.*?</style>@si',  	// Strip out javascript
+			http://css-tricks.com/snippets/php/sanitize-database-inputs/
+		*/
+
+		$search = array(
+			'@<head[^>]*?>.*?</head>@si',			// Strip head element
+			'@<script[^>]*?>.*?</script>@si',		// Strip out javascript
+			'@<!doctype[\/\!]*?[^<>]*?>@si',		// Strip doctype tags
+			'@<(|/)html[^>]*?>@i',					// Strip <html> start and tag
+			'@<(|/)body[^>]*?>@i',					// Strip <body> start and tag
+			'@<link[^>]*?>.*?>@si',					// Strip link tags
+			'@<base[\/\!]*?[^<>]*?>@si',			// Strip base href tags
+			'@<style[^>]*?>.*?</style>@siU',		// Strip style tags
+			'@<![\s\S]*?--[ \t\n\r]*>@',			// Strip multi-line comments including CDATA
+			'@^<br[\s]/>@i'							// Blank HTML at Start
+		);
+
+		//~ '@(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n\']+@',	// Blank Lines at Start
+		return( preg_replace($search, '', $html));
 
 	}
 
@@ -264,38 +335,6 @@ abstract class strings {
 
 	}
 
-	static function endswith($string, $test) {
-		$strlen = strlen($string);
-		$testlen = strlen($test);
-		if ($testlen > $strlen) return false;
-		return substr_compare( $string, $test, $strlen - $testlen, $testlen, TRUE) === 0;
-
-	}
-
-	static function htmlSanitize( $html ) {
-		/*
-			'@<style[^>]*?>.*?</style>@si',  	// Strip out javascript
-			http://css-tricks.com/snippets/php/sanitize-database-inputs/
-		*/
-
-		$search = array(
-			'@<head[^>]*?>.*?</head>@si',			// Strip head element
-			'@<script[^>]*?>.*?</script>@si',		// Strip out javascript
-			'@<!doctype[\/\!]*?[^<>]*?>@si',		// Strip doctype tags
-			'@<(|/)html[^>]*?>@i',					// Strip <html> start and tag
-			'@<(|/)body[^>]*?>@i',					// Strip <body> start and tag
-			'@<link[^>]*?>.*?>@si',					// Strip link tags
-			'@<base[\/\!]*?[^<>]*?>@si',			// Strip base href tags
-			'@<style[^>]*?>.*?</style>@siU',		// Strip style tags
-			'@<![\s\S]*?--[ \t\n\r]*>@',			// Strip multi-line comments including CDATA
-			'@^<br[\s]/>@i'							// Blank HTML at Start
-		);
-
-		//~ '@(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n\']+@',	// Blank Lines at Start
-		return( preg_replace($search, '', $html));
-
-	}
-
 	static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = FALSE ) {
 
 		if ( $maxrows > 0 ) {
@@ -333,45 +372,6 @@ abstract class strings {
 		}
 
 		return ( preg_replace( $a, $aR, $inText));
-
-	}
-
-	static function html2text($document){
-		$search = array(
-			'@<[\/\!]*?[^<>]*?>@si',			// trim blank lines from beginning and end
-			'@<br[\s]/>@si',
-			'@&nbsp;@si',
-			'@&amp;@si'
-		);
-		$replace = array(
-			'\n',
-			'\n',
-			' ',
-			'&'
-		);
-		$text = trim( preg_replace($search, $replace, self::htmlSanitize( $document)), '\n');
-
-		/*
-		$search = array('@<script[^>]*?>.*?</script>@si',	// Strip out javascript
-						'@<style[^>]*?>.*?</style>@siU',	// Strip style tags properly
-						'@<![\s\S]*?--[ \t\n\r]*>@',		// Strip multi-line comments including CDATA
-						'@<[\/\!]*?[^<>]*?>@si'				// trim blank lines from beginning and end
-		);
-
-		$text = preg_replace($search, '', $text);
-		*/
-		//~ $text = $document;
-
-		$x = preg_split( "/\n/", $text );
-		while ( count($x) > 0 && trim( $x[0] ) == "" )
-			array_shift( $x );
-
-		while ( count($x) > 0 && trim( $x[(count($x)-1)] ) == "" )
-			array_pop( $x );
-
-		$text = implode( "\n", $x );
-
-		return $text;
 
 	}
 
