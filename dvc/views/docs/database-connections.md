@@ -2,6 +2,18 @@
 
 ## Specify the Connections
 
+#### SQLite
+#### CONFIG File
+*note : this is only required if you DO NOT have the db.json, or which to overide the settings*
+- Location of file : [application]/app/dvc
+- Name of File : config.php
+```php
+abstract class config extends _config {
+	static $DB_TYPE = 'sqlite';
+
+}
+```
+
 #### Automatic Generation
 - The JSOn method maybe automated at the address [/install/db](/install/db), it creates a db.json in the [application]/data folder
 
