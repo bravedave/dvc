@@ -76,6 +76,15 @@ _brayworth_.context = function() {
 			//~ console.log( this.root.width());
 
 			let root = this.root;
+			(function( e) {
+				let target = $( e.target);
+				if ( target.length > 0) {
+					css['z-index'] = target.zIndex() + 10;
+
+				}
+
+			})( e);
+
 
 			if ( this.detachOnHide) {
 				root.css(css).appendTo( 'body').data('hide', 'detach');
