@@ -12,10 +12,11 @@
 		"homepage": "http://brayworth.com"
 	}],
 	"require": {
-		"php": ">=7.0",
-		"MatthiasMullie/Minify" : "*",
-		"phpmailer/phpmailer": "~5.2",
 		"erusev/parsedown":"*",
+		"MatthiasMullie/Minify" : "*",
+		"php": ">=7.0",
+		"phpmailer/phpmailer": "~5.2",
+		"tijsverkoyen/css-to-inline-styles": "^2.2",
 		"twbs/bootstrap": "^4.1"
 
 	}
