@@ -77,9 +77,9 @@ _brayworth_.context = function() {
 
 			let root = this.root;
 			(function( e) {
-				let target = $( e.target);
-				if ( target.length > 0) {
-					css['z-index'] = target.zIndex() + 10;
+				let t = $( e.target);
+				if ( t.length > 0) {
+					css['z-index'] = t.zIndex() + 10;
 
 				}
 
