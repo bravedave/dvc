@@ -251,7 +251,7 @@
 })();
 
 $(document).ready( function() {
-	if ( 4 == _brayworth_.bootstrap_version()) {
+	if ( 4 == _brayworth_.bootstrap_version() && 'undefined' != typeof moment ) {
 		_brayworth_.growl = function( p) { return _brayworth_.toaster( p); }
 
 	}
