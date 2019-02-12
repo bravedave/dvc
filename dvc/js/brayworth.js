@@ -81,4 +81,28 @@ $(document).ready( function() {
 	$.fn.swipeOn = _brayworth_.swipeOn;
 	$.fn.swipeOff = _brayworth_.swipeOff;
 
+	$.fn.zIndex = function ( z) {
+	   if ( /number|string/.test( typeof z)) {
+		  return ( this.css('z-index',z));	// consistent
+
+	   }
+	   else {
+		  // otherwise the calculated value
+		  var z = window.document.defaultView.getComputedStyle(this[0]).getPropertyValue('z-index');
+		  if ( isNaN( z))
+			 z = 0;
+
+		  z = parseInt( z);
+		  $.each( this.parents(), function( i, el) {
+			 var _z = window.document.defaultView.getComputedStyle(el).getPropertyValue('z-index');
+			 if ( !isNaN( _z))
+				z += parseInt( _z);
+
+		  });
+		  return z;
+
+	   }
+
+	};
+
 })( jQuery);
