@@ -111,6 +111,61 @@ abstract class _controller {
 
 	}
 
+	protected function _index() {
+		$this->page404();
+
+	}
+
+	protected function _offManifest( $option = '') {
+		if ( !$option) $option = 'index.html';
+		if ( $_manifest_file = realpath( sprintf( '%s/asset-manifest.json', $this->manifest))) {
+			if ( 'manifest.json' == $option) {
+				$_path = sprintf( '%s/%s', $this->manifest, $option);
+
+			}
+			else {
+				$_manifest = json_decode( file_get_contents( $_manifest_file));
+				$_path = false;
+				foreach($_manifest as $_p) {
+					if ( ltrim( $_p, './') == $option) {
+						$_path = sprintf( '%s/%s', $this->manifest, ltrim( $_p, './'));
+
+					}
+
+				}
+
+			}
+
+			if ( $_path) {
+				if ( $_file = realpath( $_path)) {
+					sys::serve( $_file);
+					sys::logger( sprintf( '%s - served', $_file));
+
+				}
+				else {
+					printf( '%s - file not found', $_path);
+					//~ sys::dump( $_manifest);
+
+				}
+
+			}
+			else {
+				printf( '%s - not set<br />', $option);
+				//~ printf( '%s - not set', application::Request()->getUrl());
+				sys::dump( $_manifest);
+
+			}
+
+		}
+		else {
+			printf( '%s - manifest not found', $_manifest_file);
+
+		}
+
+		// if we find a static file serve it, otherwise serve index
+
+	}
+
 	protected function access_control() {
 		// warning - don't impose an access_control of FALSE on the home page !
 		return ( TRUE);
@@ -246,8 +301,15 @@ abstract class _controller {
 
 	}
 
-	public function index() {
-		$this->page404();
+	public function index( $option = '') {
+		if ( $this->isPost())
+			$this->postHandler();
+
+		elseif ( $this->manifest)
+			$this->_offManifest( application::Request()->getUrl());
+
+		else
+			$this->_index( $option);
 
 	}
 
@@ -261,14 +323,14 @@ abstract class _controller {
 
 	}
 
-	protected function hasView( $viewName = 'index', $controller = NULL ) {
+	protected function hasView( $viewName = 'index', $controller = null ) {
 		return $this->getView( $viewName, $controller) != self::viewNotFound;
 		//~ $view = $this->getView( $viewName, $controller);
 		//~ return ( file_exists( $view));
 
 	}
 
-	protected function getView( $viewName = 'index', $controller = NULL ) {
+	protected function getView( $viewName = 'index', $controller = null ) {
 		if ( is_null( $controller ))
 			$controller = $this->name;
 

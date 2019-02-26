@@ -413,7 +413,9 @@ class _application {
 	}
 
 	public function getRootPath() {
-		return ( $this->rootPath );
+		return isset( $this )  ?
+			$this->rootPath :
+			self::app()->getRootPath();
 
 	}
 

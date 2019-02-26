@@ -8,7 +8,7 @@
 Namespace dvc;
 
 class HttpPost {
-	public $debug = FALSE;
+	public $debug = false;
 	public $url;
 	public $postString;
 	public $httpResponse;
