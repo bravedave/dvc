@@ -29,6 +29,8 @@ abstract class _controller {
 
 	protected $Redirect_OnLogon = false;
 	protected $label = null;
+	protected $manifest = null;
+
 
 	static $url;
 
@@ -139,7 +141,7 @@ abstract class _controller {
 			if ( $_path) {
 				if ( $_file = realpath( $_path)) {
 					sys::serve( $_file);
-					sys::logger( sprintf( '%s - served', $_file));
+					//~ sys::logger( sprintf( '%s - served', $_file));
 
 				}
 				else {
@@ -152,7 +154,7 @@ abstract class _controller {
 			else {
 				printf( '%s - not set<br />', $option);
 				//~ printf( '%s - not set', application::Request()->getUrl());
-				sys::dump( $_manifest);
+				//~ sys::dump( $_manifest);
 
 			}
 
