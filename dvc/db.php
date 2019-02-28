@@ -8,12 +8,12 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-NameSpace dvc;
+namespace dvc;
 
 class db {
 	protected $mysqli, $dbname;
 
-	public $log = FALSE;
+	public $log = false;
 
 	public static function dbTimeStamp() {
 		return ( date( "Y-m-d H:i:s", time()));

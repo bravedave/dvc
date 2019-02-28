@@ -9,11 +9,11 @@
 
 	*/
 
-Namespace dvc;
+namespace dvc;
 
 class dbi extends db {
 	protected static $dbiCount = 0;
-	protected $_valid = FALSE;
+	protected $_valid = false;
 
 	function valid() {
 		return ( $this->_valid);
@@ -43,7 +43,7 @@ class dbi extends db {
 	}
 
 	public function __construct() {
-		if ( config::$DB_TYPE == 'none' )
+		if ( config::$DB_TYPE == 'none' || config::$DB_TYPE == 'disabled' )
 			return;
 
 		self::$dbiCount ++;

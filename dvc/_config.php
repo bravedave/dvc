@@ -85,7 +85,7 @@ abstract class _config {
 	static $DATE_FORMAT = 'Y-m-d';
 
 	static $DB_HOST = 'localhost';
-	static $DB_TYPE = 'none';	// needs to be mysql or sqlite to run
+	static $DB_TYPE = 'none';	// needs to be mysql or sqlite to run, disable with 'disabled'
 	static $DB_NAME = 'dbname';
 	static $DB_USER = 'dbuser';
 	static $DB_PASS = '';
