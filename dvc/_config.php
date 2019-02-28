@@ -147,7 +147,7 @@ abstract class _config {
 	}
 
 	static public function checkDBconfigured() {
-		if ( \config::$DB_TYPE == 'mysql' || \config::$DB_TYPE == 'sqlite' )
+		if ( \config::$DB_TYPE == 'mysql' || \config::$DB_TYPE == 'sqlite' || \config::$DB_TYPE == 'disabled' )
 			return true;
 
 		return false;
