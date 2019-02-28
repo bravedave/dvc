@@ -11,7 +11,7 @@ abstract class config extends _config {
 ```
 
 #### Automatic Generation
-- The JSOn method maybe automated at the address [/install/db](/install/db), it creates a db.json in the [application]/data folder
+- The JSOn method maybe automated at the address [server]/install/db, it creates a db.json in the [application]/data folder
 
 #### JSON
 

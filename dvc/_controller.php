@@ -303,7 +303,7 @@ abstract class _controller {
 
 	}
 
-	public function index( $option = '') {
+	public function index() {
 		if ( $this->isPost())
 			$this->postHandler();
 
@@ -311,7 +311,7 @@ abstract class _controller {
 			$this->_offManifest( application::Request()->getUrl());
 
 		else
-			$this->_index( $option);
+			$this->_index();
 
 	}
 

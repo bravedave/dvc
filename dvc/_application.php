@@ -403,7 +403,7 @@ class _application {
 		elseif ( isset( $this->url_controller))
 			return ( $this->url_controller->name );
 
-		return ('');
+		return '';
 
 	}
 
