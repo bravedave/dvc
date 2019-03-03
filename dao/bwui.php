@@ -8,30 +8,43 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-NameSpace dao;
-Use dvc;
+namespace dao;
+use dvc;
 
 class bwui extends _dao {
 	protected $_db_name = 'bwui';
 
-	protected static $_db_allways_check_bwui = TRUE;
+	protected static $_db_allways_check_bwui = true;
 
-	protected function structure( $name = NULL ) {
+	protected function structure( $name = null ) {
 		if ( is_null( $name))
 			$name = $this->db_name();
 
 		//~ \sys::logger( 'bwui check');
 		if ( self::$_db_allways_check_bwui) {
-			self::$_db_allways_check_bwui = FALSE;
-			$this->_db_allways_check_structure = FALSE;
+			self::$_db_allways_check_bwui = false;
+			$this->_db_allways_check_structure = false;
 
-			$dbc = new dbCheck( $this->db, 'bwui' );
-			$dbc->defineField('created', 'datetime');
-			$dbc->defineField('updated', 'datetime');
-			$dbc->defineField('key', 'varchar', 32);
-			$dbc->defineField('username', 'varchar', 32);
-			$dbc->defineField('bygoogle', 'tinyint');
-			$dbc->defineField('creds', 'blob');
+			if ( 'sqlite' == \config::$DB_TYPE) {
+				$dbc = new dvc\sqlite\dbCheck( $this->db, 'bwui' );
+				$dbc->defineField( 'created', 'text');
+				$dbc->defineField( 'updated', 'text');
+				$dbc->defineField( 'key', 'text');
+				$dbc->defineField( 'username', 'text');
+				$dbc->defineField( 'bygoogle', 'integer');
+				$dbc->defineField( 'creds', 'blob');
+
+			}
+			else {
+				$dbc = new dbCheck( $this->db, 'bwui' );
+				$dbc->defineField( 'created', 'datetime');
+				$dbc->defineField( 'updated', 'datetime');
+				$dbc->defineField( 'key', 'varchar', 32);
+				$dbc->defineField( 'username', 'varchar', 32);
+				$dbc->defineField( 'bygoogle', 'tinyint');
+				$dbc->defineField( 'creds', 'blob');
+
+			}
 
 			//~ \sys::logger( 'bwui checked');
 
@@ -39,7 +52,7 @@ class bwui extends _dao {
 
 		}
 
-		return ( FALSE);
+		return ( false);
 
 	}
 
@@ -69,7 +82,7 @@ class bwui extends _dao {
 
 		}
 
-		return ( FALSE);
+		return ( false);
 
 	}
 
