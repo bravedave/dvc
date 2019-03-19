@@ -205,6 +205,11 @@ abstract class sys {
 		$trace = debug_backtrace();
 		if ( isset( $trace[2])) {
 			$caller = $trace[2];
+			if (isset($caller['class'])) {
+				return sprintf( '%s/%s', $caller['function'], $caller['class'] );
+
+			}
+
 			return $caller['function'];
 
 		}
