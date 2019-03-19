@@ -515,7 +515,7 @@ abstract class _controller {
 		/*-- ---- --*/
 
 		// \sys::logger( sprintf( '_controller->getView :: view not found : %s', $viewName));
-		if ( 'hasView' != \sys::traceCaller()) {
+		if ( 'dvc\_controller/hasView' != \sys::traceCaller()) {
 			\sys::trace( sprintf( '_controller->getView :: view not found : %s (%s)', $viewName, \sys::traceCaller()));
 
 		}

@@ -206,7 +206,7 @@ abstract class sys {
 		if ( isset( $trace[2])) {
 			$caller = $trace[2];
 			if (isset($caller['class'])) {
-				return sprintf( '%s/%s', $caller['function'], $caller['class'] );
+				return sprintf( '%s/%s', $caller['class'], $caller['function'] );
 
 			}
 
