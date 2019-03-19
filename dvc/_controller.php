@@ -327,8 +327,6 @@ abstract class _controller {
 
 	protected function hasView( $viewName = 'index', $controller = null ) {
 		return $this->getView( $viewName, $controller) != self::viewNotFound;
-		//~ $view = $this->getView( $viewName, $controller);
-		//~ return ( file_exists( $view));
 
 	}
 

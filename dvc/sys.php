@@ -118,6 +118,27 @@ abstract class sys {
 
 	}
 
+	static function set_error_handler() {
+		errsys::initiate( FALSE );
+		//~ self::logger( 'Set Error Handler' );
+		return;
+
+		/**
+		 * UnComment the return above to test this
+		 **/
+
+		try {
+			trigger_error("First error", E_USER_NOTICE);
+		}
+		catch ( \Exception $e ) {
+			print("Caught the error: ".$e->getMessage()."<br />\r\n" );
+		}
+
+		trigger_error("This event WILL fire", E_USER_NOTICE);
+		trigger_error("This event will NOT fire", E_USER_NOTICE);
+
+	}
+
 	static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = false) {
 		/**
 		 * text2html: converts plain text to html by swaping in <br /> for \n
@@ -180,24 +201,15 @@ abstract class sys {
 
 	}
 
-	static function set_error_handler() {
-		errsys::initiate( FALSE );
-		//~ self::logger( 'Set Error Handler' );
-		return;
+	static function traceCaller() {
+		$trace = debug_backtrace();
+		if ( isset( $trace[2])) {
+			$caller = $trace[2];
+			return $caller['function'];
 
-		/**
-		 * UnComment the return above to test this
-		 **/
-
-		try {
-			trigger_error("First error", E_USER_NOTICE);
-		}
-		catch ( \Exception $e ) {
-			print("Caught the error: ".$e->getMessage()."<br />\r\n" );
 		}
 
-		trigger_error("This event WILL fire", E_USER_NOTICE);
-		trigger_error("This event will NOT fire", E_USER_NOTICE);
+		return 'unknown caller';
 
 	}
 
