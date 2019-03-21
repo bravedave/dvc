@@ -55,7 +55,7 @@ class assets extends Controller {
 			$files = [];
 			foreach( jslib::$brayworthlibDOPOFiles as $f) {
 				$path = sprintf( '%s/../%s', __DIR__, $f);
-				// printf( '%s<br />', $path);
+				sys::logger( sprintf( '%s<br />', $path));
 				if ( $_f = realpath( $path)) {
 					$key = basename( $_f);
 					$files[ $key] = $_f;
