@@ -49,6 +49,35 @@ class assets extends Controller {
 			]);
 
 		}
+		elseif ( 'dopo' == $type) {
+			ob_start();
+
+			$files = [];
+			foreach( jslib::$brayworthlibDOPOFiles as $f) {
+				$path = sprintf( '%s/../%s', __DIR__, $f);
+				// printf( '%s<br />', $path);
+				if ( $_f = realpath( $path)) {
+					$key = basename( $_f);
+					$files[ $key] = $_f;
+
+				}
+
+			}
+
+			$gi = new GlobIterator( $files, FilesystemIterator::KEY_AS_FILENAME);
+
+			//~ $n = 0;
+			foreach ($gi as $key => $item) {
+				//~ sys::logger( sprintf( "[%s] %s", $key, $item->getRealPath()));
+				include_once $item->getRealPath();
+				print PHP_EOL;
+
+			}
+
+			$out = ob_get_contents();
+			ob_end_clean();
+
+		}
 		else {
 			// sys::dump( \jslib::$brayworthlibFiles);
 			$files = [];
