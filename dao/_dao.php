@@ -31,7 +31,7 @@ abstract class _dao {
 
 	}
 
-	public static function asDTO( \dvc\dbResult $res, $template = null) {
+	public static function asDTO( $res, $template = null) {
 		$r = [];
 		while ( $dto = $res->dto( $template)) {
 			$r[] = $dto;
