@@ -75,6 +75,12 @@ class assets extends Controller {
 			$out = ob_get_contents();
 			ob_end_clean();
 
+			$minifier = new MatthiasMullie\Minify\JS;
+			$minifier->add( $out);
+			$minified =  $minifier->minify();
+
+			print $minified;
+
 		}
 		else {
 			// sys::dump( \jslib::$brayworthlibFiles);
