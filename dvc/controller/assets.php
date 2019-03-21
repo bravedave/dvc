@@ -64,12 +64,10 @@ class assets extends Controller {
 
 			}
 
-			$gi = new GlobIterator( $files, FilesystemIterator::KEY_AS_FILENAME);
-
 			//~ $n = 0;
-			foreach ($gi as $key => $item) {
+			foreach ( $files as $path) {
 				//~ sys::logger( sprintf( "[%s] %s", $key, $item->getRealPath()));
-				include_once $item->getRealPath();
+				include_once $path;
 				print PHP_EOL;
 
 			}
