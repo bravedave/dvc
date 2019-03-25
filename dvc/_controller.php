@@ -634,6 +634,23 @@ abstract class _controller {
 
 	}
 
+	protected function modalError( $params = []) {
+		$defaults = [
+			'class' => 'modal-sm',
+			'header-class' => 'text-white bg-danger py-2',
+			'text' => 'error msg',
+			'title' => 'Error',
+
+		];
+		$options = array_merge( $defaults, $params);
+
+		if ( !isset( $this->data)) $this->data = (object)[];
+
+		$this->data->text = $options['text'];
+		$this->modal( $options);
+
+	}
+
 	protected function modal( $params = []) {
 		$defaults = [
 			'title' => sprintf( '%s Modal', \config::$WEBNAME),
