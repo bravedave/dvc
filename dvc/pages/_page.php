@@ -70,6 +70,7 @@ class _page {
 		}
 
 		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'assets/brayworth/js'));
+		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'assets/brayworth/dopo'));
 
 		if ( '5' == \config::$FONTAWESOME) {
 				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'fontawesome5/css/fontawesome-all.css'));

@@ -52,7 +52,15 @@ abstract class jslib {
 		'js/autofill.js',
 		'js/brayworth.js',
 		'js/js.cookie.js',
-		'js/templation.js'];
+		'js/templation.js'
+
+	];
+
+	public static $brayworthlibDOPOFiles = [
+		'js/dopo.js'
+
+	];
+
 
 	protected static $rootPath = null;
 

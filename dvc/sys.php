@@ -119,7 +119,7 @@ abstract class sys {
 	}
 
 	static function set_error_handler() {
-		errsys::initiate( FALSE );
+		errsys::initiate( false );
 		//~ self::logger( 'Set Error Handler' );
 		return;
 
