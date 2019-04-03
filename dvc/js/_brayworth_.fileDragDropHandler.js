@@ -65,7 +65,7 @@
 		let progressBar = $('.box__fill', options.host);
 		progressBar
 			.css('width', '0')
-			.attr('aria-valuenow', ( e.loaded / e.total * 100));
+			.attr('aria-valuenow', '0');
 
 		options.host.addClass('is-uploading');
 
