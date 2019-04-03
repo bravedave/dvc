@@ -30,7 +30,6 @@
 		color: #9e9e9e;
 		font-size: .75rem;
 	}
-	.has-advanced-upload .box__uploading,
 	.has-advanced-upload .box__dragndrop {
 		padding: 10px;
 	}
@@ -42,6 +41,7 @@
 
 /*
 	.has-advanced-upload .box__fill { display: none; padding: 7px; }
+	.has-advanced-upload .box__uploading,
 	.has-advanced-upload .box__fill {
 		padding: 10px;
 	}
