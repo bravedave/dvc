@@ -57,7 +57,7 @@
 
 		}
 
-		$.each( droppedFiles, function(i, file) {
+		$.each( options.droppedFiles, function(i, file) {
 			data.append('files-'+i, file);
 
 		});
@@ -160,13 +160,10 @@
 			})
 			.on('drop', function(e) {
 				e.preventDefault();
-				let droppedFiles = e.originalEvent.dataTransfer.files;
+				options.droppedFiles = e.originalEvent.dataTransfer.files;
 
-				if (droppedFiles) {
-					options.droppedFiles = droppedFiles;
+				if ( options.droppedFiles)
 					uploader( options);
-
-				}
 
 			});
 
