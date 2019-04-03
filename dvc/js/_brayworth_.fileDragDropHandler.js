@@ -22,7 +22,7 @@
 	*/
 (function( _b_ ) {
 	_b_.fileDragDropContainer = function() {
-		//~ let c = $('<div />');
+		let c = $('<div />');
 
 		//~ let _c = $('<div class="box__uploading" />').appendTo( c);
 
@@ -32,9 +32,9 @@
 
 		//~ return ( c);
 
-		let c = $('<div class="progress box__uploading" />');
+		let _c = $('<div class="progress box__uploading" />').appendTo( c);
 
-		$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" />').appendTo( c);
+		$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" />').appendTo( _c);
 
 		return ( c);
 
