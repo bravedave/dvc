@@ -21,15 +21,22 @@
 
 	*/
 _brayworth_.fileDragDropContainer = function() {
-	let c = $('<div />');
+	//~ let c = $('<div />');
 
-	let _c = $('<div class="box__uploading" />').appendTo( c);
+	//~ let _c = $('<div class="box__uploading" />').appendTo( c);
 
-	let __c = $('<div class="box__fill text-center text-truncate">uploading</div>').appendTo( _c);
+	//~ let __c = $('<div class="box__fill text-center text-truncate">uploading</div>').appendTo( _c);
 
-	$('<i class="fa fa-spinner fa-pulse fa-2x fa-fw" />').appendTo( __c);
+	//~ $('<i class="fa fa-spinner fa-pulse fa-2x fa-fw" />').appendTo( __c);
+
+	//~ return ( c);
+
+	let c = $('<div class="progress box__uploading" />');
+
+	$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" />').appendTo( c);
 
 	return ( c);
+
 
 }
 ;
