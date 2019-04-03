@@ -32,8 +32,8 @@
 	}
 	.has-advanced-upload .box__dragndrop {
 		padding: 10px;
+		display: inline;
 	}
-	.has-advanced-upload .box__dragndrop { display: inline; }
 	.is-dragover { background-color: grey; }
 	.is-uploading input[type="file"] { visibility: none; display: none; }
 	.is-uploading .box__uploading { display: flex; }

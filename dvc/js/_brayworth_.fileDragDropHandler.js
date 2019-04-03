@@ -23,15 +23,6 @@
 (function( _b_ ) {
 	_b_.fileDragDropContainer = function() {
 		let c = $('<div />');
-
-		//~ let _c = $('<div class="box__uploading" />').appendTo( c);
-
-		//~ let __c = $('<div class="box__fill text-center text-truncate">uploading</div>').appendTo( _c);
-
-		//~ $('<i class="fa fa-spinner fa-pulse fa-2x fa-fw" />').appendTo( __c);
-
-		//~ return ( c);
-
 		let _c = $('<div class="progress box__uploading" />').appendTo( c);
 
 		$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" />').appendTo( _c);
@@ -152,12 +143,8 @@
 			.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
 				e.preventDefault(); e.stopPropagation();
 			})
-			.on('dragover dragenter', function() {
-				$(this).addClass('is-dragover');
-			})
-			.on('dragleave dragend drop', function() {
-				$(this).removeClass('is-dragover');
-			})
+			.on('dragover dragenter', function() { $(this).addClass('is-dragover'); })
+			.on('dragleave dragend drop', function() { $(this).removeClass('is-dragover'); })
 			.on('drop', function(e) {
 				e.preventDefault();
 				options.droppedFiles = e.originalEvent.dataTransfer.files;
