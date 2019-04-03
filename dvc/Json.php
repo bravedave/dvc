@@ -23,14 +23,9 @@ class Json {
 
 	}
 
-	function __construct( $a = NULL ) {
+	function __construct( $a = null) {
 		if ( !is_null( $a))
 			$this->_json = (array)$a;
-
-	}
-
-	public function count() {
-		return count( $this->_json );
 
 	}
 
@@ -46,9 +41,23 @@ class Json {
 
 	}
 
-	public function prepend($data ) {
-		array_unshift( $this->_json, $data);
-		return ( $this);	// chain
+	public function __destruct() {
+		if ( $this->dumpOnDestruct) {
+			\Response::json_headers();
+			print json_encode( $this->_json );
+
+		}
+
+	}
+
+	public function count() {
+		return count( $this->_json );
+
+	}
+
+	public function dump() {
+		$this->dumpOnDestruct = false;
+		\sys::dump( $this->_json );
 
 	}
 
@@ -59,24 +68,21 @@ class Json {
 
 	}
 
-	function print() {
-		$this->dumpOnDestruct = FALSE;
+	public function prepend($data ) {
+		array_unshift( $this->_json, $data);
+		return ( $this);	// chain
+
+	}
+
+	public function print() {
+		$this->dumpOnDestruct = false;
 		print json_encode( $this->_json );
 
 	}
 
-	function __destruct() {
-		if ( $this->dumpOnDestruct) {
-			\Response::json_headers();
-			print json_encode( $this->_json );
-
-		}
-
-	}
-
-	function dump() {
-		$this->dumpOnDestruct = FALSE;
-		\sys::dump( $this->_json );
+	public function toArray() {
+		$this->dumpOnDestruct = false;
+		return $this->_json;
 
 	}
 
