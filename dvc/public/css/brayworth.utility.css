@@ -30,12 +30,10 @@
 		color: #9e9e9e;
 		font-size: .75rem;
 	}
-	.has-advanced-upload .box__fill,
 	.has-advanced-upload .box__uploading,
 	.has-advanced-upload .box__dragndrop {
 		padding: 10px;
 	}
-	.has-advanced-upload .box__fill { display: none; padding: 7px; }
 	.has-advanced-upload .box__dragndrop { display: inline; }
 	.is-dragover { background-color: grey; }
 	.is-uploading input[type="file"] { visibility: none; display: none; }
@@ -43,6 +41,10 @@
 }
 
 /*
+	.has-advanced-upload .box__fill { display: none; padding: 7px; }
+	.has-advanced-upload .box__fill {
+		padding: 10px;
+	}
 	.is-uploading .box__fill { display: block; top: 0; left: 0; position: absolute; background-color: rgba(60, 118, 61, 0.4);  }
 	.is-uploading { position: relative; min-height: 62px; }
 	.is-uploading .box__input { visibility: none; display: none; }
