@@ -23,24 +23,29 @@
 (function( _b_ ) {
 	_b_.fileDragDropContainer = function() {
 		let c = $('<div />');
-		let _c = $('<div class="progress box__uploading" />').appendTo( c);
 
-		$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" />').appendTo( _c);
+		$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" />')
+			.appendTo( $('<div class="progress box__uploading" />').appendTo( c));
+
+		$('<div class="progress-bar progress-bar-striped progress-queue text-center" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">queue</div>')
+			.appendTo( $('<div class="progress d-none mt-2" />').appendTo( c));
 
 		return ( c);
 
 
 	}
 	;
-	let uploader = function( params) {
+	let queue = [];
+	let enqueue = function( params) {
 		let options = $.extend({
-			url : false,
 			postData : {},
-			onUpload : function( response) {},
 			droppedFiles : {},
-			host : false,
 
 		}, params);
+
+		/*
+		* create forms with 10 elements
+		*/
 
 		let data = new FormData();
 		for(let o in options.postData) {
@@ -49,72 +54,163 @@
 		}
 
 		$.each( options.droppedFiles, function(i, file) {
+			if ( i > 0 && i % 10 == 0) {
+				queue.push( data);
+
+				data = new FormData();
+				for(let o in options.postData) {
+					data.append( o, options.postData[o]);
+
+				}
+
+			}
+
 			data.append('files-'+i, file);
 
 		});
 
-		let progressBar = $('.box__fill', options.host);
-		progressBar
-			.css('width', '0')
-			.attr('aria-valuenow', '0');
+		queue.push( data);
 
-		options.host.addClass('is-uploading');
+		let progressQue = $('.progress-queue', options.host);
+		if ( queue.length > 0) {
+			progressQue
+				.data('items', queue.length)
+				.css('width', '0')
+				.attr('aria-valuenow', '0');
 
-		$.ajax({
-			url: options.url,
-			type: 'POST',
-			data: data,
-			dataType: 'json',
-			cache: false,
-			contentType: false,
-			processData: false,
-			xhr: function() {
-				let xhr = new window.XMLHttpRequest();
-				xhr.upload.addEventListener("progress", function (e) {
-					//~ if (e.lengthComputable)
-						//~ $('.box__fill', options.host).css('width', ( e.loaded / e.total * 100) + '%');
-					if (e.lengthComputable) {
-						progressBar
-							.css('width', ( e.loaded / e.total * 100) + '%')
-							.attr('aria-valuenow', ( e.loaded / e.total * 100));
+			progressQue.parent().removeClass( 'd-none');
 
-					}
+		}
 
-				})
+		//~ console.log( queue.length)
+		let queueHandler = function() {
+			if ( queue.length > 0) {
+				let data = queue.shift();
+				let p = ( progressQue.data('items') - queue.length) / progressQue.data('items') * 100;
+				console.log( 'queue', p)
+				progressQue
+					.css('width', p + '%')
+					.attr('aria-valuenow', p);
 
-				return xhr;
-
-			}
-
-		})
-		.done( function( d) {
-			if ( 'ack' == d.response) {
-				$.each( d.data, function( i, j) {
-					$('body').growl( j);
-
-				})
+				//~ console.log( data, queue.length)
+				sendData.call( data, options).then( queueHandler);
 
 			}
 			else {
-				$('body').growl( d);
+				progressQue.parent().addClass( 'd-none');
 
 			}
 
-			options.onUpload( d);
+		}
 
-		})
-		.always( function( r) {
-			options.host.removeClass('is-uploading');
+		queueHandler();
 
-		})
-		.fail( function( r) {
-			console.warn(r);
-			_b_.modal({
-				title : 'Upload Error',
-				text : 'there was an error uploading the attachments<br />we recommend you reload your browser'
+	}
+
+	let sendData = function( params) {
+			//~ droppedFiles : {},
+			//~ postData : {},
+		let options = $.extend({
+			url : false,
+			onUpload : function( response) {},
+			host : $('body'),
+
+		}, params);
+
+		let formData = this;
+		// Display the key/value pairs
+		//~ for (var pair of formData.entries()) {
+		    //~ console.log(pair[0]+ ', ' + pair[1]);
+		//~ }
+
+		return new Promise( function( resolve, reject) {
+
+			// this is a form
+			let progressBar = $('.box__fill', options.host);
+			progressBar
+				.css('width', '0')
+				.attr('aria-valuenow', '0');
+
+			options.host.addClass('is-uploading');
+
+			$.ajax({
+				url: options.url,
+				type: 'POST',
+				data: formData,
+				dataType: 'json',
+				cache: false,
+				contentType: false,
+				processData: false,
+				xhr: function() {
+					let xhr = new window.XMLHttpRequest();
+					xhr.upload.addEventListener("progress", function (e) {
+						//~ if (e.lengthComputable)
+							//~ $('.box__fill', options.host).css('width', ( e.loaded / e.total * 100) + '%');
+						if (e.lengthComputable) {
+							progressBar
+								.css('width', ( e.loaded / e.total * 100) + '%')
+								.attr('aria-valuenow', ( e.loaded / e.total * 100));
+
+						}
+
+					})
+
+					return xhr;
+
+				}
+
+			})
+			.done( function( d) {
+				if ( 'ack' == d.response) {
+					$.each( d.data, function( i, j) {
+						$('body').growl( j);
+
+					})
+
+				}
+				else {
+					$('body').growl( d);
+
+				}
+
+				options.onUpload( d);
+
+				resolve()
+
+			})
+			.always( function( r) {
+				options.host.removeClass('is-uploading');
+
+			})
+			.fail( function( r) {
+				console.warn(r);
+				_b_.modal({
+					title : 'Upload Error',
+					text : 'there was an error uploading the attachments<br />we recommend you reload your browser'
+				});
+
 			});
 
 		});
+
+	}
+
+	let uploader = function( params) {
+			//~ url : false,
+			//~ onUpload : function( response) {},
+			//~ host : false,
+		let options = $.extend({
+			postData : {},
+			droppedFiles : {},
+
+		}, params);
+
+		let data = new FormData();
+		for(let o in options.postData) { data.append( o, options.postData[o]); }
+
+		$.each( options.droppedFiles, function(i, file) { data.append('files-'+i, file); });
+
+		sendData.call( data, options);
 
 	}
 	;
@@ -123,6 +219,7 @@
 
 		let options = $.extend( {
 			url : false,
+			queue : false,
 			host : _el
 
 		}, params);
@@ -149,8 +246,10 @@
 				e.preventDefault();
 				options.droppedFiles = e.originalEvent.dataTransfer.files;
 
-				if ( options.droppedFiles)
-					uploader( options);
+				if ( options.droppedFiles) {
+					options.queue ? enqueue( options) : uploader( options);
+
+				}
 
 			});
 
