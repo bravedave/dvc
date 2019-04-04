@@ -87,7 +87,7 @@
 			if ( queue.length > 0) {
 				let data = queue.shift();
 				let p = ( progressQue.data('items') - queue.length) / progressQue.data('items') * 100;
-				console.log( 'queue', p)
+				//~ console.log( 'queue', p)
 				progressQue
 					.css('width', p + '%')
 					.attr('aria-valuenow', p);
