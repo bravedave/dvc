@@ -96,6 +96,15 @@ class view {
 				//~ \sys::logger( sprintf( 'dvc\view->load :: rootpath in name %s', $this->loadName));
 
 			}
+			elseif ( file_exists( $name . '.php')) {
+				$name .= '.php';
+
+				$parts = pathinfo( $name);
+				$this->loadName = $parts['filename'];
+				$path = $name;
+				//~ \sys::logger( sprintf( 'dvc\view->load :: rootpath in name %s', $this->loadName));
+
+			}
 			else {
 				throw new Exceptions\ViewNotFound;
 
