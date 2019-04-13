@@ -12,8 +12,8 @@
 
 	Modify user.php
 	*/
-NameSpace dvc;
-Use dao;
+namespace dvc;
+use dao;
 
 class _user {
 	var $name = '';
@@ -24,7 +24,7 @@ class _user {
 		 * if this function returns true you are logged in
 		 */
 
-		return ( TRUE );
+		return ( true );
 
 	}
 

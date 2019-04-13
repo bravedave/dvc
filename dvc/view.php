@@ -96,6 +96,10 @@ class view {
 				//~ \sys::logger( sprintf( 'dvc\view->load :: rootpath in name %s', $this->loadName));
 
 			}
+			else {
+				throw new Exceptions\ViewNotFound;
+
+			}
 
 		}
 		else {

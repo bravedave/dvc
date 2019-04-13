@@ -9,8 +9,8 @@
 	*/
 
 class auth extends Controller {
-	public $RequireValidation = FALSE;
-	//~ public $debug = TRUE;
+	public $RequireValidation = false;
+	//~ public $debug = true;
 
 	public function index() {
 		if ( $this->getParam( 'code'))
