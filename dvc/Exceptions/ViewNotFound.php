@@ -9,7 +9,7 @@
 
 	*/
 
-namespace exceptions;
+namespace dvc\Exceptions;
 
 class ViewNotFound extends Exception {
 	protected $_text = 'the view was not found';

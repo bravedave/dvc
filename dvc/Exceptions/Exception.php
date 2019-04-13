@@ -10,7 +10,7 @@
 	Inspired by MailSo;
 
 	*/
-NameSpace dvc\Exceptions;
+namespace dvc\exceptions;
 
 class Exception extends \Exception {
 	protected $_text = FALSE;

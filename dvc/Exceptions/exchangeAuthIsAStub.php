@@ -8,7 +8,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-NameSpace dvc\Exceptions;
+namespace dvc\exceptions;
 
 class exchangeAuthIsAStub extends Exception {
 	protected $_text = 'exchange Auth Is A Stub : create a correct structure';

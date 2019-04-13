@@ -8,7 +8,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-NameSpace dvc\Exceptions;
+namespace dvc\exceptions;
 
 class UnableToOpenDatabase extends Exception {
 	protected $_dvc = 'Unable To Open Database';

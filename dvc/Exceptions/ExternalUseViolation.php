@@ -8,7 +8,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-NameSpace dvc\Exceptions;
+namespace dvc\Exceptions;
 
 class ExternalUseViolation extends Exception {
 	protected $_text = 'External Use Violation';
