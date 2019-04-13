@@ -106,6 +106,7 @@ class view {
 
 			}
 			else {
+				\sys::logger( sprintf( 'dvc\view->load :: rootpath in name - not found %s', $name));
 				throw new Exceptions\ViewNotFound;
 
 			}
