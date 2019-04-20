@@ -59,7 +59,7 @@ _brayworth_.modal = function( params) {
 		height : false,
 		mobile : _brayworth_.browser.isMobileDevice,
 		fullScreen : _brayworth_.browser.isMobileDevice,
-		className :  '',
+		className :  _brayworth_.templates.modalDefaultClass,
 		autoOpen : true,
 		buttons : {},
 		headButtons : {},
@@ -81,10 +81,6 @@ _brayworth_.modal = function( params) {
 
 	if ( !!options.width){
 		t.get('.modal-dialog').css({'width' : options.width, 'max-width' : options.width});
-
-	}
-	else if ( options.className == '') {
-		t.get('.modal-dialog').addClass( _brayworth_.templates.modalDefaultClass);
 
 	}
 
