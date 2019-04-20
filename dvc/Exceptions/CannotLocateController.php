@@ -8,7 +8,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-NameSpace dvc\Exceptions;
+namespace dvc\exceptions;
 
 class CannotLocateController extends Exception {
 	protected $_text = 'cannot locate the controller file';

@@ -10,6 +10,6 @@
 	Inspired by MailSo;
 
 	*/
-NameSpace dvc\Exceptions;
+namespace dvc\exceptions;
 
 class OAuthGoogleAuthenticationFailure extends Exception {}

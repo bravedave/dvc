@@ -12,41 +12,47 @@
 
 	Modify auth.php
 	*/
-NameSpace dvc;
+namespace dvc;
 
 abstract class _auth {
 	static function GoogleAuthEnabled() {
 		if ( is_null( config::$oauth2_client_id) || is_null( config::$oauth2_secret) || is_null( config::$oauth2_redirect ))
-			return ( FALSE);
+			return ( false);
 
-		return ( TRUE);
+		return ( true);
 
 	}
 
 	static function FacebookAuthEnabled() {
 		if ( is_null( config::$facebook_oauth2_client_id) || is_null( config::$facebook_oauth2_secret) || is_null( config::$facebook_oauth2_redirect))
-			return ( FALSE);
+			return ( false);
 
-		return ( TRUE);
+		return ( true);
 
 	}
 
 	static function dialog() {
 		$top = new html\div();
-			$top->attributes( array(
+			$top->attributes( [
 				'class' => 'modal fade',
 				'id' => 'dlgLogon',
 				'tabindex' => '-1',
 				'role' => 'dialog',
 				'aria-labelledby' => 'myModalLabel',
-				'aria-hidden' => 'true' ));
+				'aria-hidden' => 'true'
 
-			$div = $top->append( 'div', NULL, array(
+			]);
+
+			$div = $top->append( 'div', null, [
 				'class' => 'modal-dialog modal-sm',
-				'id' => 'dlgLogonDialog' ));
+				'id' => 'dlgLogonDialog'
 
-				$content = $div->append( 'div', NULL, array(
-					'class' => 'modal-content' ));
+			]);
+
+			$content = $div->append( 'div', null, [
+				'class' => 'modal-content'
+
+			]);
 
 					$header = $content->append( 'div', NULL, array(
 						'class' => 'modal-header' ));

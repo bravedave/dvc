@@ -9,7 +9,7 @@
 
 	*/
 class logon extends Controller {
-	public $RequireValidation = FALSE;
+	public $RequireValidation = false;
 
 	public function index() {
 		if ( auth::GoogleAuthEnabled())

@@ -9,7 +9,7 @@
 
 	*/
 
-NameSpace dvc\Exceptions;
+namespace dvc\exceptions;
 
 class InvalidBootstrapVersion extends Exception {
 	protected $_text = 'invalid bootstrap version';

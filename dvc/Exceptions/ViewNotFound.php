@@ -8,9 +8,10 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
+
 namespace dvc\Exceptions;
 
-class ExternalUseViolation extends Exception {
-	protected $_text = 'External Use Violation';
+class ViewNotFound extends Exception {
+	protected $_text = 'the view was not found';
 
 }
