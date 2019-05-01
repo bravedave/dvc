@@ -87,10 +87,10 @@ abstract class errsys {
 			 * error is logged in the exception
 			 */
 			// if ( $errstr == 'Unknown') {
-			if ( $exit) {
+			if ( $exit || preg_match( '/^Unknown/', $errstr)) {
 				error_log( '---[probable duplicate    : error is logged in the exception]---');
 				error_log( sprintf( '%s: %s %s %s %s', $type, $errstr, $errno, $errfile, $errline));
-				\sys::trace($errno);
+				\sys::trace( $errno);
 				error_log( '---[end probable duplicate: error is logged in the exception]---');
 
 			}
