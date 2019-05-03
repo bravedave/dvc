@@ -191,7 +191,15 @@ abstract class sys {
 		$level = (int)$level;
 		$iLevel = 0;
 		foreach ( debug_backtrace() as $e ) {
-			self::logger( sprintf( '%s(%s)', $e['file'], $e['line'] ));
+			if ( isset( $e['file'])) {
+				self::logger( sprintf( '%s(%s)', $e['file'], $e['line'] ));
+
+			}
+			else {
+				self::logger( print_r( $e, true));
+
+			}
+
 			if ( $level > 0 && ++$iLevel > $level ) {
 				break;
 
