@@ -145,11 +145,13 @@ abstract class jslib {
 		//~ $debug = TRUE;
 
 		$files = [
-			__DIR__ . '/public/js/tinymce/tinymce.min.js',
-			__DIR__ . '/public/js/tinymce/themes/modern/theme.min.js' ];
+			sprintf(  '%s/public/js/%s/tinymce.min.js', __DIR__, $libdir),
+			sprintf(  '%s/public/js/%s/themes/modern/theme.min.js', __DIR__, $libdir)
+
+		];
 
 		foreach( explode( ',', $plugins) as $plugin)
-			$files[] = sprintf( '%s/public/js/tinymce/plugins/%s/plugin.min.js', __DIR__, trim( $plugin));
+			$files[] = sprintf( '%s/public/js/%s/plugins/%s/plugin.min.js', __DIR__, $libdir, trim( $plugin));
 
 		if ( $debug) {
 			foreach ( $files as $file) {

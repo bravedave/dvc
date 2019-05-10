@@ -14,7 +14,7 @@ namespace dvc;
 
 class Page extends pages\page {
 	protected $bootstrap,
-		$datepicker = FALSE;
+		$datepicker = false;
 
 	function __construct( $title = '' ) {
 		parent::__construct( $title );
