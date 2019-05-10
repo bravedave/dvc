@@ -144,11 +144,15 @@ abstract class jslib {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
 
-		$files = [
-			sprintf(  '%s/public/js/%s/tinymce.min.js', __DIR__, $libdir),
-			sprintf(  '%s/public/js/%s/themes/modern/theme.min.js', __DIR__, $libdir)
+		$files = [ sprintf(  '%s/public/js/%s/tinymce.min.js', __DIR__, $libdir) ];
+		if ( file_exists( $_file = sprintf(  '%s/public/js/%s/themes/silver/theme.min.js', __DIR__, $libdir))) {
+			$files[] = $_file;
 
-		];
+		}
+		elseif ( file_exists( $_file = sprintf(  '%s/public/js/%s/themes/modern/theme.min.js', __DIR__, $libdir))) {
+			$files[] = $_file;
+
+		}
 
 		foreach( explode( ',', $plugins) as $plugin)
 			$files[] = sprintf( '%s/public/js/%s/plugins/%s/plugin.min.js', __DIR__, $libdir, trim( $plugin));
