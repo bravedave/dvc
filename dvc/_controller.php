@@ -275,20 +275,6 @@ abstract class _controller {
 
 	}
 
-	protected function SQL( $query) {
-		/*
-		* Perform an SQL Command using
-		* the default data adapter
-		*/
-		if ( is_null( $this->db )) {
-			return ( FALSE);
-
-		}
-
-		return ( $this->db->SQL( $query));
-
-	}
-
 	protected function dbEscape( $s) {
 		/*
 		* Escape a string for inclusing in an SQL
@@ -300,6 +286,27 @@ abstract class _controller {
 		}
 
 		return ( $this->db->escape( $s));
+
+	}
+
+	protected function postHandler() {
+		/*
+		* Placeholder for use the child class.
+		*/
+
+	}
+
+	protected function SQL( $query) {
+		/*
+		* Perform an SQL Command using
+		* the default data adapter
+		*/
+		if ( is_null( $this->db )) {
+			return ( FALSE);
+
+		}
+
+		return ( $this->db->SQL( $query));
 
 	}
 
