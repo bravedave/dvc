@@ -54,7 +54,7 @@ class install extends Controller {
 		if ( 'disabled' == \config::$DB_TYPE) return;	// silent fail
 		if ( 'dbname' != \config::$DB_NAME) return;	// silent fail
 
-		\sys::logger( sprintf( 'dbname: %s', \config::$DB_NAME));
+		\sys::logger( sprintf( 'dbname : %s', \config::$DB_NAME));
 
 		// print 'it\'s post allright';
 		// sys::dump( $this->getPost());
