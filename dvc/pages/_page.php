@@ -166,7 +166,7 @@ class _page {
 
 	public function closeHeader() {
 		if ( $this->headerOPEN) {
-			$this->headerOPEN = FALSE;
+			$this->headerOPEN = false;
 			printf( '%s</head>%s', PHP_EOL, PHP_EOL);
 
 		}
@@ -315,6 +315,8 @@ class _page {
 	public function title( $navbar = 'navbar-default') {
 		if ( !$this->boolHeader )
 			$this->header();
+
+		$this->pageHeader();
 
 		if ( $this->debug) \sys::logger( $navbar);
 

@@ -16,9 +16,9 @@ class blank extends _page {
 	function __construct( $title = '' ) {
 		parent::__construct( $title );
 
-		//~ $this->scripts = array();
-		$this->latescripts = array();
-		$this->css = array();
+		//~ $this->scripts = [];
+		$this->latescripts = [];
+		$this->css = [];
 		//~ $this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s?v=%s" />', url::tostring('css/jquery-ui.min.css'), config::$VERSION );
 		$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'css/min.css' ));
 
