@@ -67,7 +67,7 @@
 		if ( !!j.timeout)
 			options.timeout = j.timeout;
 
-		console.log( options);
+		//~ console.log( options);
 
 		return ( _brayworth_.growl.call( this, options));
 
