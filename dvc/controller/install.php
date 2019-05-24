@@ -52,6 +52,7 @@ class install extends Controller {
 
 	protected  function postHandler() {
 		if ( 'disabled' == \config::$DB_TYPE) return;	// silent fail
+		if ( 'sqlite' == \config::$DB_TYPE) return;	// silent fail, only creates sqlite file in application/data
 		if ( 'dbname' != \config::$DB_NAME) return;	// silent fail
 
 		\sys::logger( sprintf( 'dbname : %s', \config::$DB_NAME));
