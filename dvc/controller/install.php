@@ -52,9 +52,7 @@ class install extends Controller {
 
 	protected  function postHandler() {
 		if ( 'disabled' == \config::$DB_TYPE) return;	// silent fail
-		//~ if ( 'disabled' == \config::$DB_NAME) return;	// silent fail
-
-		\sys::logger( \config::$DB_NAME);
+		if ( 'dbname' != \config::$DB_NAME) return;	// silent fail
 
 		// print 'it\'s post allright';
 		// sys::dump( $this->getPost());
