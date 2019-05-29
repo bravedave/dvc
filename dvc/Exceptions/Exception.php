@@ -13,9 +13,9 @@
 namespace dvc\exceptions;
 
 class Exception extends \Exception {
-	protected $_text = FALSE;
+	protected $_text = false;
 
-	public function __construct($message = null, $code = 0, Exception $previous = null) {
+	public function __construct($message = null, $code = 0, \Exception $previous = null) {
 
 		if ( !$this->_text)
 			$this->_text = '';
