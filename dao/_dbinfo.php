@@ -8,11 +8,11 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-NameSpace dao;
+namespace dao;
 
 class _dbinfo extends _dao {
 	protected function check() {
-		\sys::logger( 'checking ' . dirname( __FILE__ ) . '/db/*.php' );
+		//~ \sys::logger( 'checking ' . dirname( __FILE__ ) . '/db/*.php' );
 
 		if ( glob( dirname( __FILE__ ) . '/db/*.php')) {
 			foreach ( glob( dirname( __FILE__ ) . '/db/*.php') as $f ) {
