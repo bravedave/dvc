@@ -8,8 +8,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-
-namespace dvc\exceptions;
+namespace dvc\Exceptions;
 
 class InvalidBootstrapVersion extends Exception {
 	protected $_text = 'invalid bootstrap version';

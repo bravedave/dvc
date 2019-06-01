@@ -8,8 +8,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-
-namespace dvc\exceptions;
+namespace dvc\Exceptions;
 
 class InvalidPostAction extends Exception {
 	protected $_dvc = 'This post action is not allowed';

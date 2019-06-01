@@ -8,7 +8,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-namespace dvc\exceptions;
+namespace dvc\Exceptions;
 
 class UpsupportedTheme extends Exception {
 	protected $_text = 'upsupported theme';
