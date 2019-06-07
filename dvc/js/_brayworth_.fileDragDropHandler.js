@@ -21,7 +21,10 @@
 
 	*/
 (function( _b_ ) {
-	_b_.fileDragDropContainer = function() {
+	_b_.fileDragDropContainer = function( params) {
+		let options = $.extend({fileControl : false}, params);
+
+		//~ console.log( '_b_.fileDragDropContainer');
 		let c = $('<div />');
 
 		$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" />')
@@ -30,8 +33,26 @@
 		$('<div class="progress-bar progress-bar-striped progress-queue text-center" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">queue</div>')
 			.appendTo( $('<div class="progress d-none mt-2" />').appendTo( c));
 
-		return ( c);
+		if ( options.fileControl) {
+			let ig = $('<div class="input-group mb-1" />').appendTo( c);
 
+			let rand = String( Math.round( Math.random() * 1000));
+			let lbl = $('<span class="input-group-text">Upload</span>').attr( 'id', rand + 'FileAddon01');
+			$('<div class="input-group-prepend" />').append( lbl).appendTo( ig);
+
+			let div = $('<div class="custom-file" />').appendTo( ig);
+			$('<input type="file" class="custom-file-input" multiple />')
+				.attr( 'id', rand + 'File01')
+				.attr('aria-describedby', rand + 'FileAddon01')
+				.appendTo( div);
+
+			$('<label class="custom-file-label">Choose file</label>')
+				.attr( 'for', rand + 'File01')
+				.appendTo( div);
+
+		}
+
+		return ( c);
 
 	}
 	;
@@ -226,6 +247,18 @@
 
 		if ( !options.url)
 			throw 'Invalid upload url';
+
+		$('input[type="file"]', this).on( 'change', function( e) {
+			let _me = $(this);
+
+			options.droppedFiles = e.originalEvent.target.files;
+			if ( options.droppedFiles) {
+				_me.prop( 'disabled', true);
+				options.queue ? enqueue( options).then( function() { _me.val('').prop( 'disabled', false); }) : uploader( options);
+
+			}
+
+		});
 
 		let isAdvancedUpload = (function() {
 			let div = document.createElement('div');
