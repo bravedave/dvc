@@ -21,7 +21,7 @@
 		background-color: white;
 
 	}
-	.has-advanced-upload::after {
+	.has-advanced-upload::before {
 		display: inline-block;
 		width: 90%;
 		margin-left: 0.25em;
