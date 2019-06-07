@@ -64,67 +64,71 @@
 
 		}, params);
 
-		/*
-		* create forms with 10 elements
-		*/
+		return new Promise( function( resolve, reject) {
+			/*
+			* create forms with 10 elements
+			*/
 
-		let data = new FormData();
-		for(let o in options.postData) {
-			data.append( o, options.postData[o]);
+			let data = new FormData();
+			for(let o in options.postData) {
+				data.append( o, options.postData[o]);
 
-		}
+			}
 
-		$.each( options.droppedFiles, function(i, file) {
-			if ( i > 0 && i % 10 == 0) {
-				queue.push( data);
+			$.each( options.droppedFiles, function(i, file) {
+				if ( i > 0 && i % 10 == 0) {
+					queue.push( data);
 
-				data = new FormData();
-				for(let o in options.postData) {
-					data.append( o, options.postData[o]);
+					data = new FormData();
+					for(let o in options.postData) {
+						data.append( o, options.postData[o]);
+
+					}
+
+				}
+
+				data.append('files-'+i, file);
+
+			});
+
+			queue.push( data);
+
+			let progressQue = $('.progress-queue', options.host);
+			if ( queue.length > 0) {
+				progressQue
+					.data('items', queue.length)
+					.css('width', '0')
+					.attr('aria-valuenow', '0');
+
+				progressQue.parent().removeClass( 'd-none');
+
+			}
+
+			//~ console.log( queue.length)
+			let queueHandler = function() {
+				if ( queue.length > 0) {
+					let data = queue.shift();
+					let p = ( progressQue.data('items') - queue.length) / progressQue.data('items') * 100;
+					//~ console.log( 'queue', p)
+					progressQue
+						.css('width', p + '%')
+						.attr('aria-valuenow', p);
+
+					//~ console.log( data, queue.length)
+					sendData.call( data, options).then( queueHandler);
+
+				}
+				else {
+					progressQue.parent().addClass( 'd-none');
+					resolve();
 
 				}
 
 			}
 
-			data.append('files-'+i, file);
+			queueHandler();
 
 		});
-
-		queue.push( data);
-
-		let progressQue = $('.progress-queue', options.host);
-		if ( queue.length > 0) {
-			progressQue
-				.data('items', queue.length)
-				.css('width', '0')
-				.attr('aria-valuenow', '0');
-
-			progressQue.parent().removeClass( 'd-none');
-
-		}
-
-		//~ console.log( queue.length)
-		let queueHandler = function() {
-			if ( queue.length > 0) {
-				let data = queue.shift();
-				let p = ( progressQue.data('items') - queue.length) / progressQue.data('items') * 100;
-				//~ console.log( 'queue', p)
-				progressQue
-					.css('width', p + '%')
-					.attr('aria-valuenow', p);
-
-				//~ console.log( data, queue.length)
-				sendData.call( data, options).then( queueHandler);
-
-			}
-			else {
-				progressQue.parent().addClass( 'd-none');
-
-			}
-
-		}
-
-		queueHandler();
 
 	}
 
