@@ -56,7 +56,7 @@ input[type="search"]:not(.with-content) {
 	-moz-appearance: none;
 	-webkit-appearance: none;
 }
-input[type="search"]::-webkit-search-cancel-button:not(.with-content) {
+input[type="search"]:not(.with-content)::-webkit-search-cancel-button {
 	/* Remove default */
 	-webkit-appearance: none;
 }
