@@ -90,7 +90,8 @@ class _application {
 		ini_set ('SMTP', $mailserver);
 
 		$_url = trim( self::Request()->getUrl(), '/. ');
-		if (preg_match('/\.(?:png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml)(\?.*)?$/i', $_url)) {
+		if ( preg_match('/\.(png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml|html?)(\?.*)?$/i', $_url)) {
+		//~ if (preg_match('/\.(?:png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml|html?)(\?.*)?$/i', $_url)) {
 			/*
 			 * You are only here because
 			 *	the file was not found in the <webroot>
@@ -101,7 +102,7 @@ class _application {
 			$_url = preg_replace( '@(\?.*)?$@', '', $_url);
 
 			// check for any .. in the string, which could lead to a parent folder
-			if ( strpos( $_url, '..') !== FALSE)
+			if ( strpos( $_url, '..') !== false)
 				throw new Exceptions\SecurityException;
 
 			// sanitize, noting that it may have / in the string, and that's ok because leading /. have been removed
