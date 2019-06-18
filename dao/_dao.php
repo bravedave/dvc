@@ -20,11 +20,8 @@ abstract class _dao {
 	protected $template = null;
 
 	function __construct( \dvc\dbi $db = null ) {
-		if ( is_null( $db ))
-			$this->db = \sys::dbi();
 
-		else
-			$this->db = $db;
+		$this->db = is_null( $db) ? \sys::dbi() : $db;
 
 		$this->TableChecks();
 		$this->before();

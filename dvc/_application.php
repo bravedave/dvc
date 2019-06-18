@@ -62,7 +62,7 @@ class _application {
 
 	static function Request() {
 		if ( is_null( self::$_request))
-			self::$_request = Request::get();
+			self::$_request = \Request::get();
 
 		return ( self::$_request);
 
