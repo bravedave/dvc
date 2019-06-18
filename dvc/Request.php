@@ -24,7 +24,7 @@ class Request {
 
 	public static function get( $var = '', $default = false ) {
 		if ( !isset( self::$instance ))
-			self::$instance = new Request();
+			self::$instance = new \Request;
 
 		if ( $var == '' )
 			return self::$instance;
