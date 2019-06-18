@@ -10,4 +10,4 @@
 	DO NOT change this file
 	Copy it to <application>/app and modify it there
 	*/
-abstract class Request extends dvc\Request {}
+class Request extends dvc\Request {}

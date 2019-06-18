@@ -139,7 +139,7 @@ class Request {
 
 	}
 
-	public function getPost( $name = '', $default = FALSE ){
+	public function getPost( $name = '', $default = false ){
 		if( !$name)
 			return $this->post;
 
@@ -224,7 +224,7 @@ class Request {
 
 	public function ClientIsLocal() {
 		if ( $this->ServerIsLocal())
-			return ( TRUE);
+			return ( true);
 
 		$thisIP = $this->getServerIP();
 		$remoteIP = $this->getRemoteIP();
