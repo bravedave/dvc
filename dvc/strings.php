@@ -14,13 +14,13 @@ abstract class strings {
 	const html_sad = '<span style="font-family: Segoe UI Symbol; Verdana;">&#9785;</span>';
 	const html_happy = '<span style="font-family: Segoe UI Symbol; Verdana;">&#9786;</span>';
 
-	static function asLocalDate( $date, $time = false) {
+	static function asLocalDate( $date, $time = false, $epoch = 0) {
 		if ( (string)$date == '0000-00-00') {
 			return ( false);
 
 		}
 
-		if ( ( $t = strtotime( $date)) > 0) {
+		if ( ( $t = strtotime( $date)) > (int)$epoch) {
 			if ( $time && date( 'Y-m-d', $t) == date( 'Y-m-d')) {
 				return ( preg_replace( '/m$/','',date( 'g:ia', $t)));
 

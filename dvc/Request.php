@@ -275,7 +275,7 @@ class Request {
 
 	}
 
-	public function getParam( $name = '', $default = FALSE){
+	public function getParam( $name = '', $default = false){
 		if( !$name)
 			return $this->params;
 
