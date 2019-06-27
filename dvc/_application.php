@@ -56,7 +56,7 @@ class _application {
 		if ( self::$instance)
 			return ( self::$instance->_timer);
 
-		return ( new timer());
+		return ( new timer);
 
 	}
 

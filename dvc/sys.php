@@ -112,7 +112,7 @@ abstract class sys {
 
 	static function logSQL( $v, $level = 0 ) {
 		if ( (int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel ) {
-			self::logger( preg_replace( array( "@\r\n@","@\n@","@\t@","@\s\s*@" ), " ", $v ), $level);
+			self::logger( preg_replace( [ "@\r\n@","@\n@","@\t@","@\s\s*@" ], ' ', $v ), $level);
 
 		}
 
