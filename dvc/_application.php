@@ -313,6 +313,8 @@ class _application {
 	}
 
 	protected function publicFile( $_url) {
+		if ( !$_url) return false;
+
 		$_file = sprintf( '%s/app/public/%s', $this->rootPath, $_url);
 		if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
 		if ( file_exists( $_file)) {
