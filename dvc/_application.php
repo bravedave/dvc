@@ -52,11 +52,11 @@ class _application {
 
 	}
 
-	static function timer() {
+	static function isService() {
 		if ( self::$instance)
-			return ( self::$instance->_timer);
+			return ( self::$instance->service);
 
-		return ( new timer);
+		return ( false);
 
 	}
 
@@ -65,6 +65,14 @@ class _application {
 			self::$_request = Request::get();
 
 		return ( self::$_request);
+
+	}
+
+	static function timer() {
+		if ( self::$instance)
+			return ( self::$instance->_timer);
+
+		return ( new timer);
 
 	}
 
