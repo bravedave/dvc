@@ -48,8 +48,11 @@ _brayworth_.context = function() {
 		detachOnHide : true,
 		hideClass : ( _brayworth_.bootstrap_version() < 4 ? 'hidden' : 'd-none'),
 
-		create : function( item) {
-			let el = $( '<li />').append( item).appendTo( this.root);
+		create : function( item, after) {
+			let el = $( '<li />').append( item);
+
+			!!after ? el.insertAfter( after) : el.appendTo( this.root);
+
 			this.items.push( el);
 			this.length = this.items.length;
 			return ( el);
