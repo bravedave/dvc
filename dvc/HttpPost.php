@@ -57,7 +57,7 @@ class HttpPost {
 
 	}
 
-	public function getJsonResponse() {
+	public function getResponseJSON() {
 		return json_decode( $this->getResponse());
 
 	}

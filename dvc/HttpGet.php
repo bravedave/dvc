@@ -37,6 +37,11 @@ class HttpGet {
 
 	}
 
+	public function getResponseJSON() {
+		return json_decode( $this->getResponse());
+
+	}
+
 	public function getResponse() {	/* Read the HTTP Response returned by the server */
 		return $this->httpResponse;
 
