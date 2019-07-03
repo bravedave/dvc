@@ -5,7 +5,7 @@
  *
  * @author Tony Gaitatzis
  */
-Namespace dvc;
+namespace dvc;
 
 class HttpPost {
 	public $debug = false;
@@ -49,19 +49,22 @@ class HttpPost {
 
 		curl_setopt( $this->ch, CURLOPT_POST, true );
 		curl_setopt ( $this->ch, CURLOPT_POSTFIELDS, $this->postString );
+
 	}
 
-	/**
-	 * Make the POST request to the server
-	 */
-	public function send() {
+	public function send() {	/** Make the POST request to the server */
 		$this->httpResponse = curl_exec( $this->ch );
+
 	}
-	/**
-	 * Read the HTTP Response returned by the server
-	 */
-	public function getResponse() {
+
+	public function getJsonResponse() {
+		return json_decode( $this->getResponse());
+
+	}
+
+	public function getResponse() { /** Read the HTTP Response returned by the server */
 		return $this->httpResponse;
+
 	}
 
 	public function getResponseDecoded() {
