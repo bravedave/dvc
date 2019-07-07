@@ -1,7 +1,6 @@
 {
 	"name": "bravedave/dvc",
 	"description": "DVC - General Purpose PSR-4 Data-View-Controller",
-	"version": "0.0.1",
 	"keywords": ["MVC", "Model View Controller"],
 	"homepage": "http://brayworth.com",
 	"type": "library",
