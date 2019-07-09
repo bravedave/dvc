@@ -19,7 +19,7 @@ class bootstrap extends page {
 	static $pageContainer = 'container-fluid';
 	static $contentClass = 'col pt-3 pb-4';
 	static $primaryClass = 'col-sm-8 col-md-9 pt-3 pb-4';
-	static $secondaryClass = 'col-sm-4 col-md-3 pt-3 pb-4 bg-light d-print-none';
+	static $secondaryClass = 'col-sm-4 col-md-3 pt-3 pb-4 d-print-none';
 
 	function __construct( $title = '' ) {
 		// \sys::logger( sprintf( 'Bootstrap_Version : bootstrap : %s', self::$Bootstrap_Version));
