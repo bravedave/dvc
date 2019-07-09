@@ -123,14 +123,11 @@ class dbCheck {	// extends _dao {
 		}
 
 		foreach ( $this->indexs as $index ) {
-			if ( !$indexFound ) {
-				$sql = sprintf( 'CREATE INDEX IF NOT EXISTS `%s` ON `%s` (%s)',
-					$this->db->escape( $index['key'] ),
-					$this->db->escape( $this->table ),
-					$this->db->escape( $index['field'] ) );
-				$this->db->Q( $sql);
-
-			}
+			$sql = sprintf( 'CREATE INDEX IF NOT EXISTS `%s` ON `%s` (%s)',
+				$this->db->escape( $index['key'] ),
+				$this->db->escape( $this->table ),
+				$this->db->escape( $index['field'] ) );
+			$this->db->Q( $sql);
 
 		}
 
