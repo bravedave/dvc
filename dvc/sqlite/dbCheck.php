@@ -31,7 +31,7 @@ class dbCheck {	// extends _dao {
 	 * REAL
 	 * TEXT
 	 * BLOB
-	 */
+	 **/
 	function defineField( $name = "", $type = "TEXT", $default = "" ) {
 		if ( $name == "" )
 			return ( false );
