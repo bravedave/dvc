@@ -48,9 +48,9 @@ class dbCheck {	// extends _dao {
 			$type = 'REAL';
 
 		$this->structure[] = [
-			"name" => $name,
-			"type" => strtoupper( $type),
-			"default" => $default
+			'name' => $name,
+			'type' => strtoupper( $type),
+			'default' => $default
 
 		];
 
