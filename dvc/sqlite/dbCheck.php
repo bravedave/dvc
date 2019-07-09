@@ -42,7 +42,7 @@ class dbCheck {	// extends _dao {
 			$type = 'INTEGER';
 		elseif ( in_array( strtolower( $type), ['blob','mediumblob']) !== false)
 			$type = 'BLOB';
-		elseif ( in_array( strtolower( $type), ['varchar']) !== false)
+		elseif ( in_array( strtolower( $type), ['varchar','date','datetime']) !== false)
 			$type = 'TEXT';
 		elseif ( in_array( strtolower( $type), ['float','double']) !== false)
 			$type = 'REAL';
