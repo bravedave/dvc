@@ -8,7 +8,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-Namespace dvc;
+namespace dvc;
 
 class HttpGet {
 	public $url;
@@ -34,6 +34,11 @@ class HttpGet {
 
 	public function __destruct() {
 		curl_close($this->ch);	/* shut down CURL before destroying the HttpGet object */
+
+	}
+
+	public function error() {
+		return curl_error($http->ch);
 
 	}
 
