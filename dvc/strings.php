@@ -20,7 +20,7 @@ abstract class strings {
 
 		}
 
-		if ( ( $t = strtotime( $date)) > (int)$epoch) {
+		if ( ( $t = strtotime( $date)) > (float)$epoch) {
 			if ( $time && date( 'Y-m-d', $t) == date( 'Y-m-d')) {
 				return ( preg_replace( '/m$/','',date( 'g:ia', $t)));
 
