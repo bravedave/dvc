@@ -25,9 +25,9 @@ class _dbinfo extends _dao {
 
 	}
 
-	function dump() {
+	function dump( $verbose = true) {
 		$this->check();
-		$this->db->dump();
+		if ( (bool)$verbose) $this->db->dump();
 
 	}
 
