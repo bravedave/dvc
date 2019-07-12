@@ -8,7 +8,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-NameSpace dvc\ews\Exceptions;
+namespace dvc\ews\exceptions;
 
 class FailedtoCreateEWSClient extends Exception {
 	protected $_text = 'Failed to Create EWS Client';

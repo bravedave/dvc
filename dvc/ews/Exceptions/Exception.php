@@ -9,6 +9,6 @@
 
 	*/
 
-NameSpace dvc\ews\Exceptions;
+namespace dvc\ews\exceptions;
 
 class Exception extends \dvc\Exception {}
