@@ -531,7 +531,7 @@ abstract class _controller {
 
 	}
 
-	protected function loadView( $name, $controller = NULL ) {
+	protected function loadView( $name, $controller = null ) {
 		return ( $this->load( $name, $controller));
 
 	}
