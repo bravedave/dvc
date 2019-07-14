@@ -50,8 +50,8 @@ class dbi extends db {
 		if ( self::$dbiCount  > 1)
 			sys::logger( sprintf( 'db initialized (%s)', self::$dbiCount ), 3 );
 
-		sys::logger( sprintf( 'db initialized (%s,%s,%s,%s)',
-			config::$DB_HOST, config::$DB_NAME, config::$DB_USER, config::$DB_PASS), 5 );
+		//~ sys::logger( sprintf( 'db initialized (%s,%s,%s,%s)',
+			//~ config::$DB_HOST, config::$DB_NAME, config::$DB_USER, config::$DB_PASS));
 
 		parent::__construct( config::$DB_HOST, config::$DB_NAME, config::$DB_USER, config::$DB_PASS);
 

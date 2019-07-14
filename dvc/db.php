@@ -81,8 +81,8 @@ class db {
 	}
 
 	public function Insert( $table, $a ) {
-		$fA = array();
-		$fV = array();
+		$fA = [];
+		$fV = [];
 		foreach ( $a as $k => $v ) {
 			$fA[] = $k;
 			$fV[] = $this->mysqli->real_escape_string ($v);
@@ -91,7 +91,7 @@ class db {
 
 		$sql = sprintf( 'INSERT INTO `%s`(`%s`) VALUES("%s")', $table, implode( "`,`", $fA ), implode( '","', $fV ));
 
-		$this->Q($sql);
+		$this->Q( $sql);
 		return ( $this->mysqli->insert_id);
 
 	}
@@ -125,7 +125,7 @@ class db {
 			$aX[] = "`$k` = '" . $this->mysqli->real_escape_string($v) . "'";
 
 		$sql = sprintf( 'UPDATE `%s` SET %s %s', $table, implode( ', ', $aX ), $scope);
-		return ( $this->Q($sql));
+		return ( $this->Q( $sql));
 
 	}
 

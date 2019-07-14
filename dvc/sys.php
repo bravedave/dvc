@@ -25,7 +25,7 @@ abstract class sys {
 
 			}
 			else {
-				self::$_dbi = new dbi();
+				self::$_dbi = new dbi;
 
 			}
 
