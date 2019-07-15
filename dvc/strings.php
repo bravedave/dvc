@@ -352,6 +352,7 @@ abstract class strings {
 		$a = [
 			"/---\\n/",
 			"/\\\\n/",
+			"/\r\n/",
 			"/\n/",
 			"/\r/",
 			"/$\*/",
@@ -360,6 +361,7 @@ abstract class strings {
 
 		$aR = array(
 			'<hr align="left" style="width: 200px; margin: 0;" />',
+			'<br />',
 			'<br />',
 			'<br />',
 			'<br />',
