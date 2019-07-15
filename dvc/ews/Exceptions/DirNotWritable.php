@@ -9,7 +9,7 @@
 
 	*/
 
-namespace dvc\ews\exceptions;
+namespace dvc\ews\Exceptions;
 
 class DirNotWritable extends Exception {
 	protected $_text = 'DirNotWritable';
