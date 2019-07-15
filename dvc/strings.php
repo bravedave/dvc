@@ -356,7 +356,7 @@ abstract class strings {
 			"/\n/",
 			"/\r/",
 			"/$\*/",
-			"/  /"
+			"/\s\s/"
 		];
 
 		$aR = array(
