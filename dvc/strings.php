@@ -335,13 +335,13 @@ abstract class strings {
 
 	}
 
-	static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = FALSE ) {
+	static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = false ) {
 
 		if ( $maxrows > 0 ) {
-			$a = array(
+			$a = [
 				"/\\\\n/",
 				"/(\n)|(\\\\n)/"
-			);
+			];
 			$x = preg_split( "/\n/", $inText );
 			while ( count( $x ) > ($maxrows+1) )
 				array_pop( $x );
@@ -349,20 +349,22 @@ abstract class strings {
 
 		}
 
-		$a = array(
+		$a = [
 			"/---\\n/",
 			"/\\\\n/",
 			"/\n/",
 			"/\r/",
-			"/$\*/"
-		);
+			"/$\*/",
+			"/  /"
+		];
 
 		$aR = array(
 			'<hr align="left" style="width: 200px; margin: 0;" />',
 			'<br />',
 			'<br />',
 			'<br />',
-			'<br />&bull;'
+			'<br />&bull;',
+			'&nbsp;&nbsp;'
 		);
 
 		if ( $allAsteriskAsList ) {
