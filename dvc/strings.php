@@ -338,10 +338,6 @@ abstract class strings {
 	static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = false ) {
 
 		if ( $maxrows > 0 ) {
-			$a = [
-				"/\\\\n/",
-				"/(\n)|(\\\\n)/"
-			];
 			$x = preg_split( "/\n/", $inText );
 			while ( count( $x ) > ($maxrows+1) )
 				array_pop( $x );
