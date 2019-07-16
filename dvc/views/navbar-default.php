@@ -11,10 +11,7 @@
 	Copy it to <application>/app/views/ and modify it there
 	*/	?>
 	<nav class="navbar navbar-light bg-light sticky-top" role="navigation" >
-		<div class="navbar-header" >
-			<?php printf( '<a href="%s" class="navbar-brand" >%s</a>', \url::$URL, $this->data->title);	?>
-
-		</div>
+		<?php printf( '<a href="%s" class="navbar-brand" >%s</a>', \url::$URL, $this->data->title);	?>
 
 		<a style="position: absolute; top: 0; right: 0; border: 0; display: block; z-index: 1050;"
 			href="https://github.com/bravedave/">
