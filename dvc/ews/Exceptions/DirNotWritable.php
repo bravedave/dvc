@@ -19,7 +19,7 @@ class DirNotWritable extends Exception {
 			$this->_text .= sprintf( '%s is not writable', (string)$message);
 
 		// make sure everything is assigned properly
-		parent::__construct( $this->_cms, $code, $previous);
+		parent::__construct( $this->_text, $code, $previous);
 
 	}
 
