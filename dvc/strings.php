@@ -15,10 +15,10 @@ abstract class strings {
 	const html_sad = '<span style="font-family: Segoe UI Symbol; Verdana;">&#9785;</span>';
 	const html_happy = '<span style="font-family: Segoe UI Symbol; Verdana;">&#9786;</span>';
 
-	static function _dateFormat() {
-		return ( config::$DATE_FORMAT);
+	//~ static function _dateFormat() {
+		//~ return ( config::$DATE_FORMAT);
 
-	}
+	//~ }
 
 	static function asLocalDate( $date, $time = false, $epoch = 0) {
 		if ( (string)$date == '0000-00-00') {
