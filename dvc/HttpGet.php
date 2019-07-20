@@ -38,7 +38,7 @@ class HttpGet {
 	}
 
 	public function error() {
-		return curl_error($http->ch);
+		return curl_error( $this->ch);
 
 	}
 
