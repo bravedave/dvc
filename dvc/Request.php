@@ -212,7 +212,7 @@ class Request {
 
 	}
 
-	public function ServerIsLocal() {
+	static public function ServerIsLocal() {
 		if ( isset( $_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
 			return ( true);
 
@@ -222,7 +222,7 @@ class Request {
 
 	}
 
-	public function ClientIsLocal() {
+	static public function ClientIsLocal() {
 		if ( $this->ServerIsLocal())
 			return ( true);
 
