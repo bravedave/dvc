@@ -467,7 +467,7 @@ abstract class sys {
 	}
 
 	static public function serveBootStrap( $type = 'css') {
-		if (\config::$BOOTSTRAP_REQUIRE_POPPER) {
+		if ( \config::$BOOTSTRAP_REQUIRE_POPPER) {
 			if ( 'css' == $type) {
 				$lib = __DIR__ . '/bootstrap4/css/bootstrap.min.css';
 				self::serve( $lib);
@@ -484,7 +484,7 @@ abstract class sys {
 					'debug' => false,
 					'libName' => 'bootstrap4',
 					'jsFiles' => $files,
-					'libFile' => config::tempdir()  . '_bootstrap4_tmp.js'
+					'libFile' => \config::tempdir()  . '_bootstrap4_tmp.js'
 
 				]);
 
