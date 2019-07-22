@@ -466,7 +466,7 @@ abstract class sys {
 
 	}
 
-	public function serveBootStrap( $type = 'css') {
+	static public function serveBootStrap( $type = 'css') {
 		if (\config::$BOOTSTRAP_REQUIRE_POPPER) {
 			if ( 'css' == $type) {
 				$lib = __DIR__ . '/bootstrap4/css/bootstrap.min.css';
