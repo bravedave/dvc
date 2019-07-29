@@ -19,8 +19,16 @@ _brayworth_.ScrollTo = function( el, params) {
 
 	return ( new Promise( function( resolve, reject) {
 		let _el = ( el instanceof jQuery ? el : $(el));
+		if ( _el.length < 1) {
+			console.log( 'element not found', el);
+			resolve();
+
+			return;
+
+		}
 
 		let t = _el.offset().top;
+		// console.log( _el, t);
 
 		let nav = $('body>nav');
 		if ( nav.length ) {
@@ -37,12 +45,25 @@ _brayworth_.ScrollTo = function( el, params) {
 		t -= options.marginTop;
 		t = Math.max( 20, t);
 
-		$('html, body').animate({ scrollTop: t}, {
-			duration : options.duration,
-			complete : resolve,
-			fail : reject,
+		let parent = _el.closest('.modal');
+		if (parent.length > 0) {
+			parent.animate({ scrollTop: t}, {
+				duration : options.duration,
+				complete : resolve,
+				fail : reject,
 
-		});
+			});
+
+		}
+		else {
+			$('html,body').animate({ scrollTop: t}, {
+				duration : options.duration,
+				complete : resolve,
+				fail : reject,
+
+			});
+
+		}
 
 	}));
 
