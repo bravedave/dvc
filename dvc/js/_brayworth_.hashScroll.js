@@ -30,22 +30,25 @@ _brayworth_.ScrollTo = function( el, params) {
 		let t = _el.offset().top;
 		// console.log( _el, t);
 
-		let nav = $('body>nav');
-		if ( nav.length ) {
-			t -= ( nav.outerHeight());
+		let parent = _el.closest('.modal');
+		if ( parent.length == 0) {
+			let nav = $('body>nav');
+			if ( nav.length ) {
+				t -= ( nav.outerHeight());
 
-		}
-		else {
-			let hdr = $('body>header');
-			if ( hdr.length )
-				t -= ( hdr.outerHeight());
+			}
+			else {
+				let hdr = $('body>header');
+				if ( hdr.length )
+					t -= ( hdr.outerHeight());
+
+			}
 
 		}
 
 		t -= options.marginTop;
 		t = Math.max( 20, t);
 
-		let parent = _el.closest('.modal');
 		if (parent.length > 0) {
 			parent.animate({ scrollTop: t}, {
 				duration : options.duration,
