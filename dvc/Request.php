@@ -189,12 +189,17 @@ class Request {
 	}
 
 	public function getServer( $name){
-		if(isset($_SERVER[$name])) {
+		if( isset( $_SERVER[$name])) {
 			return $_SERVER[$name];
 
 		}
 
 		return '';
+
+	}
+
+	public function getServerName(){
+		return $this->getServer('SERVER_NAME');
 
 	}
 
