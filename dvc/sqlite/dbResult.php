@@ -9,13 +9,13 @@
 
 	*/
 
-Namespace dvc\sqlite;
+namespace dvc\sqlite;
 
 class dbResult {
-	protected $result = FALSE;
+	protected $result = false;
 	protected $db;
 
-	public function __construct(  $result = NULL, $db = NULL) {
+	public function __construct(  $result = null, $db = null) {
 		if ( $result)
 			$this->result = $result;
 
@@ -51,7 +51,7 @@ class dbResult {
 	 *
 	 *		});
 	 */
-	public function dtoSet( $func = NULL, $template = NULL) {
+	public function dtoSet( $func = null, $template = null) {
 		$ret = [];
 		if ( is_callable( $func)) {
 			while ( $dto = $this->dto( $template)) {
