@@ -19,30 +19,54 @@ _brayworth_.ScrollTo = function( el, params) {
 
 	return ( new Promise( function( resolve, reject) {
 		let _el = ( el instanceof jQuery ? el : $(el));
+		if ( _el.length < 1) {
+			console.log( 'element not found', el);
+			resolve();
 
-		let t = _el.offset().top;
-
-		let nav = $('body>nav');
-		if ( nav.length ) {
-			t -= ( nav.outerHeight());
+			return;
 
 		}
-		else {
-			let hdr = $('body>header');
-			if ( hdr.length )
-				t -= ( hdr.outerHeight());
+
+		let t = _el.offset().top;
+		// console.log( _el, t);
+
+		let parent = _el.closest('.modal');
+		if ( parent.length == 0) {
+			let nav = $('body>nav');
+			if ( nav.length ) {
+				t -= ( nav.outerHeight());
+
+			}
+			else {
+				let hdr = $('body>header');
+				if ( hdr.length )
+					t -= ( hdr.outerHeight());
+
+			}
 
 		}
 
 		t -= options.marginTop;
 		t = Math.max( 20, t);
 
-		$('html, body').animate({ scrollTop: t}, {
-			duration : options.duration,
-			complete : resolve,
-			fail : reject,
+		if (parent.length > 0) {
+			parent.animate({ scrollTop: t}, {
+				duration : options.duration,
+				complete : resolve,
+				fail : reject,
 
-		});
+			});
+
+		}
+		else {
+			$('html,body').animate({ scrollTop: t}, {
+				duration : options.duration,
+				complete : resolve,
+				fail : reject,
+
+			});
+
+		}
 
 	}));
 

@@ -146,7 +146,7 @@ abstract class errsys {
 
 		}
 
-		if ( Request::ServerIsLocal()) {
+		if ( Request::get()->ServerIsLocal()) {
 			$msg = self::msg( $e);
 			printf( '<pre>%s</pre>', $msg);
 			error_log( $msg);
