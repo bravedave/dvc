@@ -189,8 +189,8 @@ class Request {
 	}
 
 	public function getServer( $name){
-		if( isset( $_SERVER[$name])) {
-			return $_SERVER[$name];
+		if( isset( $_SERVER[ $name])) {
+			return $_SERVER[ $name];
 
 		}
 
