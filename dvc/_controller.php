@@ -30,7 +30,7 @@ abstract class _controller {
 	protected $Redirect_OnLogon = false;
 	protected $label = null;
 	protected $manifest = null;
-
+	protected $route = '/';
 
 	static $url;
 

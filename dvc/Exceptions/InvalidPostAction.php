@@ -11,6 +11,6 @@
 namespace dvc\Exceptions;
 
 class InvalidPostAction extends Exception {
-	protected $_dvc = 'This post action is not allowed';
+	protected $_text = 'This post action is not allowed';
 
 }
