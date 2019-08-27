@@ -112,8 +112,8 @@ abstract class strings {
 			//~ \sys::logger( sprintf( '%s : %s', $date1));
 			if ( !( strtotime( $date2) > 0)) $date2 = date( 'Y-m-d');
 
-			$d1 = new datetime( $date1);
-			$d2 = new datetime( $date2);
+			$d1 = new \datetime( $date1);
+			$d2 = new \datetime( $date2);
 			$interval = date_diff($d1, $d2);
 			//~ sys::logger( sprintf( '%s - %s = %s',  $date1, $date2, $interval->format('%R%a')));
 			return ( $interval->format( $format));
