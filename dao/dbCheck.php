@@ -246,7 +246,7 @@ class dbCheck extends _dao {
 				}
 				elseif ( $fld["type"] == "varbinary" ) {
 					$sql = sprintf( 'alter table `%s` add column `%s` varbinary(%s) %s',
-					 	$this->table, $fld["name"], (string)$fld["length"], $after);
+						$this->table, $fld["name"], (string)$fld["length"], $after);
 
 				}
 				elseif ( $fld["type"] == "tinyint" ) {
