@@ -293,7 +293,7 @@ class _application {
 			}
 			else {
 				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}()',
-				 	$this->url_controller->name,
+					$this->url_controller->name,
 					$this->url_action));
 
 				/**
