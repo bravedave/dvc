@@ -107,6 +107,23 @@ abstract class strings {
 
 	}
 
+	static public function DateDiff( $date1, $date2 = null, $format = '%R%a') {
+		if ( $date1 && '0000-00-00' != (string)$date1) {
+			//~ \sys::logger( sprintf( '%s : %s', $date1));
+			if ( !( strtotime( $date2) > 0)) $date2 = date( 'Y-m-d');
+
+			$d1 = new datetime( $date1);
+			$d2 = new datetime( $date2);
+			$interval = date_diff($d1, $d2);
+			//~ sys::logger( sprintf( '%s - %s = %s',  $date1, $date2, $interval->format('%R%a')));
+			return ( $interval->format( $format));
+
+		}
+
+		return false;
+
+	}
+
 	static function endswith($string, $test) {
 		$strlen = strlen($string);
 		$testlen = strlen($test);
@@ -252,7 +269,7 @@ abstract class strings {
 	}
 
 	static function isValidMd5($md5 ='') {
-	    return preg_match('/^[a-f0-9]{32}$/', $md5);
+		return preg_match('/^[a-f0-9]{32}$/', $md5);
 
 	}
 
@@ -272,11 +289,11 @@ abstract class strings {
 
 		foreach ( $domains as $domain) {
 			if ( strtolower( $email_array[1]) == trim( $domain))
-				return ( TRUE);
+				return ( true);
 
 		}
 
-		return ( FALSE);
+		return ( false);
 
 	}
 
