@@ -8,14 +8,14 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-Namespace dvc;
+namespace dvc;
 
 class session {
 	// THE only instance of the class
 	protected static $instance;
 	var $__session = array();
-	var $open = FALSE;
-	var $domain = NULL;
+	var $open = false;
+	var $domain = null;
 
 	protected function __construct() {
 		$CookieParams = session_get_cookie_params();
@@ -87,7 +87,7 @@ class session {
 
 	}
 
-	static function set( $var, $val = NULL ) {
+	static function set( $var, $val = null ) {
 		self::edit();
 		if ( is_null( $val )) {
 			if ( isset( $_SESSION[ $var ]))
@@ -124,7 +124,7 @@ class session {
 
 	}
 
-	function domain( $domain = NULL ) {
+	function domain( $domain = null ) {
 		$ret =  $this->domain;
 		if ( !is_null( $domain))
 			$this->domain = $domain;
