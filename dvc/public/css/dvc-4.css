@@ -39,7 +39,7 @@ footer nav > ul > li, .footer nav > ul > li, .copyright {
 }
 
 div#brayworthLOGO a {
-	font-size: 12px;
+	font-size: .75rem;
 	font-style: italic;
 	display: inline-block;
 	font-weight: bold;

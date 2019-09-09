@@ -722,7 +722,7 @@ abstract class _controller {
 		$p = $this->page( $options);
 
 		$p	->header()
-  			->title( $options['navbar']);
+			->title( $options['navbar']);
 
 		if ( $options['left-interface']) {
 			if ( $options['secondary']) {

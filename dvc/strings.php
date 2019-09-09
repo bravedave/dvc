@@ -32,7 +32,7 @@ abstract class strings {
 
 			}
 			else {
-				return ( date( config::$DATE_FORMAT, $t));
+				return ( date( \config::$DATE_FORMAT, $t));
 
 			}
 
@@ -58,7 +58,7 @@ abstract class strings {
 
 			}
 			else {
-				return ( date( config::$DATE_FORMAT, $t));
+				return ( date( \config::$DATE_FORMAT, $t));
 
 			}
 
