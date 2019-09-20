@@ -12,6 +12,28 @@ namespace dvc;
 abstract class userAgent {
 	protected static $useragent;
 
+	static function html5Compliant() {
+		// global $isAndroid, $isIPhone, $isIPad, $isIE, $isIE10, $isChrome, $isSafari, $isIPhoneWebApp, $isMobileDevice;
+		// global $isChrome;
+		if ( self::isChrome()) {
+			return ( true );
+
+		}
+
+		if ( self::isIE()) {
+			if(preg_match('/(?i)msie [1-8]/',$_SERVER['HTTP_USER_AGENT'])) {
+				return ( false );
+
+			}
+
+			\sys::logger( $_SERVER['HTTP_USER_AGENT']);
+
+		}
+
+		return ( true );
+
+	}
+
 	static function isAndroid() {
 		return ( preg_match('/Android/', self::$useragent));
 
