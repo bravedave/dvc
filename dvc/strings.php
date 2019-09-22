@@ -1,12 +1,14 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+ *      http://creativecommons.org/licenses/by/4.0/
+ *
+*/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-	*/
 namespace dvc;
 use config;
 
@@ -14,11 +16,6 @@ abstract class strings {
 	const html_tick = '&#10003;';
 	const html_sad = '<span style="font-family: Segoe UI Symbol; Verdana;">&#9785;</span>';
 	const html_happy = '<span style="font-family: Segoe UI Symbol; Verdana;">&#9786;</span>';
-
-	//~ static function _dateFormat() {
-		//~ return ( config::$DATE_FORMAT);
-
-	//~ }
 
 	static function asLocalDate( $date, $time = false, $epoch = 0) {
 		if ( (string)$date == '0000-00-00') {
@@ -395,6 +392,11 @@ abstract class strings {
 		}
 
 		return ( preg_replace( $a, $aR, $inText));
+
+	}
+
+	static function url( $url) {
+		return url::toString( $url);
 
 	}
 
