@@ -11,7 +11,7 @@
 		"homepage": "http://brayworth.com"
 	}],
 	"require": {
-		"erusev/parsedown":"*",
+		"erusev/parsedown":"^1.8",
 		"matthiasmullie/minify" : "*",
 		"php": ">=7.0",
 		"phpmailer/phpmailer": "~5.2",
