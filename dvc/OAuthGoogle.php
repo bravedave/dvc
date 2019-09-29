@@ -8,7 +8,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
-NameSpace dvc;
+namespace dvc;
 
 class OAuthGoogle {
 	private $UserEmail = '';
