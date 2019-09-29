@@ -341,13 +341,14 @@ abstract class _controller {
 		if ( is_null( $controller ))
 			$controller = $this->name;
 
-		/*
-		 	first look for a php view, then a markdown
-
-		 	first search the application folders
-				[application]/views/[controller]
-				[application]/app/views/	*/
-
+		/**
+		 * first look for a php view, then a markdown
+		 *
+		 * first search the application folders
+		 * 	[application]/views/[controller]
+		 * 	[application]/app/views/
+		 *
+		 */
 		if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
 			$view = sprintf( '%s/views/%s/%s', $this->rootPath, $controller, $viewName );
 			if ( file_exists( $view))
@@ -369,8 +370,10 @@ abstract class _controller {
 		}
 
 
-		/* there is nothing in the [application]/views/[controller]/ folder
-			=> look in [app]/views/[controller]/ folder */
+		/**
+		 * there is nothing in [application]/views/[controller]/
+		 * 	=> look in [app]/views/[controller]/
+		 * */
 
 		if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
 			$view = sprintf( '%s/app/views/%s/%s', $this->rootPath, $controller, $viewName );
@@ -393,11 +396,12 @@ abstract class _controller {
 		}
 		/*-- ---- --*/
 
-		$commonPath = strings::getCommonPath( array( __DIR__, $this->rootPath));
+		$commonPath = strings::getCommonPath([__DIR__, $this->rootPath]);
 
-		/* there is nothing in the [application]/app/views/[controller]/ folder
-			=> look in [app]/views/ folder */
-
+		/**
+		 * there is nothing in the [application]/app/views/[controller]/ folder
+		 *	=> look in [app]/views/ folder
+		 *  */
 		if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
 			$altView = sprintf( '%s/app/views/%s', $this->rootPath, $viewName );
 			if ( $this->debug) \sys::logger( '_controller->getView :: check local view : ' .
