@@ -16,7 +16,7 @@ abstract class url {
 	static public $HOME;
 	static public $PROTOCOL;
 
-	static function tostring( $url = '') {
+	static function tostring( string $url = '') {
 		return ( sprintf( '%s%s', self::$URL, $url ));
 
 	}

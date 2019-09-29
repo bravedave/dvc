@@ -395,7 +395,7 @@ abstract class strings {
 
 	}
 
-	static function url( $url) {
+	static function url( string $url = '') {
 		return url::toString( $url);
 
 	}
