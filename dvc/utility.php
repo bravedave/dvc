@@ -10,7 +10,7 @@
 	DO NOT change this file
 	Copy it to <application>/app/dvc/ and modify it there
 	*/
-NameSpace dvc;
+namespace dvc;
 
 abstract class utility {
 	static function CreateThumb( $fpath, $mpath, $Wpx = 120, $Hpx = -1, $quality = 75 ) {
