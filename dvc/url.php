@@ -21,12 +21,12 @@ abstract class url {
 
 	}
 
-	static function write( $url = '') {
+	static function write( string $url = '') {
 		print self::swrite( $url);
 
 	}
 
-	static function swrite( $url = '') {
+	static function swrite( string $url = '') {
 		return ( self::tostring( $url));
 
 	}
