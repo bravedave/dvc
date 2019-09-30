@@ -1,13 +1,13 @@
-/*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-*/
-
+/**
+ *	David Bray
+ *	BrayWorth Pty Ltd
+ *	e. david@brayworth.com.au
+ *
+ *	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+ *		http://creativecommons.org/licenses/by/4.0/
+ *
+ */
+/*jshint esversion: 6 */
 _brayworth_.hideContext = function( el) {
 	let _el = $(el);
 	if ( !!_el.data('hide')) {
@@ -33,12 +33,12 @@ _brayworth_.hideContext = function( el) {
 
 	}
 
-}
+};
 
 _brayworth_.hideContexts = function() {
 	$('[data-role="contextmenu"]').each( function( i, el ) { _brayworth_.hideContext( el); });
 
-}
+};
 
 _brayworth_.context = function() {
 	return ({
@@ -51,7 +51,21 @@ _brayworth_.context = function() {
 		create : function( item, after) {
 			let el = $( '<li />').append( item);
 
-			!!after ? el.insertAfter( after) : el.appendTo( this.root);
+			if ( !!after) {
+				if ('prepend' == after) {
+					el.prependTo( this.root);
+
+				}
+				else {
+					el.insertAfter( after);
+
+				}
+
+			}
+			else {
+				el.appendTo( this.root);
+
+			}
 
 			this.items.push( el);
 			this.length = this.items.length;
@@ -65,13 +79,19 @@ _brayworth_.context = function() {
 
 		},
 
+		prepend : function( item) {
+			this.create( item, 'prepend');
+			return ( this);
+
+		},
+
 		open : function( e) {
 			let css = {
 				position: 'absolute',
 				top : 10,
 				left : $(document).width() - 140,
 
-			}
+			};
 
 			if ( !!e.pageY) { css.top = Math.max( e.pageY + 2, 0); }
 			if ( !!e.pageX) { css.left = Math.max( e.pageX + 2, 0); }
@@ -128,10 +148,24 @@ _brayworth_.context = function() {
 
 
 			/* add helper class to display the submenu on left if the window width is restrictive on the right */
-			( offset.left > ( wW - (root.width()* 2))) ? root.addClass( 'menu-contextmenu-right') : root.removeClass( 'menu-contextmenu-right');
+			if ( offset.left > ( wW - (root.width()* 2))) {
+				root.addClass( 'menu-contextmenu-right');
+
+			}
+			else {
+				root.removeClass( 'menu-contextmenu-right');
+
+			}
 
 			/* add helper class to display the submenu high if the window height is restrictive at bottom */
-			( offset.top + ( root.height() * 1.2) > ( wH + sT)) ? root.addClass( 'menu-contextmenu-low') : root.removeClass( 'menu-contextmenu-low');
+			if ( offset.top + ( root.height() * 1.2) > ( wH + sT)) {
+				root.addClass( 'menu-contextmenu-low');
+
+			}
+			else {
+				root.removeClass( 'menu-contextmenu-low');
+
+			}
 
 			return ( this);
 
