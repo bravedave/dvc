@@ -41,6 +41,7 @@
 		});
 
 */
+/*jshint esversion: 6 */
 
 _brayworth_.modal = function( params) {
 	if ( 'string' == typeof params) {
@@ -67,7 +68,7 @@ _brayworth_.modal = function( params) {
 		onOpen : function() {},
 		onEnter : function() {},
 
-	}
+	};
 
 	$.extend( options, params);
 
@@ -84,10 +85,10 @@ _brayworth_.modal = function( params) {
 
 	}
 
-	var content = ( !!options.text ? options.text : '');
+	let content = ( !!options.text ? options.text : '');
 	if ( 'undefined' != typeof this) {
 		if ( !this._brayworth_ ) {
-			var content = ( this instanceof jQuery ? this : $(this));
+			content = ( this instanceof jQuery ? this : $(this));
 			if ( options.title == '' && ( 'string' == typeof content.attr('title')))
 				options.title = content.attr('title');
 
@@ -107,7 +108,7 @@ _brayworth_.modal = function( params) {
 				text : i,
 				title : '',
 				click : function( e) {}
-			}
+			};
 
 			if ( 'function' == typeof el)
 				j.click = el;
@@ -130,7 +131,7 @@ _brayworth_.modal = function( params) {
 
 			}
 
-		})
+		});
 
 	}
 
@@ -141,41 +142,42 @@ _brayworth_.modal = function( params) {
 				title : false,
 				icon : false,
 				click : function( e) {},
-			}
+			};
 
 			if ( 'function' == typeof el)
 				j.click = el;
 			else
 				$.extend( j, el);
 
+			let b;
 			if ( !!j.icon) {
-				var b = $( '<div class="pull-right pointer pt-1 px-2" />').append(
+				b = $( '<div class="pull-right pointer pt-1 px-2" />').append(
 					$('<i class="fa m-0" style="cursor: pointer;" />').addClass( j.icon));
 				// var b = $( '<i class="fa fa-fw pull-right" style="margin-right: 1rem; padding-right: 1rem; cursor: pointer;" />').addClass( j.icon);
 
 			}
 			else {
-				var b = $('<button class="pull-right" />')
+				b = $('<button class="pull-right" />')
 					.html( j.text)
 					.addClass( _brayworth_.templates.buttonCSS);
 
 			}
 
-			if ( !!j.title) b.attr( 'title', j.title)
+			if ( !!j.title) b.attr( 'title', j.title);
 
-			b.on( 'click', function( e) { j.click.call( t.get(), e); })	// wrap the call and call it against the modal
+			b.on( 'click', function( e) { j.click.call( t.get(), e); });	// wrap the call and call it against the modal
 			t.header.prepend( b);
 
 			if ( 'object' == typeof el) el.button = b;	// object now accessible to calling function
 
-		})
+		});
 
 		t.header.prepend( $('.close', t.header));
 
 	}
 
 	let previousElement = document.activeElement;
-	let hideClass = _brayworth_.bootstrap_version() < 4 ? 'hidden' : 'd-none'
+	let hideClass = _brayworth_.bootstrap_version() < 4 ? 'hidden' : 'd-none';
 	let bodyElements = [];
 	if ( options.fullScreen) {
 		/* hide all the body elements */
@@ -187,7 +189,7 @@ _brayworth_.modal = function( params) {
 
 			}
 
-		})
+		});
 
 		t.get('.modal').addClass('modal-fullscreen');
 		t.get('.modal-dialog').addClass('m-auto').removeClass('modal-dialog-centered');
@@ -219,7 +221,7 @@ _brayworth_.modal = function( params) {
 			$.each( bodyElements, function( i, el){
 				$(el).removeClass(hideClass);
 
-			})
+			});
 
 			previousElement.focus();
 
@@ -242,16 +244,16 @@ _brayworth_.modal = function( params) {
 
 			});
 
-		})
+		});
 
-	}
+	};
 
 	_modal.checkHeight = function() {
 		/*
 		* check that the dialog fits on screen
 		*/
 		let h = $('.modal-body', this).height();
-		let mh = $(window).height() * .9;
+		let mh = $(window).height() * 0.9;
 		let ftr = $('.modal-footer', this);
 		if ( ftr.length > 0) {
 			mh -= ftr.height();
@@ -263,11 +265,11 @@ _brayworth_.modal = function( params) {
 			.height( mh)
 			.css({'overflow-y' : 'auto', 'overflow-x' : 'hidden'});
 
-		};
+		}
 
 		return ( this);
 
-	}
+	};
 
 	t.data( 'modal', _modal);
 	if ( 'undefined' != typeof this && !this._brayworth_ ) {
@@ -284,7 +286,7 @@ _brayworth_.modal = function( params) {
 
 	return ( t.data( 'modal'));	// the modal
 
-}
+};
 
 _brayworth_.templates.buttonCSS = 'btn btn-default';
 _brayworth_.templates.modalDefaultClass = '';
@@ -296,7 +298,7 @@ _brayworth_.templates.modal = function() {
 			this.body.append( p);
 			return ( this);
 
-		}
+		};
 
 		_.footer = function() {
 			if ( !this._footer) {
@@ -311,4 +313,4 @@ _brayworth_.templates.modal = function() {
 
 	return ( _ );
 
-}
+};
