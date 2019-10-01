@@ -8,7 +8,7 @@
  *
  * */
 /*jshint esversion: 6 */
-_brayworth_.textPrompt = function( params, callback) {
+_brayworth_.textPrompt = function( params) {
 	return new Promise( function( resolve, reject) {
 		let options = {
 			title : 'Enter Text',
@@ -19,21 +19,15 @@ _brayworth_.textPrompt = function( params, callback) {
 
 		$.extend( options, params);
 
-		let rand = parseInt( Math.random() * 10000);
-		let div = $('<div />').attr( 'title', options.title);
 		let input = $('<input type="text" class="form-control" autofocus />')
 			.val( options.text)
-			.attr( 'placeholder', options.title)
-			.attr( 'id', '_input' + rand);
+			.attr( 'placeholder', options.title);
 
-		let lbl = $( '<label />').html( options.title).attr( 'for', '_input' + rand);
-
-		$('<div class="form-label-group" />').append( input).append( lbl).appendTo( div);
+		let div = $('<div />').attr( 'title', options.title);
+		input.appendTo( div);
 
 		if ( options.verbatim != '')
-			$('<div class="text-muted font-italic" />').html( options.verbatim).appendTo( div);
-
-		//~ console.log( 'click');
+			div.append( $('<div class="text-muted font-italic" />').html( options.verbatim));
 
 		_brayworth_.modal.call( div, {
 			className : '',
@@ -50,12 +44,7 @@ _brayworth_.textPrompt = function( params, callback) {
 
 					}
 					else {
-
 						this.modal( 'close');
-
-						if ( /function/i.test( typeof callback))
-							callback.call( options);
-
 						resolve( options.text);
 
 					}
