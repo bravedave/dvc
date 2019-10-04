@@ -22,13 +22,6 @@ abstract class _dao {
 	function __construct( \dvc\dbi $db = null ) {
 
 		$this->db = is_null( $db) ? \sys::dbi() : $db;
-		if ( is_null( $this->_db_name)) {
-			if ( $s = trim( str_replace( __NAMESPACE__, '', get_class( $this)), '\ ')) {
-				$this->_db_name = $s;
-
-			}
-
-		}
 
 		$this->TableChecks();
 		$this->before();
