@@ -64,7 +64,7 @@ abstract class _dao {
 			$fieldList = $this->db->fieldList($this->db_name());
 			$o = new dto\dto;
 			foreach ( $fieldList as $f)
-				$o->{$f->name} = $dto->dflt_value;
+				$o->{$f->name} = $f->dflt_value;
 
 			return ( $o);
 
