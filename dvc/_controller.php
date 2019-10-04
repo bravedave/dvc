@@ -37,10 +37,9 @@ abstract class _controller {
 	const viewNotFound = __DIR__ . '/views/not-found.md';
 
 	function __construct( $rootPath ) {
-		if ( $this->debug) \sys::logger( sprintf( '__construct :: %s', __METHOD__));
+		if ( $this->debug) \sys::logger( __FILE__ . ' :: start construct');
 		$this->rootPath = $rootPath;
 		$this->title = config::$WEBNAME;
-		$this->route = get_class( $this);
 		if ( is_null( $this->label)) {
 			$this->label = ucwords( get_class( $this));
 
@@ -53,9 +52,9 @@ abstract class _controller {
 		$this->db = application::app()->dbi();
 		$this->Request = application::Request();
 
-		if ( $this->debug) \sys::logger( sprintf( 'checking authority :: %s', __METHOD__));
+		if ( $this->debug) \sys::logger( __FILE__ . ' :: checking authority');
 		$this->authorised = \currentUser::valid();
-		if ( $this->debug) \sys::logger( sprintf( 'checking authority :: %s :: %s', ( $this->authorised ? 'private' : 'public'), __METHOD__));
+		if ( $this->debug) \sys::logger( __FILE__ . ' :: checking authority :: ' . ( $this->authorised ? 'private' : 'public'));
 
 		if ( $this->RequireValidation ) {
 			if ( !( $this->authorised)) {
