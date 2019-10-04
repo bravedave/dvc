@@ -60,6 +60,16 @@ abstract class _dao {
 	}
 
 	protected function _create() {
+		if ( 'sqlite' == \config::$DB_TYPE) {
+			$fieldList = $this->db->fieldList($this->db_name());
+			$o = new dto\dto;
+			foreach ( $fieldList as $f)
+				$o->{$f->name} = $dto->dflt_value;
+
+			return ( $o);
+
+		}
+
 		//~ $fields = $this->db->fieldList( $this->table);
 		//~ $struct = $this->db->fetchFields( $this->db_name());
 		$res = $this->Result( sprintf( 'SHOW COLUMNS FROM %s', $this->db_name()));
