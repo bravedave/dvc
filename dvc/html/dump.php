@@ -18,7 +18,7 @@ class dump extends div {
 		if ( (string)$title != '' )
 			$this->append( 'h1', $title );
 
-		$this->append( 'pre', \htmlentities( print_r( $content, true )));
+		$this->append( 'pre', print_r( $content, true ));
 
 	}
 
