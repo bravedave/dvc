@@ -53,7 +53,11 @@ class _user {
 		$dao = new dao\bwui;
 		$dao->getByUID( $uc);
 
-		setcookie( '_bwui', $uc, time()+(60 * 60 * 24 * \config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS), '/' );
+		setcookie( '_bwui', $uc,
+			$expires = time()+(60 * 60 * 24 * \config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS),
+			$path = '/',
+			$domain = '',
+			$secure = true );
 
 		//~ $u = sprintf( '%s:%s', userAgent::os(), $uc);
 		return ( $uc);
