@@ -1,27 +1,26 @@
-/*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	source:
-		the source is inspired by jquery-ui and should behave as such
-
-		the request is passed in the format [<jsonObject>.term]
-		the response will be parsed in the fashion [<jsonObject>.label]
-
-	*/
-
+/**
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+ *      http://creativecommons.org/licenses/by/4.0/
+ *
+ *	source:
+ *		the source is inspired by jquery-ui and should behave as such
+ *
+ *		the request is passed in the format [<jsonObject>.term]
+ *		the response will be parsed in the fashion [<jsonObject>.label]
+ * */
+/*jshint esversion: 6 */
 $.fn.autofill = function( params) {
 	var _me = $(this);
 
 	if ( 'string' == typeof params) {
 		if ( 'destroy' == params) {
-			_me.off( 'keyup.autofill')
-			_me.off( 'focus.autofill')
-			_me.off( 'blur.autofill')
+			_me.off( 'keyup.autofill');
+			_me.off( 'focus.autofill');
+			_me.off( 'blur.autofill');
 			$('.autofill-wrapper', _me).remove();
 
 			return _me;
@@ -30,7 +29,7 @@ $.fn.autofill = function( params) {
 
 	}
 
-	var options = {
+	let options = {
 		timeout : 400,
 		appendTo : _me.parent(),
 		wrapper : $('<div class="autofill-wrapper" />'),
@@ -41,7 +40,7 @@ $.fn.autofill = function( params) {
 		select : false,
 		source : function( request, response) {},
 
-	}
+	};
 
 	$.extend( options, params);
 
@@ -71,7 +70,7 @@ $.fn.autofill = function( params) {
 			}
 
 			this.current = $( item);
-			this.current.addClass('active')
+			this.current.addClass('active');
 
 		},
 
@@ -237,14 +236,14 @@ $.fn.autofill = function( params) {
 				position : 'absolute',
 				top: _mePos.top - parentPos.top + _me.outerHeight(),
 				left: _mePos.left - parentPos.left
-			}
+			};
 			childOffset.width = Math.max( _me.outerWidth(), options.minWidth);
 			options.wrapper.css( childOffset);
 			/*-- --[ position exactly where ? ]-- --*/
 
 		}
 
-	}
+	};
 
 	let lastVal = '';
 	let iterant = 0;
@@ -322,7 +321,7 @@ $.fn.autofill = function( params) {
 			term : lastVal,
 			iterant : ++iterant,
 
-		}
+		};
 
 		//~ console.log( typeof options.source);
 
@@ -339,10 +338,10 @@ $.fn.autofill = function( params) {
 				if ( !!el.label) {
 					if ( rex.test( el.label)) {
 						$('<li class="list-group-item p-1" tabindex="-1" />')
-							.append( $('<div class="text-truncate" />')
-							.html( el.label)).data( 'item', el)
-							.on( 'click', function( e) { keyMove.selectitem.call( this, e) })
-							.on( 'mouseover', function() { keyMove.activate( this) })
+							.append( $('<div class="text-truncate" />').html( el.label))
+							.data( 'item', el)
+							.on( 'click', function( e) { keyMove.selectitem.call( this, e); })
+							.on( 'mouseover', function() { keyMove.activate( this); })
 							.appendTo( list);
 
 					}
@@ -353,16 +352,15 @@ $.fn.autofill = function( params) {
 						$('<li class="list-group-item p-1" tabindex="-1" />')
 							.append( $('<div class="text-truncate" />')
 							.html( el)).data( 'item', { label:el, value:el })
-							.on( 'click', function( e) { keyMove.selectitem.call( this, e) })
-							.on( 'mouseover', function() { keyMove.activate( this) })
+							.on( 'click', function( e) { keyMove.selectitem.call( this, e); })
+							.on( 'mouseover', function() { keyMove.activate( this); })
 							.appendTo( list);
 
 					}
 
 				}
 
-			})
-
+			});
 
 		}
 		else {
@@ -419,18 +417,18 @@ $.fn.autofill = function( params) {
 
 					})
 					.on( 'mouseover', function() {
-						keyMove.activate( this)
+						keyMove.activate( this);
 
 					});
 
 					return ( _li);
 
-				}
+				};
 
 				options.source( _data, function( data) {
 					keyMove.clear();
 					keyMove.init();
-					$.each( data, function( i, el) { list.append( render( el)); })
+					$.each( data, function( i, el) { list.append( render( el)); });
 
 				});
 
