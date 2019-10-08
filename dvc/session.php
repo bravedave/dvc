@@ -19,7 +19,7 @@ class session {
 
 	protected function __construct() {
 		$CookieParams = session_get_cookie_params();
-		$CookieParams['path'] = '/';
+		$CookieParams['path'] = '/; samesite=strict';
 
 		if ( !is_null( $this->domain))
 			$CookieParams['domain'] = $this->domain;
