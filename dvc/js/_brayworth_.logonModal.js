@@ -1,20 +1,21 @@
-/*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	test:
-		_brayworth_.logonModal();
-
-	*/
+/**
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+ *      http://creativecommons.org/licenses/by/4.0/
+ *
+ *	test:
+ *		_brayworth_.logonModal();
+ *
+ * */
+/*jshint esversion: 6 */
 _brayworth_.logonModal = function() {
 	let flds = {
 		user : $('<input type="text" class="form-control" placeholder="username or email" autocomplete="username" autofocus />'),
 		pass : $('<input type="password" class="form-control" placeholder="password" autocomplete="current-password" />'),
-	}
+	};
 
 	let form = $('<form />');
 		$('<div class="form-group" />').append( flds.user).appendTo( form);
@@ -52,7 +53,7 @@ _brayworth_.logonModal = function() {
 		.done( function( d) {
 			$('body').growl( d);
 			if ( 'ack' == d.response) {
-				window.location.reload();
+				window.location.reload( true);
 
 			}
 			else {
