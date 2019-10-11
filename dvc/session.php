@@ -13,13 +13,13 @@ namespace dvc;
 class session {
 	// THE only instance of the class
 	protected static $instance;
-	var $__session = array();
+	var $__session = [];
 	var $open = false;
 	var $domain = null;
 
 	protected function __construct() {
 		$CookieParams = session_get_cookie_params();
-		$CookieParams['path'] = '/; samesite=strict';
+		$CookieParams['path'] = '/; samesite=lax';
 
 		if ( !is_null( $this->domain))
 			$CookieParams['domain'] = $this->domain;
