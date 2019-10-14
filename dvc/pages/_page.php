@@ -34,6 +34,8 @@ class _page {
 		$debug = false,
 		$jQuery2 = false;
 
+	static $docType = false;
+
 	static $momentJS = false;	// load momentJS sources
 	static $FullCalendar = false;	// load fullCalendar sources
 	static $footerTemplate = '';
@@ -209,7 +211,7 @@ class _page {
 		$this->open();
 		\Response::html_headers( $this->charset);
 
-		print \Response::html_docType();
+		print self::$docType ? self::$docType : \Response::html_docType();
 
 		printf( '%s<head>%s', PHP_EOL, PHP_EOL);
 
