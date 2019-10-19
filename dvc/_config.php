@@ -83,6 +83,7 @@ abstract class _config {
 	static $CONTENT_SECURITY_ENABLED = true;
 
 	static $DATE_FORMAT = 'Y-m-d';
+	static $DATETIME_FORMAT = 'Y-m-d g:ia';
 
 	static $DB_HOST = 'localhost';
 	static $DB_TYPE = 'none';	// needs to be mysql or sqlite to run, disable with 'disabled'
