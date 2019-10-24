@@ -17,8 +17,7 @@ class EmailAddress {
 
 	function __construct( $el ) {
 		if ( strpos( $el, '<' ) !== false ) {
-			if ( substr( $el, -1 ) == ">")
-				$el = substr( $el, 0, -1 );
+			$el = trim( $el, '> ' );
 			$a = explode( "<", $el );
 
 			/* remove quote enclosures */
