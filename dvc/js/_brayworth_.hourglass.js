@@ -7,7 +7,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 	*/
 /*jshint esversion: 6 */
-_brayworth_.hourglass = {
+var hourglass = _brayworth_.hourglass = {
 	h : false,
 
 	on  : function( msg) {
