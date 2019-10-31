@@ -10,7 +10,7 @@
 		_brayworth_.modalDialog.call( $('<div class="modal"><div class="modal-content"><div class="modal-header"><i class="fa fa-times close"></i><h1>Header</h1></div><div class="modal-body">Hello World</div></div></div>').appendTo('body'))
 		_brayworth_.modalDialog.call( $('<div class="modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header py-1"><h5 class="modal-title">Hello World</h5><i class="fa fa-times close" /></div><div class="modal-body">...</div></div></div></div>').appendTo('body'))
 */
-
+/*jshint esversion: 6 */
 $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 	if ( /string/.test( typeof( _options))) {
 		if ( _options == 'close') {
@@ -47,7 +47,7 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 		$(document).unbind('keyup.modal');
 		$(document).unbind('keypress.modal');
 
-	}
+	};
 
 	$('body').addClass( 'modal-open');	// bootstrap class
 
@@ -108,4 +108,4 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 
 	return ( modal);	// chain
 
-}
+};

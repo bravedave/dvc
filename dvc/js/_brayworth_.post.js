@@ -7,6 +7,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
+/*jshint esversion: 6 */
 _brayworth_.post = function( params) {
 	var options = {
 		url : _brayworth_.url(),
@@ -22,4 +23,4 @@ _brayworth_.post = function( params) {
 	$.extend( options, params);
 	return $.ajax(options);
 
-}
+};
