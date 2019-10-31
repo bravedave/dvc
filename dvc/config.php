@@ -12,4 +12,4 @@
 	*/
 namespace dvc;
 
-abstract class config extends _config {}
+abstract class config extends core\config {}
