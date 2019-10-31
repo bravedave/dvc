@@ -7,6 +7,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 */
+/*jshint esversion: 6 */
 _brayworth_.ScrollTo = function( el, params) {
 
 	let options = {
@@ -70,7 +71,7 @@ _brayworth_.ScrollTo = function( el, params) {
 
 	}));
 
-}
+};
 
 _brayworth_.hashScroll = function() {
 	/** Scrolls the content into view **/

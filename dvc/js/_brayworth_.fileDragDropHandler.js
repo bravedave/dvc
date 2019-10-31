@@ -20,6 +20,7 @@
 			});
 
 	*/
+/*jshint esversion: 6 */
 (function( _b_ ) {
 	_b_.fileDragDropContainer = function( params) {
 		let options = $.extend({fileControl : false}, params);
@@ -124,13 +125,13 @@
 
 				}
 
-			}
+			};
 
 			queueHandler();
 
 		});
 
-	}
+	};
 
 	let sendData = function( params) {
 			//~ droppedFiles : {},
@@ -178,7 +179,7 @@
 
 						}
 
-					})
+					});
 
 					return xhr;
 
@@ -190,7 +191,7 @@
 					$.each( d.data, function( i, j) {
 						$('body').growl( j);
 
-					})
+					});
 
 				}
 				else {
@@ -200,7 +201,7 @@
 
 				options.onUpload( d);
 
-				resolve()
+				resolve();
 
 			})
 			.always( function( r) {
@@ -218,7 +219,7 @@
 
 		});
 
-	}
+	};
 
 	let uploader = function( params) {
 			//~ url : false,
@@ -258,7 +259,17 @@
 			options.droppedFiles = e.originalEvent.target.files;
 			if ( options.droppedFiles) {
 				_me.prop( 'disabled', true);
-				options.queue ? enqueue( options).then( function() { _me.val('').prop( 'disabled', false); }) : uploader( options);
+				if (options.queue) {
+					enqueue( options).then( function() {
+						_me.val('').prop( 'disabled', false);
+
+					});
+
+				}
+				else {
+					uploader( options);
+
+				}
 
 			}
 
@@ -284,7 +295,14 @@
 				options.droppedFiles = e.originalEvent.dataTransfer.files;
 
 				if ( options.droppedFiles) {
-					options.queue ? enqueue( options) : uploader( options);
+					if (options.queue) {
+						enqueue( options);
+
+					}
+					else {
+						uploader( options);
+
+					}
 
 				}
 

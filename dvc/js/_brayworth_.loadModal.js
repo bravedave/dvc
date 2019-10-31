@@ -7,6 +7,7 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 	*/
+/*jshint esversion: 6 */
 _brayworth_.loadModal = function( params) {
 	let options = $.extend({
 		url : _brayworth_.url('modal'),

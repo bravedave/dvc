@@ -7,6 +7,7 @@
 		https://creativecommons.org/licenses/by-nc-nd/4.0/
 
 	*/
+/*jshint esversion: 6 */
 _brayworth_.get.DataUri = function( url) {
 	return new Promise( function( resolve, reject) {
 		//~ console.log( '_cms_.get.DataUri : converting : ', url);
@@ -29,4 +30,4 @@ _brayworth_.get.DataUri = function( url) {
 
 	});
 
-}
+};

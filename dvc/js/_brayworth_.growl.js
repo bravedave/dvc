@@ -19,11 +19,11 @@
 		});
 
 */
-
+/*jshint esversion: 6 */
 (function() {
 
 	_brayworth_.growlSuccess = function(params) {
-		var options = { growlClass : 'success' }
+		var options = { growlClass : 'success' };
 
 		if ( /object/.test( typeof params))
 			$.extend( options, params);
@@ -32,10 +32,10 @@
 
 		return ( _brayworth_.growl.call( this, options));
 
-	}
+	};
 
 	_brayworth_.growlError = function(params) {
-		var options = { growlClass : 'error', timeout : 5000 }
+		let options = { growlClass : 'error', timeout : 5000 };
 
 		if ( /object/.test( typeof params))
 			$.extend( options, params);
@@ -44,7 +44,7 @@
 
 		return ( _brayworth_.growl.call( this, options));
 
-	}
+	};
 
 	_brayworth_.growlAjax = function( j) {
 		/*
@@ -54,29 +54,24 @@
 			}
 		 */
 
-		var options = { growlClass : 'error', text : 'no description' }
+		let options = { growlClass : 'error', text : 'no description' };
 		if ( !!j.response && j.response == 'ack')
 			options.growlClass = 'success';
 
-		if ( !!j.description)
-			options.text = j.description;
-
-		if ( options.growlClass == 'error')
-			options.timeout = 0;
-
-		if ( !!j.timeout)
-			options.timeout = j.timeout;
+		if ( !!j.description) options.text = j.description;
+		if ( 'error' == options.growlClass) options.timeout = 0;
+		if ( !!j.timeout) options.timeout = j.timeout;
 
 		//~ console.log( options);
 
 		return ( _brayworth_.growl.call( this, options));
 
-	}
+	};
 
-	var growlers = [];
+	let growlers = [];
 	_brayworth_.growl = function( params) {
 
-		var host = ( this == _brayworth_ ? $('body') : this)
+		let host = ( this == _brayworth_ ? $('body') : this);
 		if ( 'string' == typeof this) {
 			host = $(host);
 
@@ -107,7 +102,7 @@
 				timeout : 2000,
 				growlClass : 'information',
 
-			}
+			};
 
 			if ( 'object' == typeof params) {
 				$.extend( options, params);
@@ -180,7 +175,7 @@
 				/*
 				* you have to find a place in the growlers for this one
 				*/
-				let growlerIndex = -1
+				let growlerIndex = -1;
 				$.each( growlers, function( i, e) {
 					if ( !e) {
 						growlerIndex = i;
@@ -224,12 +219,19 @@
 				var title = $('<h3 />');
 				var content = $('<div />');
 
-				options.title != '' ?
-					title.html(options.title).appendTo( growler) :
+				if ( '' != options.title) {
+					title.html(options.title).appendTo( growler);
+
+				}
+				else {
 					content.css('padding-top','5px');
 
-				if ( options.text != '')
+				}
+
+				if ( '' != options.text) {
 					content.html(options.text).appendTo( growler);
+
+				}
 
 				growler
 				.css({ 'position' : 'absolute', 'top' : options.top, 'right' : options.right })
@@ -240,19 +242,19 @@
 					growlers[growlerIndex] = false;
 					growler.remove();
 					resolve();
-				}, options.timeout)
+				}, options.timeout);
 
 			}
 
 		});
 
-	}
+	};
 
 })();
 
 $(document).ready( function() {
 	if ( 4 == _brayworth_.bootstrap_version() && 'undefined' != typeof moment ) {
-		_brayworth_.growl = function( p) { return _brayworth_.toaster( p); }
+		_brayworth_.growl = function( p) { return _brayworth_.toaster( p); };
 
 	}
 

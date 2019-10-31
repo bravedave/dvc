@@ -7,10 +7,6 @@
 		http://creativecommons.org/licenses/by/4.0/
 
 */
-
-if ( typeof _brayworth_ == 'undefined')
-	var _brayworth_ = {};
-
 _brayworth_.initDatePickers = function( parent) {
 	if ( $.fn.datepicker ) {
 		if ( !parent)
@@ -35,7 +31,7 @@ _brayworth_.initDatePickers = function( parent) {
 				$(el).datepicker({ dateFormat : df });
 
 
-		})
+		});
 
 	}
 
