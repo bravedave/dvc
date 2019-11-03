@@ -24,7 +24,7 @@ class session {
 		if ( !is_null( $this->domain))
 			$CookieParams['domain'] = $this->domain;
 
-		$CookieParams['secure'] = true;
+		$CookieParams['secure'] = !Request::get()->ServerIsLocal();
 
 		session_set_cookie_params(
 			$CookieParams['lifetime'],
