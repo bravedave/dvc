@@ -251,8 +251,8 @@ class application {
 		 */
 		if ( method_exists($this->url_controller, $this->url_action)) {
 
-			$this->url_served = sprintf( '%s%s%s/%s', url::$PROTOCOL,
-				url::$URL,
+			$this->url_served = sprintf( '%s%s%s/%s', \url::$PROTOCOL,
+				\url::$URL,
 				self::Request()->getControllerName(),
 				self::Request()->getActionName());
 
@@ -313,7 +313,7 @@ class application {
 
 		}
 		else {
-			$this->url_served = sprintf( '%s%s%s', url::$PROTOCOL, url::$URL, self::Request()->getControllerName());
+			$this->url_served = sprintf( '%s%s%s', \url::$PROTOCOL, \url::$URL, self::Request()->getControllerName());
 
 			if ( self::$debug) \sys::logger( 'fallback');
 			if ( self::$debug) \sys::logger( sprintf( '%s->index(%s)', $this->url_controller->name, $this->url_action));
@@ -368,7 +368,7 @@ class application {
 		$_file = sprintf( '%s/app/public/%s', $this->rootPath, $_url);
 		if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
 		if ( file_exists( $_file)) {
-			$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
+			$this->url_served = \url::$PROTOCOL . \url::$URL . self::Request()->getUrl();
 			$this->serve( $_file);
 			return true;
 
@@ -379,7 +379,7 @@ class application {
 		if ( file_exists( $_file)) {
 			\sys::logger( sprintf( 'DEPRECATED FILE LOCATION :: %s', $_file));
 			\sys::logger( sprintf( 'Please use app/public :: %s', $_file));
-			$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
+			$this->url_served = \url::$PROTOCOL . \url::$URL . self::Request()->getUrl();
 			$this->serve( $_file);
 			return true;
 
@@ -389,7 +389,7 @@ class application {
 		$_file = sprintf( '%s/../public/%s', __DIR__, $_url);
 		if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
 		if ( file_exists( $_file)) {
-			$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
+			$this->url_served = \url::$PROTOCOL . \url::$URL . self::Request()->getUrl();
 			$this->serve( $_file);
 			return true;
 
