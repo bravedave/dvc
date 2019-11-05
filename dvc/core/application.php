@@ -155,7 +155,7 @@ class application {
 		/*---[ check for controller: does such a controller exist ? ]--- */
 
 		if ( !file_exists( $controllerFile)) {
-			$controllerFile = __DIR__ . '/controller/' . $this->url_controller . '.php';	// is there a default controller for this action
+			$controllerFile = __DIR__ . '/../controller/' . $this->url_controller . '.php';	// is there a default controller for this action
 			if ( self::$debug) \sys::logger( 'checking for system default controller : ' . $controllerFile);
 
 		}
@@ -165,7 +165,7 @@ class application {
 			if ( !file_exists( $controllerFile)) {
 				$controllerFile = $this->rootPath . '/controller/' . config::$DEFAULT_CONTROLLER . '.php';	// invalid URL, so home/index
 				if ( !file_exists( $controllerFile)) {
-					$controllerFile = __DIR__ . '/controller/' . config::$DEFAULT_CONTROLLER . '.php';		// invalid URL, so system home/index
+					$controllerFile = __DIR__ . '/../controller/' . config::$DEFAULT_CONTROLLER . '.php';		// invalid URL, so system home/index
 					if ( self::$debug) \sys::logger( 'checking for system default controller (deep)');
 
 				}
@@ -326,6 +326,42 @@ class application {
 
 	}
 
+	public function __destruct() {
+		if ( $this->app_executed()) {
+			if ( \config::$SITEMAPS ) {
+				$path = $this->return_url();
+
+				try {
+					$dao = new \dao\sitemap;
+					if ( $dto = $dao->getDTObyPath( $path)) {
+						$dao->Q( sprintf( 'UPDATE sitemap SET visits = visits + 1 WHERE id = %d', (int)$dto->id));
+
+
+					}
+					else {
+						//~ sys::logger( 'not found path : ' . $path);
+						$a = [
+							'path' => $path,
+							'visits' => 1,
+							'exclude_from_sitemap' => ((bool)$this->exclude_from_sitemap ? 1 : 0 )
+						];
+
+						$dao->Insert( $a);
+
+					}
+
+				}
+				catch ( \Exception $e) {
+					error_log( $e->getMessage());
+
+				}
+
+			}
+
+		}
+
+	}
+
 	protected function publicFile( $_url) {
 		if ( !$_url) return false;
 
@@ -350,7 +386,7 @@ class application {
 		}
 
 		/* this is a system level document - this is the core distribution javascript */
-		$_file = sprintf( '%s/public/%s', __DIR__, $_url);
+		$_file = sprintf( '%s/../public/%s', __DIR__, $_url);
 		if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
 		if ( file_exists( $_file)) {
 			$this->url_served = url::$PROTOCOL . url::$URL . self::Request()->getUrl();
@@ -437,48 +473,12 @@ class application {
 	}
 
 	public function getInstallPath() {
-		return ( realpath( __DIR__ . '/../'));
+		return ( realpath( __DIR__ . '/../../'));	// parent of parent
 
 	}
 
 	public function return_url() {
 		return ( $this->url_served);
-	}
-
-	public function __destruct() {
-		if ( $this->app_executed()) {
-			if ( \config::$SITEMAPS ) {
-				$path = $this->return_url();
-
-				try {
-					$dao = new \dao\sitemap;
-					if ( $dto = $dao->getDTObyPath( $path)) {
-						$dao->Q( sprintf( 'UPDATE sitemap SET visits = visits + 1 WHERE id = %d', (int)$dto->id));
-
-
-					}
-					else {
-						//~ sys::logger( 'not found path : ' . $path);
-						$a = [
-							'path' => $path,
-							'visits' => 1,
-							'exclude_from_sitemap' => ((bool)$this->exclude_from_sitemap ? 1 : 0 )
-						];
-
-						$dao->Insert( $a);
-
-					}
-
-				}
-				catch ( \Exception $e) {
-					error_log( $e->getMessage());
-
-				}
-
-			}
-
-		}
-
 	}
 
 }
