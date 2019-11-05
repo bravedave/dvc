@@ -12,4 +12,4 @@
 	*/
 namespace dvc;
 
-class application extends _application {}
+class application extends core\application {}
