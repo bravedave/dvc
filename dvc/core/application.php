@@ -141,7 +141,7 @@ class application {
 		 * then this line would translate into: $this->car = new car();
 		 */
 		if ( is_null( $this->defaultController )) {
-			$this->defaultController = config::$DEFAULT_CONTROLLER;
+			$this->defaultController = \config::$DEFAULT_CONTROLLER;
 
 		}
 
@@ -163,9 +163,9 @@ class application {
 		if ( !file_exists( $controllerFile)) {
 			$controllerFile = $this->rootPath . '/controller/' . $this->defaultController . '.php';				// invalid URL, so show home/index
 			if ( !file_exists( $controllerFile)) {
-				$controllerFile = $this->rootPath . '/controller/' . config::$DEFAULT_CONTROLLER . '.php';	// invalid URL, so home/index
+				$controllerFile = $this->rootPath . '/controller/' . \config::$DEFAULT_CONTROLLER . '.php';	// invalid URL, so home/index
 				if ( !file_exists( $controllerFile)) {
-					$controllerFile = __DIR__ . '/../controller/' . config::$DEFAULT_CONTROLLER . '.php';		// invalid URL, so system home/index
+					$controllerFile = __DIR__ . '/../controller/' . \config::$DEFAULT_CONTROLLER . '.php';		// invalid URL, so system home/index
 					if ( self::$debug) \sys::logger( 'checking for system default controller (deep)');
 
 				}
