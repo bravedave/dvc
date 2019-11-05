@@ -12,6 +12,9 @@
 namespace dvc\core;
 
 use dao;
+use dvc\Exceptions\CannotLocateController;
+use dvc\Exceptions\SecurityException;
+use dvc\Request;
 
 define( 'APPLICATION', 1 );
 
@@ -75,7 +78,7 @@ class application {
 		if ( self::$instance)
 			return ( self::$instance->_timer);
 
-		return ( new timer);
+		return ( new \timer);
 
 	}
 
@@ -90,7 +93,7 @@ class application {
 		if ( self::$debug) \sys::logger( sprintf( 'rootpath :: %s', $this->rootPath ));
 		\sys::set_error_handler();
 
-		$this->_timer = new \timer;
+		self::timer();	// initialize
 
 		\config::initialize();	// this initializes config
 
@@ -448,7 +451,7 @@ class application {
 				$path = $this->return_url();
 
 				try {
-					$dao = new dao\sitemap;
+					$dao = new \dao\sitemap;
 					if ( $dto = $dao->getDTObyPath( $path)) {
 						$dao->Q( sprintf( 'UPDATE sitemap SET visits = visits + 1 WHERE id = %d', (int)$dto->id));
 
