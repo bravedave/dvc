@@ -90,7 +90,7 @@ class application {
 		if ( self::$debug) \sys::logger( sprintf( 'rootpath :: %s', $this->rootPath ));
 		\sys::set_error_handler();
 
-		$this->_timer = new timer();
+		$this->_timer = new \timer;
 
 		\config::initialize();	// this initializes config
 
