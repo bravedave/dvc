@@ -12,7 +12,7 @@
 	*/
 namespace dvc;
 
-class service extends _application {
+class service extends core\application {
 	protected $service = true;
 
 	public function __construct( $rootPath) {
