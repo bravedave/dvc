@@ -75,8 +75,13 @@ class application {
 	}
 
 	static function timer() {
-		if ( self::$instance)
-			return ( self::$instance->_timer);
+		if ( self::$instance) {
+			if ( self::$instance->_timer) {
+				return ( self::$instance->_timer);
+
+			}
+
+		}
 
 		return ( new \timer);
 
