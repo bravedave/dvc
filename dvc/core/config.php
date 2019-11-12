@@ -158,8 +158,8 @@ abstract class config {
 
 		if ( is_writable( $root ) || is_writable( $path)) {
 			if ( !is_dir( $path)) {
-				mkdir( $path, '0777');
-				chown( $path, '0777');
+				mkdir( $path, 0777);
+				chown( $path, 0777);
 
 			}
 
