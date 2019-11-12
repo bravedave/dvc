@@ -223,18 +223,18 @@ abstract class strings {
 			http://css-tricks.com/snippets/php/sanitize-database-inputs/
 		*/
 
-		$search = array(
+		$search = [
 			'@<head[^>]*?>.*?</head>@si',			// Strip head element
 			'@<script[^>]*?>.*?</script>@si',		// Strip out javascript
 			'@<!doctype[\/\!]*?[^<>]*?>@si',		// Strip doctype tags
 			'@<(|/)html[^>]*?>@i',					// Strip <html> start and tag
 			'@<(|/)body[^>]*?>@i',					// Strip <body> start and tag
-			'@<link[^>]*?>.*?>@si',					// Strip link tags
+			'@<link[^>]*?>@si',						// Strip link tags
 			'@<base[\/\!]*?[^<>]*?>@si',			// Strip base href tags
 			'@<style[^>]*?>.*?</style>@siU',		// Strip style tags
 			'@<![\s\S]*?--[ \t\n\r]*>@',			// Strip multi-line comments including CDATA
 			'@^<br[\s]/>@i'							// Blank HTML at Start
-		);
+		];
 
 		//~ '@(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n\']+@',	// Blank Lines at Start
 		return( preg_replace($search, '', $html));
