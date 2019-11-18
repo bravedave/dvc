@@ -66,14 +66,15 @@ abstract class controller {
 		}
 		elseif ( $this->isPost()) {
 			/**
-			 * possibly authentication is not turned
-			 * on but they have a page that requires
-			 * validation
+			 * possibly authentication is not turned on
+			 * but they have a page that requires validation
 			 */
 			$action = $this->getPost( 'action');
-			if ( $action == '-system-logon-') {
-				if ( !( $this->authorised))
+			if ( '-system-logon-' == $action) {
+				if ( !( $this->authorised)) {
 					$this->authorize();
+
+				}
 
 			}
 
@@ -83,8 +84,10 @@ abstract class controller {
 			if ( $this->authorised) {
 				if ( !\currentUser::isadmin()) {
 					$state = new dao\state;
-					if ( $state->offline())
-						\Response::redirect( \url::tostring( 'offline'));
+					if ( $state->offline()) {
+						\Response::redirect( \strings::url( 'offline'));
+
+					}
 
 				}
 
@@ -101,7 +104,7 @@ abstract class controller {
 			}
 			else {
 				/* The user is $authorised, but denied access by their _acl	*/
-				\Response::redirect( url::tostring());
+				\Response::redirect( \strings::url());
 
 			}
 
@@ -168,6 +171,14 @@ abstract class controller {
 
 	}
 
+	protected function _render( $view) {
+		foreach( (array)$view as $_){
+			$this->load( $_);
+
+		}
+
+	}
+
 	protected function _viewPath( string $path) : string {
 		if ( preg_match( '/\.(php|md)$/', $path)) {		// extension was specified
 			if ( \file_exists( $path)) {
@@ -197,45 +208,6 @@ abstract class controller {
 	protected function access_control() {
 		// warning - don't impose an access_control of FALSE on the home page !
 		return ( TRUE);
-
-	}
-
-	protected function before() {
-		/*
-		* Placeholder for use by the child class.
-		* This method is called
-		* at the end of __construct()
-		*
-		* avoid replacing the default __construct method - use before instead
-		*
-		* Inspired by something I read in the fuelPHP documentation
-		* this method is called at the end of __construct and can
-		* be used to modify the _controller class
-		*/
-
-	}
-
-	protected function getParam( $v = '', $default = false ) {
-		if ( is_null( $this->Request ))
-			return ( FALSE);
-
-		return ( $this->Request->getParam( $v, $default));
-
-	}
-
-	protected function isPost() {
-		if ( is_null( $this->Request ))
-			return ( FALSE);
-
-		return ( $this->Request->isPost());
-
-	}
-
-	protected function getPost( $name = '', $default = false ) {
-		if ( is_null( $this->Request ))
-			return ( false);
-
-		return ( $this->Request->getPost( $name, $default ));
 
 	}
 
@@ -287,17 +259,18 @@ abstract class controller {
 
 	}
 
-	protected function dbResult( $query) {
+	protected function before() {
 		/*
-		* Return a SQL Data Result using
-		* the default data adapter
+		* Placeholder for use by the child class.
+		* This method is called
+		* at the end of __construct()
+		*
+		* avoid replacing the default __construct method - use before instead
+		*
+		* Inspired by something I read in the fuelPHP documentation
+		* this method is called at the end of __construct and can
+		* be used to modify the _controller class
 		*/
-		if ( is_null( $this->db )) {
-			return ( false);
-
-		}
-
-		return ( $this->db->Result( $query));
 
 	}
 
@@ -315,46 +288,41 @@ abstract class controller {
 
 	}
 
-	protected function postHandler() {
+	protected function dbResult( $query) {
 		/*
-		* Placeholder for use the child class.
-		*/
-
-	}
-
-	protected function SQL( $query) {
-		/*
-		* Perform an SQL Command using
+		* Return a SQL Data Result using
 		* the default data adapter
 		*/
 		if ( is_null( $this->db )) {
-			return ( FALSE);
+			return ( false);
 
 		}
 
-		return ( $this->db->SQL( $query));
+		return ( $this->db->Result( $query));
 
 	}
 
-	public function index() {
-		if ( $this->isPost())
-			$this->postHandler();
+	protected function getParam( $v = '', $default = false ) {
+		if ( is_null( $this->Request ))
+			return ( FALSE);
 
-		elseif ( $this->manifest)
-			$this->_offManifest( \application::Request()->getUrl());
-
-		else
-			$this->_index();
+		return ( $this->Request->getParam( $v, $default));
 
 	}
 
-	public function page404() {
-		header('HTTP/1.0 404 Not Found');
-		$this->render([
-			'title' => '404 Not Found',
-			'content' => 'not-found'
+	protected function getPost( $name = '', $default = false ) {
+		if ( is_null( $this->Request ))
+			return ( false);
 
-		]);
+		return ( $this->Request->getPost( $name, $default ));
+
+	}
+
+	protected function isPost() {
+		if ( is_null( $this->Request ))
+			return ( FALSE);
+
+		return ( $this->Request->isPost());
 
 	}
 
@@ -370,23 +338,28 @@ abstract class controller {
 		 * 	[application]/app/views/
 		 *
 		 */
-		if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
-			$view = sprintf( '%s/views/%s/%s', $this->rootPath, $controller, $viewName );
-			if ( file_exists( $view))
-				return ( $view);
+		if ( $view = $this->_viewPath( sprintf( '%s/views/%s/%s', $this->rootPath, $controller, $viewName ))) {
+			return $view;
 
-		}
-		else {
-			$view = sprintf( '%s/views/%s/%s.php', $this->rootPath, $controller, $viewName );		// php
-			if ( file_exists( $view))
-				return ( $view);
+			// if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
+			// 	$view = sprintf( '%s/views/%s/%s', $this->rootPath, $controller, $viewName );
+			// 	if ( file_exists( $view))
+			// 		return ( $view);
 
-			/*-- ---- --*/
+			// }
+			// else {
+			// 	$view = sprintf( '%s/views/%s/%s.php', $this->rootPath, $controller, $viewName );		// php
+			// 	if ( file_exists( $view))
+			// 		return ( $view);
 
-			$altView = sprintf( '%s/views/%s/%s.md', $this->rootPath, $controller, $viewName);	// markdown
+			// 	/*-- ---- --*/
 
-			if ( file_exists( $altView))
-				return ( $altView);
+			// 	$altView = sprintf( '%s/views/%s/%s.md', $this->rootPath, $controller, $viewName);	// markdown
+
+			// 	if ( file_exists( $altView))
+			// 		return ( $altView);
+
+			// }
 
 		}
 
@@ -396,25 +369,29 @@ abstract class controller {
 		 * 	=> look in [app]/views/[controller]/
 		 * */
 
-		if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
-			$view = sprintf( '%s/app/views/%s/%s', $this->rootPath, $controller, $viewName );
-			if ( file_exists( $view))
-				return ( $view);
+		if ( $view = $this->_viewPath( sprintf( '%s/app/views/%s/%s', $this->rootPath, $controller, $viewName ))) {
+			return $view;
+			// if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
+			// 	$view = sprintf( '%s/app/views/%s/%s', $this->rootPath, $controller, $viewName );
+			// 	if ( file_exists( $view))
+			// 		return ( $view);
+
+			// }
+			// else {
+			// 	$view = sprintf( '%s/app/views/%s/%s.php', $this->rootPath, $controller, $viewName );		// php
+			// 	if ( file_exists( $view))
+			// 		return ( $view);
+
+			// 	/*-- ---- --*/
+
+			// 	$altView = sprintf( '%s/app/views/%s/%s.md', $this->rootPath, $controller, $viewName);	// markdown
+			// 	if ( file_exists( $altView))
+			// 		return ( $altView);
+
+			// }
+			// /*-- ---- --*/
 
 		}
-		else {
-			$view = sprintf( '%s/app/views/%s/%s.php', $this->rootPath, $controller, $viewName );		// php
-			if ( file_exists( $view))
-				return ( $view);
-
-			/*-- ---- --*/
-
-			$altView = sprintf( '%s/app/views/%s/%s.md', $this->rootPath, $controller, $viewName);	// markdown
-			if ( file_exists( $altView))
-				return ( $altView);
-
-		}
-		/*-- ---- --*/
 
 		$commonPath = \strings::getCommonPath([ \application::app()->getInstallPath(), $this->rootPath]);
 
@@ -422,44 +399,49 @@ abstract class controller {
 		 * there is nothing in the [application]/app/views/[controller]/ folder
 		 *	=> look in [app]/views/ folder
 		 *  */
-		if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
-			$altView = sprintf( '%s/app/views/%s', $this->rootPath, $viewName );
-			if ( $this->debug) \sys::logger( sprintf( 'check local view : %s :: %s',
-				preg_replace( '@^' . $commonPath . '@', '', $altView),
-				__METHOD__));
+		if ( $view = $this->_viewPath( sprintf( '%s/app/views/%s', $this->rootPath, $viewName ))) {
+			return $view;
 
-			if ( file_exists( $altView))
-				return ( $altView);
+			// if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
+			// 	$altView = sprintf( '%s/app/views/%s', $this->rootPath, $viewName );
+			// 	if ( $this->debug) \sys::logger( sprintf( 'check local view : %s :: %s',
+			// 		preg_replace( '@^' . $commonPath . '@', '', $altView),
+			// 		__METHOD__));
+
+			// 	if ( file_exists( $altView))
+			// 		return ( $altView);
+
+			// }
+			// else {
+			// 	$altView = sprintf( '%s/app/views/%s.php', $this->rootPath, $viewName );	// php
+			// 	if ( $this->debug) \sys::logger( sprintf( 'check local view : %s :: %s',
+			// 		preg_replace( '@^' . $commonPath . '@', '', $altView),
+			// 		__METHOD__));
+
+			// 	if ( file_exists( $altView))
+			// 		return ( $altView);
+
+			// 	/*-- ---- --*/
+
+			// 	$altView = sprintf( '%s/app/views/%s.md', $this->rootPath, $viewName );	// markdown
+			// 	if ( $this->debug) \sys::logger( sprintf( 'check for local markdown : %s :: %s',
+			// 		preg_replace( '@^' . $commonPath . '@', '', $altView),
+			// 		__METHOD__));
+
+			// 	if ( file_exists( $altView))
+			// 		return ( $altView);
+
+			// }
 
 		}
-		else {
-			$altView = sprintf( '%s/app/views/%s.php', $this->rootPath, $viewName );	// php
-			if ( $this->debug) \sys::logger( sprintf( 'check local view : %s :: %s',
-				preg_replace( '@^' . $commonPath . '@', '', $altView),
-				__METHOD__));
 
-			if ( file_exists( $altView))
-				return ( $altView);
-
-			/*-- ---- --*/
-
-			$altView = sprintf( '%s/app/views/%s.md', $this->rootPath, $viewName );	// markdown
-			if ( $this->debug) \sys::logger( sprintf( 'check for local markdown : %s :: %s',
-				preg_replace( '@^' . $commonPath . '@', '', $altView),
-				__METHOD__));
-
-			if ( file_exists( $altView))
-				return ( $altView);
-
-		}
-
-		/* there is nothing in then [application]
-		*
-		*			first look for a php view, then a markdown
-		*
-		*			look to the [theme] folder
-		*				[theme]/views/
-		*/
+		// /* there is nothing in then [application]
+		// *
+		// *			first look for a php view, then a markdown
+		// *
+		// *			look to the [theme] folder
+		// *				[theme]/views/
+		// */
 		if ( class_exists( 'dvc\theme\view', /* autoload */ false)) {
 			if ( $altView = \dvc\theme\view::getView( $viewName)) {
 				return ( $altView);
@@ -468,14 +450,14 @@ abstract class controller {
 
 		}
 
-		/* there is nothing in then [application] || [theme]
-		*
-		*			first look for a php view, then a markdown
-		*
-		*			look to the [system] folders
-		*				[system]/views/[controller]
-		*				[system]/app/views/
-		*/
+		// /* there is nothing in then [application] || [theme]
+		// *
+		// *			first look for a php view, then a markdown
+		// *
+		// *			look to the [system] folders
+		// *				[system]/views/[controller]
+		// *				[system]/app/views/
+		// */
 
 		/*-- ---- [system]/views/[controller] folder ---- --*/
 		if ( $view = $this->_viewPath( sprintf( '%s/dvc/views/%s/%s', \application::app()->getInstallPath(), $controller, $viewName ))) {
@@ -558,11 +540,6 @@ abstract class controller {
 
 	}
 
-	protected function loadView( $name, $controller = null ) {
-		return ( $this->load( $name, $controller));
-
-	}
-
 	protected function load( $viewName = 'index', $controller = null ) {
 		$view = $this->getView( $viewName, $controller );
 		if ( substr_compare( $view, '.md', -3) === 0) {
@@ -578,6 +555,66 @@ abstract class controller {
 		}
 
 		return ( $this);
+
+	}
+
+	protected function loadView( $name, $controller = null ) {
+		return ( $this->load( $name, $controller));
+
+	}
+
+	protected function modalError( $params = []) {
+		$defaults = [
+			'class' => 'modal-sm',
+			'header-class' => 'text-white bg-danger py-2',
+			'text' => 'error msg',
+			'title' => 'Error',
+
+		];
+		$options = array_merge( $defaults, $params);
+
+		if ( !isset( $this->data)) $this->data = (object)[];
+
+		$this->data->text = $options['text'];
+		$this->modal( $options);
+
+	}
+
+	protected function modal( $params = []) {
+		$defaults = [
+			'title' => sprintf( '%s Modal', \config::$WEBNAME),
+			'class' => '',
+			'header-class' => 'text-white bg-secondary py-2',
+			'load' => false,
+			'text' => false,
+		];
+
+		$options = array_merge( $defaults, $params);
+
+		\Response::html_headers();
+		$m = new pages\modal([
+			'title' => $options['title'],
+			'class' => $options['class'],
+			'header-class' => $options['header-class'],
+		]);
+
+		$m->open();
+
+		if ( $options['load']) {
+			foreach ( (array)$options['load'] as $_) {
+				$this->load( $_);
+
+			}
+
+		}
+
+		if ( $options['text']) {
+			foreach ( (array)$options['text'] as $_) {
+				print $_;
+
+			}
+
+		}
 
 	}
 
@@ -664,66 +701,10 @@ abstract class controller {
 
 	}
 
-	protected function modalError( $params = []) {
-		$defaults = [
-			'class' => 'modal-sm',
-			'header-class' => 'text-white bg-danger py-2',
-			'text' => 'error msg',
-			'title' => 'Error',
-
-		];
-		$options = array_merge( $defaults, $params);
-
-		if ( !isset( $this->data)) $this->data = (object)[];
-
-		$this->data->text = $options['text'];
-		$this->modal( $options);
-
-	}
-
-	protected function modal( $params = []) {
-		$defaults = [
-			'title' => sprintf( '%s Modal', \config::$WEBNAME),
-			'class' => '',
-			'header-class' => 'text-white bg-secondary py-2',
-			'load' => false,
-			'text' => false,
-		];
-
-		$options = array_merge( $defaults, $params);
-
-		\Response::html_headers();
-		$m = new pages\modal([
-			'title' => $options['title'],
-			'class' => $options['class'],
-			'header-class' => $options['header-class'],
-		]);
-
-		$m->open();
-
-		if ( $options['load']) {
-			foreach ( (array)$options['load'] as $_) {
-				$this->load( $_);
-
-			}
-
-		}
-
-		if ( $options['text']) {
-			foreach ( (array)$options['text'] as $_) {
-				print $_;
-
-			}
-
-		}
-
-	}
-
-	protected function _render( $view) {
-		foreach( (array)$view as $_){
-			$this->load( $_);
-
-		}
+	protected function postHandler() {
+		/**
+		 * Placeholder for use the child class.
+		 */
 
 	}
 
@@ -818,6 +799,32 @@ abstract class controller {
 
 	}
 
+	protected function SQL( $query) {
+		/*
+		* Perform an SQL Command using
+		* the default data adapter
+		*/
+		if ( is_null( $this->db )) {
+			return ( false);
+
+		}
+
+		return ( $this->db->SQL( $query));
+
+	}
+
+	public function index() {
+		if ( $this->isPost())
+			$this->postHandler();
+
+		elseif ( $this->manifest)
+			$this->_offManifest( \application::Request()->getUrl());
+
+		else
+			$this->_index();
+
+	}
+
 	public function logout() {
 		\session::destroy();
 		\Response::redirect( \url::$URL );
@@ -838,6 +845,16 @@ abstract class controller {
 
 	public function errorTest() {
 		throw new \dvc\Exceptions\GeneralException;
+
+	}
+
+	public function page404() {
+		header('HTTP/1.0 404 Not Found');
+		$this->render([
+			'title' => '404 Not Found',
+			'content' => 'not-found'
+
+		]);
 
 	}
 
