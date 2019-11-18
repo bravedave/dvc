@@ -168,6 +168,32 @@ abstract class controller {
 
 	}
 
+	protected function _viewPath( string $path) : string {
+		if ( preg_match( '/\.(php|md)$/', $path)) {		// extension was specified
+			if ( \file_exists( $path)) {
+				if ( $this->debug) \sys::logger( sprintf( 'found view (specific) : %s :: %s', $path, __METHOD__));
+				return $path;
+
+			}
+
+		}
+
+		if ( file_exists( $view = sprintf( '%s.php', $path))) {	// php
+			if ( $this->debug) \sys::logger( sprintf( 'found view (php) : %s :: %s', $view, __METHOD__));
+			return $view;
+
+		}
+
+		if ( file_exists( $view = sprintf( '%s.md', $path))) {	// md
+			if ( $this->debug) \sys::logger( sprintf( 'found view (md) : %s :: %s', $view, __METHOD__));
+			return $view;
+
+		}
+
+		return '';
+
+	}
+
 	protected function access_control() {
 		// warning - don't impose an access_control of FALSE on the home page !
 		return ( TRUE);
@@ -332,11 +358,6 @@ abstract class controller {
 
 	}
 
-	protected function hasView( $viewName = 'index', $controller = null ) {
-		return $this->getView( $viewName, $controller) != self::viewNotFound;
-
-	}
-
 	protected function getView( $viewName = 'index', $controller = null ) {
 		if ( is_null( $controller ))
 			$controller = $this->name;
@@ -389,14 +410,13 @@ abstract class controller {
 			/*-- ---- --*/
 
 			$altView = sprintf( '%s/app/views/%s/%s.md', $this->rootPath, $controller, $viewName);	// markdown
-
 			if ( file_exists( $altView))
 				return ( $altView);
 
 		}
 		/*-- ---- --*/
 
-		$commonPath = \strings::getCommonPath([__DIR__, $this->rootPath]);
+		$commonPath = \strings::getCommonPath([ \application::app()->getInstallPath(), $this->rootPath]);
 
 		/**
 		 * there is nothing in the [application]/app/views/[controller]/ folder
@@ -458,62 +478,68 @@ abstract class controller {
 		*/
 
 		/*-- ---- [system]/views/[controller] folder ---- --*/
-		if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
-			$altView = sprintf( '%s/views/%s/%s', __DIR__, $controller, $viewName );
-			if ( $this->debug) \sys::logger( sprintf( 'check system view : %s :: %s',
-				preg_replace( '@^' . $commonPath . '@', '', $altView),
-				__METHOD__));
+		if ( $view = $this->_viewPath( sprintf( '%s/dvc/views/%s/%s', \application::app()->getInstallPath(), $controller, $viewName ))) {
+			return $view;
 
-			if ( file_exists( $altView))
-				return ( $altView);
+			// if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
+			// 	$altView = sprintf( '%s/dvc/views/%s/%s', \application::app()->getInstallPath(), $controller, $viewName );
+			// 	if ( $this->debug) \sys::logger( sprintf( 'check system view : %s :: %s',
+			// 		preg_replace( '@^' . $commonPath . '@', '', $altView),
+			// 		__METHOD__));
 
-		}
-		else {
-			$altView = sprintf( '%s/views/%s/%s.php', __DIR__, $controller, $viewName );	// php
-			if ( $this->debug) \sys::logger( sprintf( 'check system view : %s :: %s',
-				preg_replace( '@^' . $commonPath . '@', '', $altView),
-				__METHOD__));
+			// 	if ( file_exists( $altView))
+			// 		return ( $altView);
 
-			if ( file_exists( $altView))
-				return ( $altView);
+			// }
+			// else {
+			// 	$altView = sprintf( '%s/dvc/views/%s/%s.php', \application::app()->getInstallPath(), $controller, $viewName );	// php
+			// 	if ( $this->debug) \sys::logger( sprintf( 'check system view : %s :: %s',
+			// 		preg_replace( '@^' . $commonPath . '@', '', $altView),
+			// 		__METHOD__));
 
-			$altView = sprintf( '%s/views/%s/%s.md', __DIR__, $controller, $viewName );	// md
-			if ( $this->debug) \sys::logger( sprintf( 'check system view : %s :: %s',
-				preg_replace( '@^' . $commonPath . '@', '', $altView),
-				__METHOD__));
+			// 	if ( file_exists( $altView))
+			// 		return ( $altView);
 
-			if ( file_exists( $altView))
-				return ( $altView);
+			// 	$altView = sprintf( '%s/dvc/views/%s/%s.md', \application::app()->getInstallPath(), $controller, $viewName );	// md
+			// 	if ( $this->debug) \sys::logger( sprintf( 'check system view : %s :: %s',
+			// 		preg_replace( '@^' . $commonPath . '@', '', $altView),
+			// 		__METHOD__));
+
+			// 	if ( file_exists( $altView))
+			// 		return ( $altView);
 
 		}
 
 		/*-- ---- [system]/views/ folder ---- --*/
-		if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
-			$altView = sprintf( '%s/views/%s', __DIR__, $viewName );	// php
-			if ( $this->debug) \sys::logger( sprintf( 'check local default view : %s :: %s',
-				preg_replace( '@^' . $commonPath . '@', '', $altView),
-				__METHOD__));
+		if ( $view = $this->_viewPath( sprintf( '%s/dvc/views/%s', \application::app()->getInstallPath(), $viewName ))) {
+			return $view;
 
-			if ( file_exists( $altView))
-				return ( $altView);
+			// if ( preg_match( '/\.(php|md)$/', $viewName)) {		// extension was specified
+			// 	$altView = sprintf( '%s/dvc/views/%s', \application::app()->getInstallPath(), $viewName );	// php
+			// 	if ( $this->debug) \sys::logger( sprintf( 'check local default view : %s :: %s',
+			// 		preg_replace( '@^' . $commonPath . '@', '', $altView),
+			// 		__METHOD__));
 
-		}
-		else {
-			$altView = sprintf( '%s/views/%s.php', __DIR__, $viewName );	// php
-			if ( $this->debug) \sys::logger( sprintf( 'check local default view : %s :: %s',
-					preg_replace( '@^' . $commonPath . '@', '', $altView),
-					__METHOD__));
+			// 	if ( file_exists( $altView))
+			// 		return ( $altView);
 
-			if ( file_exists( $altView))
-				return ( $altView);
+			// }
+			// else {
+			// $altView = sprintf( '%s/dvc/views/%s.php', \application::app()->getInstallPath(), $viewName );	// php
+			// if ( $this->debug) \sys::logger( sprintf( 'check local default view : %s :: %s',
+			// 		preg_replace( '@^' . $commonPath . '@', '', $altView),
+			// 		__METHOD__));
 
-			$altView = sprintf( '%s/views/%s.md', __DIR__, $viewName );	// md
-			if ( $this->debug) \sys::logger( sprintf( 'check local default view : %s :: %s',
-					preg_replace( '@^' . $commonPath . '@', '', $altView),
-					__METHOD__));
+			// if ( file_exists( $altView))
+			// 	return ( $altView);
 
-			if ( file_exists( $altView))
-				return ( $altView);
+			// $altView = sprintf( '%s/dvc/views/%s.md', \application::app()->getInstallPath(), $viewName );	// md
+			// if ( $this->debug) \sys::logger( sprintf( 'check local default view : %s :: %s',
+			// 		preg_replace( '@^' . $commonPath . '@', '', $altView),
+			// 		__METHOD__));
+
+			// if ( file_exists( $altView))
+			// 	return ( $altView);
 
 		}
 		/*-- ---- --*/
@@ -524,6 +550,11 @@ abstract class controller {
 		}
 
 		return self::viewNotFound;
+
+	}
+
+	protected function hasView( $viewName = 'index', $controller = null ) {
+		return $this->getView( $viewName, $controller) != self::viewNotFound;
 
 	}
 
