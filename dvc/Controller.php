@@ -12,4 +12,4 @@
 	*/
 namespace dvc;
 
-abstract class Controller extends _controller {}
+abstract class Controller extends core\controller {}
