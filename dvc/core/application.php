@@ -265,7 +265,7 @@ class application {
 			if (isset($this->url_parameter_3)) {
 				// will translate to something like $this->home->method($param_1, $param_2, $param_3);
 				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s, %s, %s)',
-				 	$this->url_controller->name,
+					$this->url_controller->name,
 					$this->url_action,
 					$this->url_parameter_1,
 					$this->url_parameter_2,
