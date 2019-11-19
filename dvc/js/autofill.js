@@ -45,7 +45,7 @@ $.fn.autofill = function( params) {
 	$.extend( options, params);
 
 	//~ console.log( 'autofill');
-	var list = $('<ul class="list-group" style="position: absolute; left: 0; z-index: 5; width: 100%;" />');
+	let list = $('<ul class="list-group" style="position: absolute; left: 0; z-index: 5; width: 100%;" />');
 
 	if ( !( options.appendTo instanceof jQuery)) {
 		options.appendTo = $(options.appendTo);
@@ -54,7 +54,7 @@ $.fn.autofill = function( params) {
 
 	options.wrapper.append( list).appendTo( options.appendTo);
 
-	var keyMove = {
+	let keyMove = {
 		active : -1,
 		items : function() {
 			return ( $('>li', list));
@@ -295,20 +295,23 @@ $.fn.autofill = function( params) {
 		if ( e.shiftKey)
 			return;
 
-		// console.log( 'keyup.autofill', e.keyCode);
-		if ( e.keyCode == 13) {
-			keyMove.select( e);
-			return;
+		if ( !_brayworth_.browser.isMobileDevice) {
+			// console.log( 'keyup.autofill', e.keyCode);
+			if ( e.keyCode == 13) {
+				keyMove.select( e);
+				return;
 
-		}
-		else if ( e.keyCode == 38 ) {
-			keyMove.up();
-			return;
+			}
+			else if ( e.keyCode == 38 ) {
+				keyMove.up();
+				return;
 
-		}
-		else if ( e.keyCode == 40 ) {
-			keyMove.down();
-			return;
+			}
+			else if ( e.keyCode == 40 ) {
+				keyMove.down();
+				return;
+
+			}
 
 		}
 
@@ -364,7 +367,6 @@ $.fn.autofill = function( params) {
 
 		}
 		else {
-
 			window.setTimeout( function() {
 				if ( _data.iterant != iterant) {
 					return;
