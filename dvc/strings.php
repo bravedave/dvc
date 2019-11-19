@@ -231,7 +231,7 @@ abstract class strings {
 			'@<(|/)body[^>]*?>@i',					// Strip <body> start and tag
 			'@<link[^>]*?>@si',						// Strip link tags
 			'@<base[\/\!]*?[^<>]*?>@si',			// Strip base href tags
-			'@<style[^>]*?>.*?</style>@siU',		// Strip style tags
+			'@<style[^>]*?>.*?</style>@si',			// Strip style tags
 			'@<![\s\S]*?--[ \t\n\r]*>@',			// Strip multi-line comments including CDATA
 			'@^<br[\s]/>@i'							// Blank HTML at Start
 		];
