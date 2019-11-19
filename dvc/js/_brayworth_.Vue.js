@@ -6,18 +6,19 @@
 	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
 		http://creativecommons.org/licenses/by/4.0/
 	*/
+/*jshint esversion: 6 */
 _brayworth_.Vue = function( params) {
-	var options = {
+	let options = {
 		filters: {}
 	};
 
-	var filters = {
+	let filters = {
 		capitalize: function (value) {
-			if (!value) return ''
+			if (!value) return '';
 			return value.toCapitalCase();
 
 		}
-		
+
 	};
 
 	$.extend( options, params);
@@ -38,5 +39,4 @@ _brayworth_.Vue = function( params) {
 
 	});
 
-}
-;
+};

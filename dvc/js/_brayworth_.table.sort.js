@@ -1,16 +1,17 @@
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-	*/
-
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+ *      http://creativecommons.org/licenses/by/4.0/
+ *
+*/
+/*jshint esversion: 6 */
 _brayworth_.table.sortOn = function( table, key, sorttype, order) {
 	//~ var debug = true;
-	var debug = false;
-	var tbody = $('tbody', table);
+	let debug = false;
+	let tbody = $('tbody', table);
 	if ( !tbody) tbody = table;
 
 	if ( 'undefined' == typeof order)
@@ -20,15 +21,15 @@ _brayworth_.table.sortOn = function( table, key, sorttype, order) {
 	if ( !sorttype)
 		sorttype = 'string';
 
-	var warn = true;
+	let warn = true;
 
-	var items = tbody.children('tr');
+	let items = tbody.children('tr');
 
 	if ( debug) console.log( key, sorttype, order, items.length );
 
 	items.sort(function sortItem(a, b) {
-		var ae = $(a).data(key);
-		var be = $(b).data(key);
+		let ae = $(a).data(key);
+		let be = $(b).data(key);
 		if ( /undefined/.test( typeof ae ) || /undefined/.test( typeof ae )) {
 			ae = $(a).data('key-' + key);
 			be = $(b).data('key-' + key);
@@ -62,14 +63,25 @@ _brayworth_.table.sortOn = function( table, key, sorttype, order) {
 
 	});
 
-	$.each(items, function (i, e) { (order == "desc" ? tbody.prepend(e) : tbody.append(e)); });
-	var lines = $('tr>[role="line-number"]', tbody);
+	$.each(items, function (i, e) {
+		if (order == "desc") {
+			tbody.prepend(e);
+
+		}
+		else {
+			tbody.append(e);
+
+		}
+
+	});
+
+	let lines = $('tr>[role="line-number"]', tbody);
 	if ( lines.length > 0) {
 		lines.each( function( i, e ) { $(e).html(i+1); });
 
 	}
 	else {
-		var lines = $('tr>td>[role="line-number"]', tbody);
+		lines = $('tr>td>[role="line-number"]', tbody);
 		if ( lines.length > 0) {
 			lines.each( function( i, e ) { $(e).html(i+1); });
 
@@ -77,22 +89,21 @@ _brayworth_.table.sortOn = function( table, key, sorttype, order) {
 
 	}
 
-}
+};
 
 _brayworth_.table.sort = function( e) {
 	if ( 'undefined' != typeof e && !!e.target) e.stopPropagation();
 
 	_brayworth_.hideContexts();
 
-	var table = $(this).closest( 'table' );
+	let table = $(this).closest( 'table' );
 	if ( !table) return;
 
-	var key = $(this).data("key");
+	let key = $(this).data("key");
 	if ( !key) return;
 
-	var sorttype = $(this).data("sorttype");
+	let sorttype = $(this).data("sorttype");
 
 	_brayworth_.table.sortOn( table, key, sorttype);	//~ console.log( key );
 
-}
-;
+};

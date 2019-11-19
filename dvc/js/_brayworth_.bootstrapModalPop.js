@@ -8,11 +8,6 @@
  *
  * */
 /*jshint esversion: 6 */
-if ( 'undefined' == typeof _brayworth_) {
-	_brayworth_ = {};
-
-}
-
 _brayworth_.bootstrapModalPop = function( params ) {
 	if ( /string/.test( typeof params)) {
 		let _modal = $(this).data( '_modal');

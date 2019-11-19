@@ -27,8 +27,8 @@
 		}
 
 	*/
-
-var templation = {
+/*jshint esversion: 6 */
+window.templation = {
 	urlwrite : function( _url) {
 		if ( 'undefined' == typeof _url)
 			_url = '';
@@ -44,7 +44,7 @@ var templation = {
 		some predefined templates
 		add more with templation.loadHTML('tr','<tr />');
 	*/
-	var cache = {
+	let cache = {
 		container : '<div class="container" />',
 		row : '<div class="row" />',
 		form : '<form />',
@@ -124,7 +124,7 @@ var templation = {
 
 			}
 
-		}
+		};
 
 		return ( _.reset());
 
@@ -136,22 +136,22 @@ var templation = {
 		else
 			throw 'template not in cache';
 
-	}
+	};
 
 	templation.loadHTML = function( key, fragment) {
 		cache[key] = fragment;
 		return( _t( fragment));
 
-	}
+	};
 
 	templation.load = function( params) {
 		return ( new Promise( function( resolve, reject) {
-			var options = {
+			let options = {
 				type : 'post',
 				template : '',
 				url : templation.urlwrite(),
 
-			}
+			};
 
 			$.extend( options, params);
 
@@ -199,6 +199,6 @@ var templation = {
 
 		}));
 
-	}
+	};
 
 })();

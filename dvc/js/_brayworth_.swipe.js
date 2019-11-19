@@ -1,13 +1,13 @@
-/*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
+/**
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+ *      http://creativecommons.org/licenses/by/4.0/
+ *
 */
-
+/*jshint esversion: 6 */
 _brayworth_.swipeOff = function() {
 	$(this)
 		.off('mousedown touchstart')
@@ -15,20 +15,20 @@ _brayworth_.swipeOff = function() {
 };
 
 _brayworth_.swipeOn = function( params) {
-	var options = {
+	let options = {
 		left : function() {},
 		right : function() {},
 		up : function() {},
 		down : function() {},
-	}
+	};
 
 	$.extend( options, params);
 
-	var down = false;
+	let down = false;
 
-	var touchEvent = function( e) {
-		var _touchEvent = function( x, y) { return ({'x':x,'y':y}) }
-		var evt = e.originalEvent;
+	let touchEvent = function( e) {
+		let _touchEvent = function( x, y) { return ({'x':x,'y':y}); };
+		let evt = e.originalEvent;
 		try {
 			if ('undefined' !== typeof evt.pageX) {
 				return ( _touchEvent( evt.pageX, evt.pageY));
@@ -43,28 +43,28 @@ _brayworth_.swipeOn = function( params) {
 			}
 
 		}
-		catch(e) {
-			console.warn( e);
+		catch( err) {
+			console.warn( err);
 
 		}
 		return ( _touchEvent(0,0));
 
-	}
+	};
 
-	var swipeEvent = function( down, up) {
-		var j = {
+	let swipeEvent = function( down, up) {
+		let j = {
 			'direction' : '',
 			x : up.x - down.x,
-			y : up.y - down.y }
+			y : up.y - down.y };
 
 		if ( j.x > 70)
-			j.direction = 'right'
+			j.direction = 'right';
 		else if ( j.x < -70)
-			j.direction = 'left'
+			j.direction = 'left';
 
 		return (j);
 
-	}
+	};
 
 	$(this)
 	.on('mousedown touchstart', function (e) {
@@ -76,7 +76,7 @@ _brayworth_.swipeOn = function( params) {
 	})
 	.on('mouseup touchend',function (e) {
 		if ( down) {
-			var sEvt = swipeEvent( down, touchEvent( e));
+			let sEvt = swipeEvent( down, touchEvent( e));
 			down = false;	// reset
 
 			if ( sEvt.direction == 'left')

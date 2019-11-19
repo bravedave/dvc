@@ -1,14 +1,15 @@
-/*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
+/**
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+ *      http://creativecommons.org/licenses/by/4.0/
+ *
 */
+/*jshint esversion: 6 */
 _brayworth_.lazyImageLoader = function() {
-	var imgStack = [];
+	let imgStack = [];
 
 	$('div[data-delayedimg="true"]').each( function( i, el) {
 		let _ = $(el);
@@ -28,7 +29,7 @@ _brayworth_.lazyImageLoader = function() {
 		$(document).on('scroll', function( e) {
 			let unProcessed = 0;
 			$.each( imgStack, function( i, el) {
-				var _ = $(el);
+				let _ = $(el);
 				if ( _.data('delayedimg')) {
 					if ( _.visible( true)) {
 						//~ console.log( 'loading', _.data('src'));

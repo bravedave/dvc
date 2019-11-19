@@ -7,6 +7,7 @@
 		https://creativecommons.org/licenses/by-nc-nd/4.0/
 
 	*/
+/*jshint esversion: 6 */
 _brayworth_.toaster = function() {};
 
 $(document).ready( function() {
@@ -35,7 +36,7 @@ $(document).ready( function() {
 				delay : 2000,
 				growlClass : 'success'
 
-			}
+			};
 
 			if ( 'string' == typeof params) {
 				options.text = params;

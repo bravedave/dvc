@@ -1,4 +1,4 @@
-/**
+/*
  * David Bray
  * BrayWorth Pty Ltd
  * e. david@brayworth.com.au
@@ -8,10 +8,9 @@
  *
  * test:
  *	'0418745334'.IsMobilePhone();
- * */
+*/
 /*jshint esversion: 6 */
 (function() {	// strings
-	// String.prototype.trim = function() {return this.replace(/^\s+|\s+$/g,"");}
 	String.prototype.ltrim = function() {return this.replace(/^\s+/,"");};
 	String.prototype.rtrim = function() {return this.replace(/\s+$/,"");};
 	String.prototype.pad = function(len, padChar){

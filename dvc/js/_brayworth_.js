@@ -1,15 +1,15 @@
-/*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
+/**
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+ *      http://creativecommons.org/licenses/by/4.0/
+ *
 */
-
-if ( 'undefined' == typeof _brayworth_ )
-	var _brayworth_ = function() { return ( _brayworth_); }
+/*jshint esversion: 6 */
+if ( !window._brayworth_ )
+	window._brayworth_ = function() { return ( window._brayworth_); };
 
 $.extend( _brayworth_, {
 		_brayworth_ : true,
@@ -51,9 +51,9 @@ $.extend( _brayworth_, {
 				 *	b. you could/will redefine this function to control
 				 * 		 the timezone being operated in
 				 */
-			 	var d = moment( a,b,c,d)
+			 	let r = moment( a,b,c,d);
 		 		// d.utcOffset( desirable timezone);
-		 		return (d);
+		 		return (r);
 
 		}
 

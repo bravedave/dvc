@@ -62,18 +62,19 @@
 	});
 
 	*/
+/*jshint esversion: 6 */
 (function() {
-	var cache = {};
+	let cache = {};
 
 	_brayworth_.Vue.block = function( params) {
 		//~ console.log('_brayworth_.Vue.block');
 
 		return ( new Promise( function( resolve, reject) {
-			var options = {
+			let options = {
 				block : '',
 				url : _brayworth_.urlwrite(),
 
-			}
+			};
 
 			$.extend( options, params);
 
@@ -92,16 +93,14 @@
 			}
 			else {
 				//~ console.log( 'not resolve from cache', cache);
-				$.ajax({
-					type : 'post',
+				_brayworth_.post({
 					url : options.url,
 					data : {
 						action : 'get-vue-block',
 						block : options.block,
 					}
 
-				})
-				.done( function( d) {
+				}).then( function( d) {
 					cache[options.block] = d;
 					resolve( d); // fulfilled
 
@@ -111,6 +110,6 @@
 
 		}));
 
-	}
+	};
 
 })();

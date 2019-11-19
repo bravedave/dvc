@@ -1,12 +1,13 @@
-/*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
+/**
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+ *      http://creativecommons.org/licenses/by/4.0/
+ *
 */
+/*jshint esversion: 6 */
 $(document).ready( function() {
 	_brayworth_.InitHRefs();
 	_brayworth_.initDatePickers();
@@ -20,9 +21,9 @@ $(document).ready( function() {
 			//~ console.log('window.history.back()');
 			window.history.back();
 
-		})
+		});
 
-	})
+	});
 
 	$('[data-role="visibility-toggle"]').each( function( i, el ) {
 		var _el= $(el);
@@ -35,11 +36,11 @@ $(document).ready( function() {
 				evt.stopPropagation(); evt.preventDefault();
 				oT.toggle();
 
-			})
+			});
 
 		}
 
-	})
+	});
 
 	$('[role="print-page"]').each( function( i, el ) {
 		$(el).on('click', function(e) {
@@ -88,7 +89,7 @@ $(document).ready( function() {
 	   }
 	   else {
 		  // otherwise the calculated value
-		  var z = window.document.defaultView.getComputedStyle(this[0]).getPropertyValue('z-index');
+		  z = window.document.defaultView.getComputedStyle(this[0]).getPropertyValue('z-index');
 		  if ( isNaN( z))
 			 z = 0;
 
