@@ -30,12 +30,12 @@ abstract class currentUser {
 
 	}
 
-	static function valid() : bool {
+	static function valid() {
 		return ( self::user()->valid()) ;
 
 	}
 
-	static function isadmin() : bool {
+	static function isadmin() {
 		return ( self::user()->isadmin()) ;
 
 	}
