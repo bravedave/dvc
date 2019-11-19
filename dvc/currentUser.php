@@ -12,4 +12,4 @@
 	*/
 namespace dvc;
 
-abstract class currentUser extends _currentUser {}
+abstract class currentUser extends core\currentUser {}
