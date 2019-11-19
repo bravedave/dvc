@@ -11,7 +11,6 @@
 	* This is the "base controller class". All other "real" controllers extend this class.
 	*/
 namespace dvc\core;
-use dao;
 
 abstract class controller {
 	public $authorized = false;
@@ -83,7 +82,7 @@ abstract class controller {
 		if ( $this->CheckOffline ) {
 			if ( $this->authorised) {
 				if ( !\currentUser::isadmin()) {
-					$state = new dao\state;
+					$state = new \dao\state;
 					if ( $state->offline()) {
 						\Response::redirect( \strings::url( 'offline'));
 
@@ -465,7 +464,7 @@ abstract class controller {
 		$options = array_merge( $defaults, $params);
 
 		\Response::html_headers();
-		$m = new pages\modal([
+		$m = new \dvc\pages\modal([
 			'title' => $options['title'],
 			'class' => $options['class'],
 			'header-class' => $options['header-class'],
