@@ -402,17 +402,6 @@ class application {
 
 	}
 
-	public function countVisit() {
-		/*
-		*	countVisit is called during __construct
-		*
-		* use this method to gather statistics
-		*
-		*/
-
-
-	}
-
 	protected function serve( $path ) {
 		if ( self::$debug) sys::$debug = true;
 		\sys::serve( $path);
@@ -462,6 +451,17 @@ class application {
 			return ( $this->url_controller->name );
 
 		return '';
+
+	}
+
+	public function countVisit() {
+		/*
+		*	countVisit is called during __construct
+		*
+		* use this method to gather statistics
+		*
+		*/
+
 
 	}
 
