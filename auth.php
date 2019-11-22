@@ -9,9 +9,7 @@
  *
  * DO NOT change this file
  * Copy it to <application>/app and modify it there
- *
- * Note: Since core components use config::variables, it would be risky to store configuration variables
- * 	in this file - they should be stored in dvc\config
- **/
+ */
+
 abstract class auth extends dvc\auth {}
 

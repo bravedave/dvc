@@ -12,4 +12,4 @@
 	*/
 namespace dvc;
 
-class user extends _user {}
+class user extends core\user {}

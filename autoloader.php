@@ -12,10 +12,10 @@ spl_autoload_register(function ($class) {
 	if ( $lib = realpath( __DIR__ . '/' . str_replace('\\', '/', $class) . '.php')) {
 		include_once $lib;
 		dvc\sys::logloader( sprintf( 'lib: %s', $lib ));
-		return ( TRUE);
+		return ( true);
 
 	}
-	return ( FALSE);
+	return ( false);
 
 });
 

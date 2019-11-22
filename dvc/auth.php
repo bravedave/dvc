@@ -12,4 +12,4 @@
 	*/
 namespace dvc;
 
-abstract class auth extends _auth {}
+abstract class auth extends core\auth {}
