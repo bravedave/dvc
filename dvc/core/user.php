@@ -42,7 +42,7 @@ class user {
 
 	public static function uid() {
 		if ( !( isset( $_COOKIE['_bwui'])))
-			$uc = md5( sprintf( '%s:%s', userAgent::os(), (string)time()));
+			$uc = md5( sprintf( '%s:%s', \userAgent::os(), (string)time()));
 
 		else
 			$uc = $_COOKIE['_bwui'];
