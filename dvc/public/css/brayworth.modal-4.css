@@ -35,6 +35,10 @@
 	padding: 0;
 }
 
+.modal .close.fa {
+	margin-top: -.7rem;
+}
+
 .modal .close:not(.fa):hover,
 .modal .close:not(.fa):focus {
     color: black;
