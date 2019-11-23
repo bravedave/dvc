@@ -30,7 +30,7 @@ class user {
 
 	}
 
-	public function sync( $oauth ) {
+	public function sync( \dvc\oauth $oauth ) {
 		\sys::logger( '_user::sync => placeholder function - you probably want to write your own' );
 
 	}
