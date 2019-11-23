@@ -54,7 +54,7 @@ _brayworth_.modal = function( params) {
 
 	}
 
-	var options = {
+	let options = {
 		title : '',
 		width : false,
 		height : false,
@@ -64,7 +64,6 @@ _brayworth_.modal = function( params) {
 		autoOpen : true,
 		buttons : {},
 		headButtons : {},
-		closeIcon : 'fa-times',
 		onOpen : function() {},
 		onEnter : function() {},
 
@@ -72,8 +71,7 @@ _brayworth_.modal = function( params) {
 
 	$.extend( options, params);
 
-	var t = _brayworth_.templates.modal();
-	t.get('.close').addClass( options.closeIcon);
+	let t = _brayworth_.templates.modal();
 
 	if ( options.className != '') {
 		t.get('.modal-dialog').addClass( options.className);
