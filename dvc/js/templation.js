@@ -50,7 +50,7 @@ window.templation = {
 		form : '<form />',
 		table : '<table><thead></thead><tbody /><tfoot /></table>',
 		tr : '<tr />',
-		modal: '<div class="modal modal-brayworth"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content" role="dialog" aria-labelledby="modal-title"><div class="modal-header py-1 bg-primary text-white"><h5 class="modal-title text-truncate" id="modal-title" /><button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button></div><div class="modal-body" /></div></div></div>',
+		modal: '<div class="modal modal-brayworth"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content" role="dialog" aria-labelledby="modal-title"><div class="modal-header py-1 bg-primary text-white"><h5 class="modal-title text-truncate" id="modal-title" /><i class="fa fa-times close text-white" /></div><div class="modal-body" /></div></div></div>',
 
 	};
 
