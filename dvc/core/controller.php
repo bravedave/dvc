@@ -143,12 +143,12 @@ abstract class controller {
 
 			if ( $_path) {
 				if ( $_file = realpath( $_path)) {
-					sys::serve( $_file);
+					\sys::serve( $_file);
 
 				}
 				else {
 					printf( '%s - file not found', $_path);
-					//~ sys::dump( $_manifest);
+					//~ \sys::dump( $_manifest);
 
 				}
 
