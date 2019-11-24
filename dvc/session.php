@@ -19,21 +19,32 @@ class session {
 
 	protected function __construct() {
 		$CookieParams = session_get_cookie_params();
-		$CookieParams['path'] = '/; samesite=lax';
 
 		if ( !is_null( $this->domain))
-			$CookieParams['domain'] = $this->domain;
+		$CookieParams['domain'] = $this->domain;
 
 		$CookieParams['secure'] = !Request::get()->ServerIsLocal();
 
-		session_set_cookie_params(
-			$CookieParams['lifetime'],
-			$CookieParams['path'],
-			$CookieParams['domain'],
-			$CookieParams['secure'],
-			$CookieParams['httponly']
+		if ( (float)phpversion() < 7.3) {
+			$CookieParams['path'] = '/; samesite=lax';
 
-		);
+			session_set_cookie_params(
+				$CookieParams['lifetime'],
+				$CookieParams['path'],
+				$CookieParams['domain'],
+				$CookieParams['secure'],
+				$CookieParams['httponly']
+
+			);
+
+		}
+		else {
+			$CookieParams['path'] = '/';
+			$CookieParams['samesite'] = 'lax';
+
+			session_set_cookie_params( $CookieParams);
+
+		}
 
 		session_cache_expire(30);
 		session_start();
@@ -45,8 +56,10 @@ class session {
 	}
 
 	protected function __destroy() {
-		if ( $this->open)
+		if ( $this->open) {
 			session_write_close();
+
+		}
 
 	}
 
@@ -54,27 +67,31 @@ class session {
 		if ( !$this->open) {
 			session_cache_expire(30);
 			session_start();
-			$this->open = TRUE;
+			$this->open = true;
 
 		}
 
 	}
 
 	protected function _get( $var, $default = '' ) {
-		if ( isset( $this->__session[$var] ))
+		if ( isset( $this->__session[$var] )) {
 			return $this->__session[$var];
+
+		}
 
 		return $default;
 
 	}
 
 	protected function _close() {
-		if ( !isset( self::$instance ))
-			self::$instance = new session();
+		if ( !isset( self::$instance )) {
+			self::$instance = new session;
+
+		}
 
 		if ( $this->open) {
 			$this->__session = $_SESSION;	// re-read session
-			$this->open = FALSE;
+			$this->open = false;
 			session_write_close();
 
 		}
@@ -82,8 +99,10 @@ class session {
 	}
 
 	static function get( $var, $default = '' ) {
-		if ( !isset( self::$instance ))
-			self::$instance = new session();
+		if ( !isset( self::$instance )) {
+			self::$instance = new session;
+
+		}
 
 		return ( self::$instance->_get( $var, $default));
 
@@ -103,16 +122,20 @@ class session {
 	}
 
 	static function edit() {
-		if ( !isset( self::$instance ))
-			self::$instance = new session();
+		if ( !isset( self::$instance )) {
+			self::$instance = new session;
+
+		}
 
 		self::$instance->_edit();
 
 	}
 
 	static function close() {
-		if ( !isset( self::$instance ))
-			self::$instance = new session();
+		if ( !isset( self::$instance )) {
+			self::$instance = new session;
+
+		}
 
 		self::$instance->_close();
 
@@ -128,8 +151,10 @@ class session {
 
 	function domain( $domain = null ) {
 		$ret =  $this->domain;
-		if ( !is_null( $domain))
+		if ( !is_null( $domain)) {
 			$this->domain = $domain;
+
+		}
 
 		return ( $ret);
 

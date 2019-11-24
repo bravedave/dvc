@@ -10,6 +10,7 @@
 */
 
 namespace dvc\core;
+use dvc\Request;
 
 class user {
 	public $name = '';
@@ -50,11 +51,26 @@ class user {
 		$dao = new \dao\bwui;
 		$dao->getByUID( $uc);
 
-		setcookie( '_bwui', $uc,
-			$expires = time()+(60 * 60 * 24 * \config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS),
-			$path = '/; samesite=strict',
-			$domain = '',
-			$secure = true );
+		if ( (float)phpversion() < 7.3) {
+			setcookie( '_bwui', $uc,
+				$expires = time()+(60 * 60 * 24 * \config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS),
+				$path = '/',
+				$domain = '',
+				$secure = true );
+
+		}
+		else {
+			setcookie( '_bwui', $uc, [
+				'expires' => time()+(60 * 60 * 24 * \config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS),
+				'path' => '/',
+				'domain' => '',
+				'secure' => !Request::get()->ServerIsLocal(),
+				'httponly' => false,
+				'samesite' => 'strict'
+
+			]);
+
+		}
 
 		//~ $u = sprintf( '%s:%s', userAgent::os(), $uc);
 		return ( $uc);
