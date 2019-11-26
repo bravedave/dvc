@@ -54,7 +54,7 @@ class user {
 		if ( (float)phpversion() < 7.3) {
 			setcookie( '_bwui', $uc,
 				$expires = time()+(60 * 60 * 24 * \config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS),
-				$path = '/',
+				$path = '/; samesite=strict',
 				$domain = '',
 				$secure = true );
 
