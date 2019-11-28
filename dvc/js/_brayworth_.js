@@ -13,6 +13,7 @@ if ( !window._brayworth_ )
 
 $.extend( _brayworth_, {
 		_brayworth_ : true,
+		currentUser : false,
 		logon_retrieve_password : false,
 		templates : {},
 		bootstrap_version : function() {
