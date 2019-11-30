@@ -519,7 +519,7 @@ abstract class sys {
 	}
 
 	static public function serveFullcalendar( $type = 'css') {
-		$root = realpath( __DIR__ . '/fullcalendar-4/');
+		$root = realpath( __DIR__ . '/public/fullcalendar-4/');
 		if ( $root) {
 			$path = realpath( sprintf( '%s/bootstrap/', $root));
 			if ( 'css' == $type) {
