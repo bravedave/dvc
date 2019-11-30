@@ -37,7 +37,7 @@ class _page {
 	static $docType = false;
 
 	static $momentJS = false;	// load momentJS sources
-	static $FullCalendar = false;	// load fullCalendar sources
+	static $FullCalendar = false;	// load fullCalendar sources, set to 4 for version 4
 	static $footerTemplate = '';
 
 	function __construct( $title = '' ) {
@@ -49,16 +49,16 @@ class _page {
 		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
 
 		if ( \userAgent::isLegacyIE()) {
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-1.11.3.min.js'));
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'js/jquery-1.11.3.min.js'));
 
 		}
 		elseif ( $this->jQuery2) {
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-2.2.4.min.js'));
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'js/jquery-2.2.4.min.js'));
 
 		}
 		else {
-			// $this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'js/jquery-3.3.1.min.js'));
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'assets/jquery'));
+			// $this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'js/jquery-3.3.1.min.js'));
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/jquery'));
 
 		}
 
@@ -66,25 +66,25 @@ class _page {
 		 * momentJS is required for fullCalendar
 		 * otherwise optional
 		 */
-		if ( self::$momentJS || self::$FullCalendar ) {
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring('js/moment.min.js'));
+		if ( self::$momentJS || ( self::$FullCalendar &&  4 != (int)self::$FullCalendar)) {
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url('js/moment.min.js'));
 
 		}
 
-		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'assets/brayworth/js'));
-		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring( 'assets/brayworth/dopo'));
+		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/brayworth/js'));
+		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/brayworth/dopo'));
 
 		if ( '5' == \config::$FONTAWESOME) {
-				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'fontawesome5/css/fontawesome-all.css'));
+				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'fontawesome5/css/fontawesome-all.css'));
 
 		}
 		else {
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'css/font-awesome.min.css'));
+			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'css/font-awesome.min.css'));
 
 		}
 
 		if ( $this->dvc == '4') {
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( 'assets/brayworth/css'));
+			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'assets/brayworth/css'));
 
 		}
 		elseif ( $this->dvc) {
@@ -95,16 +95,20 @@ class _page {
 			else {
 				$this->css[] = '<!-- no minified library :: normally we would bundle the css -->';
 				foreach ( \cssmin::$dvcminFiles as $src)
-					$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( $src));
+					$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( $src));
 
 			}
 
 		}
+		if ( 4 == (int)self::$FullCalendar) {
+			$this->css[] = sprintf('<link type="text/css" rel="stylesheet" href="%s" />', \strings::url('assets/fullcalendar/css'));
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url('assets/fullcalendar/js'));
 
-		if ( self::$FullCalendar ) {
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" href="%s" />', \url::tostring('fullcalendar/fullcalendar.min.css'));
-			$this->css[] = sprintf('<link type="text/css" rel="stylesheet" href="%s" media="print" />', \url::tostring('fullcalendar/fullcalendar.print.css'));
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \url::tostring('fullcalendar/fullcalendar.min.js'));
+		}
+		elseif ( self::$FullCalendar ) {
+			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" href="%s" />', \strings::url('fullcalendar/fullcalendar.min.css'));
+			$this->css[] = sprintf('<link type="text/css" rel="stylesheet" href="%s" media="print" />', \strings::url('fullcalendar/fullcalendar.print.css'));
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url('fullcalendar/fullcalendar.min.js'));
 
 		}
 
