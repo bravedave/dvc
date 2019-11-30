@@ -521,15 +521,26 @@ abstract class sys {
 	static public function serveFullcalendar( $type = 'css') {
 		$root = realpath( __DIR__ . '/public/fullcalendar-4/');
 		if ( $root) {
-			$path = realpath( sprintf( '%s/bootstrap/', $root));
 			if ( 'css' == $type) {
-				$lib = sprintf( '%s/main.min.css',$path);
+				$lib = sprintf( '%s/bootstrap/main.min.css', $root);
 				self::serve( $lib);
 
 			}
 			elseif ( 'js' == $type) {
-				$lib = sprintf( '%s/main.min.js',$path);
-				self::serve( $lib);
+				$path = realpath( sprintf( '%s/', $root));
+				$files = [
+					$root . '/core/main.js',
+					$root . '/bootstrap/main.js',
+
+				];
+
+				jslib::viewjs([
+					'debug' => false,
+					'libName' => 'fullcalendar4',
+					'jsFiles' => $files,
+					'libFile' => \config::tempdir()  . '_fullcalendar4_tmp.js'
+
+				]);
 
 			}
 
