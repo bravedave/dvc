@@ -522,8 +522,19 @@ abstract class sys {
 		$root = realpath( __DIR__ . '/public/fullcalendar-4/');
 		if ( $root) {
 			if ( 'css' == $type) {
-				$lib = sprintf( '%s/bootstrap/main.min.css', $root);
-				self::serve( $lib);
+				$files = [
+					$root . '/core/main.css',
+					$root . '/bootstrap/main.css',
+
+				];
+
+				cssmin::viewcss([
+					'debug' => false,
+					'libName' => 'fullcalendar4',
+					'cssFiles' => $files,
+					'libFile' => \config::tempdir()  . '_fullcalendar4_tmp.css'
+
+				]);
 
 			}
 			elseif ( 'js' == $type) {
