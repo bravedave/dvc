@@ -21,12 +21,6 @@ class assets extends Controller {
 
 	}
 
-	public function jquery() {
-		//~ \sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.3.1.min.js'));
-		\sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.4.1.min.js'));
-
-	}
-
 	public function brayworth( $type = 'css', $p2 = '') {
 		if ( 'css' == $type) {
 			$files = [];
@@ -113,6 +107,17 @@ class assets extends Controller {
 			]);
 
 		}
+
+	}
+
+	public function fullcalendar( $type = 'css') {
+		sys::serveFullcalendar( $type);
+
+	}
+
+	public function jquery() {
+		//~ \sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.3.1.min.js'));
+		\sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.4.1.min.js'));
 
 	}
 

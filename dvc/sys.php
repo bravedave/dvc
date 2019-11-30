@@ -518,4 +518,27 @@ abstract class sys {
 
 	}
 
+	static public function serveFullcalendar( $type = 'css') {
+		$root = realpath( __DIR__ . '/fullcalendar-4/');
+		if ( $root) {
+			$path = realpath( sprintf( '%s/bootstrap/', $root));
+			if ( 'css' == $type) {
+				$lib = sprintf( '%s/main.min.css',$path);
+				self::serve( $lib);
+
+			}
+			elseif ( 'js' == $type) {
+				$lib = sprintf( '%s/main.min.js',$path);
+				self::serve( $lib);
+
+			}
+
+		}
+		else {
+			throw new \Exception( 'Cannot locate fullcalendar-4 bootstrap');
+
+		}
+
+	}
+
 }
