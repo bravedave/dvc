@@ -23,7 +23,11 @@
 /*jshint esversion: 6 */
 (function( _b_ ) {
 	_b_.fileDragDropContainer = function( params) {
-		let options = $.extend({fileControl : false}, params);
+		let options = $.extend({
+			fileControl : false,
+			multiple : true
+
+		}, params);
 
 		//~ console.log( '_b_.fileDragDropContainer');
 		let c = $('<div />');
@@ -42,10 +46,17 @@
 			$('<div class="input-group-prepend" />').append( lbl).appendTo( ig);
 
 			let div = $('<div class="custom-file" />').appendTo( ig);
-			$('<input type="file" class="custom-file-input" multiple />')
-				.attr( 'id', rand + 'File01')
-				.attr('aria-describedby', rand + 'FileAddon01')
-				.appendTo( div);
+			let fileControl = $('<input type="file" class="custom-file-input" />');
+
+			if ( !!options.multiple) {
+				fileControl.prop('multiple', true);
+
+			}
+
+			fileControl
+			.attr( 'id', rand + 'File01')
+			.attr('aria-describedby', rand + 'FileAddon01')
+			.appendTo( div);
 
 			$('<label class="custom-file-label">Choose file</label>')
 				.attr( 'for', rand + 'File01')
