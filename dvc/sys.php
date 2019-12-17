@@ -384,10 +384,14 @@ abstract class sys {
 
 				}
 				elseif ( $ext == 'gif' ) {
-					if ( strstr( $path, url::$URL . 'images/'))
-					Response::gif_headers( filemtime( $path), \config::$CORE_IMG_EXPIRE_TIME);
-					else
-					Response::gif_headers( filemtime( $path));
+					if ( strstr( $path, url::$URL . 'images/')) {
+						Response::gif_headers( filemtime( $path), \config::$CORE_IMG_EXPIRE_TIME);
+
+					}
+					else {
+						Response::gif_headers( filemtime( $path));
+
+					}
 					readfile( $path);
 					if ( self::$debug) \sys::logger( "served: $path");
 
