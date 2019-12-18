@@ -25,7 +25,8 @@
 	_b_.fileDragDropContainer = function( params) {
 		let options = $.extend({
 			fileControl : false,
-			multiple : true
+			multiple : true,
+			title : 'Choose file'
 
 		}, params);
 
@@ -58,7 +59,8 @@
 			.attr('aria-describedby', rand + 'FileAddon01')
 			.appendTo( div);
 
-			$('<label class="custom-file-label">Choose file</label>')
+			$('<label class="custom-file-label" />')
+				.html( options.title)
 				.attr( 'for', rand + 'File01')
 				.appendTo( div);
 
