@@ -20,15 +20,24 @@ class HttpGet {
 	 * Constructs an HttpGet object and initializes CURL
 	 *
 	 * @param url the url to be accessed
+	 * @param _options the overrides the default setup for curl
 	 */
-	public function __construct($url) {
-		$this->url = $url;
+	public function __construct( $_url, $_options = [] ) {
+		$this->url = $_url;
 		$this->ch = curl_init();
 		$this->params = [];
 
-		curl_setopt( $this->ch, CURLOPT_FOLLOWLOCATION, false );
-		curl_setopt( $this->ch, CURLOPT_HEADER, false );
-		curl_setopt( $this->ch, CURLOPT_RETURNTRANSFER, true );
+		$options = array_merge([
+			'CURLOPT_FOLLOWLOCATION' => 0,
+			'CURLOPT_HEADER' => 0,
+			'CURLOPT_RETURNTRANSFER' => 1
+
+		], $_options);
+
+		foreach( $options as $k => $o) {
+			curl_setopt( $this->ch, constant( $k), $o);
+
+		}
 
 	}
 
@@ -68,8 +77,8 @@ class HttpGet {
 	}
 
 	public function send() {	/* Make the GET request to the server */
-		curl_setopt($this->ch, CURLOPT_URL, $this->url_builder());
-		$this->httpResponse = curl_exec( $this->ch );
+		curl_setopt( $this->ch, CURLOPT_URL, $this->url_builder());
+		$this->httpResponse = curl_exec( $this->ch);
 		return ( $this->httpResponse);
 
 	}
