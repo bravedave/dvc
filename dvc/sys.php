@@ -9,7 +9,7 @@
 	*/
 namespace dvc;
 
-abstract class sys {
+abstract class sys extends core\sys {
 	protected static $_loglevel = 1;
 	protected static $_loaderCount = 0;
 	protected static $_loaderCounter = null;
@@ -83,11 +83,11 @@ abstract class sys {
 
 	}
 
-	static function logger( $v, $level = 0 ) {
-		if ( (int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel )
-			error_log( $v );
+	// static function logger( $v, $level = 0 ) {
+	// 	if ( (int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel )
+	// 		error_log( $v );
 
-	}
+	// }
 
 	static function logloaderon( $b) {
 		self::$_logloader = (bool)$b;

@@ -16,7 +16,8 @@
 		"phpmailer/phpmailer": "~5.2",
 		"tijsverkoyen/css-to-inline-styles": "^2.2",
 		"twbs/bootstrap": "^4.1",
-		"erusev/parsedown": "^1.7"
+		"erusev/parsedown": "^1.7",
+		"monolog/monolog": "^2.0"
 
 	}
 
