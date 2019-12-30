@@ -11,6 +11,7 @@
 
 namespace dvc\core;
 use dvc\Request;
+use sys;
 
 class user {
 	public $name = '';
@@ -32,7 +33,7 @@ class user {
 	}
 
 	public function sync( \dvc\oauth $oauth ) {
-		\sys::logger( '_user::sync => placeholder function - you probably want to write your own' );
+		sys::logger( '_user::sync => placeholder function - you probably want to write your own' );
 
 	}
 

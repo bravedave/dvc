@@ -13,6 +13,7 @@ namespace dvc\core;
 use dvc\errsys;
 use dvc\strings;
 use sys;
+use Monolog\Logger;
 
 abstract class currentUser {
 	// THE only instance of the class
@@ -21,7 +22,7 @@ abstract class currentUser {
 	static function user() {
 		if ( !isset( self::$instance )) {
 			self::$instance = new \user;
-			sys::logger( "currentUser::user init", Monolog\Logger::INFO);
+			sys::logger( "currentUser::user init", Logger::INFO);
 			errsys::currentUser( self::$instance->name);
 
 		}
