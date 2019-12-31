@@ -170,9 +170,8 @@ abstract class config {
 
 
 		}
-		printf( 'please create a writable data folder : %s', $path );
-		printf( '<br /><br />mkdir --mode=0777 %s', $path );
-		throw new \Exception( 'error/datapath not writable');
+
+		throw new Exceptions\DatapathNotWritable( $path);
 
 	}
 
