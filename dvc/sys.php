@@ -83,7 +83,8 @@ abstract class sys {
 
 	}
 
-	static function logger( $v, $level = \Monolog\Logger::WARNING ) {
+	static function logger( $v, $level = 0) {
+	// static function logger( $v, $level = \Monolog\Logger::WARNING ) {
 		if ( (int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel )
 			error_log( $v );
 		// core\loghandler::logger( $v, $level);
