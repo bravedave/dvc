@@ -73,7 +73,7 @@ abstract class url {
 					if ( application::use_full_url) {
 						$ScriptName = preg_replace( '@/application$@', '', $ScriptName );
 						define( 'URL', '//' . $ServerName . $ScriptName . '/' );
-						sys::logger( sprintf( 'defining URL as %s - %s', $ServerName, $ScriptName ), 3 );
+						// \sys::logger( sprintf( 'defining URL as %s - %s', $ServerName, $ScriptName ), 3 );
 
 					}
 					else {
