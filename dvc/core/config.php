@@ -11,6 +11,8 @@
 
 namespace dvc\core;
 
+use dvc\Exceptions\DatapathNotWritable;
+
 abstract class config {
 	/**
 	 * These come from the Google Developers Portal
@@ -171,7 +173,7 @@ abstract class config {
 
 		}
 
-		throw new Exceptions\DatapathNotWritable( $path);
+		throw new DatapathNotWritable( $path);
 
 	}
 
