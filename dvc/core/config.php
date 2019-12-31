@@ -189,7 +189,7 @@ abstract class config {
 	static public function logPath() {
 		if ( \is_null( self::$_logpath)) {
 			self::$_logpath = implode( DIRECTORY_SEPARATOR, [
-				\config::dataPath(),
+				rtrim( \config::dataPath(), '/\ '),
 				'logs',
 
 			]);
