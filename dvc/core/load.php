@@ -26,7 +26,7 @@ abstract class load {
 
     }
 
-    static public function logger() {
+    static public function logger( $v) {
 		self::$_loaderCount++;
 
 		if ( self::$_loaderCounter)

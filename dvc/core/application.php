@@ -95,12 +95,13 @@ class application {
 		self::$instance = $this;
 
 		$this->rootPath = realpath( $rootPath);
-		if ( self::$debug) \sys::logger( sprintf( 'rootpath :: %s', $this->rootPath ));
 		\sys::set_error_handler();
 
 		$this->_timer = new \timer;
 
 		\config::initialize();	// this initializes config
+
+		if ( self::$debug) \sys::logger( sprintf( 'rootpath :: %s', $this->rootPath ));
 
 		$tz = \config::$TIMEZONE;
 		$mailserver = \config::$MAILSERVER;
