@@ -154,43 +154,55 @@ abstract class config {
 
 	}
 
-	static public function dataPath() {
-		$root = sprintf('%s', \application::app()->getRootPath());
-		$path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
+	static protected $_dataPath = null;
 
-		if ( is_writable( $root ) || is_writable( $path)) {
-			if ( !is_dir( $path)) {
-				mkdir( $path, 0777);
-				chown( $path, 0777);
+	static public function dataPath() {
+		if ( \is_null( self::$_dataPath)) {
+			$root = sprintf('%s', \application::app()->getRootPath());
+			self::$_dataPath = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
+
+			if ( is_writable( $root ) || is_writable( self::$_dataPath)) {
+				if ( !is_dir( self::$_dataPath)) {
+					mkdir( self::$_dataPath, 0777);
+					chmod( self::$_dataPath, 0777);
+
+				}
+
+				if ( !is_dir( self::$_dataPath))
+					throw new \Exception( 'error/nodatapath');
+
+				return ( self::$_dataPath);
+
 
 			}
 
-			if ( !is_dir( $path))
-				throw new \Exception( 'error/nodatapath');
-
-			return ( $path);
-
+			throw new DatapathNotWritable( self::$_dataPath);
 
 		}
 
-		throw new DatapathNotWritable( $path);
+		return self::$_dataPath;
 
 	}
 
+	static protected $_logpath = null;
+
 	static public function logPath() {
-		$path = implode( DIRECTORY_SEPARATOR, [
-			self::dataPath(),
-			'logs',
+		if ( \is_null( self::$_logpath)) {
+			self::$_logpath = implode( DIRECTORY_SEPARATOR, [
+				\config::dataPath(),
+				'logs',
 
-		]);
+			]);
 
-		if ( !is_dir( $path)) {
-			mkdir( $path, 0777);
-			chown( $path, 0777);
+			if ( !is_dir( self::$_logpath)) {
+				mkdir( self::$_logpath, 0777);
+				chmod( self::$_logpath, 0777);
+
+			}
 
 		}
 
-		return ( $path);
+		return ( self::$_logpath);
 
 	}
 
