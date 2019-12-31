@@ -15,7 +15,8 @@ class DatapathNotWritable extends Exception {
 
 	public function __construct($message = null, $code = 0, \Exception $previous = null) {
 
-		$this->_text .= implode( '<br />', [
+		$this->_text = implode( '<br />', [
+		    $this->_text,
             sprintf( 'please create a writable data folder : %s', $message),
             sprintf( 'mkdir --mode=0777 %s', $message ),
 
