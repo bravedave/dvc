@@ -95,7 +95,8 @@ class application {
 		self::$instance = $this;
 
 		$this->rootPath = realpath( $rootPath);
-		\sys::set_error_handler();
+		errsys::initiate( false );
+		// \sys::set_error_handler();
 
 		$this->_timer = new \timer;
 
