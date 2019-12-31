@@ -12,6 +12,7 @@
 namespace dvc\core;
 
 use dao;
+use dvc\errsys;
 use dvc\Exceptions\CannotLocateController;
 use dvc\Exceptions\SecurityException;
 use dvc\Request;
