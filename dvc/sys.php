@@ -83,10 +83,10 @@ abstract class sys extends core\sys {
 
 	}
 
-	static function logger( $v, $level = 0 ) {
+	static function logger( $v, $level = \Monolog\Logger::WARNING ) {
 	// 	if ( (int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel )
 	// 		error_log( $v );
-		core\loghandler::logger( $v, $level = 0 );
+		core\loghandler::logger( $v, $level);
 
 	}
 
@@ -112,31 +112,12 @@ abstract class sys extends core\sys {
 	}
 
 	static function logSQL( $v, $level = 0 ) {
-		if ( (int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel ) {
-			self::logger( preg_replace( [ "@\r\n@","@\n@","@\t@","@\s\s*@" ], ' ', $v ), $level);
-
-		}
+		self::logger( preg_replace( [ "@\r\n@","@\n@","@\t@","@\s\s*@" ], ' ', $v ));
 
 	}
 
 	static function set_error_handler() {
 		errsys::initiate( false );
-		//~ self::logger( 'Set Error Handler' );
-		return;
-
-		/**
-		 * UnComment the return above to test this
-		 **/
-
-		try {
-			trigger_error("First error", E_USER_NOTICE);
-		}
-		catch ( \Exception $e ) {
-			print("Caught the error: ".$e->getMessage()."<br />\r\n" );
-		}
-
-		trigger_error("This event WILL fire", E_USER_NOTICE);
-		trigger_error("This event will NOT fire", E_USER_NOTICE);
 
 	}
 
