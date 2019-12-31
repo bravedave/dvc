@@ -200,7 +200,7 @@ abstract class config {
 
 			}
 
-			error_log( self::$_logpath);
+			error_log( self::$_logpath );
 
 		}
 
