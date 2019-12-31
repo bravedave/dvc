@@ -89,17 +89,17 @@ abstract class sys {
 	}
 
 	static function logloaderon( $b) {
-		error_log( sprintf( 'deprecated : %s', __METHOD__));
+		error_log( sprintf( 'deprecated : %s', self::traceCaller()));
 
 	}
 
 	static function loaderCounter( hitter $hitter) {
-		error_log( sprintf( 'deprecated : %s', __METHOD__));
+		error_log( sprintf( 'deprecated : %s', self::traceCaller()));
 
 	}
 
 	static function logloader( $v) {
-		error_log( sprintf( 'deprecated : %s', __METHOD__));
+		error_log( sprintf( 'deprecated : %s', self::traceCaller()));
 
 	}
 
