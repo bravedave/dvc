@@ -9,7 +9,7 @@
 	*/
 namespace dvc;
 
-abstract class sys extends core\sys {
+abstract class sys {
 	protected static $_loglevel = 1;
 	protected static $_loaderCount = 0;
 	protected static $_loaderCounter = null;
