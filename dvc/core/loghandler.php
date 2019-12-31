@@ -28,13 +28,17 @@ class loghandler {
             ]);
 
             // create a log channel
-            self::$_loghandler = new Logger('name');
+            self::$_loghandler = new Logger('dvc');
             self::$_loghandler->pushHandler( new StreamHandler( $logfile, Logger::WARNING));
 
         }
 
 
-        if ( Logger::WARNING == $level) {
+        if ( Logger::INFO == $level) {
+            self::$_loghandler->info( $v);
+
+        }
+        elseif ( Logger::WARNING == $level) {
             self::$_loghandler->warning( $v);
 
         }
