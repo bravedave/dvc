@@ -99,7 +99,7 @@ abstract class sys {
 	}
 
 	static function logloader( $v) {
-		error_log( sprintf( 'deprecated : %s', self::traceCaller()));
+		error_log( sprintf( 'deprecated : %s : %s', $v, self::traceCaller()));
 
 	}
 
