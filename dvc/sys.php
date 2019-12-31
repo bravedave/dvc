@@ -11,9 +11,6 @@ namespace dvc;
 
 abstract class sys {
 	protected static $_loglevel = 1;
-	protected static $_loaderCount = 0;
-	protected static $_loaderCounter = null;
-	protected static $_logloader = 0;
 	protected static $_dbi = null;
 
 	static $debug = false;
@@ -92,23 +89,17 @@ abstract class sys {
 	}
 
 	static function logloaderon( $b) {
-		self::$_logloader = (bool)$b;
+		error_log( sprintf( 'deprecated : %s', __METHOD__));
 
 	}
 
 	static function loaderCounter( hitter $hitter) {
-		self::$_loaderCounter = $hitter;
+		error_log( sprintf( 'deprecated : %s', __METHOD__));
 
 	}
 
 	static function logloader( $v) {
-		self::$_loaderCount++;
-
-		if ( self::$_loaderCounter)
-			self::$_loaderCounter->hits( self::$_loaderCount);
-
-		if ( (bool)self::$_logloader)
-			error_log( sprintf( '%d. %s', self::$_loaderCount, $v));
+		error_log( sprintf( 'deprecated : %s', __METHOD__));
 
 	}
 

@@ -45,7 +45,6 @@ class loghandler {
         else {
             self::$_loghandler->error( $v);
 
-
         }
 
     }
