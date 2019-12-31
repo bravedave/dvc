@@ -32,48 +32,16 @@ abstract class url {
 	}
 
 	static function init() {
-		if ( !isset( self::$URL )) {
+		if ( isset( self::$URL )) return;
 
-			if ( !( defined( 'URL' ))) {
-				if ( isset( $_SERVER['SERVER_SOFTWARE'] )) {
-					if ( preg_match( '@^PHP@', $_SERVER['SERVER_SOFTWARE'] )) {
-						if ( application::use_full_url) {
-							if ( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] != 80)
-								define( 'URL', sprintf( '//localhost:%s/', $_SERVER['SERVER_PORT']));
-							else
-								define( 'URL', '//localhost/' );
-
-						}
-						else {
-							define( 'URL', '/' );
-
-						}
-
-					}
-
-				}
-
-			}
-
-			if ( !( defined( 'URL' ) && defined( 'URL_APPLICATION' ) ) ) {
-				$ServerName = '';
-				if ( isset( $_SERVER['SERVER_NAME'] ))
-					$ServerName = strtolower( $_SERVER['SERVER_NAME'] );
-				$ServerName = preg_replace( '@\/$@', '', $ServerName );
-
-				$ScriptName = '';
-				if ( isset( $_SERVER['SCRIPT_NAME'] ))
-					$ScriptName = dirname( $_SERVER['SCRIPT_NAME'] );
-				$ScriptName = preg_replace( '@(\/|\\\)$@', '', $ScriptName );
-
-				if ( !( defined( 'URL_APPLICATION' )))
-					define( 'URL_APPLICATION', '//' . $ServerName . $ScriptName . '/' );
-
-				if ( !( defined( 'URL' ))) {
+		if ( !( defined( 'URL' ))) {
+			if ( isset( $_SERVER['SERVER_SOFTWARE'] )) {
+				if ( preg_match( '@^PHP@', $_SERVER['SERVER_SOFTWARE'] )) {
 					if ( application::use_full_url) {
-						$ScriptName = preg_replace( '@/application$@', '', $ScriptName );
-						define( 'URL', '//' . $ServerName . $ScriptName . '/' );
-						// \sys::logger( sprintf( 'defining URL as %s - %s', $ServerName, $ScriptName ), 3 );
+						if ( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] != 80)
+							define( 'URL', sprintf( '//localhost:%s/', $_SERVER['SERVER_PORT']));
+						else
+							define( 'URL', '//localhost/' );
 
 					}
 					else {
@@ -85,17 +53,42 @@ abstract class url {
 
 			}
 
-			self::$URL = URL;
-			self::$HOME = URL;
+		}
 
-			$protocol = ( ! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ||
-				( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] == 443 )) ? "https:" : "http:";
+		if ( !( defined( 'URL' ) && defined( 'URL_APPLICATION' ) ) ) {
+			$server = '';
+			if ( isset( $_SERVER['SERVER_NAME'] )) $server = strtolower( $_SERVER['SERVER_NAME'] );
+			$server = preg_replace( '@\/$@', '', $server );
 
-			self::$PROTOCOL = $protocol;
+			$script = '';
+			if ( isset( $_SERVER['SCRIPT_NAME'] )) $script = dirname( $_SERVER['SCRIPT_NAME'] );
+			$script = preg_replace( '@(\/|\\\)$@', '', $script );
 
-			//~ sys::logger( 'url::init :: ' . URL );
+			if ( !( defined( 'URL_APPLICATION' ))) define( 'URL_APPLICATION', '//' . $server . $script . '/' );
+
+			if ( !( defined( 'URL' ))) {
+				if ( application::use_full_url) {
+					$script = preg_replace( '@/application$@', '', $script );
+					define( 'URL', '//' . $server . $script . '/' );
+					// \sys::logger( sprintf( 'defining URL as %s - %s', $server, $script ), 3 );
+
+				}
+				else {
+					define( 'URL', '/' );
+
+				}
+
+			}
 
 		}
+
+		self::$URL = URL;
+		self::$HOME = URL;
+
+		$protocol = ( ! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ||
+			( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] == 443 )) ? "https:" : "http:";
+
+		self::$PROTOCOL = $protocol;
 
 	}
 
