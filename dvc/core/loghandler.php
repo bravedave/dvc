@@ -14,7 +14,7 @@ namespace dvc\core;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-class sys {
+class loghandler {
     protected static $_loghandler = null;
 
     static function logger( $v, $level = Logger::WARNING ) {

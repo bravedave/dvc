@@ -83,11 +83,12 @@ abstract class sys extends core\sys {
 
 	}
 
-	// static function logger( $v, $level = 0 ) {
+	static function logger( $v, $level = 0 ) {
 	// 	if ( (int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel )
 	// 		error_log( $v );
+		core\loghandler::logger( $v, $level = 0 );
 
-	// }
+	}
 
 	static function logloaderon( $b) {
 		self::$_logloader = (bool)$b;
