@@ -175,6 +175,23 @@ abstract class config {
 
 	}
 
+	static public function logPath() {
+		$path = implode( DIRECTORY_SEPARATOR, [
+			self::dataPath(),
+			'logs',
+
+		]);
+
+		if ( !is_dir( $path)) {
+			mkdir( $path, 0777);
+			chown( $path, 0777);
+
+		}
+
+		return ( $path);
+
+	}
+
 	public function imagePath() {
 		return sprintf( '%s/app/public/images', \application::app()->getRootPath());
 

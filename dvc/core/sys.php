@@ -15,39 +15,31 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
 class sys {
+    protected static $_loghandler = null;
+
     static function logger( $v, $level = Logger::WARNING ) {
+        if ( \is_null( self::$_loghandler)) {
+            $logfile = implode([
+                \config::logPath(),
+                DIRECTORY_SEPARATOR,
+                date( 'Y-m-d'),
+                '.log',
 
-        $logdir = implode([
-            \config::dataPath(),
-            DIRECTORY_SEPARATOR,
-            'logs'
+            ]);
 
-        ]);
-
-        if ( !is_dir( $logdir)) {
-            mkdir( $logdir, 0777);
-            chown( $logdir, 0777);
+            // create a log channel
+            self::$_loghandler = new Logger('name');
+            self::$_loghandler->pushHandler( new StreamHandler( $logfile, Logger::WARNING));
 
         }
 
-        $logfile = implode([
-            $logdir,
-            DIRECTORY_SEPARATOR,
-            date( 'Y-m-d'),
-            '.log',
-
-        ]);
-
-        // create a log channel
-        $log = new Logger('name');
-        $log->pushHandler( new StreamHandler( $logfile, Logger::WARNING));
 
         if ( Logger::WARNING == $level) {
-            $log->warning( $v);
+            self::$_loghandler->warning( $v);
 
         }
         else {
-            $log->error( $v);
+            self::$_loghandler->error( $v);
 
 
         }
