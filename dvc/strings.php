@@ -304,6 +304,19 @@ abstract class strings {
 
 	}
 
+	protected static $_pixel = false;
+	function pixel() {
+		if ( !self::$_pixel) {
+			$image = __DIR__ . 'public/images/pixel.png';
+			$imageData = base64_encode( file_get_contents($image));
+			self::$_pixel = 'data:'.mime_content_type($image).';base64,'.$imageData;
+
+		}
+
+		return self::$_pixel;
+
+	}
+
 	static function rand( $prefix = 'uid_') {
 		return ( $prefix . bin2hex( random_bytes( 11)));
 
