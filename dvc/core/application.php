@@ -448,7 +448,7 @@ class application {
 
 		}
 
-		return self;
+		return $this;
 
 	}
 
