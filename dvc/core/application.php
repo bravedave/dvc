@@ -37,6 +37,8 @@ class application {
 
 	protected $rootPath = null;
 
+	protected $paths = [];
+
 	protected static $_request = null;
 
 	protected $_timer = null;
@@ -409,6 +411,8 @@ class application {
 		if ( self::$debug) sys::$debug = true;
 		\sys::serve( $path);
 
+		return self;
+
 	}
 
 	protected function splitUrl() {
@@ -443,6 +447,18 @@ class application {
 			if ( self::$debug) \sys::logger( 'Parameter 3: ' . $this->url_parameter_3);
 
 		}
+
+		return self;
+
+	}
+
+	public function addPath( $path) {
+		$this->paths[] = $path;
+
+	}
+
+	public function getPaths( $path) {
+		return $this->paths;
 
 	}
 
@@ -487,6 +503,7 @@ class application {
 
 	public function return_url() {
 		return ( $this->url_served);
+
 	}
 
 }
