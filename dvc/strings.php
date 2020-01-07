@@ -307,7 +307,13 @@ abstract class strings {
 	protected static $_pixel = false;
 	function pixel() {
 		if ( !self::$_pixel) {
-			$image = __DIR__ . 'public/images/pixel.png';
+			$image = implode( DIRECTORY_SEPARATOR, [
+				__DIR__,
+				'public',
+				'images',
+				'pixel.png'
+
+			]);
 			$imageData = base64_encode( file_get_contents($image));
 			self::$_pixel = 'data:'.mime_content_type($image).';base64,'.$imageData;
 
