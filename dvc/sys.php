@@ -239,13 +239,7 @@ abstract class sys {
 		if (self::isWindows()) {
 			$mail->isSMTP(); // use smtp with server set to mail
 
-			/*
-			* This is weighted to my own enviroment
-			*
-			* It probably should be more dynamic
-			*
-			*/
-			$mail->Host = 'mail';
+			$mail->Host = 'mail.internal';
 			$mail->Port = 25;
 			$mail->SMTPSecure = 'tls';
 			$mail->SMTPOptions = [
@@ -256,7 +250,40 @@ abstract class sys {
 
 				]
 
-			];
+            ];
+
+            $mailconfig = sprintf( '%s/mail-config.json', trim( \config::dataPath(), '/ '));
+            if ( file_exists( $mailconfig)) {
+                $_mc = json_decode( file_get_contents( $mailconfig));
+
+                if ( isset( $_mc->Host)) $mail->Host = $_mc->Host;
+
+                if ( isset( $_mc->Port)) $mail->Port = $_mc->Port;
+
+                if ( isset( $_mc->SMTPSecure)) $mail->SMTPSecure = $_mc->SMTPSecure;
+
+                if ( isset( $_mc->SMTPOptions)) {
+                    if ( isset( $_mc->SMTPOptions->ssl)) {
+                        $mail->SMTPOptions = [
+                            'ssl' => (array)$_mc->SMTPOptions->ssl
+
+                        ];
+
+                    }
+
+                }
+
+            }
+            else {
+                file_put_contents( $mailconfig, json_encode((object)[
+                    'Host' => $mail->Host,
+                    'Port' => $mail->Port,
+                    'SMTPSecure' => $mail->SMTPSecure,
+                    'SMTPOptions' => $mail->SMTPOptions
+
+				], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+            }
 
 		}
 
