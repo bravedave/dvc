@@ -411,7 +411,7 @@ class application {
 		if ( self::$debug) sys::$debug = true;
 		\sys::serve( $path);
 
-		return self;
+		return $this;
 
 	}
 
