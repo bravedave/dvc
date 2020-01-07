@@ -457,7 +457,7 @@ class application {
 
 	}
 
-	public function getPaths( $path) {
+	public function getPaths() {
 		return $this->paths;
 
 	}
