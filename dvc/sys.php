@@ -239,7 +239,7 @@ abstract class sys {
 		if (self::isWindows()) {
 			$mail->isSMTP(); // use smtp with server set to mail
 
-			$mail->Host = 'mail.internal';
+			$mail->Host = 'mail';
 			$mail->Port = 25;
 			$mail->SMTPSecure = 'tls';
 			$mail->SMTPOptions = [
