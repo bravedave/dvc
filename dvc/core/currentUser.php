@@ -21,7 +21,7 @@ abstract class currentUser {
 	static function user() {
 		if ( !isset( self::$instance )) {
 			self::$instance = new \user;
-			sys::logger( "currentUser::user init", Logger::INFO);
+			sys::logger( "currentUser::user init", 3);
 			errsys::currentUser( self::$instance->name);
 
 		}
