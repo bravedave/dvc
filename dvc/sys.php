@@ -85,8 +85,6 @@ abstract class sys {
 			error_log( $v );
 
 		}
-	// static function logger( $v, $level = \Monolog\Logger::WARNING ) {
-	// 	core\loghandler::logger( $v, $level);
 
 	}
 

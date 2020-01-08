@@ -13,7 +13,6 @@ namespace dvc\core;
 use dvc\errsys;
 use dvc\strings;
 use sys;
-use Monolog\Logger;
 
 abstract class currentUser {
 	// THE only instance of the class
