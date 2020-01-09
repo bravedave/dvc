@@ -24,7 +24,6 @@ class page extends _page {
 	protected $topOfPage = [];
 
 	function __construct( $title = '' ) {
-		// \sys::logger( sprintf( 'Bootstrap_Version : page : %s', self::$Bootstrap_Version));
 
 		parent::__construct( $title);
 
