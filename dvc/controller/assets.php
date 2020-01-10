@@ -74,6 +74,7 @@ class assets extends Controller {
 			$minifier->add( $out);
 			$minified =  $minifier->minify();
 
+			Response::javascript_headers();
 			print $minified;
 
 		}
