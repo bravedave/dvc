@@ -65,7 +65,7 @@ class user {
 				'expires' => time()+(60 * 60 * 24 * \config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS),
 				'path' => '/',
 				'domain' => '',
-				'secure' => !Request::get()->ServerIsLocal(),
+				'secure' => !(Request::get()->ServerIsLocal() || Request::get()->ClientIsLocal()),
 				'httponly' => false,
 				'samesite' => 'strict'
 

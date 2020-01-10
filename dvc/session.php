@@ -23,7 +23,7 @@ class session {
 		if ( !is_null( $this->domain))
 		$CookieParams['domain'] = $this->domain;
 
-		$CookieParams['secure'] = !Request::get()->ServerIsLocal();
+		$CookieParams['secure'] = !(Request::get()->ServerIsLocal() || Request::get()->ClientIsLocal());
 
 		if ( (float)phpversion() < 7.3) {
 			$CookieParams['path'] = '/; samesite=lax';
