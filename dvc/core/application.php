@@ -374,6 +374,16 @@ class application {
 
 	}
 
+	protected function checkDB() {
+		/**
+		 * checkDB is called during __construct
+		 *
+		 * use this method to run database checks
+		 *
+		 */
+
+	}
+
 	protected function publicFile( $_url) {
 		if ( !$_url) return false;
 
@@ -461,16 +471,6 @@ class application {
 
 	public function getPaths() {
 		return $this->paths;
-
-	}
-
-	public function checkDB() {
-		/**
-		 * checkDB is called during __construct
-		 *
-		 * use this method to run database checks
-		 *
-		 */
 
 	}
 
