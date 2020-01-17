@@ -137,6 +137,8 @@ class application {
 
 		}
 
+		$this->checkDB();
+
 		if ( $this->minimum) {
 			if ( self::$debug) \sys::logger( 'exit: I am minimum');
 			return;	// job done
@@ -462,6 +464,16 @@ class application {
 
 	}
 
+	public function checkDB() {
+		/**
+		 * checkDB is called during __construct
+		 *
+		 * use this method to run database checks
+		 *
+		 */
+
+	}
+
 	public function controller() {
 		if ( is_string( $this->url_controller))
 			return ( $this->url_controller );
@@ -474,13 +486,12 @@ class application {
 	}
 
 	public function countVisit() {
-		/*
-		*	countVisit is called during __construct
-		*
-		* use this method to gather statistics
-		*
-		*/
-
+		/**
+		 * countVisit is called during __construct
+		 *
+		 * use this method to gather statistics
+		 *
+		 */
 
 	}
 
