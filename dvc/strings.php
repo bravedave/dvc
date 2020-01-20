@@ -39,6 +39,58 @@ abstract class strings {
 
 	}
 
+	static function asLocalPhone( $_tel = '' ) {
+		$debug = false;
+		//~ $debug = true;
+
+		$_tel = preg_replace( '@[^0-9\+,]@', '', $_tel);
+		if ( $_tel) {
+
+			try {
+				$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+				if ( substr( $_tel, 0, 1) == '+') {
+					$_mNo = $phoneUtil->parse( $_tel);
+					if ( $debug) \sys::logger( sprintf( 'phoneformats::AsLocalPhone:1: %s', $_mNo));
+
+				}
+				else {
+					$_mNo = $phoneUtil->parse( $_tel, \config::$PHONE_REGION);
+					if ( $debug) \sys::logger( sprintf( 'phoneformats::AsLocalPhone:2: %s', $_mNo));
+
+				}
+
+				if ( $phoneUtil->isValidNumber( $_mNo)) {
+					if ( $phoneUtil->getRegionCodeForNumber( $_mNo) == 'AU') {
+						return $phoneUtil->format($_mNo, \libphonenumber\PhoneNumberFormat::NATIONAL);
+
+					}
+					else {
+						return $phoneUtil->format($_mNo, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
+
+					}
+
+
+				}
+
+			}
+			catch ( Exception $e) {
+				\sys::logger( sprintf( 'AsLocalPhoneA :: %s : %s', $_tel, $e->getMessage()));
+
+			}
+
+		}
+
+		return ( $_tel);
+
+
+	}
+
+	static function asMobilePhone( $mobile = '' ) {
+		//~ \sys::logger( sprintf( 'deprecated :: %s > use AsLocalPhone', __METHOD__));
+		return self::AsLocalPhone( $mobile);
+
+	}
+
 	static function asShortDate( $date, $time = false) {
 		if ( (string)$date == '0000-00-00') {
 			return ( false);
@@ -282,6 +334,35 @@ abstract class strings {
 
 	static function isEmail( $email) {	// compatible case and naming with my javascript routine
 		return ( self::CheckEmailAddress($email));
+
+	}
+
+	static function isMobilePhone( string $_tel = '') : bool {
+		try {
+			$tel = preg_replace( '@[^0-9\+]@','', $_tel);
+			//~ \sys::logger( sprintf( 'IsMobilePhone :: %s', $tel));
+
+			if ( $tel) {
+				$phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+
+				$phoneNumberObject = ( '+' == substr( $tel, 0, 1) ? $phoneNumberUtil->parse($tel) : $phoneNumberUtil->parse($tel, 'AU'));
+
+				$numberType = $phoneNumberUtil->getNumberType( $phoneNumberObject);
+
+				if ( $numberType == \libphonenumber\PhoneNumberType::MOBILE) {
+					return ( true);
+
+				}
+
+			}
+
+		}
+		catch ( Exception $e) {
+			\sys::logger( sprintf( '%s : %s : %s', $_tel, $e->getMessage(), __METHOD__));
+
+		}
+
+		return ( false);
 
 	}
 
