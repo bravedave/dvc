@@ -122,4 +122,12 @@ class assets extends Controller {
 
 	}
 
+	public function tinymce() {
+		if ( jslib::tinymce( 'tinylib.js', 'tinymce', \config::$TINY_OPTIONS)) {
+			\sys::serve( \jslib::$tinylib_path);
+
+		}
+
+	}
+
 }

@@ -21,6 +21,7 @@ namespace dvc;
 abstract class jslib {
 	public static $debug = false;
 	public static $tinylib = false;
+	public static $tinylib_path = false;
 	public static $brayworthlib = false;
 	public static $brayworthlibFiles = [
 		'js/jquery.visible.js',
@@ -169,11 +170,11 @@ abstract class jslib {
 		if ( !application::app())
 			throw new Exceptions\ExternalUseViolation;
 
-		self::$tinylib = sprintf( '%sjs/%s/%s?v=', \url::$URL, $libdir, $lib);
-		$jslib = sprintf( '%s/app/public/js/%s/%s', application::app()->getRootPath(), $libdir, $lib);
-		if ( realpath( $jslib)) {
+		self::$tinylib = \strings::url( sprintf( 'js/%s/%s?v=', $libdir, $lib));
+		self::$tinylib_path = sprintf( '%s/app/public/js/%s/%s', application::app()->getRootPath(), $libdir, $lib);
+		if ( realpath( self::$tinylib_path)) {
 
-			if ( $debug) sys::logger( sprintf( 'jslib::tinymce found :: %s', $jslib));
+			if ( $debug) sys::logger( sprintf( 'jslib::tinymce found :: %s', self::$tinylib_path));
 
 			$modtime = 0;
 			foreach ( $files as $file) {
@@ -185,13 +186,13 @@ abstract class jslib {
 
 			}
 
-			$libmodtime = filemtime( $jslib);
+			$libmodtime = filemtime( self::$tinylib_path);
 			if ( $libmodtime < $modtime) {
 				if ( $debug) sys::logger( 'latest mod time = ' . date( 'r', $modtime));
-				if ( $debug) sys::logger( 'you need to update ' . $jslib);
+				if ( $debug) sys::logger( 'you need to update ' . self::$tinylib_path);
 
 				if  ( self::__createlib( $libdir, $lib, $files)) {
-					$version = filemtime( $jslib);
+					$version = filemtime( self::$tinylib_path);
 					self::$tinylib .= $version;
 
 					return ( true);
@@ -200,9 +201,9 @@ abstract class jslib {
 
 			}
 			else {
-				if ( $debug) sys::logger( 'you have the latest version of ' . $jslib);
+				if ( $debug) sys::logger( 'you have the latest version of ' . self::$tinylib_path);
 
-				$version = filemtime( $jslib);
+				$version = filemtime( self::$tinylib_path);
 				self::$tinylib .= $version;
 
 				return ( true);
@@ -211,9 +212,9 @@ abstract class jslib {
 
 		}
 		else {
-			if ( $debug) sys::logger( sprintf( 'jslib::tinymce not found :: %s - creating', $jslib));
+			if ( $debug) sys::logger( sprintf( 'jslib::tinymce not found :: %s - creating', self::$tinylib_path));
 			if ( self::__createlib( $libdir, $lib, $files)) {
-				$version = filemtime( $jslib);
+				$version = filemtime( self::$tinylib_path);
 				self::$tinylib .= $version;
 
 				return ( true);
