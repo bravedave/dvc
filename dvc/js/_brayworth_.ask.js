@@ -58,7 +58,7 @@ _brayworth_.ask = ( params) => {
 
     });
 
-    dlg.appendTo( body);
+    dlg.appendTo( 'body');
 
     return _brayworth_.loadModal(options);	// a promise
 
