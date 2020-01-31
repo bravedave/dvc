@@ -49,6 +49,6 @@ _brayworth_.ask = function ( params) {
 
     }, params);
 
-    return _cms_.loadModal(options);	// a promise
+    return _brayworth_.loadModal(options);	// a promise
 
 };
