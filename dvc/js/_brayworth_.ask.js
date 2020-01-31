@@ -21,19 +21,20 @@
 
  * */
 
-_brayworth_.ask = function ( params) {
+_brayworth_.ask = ( params) => {
+    let dlg = $('<div class="modal" tabindex="-1" role="dialog"><div class="modal-dialog modal-dialog-centered modal-sm" role="document" ><div class="modal-content"><div class="modal-header text-white bg-dark"><h5 class="modal-title text-truncate" title="Modal">Modal</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body" /></div></div ></div >');
+
     let options = $.extend({
         text: 'Question',
         title: 'Topic',
         beforeOpen: function () {
             let modal = this;
-            $('.modal-dialog', modal).removeClass('modal-lg').addClass('modal-sm');
             $('.modal-title', modal).html(options.title);
             $('.modal-body', modal).append(options.text);
 
             let footer = $('<div class="modal-footer" />').appendTo($('.modal-content', modal));
 
-            $.each(options.buttons, function (key, j) {
+            $.each( options.buttons, function (key, j) {
                 $('<button class="btn btn-light" />')
                     .html(key)
                     .appendTo(footer)
@@ -45,9 +46,19 @@ _brayworth_.ask = function ( params) {
             });
 
         },
-        buttons: {}
+        buttons: {},
+        onClose : function(e) {
+
+        }
 
     }, params);
+
+    dlg.on('hidden.bs.modal', function(e) {
+        console.log( 'hidden.bs.modal', this);
+
+    });
+
+    dlg.appendTo( body);
 
     return _brayworth_.loadModal(options);	// a promise
 

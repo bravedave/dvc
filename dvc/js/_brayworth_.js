@@ -43,18 +43,18 @@ $.extend( _brayworth_, {
 
 		},
 		moment : function( a,b,c,d) {
-				/**
-				 * if you call this and the moment library
-				 * is undefined it will error (der)
-				 *
-				 * The intention is that:
-				 *	a. the library will be loaded
-				 *	b. you could/will redefine this function to control
-				 * 		 the timezone being operated in
-				 */
-			 	let r = moment( a,b,c,d);
-		 		// d.utcOffset( desirable timezone);
-		 		return (r);
+			/**
+			 * if you call this and the moment library
+			 * is undefined it will error (der)
+			 *
+			 * The intention is that:
+			 *	a. the library will be loaded
+			 *	b. you could/will redefine this function to control
+			 * 		 the timezone being operated in
+			 */
+			let r = moment( a,b,c,d);
+			// d.utcOffset( desirable timezone);
+			return (r);
 
 		}
 

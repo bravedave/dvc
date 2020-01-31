@@ -236,7 +236,7 @@ _brayworth_.modal = function( params) {
 		 * this is a wrapper on the modal->body element
 		 * for jQuery.load
 		 */
-	 	return new Promise( function( resolve, reject) {
+		return new Promise( function( resolve, reject) {
 			var d = $('<div />');
 			t.append( d);
 			d.load( url, function() {
