@@ -25,6 +25,7 @@ abstract class jslib {
 	public static $brayworthlibFiles = [
 		'js/jquery.visible.js',
 		'js/_brayworth_.js',
+		'js/_brayworth_.ask.js',
 		'js/_brayworth_.bootstrapModalPop.js',
 		'js/_brayworth_.browser.js',
 		'js/_brayworth_.context.js',
