@@ -41,6 +41,7 @@
 
 .modal .bg-primary > .close:not(.fa),
 .modal .bg-secondary > .close:not(.fa),
+.modal .bg-dark > .close:not(.fa),
 .modal .bg-danger > .close:not(.fa) {
 	color: white;
 	opacity: 0.6;
