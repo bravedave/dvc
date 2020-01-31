@@ -125,7 +125,6 @@ abstract class config {
 
 	static $THEME = '';
 
-	static $TINY_OPTIONS = 'autolink,paste,lists,table,colorpicker,textcolor,image,imagetools,link';
 	static $TIMEZONE = 'UTC';
 
 	/*
