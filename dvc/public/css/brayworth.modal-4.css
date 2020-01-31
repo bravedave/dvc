@@ -39,6 +39,13 @@
 	margin-top: -.7rem;
 }
 
+.modal .bg-primary > .close:not(.fa),
+.modal .bg-secondary > .close:not(.fa),
+.modal .bg-danger > .close:not(.fa) {
+	color: white;
+
+}
+
 .modal .close:not(.fa):hover,
 .modal .close:not(.fa):focus {
     color: black;
