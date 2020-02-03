@@ -19,7 +19,7 @@ $(document).ready( function() {
 
 		if ( nav.length > 0) {
 			mode = 'prepend';
-			wrap = $('<div style="position: absolute; top: -12px; right: -5px; width: 250px" />');
+			wrap = $('<div style="position: absolute; top: -12px; left: 5px; width: 250px" />');
 		}
 		else {
 			nav = $('body > nav.sticky-top');
