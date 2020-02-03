@@ -66,7 +66,9 @@ _brayworth_.swipeOn = function( params) {
 
 	};
 
-	$(this)
+	let _me = $(this)
+
+	_me
 	.on('mousedown touchstart', function (e) {
 		if ( /^(input|textarea|img|a|select)$/i.test( e.target.nodeName ))
 			return;
@@ -79,10 +81,14 @@ _brayworth_.swipeOn = function( params) {
 			let sEvt = swipeEvent( down, touchEvent( e));
 			down = false;	// reset
 
-			if ( sEvt.direction == 'left')
-				options.left(sEvt);
-			else if ( sEvt.direction == 'right')
-				options.right(sEvt);
+			if ( sEvt.direction == 'left') {
+				options.left.call( _me, sEvt);
+
+			}
+			else if ( sEvt.direction == 'right') {
+				options.right.call( _me, sEvt);
+
+			}
 
 		}
 
