@@ -15,10 +15,13 @@ $(document).ready( function() {
 		let adjustTop = function() {};
 		let wrap = $('<div style="position: absolute; top: 50px; right: 20px; width: 300px" />');
 		let nav = $('[role="growler"]');
-		let mode = 'prepend';
+		let mode = 'append';
 
-		if ( nav.length < 1) {
-			mode = 'append';
+		if ( nav.length > 0) {
+			mode = 'prepend';
+			wrap = $('<div style="position: absolute; top: -12px; right: 5px; width: 250px" />');
+		}
+		else {
 			nav = $('body > nav.sticky-top');
 
 		}
@@ -28,9 +31,6 @@ $(document).ready( function() {
 
 		}
 		else {
-
-			mode = 'append';
-
 			wrap.appendTo( 'body');
 			adjustTop = function() {
 				//~ console.log({ 'top' : ($(window).scrollTop() + 50) + 'px'});
