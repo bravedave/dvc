@@ -14,7 +14,15 @@ $(document).ready( function() {
 	_brayworth_.toaster = (function() {
 		let adjustTop = function() {};
 		let wrap = $('<div style="position: absolute; top: 50px; right: 20px; width: 300px" />');
-		let nav = $('body > nav.sticky-top');
+		let nav = $('[role="growler]');
+		let mode = 'append';
+
+		if ( nav.length < 1) {
+			mode = 'prepend';
+			nav = $('body > nav.sticky-top');
+
+		}
+
 		if ( nav.length > 0) {
 			wrap.appendTo( nav[0]);
 
@@ -91,7 +99,15 @@ $(document).ready( function() {
 					$(this).remove();
 					ack(e);
 
-				}).appendTo( wrap).toast('show');
+				})
+				if ('prepend' == mode) {
+					toast.prependTo( wrap).toast('show');
+
+				}
+				else {
+					toast.appendTo( wrap).toast('show');
+
+				}
 
 				let utime = function( toast, timer, timestamp, utime) {
 					let d = moment.duration( _brayworth_.moment().diff( timestamp));
