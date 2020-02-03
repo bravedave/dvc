@@ -80,9 +80,9 @@ _brayworth_.swipeOn = function( params) {
 			down = false;	// reset
 
 			if ( sEvt.direction == 'left')
-				options.left();
+				options.left(sEvt);
 			else if ( sEvt.direction == 'right')
-				options.right();
+				options.right(sEvt);
 
 		}
 
