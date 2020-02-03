@@ -14,11 +14,11 @@ $(document).ready( function() {
 	_brayworth_.toaster = (function() {
 		let adjustTop = function() {};
 		let wrap = $('<div style="position: absolute; top: 50px; right: 20px; width: 300px" />');
-		let nav = $('[role="growler]');
-		let mode = 'append';
+		let nav = $('[role="growler"]');
+		let mode = 'prepend';
 
 		if ( nav.length < 1) {
-			mode = 'prepend';
+			mode = 'append';
 			nav = $('body > nav.sticky-top');
 
 		}
@@ -28,6 +28,9 @@ $(document).ready( function() {
 
 		}
 		else {
+
+			mode = 'append';
+
 			wrap.appendTo( 'body');
 			adjustTop = function() {
 				//~ console.log({ 'top' : ($(window).scrollTop() + 50) + 'px'});
