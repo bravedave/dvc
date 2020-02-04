@@ -1,25 +1,21 @@
 # How does it work?
 
-You need a web server like Apache, but for development
-you can use PHP's built in web server.
+To progress past R & D a web server like Apache recommended, for development you can use PHP's built in web server.
 
-You should configure your web server so that it sends all
-appropriate requests to one *front-end-controller* PHP file.
+Configure the web server so that it sends all appropriate requests to one *front-end-controller* PHP file.
 * [apache](/docs/apache)
 
 Your *application* executes via this PHP file.
-* The most pervasive technique here is called PSR-4 : Autoloading
+* The most pervasive technique here is called [PSR-4 : Autoloading](https://www.php-fig.org/psr/psr-4/)
 
-HTTP requests are re-routed within the app to controllers
-and controller functions - and here you create the logic of
-your application.
+HTTP requests are re-routed within the app to controllers and controller functions - and there you create the logic of your application.
 
 ## To get started
 ### use
 PHP's built in server:
-* create your project
-* execute the server
-* browse to localhost
+1. create your project
+2. execute the server
+3. browse to localhost
 
 ## Next
 ### create

@@ -37,8 +37,11 @@ class _template extends Controller {
 	protected function posthandler() {
 		$action = $this->getPost('action');
 
-		if ( 'gibblegok' == $action) { \Json::ack( $action); }
-		else { \Json::nak( $action); }
+		if ( 'gibblegok' == $action) {
+			\Json::ack( $action);
+
+		}
+		else { parent::postHandler(); }
 
 	}
 

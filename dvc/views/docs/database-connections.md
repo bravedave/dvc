@@ -3,10 +3,10 @@
 ## Specify the Connections
 
 #### SQLite
-If you only require SQlite, just edit/add the [application]/app/dvc/config.php as follows:
-```php
-abstract class config extends _config {
-	static $DB_TYPE = 'sqlite';
+If you only require SQlite, just create [application]/data/db.json as follows:
+```json
+{
+	"db_type" : "sqlite"
 }
 ```
 

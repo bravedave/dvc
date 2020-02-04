@@ -499,6 +499,10 @@ abstract class sys {
 		}
 		else {
 			$root = realpath( __DIR__ . '/../../../twbs');
+			if ( !$root) {
+				$root = realpath( __DIR__ . '/../vendor/twbs');
+			}
+
 			if ( $root) {
 				$path = realpath( sprintf( '%s/bootstrap/dist', $root));
 				if ( 'css' == $type) {
@@ -515,7 +519,8 @@ abstract class sys {
 
 			}
 			else {
-				throw new \Exception( 'Cannot locate twbs bootstrap - install with compose require twbs/bootstrap');
+				\sys::logger( sprintf('<%s> %s', __DIR__, __METHOD__));
+				throw new \Exception( 'Cannot locate twbs bootstrap - install with composer require twbs/bootstrap');
 
 			}
 

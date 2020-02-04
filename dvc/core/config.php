@@ -172,11 +172,26 @@ abstract class config {
 
 				}
 
+				if ( !file_exists( $readme = self::$_dataPath . DIRECTORY_SEPARATOR . 'readme.txt')) {
+					file_put_contents( $readme, implode( PHP_EOL, [
+						'-----------',
+						'data Folder',
+						'-----------',
+						'',
+						'keep this folder private',
+						'',
+						'--------------------------------------------',
+						'*-* DO NOT UPLOAD TO A PUBLIC REPOSITORY *-*',
+						'--------------------------------------------'
+
+					]));
+
+				}
+
 				if ( !is_dir( self::$_dataPath))
 					throw new \Exception( 'error/nodatapath');
 
 				return ( self::$_dataPath);
-
 
 			}
 

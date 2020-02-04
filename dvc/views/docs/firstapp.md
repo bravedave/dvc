@@ -6,17 +6,17 @@
   in the controller:
 * The simplest controller would be:
 
-<pre><code>
-    &lt;?php
-        class hello extends Controller {
-            function index() {
-                print 'hello&lt;br /&gt;';
-               <span></span>
+```
+    <?php
+    class hello extends Controller {
+        function index() {
+            print 'hello<br />';
+
         }
-        <span></span>
+
     }
-    <span></span>
-</code></pre>
+
+```
 
 * <a href="/hello" _target="blank">hello - sample controller</a>
   * The sample controller constructs a page using bootstrap

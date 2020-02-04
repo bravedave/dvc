@@ -328,7 +328,7 @@ abstract class controller {
 
 	}
 
-	protected function getView( $viewName = 'index', $controller = null ) {
+	protected function getView( $viewName = 'index', $controller = null, $logMissingView = true ) {
 		if ( is_null( $controller )) {
 			$controller = $this->name;
 
@@ -395,9 +395,9 @@ abstract class controller {
 
 		}
 
-		if ( 'dvc\_controller/hasView' != \sys::traceCaller()) {
+		if ( $logMissingView && 'dvc\_controller/hasView' != \sys::traceCaller()) {
 			/*-- --[ not found - here is some debug stuff ]-- --*/
-			\sys::trace( sprintf( '_controller->getView :: view not found : %s (%s)', $viewName, \sys::traceCaller()));
+			\sys::trace( sprintf( 'view not found : %s (%s) : %s', $viewName, \sys::traceCaller(), __METHOD__));
 
 		}
 
@@ -405,8 +405,8 @@ abstract class controller {
 
 	}
 
-	protected function hasView( $viewName = 'index', $controller = null ) {
-		return $this->getView( $viewName, $controller) != self::viewNotFound;
+	protected function hasView( $viewName = 'index', $controller = null) {
+		return $this->getView( $viewName, $controller, $logMissingView = false ) != self::viewNotFound;
 
 	}
 
@@ -579,6 +579,8 @@ abstract class controller {
 		/**
 		 * Placeholder for use the child class.
 		 */
+
+		\Json::nak('...');
 
 	}
 
