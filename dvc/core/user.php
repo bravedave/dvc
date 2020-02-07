@@ -18,6 +18,8 @@ class user {
 
 	public $email = '';
 
+	public function __construct() {}
+
 	public function valid() {
 		/**
 		 * if this function returns true you are logged in
