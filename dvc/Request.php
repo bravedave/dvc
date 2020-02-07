@@ -212,8 +212,13 @@ class Request {
 	}
 
 	protected static function getSubNet( $ip) {
-		$a = explode( '.', $ip);
-		return ( sprintf( '%d.%d.%d', $a[0], $a[1], $a[2]));
+		if ( false !== strpos((string)$ip, '.')) {
+			$a = explode( '.', $ip);
+			return ( sprintf( '%d.%d.%d', $a[0], $a[1], $a[2]));
+
+		}
+
+		return false;
 
 	}
 
