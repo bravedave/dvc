@@ -127,7 +127,7 @@ class application {
 
 			// check for any .. in the string, which could lead to a parent folder
 			if ( strpos( $_url, '..') !== false)
-				throw new Exceptions\SecurityException;
+				throw new SecurityException;
 
 			// sanitize, noting that it may have / in the string, and that's ok because leading /. have been removed
 			$_url = preg_replace( '@[^a-zA-Z0-9\_\-\./]@', '', $_url);
