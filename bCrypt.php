@@ -13,3 +13,4 @@
 class bCrypt extends dvc\bCrypt {}
 
 \sys::logger( sprintf('deprecated : do not continue to use this class (bCrypt) : %s', __FILE__));
+\sys::traceCaller();
