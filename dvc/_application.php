@@ -13,4 +13,4 @@ namespace dvc;
 
 class _application extends core\application {}
 
-\sys::logger( sprintf('deprecated : do not continue to use this class (dvc\_application) : %s', __METHOD__));
+\sys::logger( sprintf('deprecated : do not continue to use this class (dvc\_application) : %s', __FILE__));
