@@ -243,8 +243,8 @@ abstract class strings {
 			'@&amp;@si'
 		);
 		$replace = array(
-			'\n',
-			'\n',
+			PHP_EOL,
+			PHP_EOL,
 			' ',
 			'&'
 		);
