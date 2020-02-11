@@ -36,7 +36,7 @@ _brayworth_.ask = ( params) => {
             let footer = $('<div class="modal-footer py-0" />').appendTo($('.modal-content', modal));
 
             $.each( options.buttons, function (key, j) {
-                $('<button class="btn btn-light" />')
+                $('<button class="btn btn-light" type="button" />')
                 .html(key)
                 .appendTo(footer)
                 .on('click', function (e) {
