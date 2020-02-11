@@ -12,8 +12,14 @@ class hello extends Controller {
 	protected function posthandler() {
 		$action = $this->getPost('action');
 
-		if ( 'gibblegok' == $action) { \Json::ack( $action); }
-		else { \Json::nak( $action); }
+		if ( 'gibblegok' == $action) {
+			\Json::ack( $action);
+
+		}
+		else {
+			parent::postHandler();
+
+		}
 
 	}
 
@@ -22,21 +28,6 @@ class hello extends Controller {
 			'title' => 'hello world',
 			'primary' => 'hello',
 			'secondary' =>'index'
-		]);
-
-	}
-
-	function index() {
-		$this->isPost() ?
-			$this->postHandler() :
-			$this->_index();
-
-	}
-
-	function tictactoe() {
-		$this->modal([
-			'title' => 'tic tac toe',
-			'load' => 'tictactoe',
 		]);
 
 	}
