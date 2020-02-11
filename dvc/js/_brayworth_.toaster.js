@@ -19,7 +19,7 @@ $(document).ready( function() {
 
 		if ( nav.length > 0) {
 			mode = 'prepend';
-			wrap = $('<div style="position: absolute; top: -12px; left: 5px; width: 250px" />');
+			wrap = $('<div style="position: absolute; top: -4rem; left: 5px; width: 290px" />');
 		}
 		else {
 			nav = $('body > nav.sticky-top');
@@ -82,13 +82,11 @@ $(document).ready( function() {
 
 				let toast = $('<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" />').attr( 'data-delay', options.delay);
 				let header = $('<div class="toast-header" />').appendTo(toast);
+
 				if ( options.growlClass == 'error' ) {
 					header.append( '<svg class="bd-placeholder-img rounded mr-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"><rect fill="#dc3545" width="100%" height="100%"></rect></svg>');
-
-				}
-				else {
+				} else {
 					header.append( '<svg class="bd-placeholder-img rounded mr-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"><rect fill="#007aff" width="100%" height="100%"></rect></svg>');
-
 				}
 
 				$('<strong class="mr-auto" />').html( options.title).appendTo( header);
@@ -103,13 +101,11 @@ $(document).ready( function() {
 					ack(e);
 
 				})
+
 				if ('prepend' == mode) {
 					toast.prependTo( wrap).toast('show');
-
-				}
-				else {
+				} else {
 					toast.appendTo( wrap).toast('show');
-
 				}
 
 				let utime = function( toast, timer, timestamp, utime) {
