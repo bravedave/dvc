@@ -50,3 +50,6 @@
 	.is-uploading .box__input { visibility: none; display: none; }
 	.is-uploading .box__uploading { display: block; position: absolute; top: 0; left: 0; width: 100%; }
 */
+body.upscroll > nav.sticky-top,
+body.upscroll > footer { opacity: 0; transition: opacity 2s ease-in-out; }
+body.upscroll [data-role="content-primary"] { height: auto; }

@@ -1,0 +1,5 @@
+#### 12/02/2020
+1. New _mobile nav hider
+   * Hides the Navigation Bar when Scrolling Up, Shows on down
+   * _brayworth_.mobile-nav-hider.js
+   * css in dvc\public\css\brayworth.utility.css

@@ -40,6 +40,7 @@ abstract class jslib {
 		'js/_brayworth_.lazyImageLoader.js',
 		'js/_brayworth_.loadModal.js',
 		'js/_brayworth_.logonModal.js',
+		'js/_brayworth_.mobile-nav-hider.js',
 		'js/_brayworth_.modal.js',
 		'js/_brayworth_.modalDialog.js',
 		'js/_brayworth_.post.js',
