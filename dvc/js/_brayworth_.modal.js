@@ -136,6 +136,7 @@ _brayworth_.modal = function( params) {
 	}
 
 	if ( Object.keys( options.headButtons).length > 0) {
+		let margin = 'ml-auto';
 		$.each( options.headButtons, function( i, el) {
 			var j = {
 				text : i,
@@ -151,28 +152,31 @@ _brayworth_.modal = function( params) {
 
 			let b;
 			if ( !!j.icon) {
-				b = $( '<div class="pull-right pointer pt-1 px-2" />').append(
+				b = $( '<div class="pointer pt-1 px-2" />').append(
 					$('<i class="fa m-0" style="cursor: pointer;" />').addClass( j.icon));
 				// var b = $( '<i class="fa fa-fw pull-right" style="margin-right: 1rem; padding-right: 1rem; cursor: pointer;" />').addClass( j.icon);
 
 			}
 			else {
-				b = $('<button class="pull-right" />')
+				b = $('<button />')
 					.html( j.text)
 					.addClass( _brayworth_.templates.buttonCSS);
 
 			}
 
+			if ('' != margin) b.addClass(margin);
+			margin = '';
+
 			if ( !!j.title) b.attr( 'title', j.title);
 
 			b.on( 'click', function( e) { j.click.call( t.get(), e); });	// wrap the call and call it against the modal
-			t.header.prepend( b);
+			b.insertBefore( $('.close', t.header));
 
 			if ( 'object' == typeof el) el.button = b;	// object now accessible to calling function
 
 		});
 
-		t.header.prepend( $('.close', t.header));
+		$('.close', t.header).addClass('ml-0')
 
 	}
 
