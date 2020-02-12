@@ -342,7 +342,7 @@ abstract class strings {
 			$tel = preg_replace( '@[^0-9\+]@','', $_tel);
 			//~ \sys::logger( sprintf( 'IsMobilePhone :: %s', $tel));
 
-			if ( $tel && \strlen( $tel) >= 10 && \strlen( $tel) < 10) {
+			if ( $tel && \strlen( $tel) >= 10 && \strlen( $tel) < 17) {
 				/**
 				 * to prove
 				 * a mobile phone must contain 10 numbers
