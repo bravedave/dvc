@@ -73,7 +73,7 @@ abstract class strings {
 				}
 
 			}
-			catch ( Exception $e) {
+			catch ( \Exception $e) {
 				\sys::logger( sprintf( 'AsLocalPhoneA :: %s : %s', $_tel, $e->getMessage()));
 
 			}
@@ -213,7 +213,7 @@ abstract class strings {
 		return ( self::BRITISHDateAsANSI($strDate));
 
 
-		throw new Exception( 'fix me:: strings::getDateAsANSI' );
+		throw new \Exception( 'fix me:: strings::getDateAsANSI' );
 
 	}
 
@@ -342,7 +342,7 @@ abstract class strings {
 			$tel = preg_replace( '@[^0-9\+]@','', $_tel);
 			//~ \sys::logger( sprintf( 'IsMobilePhone :: %s', $tel));
 
-			if ( $tel && \strlen( $tel) >= 10) {
+			if ( $tel && \strlen( $tel) >= 10 && \strlen( $tel) < 10) {
 				/**
 				 * to prove
 				 * a mobile phone must contain 10 numbers
@@ -361,7 +361,7 @@ abstract class strings {
 			}
 
 		}
-		catch ( Exception $e) {
+		catch ( \Exception $e) {
 			\sys::logger( sprintf( '%s : %s : %s', $_tel, $e->getMessage(), __METHOD__));
 
 		}
