@@ -211,10 +211,16 @@ class Request {
 
 	}
 
-	protected static function getSubNet( $ip) {
+	public function getSubNet( $ip) {
 		if ( false !== strpos((string)$ip, '.')) {
 			$a = explode( '.', $ip);
-			return ( sprintf( '%d.%d.%d', $a[0], $a[1], $a[2]));
+			if ( 4 == count( $a)) {
+				$subnet = sprintf( '%d.%d.%d', $a[0], $a[1], $a[2]);
+				\sys::logger( sprintf('<%s> %s', $subnet, __METHOD__));
+
+				return ( $subnet);
+
+			}
 
 		}
 
@@ -239,8 +245,8 @@ class Request {
 		$thisIP = $this->getServerIP();
 		$remoteIP = $this->getRemoteIP();
 
-		$thisSubNet = self::getSubNet( $thisIP);
-		$remoteSubNet = self::getSubNet( $remoteIP);
+		$thisSubNet = $this->getSubNet( $thisIP);
+		$remoteSubNet = $this->getSubNet( $remoteIP);
 
 		//~ \sys::logger( sprintf( '%s/%s :: %s/%s', $thisIP, $thisSubNet, $remoteIP, $remoteSubNet));
 

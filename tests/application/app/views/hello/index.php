@@ -12,7 +12,12 @@
 <br />
 <br />
 <ul class="list-unstyled mt-4">
-	<li><h4>Index</h4></li>
+	<li><h6><a class="text-secondary" href="<?= strings::url('hello') ?>">Hello</a></h6></li>
+<?php if ( $this->Request->ServerIsLocal()) { ?>
+	<li><a href="<?= strings::url('hello/info') ?>">View phpinfo()</a>
+
+<?php } // if ( Request::ServerIsLocal()) ?>
+
 	<li><a href="<?= strings::url( 'tests/errtest') ?>">Throw an error</a></li>
 
 </ul>
