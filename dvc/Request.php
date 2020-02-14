@@ -178,11 +178,30 @@ class Request {
 	}
 
 	public function getRemoteIP(){
-		if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-			return $_SERVER['HTTP_X_FORWARDED_FOR'];
+		// https://stackoverflow.com/questions/1634782/what-is-the-most-accurate-way-to-retrieve-a-users-correct-ip-address-in-php
 
-		if ( isset( $_SERVER['REMOTE_ADDR']))
-			return $_SERVER['REMOTE_ADDR'];
+		foreach ( [ 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR'] as $key) {
+			if ( array_key_exists( $key, $_SERVER) === true){
+				foreach ( explode(',', $_SERVER[$key]) as $ip){
+                	$ip = trim($ip); // just to be safe
+					if ( $this->ServerIsLocal()) {
+						if (filter_var( $ip, FILTER_VALIDATE_IP) !== false){
+							// \sys::logger( sprintf('<%s> %s', $ip, __METHOD__));
+							return $ip;
+
+						}
+
+					}
+					elseif (filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false){
+						return $ip;
+
+					}
+
+				}
+
+			}
+
+		}
 
 		return '0.0.0.0';
 
@@ -216,7 +235,7 @@ class Request {
 			$a = explode( '.', $ip);
 			if ( 4 == count( $a)) {
 				$subnet = sprintf( '%d.%d.%d', $a[0], $a[1], $a[2]);
-				\sys::logger( sprintf('<%s> %s', $subnet, __METHOD__));
+				// \sys::logger( sprintf('<%s> %s', $subnet, __METHOD__));
 
 				return ( $subnet);
 
@@ -228,11 +247,21 @@ class Request {
 
 	}
 
+	protected static $_serverIsLocal = null;
 	public function ServerIsLocal() {
+
+		if ( !\is_null( self::$_serverIsLocal)) return self::$_serverIsLocal;
+
 		if ( isset( $_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
-			return ( true);
+			return ( self::$_serverIsLocal = true);
 
 		}
+
+		// \sys::logger( sprintf('<%s : %s> server is not local : %s',
+		// 	$_SERVER['SERVER_NAME'],
+		// 	gethostname(),
+		// 	__METHOD__));
+
 
 		return ( false);
 
