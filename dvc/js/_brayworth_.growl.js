@@ -54,7 +54,7 @@
 		 */
 
 		let options = { growlClass : 'error', text : 'no description' };
-		if ( !!j.response && j.response == 'ack')
+		if ( !!j.response && /(ack|ok)/i.test( String( j.response)))
 			options.growlClass = 'success';
 
 		if ( !!j.description) options.text = j.description;

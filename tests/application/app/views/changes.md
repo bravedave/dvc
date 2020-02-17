@@ -1,3 +1,6 @@
+#### 17/02/2020
+1. allow ok as json response (now accept ok or ack)
+
 #### 14/02/2020
 1. Address bug in request checking if IP6 is local
 

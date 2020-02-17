@@ -66,7 +66,7 @@ $(document).ready( function() {
 					* with an optional timeout set to 0 it will become a bootstrap 4valert:
 					* { response : 'ack', description : 'go you good thing', timeout : 0 }
 					*/
-					if ( !!params.response) { options.growlClass = ( params.response == 'ack' ? 'success' : 'error' ); }
+					if (!!params.response) { options.growlClass = ( /(ack|ok)/i.test( params.response) ? 'success' : 'error' ); }
 
 					if ( !!params.description) { options.text = params.description; }
 
@@ -76,7 +76,7 @@ $(document).ready( function() {
 
 			}
 
-			return new Promise( function( ack, nak) {
+			return new Promise( function( resolve, reject) {
 
 				let timestamp = _brayworth_.moment();
 
@@ -98,7 +98,7 @@ $(document).ready( function() {
 				adjustTop();
 				toast.on('hidden.bs.toast', function( e) {
 					$(this).remove();
-					ack(e);
+					resolve(e);
 
 				})
 
