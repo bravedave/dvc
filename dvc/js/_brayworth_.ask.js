@@ -55,7 +55,7 @@ _brayworth_.ask = ( params) => {
     }, params);
 
     dlg.on('hidden.bs.modal', function(e) {
-        console.log( 'hidden.bs.modal', this);
+        // console.log( 'hidden.bs.modal', this);
 
     });
 

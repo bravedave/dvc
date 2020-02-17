@@ -123,7 +123,7 @@
 				* { response : 'ack', description : 'go you good thing', timeout : 0 }
 				*/
 				if ( !!params.response)
-					options.growlClass = ( params.response == 'ack' ? 'success' : 'error' );
+					options.growlClass = (/(ack|ok)/i.test(String( params.response)) ? 'success' : 'error' );
 
 				if ( !!params.description)
 					options.text = params.description;
