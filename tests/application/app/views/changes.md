@@ -1,3 +1,6 @@
+#### 19/02/2020
+1. When using SQLite to be compatible with MySQL set collation to insensitive
+
 #### 17/02/2020
 1. allow ok as json response (now accept ok or ack)
 

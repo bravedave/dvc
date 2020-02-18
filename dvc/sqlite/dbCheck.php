@@ -76,9 +76,13 @@ class dbCheck {	// extends _dao {
 			elseif ( $fld["type"] == 'REAL' )
 				$fields[] = sprintf( '`%s` REAL DEFAULT %s', $fld['name'], (int)$fld['default']);
 
-			elseif ( $fld["type"] == 'TEXT' )
-				$fields[] = sprintf( '`%s` TEXT', $fld['name']);
+			elseif ( $fld["type"] == 'TEXT' ) {
+				/**
+				 * to be compatible with MySQL set collation to insensitive
+				 */
+				$fields[] = sprintf( '`%s` TEXT COLLATE NOCASE', $fld['name']);
 
+			}
 			elseif ( $fld["type"] == 'BLOB' )
 				$fields[] = sprintf( '`%s` BLOB', $fld['name']);
 
