@@ -53,7 +53,7 @@ _brayworth_.ask = ( params) => {
 
     }, params);
 
-    if ( removeOnClose) {
+    if ( options.removeOnClose) {
         dlg.on('hidden.bs.modal', function(e) {
             // console.log( 'hidden.bs.modal', this);
             $(this).remove();
