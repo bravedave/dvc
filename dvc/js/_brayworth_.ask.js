@@ -25,9 +25,6 @@ _brayworth_.ask = ( params) => {
     let dlg = $('<div class="modal" tabindex="-1" role="dialog"><div class="modal-dialog modal-dialog-centered modal-sm" role="document" ><div class="modal-content"><div class="modal-header py-2"><h5 class="modal-title text-truncate" title="Modal">Modal</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body" /></div></div ></div >');
 
     let options = $.extend({
-        text: 'Question',
-        title: 'Topic',
-        headClass: 'text-white bg-dark',
         beforeOpen: function () {
             let modal = this;
             $('.modal-title', modal).html(options.title);
@@ -48,16 +45,22 @@ _brayworth_.ask = ( params) => {
 
         },
         buttons: {},
-        onClose : function(e) {
-
-        }
+        headClass: 'text-white bg-dark',
+        onClose : function(e) {},
+        text: 'Question',
+        removeOnClose: true,
+        title: 'Topic',
 
     }, params);
 
-    dlg.on('hidden.bs.modal', function(e) {
-        // console.log( 'hidden.bs.modal', this);
+    if ( removeOnClose) {
+        dlg.on('hidden.bs.modal', function(e) {
+            // console.log( 'hidden.bs.modal', this);
+            $(this).remove();
 
-    });
+        });
+
+    }
 
     dlg.appendTo( 'body');
     $('.modal-header', dlg).addClass(options.headClass);

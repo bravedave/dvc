@@ -1,5 +1,6 @@
 #### 19/02/2020
 1. When using SQLite to be compatible with MySQL set collation to insensitive
+1. The ask dialog (javascript) nw defaults to being removed from the DOM
 
 #### 17/02/2020
 1. allow ok as json response (now accept ok or ack)
