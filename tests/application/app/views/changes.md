@@ -1,3 +1,6 @@
+#### 20/02/2020
+1. modal-xl widths maximize size through more breakpoints than standard bootstrap
+
 #### 19/02/2020
 1. When using SQLite to be compatible with MySQL set collation to insensitive
 1. The ask dialog (javascript) nw defaults to being removed from the DOM

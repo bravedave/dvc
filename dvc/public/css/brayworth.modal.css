@@ -95,9 +95,11 @@
 	animation-name: animatebottom;
 	animation-duration: 0.4s
 }
+/*
 .modal:not(.modal-mobile) .modal-content.modal-content-400 { width: 400px; }
 .modal:not(.modal-mobile) .modal-content.modal-content-600 { width: 600px; }
 .modal:not(.modal-mobile) .modal-content.modal-content-700 { width: 700px; }
+*/
 
 .modal.modal-iphone-style .modal-content {
 	border-color: black;
@@ -127,4 +129,14 @@
 @media screen and (max-width: 768px){
 	.modal:not(.modal-mobile) .modal-content.modal-content-700,
 	.modal:not(.modal-mobile) .modal-content { width: 95%; }
+}
+
+/* adjust the modal width to carry through as far as possible */
+@media (min-width: 840px) and (max-width: 991px) {
+	.modal-lg, .modal-xl { max-width: 800px; }
+
+}
+@media (min-width: 1024px) and (max-width: 1199px) {
+	.modal-xl { max-width: 1000px; }
+
 }
