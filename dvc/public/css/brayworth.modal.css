@@ -95,9 +95,11 @@
 	animation-name: animatebottom;
 	animation-duration: 0.4s
 }
+/*
 .modal:not(.modal-mobile) .modal-content.modal-content-400 { width: 400px; }
 .modal:not(.modal-mobile) .modal-content.modal-content-600 { width: 600px; }
 .modal:not(.modal-mobile) .modal-content.modal-content-700 { width: 700px; }
+*/
 
 .modal.modal-iphone-style .modal-content {
 	border-color: black;
