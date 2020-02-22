@@ -12,6 +12,12 @@ class auth extends Controller {
 	public $RequireValidation = false;
 	//~ public $debug = true;
 
+	protected function before() {
+		application::app()->exclude_from_sitemap = true;
+		parent::before();
+
+	}
+
 	public function index() {
 		if ( $this->getParam( 'code'))
 			$this->response();

@@ -1,28 +1,22 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	Note to Self: This file gets distributed
-
-	*/
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+ *      http://creativecommons.org/licenses/by/4.0/
+ *
+*/
 
 class install extends Controller {
 	public $RequireValidation = \config::lockdown;
 
-	public function error( $sError = 'generic' ) {
-		$p = new Page();
-		$p->header();
-		$p->primary();
-		if ( $sError == 'nodatapath' )
-			$this->loadview('error-nodatapath');
+	protected function _index() {}
 
-		else
-			$this->loadview('error-generic');
+	protected function before() {
+		application::app()->exclude_from_sitemap = true;
+		parent::before();
 
 	}
 
@@ -116,11 +110,15 @@ class install extends Controller {
 
 	}
 
-	public function index() {
-		if ( $this->isPost()) {
-			$this->postHandler();
+	public function error( $sError = 'generic' ) {
+		$p = new Page();
+		$p->header();
+		$p->primary();
+		if ( $sError == 'nodatapath' )
+			$this->loadview('error-nodatapath');
 
-		}
+		else
+			$this->loadview('error-generic');
 
 	}
 

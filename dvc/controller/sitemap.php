@@ -11,8 +11,9 @@
 class sitemap extends Controller {
 	public $RequireValidation = \config::lockdown;
 
-	function before() {
-		application::app()->exclude_from_sitemap = TRUE;
+	protected function before() {
+		application::app()->exclude_from_sitemap = true;
+		parent::before();
 
 	}
 
@@ -41,7 +42,7 @@ class sitemap extends Controller {
 				if ( (int)$id > 0 ) {
 					$dao = new dao\sitemap;
 					if ( $dto = $dao->getById( $id)) {
-						$this->db->UpdateByID( 'sitemap', [
+						$dao->UpdateByID([
 							'exclude_from_sitemap' => ( $dto->exclude_from_sitemap ? 0 : 1 )
 						], $id);
 
@@ -58,19 +59,12 @@ class sitemap extends Controller {
 	}
 
 	public function report() {
-		if ( currentUser::valid()) {
-			if ( currentUser::isadmin()) {
-				$p = new Page( 'Sitemap Report');
-				$p->header();
-				$p->title();
+		if ( $this->Request->ServerIsLocal()) {
+			$this->render([ 'primary' => 'report']);
 
-				$p->secondary();
-				//~ $this->menu();
-
-				$p->primary();
-				component\sitemap::report();
-
-			}
+		}
+		elseif ( currentUser::valid() && currentUser::isadmin()) {
+			$this->render([ 'primary' => 'report' ]);
 
 		}
 

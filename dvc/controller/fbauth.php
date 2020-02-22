@@ -15,6 +15,12 @@ class fbauth extends Controller {
 	static $oauth2_access_url = 'https://graph.facebook.com/me';
 	static $access_dialog_url = 'https://www.facebook.com/dialog/oauth';
 
+	protected function before() {
+		application::app()->exclude_from_sitemap = true;
+		parent::before();
+
+	}
+
 	public function request() {
 
 		if ( dvc\auth::FacebookAuthEnabled()) {

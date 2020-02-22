@@ -1,3 +1,6 @@
+#### 22/02/2020
+1. Fixed Sitemaps
+
 #### 20/02/2020
 1. modal-xl widths maximize size through more breakpoints than standard bootstrap
 

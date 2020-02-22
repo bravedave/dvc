@@ -13,6 +13,12 @@ class assets extends Controller {
 
 	protected function _index() {}
 
+	protected function before() {
+		application::app()->exclude_from_sitemap = true;
+		parent::before();
+
+	}
+
 	public function bootstrap( $type = 'css', $version = 4) {
 		if ( 4 == (int)$version) {
 			sys::serveBootStrap( $type);

@@ -339,6 +339,9 @@ class application {
 	}
 
 	public function __destruct() {
+		$debug = false;
+		// $debug = true;
+
 		if ( $this->app_executed()) {
 			if ( \config::$SITEMAPS ) {
 				$path = $this->return_url();
@@ -351,7 +354,7 @@ class application {
 
 					}
 					else {
-						//~ sys::logger( 'not found path : ' . $path);
+						if ( $debug) \sys::logger( sprintf( 'not found path : %s : %s', $path, __METHOD__));
 						$a = [
 							'path' => $path,
 							'visits' => 1,
@@ -367,6 +370,10 @@ class application {
 					error_log( $e->getMessage());
 
 				}
+
+			}
+			else {
+				if ( $debug) \sys::logger( sprintf('<%s> %s', 'not enabled', __METHOD__));
 
 			}
 
