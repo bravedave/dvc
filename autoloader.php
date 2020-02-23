@@ -12,23 +12,30 @@
  */
 
 spl_autoload_register( function ($class) {
-	if ( $lib = realpath( __DIR__ . '/' . str_replace('\\', '/', $class) . '.php')) {
+	if ( $lib = realpath( implode([
+		__DIR__,
+		DIRECTORY_SEPARATOR,
+		'src',
+		DIRECTORY_SEPARATOR,
+		str_replace('\\', '/', $class),
+		'.php'
+
+		]))) {
+
 		include_once $lib;
 		dvc\core\load::logger( sprintf( 'lib: %s', $lib ));
 		return ( true);
 
 	}
-
 	return ( false);
 
 });
 
+if ( file_exists( $vendor = __DIR__ . '/vendor/autoload.php')) {
+	require_once $vendor;
 
-/*
-* upstream the autoload here by including some local file
-* autoload-local-path is excluded in .gitignore
-*/
-if ( file_exists( __DIR__ . DIRECTORY_SEPARATOR . 'autoload-local-path.php')) {
-	include __DIR__ . DIRECTORY_SEPARATOR . 'autoload-local-path.php';
+}
+elseif ( file_exists( $vendor = __DIR__ . '/../autoload.php')) {
+	require_once $vendor;
 
 }

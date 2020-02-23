@@ -21,9 +21,7 @@ spl_autoload_register(function ($class) {
 
 });
 
-$autoload = __DIR__ . '/../../src/autoloader-local.php';
-
-if ( file_exists( $autoload)) {
+if ( file_exists( $autoload = __DIR__ . '/../../autoloader.php')) {
 	require_once $autoload;
 
 }

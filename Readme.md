@@ -45,11 +45,6 @@ For testing and development of core features on a Windows 10 computer
    composer update
    ```
 
-1. DVC is not intended to run this way, the vendor folder is in the wrong location - to overcome this, add the local path. note the .gitignore is set to exclude _autoload-local-path.php_ from upload to github:
-   ```
-   copy autoload-local-path.php-sample autoload-local-path.php
-   ```
-
 3. Run the test Environment from ./tests
    ```
    cd tests
