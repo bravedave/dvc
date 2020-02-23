@@ -24,7 +24,9 @@ abstract class strings {
 		}
 
 		if ( ( $t = strtotime( $date)) > (float)$epoch) {
-			if ( $time && date( 'Y-m-d', $t) == date( 'Y-m-d')) {
+			// time should display if requested
+			// if ( $time && date( 'Y-m-d', $t) == date( 'Y-m-d')) {
+			if ( $time) {
 				return ( preg_replace( '/m$/','',date( \config::$DATETIME_FORMAT, $t)));
 
 			}
