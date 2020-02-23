@@ -24,13 +24,13 @@ class footer extends html\footer {
 				$ul = $div->append( 'ul', null, [ 'class' => 'copyright']);
 					$ul->add( sprintf( '&copy; Brayworth %s <i class="fa fa-code"></i>', date('Y')));
 
-		sys::logger('footer extends html\footer - parse to parent');
+		// sys::logger('footer extends html\footer - parse to parent');
 		parent::__construct( $content);
 
 	}
 
 	public function panelItem( html\element $element ) {
-			$this->ul->append( 'li', $element);
+		$this->ul->append( 'li', $element);
 
 	}
 

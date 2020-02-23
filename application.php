@@ -10,6 +10,7 @@
  * DO NOT change this file
  * Copy it to <application>/app and modify it there
  */
+
 class application extends dvc\application {
 	static function run( $dir = null ) {
 		if ( is_null( $dir ))

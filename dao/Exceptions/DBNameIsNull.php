@@ -9,7 +9,7 @@
 
 	*/
 
-NameSpace dao\Exceptions;
-Use dvc\Exceptions;
+namespace dao\Exceptions;
+use dvc\Exceptions;
 
 class DBNameIsNull extends Exceptions\Exception {}

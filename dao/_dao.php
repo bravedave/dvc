@@ -1,12 +1,14 @@
 <?php
-/*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+/**
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+ *      http://creativecommons.org/licenses/by/4.0/
+ *
+*/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-	*/
 namespace dao;
 
 abstract class _dao {
@@ -20,6 +22,13 @@ abstract class _dao {
 	protected $template = null;
 
 	function __construct( \dvc\dbi $db = null ) {
+
+		if ( !\config::checkDBconfigured()) {
+		    // \sys::logger( sprintf('<Call the doctor I think I\'m gonna crash> %s', __METHOD__));
+			// \sys::logger( sprintf('<The doctor say he\'s coming but you gotta create a config file buddy> %s', __METHOD__));
+			throw new Exceptions\DBNotConfigured;
+
+		}
 
 		$this->db = is_null( $db) ? \sys::dbi() : $db;
 

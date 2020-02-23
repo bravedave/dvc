@@ -1,13 +1,14 @@
 <?php
-/*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+/**
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+ *      http://creativecommons.org/licenses/by/4.0/
+ *
+*/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	*/
 namespace dao;
 use dvc;
 
@@ -27,25 +28,19 @@ class bwui extends _dao {
 
 			if ( 'sqlite' == \config::$DB_TYPE) {
 				$dbc = new dvc\sqlite\dbCheck( $this->db, 'bwui' );
-				$dbc->defineField( 'created', 'text');
-				$dbc->defineField( 'updated', 'text');
-				$dbc->defineField( 'key', 'text');
-				$dbc->defineField( 'username', 'text');
-				$dbc->defineField( 'bygoogle', 'integer');
-				$dbc->defineField( 'creds', 'blob');
 
 			}
 			else {
 				$dbc = new dbCheck( $this->db, 'bwui' );
-				$dbc->defineField( 'created', 'datetime');
-				$dbc->defineField( 'updated', 'datetime');
-				$dbc->defineField( 'key', 'varchar', 32);
-				$dbc->defineField( 'username', 'varchar', 32);
-				$dbc->defineField( 'bygoogle', 'tinyint');
-				$dbc->defineField( 'creds', 'blob');
 
 			}
 
+			$dbc->defineField( 'created', 'datetime');
+			$dbc->defineField( 'updated', 'datetime');
+			$dbc->defineField( 'key', 'varchar', 32);
+			$dbc->defineField( 'username', 'varchar', 32);
+			$dbc->defineField( 'bygoogle', 'tinyint');
+			$dbc->defineField( 'creds', 'blob');
 			//~ \sys::logger( 'bwui checked');
 
 			return ( $dbc );

@@ -12,4 +12,4 @@
 namespace dao\Exceptions;
 use dvc\Exceptions;
 
-class SecurityViolationMD5 extends Exceptions\Exception {}
+class DBNotConfigured extends Exceptions\Exception {}

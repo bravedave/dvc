@@ -9,7 +9,9 @@
  *
 */
 
-class config extends dvc\config {
-    static $SITEMAPS = true;
+class config extends dvc\config {}
+
+if ( config::checkDBconfigured()) {
+    config::$SITEMAPS = true;
 
 }
