@@ -20,6 +20,10 @@
 		"erusev/parsedown": "^1.7",
 		"giggsey/libphonenumber-for-php": "^8.11"
 
+	},
+	"autoload": {
+		"psr-4": {
+			"src\\": "/"
+		}
 	}
-
 }

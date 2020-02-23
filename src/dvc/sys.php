@@ -498,9 +498,9 @@ abstract class sys {
 
 		}
 		else {
-			$root = realpath( __DIR__ . '/../../../twbs');
+			$root = realpath( __DIR__ . '/../../../../twbs');
 			if ( !$root) {
-				$root = realpath( __DIR__ . '/../vendor/twbs');
+				$root = realpath( __DIR__ . '/../../vendor/twbs');
 			}
 
 			if ( $root) {
