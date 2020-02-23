@@ -35,7 +35,7 @@ if ( file_exists( $vendor = __DIR__ . '/vendor/autoload.php')) {
 	require_once $vendor;
 
 }
-elseif ( file_exists( $vendor = __DIR__ . '/../autoload.php')) {
+elseif ( file_exists( $vendor = __DIR__ . '/../../autoload.php')) {
 	require_once $vendor;
 
 }
