@@ -576,11 +576,10 @@ abstract class controller {
 	}
 
 	protected function postHandler() {
-		/**
-		 * Placeholder for use the child class.
-		 */
+		if ( $action = $this->getPost( 'action')) {
+			\Json::nak($action);
 
-		\Json::nak('...');
+		} else { \Json::nak('...'); }
 
 	}
 
