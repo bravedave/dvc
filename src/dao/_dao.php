@@ -38,13 +38,7 @@ abstract class _dao {
 	}
 
 	public static function asDTO( $res, $template = null) {
-		$r = [];
-		while ( $dto = $res->dto( $template)) {
-			$r[] = $dto;
-
-		}
-
-		return ( $r);
+		return $res->dtoSet( $template);
 
 	}
 
