@@ -37,8 +37,8 @@ abstract class _dao {
 
 	}
 
-	public static function asDTO( $res, $template = null) {
-		return $res->dtoSet( $template);
+	public static function asDTO( \dvc\dbResult $res, $template = null) {
+		return $res->dtoSet( null, $template);
 
 	}
 
