@@ -1,21 +1,21 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+ * Creates a min combined file for css
+ * - requires a directory to write to
+ * 		=> requires appdir/app/public/css/ to be writable
+ *
+ * then you can call one file in place of several,
+ * if any css is updated, it will recompile it
+ *
+ * in theory - only used it once ...
+*/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	Creates a min combined file for css
-		* requires a directory to write to
-			=> requires appdir/app/public/css/ to be writable
-
-		then you can call one file in place of several, if any css is updated, it will recompile it
-
-	in theory - only used it once ...
-
-	*/
 namespace dvc;
 
 abstract class cssmin {

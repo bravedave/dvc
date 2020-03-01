@@ -1,18 +1,15 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+ * using: https://www.scrapbook.cash/interfaces/key-value-store/
+*/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	using:
-		https://www.scrapbook.cash/interfaces/key-value-store/
-
-	*/
-
-Namespace dvc;
+namespace dvc;
 
 class cache {
 	protected static $_instance;

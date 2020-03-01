@@ -1,21 +1,21 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+ * Creates a lib combined file for a js library
+ * 	- requires a directory to write to -see tinymce for example:
+ * 		=> requires appdir/app/public/js/tinymce to be writable
+ *
+ * then you can call one file in place of several, if the library is updated,
+ * it will recompile it
+ *
+ * in theory - only used it once ...
+*/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	Creates a lib combined file for a js library
-		* requires a directory to write to -see tinymce for example
-			=> requires appdir/app/public/js/tinymce to be writable
-
-		then you can call one file in place of several, if the library is updated, it will recompile it
-
-	in theory - only used it once ...
-
-	*/
 namespace dvc;
 
 abstract class jslib {

@@ -1,10 +1,13 @@
 <?php
-/**
- * HttpPost allows us to construct and send a POST request to
- * another web server
+/*
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
  *
- * @author Tony Gaitatzis
- */
+ * MIT License
+ *
+*/
+
 namespace dvc;
 
 class HttpPost {
@@ -15,11 +18,6 @@ class HttpPost {
 
 	public $ch;
 
-	/**
-	 * Constructs an HttpPost object and initializes CURL
-	 *
-	 * @param url the url to be accessed
-	 */
 	public function __construct($url) {
 		$this->url = $url;
 		$this->ch = curl_init( $this->url );
@@ -28,19 +26,10 @@ class HttpPost {
 		curl_setopt( $this->ch, CURLOPT_RETURNTRANSFER, true );
 	}
 
-	/**
-	 * shut down CURL before destroying the HttpPost object
-	 */
 	public function __destruct() {
 		curl_close($this->ch);
 	}
 
-	/**
-	 * Convert an incoming associative array into a POST string
-	 * for use with our HTTP POST
-	 *
-	 * @param params an associative array of data pairs
-	 */
 	public function setPostData($params) {
 		// http_build_query encodes URLs, which breaks POST data
 		$this->postString = rawurldecode(http_build_query( $params ));
