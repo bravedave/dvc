@@ -1,6 +1,6 @@
 # Apache
 
-## .htaccess
+#### .htaccess
 ```
 # Necessary to prevent problems when using a controller named "index" and having a root index.php
 # more here: http://httpd.apache.org/docs/2.2/content-negotiation.html
@@ -21,7 +21,7 @@ Header unset Last-Modified
 Header unset Cache-Control
 ```
 
-## VirtualHost.conf
+#### VirtualHost.conf
 ```
 <VirtualHost *:80>
 	ServerName dvc.your.dom
