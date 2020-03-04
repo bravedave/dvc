@@ -371,6 +371,34 @@ abstract class strings {
 
 	}
 
+	static function isPhone( string $_tel = '') : bool {
+		try {
+			$tel = preg_replace( '@[^0-9\+]@','', $_tel);
+			//~ \sys::logger( sprintf( 'IsMobilePhone :: %s', $tel));
+
+			if ( $tel && \strlen( $tel) >= 10 && \strlen( $tel) < 17) {
+				/**
+				 * to prove
+				 * a mobile phone must contain 10 numbers
+				 */
+				$phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+
+				$phoneNumberObject = ( '+' == substr( $tel, 0, 1) ? $phoneNumberUtil->parse($tel) : $phoneNumberUtil->parse($tel, 'AU'));
+
+				return (bool)$phoneNumberUtil->isValidNumber( $phoneNumberObject);
+
+			}
+
+		}
+		catch ( \Exception $e) {
+			\sys::logger( sprintf( '%s : %s : %s', $_tel, $e->getMessage(), __METHOD__));
+
+		}
+
+		return ( false);
+
+	}
+
 	static function isOurEmailDomain( $email) {
 		$email_array = explode("@", $email);
 		$domains = explode( ',', config::$EMAILDOMAIN);
