@@ -419,7 +419,7 @@ abstract class strings {
 	}
 
 	protected static $_pixel = false;
-	function pixel() {
+	static function pixel() {
 		if ( !self::$_pixel) {
 			$image = implode( DIRECTORY_SEPARATOR, [
 				__DIR__,
