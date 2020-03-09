@@ -272,6 +272,13 @@ abstract class sys {
 
                 }
 
+                if ( isset( $_mc->SMTPUserName) && isset( $_mc->SMTPPassword)) {
+					$mail->SMTPAuth = true;
+					$mail->Username = $_mc->SMTPUserName;
+					$mail->Password = $_mc->SMTPPassword;
+
+				}
+
             }
             else {
                 file_put_contents( $mailconfig, json_encode((object)[
