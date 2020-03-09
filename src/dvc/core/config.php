@@ -227,7 +227,7 @@ abstract class config {
 
 	}
 
-	public function imagePath() {
+	static public function imagePath() {
 		return implode( DIRECTORY_SEPARATOR, [ \application::app()->getRootPath(), 'app', 'public', 'images']);
 
 	}
