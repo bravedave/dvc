@@ -31,7 +31,8 @@ abstract class cssmin {
 		'css/brayworth.markdown.css',
 		'css/brayworth.modal-4.css',
 		'css/brayworth.typeahead.css',
-		'css/brayworth.utility.css'
+		'css/brayworth.utility.css',
+		'css/brayworth.boostrap.fix.css'
 	];
 
 	protected static $rootPath = null;
