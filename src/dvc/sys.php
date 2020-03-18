@@ -298,7 +298,7 @@ abstract class sys {
 
 	}
 
-	static function serve( $path) {
+	static public function serve( $path) {
 		if ( file_exists( $path)) {
 
 			$serve = [
