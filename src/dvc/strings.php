@@ -463,23 +463,27 @@ abstract class strings {
 		$s[] = sprintf( '@(%s|%s|%s)@', "\u{201C}", "\u{201D}", "\u{201E}");
 		$r[] = '"';
 
-		/* TODO */
-
-		//~ // ellipsis
-		//~ s = s.replace(/\u2026/g, "...");
-		//~ // dashes
-		//~ s = s.replace(/[\u2013|\u2014]/g, "-");
-		//~ // circumflex
-		//~ s = s.replace(/\u02C6/g, "^");
-		//~ // open angle bracket
-		//~ s = s.replace(/\u2039/g, "<");
-		//~ // close angle bracket
-		//~ s = s.replace(/\u203A/g, ">");
-		//~ // spaces
-		//~ s = s.replace(/[\u02DC|\u00A0]/g, " ");
+		/**
+		 * * ellipsis
+		 * s = s.replace(/\u2026/g, "...");
+		 *
+		 * * dashes
+		 * s = s.replace(/[\u2013|\u2014]/g, "-");
+		 *
+		 * * circumflex
+		 * s = s.replace(/\u02C6/g, "^");
+		 *
+		 * * open angle bracket
+		 * s = s.replace(/\u2039/g, "<");
+		 *
+		 * * close angle bracket
+		 * s = s.replace(/\u203A/g, ">");
+		 *
+		 * * spaces
+		 * s = s.replace(/[\u02DC|\u00A0]/g, " ");
+		 */
 
 		return preg_replace( $s, $r, $str);
-		//~ return $str;
 
 	}
 
