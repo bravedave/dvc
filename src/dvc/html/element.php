@@ -1,27 +1,26 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+*/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	*/
-
-NameSpace dvc\html;
+namespace dvc\html;
 //~ Use \dvc;
 
 class element {
 	protected $tag, $children, $_content, $attributes;
-	protected $_rendered = FALSE;
+	protected $_rendered = false;
 
 	protected static $indent = 1;
 
-	var $selfClosing = FALSE;
+	public $selfClosing = false;
 	static $EOL = PHP_EOL;
 
-	function __construct( $tag, $content = NULL, $attributes = NULL ) {
+	function __construct( $tag, $content = null, $attributes = null ) {
 		$this->tag = $tag;
 		$this->children = [];
 		$this->attributes = (array)$attributes;
@@ -51,7 +50,7 @@ class element {
 
 	}
 
-	public function content( $return = FALSE) {
+	public function content( $return = false) {
 		$t = '';
 		if ( !( empty( $this->_content ))) {
 			if ( is_string( $this->_content))
@@ -71,21 +70,32 @@ class element {
 
 	}
 
-	public function render( $return = FALSE ) {
-		$selfCloser = ( $this->selfClosing ? '/' : '' );
+	public function render( $return = false ) {
+		$selfCloser = ( $this->selfClosing ? ' /' : '' );
 
-		$r = array();
+		$r = [];
 
 		if ( count( $this->attributes ) > 0 ) {
-			$a = array();
-			foreach ( $this->attributes as $k => $v )
+			$a = [];
+			foreach ( $this->attributes as $k => $v ) {
 				$a[] = sprintf( '%s="%s"', $k, $v );
 
-			$r[] = sprintf( '%s%s<%s %s %s>', self::$EOL, str_repeat( chr(9), self::$indent ), $this->tag, implode( ' ', $a ), $selfCloser );
+			}
+
+			$r[] = sprintf( '%s%s<%s %s%s>',
+				self::$EOL,
+				str_repeat( chr(9), self::$indent ),
+				$this->tag,
+				implode( ' ', $a ),
+				$selfCloser );
 
 		}
 		else {
-			$r[] = sprintf( '%s%s<%s %s>', self::$EOL, str_repeat( chr(9), self::$indent ), $this->tag, $selfCloser);
+			$r[] = sprintf( '%s%s<%s%s>',
+				self::$EOL,
+				str_repeat( chr(9), self::$indent ),
+				$this->tag,
+				$selfCloser);
 
 		}
 
@@ -93,32 +103,50 @@ class element {
 
 		if ( !$return) {
 			print implode('', $r);
-			$r = array();
+			$r = [];
 
 		}
 
 		$r[] = $this->content( $return);
 
-		foreach ( $this->children as $child )
+		foreach ( $this->children as $child ) {
 			$r[] = $child->render( $return);
-
-		self::$indent --;
-		if ( !$this->selfClosing ) {
-			if ( count( $this->children ) > 0 )
-				$r[] = sprintf( '%s</%s>%s', str_repeat( chr(9), self::$indent ), $this->tag, self::$EOL );
-			else
-				$r[] = sprintf( '</%s>%s', $this->tag, self::$EOL );
 
 		}
 
-		$this->_rendered = TRUE;
+		self::$indent --;
+		if ( !$this->selfClosing ) {
+			if ( count( $this->children ) > 0 ) {
+				$r[] = sprintf( '%s</%s>%s',
+					str_repeat( chr(9), self::$indent ),
+					$this->tag,
+					self::$EOL
 
-		if ( $return)
+				);
+
+			}
+			else {
+				$r[] = sprintf( '</%s>%s',
+					$this->tag,
+					self::$EOL
+
+				);
+
+			}
+
+		}
+
+		$this->_rendered = true;
+
+		if ( $return) {
 			return implode('', $r);
-		else
-			print implode('', $r);
 
-		return ( '');
+		}
+		else {
+			print implode('', $r);
+			return '';
+
+		}
 
 	}
 
@@ -128,7 +156,7 @@ class element {
 
 	}
 
-	public function append( $tag, $content = NULL, array $attributes = NULL ) {
+	public function append( $tag, $content = null, array $attributes = null ) {
 
 		$contentType = gettype( $tag);
 		if ( $contentType == 'object' ) {
