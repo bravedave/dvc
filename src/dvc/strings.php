@@ -537,8 +537,8 @@ abstract class strings {
 
 	}
 
-	static function url( string $url = '') {
-		return url::toString( $url);
+	static function url( string $url = '', bool $protocol = false) : string {
+		return url::toString( $url, $protocol);
 
 	}
 
