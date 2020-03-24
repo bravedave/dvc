@@ -236,7 +236,7 @@ abstract class strings {
 
 	}
 
-	static function html2text($document){
+	static function html2text($document) : string {
 		$search = array(
 			'@<[\/\!]*?[^<>]*?>@si',			// trim blank lines from beginning and end
 			'@<br[\s]/>@si',
