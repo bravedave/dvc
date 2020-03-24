@@ -15,18 +15,25 @@ abstract class url {
 	static public $HOME;
 	static public $PROTOCOL;
 
-	static function tostring( string $url = '') {
-		return ( sprintf( '%s%s', self::$URL, $url ));
+	static function tostring( string $url = '', bool $protocol = false) : string {
+		if ( $protocol) {
+			return ( implode( [ self::$PROTOCOL, self::$URL, $url]));
+
+		}
+		else {
+			return ( implode([ self::$URL, $url]));
+
+		}
 
 	}
 
-	static function write( string $url = '') {
-		print self::swrite( $url);
+	static function write( string $url = '', bool $protocol = false) {
+		print self::tostring( $url, $protocol);
 
 	}
 
-	static function swrite( string $url = '') {
-		return ( self::tostring( $url));
+	static function swrite( string $url = '', bool $protocol = false) : string {
+		return ( self::tostring( $url, $protocol));
 
 	}
 
