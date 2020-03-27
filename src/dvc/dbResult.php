@@ -62,7 +62,7 @@ class dbResult {
 
 	}
 
-	public function dtoSet( $func = null, $template = null) {
+	public function dtoSet( $func = null, $template = null) : array {
 		/**
 		 * extend like:
 		 * $dtoSet = $res->dtoSet( function( $dto) {
@@ -72,15 +72,19 @@ class dbResult {
 		$ret = [];
 		if ( is_callable( $func)) {
 			while ( $dto = $this->dto( $template)) {
-				if ( $d = $func( $dto))
+				if ( $d = $func( $dto)) {
 					$ret[] = $d;
+
+				}
 
 			}
 
 		}
 		else {
-			while ( $dto = $this->dto( $template))
+			while ( $dto = $this->dto( $template)) {
 				$ret[] = $dto;
+
+			}
 
 		}
 

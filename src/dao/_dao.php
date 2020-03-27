@@ -37,7 +37,7 @@ abstract class _dao {
 
 	}
 
-	public static function asDTO( $res, $template = null) {
+	public static function asDTO( $res, $template = null) : array {
 		return $res->dtoSet( null, $template);
 
 	}

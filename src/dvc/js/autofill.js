@@ -3,8 +3,7 @@
  * BrayWorth Pty Ltd
  * e. david@brayworth.com.au
  *
- * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
- *      http://creativecommons.org/licenses/by/4.0/
+ * MIT License
  *
  *	source:
  *		the source is inspired by jquery-ui and should behave as such
@@ -367,7 +366,7 @@ $.fn.autofill = function( params) {
 
 		}
 		else {
-			window.setTimeout( function() {
+			setTimeout(() => {
 				if ( _data.iterant != iterant) {
 					return;
 
@@ -427,10 +426,10 @@ $.fn.autofill = function( params) {
 
 				};
 
-				options.source( _data, function( data) {
+				options.source( _data, ( data) => {
 					keyMove.clear();
 					keyMove.init();
-					$.each( data, function( i, el) { list.append( render( el)); });
+					$.each( data, ( i, el) => { list.append( render( el)); });
 
 				});
 
