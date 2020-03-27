@@ -10,4 +10,4 @@
  *  Copy it to <application>/app/dvc/ and modify it there
 */
 
-class strings extends dvc\strings {}
+abstract class strings extends dvc\strings {}

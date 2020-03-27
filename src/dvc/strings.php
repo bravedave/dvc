@@ -281,21 +281,44 @@ abstract class strings {
 			http://css-tricks.com/snippets/php/sanitize-database-inputs/
 		*/
 
-		$search = [
-			'@<head[^>]*?>.*?</head>@si',			// Strip head element
-			'@<script[^>]*?>.*?</script>@si',		// Strip out javascript
-			'@<!doctype[\/\!]*?[^<>]*?>@si',		// Strip doctype tags
-			'@<(|/)html[^>]*?>@i',					// Strip <html> start and tag
-			'@<(|/)body[^>]*?>@i',					// Strip <body> start and tag
-			'@<link[^>]*?>@si',						// Strip link tags
-			'@<base[\/\!]*?[^<>]*?>@si',			// Strip base href tags
-			'@<style[^>]*?>.*?</style>@si',			// Strip style tags
-			'@<![\s\S]*?--[ \t\n\r]*>@',			// Strip multi-line comments including CDATA
-			'@^<br[\s]/>@i'							// Blank HTML at Start
-		];
+		$search = [];
+        $replace = [];
+
+        $search[] = '@<head[^>]*?>.*?</head>@si';			// Strip head element
+        $replace[] = '';
+
+        $search[] = '@<script[^>]*?>.*?</script>@si';		// Strip out javascript
+        $replace[] = '';
+
+        $search[] = '@<!doctype[\/\!]*?[^<>]*?>@si';		// Strip doctype tags
+        $replace[] = '';
+
+        $search[] = '@<(|/)html[^>]*?>@i';					// Strip <html> start/end tag
+        $replace[] = '';
+
+        $search[] = '@<body([^>]*)>@i';					    // mod <body> start tag
+        $replace[] = '<div data-x_type="body" ${1}>';
+
+        $search[] = '@</body[^>]*?>@i';					    // mod <body> end tag
+        $replace[] = '</div>';
+
+        $search[] = '@<link[^>]*?>@si'; 					// Strip link tags
+        $replace[] = '';
+
+        $search[] = '@<base[\/\!]*?[^<>]*?>@si';			// Strip base href tags
+        $replace[] = '';
+
+        $search[] = '@<style[^>]*?>.*?</style>@si';			// Strip style tags
+        $replace[] = '';
+
+        $search[] = '@<![\s\S]*?--[ \t\n\r]*>@';			// Strip multi-line comments including CDATA
+        $replace[] = '';
+
+        $search[] = '@^<br[\s]/>@i';						// Blank HTML at Start
+        $replace[] = '';
 
 		//~ '@(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n\']+@',	// Blank Lines at Start
-		return( preg_replace($search, '', $html));
+		return( preg_replace($search, $replace, $html));
 
 	}
 
