@@ -1,3 +1,6 @@
+#### 30/03/2020
+* Error handling tweaks - now including remote ip in email
+
 #### 24/02/2020
 1. Organisation Change - MOve src to src folder
 

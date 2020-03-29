@@ -44,19 +44,41 @@ abstract class errsys {
 
 				$mail->Body = $mailMessage;
 				if ( $mail->send()) {
-					\sys::logger( 'error - send email');
+					\sys::logger( sprintf('<error - send email> %s', __METHOD__));
+
 
 				}
 				else {
-					\sys::logger( 'error - send email failed - fallback to mail ' . $mail->ErrorInfo);
+					\sys::logger(
+						sprintf('<error - send email failed - fallback to mail : %s> %s',
+							$mail->ErrorInfo,
+							__METHOD__
 
-					mail( \config::$SUPPORT_EMAIL, \config::$WEBNAME . " PHP Error", $mailMessage, $headers, "-f" . \config::$SUPPORT_EMAIL );
+						)
+
+					);
+
+					mail(
+						\config::$SUPPORT_EMAIL,
+						\config::$WEBNAME . " PHP Error",
+						$mailMessage,
+						$headers,
+						"-f" . \config::$SUPPORT_EMAIL
+
+					);
 
 				}
 
 			}
 			catch ( \Exception $e) {
-				mail( \config::$SUPPORT_EMAIL, \config::$WEBNAME . " PHP Error", $mailMessage, $headers, "-f" . \config::$SUPPORT_EMAIL );
+				mail(
+					\config::$SUPPORT_EMAIL,
+					\config::$WEBNAME . " PHP Error",
+					$mailMessage,
+					$headers,
+					"-f" . \config::$SUPPORT_EMAIL
+
+				);
 
 			}
 			catch( \Exception $e) {
@@ -86,7 +108,8 @@ abstract class errsys {
 				'compiled'
 			];
 
-			if( isset($_SERVER['HTTP_REFERER'])) $msg[] = sprintf( "Referer: %s\n", $_SERVER['HTTP_REFERER']);
+			if( isset( $_SERVER['HTTP_REFERER'])) $msg[] = sprintf( "Referer: %s\n", $_SERVER['HTTP_REFERER']);
+			if( isset( $_SERVER['REMOTE_ADDR'])) $msg[] = sprintf( "Remote Address: %s\n", $_SERVER['REMOTE_ADDR']);
 			if ( self::$_currentUser) $msg[] = sprintf( "Current User:%s\n", self::$_currentUser );
 
 			return implode( PHP_EOL, $msg);
@@ -124,21 +147,34 @@ abstract class errsys {
 					$exit = true;
 					break;
 				case E_USER_WARNING:
+					$type = 'User Warning';
+					break;
+
 				case E_WARNING:
 					$type = 'Warning';
 					break;
+
 				case E_USER_NOTICE:
+					$type = 'User Notice';
+					break;
+
 				case E_NOTICE:
-				case @E_STRICT:
 					$type = 'Notice';
 					break;
+
+				case @E_STRICT:
+					$type = 'Strict Notice';
+					break;
+
 				case @E_RECOVERABLE_ERROR:
 					$type = 'Catchable';
 					break;
+
 				default:
 					$type = 'Unknown Error';
 					$exit = true;
 					break;
+
 			}
 
 			/*
@@ -200,7 +236,7 @@ abstract class errsys {
 		}
 		else {
 			if ( method_exists($e, 'format' )) {
-				$message = sprintf( '%s',$e->format());
+				$message = sprintf( '%s', $e->format());
 
 			}
 			else {
