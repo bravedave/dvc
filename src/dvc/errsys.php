@@ -146,6 +146,7 @@ abstract class errsys {
 					$type = 'Fatal Error';
 					$exit = true;
 					break;
+
 				case E_USER_WARNING:
 					$type = 'User Warning';
 					break;
