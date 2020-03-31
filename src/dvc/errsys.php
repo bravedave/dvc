@@ -178,18 +178,6 @@ abstract class errsys {
 
 			}
 
-			/*
-			 * error is logged in the exception
-			 */
-			// if ( $errstr == 'Unknown') {
-			if ( $exit || preg_match( '/^Unknown/', $errstr)) {
-				error_log( '---[probable duplicate    : error is logged in the exception]---');
-				error_log( sprintf( '%s: %s %s %s %s', $type, $errstr, $errno, $errfile, $errline));
-				\sys::trace( $errno);
-				error_log( '---[end probable duplicate: error is logged in the exception]---');
-
-			}
-
 
 			if ( $exit ) {
 				if ( !self::$_shutup ) {
@@ -215,7 +203,18 @@ abstract class errsys {
 
 			}
 			else {
-				\sys::trace( $errno);
+				/*
+				 * error is logged in the exception
+				 */
+				// if ( $errstr == 'Unknown') {
+				if ( preg_match( '/^Unknown/', $errstr)) {
+					error_log( '---[probable duplicate    : error is logged in the exception]---');
+					error_log( sprintf( '%s: %s %s %s %s', $type, $errstr, $errno, $errfile, $errline));
+					\sys::trace( $errno);
+					error_log( '---[end probable duplicate: error is logged in the exception]---');
+
+				}
+
 				throw new \Exception( sprintf( '%s: %s %s %s %s %s', $type, $errstr, $errno, PHP_EOL, $errfile, $errline));
 
 			}
