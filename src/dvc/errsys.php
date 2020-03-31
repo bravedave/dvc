@@ -215,6 +215,7 @@ abstract class errsys {
 
 			}
 			else {
+				\sys::trace( $errno);
 				throw new \Exception( sprintf( '%s: %s %s %s %s %s', $type, $errstr, $errno, PHP_EOL, $errfile, $errline));
 
 			}
