@@ -209,6 +209,7 @@ abstract class errsys {
 				// if ( $errstr == 'Unknown') {
 				if ( preg_match( '/^Unknown/', $errstr)) {
 					error_log( '---[probable duplicate    : error is logged in the exception]---');
+					error_log( sprintf( '---[controller : %s]---', \application::app()->controller()));
 					error_log( sprintf( '%s: %s %s %s %s', $type, $errstr, $errno, $errfile, $errline));
 					\sys::trace( $errno);
 					error_log( '---[end probable duplicate: error is logged in the exception]---');
