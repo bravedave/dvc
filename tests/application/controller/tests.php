@@ -1,12 +1,12 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-	*/
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+*/
 
 class tests extends Controller {
 	protected function posthandler() {
@@ -23,7 +23,38 @@ class tests extends Controller {
 
 	}
 
-	function errTest() {
+	public function changes() {
+		$this->render([
+			'title' => 'Change Log',
+			'primary' => 'changes',
+			'secondary' => 'index'
+
+			]
+
+		);
+
+	}
+
+	public function info() {
+		/* default setting
+		* in case you forget to disable this on a production server
+		* - only running on localhost
+		*/
+		if ( $this->Request->ServerIsLocal()) {
+			$this->render([
+				'title' => 'PHP Info',
+				'primary' => 'info',
+				'secondary' => 'index'
+
+				]
+
+			);
+
+		}
+
+	}
+
+	public function errTest() {
 		throw new Exceptions\TestException( 'test');
 
 	}

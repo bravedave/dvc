@@ -29,7 +29,7 @@
 	*/
 /*jshint esversion: 6 */
 window.templation = {
-	urlwrite : function( _url) {
+	urlwrite : ( _url) => {
 		if ( 'undefined' == typeof _url)
 			_url = '';
 
@@ -39,7 +39,8 @@ window.templation = {
 
 };
 
-(function() {
+(() => {
+	const newLocal = '<div class="modal"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content" role="dialog" aria-labelledby="modal-title"><div class="modal-header py-1 bg-primary text-white"><h5 class="modal-title text-truncate" id="modal-title" /><i class="fa fa-times close text-white" /></div><div class="modal-body" /></div></div></div>';
 	/*
 		some predefined templates
 		add more with templation.loadHTML('tr','<tr />');
@@ -50,7 +51,7 @@ window.templation = {
 		form : '<form />',
 		table : '<table><thead></thead><tbody /><tfoot /></table>',
 		tr : '<tr />',
-		modal: '<div class="modal modal-brayworth"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content" role="dialog" aria-labelledby="modal-title"><div class="modal-header py-1 bg-primary text-white"><h5 class="modal-title text-truncate" id="modal-title" /><i class="fa fa-times close text-white" /></div><div class="modal-body" /></div></div></div>',
+		modal: newLocal,
 
 	};
 
@@ -138,7 +139,7 @@ window.templation = {
 
 	};
 
-	templation.loadHTML = function( key, fragment) {
+	templation.loadHTML = ( key, fragment) => {
 		cache[key] = fragment;
 		return( _t( fragment));
 
