@@ -3,10 +3,9 @@
 	BrayWorth Pty Ltd
 	e. david@brayworth.com.au
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
+	MIT License
 
-	*/
+*/
 
 ul.menu { list-style: none; padding: 0; }
 ul.menu ul.menu { z-index: 19; }
@@ -18,7 +17,13 @@ ul.menu.menu-contextmenu { z-index: 1021; }
 ul.menu.menu-contextmenu > li > a,
 ul.menu.menu-contextmenu ul.menu > li > a,
 ul.menu.menu-contextmenu > li > div,
-ul.menu.menu-contextmenu ul.menu > li > div { padding: 2px 24px 2px 32px; display: block; white-space: nowrap; }
+ul.menu.menu-contextmenu ul.menu > li > div {
+	border-left: 2rem #f5f5f5 solid;
+	padding: .325rem;
+	display: block;
+	white-space: nowrap;
+
+}
 
 ul.menu.menu-contextmenu > li > hr,
 ul.menu.menu-contextmenu ul.menu > li > hr { margin: 0; }
