@@ -41,7 +41,13 @@ ul.menu.menu-contextmenu ul.menu > li:last-child > div { padding-bottom: 4px; }
 ul.menu.menu-contextmenu > li > * > .fa:not(.fa-pull-right),
 ul.menu.menu-contextmenu ul.menu > li > * > .fa:not(.fa-pull-right),
 ul.menu.menu-contextmenu > li > * > .ion:not(.pull-right),
-ul.menu.menu-contextmenu ul.menu > li > * > .ion:not(.pull-right) { margin-left: -24px; margin-right: 8px; width: 16px; text-align: center; }
+ul.menu.menu-contextmenu ul.menu > li > * > .ion:not(.pull-right) {
+	margin-left: -1.8rem;
+	margin-right: .8rem;
+	width: 1rem;
+
+}
+
 ul.menu.menu-contextmenu > li > * > .fa.fa-pull-right,
 ul.menu.menu-contextmenu ul.menu > li > * > .fa.fa-pull-right,
 ul.menu.menu-contextmenu > li > * > .ion.pull-right,
