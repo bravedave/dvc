@@ -1,9 +1,6 @@
 .bak
 autoload-local-path.php
 example/application/app/public/
-dvc/.ews/*
-dvc/public/.bak/
-dvc/public/js/.bak/
 vendor/
 *.lock
 tests/application/data/
