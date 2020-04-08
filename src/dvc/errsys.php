@@ -108,6 +108,7 @@ abstract class errsys {
 				'compiled'
 			];
 
+			if( isset( $_SERVER['REQUEST_URI'])) $msg[] = sprintf( "Request URI: %s\n", $_SERVER['REQUEST_URI']);
 			if( isset( $_SERVER['HTTP_REFERER'])) $msg[] = sprintf( "Referer: %s\n", $_SERVER['HTTP_REFERER']);
 			if( isset( $_SERVER['REMOTE_ADDR'])) $msg[] = sprintf( "Remote Address: %s\n", $_SERVER['REMOTE_ADDR']);
 			if ( self::$_currentUser) $msg[] = sprintf( "Current User:%s\n", self::$_currentUser );
@@ -140,6 +141,7 @@ abstract class errsys {
 		$l = error_reporting();
 		if ( $l & $errno ) {
 			$exit = false;
+			$type = 'Unknown Error';
 
 			switch ( $errno ) {
 				case E_USER_ERROR:
@@ -172,7 +174,6 @@ abstract class errsys {
 					break;
 
 				default:
-					$type = 'Unknown Error';
 					$exit = true;
 					break;
 
@@ -211,8 +212,8 @@ abstract class errsys {
 					error_log( '---[probable duplicate    : error is logged in the exception]---');
 					error_log( sprintf( '---[controller : %s]---', \application::app()->controller()));
 					error_log( sprintf( '---[user : %s]---', \currentUser::name()));
-					error_log( sprintf( '%s: %s %s %s %s', $type, $errstr, $errno, $errfile, $errline));
 					\sys::trace( $errno);
+					error_log( sprintf( '%s: %s %s %s %s', $type, $errstr, $errno, $errfile, $errline));
 					error_log( '---[end probable duplicate: error is logged in the exception]---');
 
 				}
