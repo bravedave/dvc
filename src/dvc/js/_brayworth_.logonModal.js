@@ -39,7 +39,7 @@ _brayworth_.logonModal = () => {
 
 		}
 
-		modal.modal('close');
+		flds.user.closest('.modal').modal('close');
 
 		_brayworth_.post({
 			data : {
