@@ -11,6 +11,7 @@
  * */
 /*jshint esversion: 6 */
 _brayworth_.logonModal = () => {
+	let modal = false;
 	let flds = {
 		user : $('<input type="text" class="form-control" placeholder="username or email" autocomplete="username" autofocus />'),
 		pass : $('<input type="password" class="form-control" placeholder="password" autocomplete="current-password" />'),
@@ -39,7 +40,7 @@ _brayworth_.logonModal = () => {
 
 		}
 
-		flds.user.closest('.modal').modal('close');
+		modal.modal('close');
 
 		_brayworth_.post({
 			data : {
@@ -120,7 +121,7 @@ _brayworth_.logonModal = () => {
 
 	buttons.logon = submitter;
 
-	_brayworth_.modal({
+	modal = _brayworth_.modal({
 		className : 'modal-sm',
 		title : 'logon',
 		text : form,
