@@ -3,25 +3,25 @@
  * BrayWorth Pty Ltd
  * e. david@brayworth.com.au
  *
- * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
- *      http://creativecommons.org/licenses/by/4.0/
+ * MIT License
  *
  *	test:
  *		_brayworth_.logonModal();
  *
  * */
 /*jshint esversion: 6 */
-_brayworth_.logonModal = function() {
+_brayworth_.logonModal = () => {
 	let flds = {
 		user : $('<input type="text" class="form-control" placeholder="username or email" autocomplete="username" autofocus />'),
 		pass : $('<input type="password" class="form-control" placeholder="password" autocomplete="current-password" />'),
+
 	};
 
 	let form = $('<form />');
 		$('<div class="form-group" />').append( flds.user).appendTo( form);
 		$('<div class="form-group" />').append( flds.pass).appendTo( form);
 
-	function submitter() {
+	let submitter = () => {
 		let u = flds.user.val();
 		let p = flds.pass.val();
 
@@ -50,7 +50,7 @@ _brayworth_.logonModal = function() {
 			}
 
 		})
-		.done( function( d) {
+		.done( ( d) => {
 			$('body').growl( d);
 			if ( 'ack' == d.response) {
 				window.location.reload( true);
@@ -58,48 +58,6 @@ _brayworth_.logonModal = function() {
 			}
 			else {
 				setTimeout( _brayworth_.logonModal, 2000);
-
-			}
-
-		});
-
-	}
-
-	function retrievePassword() {
-		var u = flds.user.val();
-
-		if ( u.trim() == '') {
-			$('body').growlError( 'empty user');
-			flds.user.focus();
-			return;
-
-		}
-
-		_brayworth_.post({
-			data : {
-				action : '-send-password-',
-				u : u,
-
-			}
-
-		})
-		.done( function( d) {
-			$('body').growl( d);
-			if ( 'ack' == d.response) {
-				_brayworth_.modal({
-					width : 300,
-					title : d.description,
-					text : d.message,
-					buttons : {
-						OK : function(e) {
-							this.modal( 'close');
-							flds.user.focus();
-
-						}
-
-					}
-
-				});
 
 			}
 
@@ -116,14 +74,54 @@ _brayworth_.logonModal = function() {
 
 	let buttons = {};
 	if ( _brayworth_.logon_retrieve_password) {
-		buttons['Reset Password'] = retrievePassword;
+		buttons['Reset Password'] = () => {
+			let u = flds.user.val();
+
+			if ( u.trim() == '') {
+				$('body').growlError( 'empty user');
+				flds.user.focus();
+				return;
+
+			}
+
+			_brayworth_.post({
+				data : {
+					action : '-send-password-',
+					u : u,
+
+				}
+
+			})
+			.done( ( d) => {
+				$('body').growl( d);
+				if ( 'ack' == d.response) {
+					_brayworth_.modal({
+						width : 300,
+						title : d.description,
+						text : d.message,
+						buttons : {
+							OK : function(e) {
+								this.modal( 'close');
+								flds.user.focus();
+
+							}
+
+						}
+
+					});
+
+				}
+
+			});
+
+		};
 
 	}
 
 	buttons.logon = submitter;
 
-	var modal = _brayworth_.modal({
-		width : 300,
+	_brayworth_.modal({
+		className : 'modal-sm',
 		title : 'logon',
 		text : form,
 		buttons : buttons
