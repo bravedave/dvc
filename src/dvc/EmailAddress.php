@@ -6,14 +6,13 @@
  *
  * MIT License
  *
- *  DO NOT change this file
- *  Copy it to <application>/app/dvc/ and modify it there
 */
 
 namespace dvc;
 
 class EmailAddress {
-	var $email, $name;
+	public $email,
+		$name;
 
 	function __construct( $el ) {
 		if ( strpos( $el, '<' ) !== false ) {
