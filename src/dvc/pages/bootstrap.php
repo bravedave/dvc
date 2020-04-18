@@ -12,8 +12,6 @@ namespace dvc\pages;
 
 class bootstrap extends page {
 
-	static $SCALE = 1;
-
 	static $contentClass = 'col pt-3 pb-4';
 	static $primaryClass = 'col-sm-8 col-md-9 pt-3 pb-4';
 	static $secondaryClass = 'col-sm-4 col-md-3 pt-3 pb-4 d-print-none';
@@ -37,8 +35,6 @@ class bootstrap extends page {
 			self::$pageContainer = 'container-fluid';
 
 		}
-
-		$this->meta[] = sprintf('<meta name="viewport" content="width=device-width, initial-scale=%s, shrink-to-fit=no" />', self::$SCALE);
 
 		if ( self::$Bootstrap_Version == '3') {
 			$css = \url::tostring( 'bootstrap.3/css/bootstrap.min.css');

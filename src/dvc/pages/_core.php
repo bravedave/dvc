@@ -207,6 +207,7 @@ class _core {
 
 		$this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
 		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
+		$this->meta[] = '<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />';
 
         $this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/jquery'));
 
