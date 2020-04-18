@@ -42,7 +42,7 @@ class dashboard extends Controller {
 	protected function _index() {
 		$this->render(
 			[
-				'title' => $this->title = sprintf( '%s : Index', $this->label),
+				'title' => $this->title = $this->label,
 				'sidebar' => 'sidebar',
 				'main' => 'main',
 				'data' => (object)[

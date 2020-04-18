@@ -3,8 +3,7 @@
 	BrayWorth Pty Ltd
 	e. david@brayworth.com.au
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
+	MIT License
 
 	Components
 	*/
@@ -19,4 +18,15 @@
 	text-align: center;
 	font-size: 14px;
 	margin: auto;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 100;
+    padding: 70px 0 0 10px;
+    border-right: 1px solid #d3d3d3;
+
 }
