@@ -1,12 +1,13 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+*/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-	*/
 namespace dvc\pages;
 
 class page extends _page {
@@ -140,7 +141,7 @@ class page extends _page {
 
 	}
 
-	public function content( $class = null, $more = null) {
+	public function content( $class = null, $more = '') {
 		if ( is_null( $class)) $class = 'content';
 
 		$this
@@ -153,7 +154,7 @@ class page extends _page {
 
 	}
 
-	public function primary( $class = null, $more = null) {
+	public function primary( $class = null, $more = '') {
 		if ( is_null( $class)) {
 			$class = 'content-primary';
 
@@ -169,7 +170,7 @@ class page extends _page {
 
 	}
 
-	public function secondary( $class= null, $more = null) {
+	public function secondary( $class= null, $more = '') {
 		if ( is_null( $class)) {
 			$class = 'content-secondary';
 

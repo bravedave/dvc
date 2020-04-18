@@ -637,22 +637,30 @@ abstract class controller {
 
 		}
 
+		$mainClass = 'main px-4';
 		if ( $options['sidebar']) {
 			/*
 			Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
 			Tip 2: you can also add an image using data-image tag
 			*/
 			$more = null;
+			$class = 'col-md-2 bg-light d-none d-md-block sidebar';
+			$mainClass = 'col-md-9 ml-sm-auto col-lg-10 px-4';
+			$tag = 'aside';
 			if ( 'lightdash' == \config::$THEME) {
 				$more = sprintf('data-color="orange" data-image="%s"', \url::tostring('theme/img/sidebar-5.jpg'));
+				$class = 'sidebar';
+				$tag = 'div';
 
 			}
 			elseif ( 'material-dashboard' == \config::$THEME) {
 				$more = sprintf('data-color="rose" data-background-color="black" data-image="%s"', \url::tostring('theme/img/sidebar-1.jpg'));
+				$class = 'sidebar';
+				$tag = 'div';
 
 			}
 
-			$p->newSection( $name = 'sidebar', $class = 'sidebar', $role = 'sidebar', $more = '');
+			$p->newSection( $name = 'sidebar', $class, $role = 'sidebar', $more = '', $tag);
 			$this->_render( $options['sidebar']);
 
 		}
@@ -664,7 +672,7 @@ abstract class controller {
 		}
 
 		if ( $options['main']) {
-			$p->newSection( $name = 'main', $class = 'main', $role = 'main', $more = '');
+			$p->main( $mainClass);
 			$this->_render( $options['main']);
 
 		}
