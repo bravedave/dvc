@@ -388,7 +388,7 @@ class _page {
 
     }
 
-	public function title( $navbar = ['navbar-default']) {
+	public function title( $navbar = ['navbar']) {
 		if ( !$this->boolHeader )
 			$this->header();
 

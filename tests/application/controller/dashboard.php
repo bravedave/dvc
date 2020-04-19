@@ -55,7 +55,44 @@ class dashboard extends Controller {
 
 		);
 
-    }
+	}
+
+	protected function changelog() {
+		$path = realpath( implode( DIRECTORY_SEPARATOR, [
+			__DIR__,
+			'..',
+			'..',
+			'..',
+			'CHANGELOG.md'
+			])
+
+		);
+
+		if ( file_exists( $path)) {
+			$fc = file_get_contents( $path);
+			print \Parsedown::instance()->text( $fc);
+
+		}
+
+	}
+
+    public function doc( $index = '') {
+		if ( $index) {
+			if ( 'changes' == $index) {
+				$this->changelog();
+
+			}
+			else {
+				if ( file_exists( __DIR__ . '/../app/views/dashboard/' . $index  . '.md')) {
+					$this->load( $index);
+
+				}
+
+			}
+
+		}
+
+	}
 
     public function css() {
         Response::css_headers();

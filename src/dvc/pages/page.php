@@ -127,12 +127,7 @@ class page extends _page {
 	}
 
 	public function title( $navbar = '') {
-		if ( !$navbar) {
-			$navbar = 'navbar-default';
-
-		}
-
-		return ( parent::title( $navbar));
+		return ( parent::title( $navbar ? $navbar : 'navbar'));
 
 	}
 

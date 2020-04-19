@@ -41,6 +41,11 @@
             }   ?>
 
             <li class="nav-item text-nowrap">
+                <a class="nav-link" href="<?= strings::url() ?>"><i class="fa fa-home"></i></a>
+
+            </li>
+
+            <li class="nav-item text-nowrap">
                 <a class="nav-link" href="#">Logout</a>
 
             </li>

@@ -13,7 +13,7 @@ class docs extends Controller {
 
 	protected function render( $params) {
         $defaults = [
-            'navbar' => 'navbar-default',
+            'navbar' => 'navbar',
             'css' => [
                 strings::url( 'docs/css')
             ],
