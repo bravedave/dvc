@@ -10,4 +10,4 @@
 
 namespace dvc\pages;
 
-class bootstrap4 extends reboot {}
+class bootstrap4 extends bootstrap {}
