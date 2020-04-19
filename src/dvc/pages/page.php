@@ -10,6 +10,8 @@
 
 namespace dvc\pages;
 
+use strings;
+
 class page extends _page {
 
 	protected $boolOpen = false;
