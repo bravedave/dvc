@@ -7,6 +7,8 @@
 		http://creativecommons.org/licenses/by/4.0/
 */
 /*-- --[ colors ]-- --*/
+.navbar-default { background-color: #f8f8f8; border-color: #e7e7e7; }
+.navbar-default .navbar-brand { color: #777; }
 footer, .footer { background-color: #f5f5f5; }
 .markdown-body .highlight pre, .markdown-body pre { background-color: #f6f8fa; }
 /*-- --[ end: colors ]-- --*/
@@ -60,3 +62,4 @@ input[type="search"]:not(.with-content)::-webkit-search-cancel-button {
 	/* Remove default */
 	-webkit-appearance: none;
 }
+

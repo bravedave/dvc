@@ -15,7 +15,7 @@
 </code></pre>
 
 * here there header has been closed (&lt;/head&gt;), body has been opened (&lt;body&gt;), and a navbar has been written (&lt;nav&gt; ... &lt;/nav&gt;)
-  * the default navbar is app/views/navbar
+  * the default navbar is app/views/navbar-default
 
 <pre><code>
                     $p->primary();
@@ -43,5 +43,5 @@
 * the page closed automatically and a footer was added
 
 #### Templates used
-* app/views/navbar.php
+* app/views/navbar-default.php
 * app/views/footer.php

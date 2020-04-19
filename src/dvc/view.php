@@ -168,10 +168,9 @@ class view {
 
 				}
 
-				printf( 'view::%s - not found<br />%s', $name, PHP_EOL );
-				printf( 'root::%s<br />%s', $this->rootPath, PHP_EOL);
-				sys::trace( sprintf( 'view::%s - not found', $name));
-				print "<br />\n";
+				printf( 'view::%s - not found<br />', $name );
+				printf( 'root::%s<br />', $this->rootPath);
+				print '<br />';
 
 			}
 

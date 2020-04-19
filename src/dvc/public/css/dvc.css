@@ -77,6 +77,12 @@ footer nav > ul > li, .footer nav > ul > li, .copyright {
     padding-bottom: 0px;
 }
 
+/* .navbar-brand, .navbar-nav > li > a { line-height: 1.42857143; } */
+.navbar-default {
+    background-color: #f8f8f8;
+    border-color: #e7e7e7;
+}
+
 /* .navbar-brand {
 	padding-top: 0;
 	font: normal 20px/1.42857143 'Permanent Marker', arial, sans-serif;

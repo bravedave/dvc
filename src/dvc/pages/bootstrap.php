@@ -1,16 +1,20 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
-*/
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
 
+	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+		http://creativecommons.org/licenses/by/4.0/
+
+	DO NOT change this file
+	Copy it to <application>/app/dvc/ and modify it there
+	*/
 namespace dvc\pages;
 
 class bootstrap extends page {
+
+	static $SCALE = 1;
 
 	static $contentClass = 'col pt-3 pb-4';
 	static $primaryClass = 'col-sm-8 col-md-9 pt-3 pb-4';
@@ -36,39 +40,51 @@ class bootstrap extends page {
 
 		}
 
+		$this->meta[] = sprintf('<meta name="viewport" content="width=device-width, initial-scale=%s, shrink-to-fit=no" />', self::$SCALE);
+
 		if ( self::$Bootstrap_Version == '3') {
 			$css = \url::tostring( 'bootstrap.3/css/bootstrap.min.css');
 			$js = \url::tostring( 'bootstrap.3/js/bootstrap.min.js');
 
-			$this->css = [ sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css)];
-			$this->latescripts = [ sprintf( '<script type="text/javascript" src="%s"></script>', $js)];
+			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
+
+			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
 
 		}
 		elseif ( self::$Bootstrap_Version == '4') {
-		// 	$css = \url::tostring( 'assets/bootstrap/css');
-		// 	$js = \url::tostring( 'assets/bootstrap/js');
+			$css = \url::tostring( 'assets/bootstrap/css');
+			$js = \url::tostring( 'assets/bootstrap/js');
 
-		// 	array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
+			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
 
-		// 	$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
+			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
 
 		}
-		else { throw new \dvc\Exceptions\InvalidBootstrapVersion; }
+		else { throw new \Exceptions\InvalidBootstrapVersion; }
 
 	}
 
-	public function content( $class = null, $more = '') {
-		return ( parent::content( is_null( $class) ? self::$contentClass : $class, $more));	// chain
+	public function content( $class = null, $more = null) {
+		if ( is_null( $class))
+			$class = self::$contentClass;
+
+		return ( parent::content( $class, $more));	// chain
 
 	}
 
-	public function primary( $class = null, $more = '') {
-		return ( parent::primary( is_null( $class) ? self::$primaryClass : $class, $more));	// chain
+	public function primary( $class = null, $more = null) {
+		if ( is_null( $class))
+			$class = self::$primaryClass;
+
+		return ( parent::primary( $class, $more));	// chain
 
 	}
 
-	public function secondary( $class = null, $more = '') {
-		return ( parent::secondary( is_null( $class) ? self::$secondaryClass : $class, $more));	// chain
+	public function secondary( $class = null, $more = null) {
+		if ( is_null( $class))
+			$class =  self::$secondaryClass;
+
+		return ( parent::secondary( $class, $more));	// chain
 
 	}
 

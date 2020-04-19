@@ -1,63 +1,31 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
-*/
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
 
+	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+		http://creativecommons.org/licenses/by/4.0/
+	*/
 namespace dvc\pages;
 
-use strings;
-
 class page extends _page {
+	public $timer = null;
 
 	protected $boolOpen = false;
 
-	protected $dvc = '3';
+	static public $Bootstrap_Version = '3';
 
-	protected $topOfPage = [];
+	static public $MainContextMenu = true;
+	static public $BootStrap = false;
+	static public $pageContainer = '';
 
 	protected static $developer = false;
-
-	public $timer = null;
-
-	public $debug = false;
-
-	public $jQuery2 = false;
-
-	public static $Bootstrap_Version = '3';
-
-	public static $MainContextMenu = true;
-
-	public static $BootStrap = false;
-
-	public static $pageContainer = '';
+	protected $topOfPage = [];
 
 	function __construct( $title = '' ) {
 
 		parent::__construct( $title);
-
-		if ( \userAgent::isLegacyIE()) {
-			$this->scripts = [
-				sprintf( '<script type="text/javascript" src="%s"></script>', strings::url( 'js/jquery-1.11.3.min.js'))
-
-			];
-
-		}
-		elseif ( $this->jQuery2) {
-			$this->scripts = [
-				sprintf( '<script type="text/javascript" src="%s"></script>', strings::url( 'js/jquery-2.2.4.min.js'))
-
-			];
-
-		}
-
-		$this->latescripts = [];	// legacy starts with blank page
-
-		$this->library();
 
 		$this->meta[] = '<meta name="page-constructor" content="_default" />';
 		$this->topOfPage[] = '	<div id="top-of-page"></div>';
@@ -104,16 +72,6 @@ class page extends _page {
 
 	}
 
-	public function isOpen() {
-		return ( (bool)$this->boolOpen);
-
-	}
-
-	public function main( $class = 'main') {
-		$this->newSection( $name = 'main', $class, $role = 'main');
-
-	}
-
 	public function pageHeader() {
 		if ( $this->boolpageHeader )
 			return ( $this);
@@ -129,7 +87,12 @@ class page extends _page {
 	}
 
 	public function title( $navbar = '') {
-		return ( parent::title( $navbar ? $navbar : 'navbar'));
+		if ( !$navbar) {
+			$navbar = 'navbar-default';
+
+		}
+
+		return ( parent::title( $navbar));
 
 	}
 
@@ -177,8 +140,59 @@ class page extends _page {
 
 	}
 
+	public function content( $class = null, $more = null) {
+		if ( is_null( $class)) $class = 'content';
+
+		$this
+			->header()
+			->closeSection()
+			->openContent()
+			->section( 'content', $class, 'content', $more);
+
+		return ( $this);	// chain
+
+	}
+
+	public function primary( $class = null, $more = null) {
+		if ( is_null( $class)) {
+			$class = 'content-primary';
+
+		}
+
+		$this
+			->header()
+			->closeSection()
+			->openContent()
+			->section( 'content-primary', $class, 'content-primary', $more);
+
+		return ( $this);	// chain
+
+	}
+
+	public function secondary( $class= null, $more = null) {
+		if ( is_null( $class)) {
+			$class = 'content-secondary';
+
+		}
+
+		$this
+			->header()
+			->closeSection()
+			->openContent()
+			->section( 'content-secondary', $class, 'content-secondary', $more);
+
+		return ( $this);	// chain
+
+	}
+
 	public function pagefooter() {
-		if ( '' == self::$footerTemplate) self::$footerTemplate = 'footer';
+		$this->_pagefooter();
+
+		if ( '' == self::$footerTemplate) {
+			self::$footerTemplate = 'footer';
+
+		}
+
 		return ( parent::pagefooter());	// chain
 
 	}

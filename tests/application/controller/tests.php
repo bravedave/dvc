@@ -23,6 +23,18 @@ class tests extends Controller {
 
 	}
 
+	public function changes() {
+		$this->render([
+			'title' => 'Change Log',
+			'primary' => 'changes',
+			'secondary' => 'index'
+
+			]
+
+		);
+
+	}
+
 	public function info() {
 		/* default setting
 		* in case you forget to disable this on a production server

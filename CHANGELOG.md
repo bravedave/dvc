@@ -1,11 +1,8 @@
-###### 18/04/2020
-* Re-think Page construction
-
 ###### 30/03/2020
 * Error handling tweaks - now including remote ip in email
 
 ###### 24/02/2020
-1. Organisation Change - Move src to src folder
+1. Organisation Change - MOve src to src folder
 
 ###### 22/02/2020
 1. Fixed Sitemaps

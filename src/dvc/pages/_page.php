@@ -1,65 +1,123 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
-*/
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
 
+	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
+		http://creativecommons.org/licenses/by/4.0/
+	*/
 namespace dvc\pages;
 
-use strings;
-use Response;
-
 class _page {
-    protected $boolHeader = false;
+	protected $boolHeader = false,
+		$boolpageHeader = false,
+		$headerOPEN = false,
+		$contentOPEN = false,
+		$sectionOPEN = false,
+		$sectionNAME = '',
+		$hasTitleBar = false,
+		$dvc = '3';
 
-    protected $boolpageHeader = false;
+	public $title = '';
+	public $data = false;
+	public $charset = false;
 
-    protected $contentOPEN = false;
+	public $meta = [],
+		$scripts = [],
+		$latescripts = [],
+		$css = [],
+		$closeTags = [],
+		$closeContentTags = [],
+		$footer = true,
+		$bodyClass = false,
+		$debug = false,
+		$jQuery2 = false;
 
-	protected $dvc = '4';
-
-    protected $hasTitleBar = false;
-
-    protected $headerOPEN = false;
-
-    protected $sectionNAME = '';
-
-	protected $sectionOPEN = false;
-
-    protected $sectionTAG = '';
-
-    public $bodyClass = false;
-
-    public $closeContentTags = [];
-
-    public $closeTags = [];
-
-    public $css = [];
-
-    public $charset = false;
-
-    public $data = false;
-
-    public $footer = true;
-
-    public $meta = [];
-
-    public $latescripts = [];
-
-	public $scripts = [];
-
-    public $title = '';
-
-    static $docType = false;
-
-    static $footerTemplate = '';
+	static $docType = false;
 
 	static $momentJS = false;	// load momentJS sources
 	static $FullCalendar = false;	// load fullCalendar sources, set to 4 for version 4
+	static $footerTemplate = '';
+
+	function __construct( $title = '' ) {
+		$this->data = (object)['title' => ''];
+
+		$this->data->title = $this->title = ( $title == '' ? \config::$WEBNAME : $title );
+
+		$this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
+		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
+
+		if ( \userAgent::isLegacyIE()) {
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'js/jquery-1.11.3.min.js'));
+
+		}
+		elseif ( $this->jQuery2) {
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'js/jquery-2.2.4.min.js'));
+
+		}
+		else {
+			// $this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'js/jquery-3.3.1.min.js'));
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/jquery'));
+
+		}
+
+		/*
+		 * momentJS is required for fullCalendar
+		 * otherwise optional
+		 */
+		if ( self::$momentJS || ( self::$FullCalendar &&  4 != (int)self::$FullCalendar)) {
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url('js/moment.min.js'));
+
+		}
+
+		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/brayworth/js'));
+		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/brayworth/dopo'));
+
+		if ( '5' == \config::$FONTAWESOME) {
+				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'fontawesome5/css/fontawesome-all.css'));
+
+		}
+		else {
+			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'css/font-awesome.min.css'));
+
+		}
+
+		if ( $this->dvc == '4') {
+			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'assets/brayworth/css'));
+
+		}
+		elseif ( $this->dvc) {
+			if ( \cssmin::dvc()) {
+				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \cssmin::$dvcmin );
+
+			}
+			else {
+				$this->css[] = '<!-- no minified library :: normally we would bundle the css -->';
+				foreach ( \cssmin::$dvcminFiles as $src)
+					$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( $src));
+
+			}
+
+		}
+		if ( 4 == (int)self::$FullCalendar) {
+			$this->css[] = sprintf('<link type="text/css" rel="stylesheet" href="%s" />', \strings::url('assets/fullcalendar/css'));
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url('assets/fullcalendar/js'));
+
+		}
+		elseif ( self::$FullCalendar ) {
+			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" href="%s" />', \strings::url('fullcalendar/fullcalendar.min.css'));
+			$this->css[] = sprintf('<link type="text/css" rel="stylesheet" href="%s" media="print" />', \strings::url('fullcalendar/fullcalendar.print.css'));
+			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url('fullcalendar/fullcalendar.min.js'));
+
+		}
+
+	}
+
+	function __destruct() {
+		$this->close();
+
+	}
 
 	protected function _pagefooter() {
 		return $this
@@ -70,7 +128,7 @@ class _page {
 
 	}
 
-	protected function close() {
+	public function close() {
 		$this
 			->header()
 			->pageHeader()
@@ -99,12 +157,12 @@ class _page {
 	}
 
 	protected function closeContent() {
-		$this->closeSection();
+		$this->closeSection();	// added 20 July, 2017
 		if ( $this->contentOPEN ) {
 			foreach ( $this->closeContentTags as $tag )
 				print $tag;
 
-			$this->contentOPEN = false;
+			$this->contentOPEN = FALSE;
 
 		}
 
@@ -112,7 +170,7 @@ class _page {
 
 	}
 
-	protected function closeHeader() {
+	public function closeHeader() {
 		if ( $this->headerOPEN) {
 			$this->headerOPEN = false;
 			printf( '%s</head>%s', PHP_EOL, PHP_EOL);
@@ -123,16 +181,9 @@ class _page {
 
 	}
 
-	protected function closeSection() {
-		if ( $this->sectionOPEN ) {
-			printf( '%s	</%s><!-- %s -->%s%s',
-				PHP_EOL,
-				$this->sectionTAG,
-				$this->sectionNAME,
-				PHP_EOL,
-				PHP_EOL );
-
-		}
+	public function closeSection() {
+		if ( $this->sectionOPEN )
+			printf( '%s		</div><!-- %s -->%s%s', PHP_EOL, $this->sectionNAME, PHP_EOL, PHP_EOL );
 
 		$this->sectionOPEN = false;
 
@@ -140,97 +191,12 @@ class _page {
 
 	}
 
-	protected function library() {
-		/*
-		 * momentJS is required for fullCalendar
-		 * otherwise optional
-		 */
-		if ( self::$momentJS || ( self::$FullCalendar &&  4 != (int)self::$FullCalendar)) {
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url('js/moment.min.js'));
-
-		}
-
-		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/brayworth/js'));
-		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/brayworth/dopo'));
-
-		if ( '5' == \config::$FONTAWESOME) {
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'fontawesome5/css/fontawesome-all.css'));
-
-		}
-		else {
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'css/font-awesome.min.css'));
-
-		}
-
-		if ( $this->dvc == '4') {
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'assets/brayworth/css'));
-
-		}
-		elseif ( $this->dvc) {
-			if ( \cssmin::dvc()) {
-				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \cssmin::$dvcmin );
-
-			}
-			else {
-				$this->css[] = '<!-- no minified library :: normally we would bundle the css -->';
-				foreach ( \cssmin::$dvcminFiles as $src)
-					$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( $src));
-
-			}
-
-		}
-
-		if ( 4 == (int)self::$FullCalendar) {
-			$this->css[] = sprintf('<link type="text/css" rel="stylesheet" href="%s" />', \strings::url('assets/fullcalendar/css'));
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url('assets/fullcalendar/js'));
-
-		}
-		elseif ( self::$FullCalendar ) {
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" href="%s" />', \strings::url('fullcalendar/fullcalendar.min.css'));
-			$this->css[] = sprintf('<link type="text/css" rel="stylesheet" href="%s" media="print" />', \strings::url('fullcalendar/fullcalendar.print.css'));
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url('fullcalendar/fullcalendar.min.js'));
-
-		}
-
-	}
-
-	protected function open() {
-		$this->boolOpen = true;
-
-	}
-
-    public function __construct( string $title = '') {
-		$this->data = (object)[
-            'title' => $this->title = ( $title == '' ? \config::$WEBNAME : $title )
-
-        ];
-
-		$this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
-		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
-		$this->meta[] = '<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />';
-
-        $this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/jquery'));
-
-        $css = strings::url( 'assets/bootstrap/css');
-        array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
-
-        $js = strings::url( 'assets/bootstrap/js');
-		$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
-
-		$this->library();
-
-    }
-
-    public function __destruct() {
-		$this->close();
-
-	}
-
-	public function content( $class = null, $more = '') {
+	public function content( $class = null, $more = null) {
 		if ( is_null( $class)) $class = 'content';
 
 		$this
 			->header()
+			->pageHeader()
 			->closeSection()
 			->openContent()
 			->section( 'content', $class, 'content', $more);
@@ -239,7 +205,7 @@ class _page {
 
 	}
 
-	public function header( bool $boolCloseHeader = true ) {
+	public function header( $boolCloseHeader = true ) {
 		if ( $this->boolHeader )
 			return ( $this);
 
@@ -249,7 +215,7 @@ class _page {
 		$this->open();
 		\Response::html_headers( $this->charset);
 
-		print self::$docType ? self::$docType : Response::html_docType();
+		print self::$docType ? self::$docType : \Response::html_docType();
 
 		printf( '%s<head>%s', PHP_EOL, PHP_EOL);
 
@@ -275,22 +241,50 @@ class _page {
 
 	}
 
-	public function main( $class = 'main') {
-		$this->newSection( $name = 'main', $class, $role = 'main', $more = '', $tag = 'main');
+	public function isOpen() {
+		return ( (bool)$this->boolOpen);
 
 	}
 
-	public function newSection( $name = 'content',
-		$class = 'content',
-		$role = 'content',
-		$more = '',
-		$tag = 'div'
-		) {
+	public function open() {
+		$this->boolOpen = true;
+
+	}
+
+	protected function openContent() {
+		if ( $this->contentOPEN )
+			return ( $this);
+
+		$this->closeContentTags[] = '	</div><!-- /_page:Main Content Area -->' . PHP_EOL;
+		$classes = ['main-content-wrapper'];
+		if ( $this->hasTitleBar)
+			$classes[] = 'with-nav-bar';
+
+		printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
+
+		$this->contentOPEN = true;
+
+		return ( $this);
+
+	}
+
+	public function newSection( $name = 'content', $class = 'content', $role = 'content', $more = '') {
 		$this
 			->header()
 			->closeSection()
 			->openContent()
-			->section( $name, $class, $role, $more, $tag);
+			->section( $name, $class, $role, $more);
+
+		return ( $this);	// chain
+
+	}
+
+	public function section( $name = 'content', $class = 'content', $role = 'content', $more = '') {
+		$this->closeSection();
+		$this->sectionOPEN = true;
+		$this->sectionNAME = $name;
+
+		printf( '		<div class="%s" data-role="%s" %s>%s', $class, $role, $more, PHP_EOL );
 
 		return ( $this);	// chain
 
@@ -299,11 +293,8 @@ class _page {
 	public function pagefooter() {
 		$this->_pagefooter();
 
-        if ( self::$footerTemplate) {
-            $v = new \view;
+		$v = new \view;
 			$v->load( self::$footerTemplate ? self::$footerTemplate : 'footer');
-
-        }
 
 		return ( $this);	// chain
 
@@ -327,84 +318,22 @@ class _page {
 
 	}
 
-	public function primary( $class = null, $more = '') {
-		if ( is_null( $class)) $class = 'content-primary';
-
-		$this
-			->header()
-			->closeSection()
-			->openContent()
-			->section( 'content-primary', $class, 'content-primary', $more);
-
-		return ( $this);	// chain
-
-	}
-
-    protected function openContent() {
-		$this->contentOPEN = true;
-
-		return ( $this);
-
-    }
-
-	public function secondary( $class= null, $more = '') {
-		if ( is_null( $class)) {
-			$class = 'content-secondary';
-
-		}
-
-		$this
-			->header()
-			->closeSection()
-			->openContent()
-			->section( 'content-secondary', $class, 'content-secondary', $more);
-
-		return ( $this);	// chain
-
-	}
-
-	public function section(
-		string $name = 'content',
-		string $class = 'content',
-		string $role = 'content',
-		string $more = '',
-		string $tag = 'div'
-		) {
-
-		$this->closeSection();
-		$this->sectionOPEN = true;
-		$this->sectionNAME = $name;
-		$this->sectionTAG = $tag;
-
-		printf( '	<%s class="%s" data-role="%s" %s><!-- %s -->%s',
-			$tag, $class, $role,
-			$more,
-			$this->sectionNAME,
-			PHP_EOL
-
-		);
-
-		return ( $this);	// chain
-
-    }
-
-	public function title( $navbar = ['navbar']) {
+	public function title( $navbar = 'navbar-default') {
 		if ( !$this->boolHeader )
 			$this->header();
 
 		$this->pageHeader();
 
-		if ( $navbar) {
-            $v = new \view( $this->data);
+		if ( $this->debug) \sys::logger( $navbar);
+
+		$v = new \view( $this->data);
 			$v->title = $this->title;
 			foreach( (array)$navbar as $_){
 				$v->load( $_);
 
 			}
-            $this->hasTitleBar = true;
 
-        }
-
+		$this->hasTitleBar = true;
 
 		return ( $this);
 
