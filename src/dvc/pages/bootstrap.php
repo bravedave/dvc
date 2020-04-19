@@ -44,7 +44,7 @@ class bootstrap extends page {
 			$this->latescripts = [ sprintf( '<script type="text/javascript" src="%s"></script>', $js)];
 
 		}
-		// elseif ( self::$Bootstrap_Version == '4') {
+		elseif ( self::$Bootstrap_Version == '4') {
 		// 	$css = \url::tostring( 'assets/bootstrap/css');
 		// 	$js = \url::tostring( 'assets/bootstrap/js');
 
@@ -52,8 +52,8 @@ class bootstrap extends page {
 
 		// 	$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
 
-		// }
-		else { throw new \Exceptions\InvalidBootstrapVersion; }
+		}
+		else { throw new \dvc\Exceptions\InvalidBootstrapVersion; }
 
 	}
 
