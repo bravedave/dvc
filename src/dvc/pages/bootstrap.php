@@ -40,20 +40,19 @@ class bootstrap extends page {
 			$css = \url::tostring( 'bootstrap.3/css/bootstrap.min.css');
 			$js = \url::tostring( 'bootstrap.3/js/bootstrap.min.js');
 
-			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
-
-			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
-
-		}
-		elseif ( self::$Bootstrap_Version == '4') {
-			$css = \url::tostring( 'assets/bootstrap/css');
-			$js = \url::tostring( 'assets/bootstrap/js');
-
-			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
-
-			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
+			$this->css = [ sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css)];
+			$this->latescripts = [ sprintf( '<script type="text/javascript" src="%s"></script>', $js)];
 
 		}
+		// elseif ( self::$Bootstrap_Version == '4') {
+		// 	$css = \url::tostring( 'assets/bootstrap/css');
+		// 	$js = \url::tostring( 'assets/bootstrap/js');
+
+		// 	array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
+
+		// 	$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
+
+		// }
 		else { throw new \Exceptions\InvalidBootstrapVersion; }
 
 	}
