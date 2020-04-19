@@ -1,19 +1,20 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+*/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-	*/
-NameSpace dvc\pages;
+namespace dvc\pages;
 
 class app extends _page {
 	public $headerTemplate = 'app-header';
 	static $footerTemplate = 'footer';
 
-	static $webAppCapable = TRUE;
+	static $webAppCapable = true;
 
 	function __construct( $title = '' ) {
 		parent::__construct( $title);

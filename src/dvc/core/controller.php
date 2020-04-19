@@ -644,7 +644,7 @@ abstract class controller {
 			Tip 2: you can also add an image using data-image tag
 			*/
 			$more = null;
-			$class = 'col-md-2 bg-light d-none d-md-block sidebar';
+			$class = 'col-md-2 bg-light d-none d-md-block border-right sidebar';
 			$mainClass = 'col-md-9 ml-sm-auto col-lg-10 px-4';
 			$tag = 'aside';
 			if ( 'lightdash' == \config::$THEME) {

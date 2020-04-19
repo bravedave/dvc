@@ -7,14 +7,17 @@
  * MIT License
  *
 */  ?>
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-primary flex-md-nowrap p-0 shadow">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary flex-md-nowrap p-0 shadow">
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+        data-target="#<?= $navbarSupportedContent = strings::rand() ?>"
+        aria-controls="<?= $navbarSupportedContent ?>"
+        aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
 
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+    <div class="collapse navbar-collapse" id="<?= $navbarSupportedContent ?>">
+        <ul class="navbar-nav mr-auto pl-2 pl-md-0">
             <?php
             if ( isset( $this->data->pageUrl)) {
                 printf( '<li class="nav-item active">
@@ -46,7 +49,7 @@
 
     </div>
 
-    <form class="form-inline">
+    <form class="form-inline p-2">
         <input type="text" class="form-control form-control-primary" placeholder="Search..." />
 
     </form>

@@ -10,16 +10,4 @@
 
 namespace dvc\pages;
 
-class bootstrap4 extends bootstrap {
-
-	function __construct( $title = '' ) {
-		\config::$BOOTSTRAP_VERSION = '4';
-		self::$Bootstrap_Version = '4';
-
-		parent::__construct( $title );
-
-		$this->topOfPage = [];
-
-	}
-
-}
+class bootstrap4 extends reboot {}

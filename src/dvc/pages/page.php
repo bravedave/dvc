@@ -11,22 +11,51 @@
 namespace dvc\pages;
 
 class page extends _page {
-	public $timer = null;
 
 	protected $boolOpen = false;
 
-	static public $Bootstrap_Version = '3';
+	protected $dvc = '3';
 
-	static public $MainContextMenu = true;
-	static public $BootStrap = false;
-	static public $pageContainer = '';
+	protected $topOfPage = [];
 
 	protected static $developer = false;
-	protected $topOfPage = [];
+
+	public $timer = null;
+
+	public $debug = false;
+
+	public $jQuery2 = false;
+
+	public static $Bootstrap_Version = '3';
+
+	public static $MainContextMenu = true;
+
+	public static $BootStrap = false;
+
+	public static $pageContainer = '';
 
 	function __construct( $title = '' ) {
 
 		parent::__construct( $title);
+
+		if ( \userAgent::isLegacyIE()) {
+			$this->scripts = [
+				sprintf( '<script type="text/javascript" src="%s"></script>', strings::url( 'js/jquery-1.11.3.min.js'))
+
+			];
+
+		}
+		elseif ( $this->jQuery2) {
+			$this->scripts = [
+				sprintf( '<script type="text/javascript" src="%s"></script>', strings::url( 'js/jquery-2.2.4.min.js'))
+
+			];
+
+		}
+
+		$this->latescripts = [];	// legacy starts with blank page
+
+		$this->library();
 
 		$this->meta[] = '<meta name="page-constructor" content="_default" />';
 		$this->topOfPage[] = '	<div id="top-of-page"></div>';
@@ -70,6 +99,16 @@ class page extends _page {
 		}
 
 		return ( $this);
+
+	}
+
+	public function isOpen() {
+		return ( (bool)$this->boolOpen);
+
+	}
+
+	public function main( $class = 'main') {
+		$this->newSection( $name = 'main', $class, $role = 'main');
 
 	}
 
@@ -187,13 +226,7 @@ class page extends _page {
 	}
 
 	public function pagefooter() {
-		$this->_pagefooter();
-
-		if ( '' == self::$footerTemplate) {
-			self::$footerTemplate = 'footer';
-
-		}
-
+		if ( '' == self::$footerTemplate) self::$footerTemplate = 'footer';
 		return ( parent::pagefooter());	// chain
 
 	}

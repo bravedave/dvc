@@ -11,7 +11,7 @@
 <div class="left-sidebar">
     <ul class="nav flex-column sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link active" href="#">
+            <a class="nav-link" href="#">
                 <i class="fa fa-angle-right"></i>
                 Candidates
 

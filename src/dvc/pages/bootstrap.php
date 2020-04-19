@@ -59,26 +59,17 @@ class bootstrap extends page {
 	}
 
 	public function content( $class = null, $more = '') {
-		if ( is_null( $class))
-			$class = self::$contentClass;
-
-		return ( parent::content( $class, $more));	// chain
+		return ( parent::content( is_null( $class) ? self::$contentClass : $class, $more));	// chain
 
 	}
 
 	public function primary( $class = null, $more = '') {
-		if ( is_null( $class))
-			$class = self::$primaryClass;
-
-		return ( parent::primary( $class, $more));	// chain
+		return ( parent::primary( is_null( $class) ? self::$primaryClass : $class, $more));	// chain
 
 	}
 
 	public function secondary( $class = null, $more = '') {
-		if ( is_null( $class))
-			$class =  self::$secondaryClass;
-
-		return ( parent::secondary( $class, $more));	// chain
+		return ( parent::secondary( is_null( $class) ? self::$secondaryClass : $class, $more));	// chain
 
 	}
 
