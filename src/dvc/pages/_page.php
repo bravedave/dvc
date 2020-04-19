@@ -226,6 +226,19 @@ class _page {
 
 	}
 
+	public function content( $class = null, $more = '') {
+		if ( is_null( $class)) $class = 'content';
+
+		$this
+			->header()
+			->closeSection()
+			->openContent()
+			->section( 'content', $class, 'content', $more);
+
+		return ( $this);	// chain
+
+	}
+
 	public function header( bool $boolCloseHeader = true ) {
 		if ( $this->boolHeader )
 			return ( $this);
@@ -315,10 +328,7 @@ class _page {
 	}
 
 	public function primary( $class = null, $more = '') {
-		if ( is_null( $class)) {
-			$class = 'content-primary';
-
-		}
+		if ( is_null( $class)) $class = 'content-primary';
 
 		$this
 			->header()

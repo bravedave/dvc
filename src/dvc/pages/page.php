@@ -180,51 +180,6 @@ class page extends _page {
 
 	}
 
-	public function content( $class = null, $more = '') {
-		if ( is_null( $class)) $class = 'content';
-
-		$this
-			->header()
-			->closeSection()
-			->openContent()
-			->section( 'content', $class, 'content', $more);
-
-		return ( $this);	// chain
-
-	}
-
-	public function primary( $class = null, $more = '') {
-		if ( is_null( $class)) {
-			$class = 'content-primary';
-
-		}
-
-		$this
-			->header()
-			->closeSection()
-			->openContent()
-			->section( 'content-primary', $class, 'content-primary', $more);
-
-		return ( $this);	// chain
-
-	}
-
-	public function secondary( $class= null, $more = '') {
-		if ( is_null( $class)) {
-			$class = 'content-secondary';
-
-		}
-
-		$this
-			->header()
-			->closeSection()
-			->openContent()
-			->section( 'content-secondary', $class, 'content-secondary', $more);
-
-		return ( $this);	// chain
-
-	}
-
 	public function pagefooter() {
 		if ( '' == self::$footerTemplate) self::$footerTemplate = 'footer';
 		return ( parent::pagefooter());	// chain
