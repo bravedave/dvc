@@ -124,7 +124,8 @@ class assets extends Controller {
 
 	public function jquery() {
 		//~ \sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.3.1.min.js'));
-		\sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.4.1.min.js'));
+		// \sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.4.1.min.js'));
+		\sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.5.0.min.js'));
 
 	}
 
