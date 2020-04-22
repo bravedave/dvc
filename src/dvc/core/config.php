@@ -117,6 +117,8 @@ abstract class config {
 	static $PAGE_TEMPLATE = '\dvc\pages\bootstrap4';
 	static $PAGE_TEMPLATE_LOGON = '\dvc\pages\bootstrap4';
 
+	static $PHONE_REGION = 'AU';
+
 	static $PORTAL = 'http://localhost/';
 	static $PORTAL_ADMIN = 'http://localhost/';
 
