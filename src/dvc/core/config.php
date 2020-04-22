@@ -1,11 +1,10 @@
 <?php
-/**
+/*
  * David Bray
  * BrayWorth Pty Ltd
  * e. david@brayworth.com.au
  *
- * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
- *      http://creativecommons.org/licenses/by/4.0/
+ * MIT License
  *
 */
 
@@ -111,6 +110,9 @@ abstract class config {
 
 	static $MAILSERVER = 'localhost';
 	static $MAILER = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
+
+	static $OFFICE_PHONE = '5555555555';
+	static $OFFICE_EMAIL = 'office@domain.tld';
 
 	static $PAGE_TEMPLATE = '\dvc\pages\bootstrap4';
 	static $PAGE_TEMPLATE_LOGON = '\dvc\pages\bootstrap4';
