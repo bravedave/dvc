@@ -1,12 +1,12 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-	*/
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+*/
 
 class assets extends Controller {
 	public $RequireValidation = false;
@@ -124,8 +124,8 @@ class assets extends Controller {
 
 	public function jquery() {
 		//~ \sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.3.1.min.js'));
-		// \sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.4.1.min.js'));
-		\sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.5.0.min.js'));
+		\sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.4.1.min.js'));
+		// \sys::serve( sprintf('%s/../js/%s', __DIR__, 'jquery-3.5.0.min.js'));
 
 	}
 
