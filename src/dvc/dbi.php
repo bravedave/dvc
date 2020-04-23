@@ -29,18 +29,6 @@ class dbi extends db {
 
 	}
 
-	static function StaticInsert( $table, $a ) {
-		$db = \sys::dbi();
-		return ( $db->Insert( $table, $a ));
-
-	}
-
-	static function StaticUpdate( $table, $a, $scope ) {
-		$db = \sys::dbi();
-		return ( $db->Update( $table, $a, $scope ));
-
-	}
-
 	public function __construct() {
 		if ( config::$DB_TYPE == 'none' || config::$DB_TYPE == 'disabled' )
 			return;
