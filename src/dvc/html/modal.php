@@ -1,57 +1,105 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+*/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	*/
-
-NameSpace dvc\html;
+nameSpace dvc\html;
+use strings;
 
 class modal extends div {
-	function __construct( $id = 'myModal' ) {
+	protected $_body;
+
+	protected $_dialog;
+
+	protected $_footer;
+
+	protected $_header;
+
+	protected $_title;
+
+	protected static $FORM_WRAPPER = false;
+
+	public function __construct( $id = '' ) {
 		parent::__construct();
 
-		$this->attributes( array(
+		if ( !$id) $id = strings::rand();
+
+		$this->attributes( [
 			'class' => 'modal fade',
 			'id' => (string)$id,
 			'tabindex' => '-1',
 			'role' => 'dialog',
-			'aria-labelledby' => 'myModalLabel',
-			'aria-hidden' => 'true' ));
+			'aria-labelledby' => (string)$id . 'Label',
+			'aria-hidden' => 'true'
 
-		$div = $this->append( 'div', NULL, array(
-			'class' => 'modal-dialog',
-			'id' => (string)$id . 'Dialog' ));
+		]);
 
-			$content = $div->append( 'div', NULL, array(
-				'class' => 'modal-content' ));
+		$this->_dialog = $this->append( 'div', null, [
+			'class' => 'modal-dialog modal-dialog-centered',
+			'id' => (string)$id . 'Dialog' ]);
 
-				$header = $content->append( 'div', NULL, array(
-					'class' => 'modal-header' ));
+			$content = $this->_dialog->append( 'div', null, [
+				'class' => 'modal-content' ]);
 
-					$button = $header->append( 'button', NULL, array(
+				$this->_header = $content->append( 'div', null, [
+					'class' => 'modal-header' ]);
+
+					$this->_title = $this->_header->append( 'h4', 'Title', [
+						'class' => 'modal-title',
+						'id' => (string)$id . 'Label' ]);
+
+					$button = $this->_header->append( 'button', null, [
 						'type' => 'button',
 						'class' => 'close',
 						'data-dismiss' => 'modal',
-						'aria-label' => 'Close' ));
+						'aria-label' => 'Close' ]);
 
-						$button->append( 'span', '&times;', array( 'aria-hidden' => 'true' ));
+						$button->append( 'span', '&times;', ['aria-hidden' => 'true' ]);
 
-					$header->append( 'h4', 'Modal title', array(
-						'class' => 'modal-title',
-						'id' => (string)$id . 'Title' ));
-
-				$content->append( 'div', 'Modal Body', array(
+				$this->_body = $content->append( 'div', null, [
 					'class' => 'modal-body',
-					'id' => (string)$id . 'Body' ));
+					'id' => (string)$id . 'Body' ]);
 
-				$content->append( 'div', '&nbsp;', array(
+				$this->_footer = $content->append( 'div', null, [
 					'class' => 'modal-footer',
-					'id' => (string)$id . 'Footer' ));
+					'id' => (string)$id . 'Footer' ]);
+
+	}
+
+	/* create a modal with a form wrapper */
+	static function form( $id = '') {
+		self::$FORM_WRAPPER = true;
+		return new self( $id);
+
+	}
+
+	public function body() {
+		return $this->_body;
+
+	}
+
+	public function dialog() {
+		return $this->_dialog;
+
+	}
+
+	public function footer() {
+		return $this->_footer;
+
+	}
+
+	public function header() {
+		return $this->_header;
+
+	}
+
+	public function title() {
+		return $this->_title;
 
 	}
 

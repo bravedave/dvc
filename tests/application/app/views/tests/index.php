@@ -9,6 +9,7 @@
 */	?>
 
 <ul class="list-unstyled mt-4">
+	<li class="h5"><a href="<?= strings::url('tests/') ?>">Tests</a></li>
 <?php if ( $this->Request->ServerIsLocal()) { ?>
 	<li><a href="<?= strings::url('tests/info') ?>">phpinfo()</a>
 

@@ -1,26 +1,29 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+*/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	*/
-
-NameSpace dvc\html;
+namespace dvc\html;
+use strings;
 
 class form extends element {
-	function __construct( $action = NULL, $attributes = NULL ) {
+	function __construct( $action = null, $attributes = null ) {
 
 		if ( is_null( $attributes))
-			$attributes = array();
+			$attributes = [];
 
 		if ( !is_null( $action))
 			$attributes['action'] = $action;
 
-		parent::__construct( 'form', NULL, $attributes );
+		if ( !isset( $attribute['id']))
+			$attributes['id'] = strings::rand();
+
+		parent::__construct( 'form', null, $attributes );
 
 	}
 
