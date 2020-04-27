@@ -9,6 +9,19 @@
 */
 
 class tests extends Controller {
+	protected function _index() {
+		$this->render([
+			'primary' => 'blank',
+			'secondary' => [
+				'index',
+				'index-modal',
+
+			]
+
+		]);
+
+	}
+
 	protected function posthandler() {
 		$action = $this->getPost('action');
 
