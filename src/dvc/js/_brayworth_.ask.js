@@ -34,7 +34,7 @@ _brayworth_.ask = ( params) => {
 
     );
 
-    let options = $.extend({
+    let options = _brayworth_.extend({
         beforeOpen: function () {
             let modal = this;
             $('.modal-title', modal).html( options.title);
@@ -62,6 +62,8 @@ _brayworth_.ask = ( params) => {
         title: 'Topic',
 
     }, params);
+
+    // console.log( options);
 
     if ( options.removeOnClose) {
         dlg.on('hidden.bs.modal', function(e) {

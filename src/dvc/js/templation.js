@@ -147,14 +147,12 @@ window.templation = {
 
 	templation.load = function( params) {
 		return ( new Promise( function( resolve, reject) {
-			let options = {
+			let options = _brayworth_.extend({
 				type : 'post',
 				template : '',
 				url : templation.urlwrite(),
 
-			};
-
-			$.extend( options, params);
+			}, params);
 
 			if ( !options.template) {
 				reject( 'no template'); // rejected

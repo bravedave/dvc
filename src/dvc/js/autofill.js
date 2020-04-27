@@ -28,7 +28,7 @@ $.fn.autofill = function( params) {
 
 	}
 
-	let options = {
+	let options = _brayworth_.extend({
 		timeout : 400,
 		appendTo : _me.parent(),
 		wrapper : $('<div class="autofill-wrapper" />'),
@@ -39,9 +39,7 @@ $.fn.autofill = function( params) {
 		select : false,
 		source : function( request, response) {},
 
-	};
-
-	$.extend( options, params);
+	}, params);
 
 	//~ console.log( 'autofill');
 	let list = $('<ul class="list-group" style="position: absolute; left: 0; z-index: 5; width: 100%;" />');

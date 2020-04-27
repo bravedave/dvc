@@ -9,7 +9,7 @@
 */
 /*jshint esversion: 6 */
 _brayworth_.loadModal = function( params) {
-	let options = $.extend({
+	let options = _brayworth_.extend({
 		url : _brayworth_.url('modal'),
 		headerClass : '',
 		beforeOpen : function() {},

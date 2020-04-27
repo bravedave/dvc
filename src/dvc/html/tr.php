@@ -1,23 +1,22 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+*/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	*/
-
-NameSpace dvc\html;
+namespace dvc\html;
 
 class tr extends element {
-	function __construct( $content = NULL, $attributes = NULL) {
+	function __construct( $content = null, $attributes = null) {
 		parent::__construct( 'tr', $content, $attributes);
 
 	}
 
-	public function td( $content = NULL, $attributes = NULL ) {
+	public function td( $content = null, $attributes = null ) {
 		$td = new element( 'td', $content, $attributes );
 		$this->appendChild( $td );
 
@@ -25,7 +24,7 @@ class tr extends element {
 
 	}
 
-	public function cell( $content = NULL, $attributes ) {
+	public function cell( $content = null, $attributes ) {
 		return ( $this->td( $content));
 
 	}

@@ -54,7 +54,7 @@ $(document).ready( function() {
 
 			}
 			else {
-				$.extend( options, params);
+				options = _brayworth_.extend( options, params);
 
 				if ( options.title == 'Info' || options.text == '...') {
 					/*
