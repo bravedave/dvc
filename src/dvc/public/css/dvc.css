@@ -272,7 +272,7 @@ input[type="text"].datepicker { width: 7em; }
 		text-align: left;
 		float: right;
 		border-left: 1px solid #ececec;
-		display: inline-block;
+		display: block;
 		padding: 2em 2em 0 1em;
 		background: none;
 		border-top: none;
