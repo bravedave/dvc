@@ -211,6 +211,7 @@ abstract class errsys {
 				if ( preg_match( '/^Unknown/', $errstr)) {
 					error_log( '---[probable duplicate    : error is logged in the exception]---');
 					error_log( sprintf( '---[controller : %s]---', \application::app()->controller()));
+					error_log( sprintf( '---[action : %s]---', \application::app()->action()));
 					error_log( sprintf( '---[user : %s]---', \currentUser::name()));
 					\sys::trace( $errno);
 					error_log( sprintf( '%s: %s %s %s %s', $type, $errstr, $errno, $errfile, $errline));

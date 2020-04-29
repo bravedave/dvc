@@ -12,13 +12,21 @@ namespace dvc;
 
 class Request {
 	protected $controllerName = 'Home';
+
 	protected $actionName = '';
+
 	protected $uri = '';
+
 	protected $_RewriteBase = '';
+
 	protected $url;
+
 	protected $post;
+
 	protected $query;
+
 	protected $params;
+
 	protected $segments;
 
 	protected static $instance;
@@ -117,21 +125,21 @@ class Request {
 
 	}
 
-	public function setActionName($actionName){
+	public function setActionName( string $actionName){
 		$this->actionName = $actionName;
 
 	}
 
-	public function getActionName(){
+	public function getActionName() : string {
 		return $this->actionName;
 
 	}
 
-	public function getSegment($index){
-		if( isset($this->segments[$index]))
+	public function getSegment($index) : string {
+		if( isset( $this->segments[$index]))
 			return $this->segments[$index];
 
-		return (NULL);
+		return '';
 
 	}
 
