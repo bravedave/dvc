@@ -135,11 +135,11 @@ class Request {
 
 	}
 
-	public function getSegment($index) : string {
-		if( isset( $this->segments[$index]))
+	public function getSegment($index){
+		if( isset($this->segments[$index]))
 			return $this->segments[$index];
 
-		return '';
+		return (null);
 
 	}
 
