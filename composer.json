@@ -1,5 +1,4 @@
 {
-	"version": "0.0.1",
 	"name": "bravedave/dvc",
 	"description": "DVC - General Purpose PSR-4 Data-View-Controller",
 	"keywords": ["MVC", "Model View Controller"],
