@@ -15,6 +15,7 @@ use dvc\errsys;
 use dvc\Exceptions\CannotLocateController;
 use dvc\Exceptions\SecurityException;
 use dvc\Request;
+use dvc\timer;
 
 define( 'APPLICATION', 1 );
 
@@ -85,7 +86,7 @@ class application {
 
 		}
 
-		return ( new \timer);
+		return ( new timer);
 
 	}
 
@@ -100,7 +101,7 @@ class application {
 		errsys::initiate( false );
 		// \sys::set_error_handler();
 
-		$this->_timer = new \timer;
+		$this->_timer = new timer;
 
 		\config::initialize();	// this initializes config
 

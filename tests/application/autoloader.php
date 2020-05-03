@@ -1,12 +1,12 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-	*/
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+*/
 
 spl_autoload_register(function ($class) {
 	if ( $lib = realpath( __DIR__ . '/app/' . str_replace('\\', '/', $class) . '.php')) {
@@ -21,6 +21,7 @@ spl_autoload_register(function ($class) {
 
 });
 
+// if ( file_exists( $autoload = __DIR__ . '/../../vendor/autoload.php')) {
 if ( file_exists( $autoload = __DIR__ . '/../../autoloader.php')) {
 	require_once $autoload;
 
