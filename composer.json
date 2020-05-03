@@ -24,7 +24,7 @@
 	"autoload": {
 		"psr-4": {
 			"": "src/",
-			"dvc\\": "src/dvc/",
+			"dvc\\": "src/dvc/"
 		}
 	}
 }
