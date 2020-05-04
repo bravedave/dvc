@@ -300,7 +300,7 @@ abstract class config {
 
 	}
 
-	static public function route_register( string $path, string $register = '') {
+	static public function route_register( string $path, $register = false) {
 		$map = self::_route_map();
 		if ( !isset( $map->{ $path }) || $register != $map->{ $path }) {
 			if ( $register) {
@@ -311,16 +311,17 @@ abstract class config {
 				unset( $map->{ $path });
 
 			}
+
 			\file_put_contents( self::_route_map_path(), \json_encode( $map, JSON_PRETTY_PRINT));
 
 		}
 
 	}
 
-	static public function route( string $path) : string {
+	static public function route( string $path) {
 		$map = self::_route_map();
 
-		return ( isset( $map->{ $path}) ? $map->{ $path} : $path);
+		return ( isset( $map->{ $path}) ? $map->{ $path} : false);
 
 	}
 

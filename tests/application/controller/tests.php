@@ -10,8 +10,12 @@
 
 class tests extends Controller {
 	protected function _index() {
-		// config::route_register( 'home', 'tests');
-		config::route_register( 'home', '');
+		config::route_register( 'home', (object)[
+			'controller' => 'tests',
+			'path' => strings::getRelativePath( $this->rootPath, __FILE__)
+
+		]);
+		// config::route_register( 'home', '');
 
 		$this->render([
 			'primary' => 'blank',
