@@ -318,10 +318,10 @@ abstract class config {
 
 	}
 
-	static public function route( string $path) {
+	static public function route( string $path) : string {
 		$map = self::_route_map();
 
-		return ( isset( $map->{ $path}) ? $map->{ $path} : false);
+		return ( isset( $map->{ $path}) ? $map->{ $path} : '');
 
 	}
 

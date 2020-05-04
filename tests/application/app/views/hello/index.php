@@ -7,10 +7,16 @@
  * MIT License
  *
 */	?>
-<br />
-<br />
-<br />
-<ul class="list-unstyled mt-4">
-	<li><h6><a class="text-secondary" href="<?= strings::url('hello') ?>">Hello</a></h6></li>
+
+<ul class="nav flex-column">
+	<li class="nav-item h6">
+		<a class="nav-link" href="<?= strings::url('hello') ?>">Hello</a>
+
+	</li>
+
+	<li class="nav-item h6">
+		<a class="nav-link" href="<?= strings::url('tests') ?>">Tests</a>
+
+	</li>
 
 </ul>

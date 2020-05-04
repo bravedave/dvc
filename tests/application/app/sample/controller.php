@@ -8,15 +8,10 @@
  *
 */
 
-class tests extends Controller {
-	protected function _index() {
-		config::route_register( 'home', (object)[
-			'controller' => 'tests',
-			'path' => strings::getRelativePath( $this->rootPath, __FILE__)
+namespace sample;
 
-		]);
-		// config::route_register( 'home', '');
-
+class controller extends \Controller {
+    protected function _index() {
 		$this->render([
 			'primary' => 'blank',
 			'secondary' => [
@@ -26,6 +21,15 @@ class tests extends Controller {
 			]
 
 		]);
+
+	}
+
+	protected function getView( $viewName = 'index', $controller = null, $logMissingView = true) {
+		$view = sprintf( '%s/views/%s.php', __DIR__, $viewName );		// php
+		if ( file_exists( $view))
+			return ( $view);
+
+		return parent::getView( $viewName, $controller, $logMissingView);
 
 	}
 
@@ -73,7 +77,7 @@ class tests extends Controller {
 	}
 
 	public function errTest() {
-		throw new Exceptions\TestException( 'test');
+		throw new \Exceptions\TestException( 'test');
 
 	}
 

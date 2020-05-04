@@ -162,68 +162,20 @@ class application {
 
 		}
 
-		if ( $route = \config::route( $this->url_controller)) {
-			$this->url_controller = $route->controller;
-			$controllerFile = $route->path;
-			// \sys::logger( sprintf('<%s> %s', $this->url_controller, __METHOD__));
-
-		}
-		else {
-			$controllerFile = $this->rootPath . '/controller/' . $this->url_controller . '.php';
-
-		}
-
-
-		/*---[ check for controller: does such a controller exist ? ]--- */
-
-		if ( !file_exists( $controllerFile)) {
-			$controllerFile = __DIR__ . '/../controller/' . $this->url_controller . '.php';	// is there a default controller for this action
-			if ( self::$debug) \sys::logger( 'checking for system default controller : ' . $controllerFile);
-
-		}
-
-		if ( !file_exists( $controllerFile)) {
-			$controllerFile = $this->rootPath . '/controller/' . $this->defaultController . '.php';				// invalid URL, so show home/index
-			if ( !file_exists( $controllerFile)) {
-				$controllerFile = $this->rootPath . '/controller/' . \config::$DEFAULT_CONTROLLER . '.php';	// invalid URL, so home/index
-				if ( !file_exists( $controllerFile)) {
-					$controllerFile = __DIR__ . '/../controller/' . \config::$DEFAULT_CONTROLLER . '.php';		// invalid URL, so system home/index
-					if ( self::$debug) \sys::logger( 'checking for system default controller (deep)');
-
-				}
-				else {
-					if ( self::$debug) \sys::logger( 'default controller');
-
-				}
-
-			}
-			else {
-				if ( self::$debug) \sys::logger( 'default controller');
-
-			}
-
-			if ( $this->url_controller != '' ) {
-				if ( self::$debug) \sys::logger( 'bumped controller => action');
-				$this->url_parameter_3 = $this->url_parameter_2;
-				$this->url_parameter_2 = $this->url_parameter_1;
-				$this->url_parameter_1 = $this->url_action;
-				$this->url_action = $this->url_controller;	// bump
-
-			}
-			$this->url_controller = $this->defaultController;
-
-		}
-
 		if ( $this->service) {
 			if ( self::$debug) \sys::logger( 'exit: I am a service');
 			return;	// job done
 
 		}
 
-		if ( !file_exists( $controllerFile))
-			throw new Exceptions\CannotLocateController;
+		if ( $route = \config::route( $this->url_controller)) {
+			$this->url_controller = $route;
 
-		self::Request()->setControllerName( $this->url_controller);
+		}
+		else {
+			$this->_search_for_controller();
+
+		}
 
 		/*
 		* Quiet Security - some actions are protected
@@ -255,9 +207,9 @@ class application {
 
 		}
 
+		self::Request()->setControllerName( $this->url_controller);
 		self::Request()->setActionName( (string)$this->url_action);
 
-		require $controllerFile;
 
 		$url_controller_name = $this->url_controller;
 		$this->url_controller = new $this->url_controller( $this->rootPath );
@@ -388,6 +340,57 @@ class application {
 			}
 
 		}
+
+	}
+
+	protected function _search_for_controller() {
+		$controllerFile = $this->rootPath . '/controller/' . $this->url_controller . '.php';
+		/*---[ check for controller: does such a controller exist ? ]--- */
+
+		if ( !file_exists( $controllerFile)) {
+			$controllerFile = __DIR__ . '/../controller/' . $this->url_controller . '.php';	// is there a default controller for this action
+			if ( self::$debug) \sys::logger( 'checking for system default controller : ' . $controllerFile);
+
+		}
+
+		if ( !file_exists( $controllerFile)) {
+			$controllerFile = $this->rootPath . '/controller/' . $this->defaultController . '.php';				// invalid URL, so show home/index
+			if ( !file_exists( $controllerFile)) {
+				$controllerFile = $this->rootPath . '/controller/' . \config::$DEFAULT_CONTROLLER . '.php';	// invalid URL, so home/index
+				if ( !file_exists( $controllerFile)) {
+					$controllerFile = __DIR__ . '/../controller/' . \config::$DEFAULT_CONTROLLER . '.php';		// invalid URL, so system home/index
+					if ( self::$debug) \sys::logger( 'checking for system default controller (deep)');
+
+				}
+				else {
+					if ( self::$debug) \sys::logger( 'default controller');
+
+				}
+
+			}
+			else {
+				if ( self::$debug) \sys::logger( 'default controller');
+
+			}
+
+			if ( $this->url_controller != '' ) {
+				if ( self::$debug) \sys::logger( 'bumped controller => action');
+				$this->url_parameter_3 = $this->url_parameter_2;
+				$this->url_parameter_2 = $this->url_parameter_1;
+				$this->url_parameter_1 = $this->url_action;
+				$this->url_action = $this->url_controller;	// bump
+
+			}
+			$this->url_controller = $this->defaultController;
+
+		}
+
+		if ( !file_exists( $controllerFile)) {
+			throw new Exceptions\CannotLocateController;
+
+		}
+
+		require $controllerFile;
 
 	}
 

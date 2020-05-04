@@ -44,7 +44,15 @@ $form->appendChild( $m);
 
 $form->render();   ?>
 
-<button class="btn btn-primary" data-toggle="modal" data-target="#<?= $m->id ?>">modal</button>
+<ul class="nav flex-column">
+	<li class="nav-item text-center border-top mt-4 pt-2">
+        <button class="btn btn-outline-primary"
+            data-toggle="modal"
+            data-target="#<?= $m->id ?>">modal</button>
+
+    </li>
+
+</ul>
 
 <script>
 $(document).ready( function() {

@@ -7,17 +7,21 @@
  * MIT License
  *
 */	?>
+<style>
+a { color: inherit; }
 
-<ul class="list-unstyled mt-4">
-	<li class="h5"><a href="<?= strings::url('tests/') ?>">Tests</a></li>
+</style>
+<ul class="nav flex-column text-secondary">
+	<li class="nav-item h6"><a class="nav-link" href="<?= strings::url('tests/') ?>">Tests</a></li>
+
 <?php if ( $this->Request->ServerIsLocal()) { ?>
-	<li><a href="<?= strings::url('tests/info') ?>">phpinfo()</a>
+	<li class="nav-item"><a class="nav-link" href="<?= strings::url('tests/info') ?>">phpinfo()</a>
 
 <?php } // if ( Request::ServerIsLocal()) ?>
 
-	<li><a href="<?= strings::url( 'tests/errtest') ?>">Throw an error</a></li>
-	<li><a href="<?= strings::url( 'tests/changes') ?>">Changes</a></li>
-	<li><a href="#" id="<?= $uid = strings::rand() ?>">Modal Dialog</a></li>
+	<li class="nav-item"><a class="nav-link" href="<?= strings::url( 'tests/errtest') ?>">Throw an error</a></li>
+	<li class="nav-item"><a class="nav-link" href="<?= strings::url( 'tests/changes') ?>">Changes</a></li>
+	<li class="nav-item"><a class="nav-link" href="#" id="<?= $uid = strings::rand() ?>">Modal Dialog</a></li>
 	<script>
 	$(document).ready( function() {
 		$('#<?= $uid ?>').on( 'click', function( e) {
@@ -35,7 +39,7 @@
 	});
 	</script>
 
-	<li><a href="#" id="<?= $uid = strings::rand() ?>">Ask a Question</a></li>
+	<li class="nav-item"><a class="nav-link" href="#" id="<?= $uid = strings::rand() ?>">Ask a Question</a></li>
 	<script>
 	$(document).ready( function() {
 		$('#<?= $uid ?>').on( 'click', function( e) {
@@ -45,7 +49,7 @@
 				headClass: 'text-white bg-danger',
 				title : 'This is Red',
 				text : 'Do you agree ?',
-        		buttons : {
+				buttons : {
 					yes : function() {
 						$(this).modal('hide');
 						console.log( 'ok', this);
@@ -62,12 +66,8 @@
 	</script>
 
 <?php if ( 'hello' != $this->name) { ?>
-	<li class="pt-2"><a href="<?= strings::url('hello') ?>">Hello World</a></li>
+	<li class="nav-item h6"><a class="nav-link" href="<?= strings::url('hello') ?>">Hello World</a></li>
 
 <?php }	// if ( 'hello' != $this->name)  ?>
 
 </ul>
-<br />
-<br />
-<br />
-<br />
