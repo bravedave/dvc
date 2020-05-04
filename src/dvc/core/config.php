@@ -234,7 +234,12 @@ abstract class config {
 		*/
 		if ( !( is_null( \application::app()))) {
 			// $path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
-			$path = sprintf( '%s%sdb.json', \config::dataPath(), DIRECTORY_SEPARATOR);
+			$path = implode( DIRECTORY_SEPARATOR, [
+				\config::dataPath(),
+				'db.json'
+
+			]);
+
 			if ( file_exists( $path)) {
 				$_a = [
 					'db_type' => '',
@@ -252,6 +257,23 @@ abstract class config {
 
 			} // if ( file_exists( $path))
 
+			$path = implode( DIRECTORY_SEPARATOR, [
+				\config::dataPath(),
+				'defaults.json'
+
+			]);
+
+			if ( file_exists( $path)) {
+				$_a = [
+					'db_type' => \config::$DB_TYPE,
+					'date_format' => \config::$DATE_FORMAT,
+				];
+				$a = (object)array_merge( $_a, (array)json_decode( file_get_contents( $path)));
+				\config::$DB_TYPE = $a->db_type;
+				\config::$DATE_FORMAT = $a->date_format;
+
+			} // if ( file_exists( $path))
+
 			// $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
 			$path = sprintf('%s%sgoogle.json', \config::dataPath(), DIRECTORY_SEPARATOR);
 			if ( file_exists( $path)) {
@@ -266,7 +288,12 @@ abstract class config {
 			} // if ( file_exists( $path))
 
 			// $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
-			$path = sprintf('%s%srecaptcha.json', \config::dataPath(), DIRECTORY_SEPARATOR);
+			$path = implode( DIRECTORY_SEPARATOR, [
+				\config::dataPath(),
+				'recaptcha.json'
+
+			]);
+
 			if ( file_exists( $path)) {
 				$a = json_decode( file_get_contents( $path));
 				if ( isset( $a->public)) {
