@@ -20,26 +20,34 @@ use dvc\timer;
 define( 'APPLICATION', 1 );
 
 class application {
-	protected $url_controller = null;
+	protected static $_request = null;
+
+	protected static $instance = null;
+
+	protected $_app_executed = false;
+
+	public $exclude_from_sitemap = false;
+
+	protected $rootPath = null;
+
+	protected $_route = null;
+
+	protected $paths = [];
+
 	protected $url_action = null;
+
+	protected $url_controller = null;
 	protected $url_parameter_1 = null;
 	protected $url_parameter_2 = null;
 	protected $url_parameter_3 = null;
-	protected $_app_executed = false;
 
 	protected $url_served = '';
-	public $exclude_from_sitemap = false;
 
 	public function app_executed() {
 		return $this->_app_executed;
 
 	}
 
-	protected $rootPath = null;
-
-	protected $paths = [];
-
-	protected static $_request = null;
 
 	protected $_timer = null;
 
@@ -50,7 +58,6 @@ class application {
 	protected $minimum = false;
 	protected $service = false;
 
-	protected static $instance = null;
 
 	const use_full_url = true;
 
@@ -74,6 +81,12 @@ class application {
 			self::$_request = Request::get();
 
 		return ( self::$_request);
+
+	}
+
+	static function route() {
+		// \sys::logger( sprintf('<%s> %s', self::$instance->_route, __METHOD__));
+		return self::$instance->_route;
 
 	}
 
@@ -168,12 +181,14 @@ class application {
 
 		}
 
-		if ( $route = \config::route( $this->url_controller)) {
-			$this->url_controller = $route;
+		if ( $_route = \config::route( $this->url_controller)) {
+			$this->_route = $this->url_controller;
+			$this->url_controller = $_route;
 
 		}
 		else {
 			$this->_search_for_controller();
+			$this->_route = $this->url_controller;
 
 		}
 

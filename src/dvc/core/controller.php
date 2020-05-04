@@ -38,7 +38,8 @@ abstract class controller {
 		if ( $this->debug) \sys::logger( sprintf( '__construct :: %s', __METHOD__));
 		$this->rootPath = $rootPath;
 		$this->title = \config::$WEBNAME;
-		$this->route = get_class( $this);
+		$this->route = \application::route();
+		// $this->route = get_class( $this);
 		if ( is_null( $this->label)) {
 			$this->label = ucwords( get_class( $this));
 
