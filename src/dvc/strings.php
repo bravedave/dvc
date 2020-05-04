@@ -187,7 +187,7 @@ abstract class strings {
 
 	}
 
-	static function getCommonPath( $paths) {
+	static function getCommonPath( array $paths) : string {
 		$lastOffset = 1;
 		$common = '/';
 		while (($index = strpos($paths[0], '/', $lastOffset)) !== FALSE) {
@@ -202,6 +202,21 @@ abstract class strings {
 
 		}
 		return substr($common, 0, -1);
+
+	}
+
+	static function getRelativePath( string $from, string $to, string $ps = DIRECTORY_SEPARATOR) : string {
+		// https://www.php.net/manual/en/function.realpath.php#105876
+
+		$arFrom = explode( $ps, rtrim( $from, $ps));
+		$arTo = explode( $ps, rtrim( $to, $ps));
+		while( count( $arFrom) && count( $arTo) && ( $arFrom[0] == $arTo[0])) {
+			array_shift( $arFrom);
+			array_shift( $arTo);
+
+		}
+
+		return str_pad("", count($arFrom) * 3, '..'.$ps).implode($ps, $arTo);
 
 	}
 
