@@ -10,6 +10,9 @@
 
 class tests extends Controller {
 	protected function _index() {
+		// config::route_register( 'home', 'tests');
+		config::route_register( 'home', '');
+
 		$this->render([
 			'primary' => 'blank',
 			'secondary' => [
@@ -42,9 +45,7 @@ class tests extends Controller {
 			'primary' => 'changes',
 			'secondary' => 'index'
 
-			]
-
-		);
+		]);
 
 	}
 

@@ -162,6 +162,9 @@ class application {
 
 		}
 
+		$this->url_controller = \config::route( $this->url_controller);
+		// \sys::logger( sprintf('<%s> %s', $this->url_controller, __METHOD__));
+
 		$controllerFile = $this->rootPath . '/controller/' . $this->url_controller . '.php';
 
 		/*---[ check for controller: does such a controller exist ? ]--- */

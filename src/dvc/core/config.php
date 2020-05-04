@@ -144,16 +144,6 @@ abstract class config {
 	static $IMG_EXPIRE_TIME = 60;
 	static $CORE_IMG_EXPIRE_TIME = 60;	// set on images that come from the /image location
 
-	static function tempdir() {
-		/*
-		* return a writable path with a trailing slash
-		*/
-
-		$dir = rtrim( sys_get_temp_dir(), '/\\');
-		return ( $dir . DIRECTORY_SEPARATOR);
-
-	}
-
 	static public function checkDBconfigured() {
 		if ( \config::$DB_TYPE == 'mysql' || \config::$DB_TYPE == 'sqlite' || \config::$DB_TYPE == 'disabled' )
 			return true;
@@ -236,7 +226,7 @@ abstract class config {
 
 	}
 
-	static function initialize() {
+	static public function initialize() {
 		/*
 		* config initialize is called in _application->__construct()
 		*
@@ -292,5 +282,56 @@ abstract class config {
 		} // if ( !( is_null( \application::app())))
 
 	} // static function init2()
+
+
+	static protected function _route_map_path() : string {
+		return self::dataPath() . '/controllerMap.json';
+
+	}
+
+	static protected function _route_map() : object {
+		$map = self::_route_map_path();
+		if ( \file_exists( $map)) {
+			return (object)\json_decode( \file_get_contents( $map));
+
+		}
+
+		return (object)[];
+
+	}
+
+	static public function route_register( string $path, string $register = '') {
+		$map = self::_route_map();
+		if ( !isset( $map->{ $path }) || $register != $map->{ $path }) {
+			if ( $register) {
+				$map->{ $path } = $register;
+
+			}
+			else {
+				unset( $map->{ $path });
+
+			}
+			\file_put_contents( self::_route_map_path(), \json_encode( $map, JSON_PRETTY_PRINT));
+
+		}
+
+	}
+
+	static public function route( string $path) : string {
+		$map = self::_route_map();
+
+		return ( isset( $map->{ $path}) ? $map->{ $path} : $path);
+
+	}
+
+	static public function tempdir() {
+		/*
+		* return a writable path with a trailing slash
+		*/
+
+		$dir = rtrim( sys_get_temp_dir(), '/\\');
+		return ( $dir . DIRECTORY_SEPARATOR);
+
+	}
 
 }
