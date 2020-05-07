@@ -11,14 +11,32 @@
 namespace dvc;
 
 class icon {
-    const github = 1;
-    const house = 2;
+    const chat = 40;
 
-    const question = 22;
+    const chevronLeft = 41;
+    const chevronRight = 41;
+
+    const github = 50;
+
+    const house = 60;
+
+    const question = 120;
 
 
     static function get( int $icon ) : string {
-        if ( self::github == $icon) {
+        if ( self::chat == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/chat.svg');
+
+        }
+        elseif ( self::chevronLeft == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/chevron-left.svg');
+
+        }
+        elseif ( self::chevronRight == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/chevron-right.svg');
+
+        }
+        elseif ( self::github == $icon) {
             return file_get_contents( __DIR__ . '/icons/github.svg');
 
         }
@@ -27,10 +45,48 @@ class icon {
 
         }
         elseif ( self::question == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/question.svg');
 
         }
 
-        return file_get_contents( __DIR__ . '/icons/question.svg');
+        return file_get_contents( __DIR__ . '/bootstrap4/icons/question.svg');
+
+    }
+
+    static function inline( int $icon) {
+        /*
+        <style>
+        .bi {
+            display: inline-block;
+            content: "";
+            background-repeat: no-repeat;
+            background-size: 1rem 1rem;
+            background-position: 0px 1px;
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .bi-github { background-image: url("<?= dvc\icon::inline( dvc\icon::github ) ?>"); }
+        .bi-chevron-left { background-image: url("<?= dvc\icon::inline( dvc\icon::chevronLeft ) ?>"); }
+        .bi-chevron-right { background-image: url("<?= dvc\icon::inline( dvc\icon::chevronRight ) ?>"); }
+
+        </style>
+         */
+        $icon = self::get( $icon);
+
+        $icon = \preg_replace( [
+            "@#<@",
+            "@^(\t|\s)*@m",
+            "@(\r?\n|\r)@",
+            '@"@',
+        ], [
+            '%23',
+            '',
+            '',
+            "'"
+        ], $icon);
+
+        return 'data:image/svg+xml,'.$icon;
 
     }
 

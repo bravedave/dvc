@@ -11,4 +11,3 @@
 */
 
 abstract class auth extends dvc\auth {}
-

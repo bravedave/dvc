@@ -11,3 +11,5 @@
 */
 
 abstract class cssmin extends dvc\cssmin {}
+
+\sys::logger( sprintf('deprecated : please call dvc\cssmin directly : %s', __METHOD__));

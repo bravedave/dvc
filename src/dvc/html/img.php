@@ -11,13 +11,21 @@
 namespace dvc\html;
 
 class img extends element {
-	function __construct( $src = '', $alt = null ) {
-		parent::__construct( 'img' );
+	function __construct( $src = '', $alt = null, $attributes = []) {
 
-		if ( is_null( $alt ))
-			$alt = $src;
+		$_attributes = [ 'src' => $src ];
 
-		$this->attributes( ['src' => $src, 'alt' => $alt ]);
+		if ( !is_null( $alt )) {
+			$_attributes['alt'] = (string)$alt;
+
+		}
+
+		if ( (array)$attributes) {
+			$_attributes = array_merge( $_attributes, $attributes);
+
+		}
+
+		parent::__construct( 'img', null, $_attributes );
 
 	}
 
