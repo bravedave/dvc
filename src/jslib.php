@@ -12,4 +12,4 @@
 
 abstract class jslib extends dvc\jslib {}
 
-\sys::logger( sprintf('deprecated : please call dvc\jslib directly : %s', __METHOD__));
+\sys::trace( sprintf('deprecated : please call dvc\jslib directly : %s', __METHOD__));
