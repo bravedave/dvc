@@ -8,6 +8,9 @@
  *
 */
 
+use dvc\cssmin;
+use dvc\jslib;
+
 class assets extends Controller {
 	public $RequireValidation = false;
 
