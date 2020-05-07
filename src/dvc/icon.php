@@ -16,9 +16,11 @@ class icon {
     const chevronLeft = 41;
     const chevronRight = 41;
 
-    const github = 50;
+    const fileRichText = 51;
 
-    const house = 60;
+    const github = 60;
+
+    const house = 70;
 
     const question = 120;
 
@@ -34,6 +36,10 @@ class icon {
         }
         elseif ( self::chevronRight == $icon) {
             return file_get_contents( __DIR__ . '/bootstrap4/icons/chevron-right.svg');
+
+        }
+        elseif ( self::fileRichText == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/file-richtext.svg');
 
         }
         elseif ( self::github == $icon) {
