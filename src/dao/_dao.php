@@ -42,6 +42,52 @@ abstract class _dao {
 
 	}
 
+	protected function cacheKey( int $id, string $field = '') : string {
+		if ( \config::$DB_CACHE_PREFIX) {
+			if ( $field) {
+				return sprintf( '%s.%s.%s',
+					\config::$DB_CACHE_PREFIX,
+					$this->db_name(),
+					$id
+
+				);
+
+			}
+			else {
+				return sprintf( '%s.%s.%s',
+					\config::$DB_CACHE_PREFIX,
+					$this->db_name(),
+					$id
+
+				);
+
+			}
+
+		}
+		else {
+			if ( $field) {
+				return sprintf( '%s%s.%s.%s',
+					\config::$DB_CACHE_PREFIX,
+					$this->db_name(),
+					$id,
+					$fld
+
+				);
+
+			}
+			else {
+				return sprintf( '%s.%s',
+					$this->db_name(),
+					$id
+
+				);
+
+			}
+
+		}
+
+	}
+
 	protected function before() {
 		/*
 		* Abstract method placeholder for use by the child class.
@@ -127,7 +173,7 @@ abstract class _dao {
 
 	}
 
-	function create() {		/* returns a new dto of the file */
+	public function create() {		/* returns a new dto of the file */
 		if ( is_null( $this->template)) {
 			return ( $this->_create());
 
@@ -182,7 +228,7 @@ abstract class _dao {
 
 		if ( \config::$DB_CACHE == 'APC') {
 			$cache = \dvc\cache::instance();
-			$key = sprintf( '%s.%s.%s', $this->db_name(), $id, $fld);
+			$key = $this->cacheKey( $id, $fld);
 			if ( $v = $cache->get( $key)) {
 				return ( $v);
 
@@ -216,7 +262,7 @@ abstract class _dao {
 
 		if ( \config::$DB_CACHE == 'APC') {
 			$cache = \dvc\cache::instance();
-			$key = sprintf( '%s.%s', $this->db_name(), $id);
+			$key = $this->cacheKey( $id);
 			if ( $dto = $cache->get( $key)) {
 				return ( $dto);
 
@@ -274,7 +320,7 @@ abstract class _dao {
 
 		if ( \config::$DB_CACHE == 'APC') {
 			$cache = \dvc\cache::instance();
-			$key = sprintf( '/^%s\.%s/', $this->db_name(), $id);
+			$key = $this->cacheKey( $id);
 			$cache->delete( $key, true);
 
 		}
