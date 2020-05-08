@@ -45,10 +45,11 @@ abstract class _dao {
 	protected function cacheKey( int $id, string $field = '') : string {
 		if ( \config::$DB_CACHE_PREFIX) {
 			if ( $field) {
-				return sprintf( '%s_%s_%s',
+				return sprintf( '%s_%s_%s_%s',
 					\config::$DB_CACHE_PREFIX,
 					$this->db_name(),
-					$id
+					$id,
+					$field
 
 				);
 
@@ -66,11 +67,10 @@ abstract class _dao {
 		}
 		else {
 			if ( $field) {
-				return sprintf( '%s_%s_%s_%s',
-					\config::$DB_CACHE_PREFIX,
+				return sprintf( '%s_%s_%s',
 					$this->db_name(),
 					$id,
-					$fld
+					$field
 
 				);
 
