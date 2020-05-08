@@ -45,7 +45,7 @@ abstract class _dao {
 	protected function cacheKey( int $id, string $field = '') : string {
 		if ( \config::$DB_CACHE_PREFIX) {
 			if ( $field) {
-				return sprintf( '%s.%s.%s',
+				return sprintf( '%s_%s_%s',
 					\config::$DB_CACHE_PREFIX,
 					$this->db_name(),
 					$id
@@ -54,7 +54,7 @@ abstract class _dao {
 
 			}
 			else {
-				return sprintf( '%s.%s.%s',
+				return sprintf( '%s_%s_%s',
 					\config::$DB_CACHE_PREFIX,
 					$this->db_name(),
 					$id
@@ -66,7 +66,7 @@ abstract class _dao {
 		}
 		else {
 			if ( $field) {
-				return sprintf( '%s%s.%s.%s',
+				return sprintf( '%s_%s_%s_%s',
 					\config::$DB_CACHE_PREFIX,
 					$this->db_name(),
 					$id,
@@ -76,7 +76,7 @@ abstract class _dao {
 
 			}
 			else {
-				return sprintf( '%s.%s',
+				return sprintf( '%s_%s',
 					$this->db_name(),
 					$id
 
@@ -85,6 +85,11 @@ abstract class _dao {
 			}
 
 		}
+
+	}
+
+	protected function cacheKey_delete( int $id, string $field = '') {
+		return sprintf( '/%s/', $this->cacheKey( $id, $field));
 
 	}
 
@@ -320,7 +325,7 @@ abstract class _dao {
 
 		if ( \config::$DB_CACHE == 'APC') {
 			$cache = \dvc\cache::instance();
-			$key = $this->cacheKey( $id);
+			$key = $this->cacheKey_delete( $id);
 			$cache->delete( $key, true);
 
 		}
