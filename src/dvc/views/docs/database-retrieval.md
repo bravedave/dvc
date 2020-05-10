@@ -5,11 +5,12 @@ From both points there are a number of methods of retrieving data.
 
 ### Connected
 If configured, you are connected to the default database and the connection is
- available at ```$this->db``` - it can be assumed (unless the data source is
- not being available).
-
+ available at
+ ```
+ $this->db
+ ```
 ### Basic
-As close to the datasource as exists, using $this->db->Q will return a
+If you are connected to a datasource, using $this->db->Q will return a
 MySQL/SQLite result which can then be iterated.
 ```
 class contacts extends Controller {
@@ -31,10 +32,11 @@ class contacts extends Controller {
 The Result class offers more services, including advanced sets of data
 which can be manipulated inline for reporting or data compilation.
 
-This class can also return general or specific dto objects.
+This class can also return general or specific DTO objects.
+
 #### Specific DTO Objects
-A general dto object is equivalent to a MySQL's fetch_object data structure,
-this can be made more specific by including a template in the app\dao\dto folder
+In general - a DTO object is equivalent to a MySQL's fetch_object data structure,
+this can be made more specific by including a template in the _app\dao\dto_ folder
 
 #### dtoSet
 The result class can return all the rows of a given query in an array of dtos.
