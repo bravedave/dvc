@@ -66,8 +66,63 @@
 
 		return ( c);
 
-	}
-	;
+	};
+
+	// new version
+	_b_.fileDragDropContainer = function (params) {
+		let options = $.extend({
+			fileControl: false,
+			multiple: true,
+			title: 'Choose file'
+
+		}, params);
+
+		//~ console.log( '_b_.fileDragDropContainer');
+		let c = $('<div />');
+
+		$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" />')
+			.appendTo($('<div class="progress box__uploading" />').appendTo(c));
+
+		$('<div class="progress-bar progress-bar-striped progress-queue text-center" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">queue</div>')
+			.appendTo($('<div class="progress d-none mt-2" />').appendTo(c));
+
+		if (options.fileControl) {
+
+			let wrapper = $('<div class="pointer btn btn-outline-secondary btn-block btn-sm upload-btn-wrapper">')
+				.css({
+					'position': 'relative',
+					'overflow': 'hidden'
+
+				});
+
+			$('<i class="fa"></i>')
+				.addClass(_brayworth_.browser.isMobileDevice ? 'fa-camera' : 'fa-upload')
+				.appendTo(wrapper);
+
+			let fileControl = $('<input type="file" />')
+				.css({
+					'width': '100%',
+					'position': 'absolute',
+					'left': '0',
+					'top': '0',
+					'opacity': '0'
+
+				})
+				.appendTo(wrapper);
+
+			if (!!options.multiple) {
+				fileControl.prop('multiple', true);
+
+			}
+
+			wrapper.appendTo(c);
+
+		}
+
+		return (c);
+
+	};
+
 	let queue = [];
 	let enqueue = function( params) {
 		let options = $.extend({
