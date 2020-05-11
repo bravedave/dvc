@@ -1,25 +1,23 @@
-/*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	Apply drag drop capabilities to a container
-
-	load:
+/**
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+ * Apply drag drop capabilities to a container
+ *
+ *	load:
 		$.getScript( _brayworth_.urlwrite('js/_brayworth_.fileDragDropHandler.js'));
-
-	test:
+ *
+ *	test:
 		let c = _brayworth_.fileDragDropContainer().appendTo('body');	// or where ever you want to append to;
 		maybe:
 			let c = _brayworth_.fileDragDropContainer().appendTo('body');
 			_brayworth_.fileDragDropHandler.call( c, {
 				url : url
 			});
-
-	*/
+ */
 /*jshint esversion: 6 */
 (function( _b_ ) {
 	_b_.fileDragDropContainer = function( params) {
