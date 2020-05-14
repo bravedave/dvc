@@ -1,12 +1,12 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-	*/
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+*/
 
 class home extends Controller {
 	public $RequireValidation = \config::lockdown;
@@ -25,9 +25,24 @@ class home extends Controller {
 	protected function _index( $data = '' ) {
 		// just points into the documentation
 		if ( $data == '') {
+
+			$readme = implode( DIRECTORY_SEPARATOR, [
+				dirname( dirname( dirname( __DIR__))),
+				'Readme.md'
+
+			]);
+
+			// \sys::logger( sprintf('<%s> %s', $readme, __METHOD__));
+
+			$primary = [ $readme];
+			if ( file_exists( implode( DIRECTORY_SEPARATOR, [ $this->rootPath, 'controller', 'hello.php' ]))) {
+				$primary[] = 'docs/sample';
+
+			}
+
 			$this->render([
 				'title' => $this->title,
-				'primary' => 'docs/index',
+				'primary' => $primary,
 				'secondary' => 'docs/contents'
 
 			]);
