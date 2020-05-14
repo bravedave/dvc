@@ -9,7 +9,7 @@
   * materialcss
 
 ## Running
-* Install the template project from https://github.com/bravedave/dvc-template, it will pull in this project as part of the install
+* Install the template project from https://github.com/bravedave/hello, it will pull in this project as part of the install
 
 
 ## Development Install
