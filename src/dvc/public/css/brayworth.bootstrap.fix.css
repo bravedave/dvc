@@ -1,3 +1,11 @@
+/*
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
+
+	MIT License
+
+*/
 .input-group>.input-group-append:not(:last-child)>.input-group-text {
     margin-right: -1px;
 }
