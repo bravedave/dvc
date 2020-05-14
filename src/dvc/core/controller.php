@@ -334,39 +334,21 @@ abstract class controller {
 
 		}
 
-		/**
-		 * 	[application]/views/[controller]
-		 */
-		if ( $view = $this->_viewPath( sprintf( '%s/views/%s/%s', $this->rootPath, $controller, $viewName ))) {
-			return $view;
+		$_paths = [
+			implode( DIRECTORY_SEPARATOR, [ $this->rootPath, 'views', $controller]),
+			implode( DIRECTORY_SEPARATOR, [ $this->rootPath, 'app', 'views', $controller]),
+			implode( DIRECTORY_SEPARATOR, [ $this->rootPath, 'app', 'views']),
+
+		];
+
+		foreach ($_paths as $_path) {
+			if ( $view = $this->_viewPath( implode( DIRECTORY_SEPARATOR, [ $_path, $viewName ] ))) {
+				return $view;
+
+			}
 
 		}
 
-		/**
-		 * 	X [application]/views/[controller]
-		 * 	=> look in [application]/app/views/[controller]
-		 */
-		if ( $view = $this->_viewPath( sprintf( '%s/app/views/%s/%s', $this->rootPath, $controller, $viewName ))) {
-			return $view;
-
-		}
-
-		/**
-		 * 	X [application]/views/[controller]
-		 * 	X look in [application]/app/views/[controller]
-		 *	=> look in [app]/views/ folder
-		 */
-		if ( $view = $this->_viewPath( sprintf( '%s/app/views/%s', $this->rootPath, $viewName ))) {
-			return $view;
-
-		}
-
-		/**
-		 * 	X [application]/views/[controller]
-		 * 	X look in [application]/app/views/[controller]
-		 *	X look in [app]/views/ folder
-		 *	=> look to the [theme] folder
-		 */
 		if ( class_exists( 'dvc\theme\view', /* autoload */ false)) {
 			if ( $altView = \dvc\theme\view::getView( $viewName)) {
 				return ( $altView);
@@ -375,25 +357,28 @@ abstract class controller {
 
 		}
 
-		/**
-		 * 	X [application]/views/[controller]
-		 * 	X look in [application]/app/views/[controller]
-		 *	X look in [app]/views/ folder
-		 *	X look to the [theme] folder
-		 *
-		 * 	look to the [system] folders
-		 *	=> [system]/views/[controller]
-		 *	=> [system]/app/views/
-		 */
-		if ( $view = $this->_viewPath( sprintf( '%s/dvc/views/%s/%s', \application::app()->getInstallPath(), $controller, $viewName ))) {
-			return $view;
+		$_paths = [
+			implode( DIRECTORY_SEPARATOR, [ \application::app()->getInstallPath(), 'dvc', 'views', $controller]),
+			implode( DIRECTORY_SEPARATOR, [ \application::app()->getInstallPath(), 'dvc', 'views' ]),
+
+		];
+
+		foreach ($_paths as $_path) {
+			if ( $view = $this->_viewPath( implode( DIRECTORY_SEPARATOR, [ $_path, $viewName ] ))) {
+				return $view;
+
+			}
 
 		}
 
-		if ( $view = $this->_viewPath( sprintf( '%s/dvc/views/%s', \application::app()->getInstallPath(), $viewName ))) {
-			return $view;
+		$readme = implode( DIRECTORY_SEPARATOR, [
+			dirname( dirname( dirname( __DIR__))),
+			'Readme.md'
 
-		}
+		]);
+
+		if ( $viewName == $readme) return $readme;	// one exception
+
 
 		if ( $logMissingView && 'dvc\_controller/hasView' != \sys::traceCaller()) {
 			/*-- --[ not found - here is some debug stuff ]-- --*/
