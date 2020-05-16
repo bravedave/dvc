@@ -29,7 +29,7 @@ _brayworth_.bootstrapModalPop = function( params ) {
 
 	$.extend( options, params);
 
-	let header = $('<div class="modal-header"><i class="fa fa-times close"/><h1/></div>');
+	let header = $('<div class="modal-header"><i class="fa fa-times close"></i><h1></h1></div>');
 	let body = $('<div class="modal-body"/>');
 		body.append( this);
 	let footer = $('<div class="modal-footer text-right"/>');
@@ -75,11 +75,11 @@ _brayworth_.bootstrapModalPop = function( params ) {
 		$.each( options.headButtons, function( i, el) {
 			let b;
 			if ( !!el.icon) {
-				b = $('<i class="fa fa-fw pull-right pointer mr-1 pr-3"/>').addClass( el.icon);
+				b = $('<i class="fa fa-fw pull-right pointer mr-1 pr-3"></i>').addClass( el.icon);
 
 			}
 			else {
-				b = $('<button class="button button-raised pull-right" />').html( i);
+				b = $('<button class="button button-raised pull-right"></button>').html( i);
 
 			}
 

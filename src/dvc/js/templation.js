@@ -1,32 +1,33 @@
-/*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	note:
-		to use this library, by default it is going
-		to call the home Controller
-		to return the template:
-		it won't work if you don't do that prep work
-
-
-	test - get:
-		In this example d contains a template object - sort of vuejs ish (not very)
-		templation.load({template:'sample'}).done( function( d) { console.log( d)});
-
-	usage:
-		$('body').html('');	// clear the page
-		var t = templation.template('table').appendTo('body');
-		for ( var i = 1; i < 10; i++) {
-			var r = templation.template('tr').appendTo( t.get('tbody'));
-			r.append( $('<td />').html( i));
-
-		}
-
-	*/
+/**
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+ *
+ *
+ * note:
+ *	to use this library, by default it is going
+ *	to call the home Controller
+ *	to return the template:
+ *	it won't work if you don't do that prep work
+ *
+ *
+ * test - get:
+ *	In this example d contains a template object - sort of vuejs ish (not very)
+ *	templation.load({template:'sample'}).done( function( d) { console.log( d)});
+ *
+ * usage:
+ *	$('body').html('');	// clear the page
+ *	var t = templation.template('table').appendTo('body');
+ *	for ( var i = 1; i < 10; i++) {
+ *		var r = templation.template('tr').appendTo( t.get('tbody'));
+ *		r.append( $('<td />').html( i));
+ *
+ *	}
+ *
+*/
 /*jshint esversion: 6 */
 window.templation = {
 	urlwrite : ( _url) => {
@@ -40,17 +41,17 @@ window.templation = {
 };
 
 (() => {
-	const newLocal = '<div class="modal"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content" role="dialog" aria-labelledby="modal-title"><div class="modal-header py-1 bg-primary text-white"><h5 class="modal-title text-truncate" id="modal-title" /><i class="fa fa-times close text-white" /></div><div class="modal-body" /></div></div></div>';
+	const newLocal = '<div class="modal"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content" role="dialog" aria-labelledby="modal-title"><div class="modal-header py-1 bg-primary text-white"><h5 class="modal-title text-truncate" id="modal-title"></h5><i class="fa fa-times close text-white"></i></div><div class="modal-body"></div></div></div></div>';
 	/*
 		some predefined templates
-		add more with templation.loadHTML('tr','<tr />');
+		add more with templation.loadHTML('tr','<tr></tr>');
 	*/
 	let cache = {
-		container : '<div class="container" />',
-		row : '<div class="row" />',
-		form : '<form />',
-		table : '<table><thead></thead><tbody /><tfoot /></table>',
-		tr : '<tr />',
+		container : '<div class="container"></div>',
+		row : '<div class="row"></div>',
+		form : '<form></form>',
+		table : '<table><thead></thead><tbody></tbody><tfoot></tfoot></table>',
+		tr : '<tr></tr>',
 		modal: newLocal,
 
 	};

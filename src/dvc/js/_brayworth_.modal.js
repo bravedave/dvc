@@ -152,13 +152,13 @@ _brayworth_.modal = function( params) {
 
 			let b;
 			if ( !!j.icon) {
-				b = $( '<div class="pointer pt-1 px-2" />').append(
-					$('<i class="fa m-0" style="cursor: pointer;" />').addClass( j.icon));
-				// var b = $( '<i class="fa fa-fw pull-right" style="margin-right: 1rem; padding-right: 1rem; cursor: pointer;" />').addClass( j.icon);
+				b = $( '<div class="pointer pt-1 px-2"></div>').append(
+					$('<i class="fa m-0" style="cursor: pointer;"></i>').addClass( j.icon));
+				// var b = $( '<i class="fa fa-fw pull-right" style="margin-right: 1rem; padding-right: 1rem; cursor: pointer;"></i>').addClass( j.icon);
 
 			}
 			else {
-				b = $('<button />')
+				b = $('<button></button>')
 					.html( j.text)
 					.addClass( _brayworth_.templates.buttonCSS);
 
