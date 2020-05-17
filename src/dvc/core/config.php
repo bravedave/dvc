@@ -109,7 +109,7 @@ abstract class config {
 	static $EMAILDOMAIN = 'example.com';
 	static $EMAIL_STATIONARY = 'email.html';
 
-	static $JQUERY_VERSION = '';
+	static $JQUERY_VERSION = '3.4';
 
 	static $MAILSERVER = 'localhost';
 	static $MAILER = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
