@@ -22,7 +22,7 @@ var hourglass = _brayworth_.hourglass = {
 
 		}
 
-		this.h = $('<div class="modal" />')
+		this.h = $('<div class="modal"></div>')
 			.append( inner)
 			.appendTo( 'body')
 			.css('display', 'block');

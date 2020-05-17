@@ -102,7 +102,7 @@ _brayworth_.modal = function( params) {
 	t.append( content);		// this is the content
 
 	if ( Object.keys( options.buttons).length > 0) {	// jquery-ui style
-		let btnGrp = $('<div class="btn-group btn-group-sm" />').appendTo( t.footer());
+		let btnGrp = $('<div class="btn-group btn-group-sm"></div>').appendTo( t.footer());
 		$.each( options.buttons, function( i, el) {
 			let j = {
 				text : i,
@@ -241,7 +241,7 @@ _brayworth_.modal = function( params) {
 		 * for jQuery.load
 		 */
 		return new Promise( function( resolve, reject) {
-			var d = $('<div />');
+			var d = $('<div></div>');
 			t.append( d);
 			d.load( url, function() {
 				resolve( _modal);
@@ -306,7 +306,7 @@ _brayworth_.templates.modal = function() {
 
 		_.footer = function() {
 			if ( !this._footer) {
-				this._footer = $('<div class="modal-footer py-1 text-right" />');
+				this._footer = $('<div class="modal-footer py-1 text-right"></div>');
 				this.get('.modal-content').append( this._footer);
 
 			}

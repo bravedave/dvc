@@ -24,7 +24,7 @@ class menuitem {
 	}
 
 	static function separator() {
-		return new menuitem( '<div class="menu-item-separator" />' );
+		return new menuitem( '<div class="menu-item-separator"></div>' );
 
 	}
 

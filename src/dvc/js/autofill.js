@@ -31,7 +31,7 @@ $.fn.autofill = function( params) {
 	let options = _brayworth_.extend({
 		timeout : 400,
 		appendTo : _me.parent(),
-		wrapper : $('<div class="autofill-wrapper" />'),
+		wrapper : $('<div class="autofill-wrapper"></div>'),
 		autoFocus : false,
 		activateOnEnter : true,
 		minLength : 3,
@@ -338,7 +338,7 @@ $.fn.autofill = function( params) {
 				if ( !!el.label) {
 					if ( rex.test( el.label)) {
 						$('<li class="list-group-item p-1" tabindex="-1" />')
-							.append( $('<div class="text-truncate" />').html( el.label))
+							.append( $('<div class="text-truncate"></div>').html( el.label))
 							.data( 'item', el)
 							.on( 'click', function( e) { keyMove.selectitem.call( this, e); })
 							.on( 'mouseover', function() { keyMove.activate( this); })
@@ -350,7 +350,7 @@ $.fn.autofill = function( params) {
 				else {
 					if ( rex.test( el)) {
 						$('<li class="list-group-item p-1" tabindex="-1" />')
-							.append( $('<div class="text-truncate" />')
+							.append( $('<div class="text-truncate"></div>')
 							.html( el)).data( 'item', { label:el, value:el })
 							.on( 'click', function( e) { keyMove.selectitem.call( this, e); })
 							.on( 'mouseover', function() { keyMove.activate( this); })
@@ -373,7 +373,7 @@ $.fn.autofill = function( params) {
 				let render = function( el) {
 					//~ console.log( _data.term, el);
 
-					let _pad = $('<div class="text-truncate" tabindex="-1" />')	;
+					let _pad = $('<div class="text-truncate" tabindex="-1"></div>')	;
 					_pad.html( !!el.label ? el.label : ( !!el.value ? el.value : el));
 					//~ console.log( _pad.html());
 

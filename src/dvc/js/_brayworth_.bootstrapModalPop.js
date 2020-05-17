@@ -30,13 +30,13 @@ _brayworth_.bootstrapModalPop = function( params ) {
 	$.extend( options, params);
 
 	let header = $('<div class="modal-header"><i class="fa fa-times close"></i><h1></h1></div>');
-	let body = $('<div class="modal-body"/>');
+	let body = $('<div class="modal-body"></div>');
 		body.append( this);
-	let footer = $('<div class="modal-footer text-right"/>');
-	let modal = $('<div class="modal"/>');
+	let footer = $('<div class="modal-footer text-right"></div>');
+	let modal = $('<div class="modal"></div>');
 
 	/*---[wrapper]---*/
-	let wrapper = $('<div class="modal-content"/>');
+	let wrapper = $('<div class="modal-content"></div>');
 		if ( options.width)
 			wrapper.css({ 'width' : '300px' });
 		else

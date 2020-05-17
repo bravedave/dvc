@@ -23,11 +23,11 @@ _brayworth_.textPrompt = function( params) {
 			.val( options.text)
 			.attr( 'placeholder', options.title);
 
-		let div = $('<div />').attr( 'title', options.title);
+		let div = $('<div></div>').attr( 'title', options.title);
 		input.appendTo( div);
 
 		if ( options.verbatim != '')
-			div.append( $('<div class="text-muted font-italic" />').html( options.verbatim));
+			div.append( $('<div class="text-muted font-italic"></div>').html( options.verbatim));
 
 		_brayworth_.modal.call( div, {
 			className : '',

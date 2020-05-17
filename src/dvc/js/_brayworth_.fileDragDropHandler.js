@@ -29,22 +29,22 @@
 		}, params);
 
 		//~ console.log( '_b_.fileDragDropContainer');
-		let c = $('<div />');
+		let c = $('<div></div>');
 
-		$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" />')
-			.appendTo( $('<div class="progress box__uploading" />').appendTo( c));
+		$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>')
+			.appendTo( $('<div class="progress box__uploading"></div>').appendTo( c));
 
 		$('<div class="progress-bar progress-bar-striped progress-queue text-center" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">queue</div>')
-			.appendTo( $('<div class="progress d-none mt-2" />').appendTo( c));
+			.appendTo( $('<div class="progress d-none mt-2"></div>').appendTo( c));
 
 		if ( options.fileControl) {
-			let ig = $('<div class="input-group mb-1" />').appendTo( c);
+			let ig = $('<div class="input-group mb-1"></div>').appendTo( c);
 
 			let rand = String( Math.round( Math.random() * 1000));
 			let lbl = $('<span class="input-group-text">Upload</span>').attr( 'id', rand + 'FileAddon01');
-			$('<div class="input-group-prepend" />').append( lbl).appendTo( ig);
+			$('<div class="input-group-prepend"></div>').append( lbl).appendTo( ig);
 
-			let div = $('<div class="custom-file" />').appendTo( ig);
+			let div = $('<div class="custom-file"></div>').appendTo( ig);
 			let fileControl = $('<input type="file" class="custom-file-input" />');
 
 			if ( !!options.multiple) {
@@ -57,7 +57,7 @@
 			.attr('aria-describedby', rand + 'FileAddon01')
 			.appendTo( div);
 
-			$('<label class="custom-file-label" />')
+			$('<label class="custom-file-label"></label>')
 				.html( options.title)
 				.attr( 'for', rand + 'File01')
 				.appendTo( div);
@@ -78,13 +78,13 @@
 		}, params);
 
 		//~ console.log( '_b_.fileDragDropContainer');
-		let c = $('<div />');
+		let c = $('<div></div>');
 
-		$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" />')
-			.appendTo($('<div class="progress box__uploading" />').appendTo(c));
+		$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>')
+			.appendTo($('<div class="progress box__uploading"></div>').appendTo(c));
 
 		$('<div class="progress-bar progress-bar-striped progress-queue text-center" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">queue</div>')
-			.appendTo($('<div class="progress d-none mt-2" />').appendTo(c));
+			.appendTo($('<div class="progress d-none mt-2"></div>').appendTo(c));
 
 		if (options.fileControl) {
 

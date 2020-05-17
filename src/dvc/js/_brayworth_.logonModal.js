@@ -19,8 +19,8 @@ _brayworth_.logonModal = () => {
 	};
 
 	let form = $('<form />');
-		$('<div class="form-group" />').append( flds.user).appendTo( form);
-		$('<div class="form-group" />').append( flds.pass).appendTo( form);
+		$('<div class="form-group"></div>').append( flds.user).appendTo( form);
+		$('<div class="form-group"></div>').append( flds.pass).appendTo( form);
 
 	let submitter = () => {
 		let u = flds.user.val();

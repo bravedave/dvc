@@ -23,7 +23,7 @@
  *	var t = templation.template('table').appendTo('body');
  *	for ( var i = 1; i < 10; i++) {
  *		var r = templation.template('tr').appendTo( t.get('tbody'));
- *		r.append( $('<td />').html( i));
+ *		r.append( $('<td></td>').html( i));
  *
  *	}
  *

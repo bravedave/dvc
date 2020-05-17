@@ -26,7 +26,7 @@ _brayworth_.ask = ( params) => {
             '<div class="modal-dialog modal-dialog-centered modal-sm" role="document">',
                 '<div class="modal-content">',
                     '<div class="modal-header py-2"><h5 class="modal-title text-truncate" title="Modal">Modal</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>',
-                    '<div class="modal-body" />',
+                    '<div class="modal-body"></div>',
                 '</div>',
             '</div>',
         '</div>'
@@ -40,7 +40,7 @@ _brayworth_.ask = ( params) => {
             $('.modal-title', modal).html( options.title);
             $('.modal-body', modal).html( options.text);
 
-            let footer = $('<div class="modal-footer py-0" />').appendTo($('.modal-content', modal));
+            let footer = $('<div class="modal-footer py-0"></div>').appendTo($('.modal-content', modal));
 
             $.each( options.buttons, ( key, j) => {
                 $('<button class="btn btn-light" type="button" />')

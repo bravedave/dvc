@@ -147,21 +147,21 @@
 				* with an optional timeout set to 0 it will become a bootstrap 4valert:
 				* { response : 'ack', description : 'go you good thing', timeout : 0 }
 				*/
-				let growler = $('<div class="alert alert-warning alert-dismissible fade show m-1" role="alert" />');
+				let growler = $('<div class="alert alert-warning alert-dismissible fade show m-1" role="alert"></div>');
 				if ( options.growlClass == 'error') {
 					growler.removeClass('alert-warning').addClass('alert-danger');
 
 				}
 
 				if ( options.title != '') {
-					let title = $('<h3 />').html( options.title).appendTo( growler);
+					let title = $('<h3></h3>').html( options.title).appendTo( growler);
 
 				}
 
 				$('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>').appendTo(growler);
 
 				if ( options.text != '') {
-					let content = $('<div />').html(options.text).appendTo( growler);
+					let content = $('<div></div>').html(options.text).appendTo( growler);
 
 				}
 
@@ -169,7 +169,7 @@
 
 			}
 			else {
-				let growler = $('<div class="growler" />');
+				let growler = $('<div class="growler"></div>');
 
 				/*
 				* you have to find a place in the growlers for this one
@@ -215,8 +215,8 @@
 
 				options.top = Math.max( options.top, $(window).scrollTop());
 
-				var title = $('<h3 />');
-				var content = $('<div />');
+				var title = $('<h3></h3>');
+				var content = $('<div></div>');
 
 				if ( '' != options.title) {
 					title.html(options.title).appendTo( growler);

@@ -13,13 +13,13 @@ _brayworth_.toaster = function() {};
 $(document).ready( function() {
 	_brayworth_.toaster = (function() {
 		let adjustTop = function() {};
-		let wrap = $('<div style="position: absolute; top: 50px; right: 20px; width: 300px" />');
+		let wrap = $('<div style="position: absolute; top: 50px; right: 20px; width: 300px"></div>');
 		let nav = $('[role="growler"]');
 		let mode = 'append';
 
 		if ( nav.length > 0) {
 			mode = 'prepend';
-			wrap = $('<div style="position: absolute; top: -4rem; left: 5px; width: 290px" />');
+			wrap = $('<div style="position: absolute; top: -4rem; left: 5px; width: 290px"></div>');
 		}
 		else {
 			nav = $('body > nav.sticky-top');
@@ -80,8 +80,8 @@ $(document).ready( function() {
 
 				let timestamp = _brayworth_.moment();
 
-				let toast = $('<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" />').attr( 'data-delay', options.delay);
-				let header = $('<div class="toast-header" />').appendTo(toast);
+				let toast = $('<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true"></div>').attr( 'data-delay', options.delay);
+				let header = $('<div class="toast-header"></div>').appendTo(toast);
 
 				if ( options.growlClass == 'error' ) {
 					header.append( '<svg class="bd-placeholder-img rounded mr-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"><rect fill="#dc3545" width="100%" height="100%"></rect></svg>');
@@ -93,7 +93,7 @@ $(document).ready( function() {
 				let timer = $('<small class="text-muted ml-2">just now</small>').appendTo( header);
 				$('<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close"><span aria-hidden="true">&times;</span></button>').appendTo( header);
 
-				$('<div class="toast-body" />').html( options.text).appendTo(toast);
+				$('<div class="toast-body"></div>').html( options.text).appendTo(toast);
 
 				adjustTop();
 				toast.on('hidden.bs.toast', function( e) {
