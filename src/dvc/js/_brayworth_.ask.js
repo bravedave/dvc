@@ -19,7 +19,7 @@
     });
 
  * */
-
+/*jshint esversion: 6 */
 _brayworth_.ask = ( params) => {
     let dlg = $([
         '<div class="modal" tabindex="-1" role="dialog">',
