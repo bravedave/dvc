@@ -1,13 +1,15 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+*/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-	*/
 namespace dvc\pages;
+use dvc\cssmin;
 
 class _page {
 	protected $boolHeader = false,
@@ -88,13 +90,13 @@ class _page {
 
 		}
 		elseif ( $this->dvc) {
-			if ( \cssmin::dvc()) {
-				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \cssmin::$dvcmin );
+			if ( cssmin::dvc()) {
+				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', cssmin::$dvcmin );
 
 			}
 			else {
 				$this->css[] = '<!-- no minified library :: normally we would bundle the css -->';
-				foreach ( \cssmin::$dvcminFiles as $src)
+				foreach ( cssmin::$dvcminFiles as $src)
 					$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( $src));
 
 			}
