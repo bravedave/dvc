@@ -54,7 +54,11 @@ div#brayworthLOGO a {
 
 .autofill-wrapper { position: relative; }
 
-ul.menu { background-color: var(--white); }
+ul.menu {
+	background-color: var(--white);
+	color: var(--dark);
+
+}
 
 input[type="search"]:not(.with-content) {
 	background: white url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGRhdGEtbmFtZT0iTCIgdmlld0JveD0iMCAwIDQuOTUgMTAiPjxwYXRoIGQ9Im0zLjI3NjQ0LDUuNDg1NDVsLTAuMTcyMDgsMGwtMC4wNjQ2MSwtMC4wNTM5NGMwLjIwNDQzLC0wLjI0ODEgMC4zMzM1NCwtMC41NjA5OSAwLjMzMzU0LC0wLjkxNjk2Yy0wLjAwMDAxLC0wLjc3Njc0IC0wLjYyNDAxLC0xLjQwMjQxIC0xLjM5ODQzLC0xLjQwMjQxYy0wLjc2MzgyLDAgLTEuMzg3NzIsMC42MjU2NyAtMS4zODc3MiwxLjQwMjQxczAuNjIzOSwxLjQwMjQgMS4zOTg0NCwxLjQwMjRjMC4zNDQyNSwwIDAuNjY2OTUsLTAuMTI5NDcgMC45MTQzNCwtMC4zMzQzOWwwLjA2NDUxLDAuMDUzOTVsMCwwLjE3MjU3bDEuMDc1NzEsMS4wNzg3NmwwLjMyMjcxLC0wLjMyMzYzbC0xLjA4NjQxLC0xLjA3ODc3em0tMS4yOTA4NiwwYy0wLjUzNzg2LDAgLTAuOTY4MTUsLTAuNDMxNTIgLTAuOTY4MTUsLTAuOTcwOWMwLC0wLjUzOTQgMC40MzAyOCwtMC45NzA4OSAwLjk2ODE1LC0wLjk3MDg5YzAuNTM3ODQsMCAwLjk2ODE0LDAuNDMxNDkgMC45NjgxNCwwLjk3MDg5YzAsMC41MzkzOCAtMC40MzAyOSwwLjk3MDkgLTAuOTY4MTQsMC45NzA5eiIgZmlsbD0iIzdmN2Y3ZiIgLz48L3N2Zz4=) no-repeat calc(100% - 5px) 50%;
