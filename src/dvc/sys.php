@@ -21,7 +21,7 @@ abstract class sys {
 			if ( \config::$DB_TYPE) {
 				if ( \config::$DB_TYPE == 'sqlite' ) {
 					self::$_dbi = sqlite\db::instance();
-					\sys::logger( sprintf('<dbi defaulted to sqlite.> %s', __METHOD__));
+					\sys::logger( sprintf('<dbi defaulted to sqlite> %s', __METHOD__));
 
 				}
 				else {
