@@ -23,12 +23,7 @@ abstract class sys {
 
 			}
 			else {
-<<<<<<< HEAD
-				\config::$DB_TYPE = 'sqlite';
-				self::$_dbi = sqlite\db::instance();
-=======
 				self::$_dbi = new dbi;
->>>>>>> parent of e6d4fdd... default dbi to sqlite with log message
 
 			}
 
