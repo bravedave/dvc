@@ -276,6 +276,23 @@ abstract class config {
 				\config::$DATE_FORMAT = $a->date_format;
 
 			} // if ( file_exists( $path))
+			else {
+				$path = implode( DIRECTORY_SEPARATOR, [
+					\config::dataPath(),
+					'defaults-sample.json'
+
+				]);
+
+				if ( !file_exists( $path)) {
+					$a = [
+						'db_type' => 'sqlite',
+						'date_format' => 'd/m/Y',
+					];
+					file_put_contents( $path, json_encode( $a, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+				} // if ( file_exists( $path))
+
+			}
 
 			// $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
 			$path = sprintf('%s%sgoogle.json', \config::dataPath(), DIRECTORY_SEPARATOR);
