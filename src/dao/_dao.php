@@ -22,14 +22,6 @@ abstract class _dao {
 	protected $template = null;
 
 	function __construct( \dvc\dbi $db = null ) {
-
-		if ( !\config::checkDBconfigured()) {
-		    // \sys::logger( sprintf('<Call the doctor I think I\'m gonna crash> %s', __METHOD__));
-			// \sys::logger( sprintf('<The doctor say he\'s coming but you gotta create a config file buddy> %s', __METHOD__));
-			throw new Exceptions\DBNotConfigured;
-
-		}
-
 		$this->db = is_null( $db) ? \sys::dbi() : $db;
 
 		$this->TableChecks();
