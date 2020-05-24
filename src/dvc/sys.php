@@ -18,21 +18,17 @@ abstract class sys {
 
 	static function dbi() {
 		if ( is_null( self::$_dbi)) {
-			if ( \config::$DB_TYPE) {
-				if ( \config::$DB_TYPE == 'sqlite' ) {
-					self::$_dbi = sqlite\db::instance();
-					\sys::logger( sprintf('<dbi defaulted to sqlite> %s', __METHOD__));
-
-				}
-				else {
-					self::$_dbi = new dbi;
-
-				}
+			if ( \config::$DB_TYPE == 'sqlite' ) {
+				self::$_dbi = sqlite\db::instance();
 
 			}
 			else {
+<<<<<<< HEAD
 				\config::$DB_TYPE = 'sqlite';
 				self::$_dbi = sqlite\db::instance();
+=======
+				self::$_dbi = new dbi;
+>>>>>>> parent of e6d4fdd... default dbi to sqlite with log message
 
 			}
 
