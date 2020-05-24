@@ -11,6 +11,8 @@
 namespace dvc;
 
 class icon {
+    const box = 20;
+
     const chat = 40;
 
     const chevronLeft = 41;
@@ -27,6 +29,10 @@ class icon {
 
     static function get( int $icon ) : string {
         if ( self::chat == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/box.svg');
+
+        }
+        elseif ( self::chat == $icon) {
             return file_get_contents( __DIR__ . '/bootstrap4/icons/chat.svg');
 
         }
