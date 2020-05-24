@@ -31,6 +31,7 @@ abstract class sys {
 
 			}
 			else {
+				\config::$DB_TYPE = 'sqlite';
 				self::$_dbi = sqlite\db::instance();
 
 			}
