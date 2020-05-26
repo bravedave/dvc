@@ -1,10 +1,10 @@
-/*
+/**
  * David Bray
  * BrayWorth Pty Ltd
  * e. david@brayworth.com.au
  *
- * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
- *      http://creativecommons.org/licenses/by/4.0/
+ * MIT License
+ *
  *
  * test:
  *	'0418745334'.IsMobilePhone();
@@ -91,9 +91,9 @@
 			re = /(\S\S)(\S\S\S\S)(\S+)/;
 			if ( re.test(ns)) {
 				//~ ns = "(" + RegExp.$1 + ") " + RegExp.$2 + " " + RegExp.$3;
-				if ( !!useCompactPhoneFormat)
-					ns = RegExp.$1 + " " + RegExp.$2 + "" + RegExp.$3;
-				else
+				// if ( !!useCompactPhoneFormat)
+				// 	ns = RegExp.$1 + " " + RegExp.$2 + "" + RegExp.$3;
+				// else
 					ns = RegExp.$1 + " " + RegExp.$2 + " " + RegExp.$3;
 
 				return( ns );
@@ -157,9 +157,9 @@
 			re = /(\S\S\S\S)(\S\S\S)(\S+)/;
 			if ( re.test(ns)) {
 				//~ ns = "(" + RegExp.$1 + ") " + RegExp.$2 + " " + RegExp.$3;
-				if ( !!useCompactPhoneFormat)
-					ns = RegExp.$1 + ' ' + RegExp.$2 + '' + RegExp.$3;
-				else
+				// if ( !!useCompactPhoneFormat)
+				// 	ns = RegExp.$1 + ' ' + RegExp.$2 + '' + RegExp.$3;
+				// else
 					ns = RegExp.$1 + ' ' + RegExp.$2 + ' ' + RegExp.$3;
 				return( ns );
 
