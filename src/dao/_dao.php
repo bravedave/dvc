@@ -209,8 +209,15 @@ abstract class _dao {
 
 	}
 
-	public function dtoSet( \dvc\dbResult $res, $func = null) : array {
-		return $res->dtoSet( $func, $this->template);
+	public function dtoSet( $res, $func = null) : array {
+		if ( $res instanceof \dvc\dbResult || $res instanceof \dvc\sqlite\dbResult) {
+			return $res->dtoSet( $func, $this->template);
+
+		}
+		else {
+			throw new \Exception( sprintf( '"Argument 1 passed to %s must be an instance of dvc\dbResult or \dvc\sqlite\dbResult', __METHOD__));
+
+		}
 
 	}
 
