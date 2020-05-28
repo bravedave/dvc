@@ -209,6 +209,11 @@ abstract class _dao {
 
 	}
 
+	public function dtoSet( \dvc\dbResult $res, $func = null) : array {
+		return $res->dtoSet( $func, $this->template);
+
+	}
+
 	public function escape( $s ) {
 		return ( $this->db->escape($s));
 
