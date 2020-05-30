@@ -42,8 +42,8 @@ ul.menu.menu-contextmenu > li > * > .fa:not(.fa-pull-right),
 ul.menu.menu-contextmenu ul.menu > li > * > .fa:not(.fa-pull-right),
 ul.menu.menu-contextmenu > li > * > .ion:not(.pull-right),
 ul.menu.menu-contextmenu ul.menu > li > * > .ion:not(.pull-right) {
-	margin-left: -1.8rem;
-	margin-right: .8rem;
+	margin-left: -1.6rem;
+	margin-right: .6rem;
 	width: 1rem;
 
 }
