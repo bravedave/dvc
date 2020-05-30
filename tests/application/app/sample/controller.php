@@ -13,7 +13,7 @@ namespace sample;
 class controller extends \Controller {
     protected function _index() {
 		$this->render([
-			'primary' => 'blank',
+			'primary' => 'default',
 			'secondary' => [
 				'index',
 				'index-modal',
