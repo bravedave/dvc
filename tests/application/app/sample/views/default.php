@@ -8,7 +8,37 @@
  *
 */  ?>
 
-<div class="rowmy-4">
+<div class="row">
+    <div class="col">
+        <div class="dropdown" id="<?= $_uid = strings::rand() ?>">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown button
+
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+$(document).ready( function() {
+    $('#<?= $_uid ?>').on( 'hidden.bs.dropdown', (e) => {
+        console.log( e);
+
+    });
+
+});
+
+</script>
+
+<div class="row my-4">
     <div class="col py-4 border" id="<?= $_uid = strings::rand() ?>">
         right click me for a context menu
 
@@ -23,11 +53,14 @@
 
         e.stopPropagation();e.preventDefault();
 
-        _brayworth_.hideContexts();
+        $(document).trigger('hide-contexts');
 
         let _context = _brayworth_.context();
 
-        _context.append( $('<a href="#">hello</a>'));
+        _context.append( $('<a href="#">hello</a>').on( 'click', function( e) {
+            _context.close();
+
+        }));
 
         _context.open( e);
 

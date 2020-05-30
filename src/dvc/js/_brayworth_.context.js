@@ -7,30 +7,6 @@
  *
  * */
 /*jshint esversion: 6 */
-_brayworth_.hideContext = function( el) {
-	let _el = $(el);
-	if ( !!_el.data('hide')) {
-		if ( _el.data('hide') == 'hide') {
-			if ( _brayworth_.bootstrap_version() >= 4) {
-				$(el).addClass('d-none');	// connotes there is a hidden class
-
-			}
-			else {
-				$(el).addClass('hidden');	// connotes there is a hidden class
-
-			}
-
-		} else { $(el).remove(); }
-
-	} else { $(el).remove(); }
-
-};
-
-_brayworth_.hideContexts = function() {
-	$('[data-role="contextmenu"]').each( function( i, el ) { _brayworth_.hideContext( el); });
-
-};
-
 _brayworth_.context = function() {
 	return ({
 		root : $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
@@ -196,7 +172,7 @@ _brayworth_.context = function() {
 
 				}
 
-				_brayworth_.hideContexts();
+				$(document).trigger('hide-contexts');
 
 			})
 			.on( 'contextmenu', function( e) {
@@ -206,7 +182,7 @@ _brayworth_.context = function() {
 
 				}
 
-				_brayworth_.hideContexts();
+				$(document).trigger('hide-contexts');
 
 				if ( e.shiftKey) {
 					return;
@@ -263,11 +239,26 @@ _brayworth_.context = function() {
 
 };
 
-$(document).ready( () => {
+$(document)
+.on( 'hide-contexts', (e) => {
+	$('[data-role="contextmenu"]').each((i, el) => {
+		let _el = $(el);
+		if (!!_el.data('hide')) {
+			if (_el.data('hide') == 'hide') {
+				$(el).addClass(_brayworth_.bootstrap_version() >= 4 ? 'd-none' : 'hidden');
+
+			} else { $(el).remove(); }
+
+		} else { $(el).remove(); }
+
+	});
+
+})
+.ready( () => {
 	$(document)
 	.on( 'keyup.removeContexts', ( e) => {
 		if ( 27 == e.keyCode) {
-			_brayworth_.hideContexts();
+			$(document).trigger( 'hide-contexts');
 
 		}
 
@@ -278,7 +269,7 @@ $(document).ready( () => {
 
 		}
 
-		_brayworth_.hideContexts();
+		$(document).trigger('hide-contexts');
 
 	})
 	.on( 'contextmenu.removeContexts', ( e) => {
@@ -287,7 +278,7 @@ $(document).ready( () => {
 
 		}
 
-		_brayworth_.hideContexts();
+		$(document).trigger('hide-contexts');
 
 	});
 

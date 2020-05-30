@@ -15,6 +15,10 @@ $.extend( _brayworth_, {
 	currentUser : false,
 	logon_retrieve_password : false,
 	templates : {},
+	hideContexts : () => {
+		$(document).trigger('hide-contexts');
+
+	},
 	bootstrap_version : () => {
 		if ( 'undefined' != typeof bootstrap) {
 			if ( !!bootstrap.Alert) {

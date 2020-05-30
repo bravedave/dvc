@@ -94,7 +94,7 @@ _brayworth_.table.sortOn = function( table, key, sorttype, order) {
 _brayworth_.table.sort = function( e) {
 	if ( 'undefined' != typeof e && !!e.target) e.stopPropagation();
 
-	_brayworth_.hideContexts();
+	$(document).trigger('hide-contexts');
 
 	let table = $(this).closest( 'table' );
 	if ( !table) return;
