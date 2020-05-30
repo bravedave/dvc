@@ -8,6 +8,11 @@
  *
 */
 
+if ( file_exists( $autoload = __DIR__ . '/../../autoloader.php')) {
+	require_once $autoload;
+
+}
+
 spl_autoload_register(function ($class) {
 	if ( $lib = realpath( __DIR__ . '/app/' . str_replace('\\', '/', $class) . '.php')) {
 		include_once $lib;
@@ -19,14 +24,5 @@ spl_autoload_register(function ($class) {
 
 	return ( false);
 
-});
+}, true, true);
 
-// if ( file_exists( $autoload = __DIR__ . '/../../vendor/autoload.php')) {
-if ( file_exists( $autoload = __DIR__ . '/../../autoloader.php')) {
-	require_once $autoload;
-
-}
-else {
-	throw new Exception( 'Unable to locate autoloader');
-
-}

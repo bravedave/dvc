@@ -7,11 +7,8 @@
  * MIT License
  *
 
-	Credits:
-		* A simple PHP MVC skeleton :: https://github.com/panique/php-mvc/
-
 	You can use php's built in server
-	php -S localhost:80 -c  c:\php\php.ini-development  index.php
+	php -S localhost:80 -c  c:\php\php.ini-development _mvp.php
 
 	if you do, check first and exit if it's a public resource - Serve that instead
 	 */
