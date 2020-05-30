@@ -42,7 +42,7 @@ $.fn.autofill = function( params) {
 	}, params);
 
 	//~ console.log( 'autofill');
-	let list = $('<ul class="list-group" style="position: absolute; left: 0; z-index: 5; width: 100%;" />');
+	let list = $('<ul class="list-group" style="position: absolute; left: 0; z-index: 5; width: 100%;"></ul>');
 
 	if ( !( options.appendTo instanceof jQuery)) {
 		options.appendTo = $(options.appendTo);
@@ -337,7 +337,7 @@ $.fn.autofill = function( params) {
 
 				if ( !!el.label) {
 					if ( rex.test( el.label)) {
-						$('<li class="list-group-item p-1" tabindex="-1" />')
+						$('<li class="list-group-item p-1" tabindex="-1"></li>')
 							.append( $('<div class="text-truncate"></div>').html( el.label))
 							.data( 'item', el)
 							.on( 'click', function( e) { keyMove.selectitem.call( this, e); })
@@ -349,7 +349,7 @@ $.fn.autofill = function( params) {
 				}
 				else {
 					if ( rex.test( el)) {
-						$('<li class="list-group-item p-1" tabindex="-1" />')
+						$('<li class="list-group-item p-1" tabindex="-1"></li>')
 							.append( $('<div class="text-truncate"></div>')
 							.html( el)).data( 'item', { label:el, value:el })
 							.on( 'click', function( e) { keyMove.selectitem.call( this, e); })
@@ -377,7 +377,7 @@ $.fn.autofill = function( params) {
 					_pad.html( !!el.label ? el.label : ( !!el.value ? el.value : el));
 					//~ console.log( _pad.html());
 
-					let _li = $('<li class="list-group-item p-1" tabindex="-1" />').append( _pad);
+					let _li = $('<li class="list-group-item p-1" tabindex="-1"></li>').append( _pad);
 
 					let touchStartTimeout = false;
 

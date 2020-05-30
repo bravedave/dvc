@@ -20,17 +20,9 @@ _brayworth_.hideContext = function( el) {
 
 			}
 
-		}
-		else {
-			$(el).remove();
+		} else { $(el).remove(); }
 
-		}
-
-	}
-	else {
-		$(el).remove();
-
-	}
+	} else { $(el).remove(); }
 
 };
 
@@ -41,14 +33,14 @@ _brayworth_.hideContexts = function() {
 
 _brayworth_.context = function() {
 	return ({
-		root : $('<ul class="menu menu-contextmenu" data-role="contextmenu" />'),
+		root : $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
 		items : [],
 		length : 0,
 		detachOnHide : true,
 		hideClass : ( _brayworth_.bootstrap_version() < 4 ? 'hidden' : 'd-none'),
 
 		create : function( item, after) {
-			let el = $( '<li />').append( item);
+			let el = $( '<li></li>').append( item);
 
 			if ( !!after) {
 				if ('prepend' == after) {
@@ -173,12 +165,10 @@ _brayworth_.context = function() {
 		close : function() {
 			if ( this.detachOnHide) {
 				this.root.remove();
-				//~ console.log( 'removed context menu');
 
 			}
 			else {
-				this.root.addClass( this.hideClass);	// connotes there is a hidden class
-				//~ console.log( 'hide context menu');
+				this.root.addClass( this.hideClass);
 
 			}
 
@@ -273,16 +263,16 @@ _brayworth_.context = function() {
 
 };
 
-$(document).ready( function() {
+$(document).ready( () => {
 	$(document)
-	.on( 'keyup.removeContexts', function( e) {
+	.on( 'keyup.removeContexts', ( e) => {
 		if ( 27 == e.keyCode) {
 			_brayworth_.hideContexts();
 
 		}
 
 	})
-	.on( 'click.removeContexts', function( e) {
+	.on( 'click.removeContexts', ( e) => {
 		if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
 			if ( /^(a)$/i.test( e.target.nodeName )) { return; }
 
@@ -291,7 +281,7 @@ $(document).ready( function() {
 		_brayworth_.hideContexts();
 
 	})
-	.on( 'contextmenu.removeContexts', function( e) {
+	.on( 'contextmenu.removeContexts', ( e) => {
 		if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
 			if ( /^(a)$/i.test( e.target.nodeName )) { return; }
 
