@@ -19,7 +19,7 @@ ul.menu.menu-contextmenu ul.menu > li > a,
 ul.menu.menu-contextmenu > li > div,
 ul.menu.menu-contextmenu ul.menu > li > div {
 	border-left: 2rem #f8f8f8 solid;
-	padding: .325rem 1rem;
+	padding: .325rem 1rem .325rem .325rem;
 	display: block;
 	white-space: nowrap;
 
