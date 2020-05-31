@@ -9,7 +9,6 @@
 */
 
 namespace dvc\html;
-//~ Use \dvc;
 
 class element {
 	protected $tag, $children, $_content, $attributes;
@@ -194,9 +193,7 @@ class element {
 
 		}
 
-		\sys::logger( sprintf('before <%s> : %s', $this->_attributes['class'], __METHOD__));
 		$this->_attributes['class'] = implode( ' ', $classes);
-		\sys::logger( sprintf('after <%s> : %s', $this->_attributes['class'], __METHOD__));
 
 		return $this;
 

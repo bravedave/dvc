@@ -108,7 +108,9 @@ abstract class _dao {
 
 	protected function check() {
 		if ( $dbc = $this->structure())
-		$dbc->check();
+			return $dbc->check();
+
+		return false;
 
 	}
 
@@ -364,23 +366,25 @@ abstract class _dao {
 
 	protected function TableChecks() {
 		if ( !$this->db->valid()) {
-			return;
+			return ( false);
 
 		}
 
 		if ( is_null( $this->_db_name)) {
-			return ( FALSE);
+			return ( false);
 
 		}
 
 		if ( $this->_db_allways_check_structure ) {
-			$this->check();
+			return $this->check();
 
 		}
 		elseif ( !( $this->TableExists())) {
-			$this->check();
+			return $this->check();
 
 		}
+
+		return false;
 
 	}
 

@@ -148,8 +148,10 @@ class dbCheck extends _dao {
 		}
 
 		$fields[] = "PRIMARY KEY  (`" . $this->pk . "`)";
-		foreach ( $this->indexs as $key )
+		foreach ( $this->indexs as $key ) {
 			$fields[] = " KEY `" . $key["key"] . "` (" . $key["field"] . ")";
+
+		}
 
 		$sql = "CREATE TABLE IF NOT EXISTS `" . $this->table  . "`( " . implode( ",", $fields ) .  " )";
 		//~ print "<pre>" . print_r( $fields, TRUE ) . "</pre>";
@@ -301,6 +303,8 @@ class dbCheck extends _dao {
 			}
 
 		}
+
+		return true;
 
 	}
 

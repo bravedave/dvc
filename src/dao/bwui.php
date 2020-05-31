@@ -1,16 +1,14 @@
 <?php
-/**
+/*
  * David Bray
  * BrayWorth Pty Ltd
  * e. david@brayworth.com.au
  *
- * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
- *      http://creativecommons.org/licenses/by/4.0/
+ * MIT License
  *
 */
 
 namespace dao;
-use dvc;
 
 class bwui extends _dao {
 	protected $_db_name = 'bwui';
@@ -26,14 +24,9 @@ class bwui extends _dao {
 			self::$_db_allways_check_bwui = false;
 			$this->_db_allways_check_structure = false;
 
-			if ( 'sqlite' == \config::$DB_TYPE) {
-				$dbc = new dvc\sqlite\dbCheck( $this->db, 'bwui' );
-
-			}
-			else {
-				$dbc = new dbCheck( $this->db, 'bwui' );
-
-			}
+			$dbc = 'sqlite' == \config::$DB_TYPE ?
+				new \dvc\sqlite\dbCheck( $this->db, $this->_db_name ) :
+				new dbCheck( $this->db, $this->_db_name );
 
 			$dbc->defineField( 'created', 'datetime');
 			$dbc->defineField( 'updated', 'datetime');

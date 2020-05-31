@@ -65,9 +65,16 @@ a { color: inherit; }
 	});
 	</script>
 
-<?php if ( 'hello' != $this->name) { ?>
-	<li class="nav-item h6"><a class="nav-link" href="<?= strings::url('hello') ?>">Hello World</a></li>
+	<?php
+	if ( $this->Request->ServerIsLocal()) {
+		printf( '<li class="nav-item"><a class="nav-link" href="%s">SiteMap</a></li>', strings::url( 'sitemap/report'));
 
-<?php }	// if ( 'hello' != $this->name)  ?>
+	}
+
+	if ( 'hello' != $this->name) {
+		printf( '<li class="nav-item h6"><a class="nav-link" href="%s">Hello World</a></li>', strings::url('hello'));
+
+	}	// if ( 'hello' != $this->name)
+	?>
 
 </ul>
