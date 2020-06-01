@@ -95,6 +95,7 @@ class element {
 			$contentClass = get_class( $tag);
 			if ( is_subclass_of( $tag, 'dvc\html\element' )) {
 				$this->appendChild( $tag);
+				return $tag;
 
 			}
 			else {
