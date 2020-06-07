@@ -3,12 +3,16 @@
 ## Specify the Connections
 
 #### SQLite
-If you only require SQlite, just create [application]/data/db.json as follows:
+If you only require SQlite:
+create [application]/data/defaults.json as follows:
 ```json
 {
 	"db_type" : "sqlite"
 }
 ```
+
+_[application]/data/db.json is also valid for these settings_
+
 
 #### Automatic Generation
 - The JSOn method maybe automated at the address [server]/install/db, it creates a db.json in the [application]/data folder
