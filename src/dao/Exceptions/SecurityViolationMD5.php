@@ -1,15 +1,13 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	*/
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+*/
 
 namespace dao\Exceptions;
-use dvc\Exceptions;
 
-class SecurityViolationMD5 extends Exceptions\Exception {}
+class SecurityViolationMD5 extends \dvc\Exceptions\Exception {}

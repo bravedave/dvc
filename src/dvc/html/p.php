@@ -1,18 +1,17 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+*/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	*/
-
-NameSpace dvc\html;
+namespace dvc\html;
 
 class p extends element {
-	function __construct( $content = NULL ) {
+	function __construct( $content = null ) {
 		parent::__construct( 'p', $content );
 
 	}

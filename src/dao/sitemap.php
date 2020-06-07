@@ -1,11 +1,10 @@
 <?php
-/**
+/*
  * David Bray
  * BrayWorth Pty Ltd
  * e. david@brayworth.com.au
  *
- * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
- *      http://creativecommons.org/licenses/by/4.0/
+ * MIT License
  *
 */
 
@@ -23,14 +22,9 @@ class sitemap extends _dao {
 		if ( self::$_db_allways_check_sitemap) {
 			self::$_db_allways_check_sitemap = false;
 
-			if ( \config::$DB_TYPE == 'sqlite' ) {
-				$dbc = new \dvc\sqlite\dbCheck( $this->db, $name );
-
-			}
-			else {
-				$dbc = new dbCheck( $this->db, $name );
-
-			}
+			$dbc = 'sqlite' == \config::$DB_TYPE ?
+				new \dvc\sqlite\dbCheck( $this->db, $this->_db_name) :
+				new dbCheck( $this->db, $this->_db_name);
 
 			$dbc->defineField( 'path', 'text' );
 			$dbc->defineField( 'visits', 'bigint', 20 );

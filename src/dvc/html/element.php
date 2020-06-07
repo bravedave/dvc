@@ -9,7 +9,6 @@
 */
 
 namespace dvc\html;
-//~ Use \dvc;
 
 class element {
 	protected $tag, $children, $_content, $attributes;
@@ -96,6 +95,7 @@ class element {
 			$contentClass = get_class( $tag);
 			if ( is_subclass_of( $tag, 'dvc\html\element' )) {
 				$this->appendChild( $tag);
+				return $tag;
 
 			}
 			else {
@@ -194,9 +194,7 @@ class element {
 
 		}
 
-		\sys::logger( sprintf('before <%s> : %s', $this->_attributes['class'], __METHOD__));
 		$this->_attributes['class'] = implode( ' ', $classes);
-		\sys::logger( sprintf('after <%s> : %s', $this->_attributes['class'], __METHOD__));
 
 		return $this;
 
