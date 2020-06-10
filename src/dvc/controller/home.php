@@ -19,6 +19,10 @@ class home extends Controller {
 			sys::getTemplate( $template);
 
 		}
+		else {
+			parent::postHandler();
+
+		}
 
 	}
 
