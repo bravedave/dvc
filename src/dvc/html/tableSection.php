@@ -15,12 +15,12 @@ abstract class tableSection extends element {
 
 	public function __construct( $tag ) {
 		parent::__construct( $tag );
-		$this->_rows = array();
+		$this->_rows = [];
 
 	}
 
-	public function tr() {
-		$tr = new tr();
+	public function tr( $content = null, $attributes = null) {
+		$tr = new tr( $content, $attributes);
 		$this->_rows[] = $tr;
 		$this->appendChild( $tr );
 
@@ -28,8 +28,8 @@ abstract class tableSection extends element {
 
 	}
 
-	public function row() {
-		return ( $this->tr());
+	public function row( $content = null, $attributes = null) {
+		return ( $this->tr( $content, $attributes));
 
 	}
 
