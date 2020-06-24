@@ -33,6 +33,13 @@ abstract class sys {
 
 	}
 
+	static function dbCheck( string $file) {
+        return 'sqlite' == \config::$DB_TYPE ?
+            new sqlite\dbCheck( self::dbi(), $file ) :
+            new \dao\dbCheck( self::dbi(), $file );
+
+    }
+
 	static function getTemplate( $template) {
 		if ( $template) {
 			if ( $template = preg_replace( '/[^\da-z_]/i', '', $template)) {
