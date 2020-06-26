@@ -28,7 +28,7 @@ class icon {
 
 
     static function get( int $icon ) : string {
-        if ( self::chat == $icon) {
+        if ( self::box == $icon) {
             return file_get_contents( __DIR__ . '/bootstrap4/icons/box.svg');
 
         }
