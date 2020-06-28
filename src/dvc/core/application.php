@@ -227,6 +227,8 @@ class application {
 
 
 		$url_controller_name = $this->url_controller;
+		controller::application( $this);
+
 		$this->url_controller = new $this->url_controller( $this->rootPath );
 		$this->url_controller->name = $url_controller_name;
 		$this->url_controller->timer = $this->_timer;

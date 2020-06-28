@@ -30,15 +30,27 @@ abstract class controller {
 	protected $manifest = null;
 	protected $route = '/';
 
+	protected static $_application = null;
+
+	static function application( application $app = null ) : application {
+		if ( $app) {
+			self::$_application = $app;
+
+		}
+
+		return self::$_application;
+
+	}
+
 	static $url;
 
 	const viewNotFound = __DIR__ . '/../views/not-found.md';
 
-	function __construct( $rootPath ) {
+	public function __construct( $rootPath ) {
 		if ( $this->debug) \sys::logger( sprintf( '__construct :: %s', __METHOD__));
 		$this->rootPath = $rootPath;
 		$this->title = \config::$WEBNAME;
-		$this->route = \application::route();
+		$this->route = self::application()::route();
 		// $this->route = get_class( $this);
 		if ( is_null( $this->label)) {
 			$this->label = ucwords( get_class( $this));
@@ -49,8 +61,8 @@ abstract class controller {
 		 * When a controller is created, open a database connection.
 		 * There is ONE connection that is used globally.
 		 */
-		$this->db = \application::app()->dbi();
-		$this->Request = \application::Request();
+		$this->db = self::application()::app()->dbi();
+		$this->Request = self::application()::Request();
 
 		if ( $this->debug) \sys::logger( sprintf( 'checking authority :: %s', __METHOD__));
 		$this->authorised = \currentUser::valid();
@@ -155,8 +167,6 @@ abstract class controller {
 			}
 			else {
 				printf( '%s - not set<br />', $option);
-				//~ printf( '%s - not set', \application::Request()->getUrl());
-				//~ sys::dump( $_manifest);
 
 			}
 
@@ -358,8 +368,8 @@ abstract class controller {
 		}
 
 		$_paths = [
-			implode( DIRECTORY_SEPARATOR, [ \application::app()->getInstallPath(), 'dvc', 'views', $controller]),
-			implode( DIRECTORY_SEPARATOR, [ \application::app()->getInstallPath(), 'dvc', 'views' ]),
+			implode( DIRECTORY_SEPARATOR, [ self::application()::app()->getInstallPath(), 'dvc', 'views', $controller]),
+			implode( DIRECTORY_SEPARATOR, [ self::application()::app()->getInstallPath(), 'dvc', 'views' ]),
 
 		];
 
@@ -678,7 +688,7 @@ abstract class controller {
 			$this->postHandler();
 
 		elseif ( $this->manifest)
-			$this->_offManifest( \application::Request()->getUrl());
+			$this->_offManifest( self::application()::Request()->getUrl());
 
 		else
 			$this->_index();

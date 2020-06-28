@@ -1,3 +1,8 @@
+###### 29/06/2020
+* Assign Application to controller so it get's the initialized application
+  * prior to this it would take it from the root application (\application) which would not always give the running application, especially during development in namespace
+  * Upgraded to new version of bootstrap icons
+
 ###### 30/03/2020
 * Error handling tweaks - now including remote ip in email
 

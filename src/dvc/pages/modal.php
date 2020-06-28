@@ -1,44 +1,46 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+ * DO NOT change this file
+ * Copy it to <application>/app/dvc/ and modify it there
+ *
+ *
+ * 	php usage:
+ * 		$m = new dvc\pages\modal;
+ * 		$m->open();
+ * 		// implement page
+ *
+ * 	incorporated into control
+ * 		$this->modal( 'page-to-load');
+ *
+ * 	javascript usage:
+ * 	_cms_.modal({
+ * 		url : <url-to-load>,
+ * 		onSuccess : function() {
+ * 			// callback ..
+ * 		}
+ *
+ * 	});
+ *
+ * 	_cms_.modal({
+ * 		url : _cms_.url('sms/modal'),
+ * 		onSuccess : function() {
+ * 			// callback ..
+ *
+ * 		}
+ *
+ * 	})
+ * 	.then( function() {
+ * 		$('input[name="to[]"]').val('0418745334');
+ *
+ * 	});
+ **/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-	This is the Bootstrap 4 modal
-
-	php usage:
-		$m = new dvc\pages\modal;
-		$m->open();
-		// implement page
-
-	incorporated into control
-		$this->modal( 'page-to-load');
-
-	javascript usage:
-	_cms_.modal({
-		url : <url-to-load>,
-		onSuccess : function() {
-			// callback ..
-		}
-
-	});
-
-	_cms_.modal({
-		url : _cms_.url('sms/modal'),
-		onSuccess : function() {
-			// callback ..
-
-		}
-
-	})
-	.then( function() {
-		$('input[name="to[]"]').val('0418745334');
-
-	});
-	*/
 namespace dvc\pages;
 
 class modal {
