@@ -7,46 +7,47 @@
  *
  * */
 /*jshint esversion: 6 */
-_brayworth_.extend = function() {
 
-    // Variables
-    let extended = {};
-    let deep = false;
-    let i = 0;
-    let length = arguments.length;
+((_) => {
+    _.extend = (...arguments) => {
+        let ext = {};
+        let deep = false;
+        let i = 0;
+        let length = arguments.length;
 
-    // Check if a deep merge
-    if ( '[object Boolean]' === Object.prototype.toString.call(arguments[0])) {
-        deep = arguments[0];
-        i++;
+        // Check if a deep merge
+        if ( '[object Boolean]' === Object.prototype.toString.call(arguments[0])) {
+            deep = arguments[0];
+            i++;
 
-    }
+        }
 
-    // Loop through each object and conduct a merge
-    for (; i < length; i++) {
-        ( (obj) => {
-            // Merge the object into the extended object
-            for (var prop in obj) {
-                if ( Object.prototype.hasOwnProperty.call( obj, prop)) {
-                    // If deep merge and property is an object, merge properties
-                    if ( deep && Object.prototype.toString.call( obj[ prop]) === '[object Object]') {
-                        extended[prop] = _brayworth_.extend( true, extended[ prop], obj[ prop]);
+        // Loop through each object and conduct a merge
+        for (; i < length; i++) {
+            ( (obj) => {
+                // Merge the object into the ext object
+                for (let prop in obj) {
+                    if ( Object.prototype.hasOwnProperty.call( obj, prop)) {
+                        // If deep merge and property is an object, merge properties
+                        if ( deep && Object.prototype.toString.call( obj[ prop]) === '[object Object]') {
+                            ext[prop] = _.extend( true, ext[ prop], obj[ prop]);
 
-                    }
-                    else {
-                        extended[prop] = obj[prop];
+                        }
+                        else {
+                            ext[prop] = obj[prop];
+
+                        }
 
                     }
 
                 }
 
-            }
+            })( arguments[i]);
 
-        })( arguments[i]);
+        }
 
-    }
+        return ext;
 
-    return extended;
+    };
 
-}
-;
+})(_brayworth_);

@@ -10,16 +10,19 @@
 if ( !window._brayworth_ )
 	window._brayworth_ = () => { return ( window._brayworth_); };
 
-$.extend( _brayworth_, {
-	_brayworth_ : true,
-	currentUser : false,
-	logon_retrieve_password : false,
-	templates : {},
-	hideContexts : () => {
+((_) => {
+	_.version = 0.1;
+	_._brayworth_ = true;
+	_.currentUser = false;
+	_.logon_retrieve_password = false;
+	_.templates = {};
+
+	_.hideContexts = () => {
 		$(document).trigger('hide-contexts');
 
-	},
-	bootstrap_version : () => {
+	};
+
+	_.bootstrap_version = () => {
 		if ( 'undefined' != typeof bootstrap) {
 			if ( !!bootstrap.Alert) {
 				if ( /4/.test( bootstrap.Alert.VERSION)) {
@@ -37,21 +40,23 @@ $.extend( _brayworth_, {
 
 		return 0;
 
-	},
-	url : ( _url) => {
+	};
+
+	_.urlwrite = _.url = ( _url) => {
 		if ( 'undefined' == typeof _url)
 			_url = '';
 
 		return ( '/' + _url);
 
-	},
-	moment : ( a,b,c,d) => {
+	};
+
+	_.moment = ( a,b,c,d) => {
 		/**
-		 * if you call this and the moment library
-		 * is undefined it will error (der)
-		 *
-		 * The intention is that:
-		 *	a. the library will be loaded
+		* if you call this and the moment library
+		* is undefined it will error (der)
+		*
+		* The intention is that:
+		*	a. the library will be loaded
 			*	b. you could/will redefine this function to control
 			* 		 the timezone being operated in
 			*/
@@ -59,8 +64,6 @@ $.extend( _brayworth_, {
 		// d.utcOffset( desirable timezone);
 		return (r);
 
-	}
+	};
 
-});
-
-_brayworth_.urlwrite = _brayworth_.url;	// legacy
+})(_brayworth_);
