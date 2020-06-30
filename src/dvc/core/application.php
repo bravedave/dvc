@@ -150,6 +150,8 @@ class application {
 
 		}
 
+		controller::application( $this);
+
 		$this->checkDB();
 
 		if ( $this->minimum) {
@@ -161,6 +163,7 @@ class application {
 		$this->countVisit();
 
 		$this->splitUrl();		// create array with URL parts in $url
+
 		/*
 		 * example: if controller would be "car",
 		 * then this line would translate into: $this->car = new car();
@@ -227,7 +230,6 @@ class application {
 
 
 		$url_controller_name = $this->url_controller;
-		controller::application( $this);
 
 		$this->url_controller = new $this->url_controller( $this->rootPath );
 		$this->url_controller->name = $url_controller_name;
