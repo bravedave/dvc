@@ -21,3 +21,5 @@
 
 ##### [Components](/docs/component)
 - [Pages](/docs/pages)
+
+##### [Utilities](/docs/utilities)
