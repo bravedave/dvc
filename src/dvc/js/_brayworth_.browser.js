@@ -1,20 +1,22 @@
-/*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-
-*/
+/**
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+ * */
 /*jshint esversion: 6 */
-_brayworth_.browser = {
-	isAndroid : navigator.userAgent.toLowerCase().indexOf('android') > -1,
-	isIPhone : navigator.userAgent.toLowerCase().indexOf('iphone') > -1,
-	isIPad : navigator.userAgent.toLowerCase().indexOf('ipad') > -1,
-	isFirefox : navigator.userAgent.toLowerCase().indexOf('firefox') > -1
+( _ => {
+	_.browser = {
+		isAndroid : navigator.userAgent.toLowerCase().indexOf('android') > -1,
+		isIPhone : navigator.userAgent.toLowerCase().indexOf('iphone') > -1,
+		isIPad : navigator.userAgent.toLowerCase().indexOf('ipad') > -1,
+		isFirefox : navigator.userAgent.toLowerCase().indexOf('firefox') > -1
 
-};
+	};
 
-_brayworth_.browser.isChromeOniOS = _brayworth_.browser.isIPhone && navigator.userAgent.toLowerCase().indexOf('CriOS') > -1;
-_brayworth_.browser.isMobileDevice = _brayworth_.browser.isIPhone || _brayworth_.browser.isIPad || _brayworth_.browser.isAndroid;
+	_.browser.isChromeOniOS = _.browser.isIPhone && navigator.userAgent.toLowerCase().indexOf('CriOS') > -1;
+	_.browser.isMobileDevice = _.browser.isIPhone || _.browser.isIPad || _.browser.isAndroid;
+
+})(_brayworth_);
