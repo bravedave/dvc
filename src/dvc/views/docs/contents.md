@@ -23,5 +23,5 @@
 - [Pages](/docs/pages)
 
 ##### [Utilities](/docs/utilities)
-- [PHP](/docs/utilities_php.md)
+- [PHP](/docs/utilities_php)
 - [Javascript](/docs/utilities_javascript)
