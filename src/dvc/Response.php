@@ -128,7 +128,7 @@ abstract class Response {
 		if ( is_null( $expires)) $expires = \config::$IMG_EXPIRE_TIME;
 
 		self::_common_headers( $modifyTime, $expires);
-		header('image/x-icon');
+		header('Content-type: image/x-icon');
 
 	}
 
