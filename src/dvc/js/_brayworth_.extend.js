@@ -8,7 +8,7 @@
  * */
 /*jshint esversion: 6 */
 
-((_) => {
+( _ => {
     _.extend = (...arguments) => {
         let ext = {};
         let deep = false;
@@ -22,29 +22,28 @@
 
         }
 
-        // Loop through each object and conduct a merge
-        for (; i < length; i++) {
-            ( (obj) => {
-                // Merge the object into the ext object
-                for (let prop in obj) {
-                    if ( Object.prototype.hasOwnProperty.call( obj, prop)) {
-                        // If deep merge and property is an object, merge properties
-                        if ( deep && Object.prototype.toString.call( obj[ prop]) === '[object Object]') {
-                            ext[prop] = _.extend( true, ext[ prop], obj[ prop]);
+        let f = obj => {
+            // Merge the object into the ext object
+            for (let prop in obj) {
+                if ( Object.prototype.hasOwnProperty.call( obj, prop)) {
+                    // If deep merge and property is an object, merge properties
+                    if ( deep && Object.prototype.toString.call( obj[ prop]) === '[object Object]') {
+                        ext[prop] = _.extend( true, ext[ prop], obj[ prop]);
 
-                        }
-                        else {
-                            ext[prop] = obj[prop];
-
-                        }
+                    }
+                    else {
+                        ext[prop] = obj[prop];
 
                     }
 
                 }
 
-            })( arguments[i]);
+            }
 
-        }
+        };
+
+        // Loop through each object and conduct a merge
+        for (; i < length; i++) f( arguments[i]);
 
         return ext;
 
