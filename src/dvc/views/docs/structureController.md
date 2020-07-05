@@ -10,9 +10,7 @@ and uses the first two parts of the url to create a controller
 request and function call
 
 #### Browser Request
-```
-http://localhost/example/hello
-```
+```http://localhost/example/hello```
 
 #### Controller
 ```
@@ -24,7 +22,6 @@ class example extends Controller {
 	}
 
 }
-
 ```
 
 Up to two parameters can be passed
@@ -35,7 +32,7 @@ http://localhost/example/hello/john/citizen
 ```
 
 #### Controller
-```
+```php
 <?php
 class example extends Controller {
 	function hello( $p1, $p2) {
@@ -44,8 +41,10 @@ class example extends Controller {
 	}
 
 }
-
 ```
+
+#### See Also
+- [Pass data from controller to view](/docs/structureControllerPassData)
 
 #### Caveats
 * it's quite simple - function names support upper, lower case and underscore but not too much else

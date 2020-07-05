@@ -19,21 +19,10 @@ By default the controller can render a bootstrap 4 template with 4 main areas
 The controller encapsulates a mini application.
 For Example, a table that requires maintenance, perhaps a stock item
 
-```
+```php
 <?php
-/*	http://creativecommons.org/licenses/by/4.0/	*/
 
 class _template extends Controller {
-	protected function access_control() {
-		if ( true) {
-			return ( true);
-
-		}
-
-		return ( false);
-
-	}
-
 	protected function posthandler() {
 		$action = $this->getPost('action');
 
