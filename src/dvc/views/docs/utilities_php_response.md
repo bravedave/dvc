@@ -1,6 +1,5 @@
-###### [Utilities](/docs/utilities) | [Javascript](/docs/utilities_php)
+###### [Docs](/docs/) | [Utilities](/docs/utilities) | [PHP](/docs/utilities_php) | Response
 
-### Response
 <table class="table">
     <tbody>
         <tr>

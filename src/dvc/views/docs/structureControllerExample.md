@@ -1,3 +1,5 @@
+###### [Structure](/docs/structure) | [Controller](/docs/structureController) | Example
+
 ### Templates - Controller
 
 # Standard Functionality

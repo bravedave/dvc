@@ -1,4 +1,4 @@
-###### [Utilities](/docs/utilities) | [Javascript](/docs/utilities_javascript)
+###### [Docs](/docs/) | [Utilities](/docs/utilities) | [Javascript](/docs/utilities_javascript)
 
 ### Browser
 <table class="table">

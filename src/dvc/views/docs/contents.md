@@ -12,7 +12,7 @@
 - [Data Modelling](/docs/structureData)
 - [View](/docs/structureView)
 - [Controller](/docs/structureController)
-  - [Example](/docs/exampleController)
+  - [Example](/docs/structureControllerExample)
 
 ##### [Namespaces](/docs/namespaces)
 ##### [Database](/docs/database)
@@ -20,8 +20,5 @@
 - [Data Retrieval](/docs/database-retrieval)
 
 ##### [Components](/docs/component)
-- [Pages](/docs/pages)
 
 ##### [Utilities](/docs/utilities)
-- [PHP](/docs/utilities_php)
-- [Javascript](/docs/utilities_javascript)

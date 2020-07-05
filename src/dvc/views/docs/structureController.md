@@ -1,13 +1,7 @@
-# Structure - Data Model View (Controller)
+###### [Structure](/docs/structure) | Controller
 
-## Structure - Controller
-
-The Controlling
-
-The controllers accept the requests from the browser,
-the software operates at the root of the web structure
-and uses the first two parts of the url to create a controller
-request and function call
+Controllers accept control of a request (from the browser) from the application.
+The Application operates at the root of the web structure and interprets the request to instatiate a controller request and execute a method of the controller
 
 #### Browser Request
 ```http://localhost/example/hello```
@@ -45,6 +39,8 @@ class example extends Controller {
 
 #### See Also
 - [Pass data from controller to view](/docs/structureControllerPassData)
+- [Example Controller](/docs/structureControllerExample)
+
 
 #### Caveats
 * it's quite simple - function names support upper, lower case and underscore but not too much else

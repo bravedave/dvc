@@ -1,4 +1,6 @@
-# Structure - Data (Model) View Controller
+###### Structure
+
+## Data (Model) View Controller
 
 <img class="pull-right" src="/images/mvc.png" />
 
@@ -9,7 +11,9 @@ Storage and Retrieval of Data
 Display of Data
 
 ## Controller
-Navigation, routing, API
+Navigation, routing, API - see
+- [Controller](/docs/structureController)
+- [Example](/docs/structureControllerExample)
 
 ## Application
 Established the environment and Calls on the controller to execute the application

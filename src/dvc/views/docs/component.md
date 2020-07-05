@@ -1,4 +1,4 @@
-# Components
+###### [Docs](/docs/) | Components
 
 DVC supports PSR-4 autoloading
 A component therefore is simple a class

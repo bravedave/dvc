@@ -1,4 +1,4 @@
-## Pass data from controller to view
+###### [Structure](/docs/structure) | [Controller](/docs/structureController) | Pass data from controller to view
 
 Sooner or later you are going to want to pass data from the controller to the view - that is what Model-View-Controller wants to do.
 
