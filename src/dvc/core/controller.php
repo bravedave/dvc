@@ -684,14 +684,18 @@ abstract class controller {
 	}
 
 	public function index() {
-		if ( $this->isPost())
+		if ( $this->isPost()) {
 			$this->postHandler();
 
-		elseif ( $this->manifest)
+		}
+		elseif ( $this->manifest) {
 			$this->_offManifest( self::application()::Request()->getUrl());
 
-		else
+		}
+		else {
 			$this->_index();
+
+		}
 
 	}
 
