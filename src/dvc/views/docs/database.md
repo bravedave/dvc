@@ -1,4 +1,4 @@
-# Databases
+###### [Docs](/docs/) | Databases
 
 MySQL and SQLite data connections.
 
@@ -7,4 +7,4 @@ create and maintenance. All fully encapsulated including escaping of values.
 
 - [Connect the Database](/docs/database-connections)
 - [Retrieve Data](/docs/data-retrieval)
-- [DAO/DTO](/docs/dao-dto)
+- [DAO/DTO](/docs/database-dao-dto)

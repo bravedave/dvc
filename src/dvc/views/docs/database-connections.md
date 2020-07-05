@@ -1,6 +1,4 @@
-# Databases
-
-## Specify the Connections
+###### [Docs](/docs/) | [Databases](/docs/database-connections) | Connections
 
 #### SQLite
 If you only require SQlite:

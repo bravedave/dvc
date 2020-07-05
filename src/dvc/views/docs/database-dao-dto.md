@@ -1,4 +1,4 @@
-# Data - DAO/DTO
+###### [Docs](/docs/) | [Databases](/docs/database-connections) | DAO/DTO
 
 DAO/DTO is a traditional abstract method which uses Data Access Objects to
 create Data Transition Objects.
@@ -11,7 +11,7 @@ for administration;
 ### Namespace
 
 * dao
-  * [dto](dto)
+  * [dto](database-dto)
   * db
 
 #### Dao Namespace
