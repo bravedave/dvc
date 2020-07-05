@@ -1,4 +1,4 @@
-# Apache
+###### [Docs](/docs/) | [Installing](/docs/installing) | Apache
 
 #### .htaccess
 ```
@@ -13,8 +13,10 @@ RewriteEngine Off
 
 FallbackResource /_dvc.php
 
-php_value post_max_size 40M
-php_value upload_max_filesize 40M
+<IfModule mod_php7.c>
+	php_value post_max_size 40M
+	php_value upload_max_filesize 40M
+</IfModule>
 
 Header unset Pragma
 Header unset Last-Modified

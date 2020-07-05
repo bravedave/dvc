@@ -1,4 +1,4 @@
-# PHP
+###### [Docs](/docs/) | [Installing](/docs/installing) | PHP
 
 I have these activated
 

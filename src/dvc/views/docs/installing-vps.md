@@ -1,3 +1,5 @@
+###### [Docs](/docs/) | [Installing](/docs/installing) | VPS
+
 # Install on Fedora VPS
 1. Get a VPS, my preference is Fedora
 1. dnf remove cockpit* gssproxy ModemManager

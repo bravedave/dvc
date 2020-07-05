@@ -2,9 +2,9 @@
 
 ##### [Getting Started](/docs/getting-started)
 - [installing](/docs/installing)
-  - [php](/docs/php)
-  - [apache](/docs/apache)
-  - [vps](/docs/vps)
+  - [php](/docs/installing-php)
+  - [apache](/docs/installing-apache)
+  - [vps](/docs/installing-vps)
 - [first app](/docs/firstapp)
 - [how does it work](/docs/how-does-it-work)
 
