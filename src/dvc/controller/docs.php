@@ -11,7 +11,7 @@
 class docs extends Controller {
 	public $RequireValidation = \config::lockdown;
 
-	public function index( $view = 'index') {
+	protected function _index( $view = 'index') {
 		if ( !$view) {
 			$view = 'index';
 
@@ -40,6 +40,13 @@ class docs extends Controller {
 			'secondary' => $contents,
 
 		]);
+
+	}
+
+	public function index( $view = 'index') {
+		$this->isPost() ?
+			$this->postHandler() :
+			$this->_index( $view);
 
 	}
 
