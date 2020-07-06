@@ -18,7 +18,7 @@ class docs extends Controller {
 		}
 		//~ $this->debug = true;
 
-		$contents = 'contents';
+		$contents = ['contents','work'];
 		if ( $this->hasView( $_c = sprintf( '%s-contents', $view))) {
 			$contents = $_c;
 
