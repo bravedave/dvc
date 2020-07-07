@@ -43,6 +43,10 @@ class docs extends Controller {
 
 	}
 
+	public function css() {
+
+	}
+
 	public function index( $view = 'index') {
 		$this->isPost() ?
 			$this->postHandler() :

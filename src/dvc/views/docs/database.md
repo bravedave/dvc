@@ -7,4 +7,4 @@ create and maintenance. All fully encapsulated including escaping of values.
 
 - [Connect the Database](/docs/database-connections)
 - [Retrieve Data](/docs/data-retrieval)
-- [DAO/DTO](/docs/database-dao-dto)
+- [DAO/DTO](database-dao-dto)
