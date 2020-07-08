@@ -17,7 +17,6 @@ $(document).ready( () => {
 	let h = $('[data-role="content-primary"] > .markdown-body > h1');
 	if ( h.length > 0) {
 		let title = h.first().html();
-		console.log( title);
 
 		$('body > nav .navbar-brand')
 		.html('')
