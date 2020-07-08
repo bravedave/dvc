@@ -1,4 +1,6 @@
-###### [Docs](/docs/) | [Databases](/docs/database-connections) | DAO/DTO
+# DAO/DTO
+
+###### [Docs](/docs/) | [Databases](/docs/database) | DAO/DTO
 
 DAO/DTO is a traditional abstract method which uses Data Access Objects to
 create Data Transition Objects.
@@ -8,13 +10,13 @@ to code, most file structuring is automatic and does not require GUI tools
 such as MySQL Workbench - a useful tool for visualization, but not required
 for administration;
 
-### Namespace
+##### Namespace
 
 * dao
   * [dto](database-dto)
   * db
 
-#### Dao Namespace
+###### Dao Namespace
 
 Each table in the database is represented by a dao object, it is important to use
  this object to access the data because, as the application scales you may want to

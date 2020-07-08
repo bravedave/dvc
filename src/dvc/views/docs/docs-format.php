@@ -1,13 +1,29 @@
+<style>
+div[data-role="content-primary"] > .markdown-body > h1 {
+	display: none;
+}
+div[data-role="content-primary"] > .markdown-body > h1,
+div[data-role="content-primary"] > .markdown-body > h2,
+div[data-role="content-primary"] > .markdown-body > h3,
+div[data-role="content-primary"] > .markdown-body > h4,
+div[data-role="content-primary"] > .markdown-body > h5,
+div[data-role="content-primary"] > .markdown-body > h6 {
+    margin-top: 1rem;
+    margin-bottom: .5rem;
+}
+</style>
 <script>
-$(document).ready( function() {
+$(document).ready( () => {
 	let h = $('[data-role="content-primary"] > .markdown-body > h1');
 	if ( h.length > 0) {
-		$('body > nav .navbar-header').html('').append($('<h4></h4>').html( h.first().html()));
-		h.first().addClass('d-none d-print-block');
+		let title = h.first().html();
+		console.log( title);
+
+		$('body > nav .navbar-brand')
+		.html('')
+		.append( $('<h4></h4>').html( title));
 
 	}
-
-	// console.log( 'formatted');
 
 })
 </script>

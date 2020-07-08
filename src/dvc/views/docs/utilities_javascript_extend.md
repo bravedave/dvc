@@ -1,6 +1,7 @@
-###### [Docs](/docs/) | [Utilities](/docs/utilities) | [Javascript](/docs/utilities_javascript)
+# Extend
 
-### Extend
+###### [Docs](/docs/) | [Utilities](/docs/utilities) | [Javascript](/docs/utilities_javascript) | Extend
+
 <table class="table">
     <tbody>
         <tr>

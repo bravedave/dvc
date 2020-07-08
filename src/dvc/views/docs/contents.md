@@ -9,7 +9,7 @@
 - [how does it work](/docs/how-does-it-work)
 
 ##### [Structure](/docs/structure)
-- [Data Modelling](/docs/structureData)
+- [Data](/docs/database.md)
 - [View](/docs/structureView)
 - [Controller](/docs/structureController)
   - [Example](/docs/structureControllerExample)

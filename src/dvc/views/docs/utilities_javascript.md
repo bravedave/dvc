@@ -4,3 +4,4 @@
 * [Browser](/docs/utilities_javascript_browser)
 * [Context](/docs/utilities_javascript_context)
 * [Extend](/docs/utilities_javascript_extend)
+* [TextPrompt](/docs/utilities_javascript_textprompt)

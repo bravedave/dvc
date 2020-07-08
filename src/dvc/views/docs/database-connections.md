@@ -1,4 +1,6 @@
-###### [Docs](/docs/) | [Databases](/docs/database-connections) | Connections
+# Database Connections
+
+###### [Docs](/docs/) | [Databases](/docs/database) | Connections
 
 #### SQLite
 If you only require SQlite:

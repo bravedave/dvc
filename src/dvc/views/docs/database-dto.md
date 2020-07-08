@@ -1,4 +1,6 @@
-###### [Docs](/docs/) | [Databases](/docs/database-connections) | DTO
+# DTO - Data Transition Object
+
+###### [Docs](/docs/) | [Databases](/docs/database) | DTO
 
 ### Data Transition Object
 - DAO - Data Access Objects are Intelligent
