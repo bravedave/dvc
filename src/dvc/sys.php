@@ -63,7 +63,7 @@ abstract class sys {
 
 			}
 			else {
-				$a = (object)[ 'prefix' => \strings::rand() ];
+				$a = (object)[ 'prefix' => bin2hex( random_bytes( 6)) ];
 				\file_put_contents( $path, \json_encode( $a));
 				\config::$DB_CACHE_PREFIX = $a->prefix;
 				return \config::$DB_CACHE_PREFIX;
