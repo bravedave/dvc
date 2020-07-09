@@ -38,7 +38,41 @@ abstract class sys {
             new sqlite\dbCheck( self::dbi(), $file ) :
             new \dao\dbCheck( self::dbi(), $file );
 
-    }
+	}
+
+	static function dbCachePrefix() {
+		if ( \config::$DB_CACHE_PREFIX) {
+			return \config::$DB_CACHE_PREFIX;
+
+		}
+        elseif ( 'mysql' == \config::$DB_TYPE ) {
+			return \config::$DB_NAME;
+
+		}
+		else {
+			$path = implode( DIRECTORY_SEPARATOR, [
+				\config::dataPath(),
+				'dbCachePrefix.json'
+
+			]);
+
+			if ( \file_exists( $path)) {
+				$j = \json_decode( \file_get_contents( $path));
+				\config::$DB_CACHE_PREFIX = $j->prefix;
+				return \config::$DB_CACHE_PREFIX;
+
+			}
+			else {
+				$a = (object)[ 'prefix' => \strings::rand() ];
+				\file_put_contents( $path, \json_encode( $a));
+				\config::$DB_CACHE_PREFIX = $a->prefix;
+				return \config::$DB_CACHE_PREFIX;
+
+			}
+
+		}
+
+	}
 
 	static function getTemplate( $template) {
 		if ( $template) {

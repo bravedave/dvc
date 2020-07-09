@@ -42,46 +42,23 @@ abstract class _dao {
 	}
 
 	protected function cacheKey( int $id, string $field = '') : string {
-		if ( \config::$DB_CACHE_PREFIX) {
-			if ( $field) {
-				return sprintf( '%s_%s_%s_%s',
-					\config::$DB_CACHE_PREFIX,
-					$this->db_name(),
-					$id,
-					$field
+		if ( $field) {
+			return sprintf( '%s_%s_%s_%s',
+				\sys::dbCachePrefix(),
+				$this->db_name(),
+				$id,
+				$field
 
-				);
-
-			}
-			else {
-				return sprintf( '%s_%s_%s',
-					\config::$DB_CACHE_PREFIX,
-					$this->db_name(),
-					$id
-
-				);
-
-			}
+			);
 
 		}
 		else {
-			if ( $field) {
-				return sprintf( '%s_%s_%s',
-					$this->db_name(),
-					$id,
-					$field
+			return sprintf( '%s_%s_%s',
+				\sys::dbCachePrefix(),
+				$this->db_name(),
+				$id
 
-				);
-
-			}
-			else {
-				return sprintf( '%s_%s',
-					$this->db_name(),
-					$id
-
-				);
-
-			}
+			);
 
 		}
 
