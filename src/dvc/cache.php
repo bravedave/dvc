@@ -91,8 +91,10 @@ class cache {
 	}
 
 	function flush() {
-		if ( \config::$DB_CACHE_DEBUG)
-			\sys::logger( 'dvc\cache : flush');
+		if ( \config::$DB_CACHE_DEBUG || \config::$DB_CACHE_DEBUG_FLUSH) {
+			\sys::logger( sprintf('<flush> %s', __METHOD__));
+
+		}
 
 		$this->_cache->flush();
 

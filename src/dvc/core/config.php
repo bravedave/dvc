@@ -102,6 +102,7 @@ abstract class config {
 	static $DB_CACHE_PREFIX = '';	// alphanumeric only, optionally create uniqueness for applications
 	static $DB_CACHE_TTL = 300;
 	static $DB_CACHE_DEBUG = false;
+	static $DB_CACHE_DEBUG_FLUSH = false;
 
 	static $DEFAULT_CONTROLLER = 'home';
 	static $FONTAWESOME = '4';
