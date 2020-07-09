@@ -96,7 +96,7 @@ class db {
 
 	}
 
-	public function Update( $table, $a, $scope, $flushCache = TRUE ) {
+	public function Update( $table, $a, $scope, $flushCache = true ) {
 		if ( \config::$DB_CACHE == 'APC') {
 			if ( (bool)$flushCache) {
 				/*

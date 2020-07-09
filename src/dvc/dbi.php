@@ -30,7 +30,7 @@ class dbi extends db {
 	}
 
 	public function __construct() {
-		if ( config::$DB_TYPE == 'none' || config::$DB_TYPE == 'disabled' )
+		if ( \config::$DB_TYPE == 'none' || \config::$DB_TYPE == 'disabled' )
 			return;
 
 		self::$dbiCount ++;
@@ -40,7 +40,7 @@ class dbi extends db {
 		//~ sys::logger( sprintf( 'db initialized (%s,%s,%s,%s)',
 			//~ config::$DB_HOST, config::$DB_NAME, config::$DB_USER, config::$DB_PASS));
 
-		parent::__construct( config::$DB_HOST, config::$DB_NAME, config::$DB_USER, config::$DB_PASS);
+		parent::__construct( \config::$DB_HOST, \config::$DB_NAME, \config::$DB_USER, \config::$DB_PASS);
 
 		$this->_valid = TRUE;
 

@@ -36,7 +36,6 @@ class cache {
 	}
 
 	function get( $key) {
-
 		if ( $res = $this->_cache->get( $key)) {
 			if ( \config::$DB_CACHE_DEBUG)
 				\sys::logger( sprintf( 'dvc\cache : get(%s) (hit)', $key));

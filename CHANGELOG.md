@@ -1,3 +1,6 @@
+###### 09/07/2020
+* Fix bug in uniqueness of cache key
+
 ###### 29/06/2020
 * Assign Application to controller so it get's the initialized application
   * prior to this it would take it from the root application (\application) which would not always give the running application, especially during development in namespace
