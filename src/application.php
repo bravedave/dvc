@@ -10,10 +10,4 @@
  *  Copy it to <application>/app/dvc/ and modify it there
 */
 
-class application extends dvc\application {
-    public function startDir() {
-        return realpath( __DIR__ . '/../');
-
-    }
-
-}
+class application extends dvc\application {}
