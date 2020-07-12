@@ -11,12 +11,9 @@
 */
 
 class application extends dvc\application {
-	static function run( $dir = null ) {
-		if ( is_null( $dir ))
-			throw new Exception( 'you must provide a path' );
+    public function startDir() {
+        return realpath( __DIR__ . '/../');
 
-		$app = new application( $dir );
-
-	}
+    }
 
 }

@@ -10,11 +10,9 @@
 
 
 class application extends dvc\application {
-	private $_settings = false;
+    public function startDir() {
+        return dirname(__DIR__);
 
-	static function run() {
-		$app = new self( __DIR__ . '/../' );
-
-	}
+    }
 
 }
