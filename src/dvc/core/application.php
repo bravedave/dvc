@@ -13,6 +13,7 @@ namespace dvc\core;
 use dao;
 use dvc\errsys;
 use dvc\Exceptions\CannotLocateController;
+use dvc\Exceptions\MissingRootPath;
 use dvc\Exceptions\SecurityException;
 use dvc\Request;
 use dvc\timer;
@@ -513,11 +514,6 @@ class application {
 
 	}
 
-	public function getPaths() {
-		return $this->paths;
-
-	}
-
 	public function controller() {
 		if ( is_string( $this->url_controller))
 			return ( $this->url_controller );
@@ -544,6 +540,11 @@ class application {
 
 	}
 
+	public function getPaths() {
+		return $this->paths;
+
+	}
+
 	public function getRootPath() {
 		return isset( $this )  ?
 			$this->rootPath :
@@ -558,6 +559,25 @@ class application {
 
 	public function return_url() {
 		return ( $this->url_served);
+
+	}
+
+	static function run( $dir = null ) {
+		if ( is_null( $dir)) {
+			if ( method_exists( '\application', 'startDir')) {
+				$app = new \application( \application::startDir());
+
+			}
+			else {
+				throw new MissingRootPath;
+
+			}
+
+		}
+		else {
+			$app = new application( $dir );
+
+		}
 
 	}
 
