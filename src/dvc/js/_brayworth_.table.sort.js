@@ -69,6 +69,8 @@
 				if (!( table instanceof jQuery)) table = $(table);
 				table.trigger('update-line-numbers');
 
+				resolve( table);
+
 			});
 
 		},
