@@ -272,11 +272,15 @@ abstract class config {
 					'db_type' => \config::$DB_TYPE,
 					'date_format' => \config::$DATE_FORMAT,
 					'sitemaps' => \config::$SITEMAPS,
+					'timezone' => \config::$TIMEZONE,
 				];
+
 				$a = (object)array_merge( $_a, (array)json_decode( file_get_contents( $path)));
+
 				\config::$DB_TYPE = $a->db_type;
 				\config::$DATE_FORMAT = $a->date_format;
 				\config::$SITEMAPS = $a->sitemaps;
+				\config::$TIMEZONE = $a->timezone;
 
 			} // if ( file_exists( $path))
 			else {
@@ -291,6 +295,7 @@ abstract class config {
 						'db_type' => 'sqlite',
 						'date_format' => 'd/m/Y',
 						'sitemaps' => false,
+						'timezone' => \config::$TIMEZONE,
 					];
 					file_put_contents( $path, json_encode( $a, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
