@@ -35,9 +35,7 @@
 					ae = $(a).data('key-' + key);
 					be = $(b).data('key-' + key);
 
-					if ( warn)
-						console.warn( 'table sorting is not jQuery3 compatible');
-
+					if ( warn) console.warn( 'table sorting is not jQuery3 compatible');
 					warn = false;
 
 				}
@@ -45,34 +43,25 @@
 				if ( debug) console.log( key, ae, be, sorttype, order );
 
 				if (sorttype == "numeric") {
-					if ( 'undefined' == typeof ae)
-						ae = 0;
-					if ( 'undefined' == typeof be)
-						be = 0;
+					if ( 'undefined' == typeof ae) ae = 0;
+					if ( 'undefined' == typeof be) be = 0;
 					return ( Number(ae) - Number(be));
 
 				}
 				else {
-					if ( 'undefined' == typeof ae)
-						ae = '';
-					if ( 'undefined' == typeof be)
-						be = '';
-					return (ae.toUpperCase().localeCompare(be.toUpperCase()));
+					if ( 'undefined' == typeof ae) ae = '';
+					if ( 'undefined' == typeof be) be = '';
+					return ( String( ae).toUpperCase().localeCompare( String( be).toUpperCase()));
 
 				}
-
 
 			});
 
 			$.each(items, function (i, e) {
-				if (order == "desc") {
-					tbody.prepend(e);
-
-				}
-				else {
-					tbody.append(e);
-
-				}
+				if (order == "desc")
+					{ tbody.prepend(e); }
+				else
+					{ tbody.append(e); }
 
 			});
 
