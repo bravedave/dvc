@@ -11,7 +11,7 @@
 */
 
 class application extends dvc\application {
-    public function startDir() {
+    static public function startDir() {
         return realpath( __DIR__ . '/../');
 
     }
