@@ -28,14 +28,16 @@
 			let p = flds.pass.val();
 
 			if (u.trim() == '') {
-				$('body').growlError('empty user');
+				$('.text-danger', form).remove();
+				$('<div class="text-danger">user cannot be empty</div>').insertAfter(flds.user);
 				flds.user.focus();
 				return;
 
 			}
 
 			if (p.trim() == '') {
-				$('body').growlError('empty pass');
+				$('.text-danger,.text-warning', form).remove();
+				$('<div class="text-danger">empty password</div>').insertAfter(flds.pass);
 				flds.pass.focus();
 				return;
 
@@ -81,7 +83,8 @@
 				let u = flds.user.val();
 
 				if (u.trim() == '') {
-					$('body').growlError('empty user');
+					$('.text-danger,.text-warning', form).remove();
+					$('<div class="text-danger">user cannot be empty</div>').insertAfter(flds.user);
 					flds.user.focus();
 					return;
 
@@ -113,6 +116,11 @@
 							}
 
 						});
+
+					}
+					else {
+						$('.text-danger,.text-warning', form).remove();
+						$('<div class="text-warning"></div>').appendTo(form);
 
 					}
 
