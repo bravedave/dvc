@@ -125,7 +125,6 @@ abstract class config {
 
 	static $PORTAL = 'http://localhost/';
 	static $PORTAL_ADMIN = 'http://localhost/';
-	static $REQUIRE_AUTHORIZATION = false;
 
 	static $SITEMAPS = false;
 
@@ -272,7 +271,6 @@ abstract class config {
 				$_a = [
 					'db_type' => \config::$DB_TYPE,
 					'date_format' => \config::$DATE_FORMAT,
-					'require_authorization' => \config::$REQUIRE_AUTHORIZATION,
 					'sitemaps' => \config::$SITEMAPS,
 					'timezone' => \config::$TIMEZONE,
 				];
@@ -281,7 +279,6 @@ abstract class config {
 
 				\config::$DB_TYPE = $a->db_type;
 				\config::$DATE_FORMAT = $a->date_format;
-				\config::$REQUIRE_AUTHORIZATION = $a->require_authorization;
 				\config::$SITEMAPS = $a->sitemaps;
 				\config::$TIMEZONE = $a->timezone;
 
@@ -297,7 +294,6 @@ abstract class config {
 					$a = [
 						'db_type' => 'sqlite',
 						'date_format' => 'd/m/Y',
-						'require_authorization' => \config::$REQUIRE_AUTHORIZATION,
 						'sitemaps' => false,
 						'timezone' => \config::$TIMEZONE,
 					];
