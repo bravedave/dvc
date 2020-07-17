@@ -55,7 +55,7 @@
 				}
 
 			})
-			.done((d) => {
+			.then( d => {
 				$('body').growl(d);
 				if ('ack' == d.response) {
 					window.location.reload(true);
@@ -90,6 +90,8 @@
 
 				}
 
+				console.log(_.url());
+
 				_.post({
 					url: _.url(),
 					data: {
@@ -99,7 +101,8 @@
 					}
 
 				})
-				.done((d) => {
+				.then( d => {
+					console.log( d);
 					_.growl(d);
 					if ('ack' == d.response) {
 						_.modal({
@@ -109,7 +112,7 @@
 							buttons: {
 								OK: function (e) {
 									this.modal('close');
-									flds.user.focus();
+									_.logonModal();
 
 								}
 

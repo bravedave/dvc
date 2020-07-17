@@ -127,6 +127,7 @@ abstract class config {
 	static $PORTAL_ADMIN = 'http://localhost/';
 
 	static $SITEMAPS = false;
+	static $SYNTAX_HIGHLIGHT_DOCS = false;
 
 	static $TEMPLATES_DIR = null;
 	static $TEMPLATES_DIR_CSS = null;
@@ -272,6 +273,7 @@ abstract class config {
 					'db_type' => \config::$DB_TYPE,
 					'date_format' => \config::$DATE_FORMAT,
 					'sitemaps' => \config::$SITEMAPS,
+					'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
 					'timezone' => \config::$TIMEZONE,
 				];
 
@@ -280,6 +282,7 @@ abstract class config {
 				\config::$DB_TYPE = $a->db_type;
 				\config::$DATE_FORMAT = $a->date_format;
 				\config::$SITEMAPS = $a->sitemaps;
+				\config::$SYNTAX_HIGHLIGHT_DOCS = $a->syntax_highlight_docs;
 				\config::$TIMEZONE = $a->timezone;
 
 			} // if ( file_exists( $path))
@@ -294,7 +297,8 @@ abstract class config {
 					$a = [
 						'db_type' => 'sqlite',
 						'date_format' => 'd/m/Y',
-						'sitemaps' => false,
+						'sitemaps' => \config::$SITEMAPS,
+						'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
 						'timezone' => \config::$TIMEZONE,
 					];
 					file_put_contents( $path, json_encode( $a, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));

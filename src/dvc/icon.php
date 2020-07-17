@@ -16,7 +16,11 @@ class icon {
     const chat = 40;
 
     const chevronLeft = 41;
-    const chevronRight = 41;
+    const chevronRight = 42;
+
+    const diamond = 45;
+    const diamond_fill = 46;
+    const diamond_half = 47;
 
     const fileRichText = 51;
 
@@ -42,6 +46,18 @@ class icon {
         }
         elseif ( self::chevronRight == $icon) {
             return file_get_contents( __DIR__ . '/bootstrap4/icons/chevron-right.svg');
+
+        }
+        elseif ( self::diamond == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/diamond.svg');
+
+        }
+        elseif ( self::diamond_fill == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/diamond-fill.svg');
+
+        }
+        elseif ( self::diamond_half == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/diamond-half.svg');
 
         }
         elseif ( self::fileRichText == $icon) {
