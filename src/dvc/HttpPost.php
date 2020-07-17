@@ -30,22 +30,6 @@ class HttpPost {
 		curl_close($this->ch);
 	}
 
-	public function setPostData($params) {
-		// http_build_query encodes URLs, which breaks POST data
-		$this->postString = rawurldecode(http_build_query( $params ));
-
-		if ( $this->debug) \sys::logger( $this->postString);
-
-		curl_setopt( $this->ch, CURLOPT_POST, true );
-		curl_setopt ( $this->ch, CURLOPT_POSTFIELDS, $this->postString );
-
-	}
-
-	public function send() {	/** Make the POST request to the server */
-		$this->httpResponse = curl_exec( $this->ch );
-
-	}
-
 	public function getResponseJSON() {
 		return json_decode( $this->getResponse());
 
@@ -69,6 +53,27 @@ class HttpPost {
 
 		}
 		return ( $aR);
+
+	}
+
+	public function send() {	/** Make the POST request to the server */
+		$this->httpResponse = curl_exec( $this->ch );
+
+	}
+
+	public function setHTTPHeaders($headers) {
+		curl_setopt( $this->ch, CURLOPT_HTTPHEADER, $headers);
+
+	}
+
+	public function setPostData($params) {
+		// http_build_query encodes URLs, which breaks POST data
+		$this->postString = rawurldecode(http_build_query( $params ));
+
+		if ( $this->debug) \sys::logger( $this->postString);
+
+		curl_setopt( $this->ch, CURLOPT_POST, true );
+		curl_setopt ( $this->ch, CURLOPT_POSTFIELDS, $this->postString );
 
 	}
 
