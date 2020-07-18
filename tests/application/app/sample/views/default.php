@@ -46,8 +46,17 @@ $(document).ready( function() {
 
 </div>
 <script>
-( ( el) => {
-    el.on( 'contextmenu', function( e) {
+( _ => {
+    $(document).on( 'edit-person', e => {
+        _.get( _.url( '<?= $this->route ?>/editPerson'))
+        .then( html => {
+            $(html).appendTo( 'body');
+
+        });
+
+    });
+
+    $('#<?= $_uid ?>').on( 'contextmenu', function( e) {
         if ( e.shiftKey)
             return;
 
@@ -62,9 +71,15 @@ $(document).ready( function() {
 
         }));
 
+        _context.append( $('<a href="#">edit a person</a>').on( 'click', function( e) {
+            _context.close();
+            $(document).trigger('edit-person')
+
+        }));
+
         _context.open( e);
 
     });
 
-})( $('#<?= $_uid ?>'))
+})( _brayworth_);
 </script>
