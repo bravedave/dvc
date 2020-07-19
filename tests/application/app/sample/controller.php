@@ -57,6 +57,12 @@ class controller extends \Controller {
 
 	}
 
+	function editPerson() {
+		$this->title = 'Add a Person';
+		$this->load( 'edit-person');
+
+	}
+
 	public function info() {
 		/* default setting
 		* in case you forget to disable this on a production server

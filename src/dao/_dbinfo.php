@@ -11,15 +11,21 @@
 namespace dao;
 
 class _dbinfo extends _dao {
-	protected function check() {
-		if ( $glob = glob( dirname( __FILE__ ) . '/db/*.php')) {
+	protected function checkDIR( $dir) {
+		\sys::logger( sprintf('<checking %s> %s', $dir, __METHOD__));
+		if ( $glob = glob( $dir . '/db/*.php')) {
 			foreach ( $glob as $f ) {
-				\sys::logger( 'checking => ' . $f );
+				\sys::logger( sprintf('<checking => %s> %s', $f, __METHOD__));
 				include_once $f;
 
 			}
 
 		}
+
+	}
+
+	protected function check() {
+		$this->checkDIR( __DIR__);
 
 	}
 

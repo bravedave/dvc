@@ -3,4 +3,4 @@ autoload-local-path.php
 example/application/app/public/
 vendor/
 *.lock
-tests/application/data/
+tests/application/data

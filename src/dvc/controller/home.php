@@ -38,16 +38,18 @@ class home extends Controller {
 		// \sys::logger( sprintf('<%s> %s', $readme, __METHOD__));
 
 		$primary = [ $readme];
+		$secondary = ['docs/contents'];
 		$sample = implode( DIRECTORY_SEPARATOR, [ $this->rootPath, 'controller', 'hello.php' ]);
 		if ( file_exists( $sample)) {
 			$primary[] = 'docs/sample';
+			$secondary[] = 'docs/sample-index';
 
 		}
 
 		$this->render([
 			'title' => $this->title,
 			'primary' => $primary,
-			'secondary' => 'docs/contents'
+			'secondary' => $secondary
 
 		]);
 
