@@ -3,10 +3,7 @@
 
 * https://brayworth.com/docs/
 
-* Can be configured to work with any client side framework
-  * bootstrap
-  * pure
-  * materialcss
+* Configured with Bootstrap4, but could just as easily support others
 
 ## Running
 * Install the template project from https://github.com/bravedave/hello, it will pull in this project as part of the install

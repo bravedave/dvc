@@ -53,10 +53,7 @@
             </div>
         </div>
     </form>
-    <hr />
-    <div class="text-center">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?= $_modal ?>">Open Modal</button>
-    </div>
+
     <script>
     $(document).ready( () => {
 
@@ -75,4 +72,5 @@
         });
     });
     </script>
+
 </div>

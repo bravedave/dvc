@@ -45,16 +45,37 @@ $(document).ready( function() {
     </div>
 
 </div>
+
+<div class="row my-4">
+    <div class="col py-4 border">
+<pre><code class="language-javascript">
+<b>Code</b>
+( _ => {
+    $(document).on( 'edit-person', e => {
+        _.get( _.url( '<?= $this->route ?>/editPerson'))
+        .then( html => $(html).appendTo( 'body') );
+
+    });
+
+    $('button').on( 'click', e => { $(document).trigger('edit-person'); });
+
+})( _brayworth_);
+</code></pre>
+
+        <button class="btn btn-outline-secondary" id="<?= $_btn = strings::rand() ?>">edit a person</button>
+
+    </div>
+
+</div>
 <script>
 ( _ => {
     $(document).on( 'edit-person', e => {
         _.get( _.url( '<?= $this->route ?>/editPerson'))
-        .then( html => {
-            $(html).appendTo( 'body');
-
-        });
+        .then( html => $(html).appendTo( 'body') );
 
     });
+
+    $('#<?= $_btn ?>').on( 'click', e => $(document).trigger('edit-person'));
 
     $('#<?= $_uid ?>').on( 'contextmenu', function( e) {
         if ( e.shiftKey)
