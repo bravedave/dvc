@@ -275,6 +275,9 @@ abstract class config {
 					'sitemaps' => \config::$SITEMAPS,
 					'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
 					'timezone' => \config::$TIMEZONE,
+					'support_name' => \config::$SUPPORT_NAME,
+					'support_email' => \config::$SUPPORT_EMAIL,
+					'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,
 				];
 
 				$a = (object)array_merge( $_a, (array)json_decode( file_get_contents( $path)));
@@ -284,6 +287,9 @@ abstract class config {
 				\config::$SITEMAPS = $a->sitemaps;
 				\config::$SYNTAX_HIGHLIGHT_DOCS = $a->syntax_highlight_docs;
 				\config::$TIMEZONE = $a->timezone;
+				\config::$SUPPORT_NAME = $a->support_name;
+				\config::$SUPPORT_EMAIL = $a->support_email;
+				\config::$EMAIL_ERRORS_TO_SUPPORT = $a->email_errors_to_support;
 
 			} // if ( file_exists( $path))
 			else {
@@ -300,6 +306,10 @@ abstract class config {
 						'sitemaps' => \config::$SITEMAPS,
 						'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
 						'timezone' => \config::$TIMEZONE,
+						'support_name' => \config::$SUPPORT_NAME,
+						'support_email' => \config::$SUPPORT_EMAIL,
+						'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,
+
 					];
 					file_put_contents( $path, json_encode( $a, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
