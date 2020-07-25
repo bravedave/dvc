@@ -3,40 +3,47 @@
  * BrayWorth Pty Ltd
  * e. david@brayworth.com.au
  *
- * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
- *      http://creativecommons.org/licenses/by/4.0/
+ * MIT License
  *
-*/
+ * */
 /*jshint esversion: 6 */
 var hourglass = _brayworth_.hourglass = {
 	h : false,
 
 	on  : function( msg) {
-		if ( this.h) this.off();
+		let _me = this;
 
-		let inner = $('<i class="fa fa-circle-o-notch fa-spin fa-4x text-white" style="position: fixed; top: 50%; left: 48%"></i>');
-		if (!!msg) {
-			inner = $('<h1 class="p-4 text-white text-center" style="position: fixed; top: 50%; width: 100%"></h1>')
-				.html( msg)
-				.append('<i class="fa fa-fw fa-spinner fa-pulse text-white ml-2"></i>');
+		if ( _me.h) _me.off();
 
-		}
+		return new Promise( (resolve, reject) => {
+			let inner = $('<i class="fa fa-circle-o-notch fa-spin fa-4x text-white" style="position: fixed; top: 50%; left: 48%"></i>');
+			if (!!msg) {
+				inner = $('<h1 class="p-4 text-white text-center" style="position: fixed; top: 50%; width: 100%"></h1>')
+					.html( msg)
+					.append('<i class="fa fa-fw fa-spinner fa-pulse text-white ml-2"></i>');
 
-		this.h = $('<div class="modal"></div>')
-			.append( inner)
-			.appendTo( 'body')
-			.css('display', 'block');
+			}
 
-		return (this);
+			_me.h = $('<div class="modal"></div>')
+				.append( inner)
+				.appendTo( 'body')
+				.css('display', 'block');
+
+			resolve (_me);
+
+		})
 
 	},
 
 	off : function() {
-		if ( this.h )
-			this.h.remove();	// vaporised
+		let _me = this;
 
-		this.h = false;
-		return (this);
+		return new Promise((resolve, reject) => {
+			if ( _me.h ) _me.h.remove();	// vaporised
+			_me.h = false;
+			resolve(_me);
+
+		});
 
 	}
 
