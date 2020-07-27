@@ -16,6 +16,24 @@ abstract class strings {
 	const html_sad = '<span style="font-family: Segoe UI Symbol; Verdana;">&#9785;</span>';
 	const html_happy = '<span style="font-family: Segoe UI Symbol; Verdana;">&#9786;</span>';
 
+	static public function AMPM( $hhmm, $short = true, $tailed = true ) {
+		$d = date( 'Y-m-d' ) . ' ' . $hhmm;
+		if ( $short) {
+			if ( date( 'i', strtotime( $d)) == '00') {
+				return date( $tailed ? 'ga' : 'g:i', strtotime( $d));
+
+			}
+			else {
+				return date( $tailed ? 'g:i a' : 'g:i', strtotime( $d));
+
+			}
+
+		}
+
+		return date( $tailed ? 'h:i a' : 'h:i', strtotime( $d));
+
+	}
+
 	static function asLocalDate( $date, $time = false, $epoch = 0) {
 		if ( (string)$date == '0000-00-00') {
 			return ( false);
