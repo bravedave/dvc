@@ -42,11 +42,28 @@ if ( !window._brayworth_ )
 
 	};
 
-	_.urlwrite = _.url = ( _url) => {
+	_.nav = (_url, withProtocol) => {
+		if ( _.browser.isIPhone) {
+			$(window).on('pagehide', () => _.hourglass.off());
+
+		}
+		else {
+			$(window).on('unload', () => _.hourglass.off());
+
+		};
+
+		_.hourglass.on();
+		window.location.href = _.url(_url, withProtocol);
+
+	}
+
+	_.urlwrite = _.url = ( _url, withProtocol) => {
 		if ( 'undefined' == typeof _url)
 			_url = '';
 
-		return ( '/' + _url);
+		let prefix = !!withProtocol ? location.protocol + '//' : '/'
+
+		return ( prefix + _url);
 
 	};
 
