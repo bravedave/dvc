@@ -110,6 +110,7 @@ abstract class config {
 	static $EMAILDOMAIN = 'example.com';
 	static $EMAIL_STATIONARY = 'email.html';
 
+	static $HTML_TICK = '&#10003;';
 	static $JQUERY_VERSION = '3.4';
 
 	static $MAILSERVER = 'localhost';
