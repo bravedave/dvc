@@ -166,6 +166,21 @@ abstract class _dao {
 
 	}
 
+    public function count() : int {
+		if ( is_null( $this->_db_name)) throw new Exceptions\DBNameIsNull;
+
+        if ( $res = $this->Result( sprintf( 'SELECT COUNT(*) as i FROM `%s`', $this->_db_name))) {
+            if ( $dto = $res->dto()) {
+                return $dto->i;
+
+            }
+
+        }
+
+        return 0;
+
+	}
+
 	public function db_name() {
 		return ( $this->_db_name );
 
@@ -205,10 +220,7 @@ abstract class _dao {
 	}
 
 	public function getAll( $fields = '*', $order = '') {
-		if ( is_null( $this->_db_name)) {
-			throw new Exceptions\DBNameIsNull;
-
-		}
+		if ( is_null( $this->_db_name)) throw new Exceptions\DBNameIsNull;
 
 		$this->db->log = $this->log;
 		return ( $this->Result( sprintf( $this->_sql_getAll, $fields, $this->db_name(), $order )));
