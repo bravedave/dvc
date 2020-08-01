@@ -37,7 +37,7 @@ class bootstrap extends page {
 
 		parent::__construct( $title );
 		if ( !self::$pageContainer) {
-			self::$pageContainer = 'container-fluid';
+			self::$pageContainer = 'container-fluid pb-2';
 
 		}
 
