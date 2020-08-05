@@ -65,7 +65,7 @@ $(document).ready( function() {
 
 				}
 
-				o[thelis.name].push(el.value || '');
+				o[el.name].push(el.value || '');
 
 			}
 			else {
