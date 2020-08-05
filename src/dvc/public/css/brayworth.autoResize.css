@@ -1,0 +1,29 @@
+/*
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
+
+	MIT License
+
+	autoResize textarea text input
+
+*/
+.autosize-common {
+	min-height: 50px;
+	padding: .375rem .75rem;
+	font-size: 1rem;
+	overflow: hidden;
+	transition: width 0.9s ease;
+}
+
+.autosize-lbr { line-height: 3px; }
+
+.autosize-textarea { overflow: hidden; }
+
+.autosize-hiddendiv {
+	display: none;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	overflow-wrap: break-word; /* future version of deprecated 'word-wrap' */
+}
+
