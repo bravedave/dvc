@@ -37,10 +37,21 @@
       _.get( url).then( modal => {
         let _modal = $(modal);
 
-        _modal.appendTo('body');
-        _modal.on('hidden.bs.modal', e => _modal.remove());
-        _modal.modal('show');
+        if ( _modal.hasClass('modal')) {
+          _modal.appendTo('body');
+          _modal.on('hidden.bs.modal', e => _modal.remove());
 
+        }
+        else {
+          let w = $('<div></div>');
+
+          w.append( _modal).appendTo('body');
+          _modal = $( '.modal', w);
+          _modal.on('hidden.bs.modal', e => w.remove());
+
+        }
+
+        _modal.modal('show');
         resolve( _modal);
 
       });
