@@ -30,6 +30,23 @@
 
 		});
 
-	};
+  };
+
+  _.get.modal = url => {
+    return new Promise((resolve, reject) => {
+      _.get( url).then( modal => {
+        let _modal = $(modal);
+
+        _modal.appendTo('body');
+        _modal.on('hidden.bs.modal', e => _modal.remove());
+        _modal.modal('show');
+
+        resolve( _modal);
+
+      });
+
+    });
+
+  };
 
 }) (_brayworth_);
