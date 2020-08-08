@@ -22,9 +22,26 @@
                     <div class="modal-body">
                         <div class="form-group row">
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="name" />
+                                <div class="input-group" id="<?= $_uid = strings::rand() ?>">
+                                    <input type="text" class="form-control" placeholder="name" />
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-light input-group-text"><i class="fa fa-clipboard"></i></button>
+
+                                    </div>
+
+                                </div>
 
                             </div>
+                            <script>
+                            ( _ => {
+                                $('button','#<?= $_uid ?>').on( 'click', function( e) {
+                                    let el = $('<div></div>').html( $('input', '#<?= $_uid ?>').val()).appendTo('body');
+                                    _.CopyToClipboard( el[0]).then( () => el.remove());
+
+                                })
+
+                            }) (_brayworth_);
+                            </script>
 
                         </div>
 
