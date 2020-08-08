@@ -13,7 +13,6 @@
  * then you can call one file in place of several,
  * if any css is updated, it will recompile it
  *
- * in theory - only used it once ...
 */
 
 namespace dvc;
@@ -25,6 +24,7 @@ abstract class cssmin {
 	public static $dvc4Files = [
 		'css/dvc-4.css',
 		'css/brayworth.animation.css',
+		'css/brayworth.autoResize.css',
 		'css/brayworth.components.css',
 		'css/brayworth.context.css',
 		'css/brayworth.growl.css',

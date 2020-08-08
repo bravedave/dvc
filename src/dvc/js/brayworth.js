@@ -11,12 +11,12 @@ $(document).ready( function() {
 	_brayworth_.InitHRefs();
 	_brayworth_.initDatePickers();
 
-	$('[data-role="back-button"]').each( function( i, el ) {
+	$('[data-role="back-button"]').each( ( i, el ) => {
 		//~ console.log('processing : window.history.back()');
 		$(el)
 		.css('cursor','pointer')
-		.on('click', function( evt ) {
-			evt.stopPropagation(); evt.preventDefault();
+		.on('click', e => {
+			e.stopPropagation(); e.preventDefault();
 			//~ console.log('window.history.back()');
 			window.history.back();
 
@@ -24,15 +24,15 @@ $(document).ready( function() {
 
 	});
 
-	$('[data-role="visibility-toggle"]').each( function( i, el ) {
-		var _el= $(el);
-		var target = _el.data('target');
-		var oT = $('#' + target);
+	$('[data-role="visibility-toggle"]').each( ( i, el ) => {
+		let _el = $(el);
+		let target = _el.data('target');
+		let oT = $('#' + target);
 		if ( oT) {
 			_el
 			.css('cursor','pointer')
-			.on('click', function( evt ) {
-				evt.stopPropagation(); evt.preventDefault();
+			.on('click', e => {
+				e.stopPropagation(); e.preventDefault();
 				oT.toggle();
 
 			});
@@ -41,8 +41,8 @@ $(document).ready( function() {
 
 	});
 
-	$('[role="print-page"]').each( function( i, el ) {
-		$(el).on('click', function(e) {
+	$('[role="print-page"]').each( ( i, el ) => {
+		$(el).on('click', e => {
 			e.preventDefault();
 			window.print();
 
@@ -53,20 +53,25 @@ $(document).ready( function() {
 });
 
 
-(function ($) {
+( $ => {
 	$.fn.serializeFormJSON = function () {
 
-		var o = {};
-		var a = this.serializeArray();
-		$.each(a, function () {
-			if (o[this.name]) {
-				if (!o[this.name].push)
-					o[this.name] = [o[this.name]];
+		let o = {};
+		let a = this.serializeArray();
+		$.each(a, ( i, el) => {
+			if (o[el.name]) {
+				if (!o[el.name].push) {
+					o[el.name] = [o[el.name]];
 
-				o[this.name].push(this.value || '');
+				}
+
+				o[el.name].push(el.value || '');
+
 			}
-			else
-				o[this.name] = this.value || '';
+			else {
+				o[el.name] = el.value || '';
+
+			}
 
 		});
 
