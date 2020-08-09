@@ -10,6 +10,7 @@
 
 namespace dvc;
 use config;
+use libphonenumber;
 
 abstract class strings {
 	const html_tick = '&#10003;';
@@ -60,36 +61,43 @@ abstract class strings {
 
 	static function asLocalPhone( $_tel = '' ) {
 		$debug = false;
-		//~ $debug = true;
+		// $debug = true;
 
 		$_tel = preg_replace( '@[^0-9\+,]@', '', $_tel);
 		if ( $_tel) {
 
 			try {
-				$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+				$phoneUtil = libphonenumber\PhoneNumberUtil::getInstance();
 				if ( substr( $_tel, 0, 1) == '+') {
 					$_mNo = $phoneUtil->parse( $_tel);
-					if ( $debug) \sys::logger( sprintf( 'phoneformats::AsLocalPhone:1: %s', $_mNo));
+          if ( $debug) \sys::logger( sprintf( '<%s> : 1 : %s', $_mNo, __METHOD__));
 
 				}
 				else {
 					$_mNo = $phoneUtil->parse( $_tel, \config::$PHONE_REGION);
-					if ( $debug) \sys::logger( sprintf( 'phoneformats::AsLocalPhone:2: %s', $_mNo));
+					if ( $debug) \sys::logger( sprintf( '<%s> : 2 : %s', $_mNo, __METHOD__));
 
 				}
 
-				if ( $phoneUtil->isValidNumber( $_mNo)) {
-					if ( $phoneUtil->getRegionCodeForNumber( $_mNo) == 'AU') {
-						return $phoneUtil->format($_mNo, \libphonenumber\PhoneNumberFormat::NATIONAL);
+        // if ( $debug) \sys::logger( sprintf( '<%s> %s', \config::$PHONE_REGION, __METHOD__));
+				if ( $phoneUtil->isValidNumber( $_mNo, \config::$PHONE_REGION)) {
+          if ( \config::$PHONE_REGION == $phoneUtil->getRegionCodeForNumber( $_mNo)) {
+            if ( $debug) \sys::logger( sprintf( '<%s> : National : %s', $_mNo, __METHOD__));
+						return $phoneUtil->format( $_mNo, libphonenumber\PhoneNumberFormat::NATIONAL);
 
 					}
 					else {
-						return $phoneUtil->format($_mNo, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
+            if ( $debug) \sys::logger( sprintf( '<%s> : International : %s', $_mNo, __METHOD__));
+						return $phoneUtil->format($_mNo, libphonenumber\PhoneNumberFormat::INTERNATIONAL);
 
 					}
 
+        }
+        else {
+          if ( $debug) \sys::logger( sprintf( '<%s> : Invalid : %s', $_mNo, __METHOD__));
 
-				}
+        }
+
 
 			}
 			catch ( \Exception $e) {
@@ -172,6 +180,58 @@ abstract class strings {
 		}
 
 		return 0;
+
+	}
+
+	static function cleanPhoneString( string $tel) : string {
+		//~ $debug = true;
+		$debug = false;
+
+		if ( strlen( $tel) > 8) {
+			try {
+				$phoneUtil = libphonenumber\PhoneNumberUtil::getInstance();
+				if ( substr( $tel, 0, 1) == '+') {
+					$_mNo = $phoneUtil->parse( $tel);
+          if ( $debug) \sys::logger( sprintf('<%s> :1:%s', $_mNo, __METHOD__));
+
+				}
+				else {
+					$_mNo = $phoneUtil->parse( $tel, \config::$PHONE_REGION);
+          if ( $debug) \sys::logger( sprintf('<%s> :2:%s', $_mNo, __METHOD__));
+
+				}
+
+				if ( $phoneUtil->isValidNumber( $_mNo, \config::$PHONE_REGION)) {
+          if ( $debug) \sys::logger( sprintf('<%s> :getRegionCodeForNumber:%s', $phoneUtil->getRegionCodeForNumber( $_mNo), __METHOD__));
+          if ( 'AU' == $phoneUtil->getRegionCodeForNumber( $_mNo)) {
+						$mNo = $phoneUtil->format($_mNo, libphonenumber\PhoneNumberFormat::NATIONAL);
+
+					}
+					else {
+						$mNo = $phoneUtil->format($_mNo, libphonenumber\PhoneNumberFormat::INTERNATIONAL);
+
+					}
+
+          if ( $debug) \sys::logger( sprintf('<%s> :3:%s', $mNo, __METHOD__));
+          return (string)preg_replace( '@[^0-9]@', '', $mNo);	// only numbers
+
+				}
+				else {
+          return (string)preg_replace( '@[^0-9]@', '', $tel);	// only numbers
+
+				}
+
+			}
+			catch ( libphonenumber\NumberParseException $e) {
+        return (string)preg_replace( '@[^0-9]@', '', $tel);	// only numbers
+
+			}
+
+		}
+		else {
+			return (string)preg_replace( '@[^0-9]@', '', $tel);	// only numbers
+
+		}
 
 	}
 
@@ -404,13 +464,13 @@ abstract class strings {
 				 * to prove
 				 * a mobile phone must contain 10 numbers
 				 */
-				$phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+				$phoneNumberUtil = libphonenumber\PhoneNumberUtil::getInstance();
 
 				$phoneNumberObject = ( '+' == substr( $tel, 0, 1) ? $phoneNumberUtil->parse($tel) : $phoneNumberUtil->parse($tel, 'AU'));
 
 				$numberType = $phoneNumberUtil->getNumberType( $phoneNumberObject);
 
-				if ( $numberType == \libphonenumber\PhoneNumberType::MOBILE) {
+				if ( $numberType == libphonenumber\PhoneNumberType::MOBILE) {
 					return ( true);
 
 				}
@@ -437,11 +497,11 @@ abstract class strings {
 				 * to prove
 				 * a mobile phone must contain 10 numbers
 				 */
-				$phoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+				$phoneNumberUtil = libphonenumber\PhoneNumberUtil::getInstance();
 
 				$phoneNumberObject = ( '+' == substr( $tel, 0, 1) ? $phoneNumberUtil->parse($tel) : $phoneNumberUtil->parse($tel, 'AU'));
 
-				return (bool)$phoneNumberUtil->isValidNumber( $phoneNumberObject);
+				return (bool)$phoneNumberUtil->isValidNumber( $phoneNumberObject, \config::$PHONE_REGION);
 
 			}
 
