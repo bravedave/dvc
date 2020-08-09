@@ -29,6 +29,7 @@ abstract class jslib {
 		'js/_brayworth_.ask.js',
 		'js/_brayworth_.browser.js',
 		'js/_brayworth_.context.js',
+		'js/_brayworth_.CopyToClipboard.js',
 		'js/_brayworth_.extend.js',
 		'js/_brayworth_.fileDragDropHandler.js',
 		'js/_brayworth_.get.js',
