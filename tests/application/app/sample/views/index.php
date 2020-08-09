@@ -21,6 +21,7 @@ a { color: inherit; }
 
 	<li class="nav-item"><a class="nav-link" href="<?= strings::url( 'tests/errtest') ?>">Throw an error</a></li>
 	<li class="nav-item"><a class="nav-link" href="<?= strings::url( 'tests/changes') ?>">Changes</a></li>
+	<li class="nav-item"><a class="nav-link" href="<?= strings::url( 'tests/phonenumbers') ?>">Phone Numbers</a></li>
 	<li class="nav-item"><a class="nav-link" href="#" id="<?= $uid = strings::rand() ?>">Modal Dialog</a></li>
 	<script>
 	$(document).ready( function() {

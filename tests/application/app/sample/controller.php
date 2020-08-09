@@ -80,7 +80,19 @@ class controller extends \Controller {
 
 		}
 
-	}
+  }
+
+  public function phonenumbers() {
+    $this->render([
+      'title' => 'Phone Number Tests',
+      'primary' => 'phonenumbers',
+      'secondary' => 'index'
+
+      ]
+
+    );
+
+  }
 
 	public function errTest() {
 		throw new \Exceptions\TestException( 'test');
