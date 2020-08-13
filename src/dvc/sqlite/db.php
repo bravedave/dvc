@@ -38,15 +38,17 @@ class db {
 	}
 
 	protected function __construct() {
-		$this->_path = sprintf('%s%ssqlite.db', \config::dataPath(), DIRECTORY_SEPARATOR );
+    $this->_path = sprintf('%s%ssqlite.db', \config::dataPath(), DIRECTORY_SEPARATOR );
 		if ( file_exists( $this->_path)) {
-			$this->_db = new \SQLite3( $this->_path);	// throws exception on failure
+      $this->_db = new \SQLite3( $this->_path);	// throws exception on failure
 
 		}
 		else {
-			// I prefer this naming convention because in windows you can associate the extension
+      // I prefer this naming convention because in windows you can associate the extension
 			$this->_path = sprintf('%s%sdb.sqlite', \config::dataPath(), DIRECTORY_SEPARATOR );
+      $mask = umask( 0);
 			$this->_db = new \SQLite3( $this->_path);	// throws exception on failure
+      umask( $mask);
 
 		}
 
