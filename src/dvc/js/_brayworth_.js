@@ -40,7 +40,24 @@ if ( !window._brayworth_ )
 
 		return 0;
 
-	};
+  };
+
+  _.REMtoPX = i => {
+    let rem = parseFloat(getComputedStyle($(':root')[0]).fontSize);
+    return (rem * i);
+
+  };
+
+  _.desktop = {
+    width: 64,
+    height: 32,
+    isSmall: () => {
+      if ($(window).width() < _.REMtoPX(_.desktop.width)) return true;
+      if ($(window).height() < _.REMtoPX(_.desktop.height)) return true;
+
+    }
+
+  };
 
 	_.nav = (_url, withProtocol) => {
 		if ( _.browser.isIPhone) {
@@ -55,9 +72,9 @@ if ( !window._brayworth_ )
 		_.hourglass.on();
 		window.location.href = _.url(_url, withProtocol);
 
-	}
+	};
 
-	_.urlwrite = _.url = ( _url, withProtocol) => {
+  _.urlwrite = _.url = ( _url, withProtocol) => {
 		if ( 'undefined' == typeof _url)
 			_url = '';
 
