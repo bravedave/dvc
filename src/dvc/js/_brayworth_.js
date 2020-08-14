@@ -55,6 +55,8 @@ if ( !window._brayworth_ )
       if ($(window).width() < _.REMtoPX(_.desktop.width)) return true;
       if ($(window).height() < _.REMtoPX(_.desktop.height)) return true;
 
+      return false;
+
     }
 
   };
