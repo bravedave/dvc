@@ -10,13 +10,17 @@
 
 namespace sample;
 
+use Json;
+use sys;
+
 class controller extends \Controller {
-    protected function _index() {
+  protected function _index() {
 		$this->render([
 			'primary' => 'default',
 			'secondary' => [
 				'index',
 				'index-modal',
+        'index-option'
 
 			]
 
@@ -36,10 +40,13 @@ class controller extends \Controller {
 	protected function posthandler() {
 		$action = $this->getPost('action');
 
-		if ( 'gibblegok' == $action) {
-			\Json::ack( $action);
+		if ( 'set-option' == $action) {
+      $key = $this->getPost('key');
+      $val = $this->getPost('val');
+      sys::option( $key, $val);
+      Json::ack( $action);
 
-		}
+    }
 		else {
 			parent::postHandler();
 

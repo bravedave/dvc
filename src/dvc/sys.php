@@ -150,7 +150,74 @@ abstract class sys {
 
 	}
 
-	static function set_error_handler() {
+  protected static $_options = [];
+
+	protected static function _options_file() {
+		return implode( DIRECTORY_SEPARATOR, [
+      rtrim( config::dataPath(), '/ '),
+      'sys.json'
+
+    ]);
+
+	}
+
+  static function option( $key, $val = null ) {
+		$debug = false;
+		// $debug = true;
+
+		if ( !self::$_options) {
+      if ( file_exists( $config = self::_options_file())) {
+        self::$_options = (array)json_decode( file_get_contents( $config));
+
+      }
+
+		}
+
+		$ret = '';
+		if ( self::$_options) {
+      /* return the existing value */
+      if ( isset( self::$_options[$key])) {
+        $ret = (string)self::$_options[$key];
+
+        if ( $debug) self::logger( sprintf( 'retrieve option value : %s = %s', $key, $ret));
+
+      } elseif ( $debug) { self::logger( sprintf( 'retrieve option value (default - not set) : %s = %s', $key, $ret)); }
+
+		} elseif ( $debug) { self::logger( sprintf( 'retrieve option value (null): %s = %s', $key, $ret)); }
+
+
+		if ( !is_null( $val)) {
+
+			/* writer */
+			if ( (string)$val == '') {
+				if ( isset( self::$_options[$key])) {
+					unset( self::$_options[$key]);
+
+        }
+
+			}
+			else {
+				self::$_options[$key] = (string)$val;
+
+			}
+
+      file_put_contents(
+        self::_options_file(),
+        json_encode(
+          self::$_options,
+          JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
+
+        )
+
+      );
+
+		}
+
+		return ( $ret);
+
+  }
+
+  static function set_error_handler() {
 		errsys::initiate( false );
 
 	}
