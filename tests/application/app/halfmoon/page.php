@@ -28,7 +28,7 @@ class page extends dvc\pages\_page {
 	}
 
 	function __construct( $title = '' ) {
-    $this->debug = true;
+    // $this->debug = true;
     $this->dvc = '4';
     parent::__construct( $title);
 

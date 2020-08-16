@@ -32,8 +32,7 @@ class controller extends \Controller {
 		if ( file_exists( $view))
       return ( $view);
 
-    \sys::logger( sprintf('<%s> %s', $viewName, __METHOD__));
-
+    // \sys::logger( sprintf('<%s> %s', $viewName, __METHOD__));
 
 		return parent::getView( $viewName, $controller, $logMissingView);
 
