@@ -47,7 +47,7 @@ class _page {
 
 		$this->data->title = $this->title = ( $title == '' ? \config::$WEBNAME : $title );
 
-		$this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
+		$this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />';
 		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
 
 		if ( \userAgent::isLegacyIE()) {
@@ -59,7 +59,6 @@ class _page {
 
 		}
 		else {
-			// $this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'js/jquery-3.3.1.min.js'));
 			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/jquery'));
 
 		}
@@ -122,6 +121,8 @@ class _page {
 	}
 
 	protected function _pagefooter() {
+    if ( $this->debug) \sys::logger( sprintf('<%s> %s', $navbar, __METHOD__));
+
 		return $this
 			->header()
 			->pageHeader()
@@ -167,6 +168,8 @@ class _page {
 			$this->contentOPEN = FALSE;
 
 		}
+
+    if ( $this->debug) \sys::logger( __METHOD__);
 
 		return ( $this);	// chain
 
@@ -222,7 +225,9 @@ class _page {
 		printf( '%s<head>%s', PHP_EOL, PHP_EOL);
 
 		if ( !$this->charset)
-			$this->charset = 'utf-8';
+      $this->charset = 'utf-8';
+
+    $this->meta[] = sprintf( '<meta charset=%s" />', $this->charset);
 		$this->meta[] = sprintf( '<meta http-equiv="Content-Type" content="text/html; charset=%s" />', $this->charset);
 
 		foreach ( $this->meta as $meta )
@@ -321,21 +326,23 @@ class _page {
 	}
 
 	public function title( $navbar = 'navbar-default') {
-		if ( !$this->boolHeader )
-			$this->header();
+    $this
+      ->header()
+      ->pageHeader();
 
-		$this->pageHeader();
+    if ( $this->debug) \sys::logger( sprintf('<%s> %s', $navbar, __METHOD__));
 
-		if ( $this->debug) \sys::logger( $navbar);
+    if ( $navbar) {
+      $v = new \view( $this->data);
+        $v->title = $this->title;
+        foreach( (array)$navbar as $_){
+          $v->load( $_);
 
-		$v = new \view( $this->data);
-			$v->title = $this->title;
-			foreach( (array)$navbar as $_){
-				$v->load( $_);
+        }
 
-			}
+      $this->hasTitleBar = true;
 
-		$this->hasTitleBar = true;
+    }
 
 		return ( $this);
 
