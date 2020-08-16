@@ -46,6 +46,7 @@ abstract class jslib {
 		'js/_brayworth_.mobile-nav-hider.js',
 		'js/_brayworth_.modal.js',
 		'js/_brayworth_.modalDialog.js',
+		'js/_brayworth_.notIncognito.js',
 		'js/_brayworth_.post.js',
 		'js/_brayworth_.strings.js',
 		'js/_brayworth_.swipe.js',
