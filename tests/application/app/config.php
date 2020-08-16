@@ -15,5 +15,6 @@ if ( config::checkDBconfigured()) {
 
 }
 
+config::route_register( 'halfmoon', 'halfmoon\controller');
 config::route_register( 'tests', 'sample\controller');
 config::route_register( 'home', '');
