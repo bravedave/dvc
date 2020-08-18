@@ -203,6 +203,7 @@ class application {
 		$_protectedActions = [
 			'__construct',
 			'__destruct',
+			'application',
 			'authorize',
 			'before',
 			'dbResult',
