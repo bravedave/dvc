@@ -10,12 +10,19 @@
  *
  * More Promise Polyfills:
  * @see https://ourcodeworld.com/articles/read/316/top-5-best-javascript-promises-polyfills
+ *
+ * credit:
+ *  https://gist.github.com/jherax/a81c8c132d09cc354a0e2cb911841ff1
+ *  https://stackoverflow.com/questions/2860879/detecting-if-a-browser-is-using-private-browsing-mode/37091058#37091058
+ *
+ * usage:
+ *  _brayworth_.inPrivate().then( b => console.log( b ? 'in private' : 'NOT inprivate' ) )
  */
 
-_brayworth_.notIncognito = () => {
+_brayworth_.inPrivate = () => {
   return new Promise(function detect(resolve) {
-    var yes = function () { resolve(false); }; // is in private mode
-    var not = function () { resolve(true); }; // not in private mode
+    var yes = function () { resolve(true); }; // is in private mode
+    var not = function () { resolve(false); }; // not in private mode
 
     function detectChromeOpera() {
       // https://developers.google.com/web/updates/2017/08/estimating-available-storage-space

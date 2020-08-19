@@ -4,5 +4,6 @@
 * [Browser](/docs/utilities_javascript_browser)
 * [Context](/docs/utilities_javascript_context)
 * [Extend](/docs/utilities_javascript_extend)
+* [inPrivate](/docs/utilities_javascript_inprivate) _detect if browser is running in private mode_
 * [Table](/docs/utilities_javascript_table)
 * [TextPrompt](/docs/utilities_javascript_textprompt)
