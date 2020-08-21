@@ -11,3 +11,5 @@
 */
 
 class session extends dvc\session {}
+
+\sys::trace( sprintf('deprecated : please call dvc\session directly : %s', __METHOD__));
