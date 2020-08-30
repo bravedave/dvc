@@ -15,20 +15,22 @@ class icon {
     const box = 20;
 
     const calendar_event = 40;
-    const chat = 41;
+    const calendar_event_fill = 41;
 
-    const chevronLeft = 42;
-    const chevronRight = 43;
+    const chat = 45;
 
-    const diamond = 45;
-    const diamond_fill = 46;
-    const diamond_half = 47;
+    const chevronLeft = 48;
+    const chevronRight = 49;
 
-    const fileRichText = 51;
+    const diamond = 50;
+    const diamond_fill = 51;
+    const diamond_half = 52;
 
-    const github = 60;
+    const fileRichText = 60;
 
-    const house = 70;
+    const github = 70;
+
+    const house = 80;
 
     const question = 120;
 
