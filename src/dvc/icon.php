@@ -42,7 +42,7 @@ class icon {
 
     const person_fill = 160;
 
-    const sliders = 205;
+    const sliders = 210;
 
 
     static function get( int $icon ) : string {
