@@ -56,6 +56,10 @@ class icon {
             return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar-event.svg');
 
         }
+        elseif ( self::calendar_event_fill == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar-event-fill.svg');
+
+        }
         elseif ( self::chat == $icon) {
             return file_get_contents( __DIR__ . '/bootstrap4/icons/chat.svg');
 
