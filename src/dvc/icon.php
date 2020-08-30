@@ -42,6 +42,8 @@ class icon {
 
     const person_fill = 160;
 
+    const sliders = 205;
+
 
     static function get( int $icon ) : string {
         if ( self::app == $icon) {
@@ -118,6 +120,10 @@ class icon {
         }
         elseif ( self::person_fill == $icon) {
             return file_get_contents( __DIR__ . '/bootstrap4/icons/person-fill.svg');
+
+        }
+        elseif ( self::sliders == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/sliders.svg');
 
         }
 
