@@ -31,6 +31,12 @@ class icon {
 
     const question = 120;
 
+    const person = 150;
+    const person_check = 152;
+    const person_check_fill = 154;
+
+    const person_fill = 160;
+
 
     static function get( int $icon ) : string {
         if ( self::app == $icon) {
@@ -79,6 +85,22 @@ class icon {
         }
         elseif ( self::question == $icon) {
             return file_get_contents( __DIR__ . '/bootstrap4/icons/question.svg');
+
+        }
+        elseif ( self::person == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/person.svg');
+
+        }
+        elseif ( self::person_check == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/person_check.svg');
+
+        }
+        elseif ( self::person_check_fill == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/person_check_fill.svg');
+
+        }
+        elseif ( self::person_fill == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/person_fill.svg');
 
         }
 
