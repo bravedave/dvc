@@ -36,6 +36,7 @@ class icon {
 
     const people = 145;
     const people_fill = 146;
+
     const person = 150;
     const person_check = 152;
     const person_check_fill = 154;
