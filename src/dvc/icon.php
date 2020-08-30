@@ -53,7 +53,7 @@ class icon {
 
         }
         elseif ( self::calendar_event == $icon) {
-            return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar_event.svg');
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar-event.svg');
 
         }
         elseif ( self::chat == $icon) {
@@ -101,19 +101,19 @@ class icon {
 
         }
         elseif ( self::person_check == $icon) {
-            return file_get_contents( __DIR__ . '/bootstrap4/icons/person_check.svg');
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/person-check.svg');
 
         }
         elseif ( self::person_check_fill == $icon) {
-            return file_get_contents( __DIR__ . '/bootstrap4/icons/person_check_fill.svg');
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/person-check_fill.svg');
 
         }
         elseif ( self::person_dash == $icon) {
-            return file_get_contents( __DIR__ . '/bootstrap4/icons/person_dash.svg');
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/person-dash.svg');
 
         }
         elseif ( self::person_fill == $icon) {
-            return file_get_contents( __DIR__ . '/bootstrap4/icons/person_fill.svg');
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/person-fill.svg');
 
         }
 
