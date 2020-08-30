@@ -14,10 +14,11 @@ class icon {
     const app = 10;
     const box = 20;
 
-    const chat = 40;
+    const calendar_event = 40;
+    const chat = 41;
 
-    const chevronLeft = 41;
-    const chevronRight = 42;
+    const chevronLeft = 42;
+    const chevronRight = 43;
 
     const diamond = 45;
     const diamond_fill = 46;
@@ -35,6 +36,8 @@ class icon {
     const person_check = 152;
     const person_check_fill = 154;
 
+    const person_dash = 156;
+
     const person_fill = 160;
 
 
@@ -45,6 +48,10 @@ class icon {
         }
         elseif ( self::box == $icon) {
             return file_get_contents( __DIR__ . '/bootstrap4/icons/box.svg');
+
+        }
+        elseif ( self::calendar_event == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar_event.svg');
 
         }
         elseif ( self::chat == $icon) {
@@ -97,6 +104,10 @@ class icon {
         }
         elseif ( self::person_check_fill == $icon) {
             return file_get_contents( __DIR__ . '/bootstrap4/icons/person_check_fill.svg');
+
+        }
+        elseif ( self::person_dash == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/person_dash.svg');
 
         }
         elseif ( self::person_fill == $icon) {
