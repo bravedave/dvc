@@ -57,7 +57,7 @@ class icon {
             return file_get_contents( __DIR__ . '/bootstrap4/icons/app.svg');
 
         }
-        elseif ( self::app == $icon) {
+        elseif ( self::at == $icon) {
             return file_get_contents( __DIR__ . '/bootstrap4/icons/at.svg');
 
         }
