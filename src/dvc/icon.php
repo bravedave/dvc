@@ -12,6 +12,7 @@ namespace dvc;
 
 class icon {
     const app = 10;
+    const at = 15;
     const box = 20;
 
     const calendar_event = 40;
@@ -45,12 +46,19 @@ class icon {
 
     const person_fill = 160;
 
+    const phone = 165;
+    const phone_fill = 166;
+
     const sliders = 210;
 
 
     static function get( int $icon ) : string {
         if ( self::app == $icon) {
             return file_get_contents( __DIR__ . '/bootstrap4/icons/app.svg');
+
+        }
+        elseif ( self::app == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/at.svg');
 
         }
         elseif ( self::box == $icon) {
@@ -133,8 +141,16 @@ class icon {
             return file_get_contents( __DIR__ . '/bootstrap4/icons/person-fill.svg');
 
         }
+        elseif ( self::phone == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/phone.svg');
+
+        }
+        elseif ( self::phone_fill == $icon) {
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/phone-fill.svg');
+
+        }
         elseif ( self::sliders == $icon) {
-            return file_get_contents( __DIR__ . '/bootstrap4/icons/sliders.svg');
+            return file_get_contents( __DIR__ . '/bootstrap4/icons/phone.svg');
 
         }
 
