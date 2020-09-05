@@ -700,7 +700,7 @@ abstract class controller {
 	}
 
 	public function logout() {
-		\session::destroy();
+		\dvc\session::destroy();
 		\Response::redirect( \url::$URL );
 		header('HTTP/1.1 401 Unauthorized');
 
