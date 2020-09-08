@@ -1,5 +1,5 @@
 ###### 09/07/2020
-* Fix bug in uniqueness of cache key
+* Fix bug in uniqueness of cache key.
 
 ###### 29/06/2020
 * Assign Application to controller so it get's the initialized application
