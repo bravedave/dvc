@@ -344,17 +344,21 @@ abstract class strings {
     );
 
     $text = self::htmlSanitize( $document);
+    // die( $text);
     $text = preg_replace_callback( '/<li[^>]*>([^<]*)<\\/li>/i', function( $s) {
       // \sys::logger( sprintf('<%s> %s', print_r( $s, true), __METHOD__));
       return '- ' . $s[1];
 
     }, $text);
+    // die( $text);
 
 		$text = preg_replace( [
       "@<ul[^>]*>\n@",
-      "@</ul[^>]*>\n@"
+      "@</ul[^>]*>\n@",
+      "@</p[^>]*>@"
     ], "", $text );
-		$text = trim( preg_replace($search, $replace, $text), '\n');
+    $text = trim( preg_replace($search, $replace, $text), '\n');
+    // die( $text);
 
 		/*
 		$search = array('@<script[^>]*?>.*?</script>@si',	// Strip out javascript
