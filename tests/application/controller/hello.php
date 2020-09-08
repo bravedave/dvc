@@ -31,6 +31,27 @@ class hello extends Controller {
 
 		]);
 
-	}
+  }
+
+  public function convert() {
+    $file = implode( DIRECTORY_SEPARATOR, [
+      __DIR__,
+      '..',
+      'data',
+      'sample.html'
+
+    ]);
+
+    Response::text_headers();
+    if ( file_exists( $file)) {
+      print strings::html2text( file_get_contents( $file));
+
+    }
+    else {
+      print 'not found';
+
+    }
+
+  }
 
 }

@@ -334,15 +334,27 @@ abstract class strings {
 			'@<[\/\!]*?[^<>]*?>@si',			// trim blank lines from beginning and end
 			'@<br[\s]/>@si',
 			'@&nbsp;@si',
-			'@&amp;@si'
+      '@&amp;@si'
 		);
 		$replace = array(
 			PHP_EOL,
 			PHP_EOL,
 			' ',
-			'&'
-		);
-		$text = trim( preg_replace($search, $replace, self::htmlSanitize( $document)), '\n');
+      '&'
+    );
+
+    $text = self::htmlSanitize( $document);
+    $text = preg_replace_callback( '/<li[^>]*>([^<]*)<\\/li>/i', function( $s) {
+      // \sys::logger( sprintf('<%s> %s', print_r( $s, true), __METHOD__));
+      return '- ' . $s[1];
+
+    }, $text);
+
+		$text = preg_replace( [
+      "@<ul[^>]*>\n@",
+      "@</ul[^>]*>\n@"
+    ], "", $text );
+		$text = trim( preg_replace($search, $replace, $text), '\n');
 
 		/*
 		$search = array('@<script[^>]*?>.*?</script>@si',	// Strip out javascript
