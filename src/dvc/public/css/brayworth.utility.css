@@ -14,22 +14,6 @@
 @media screen {
 	/* file upload css */
 	.box__dragndrop, .box__uploading, .box__success, .box__error { display: none; }
-	.has-advanced-upload {
-		outline: 2px dotted #337ab7;
-		padding: 5px;
-		outline-offset: -4px;
-		background-color: white;
-
-	}
-	.has-advanced-upload::before {
-		display: inline-block;
-		width: 90%;
-		margin-left: 0.25em;
-		vertical-align: 0.25em;
-		content: "drag files here to upload";
-		color: #9e9e9e;
-		font-size: .75rem;
-	}
 	.has-advanced-upload .box__dragndrop {
 		padding: 10px;
 		display: inline;
@@ -37,8 +21,30 @@
 	.is-dragover { background-color: grey; }
 	.is-uploading input[type="file"] { visibility: none; display: none; }
 	.is-uploading .box__uploading { display: flex; }
+
 }
 
+@media screen and (min-width: 768px){
+	.has-advanced-upload {
+		outline: 1px dashed #337ab7;
+		padding: 5px;
+		outline-offset: -4px;
+		background-color: white;
+
+  }
+
+	.has-advanced-upload::before {
+		display: inline-block;
+		width: 90%;
+		margin-left: 0.25em;
+		vertical-align: 0.25em;
+		content: "drag files here to upload";
+		color: #9e9e9e;
+    font-size: .75rem;
+
+	}
+
+}
 /*
 	.has-advanced-upload .box__fill { display: none; padding: 7px; }
 	.has-advanced-upload .box__uploading,
