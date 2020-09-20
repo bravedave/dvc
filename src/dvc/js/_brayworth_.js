@@ -68,6 +68,7 @@ if ( !window._brayworth_ )
     dayjs.extend(dayjs_plugin_localizedFormat);
     dayjs.extend(dayjs_plugin_utc);
     dayjs.extend(dayjs_plugin_timezone);
+    dayjs.extend(dayjs_plugin_updateLocale);
 
     if ('' !== _.timezone) {
       dayjs.tz.setDefault(_.timezone);

@@ -66,6 +66,7 @@ abstract class jslib {
     'js/dayjs/timezone.js',
     'js/dayjs/localeData.js',
     'js/dayjs/localizedFormat.js',
+    'js/dayjs/updateLocale.js',
     'js/dayjs/utc.js',
 
 	];
