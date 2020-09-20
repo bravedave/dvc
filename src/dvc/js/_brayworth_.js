@@ -78,8 +78,8 @@ if ( !window._brayworth_ )
 
   });
 
-  _.dayjs = ( a,b,c,d) => {
-    let r = dayjs( a,b,c,d);
+  _.dayjs = ( a, b) => {
+    let r = dayjs( a,b);
 
     if ('' !== _.timezone) r.tz(_.timezone);
 
