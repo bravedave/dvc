@@ -10,8 +10,8 @@
 if ( !window._brayworth_ )
 	window._brayworth_ = () => { return ( window._brayworth_); };
 
-((_) => {
-	_.version = 0.1;
+(_ => {
+	_.version = 0.2;
 	_._brayworth_ = true;
 	_.currentUser = false;
 	_.logon_retrieve_password = false;
@@ -61,6 +61,61 @@ if ( !window._brayworth_ )
 
   };
 
+  _.timezone = '';
+
+  $(document).ready( () => {
+    dayjs.extend(dayjs_plugin_localizedFormat);
+    dayjs.extend(dayjs_plugin_utc);
+    dayjs.extend(dayjs_plugin_timezone);
+
+    if ('' !== _.timezone) {
+      dayjs.tz.setDefault(_.timezone);
+
+    }
+
+  });
+
+  _.dayjs = ( a,b,c,d) => {
+    let r = dayjs( a,b,c,d);
+
+    if ('' !== _.timezone) r.tz(_.timezone);
+
+		return (r);
+
+	};
+
+  _.getMeta = (mName) => {
+    let metas = document.getElementsByTagName('meta');
+
+    for (let i = 0; i < metas.length; i++) {
+      if (metas[i].getAttribute('name') === mName) {
+        return metas[i].getAttribute('content');
+
+      }
+
+    }
+
+    return '';
+
+  }
+
+	_.moment = ( a,b,c,d) => {
+		/**
+		* if you call this and the moment library
+		* is undefined it will error (der)
+		*
+		* The intention is that:
+		*	a. the library will be loaded
+    *	b. you could/will redefine this function to control
+    * 		 the timezone being operated in
+    */
+
+		let r = moment( a,b,c,d);
+		// d.utcOffset( desirable timezone);
+		return (r);
+
+	};
+
 	_.nav = (_url, withProtocol) => {
 		if ( _.browser.isIPhone) {
 			$(window).on('pagehide', () => _.hourglass.off());
@@ -83,22 +138,6 @@ if ( !window._brayworth_ )
 		let prefix = !!withProtocol ? location.protocol + '//' : '/'
 
 		return ( prefix + _url);
-
-	};
-
-	_.moment = ( a,b,c,d) => {
-		/**
-		* if you call this and the moment library
-		* is undefined it will error (der)
-		*
-		* The intention is that:
-		*	a. the library will be loaded
-			*	b. you could/will redefine this function to control
-			* 		 the timezone being operated in
-			*/
-		let r = moment( a,b,c,d);
-		// d.utcOffset( desirable timezone);
-		return (r);
 
 	};
 

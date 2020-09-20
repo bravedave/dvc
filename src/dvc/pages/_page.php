@@ -49,6 +49,7 @@ class _page {
 
 		$this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />';
 		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
+		$this->meta[] = sprintf( '<meta name="timezone" content="%s" />', \config::$TIMEZONE);
 
 		if ( \userAgent::isLegacyIE()) {
 			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'js/jquery-1.11.3.min.js'));

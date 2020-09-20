@@ -1,14 +1,19 @@
-_brayworth_.urlwrite = _brayworth_.url = function( _url, withProtocol) {
-	if ( 'undefined' == typeof _url)
-		_url = '';
+( _ => {
+  _.timezone = '<?= \config::$TIMEZONE ?>';
 
-	if ( !!withProtocol) {
-		return ( '<?= sprintf( '%s%s', url::$PROTOCOL, url::$URL) ?>' + _url);
+  _.urlwrite = _.url = ( _url, withProtocol) => {
+    if ( 'undefined' == typeof _url)
+      _url = '';
 
-	}
-	else {
-		return ( '<?= url::$URL ?>' + _url);
+    if ( !!withProtocol) {
+      return ( '<?= sprintf( '%s%s', \url::$PROTOCOL, \url::$URL) ?>' + _url);
 
-	}
+    }
+    else {
+      return ( '<?= \url::$URL ?>' + _url);
 
-};
+    }
+
+  };
+
+}) (_brayworth_);

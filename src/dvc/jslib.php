@@ -60,7 +60,12 @@ abstract class jslib {
 		'js/autoResize.js',
 		'js/brayworth.js',
 		'js/js.cookie.js',
-		'js/templation.js'
+    'js/templation.js',
+    'js/templation.js',
+    'js/dayjs/dayjs.min.js',
+    'js/dayjs/timezone.js',
+    'js/dayjs/localizedFormat.js',
+    'js/dayjs/utc.js',
 
 	];
 
