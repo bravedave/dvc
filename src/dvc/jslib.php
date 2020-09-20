@@ -63,6 +63,7 @@ abstract class jslib {
     'js/templation.js',
     'js/templation.js',
     'js/dayjs/dayjs.min.js',
+    'js/dayjs/customParseFormat.js',
     'js/dayjs/timezone.js',
     'js/dayjs/localeData.js',
     'js/dayjs/localizedFormat.js',

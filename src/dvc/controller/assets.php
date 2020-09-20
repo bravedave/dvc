@@ -112,7 +112,7 @@ class assets extends Controller {
 				'debug' => false,
 				'libName' => 'brayworth',
 				'jsFiles' => $files,
-				'libFile' => config::tempdir()  . '_brayworth_has_dayjs.2.js'
+				'libFile' => config::tempdir()  . '_brayworth_has_dayjs.3.js'
 
 			]);
 
