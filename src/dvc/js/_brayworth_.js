@@ -81,24 +81,36 @@ if ( !window._brayworth_ )
   _.dayjs = ( a,b,c,d) => {
     let r = false;
 
-    if ( !!d) {
-      r = dayjs( a,b,c,d);
+    if ('DD/MM/YYYY' == b) {
+      let _a = a.split('/');
+      // console.log( _a, Number( _a[1]));
 
-    } else if ( !!c) {
-      r = dayjs( a,b,c);
+      _a[1] = Number( _a[1]) - 1; //Javascript months are 0-11
+      // console.log( _a);
 
-    } else if ( !!b) {
-      r = dayjs( a,b);
-
-    } else if ( !!a) {
-      r = dayjs( a);
-
-    } else {
-      r = dayjs();
+      a = new Date( _a[2], _a[1], _a[0]);
 
     }
 
-    if ('' !== _.timezone) r.tz(_.timezone);
+    r = dayjs( a,b,c,d);
+    // if ( !!d) {
+    //   r = dayjs( a,b,c,d);
+
+    // } else if ( !!c) {
+    //   r = dayjs( a,b,c);
+
+    // } else if ( !!b) {
+    //   r = dayjs( a,b);
+
+    // } else if ( !!a) {
+    //   r = dayjs( a);
+
+    // } else {
+    //   r = dayjs();
+
+    // }
+
+    if ( !!r.tz && '' !== _.timezone) r.tz(_.timezone);
 
 		return (r);
 
