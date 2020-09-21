@@ -69,7 +69,7 @@ if ( !window._brayworth_ )
     dayjs.extend(dayjs_plugin_utc);
     dayjs.extend(dayjs_plugin_timezone);
     dayjs.extend(dayjs_plugin_updateLocale);
-    dayjs.extend(dayjs_plugin_customParseFormat); // upsets timezone if loaded first
+    // dayjs.extend(dayjs_plugin_customParseFormat); // upsets timezone if loaded first
 
     if ('' !== _.timezone) {
       dayjs.tz.setDefault(_.timezone);
@@ -79,7 +79,24 @@ if ( !window._brayworth_ )
   });
 
   _.dayjs = ( a,b,c,d) => {
-    let r = dayjs( a,b,c,d);
+    let r = false;
+
+    if ( !!d) {
+      r = dayjs( a,b,c,d);
+
+    } else if ( !!c) {
+      r = dayjs( a,b,c);
+
+    } else if ( !!b) {
+      r = dayjs( a,b);
+
+    } else if ( !!a) {
+      r = dayjs( a);
+
+    } else {
+      r = dayjs();
+
+    }
 
     if ('' !== _.timezone) r.tz(_.timezone);
 
