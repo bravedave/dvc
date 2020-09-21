@@ -65,11 +65,11 @@ if ( !window._brayworth_ )
 
   $(document).ready( () => {
     dayjs.extend(dayjs_plugin_localeData);
-    dayjs.extend(dayjs_plugin_customParseFormat);
     dayjs.extend(dayjs_plugin_localizedFormat);
     dayjs.extend(dayjs_plugin_utc);
     dayjs.extend(dayjs_plugin_timezone);
     dayjs.extend(dayjs_plugin_updateLocale);
+    dayjs.extend(dayjs_plugin_customParseFormat); // upsets timezone if loaded first
 
     if ('' !== _.timezone) {
       dayjs.tz.setDefault(_.timezone);
@@ -78,8 +78,8 @@ if ( !window._brayworth_ )
 
   });
 
-  _.dayjs = ( a, b) => {
-    let r = dayjs( a,b);
+  _.dayjs = ( a,b,c,d) => {
+    let r = dayjs( a,b,c,d);
 
     if ('' !== _.timezone) r.tz(_.timezone);
 
