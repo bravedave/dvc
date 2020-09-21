@@ -144,6 +144,33 @@ abstract class strings {
 
 	}
 
+	static function asLongDate( $date, $time = false) {
+		if ( (string)$date == '0000-00-00') {
+			return ( false);
+
+		}
+
+		if ( ( $t = strtotime( $date)) > 0) {
+			if ( $time) {
+				return preg_replace(
+          '/m$/',
+          '',
+          date( \config::$DATETIME_FORMAT_LONG, $t)
+
+        );
+
+			}
+			else {
+				return ( date( \config::$DATE_FORMAT_LONG, $t));
+
+			}
+
+		}
+
+		return false;
+
+	}
+
 	static function array2csv(array &$array) {
 		if (count($array) == 0) {
 			return null;

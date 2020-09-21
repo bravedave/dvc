@@ -80,7 +80,9 @@ abstract class config {
 	static $CONTENT_SECURITY_ENABLED = true;
 
 	static $DATE_FORMAT = 'Y-m-d';
+	static $DATE_FORMAT_LONG = 'D d M Y';
 	static $DATETIME_FORMAT = 'Y-m-d g:ia';
+	static $DATETIME_FORMAT_LONG = 'D d M Y g:ia';
 	static $TIME_FORMAT = 'g:ia';
 
 	static $DB_HOST = 'localhost';
