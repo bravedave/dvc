@@ -74,6 +74,24 @@ if ( !window._brayworth_ )
     if ('' !== _.timezone) {
       dayjs.tz.setDefault(_.timezone);
 
+      if (/^Australia/.test(_.timezone)) {
+        dayjs.updateLocale('en', {
+          formats: {
+            LT: "h:mm A",
+            LTS: "h:mm:ss A",
+            L: "DD/MM/YYYY",
+            l: "D/M/YYYY",
+            LL: "MMMM Do YYYY",
+            ll: "MMM D YYYY",
+            LLL: "MMMM Do YYYY h:mm A",
+            lll: "MMM D YYYY h:mm A",
+            LLLL: "dddd, MMMM Do YYYY h:mm A",
+            llll: "ddd, MMM D YYYY h:mm A"
+          }
+        });
+
+      }
+
     }
 
   });
