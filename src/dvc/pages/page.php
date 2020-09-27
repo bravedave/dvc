@@ -19,7 +19,8 @@ class page extends _page {
 
 	static public $MainContextMenu = true;
 	static public $BootStrap = false;
-	static public $pageContainer = '';
+  static public $pageContainer = '';
+  static public $pageContentTag = 'div';
 
 	protected static $developer = false;
 	protected $topOfPage = [];
@@ -103,7 +104,13 @@ class page extends _page {
 
 			if ( self::$BootStrap) {
 
-				$this->closeContentTags[] = '	</div></div><!-- /_page:Main Content Area -->' . PHP_EOL;
+				$this->closeContentTags[] = sprintf(
+          '</div></%s>%s<!-- /_page:Main Content Area -->%s',
+          self::$pageContentTag,
+          PHP_EOL,
+          PHP_EOL
+
+        );
 
 				$classes = [];
 
@@ -116,12 +123,24 @@ class page extends _page {
 
 				if ( $this->hasTitleBar && (int)self::$Bootstrap_Version == 3) $classes[] = 'with-nav-bar';
 
-				printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><div class="row"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
+        print '<!-- _page:Main Content Area -->' . PHP_EOL;
+        printf(
+          '<%s class="%s" data-role="main-content-wrapper"><div class="row">%s',
+          self::$pageContentTag,
+          implode( ' ', $classes),
+          PHP_EOL
+
+        );
 
 			}
 			else {
 
-				$this->closeContentTags[] = '	</div><!-- /_page:Main Content Area -->' . PHP_EOL;
+        $this->closeContentTags[] = sprintf(
+          '	</%s><!-- /_page:Main Content Area -->%s',
+          self::$pageContentTag,
+          PHP_EOL
+
+        );
 
 				$classes = ['main-content-wrapper'];
 				if ( $this->hasTitleBar) {
@@ -129,7 +148,15 @@ class page extends _page {
 
 				}
 
-				printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
+				printf(
+          '%s%s	<%s class="%s" data-role="main-content-wrapper"><!-- _page:Main Content Area -->%s',
+          PHP_EOL,
+          PHP_EOL,
+          self::$pageContentTag,
+          implode( ' ', $classes),
+          PHP_EOL
+
+        );
 
 			}
 

@@ -11,7 +11,7 @@
 
 .navbar-default { background-color: #f8f8f8; border-color: #e7e7e7; }
 .navbar-default .navbar-brand { color: #777; }
-footer, .footer { background-color: #f5f5f5; }
+.footer-fixed { background-color: #f5f5f5; }
 .markdown-body .highlight pre, .markdown-body pre { background-color: #f6f8fa; }
 [data-role="content-secondary"] a:not(.btn) { color: inherit; }
 /*-- --[ end: colors ]-- --*/
@@ -23,7 +23,7 @@ html.desktop { min-height: calc( 100%); }
 	[data-role="content-secondary"] { font-size: .875rem }
 }
 
-footer, .footer {
+.footer-fixed {
 	position: fixed;
 	bottom: 0;
 	width: 100%;

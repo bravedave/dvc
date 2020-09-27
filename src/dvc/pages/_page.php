@@ -121,8 +121,6 @@ class _page {
 	}
 
 	protected function _pagefooter() {
-    if ( $this->debug) \sys::logger( sprintf('<%s> %s', $navbar, __METHOD__));
-
 		return $this
 			->header()
 			->pageHeader()
@@ -188,7 +186,7 @@ class _page {
 
 	public function closeSection() {
 		if ( $this->sectionOPEN )
-			printf( '%s		</div><!-- %s -->%s%s', PHP_EOL, $this->sectionNAME, PHP_EOL, PHP_EOL );
+			printf( '%s	</div><!-- %s -->%s%s', PHP_EOL, $this->sectionNAME, PHP_EOL, PHP_EOL );
 
 		$this->sectionOPEN = false;
 
@@ -291,7 +289,14 @@ class _page {
 		$this->sectionOPEN = true;
 		$this->sectionNAME = $name;
 
-		printf( '		<div class="%s" data-role="%s" %s>%s', $class, $role, $more, PHP_EOL );
+		printf(
+      '	<div class="%s" data-role="%s" %s>%s',
+      $class,
+      $role,
+      $more,
+      PHP_EOL
+
+    );
 
 		return ( $this);	// chain
 

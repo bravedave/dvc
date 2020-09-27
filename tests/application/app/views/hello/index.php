@@ -16,6 +16,7 @@
 
 	<li class="nav-item h6">
 		<a class="nav-link" href="<?= strings::url('tests') ?>">Tests</a>
+		<a class="nav-link" href="<?= strings::url('webapp') ?>">WebApp</a>
 
 	</li>
 

@@ -14,6 +14,8 @@ use Json;
 use sys;
 
 class controller extends \Controller {
+  protected $viewPath = __DIR__ . '/views';
+
   protected function _index() {
 		$this->render([
 			'primary' => 'default',
@@ -25,15 +27,6 @@ class controller extends \Controller {
 			]
 
 		]);
-
-	}
-
-	protected function getView( $viewName = 'index', $controller = null, $logMissingView = true) {
-		$view = sprintf( '%s/views/%s.php', __DIR__, $viewName );		// php
-		if ( file_exists( $view))
-			return ( $view);
-
-		return parent::getView( $viewName, $controller, $logMissingView);
 
 	}
 

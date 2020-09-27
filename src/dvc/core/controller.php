@@ -28,7 +28,10 @@ abstract class controller {
 	protected $Redirect_OnLogon = false;
 	protected $label = null;
 	protected $manifest = null;
-	protected $route = '/';
+  protected $route = '/';
+
+  protected $viewPath = [];
+  protected $_viewPathsVerified = [];
 
 	protected static $_application = null;
 
@@ -127,6 +130,31 @@ abstract class controller {
 		}
 
 	}
+
+	protected function _getViewPaths( string $controller) : array {
+    if ( $this->_viewPathsVerified) return $this->_viewPathsVerified;
+
+    $_paths = (array)$this->viewPath;
+    if ( $_dir = realpath( implode( DIRECTORY_SEPARATOR, [ $this->rootPath, 'views', $controller]))) {
+      $_paths[] =	$_dir;
+
+    }
+
+    if ( $_dir = realpath( implode( DIRECTORY_SEPARATOR, [ $this->rootPath, 'app', 'views', $controller]))) {
+      $_paths[] =	$_dir;
+
+    }
+
+    if ( $_dir = realpath( implode( DIRECTORY_SEPARATOR, [ $this->rootPath, 'app', 'views']))) {
+      $_paths[] =	$_dir;
+
+    }
+
+    $this->_viewPathsVerified = $_paths;
+
+    return $this->_viewPathsVerified;
+
+  }
 
 	protected function _index() {
 		$this->page404();
@@ -339,18 +367,10 @@ abstract class controller {
 	}
 
 	protected function getView( $viewName = 'index', $controller = null, $logMissingView = true ) {
-		if ( is_null( $controller )) {
-			$controller = $this->name;
 
-		}
+    if ( is_null( $controller )) $controller = $this->name;
 
-		$_paths = [
-			implode( DIRECTORY_SEPARATOR, [ $this->rootPath, 'views', $controller]),
-			implode( DIRECTORY_SEPARATOR, [ $this->rootPath, 'app', 'views', $controller]),
-			implode( DIRECTORY_SEPARATOR, [ $this->rootPath, 'app', 'views']),
-
-		];
-
+    $_paths = $this->_getViewPaths( $controller);
 		foreach ($_paths as $_path) {
 			if ( $view = $this->_viewPath( implode( DIRECTORY_SEPARATOR, [ $_path, $viewName ] ))) {
 				return $view;
@@ -388,7 +408,6 @@ abstract class controller {
 		]);
 
 		if ( $viewName == $readme) return $readme;	// one exception
-
 
 		if ( $logMissingView && 'dvc\_controller/hasView' != \sys::traceCaller()) {
 			/*-- --[ not found - here is some debug stuff ]-- --*/
@@ -693,7 +712,26 @@ abstract class controller {
 
 		}
 		else {
-			$this->_index();
+
+      $i = func_num_args();
+      if ($i > 0) {
+
+        $args = func_get_args();
+
+        if ($i > 1) {
+          $this->_index( $args[0], $args[1]);
+
+        }
+        else {
+          $this->_index( $args[0]);
+
+        }
+
+      }
+      else {
+        $this->_index();
+
+      }
 
 		}
 
