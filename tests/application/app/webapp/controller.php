@@ -24,17 +24,23 @@ class controller extends \Controller {
 
     ];
 
+    $this->data = (object)[
+      'title' => 'WebApp'
+
+    ];
+
     if ( in_array( $view, $views)) {
       $this->load( $view);
 
     }
     elseif ( 'css' == $view) {
-      \sys::serve( __DIR__ . '/views/custom.css');
+      \sys::serve( __DIR__ . '/assets/custom.css');
 
     }
     else {
       $this->render([
-        'content' => 'index'
+        'title' => 'WebApp',
+        'content' => 'index',
 
       ]);
 
@@ -46,6 +52,8 @@ class controller extends \Controller {
     $defaults = [
       'template' => \config::$PAGE_TEMPLATE_APP,
       'css' => (array)sprintf( '<link rel="stylesheet" href="%s">', strings::url( $this->route . '/css')),
+      'navbar' => __DIR__ . '/views/navbar',
+      'footer' => __DIR__ . '/views/footer'
 
     ];
 

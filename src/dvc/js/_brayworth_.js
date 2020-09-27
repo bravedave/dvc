@@ -63,6 +63,50 @@ if ( !window._brayworth_ )
 
   _.timezone = '';
 
+  $(document).on('content-load', (e, j) => {
+    const els = [
+      'header',
+      'nav',
+      'main',
+      'footer'
+
+    ];
+
+    $.each(j, (k, v) => {
+      if (els.indexOf(k) > -1) {
+        fetch(v)
+          .then(response => response.text())
+          .then(html => {
+
+            let _k = $( 'body >' + k);
+
+            _k.html(html);
+            $('a[wapp-role="navigation"]', _k).each((i, el) => {
+              $(el).on('click', function (e) {
+                e.stopPropagation(); e.preventDefault();
+
+                let _me = $(this);
+                let _data = _me.data();
+                // console.log( _data);
+
+                let o = {};
+                o[_data.target] = _data.url;
+                // console.log( o);
+
+                $(document).trigger('content-load', o);
+
+              });
+
+            });
+
+          });
+
+      }
+
+    });
+
+  });
+
   $(document).ready( () => {
     dayjs.extend(dayjs_plugin_localeData);
     dayjs.extend(dayjs_plugin_localizedFormat);

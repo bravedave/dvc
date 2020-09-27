@@ -6,9 +6,8 @@
  *
  * MIT License
  *
- *	DO NOT change this file
- *	Copy it to <application>/app/views/ and modify it there
 **/	?>
+
 <nav class="navbar navbar-expand navbar-light bg-light sticky-top" role="navigation" >
 	<div class="navbar-brand" ><?= $this->data->title	?></div>
 
