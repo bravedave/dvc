@@ -9,15 +9,18 @@
  * styleguide : https://codeguide.co/
 */  ?>
 
-<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
-  <div class="col-md-5 p-lg-5 mx-auto my-5">
-    <h1 class="display-4 font-weight-normal">Major headline</h1>
-    <p class="lead font-weight-normal">And an even wittier subheading to boot. Jumpstart your marketing efforts with
-      this example based on Apple’s marketing pages.</p>
-    <a class="btn btn-outline-secondary" href="#">Coming soon</a>
+<div class="p-2 p-md-3 m-md-3 text-center bg-light">
+  <div class="col-md-5 p-lg-5 mx-auto my-3">
+    <h1 class="display-4 font-weight-normal">WebApp Feature</h1>
+    <p class="lead font-weight-normal">
+      Major Feature
+    </p>
+
+    <a class="btn btn-outline-secondary" href="#"
+      wapp-role="navigation"
+      data-target="main"
+      data-url="<?= strings::url( $this->route . '/content') ?>">Back</a>
 
   </div>
-  <div class="product-device shadow-sm d-none d-md-block"></div>
-  <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
 
 </div>

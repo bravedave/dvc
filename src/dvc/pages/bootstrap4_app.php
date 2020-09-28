@@ -14,7 +14,9 @@ class bootstrap4_app extends bootstrap4 {
 
 	function __construct( $title = '' ) {
     self::$pageContentTag = 'main';
-    parent::__construct( $title);
+		parent::__construct( $title);
+
+		$this->meta[] = '<meta name="apple-mobile-web-app-capable" content="yes" />';
 
   }
 
