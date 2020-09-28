@@ -166,7 +166,7 @@ abstract class _dao {
 
 	}
 
-    public function count() : int {
+  public function count() : int {
 		if ( is_null( $this->_db_name)) throw new Exceptions\DBNameIsNull;
 
         if ( $res = $this->Result( sprintf( 'SELECT COUNT(*) as i FROM `%s`', $this->_db_name))) {
@@ -377,35 +377,60 @@ abstract class _dao {
 
 	}
 
-	protected function TableExists( $table = null) {
-		if ( is_null( $table)) {
-			$table = $this->db_name();
+	protected function TableExists( $table = null) : bool {
 
-		}
-
-		if ( is_null( $table)) {
-			return ( FALSE);
-
-		}
+    if ( is_null( $table)) $table = $this->db_name();
+		if ( is_null( $table)) return ( false);
 
 		//~ \sys::logger( "checking for: $table" );
 
-		if ( $res = $this->Result( "SELECT
-			CASE WHEN (SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'DATABASENAME' AND TABLE_NAME = '$table') < 1 then 1
-			else 0
-			end t")) {
+		if ( 'sqlite' == \config::$DB_TYPE) {
+      if ( $res = $this->Result(
+          sprintf(
+            "SELECT name FROM `sqlite_master` WHERE type='table' AND name='%s'",
+            $this->escape( $table))
 
-			if ( $row = $res->fetch()) {
-				if ( $row['t'] == 1 ) {
-					return TRUE;
+          )
 
-				}
+        ) {
+        return (bool)$res->dto();
 
-			}
+      }
 
-		}
+    }
+    else {
+      if ( $res = $this->Result(
+          sprintf( 'SELECT
+            CASE WHEN (
+              SELECT
+                COUNT(*)
+              FROM
+                information_schema.TABLES
+              WHERE
+                TABLE_SCHEMA = "DATABASENAME"
+                AND TABLE_NAME = "%s"
+              ) < 1 THEN 1
+            ELSE 0
+            END t',
+            $table
 
-		return ( FALSE);
+          )
+
+        )) {
+
+        if ( $row = $res->fetch()) {
+          if ( $row['t'] == 1 ) {
+            return true;
+
+          }
+
+        }
+
+      }
+
+    }
+
+		return ( false);
 
 	}
 
