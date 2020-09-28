@@ -7,3 +7,5 @@
 
 src/dvc/bootstrap4/* linguist-vendored
 src/dvc/public/* linguist-vendored
+*.cmd linguist-detectable=false
+*.sh linguist-detectable=false
