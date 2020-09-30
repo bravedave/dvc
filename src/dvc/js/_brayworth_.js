@@ -144,36 +144,21 @@ if ( !window._brayworth_ )
     let r = false;
 
     if ('DD/MM/YYYY' == b) {
-      let _a = a.split('/');
-      // console.log( _a, Number( _a[1]));
+      let _a = String(a).split('/');
+      if ( 3 == _a.length) {
+        // console.log( _a, Number( _a[1]));
 
-      _a[1] = Number( _a[1]) - 1; //Javascript months are 0-11
-      // console.log( _a);
+        _a[1] = Number( _a[1]) - 1; //Javascript months are 0-11
+        // console.log( _a);
 
-      a = new Date( _a[2], _a[1], _a[0]);
+        a = new Date( _a[2], _a[1], _a[0]);
+
+      }
 
     }
 
     r = dayjs( a,b,c,d);
-    // if ( !!d) {
-    //   r = dayjs( a,b,c,d);
-
-    // } else if ( !!c) {
-    //   r = dayjs( a,b,c);
-
-    // } else if ( !!b) {
-    //   r = dayjs( a,b);
-
-    // } else if ( !!a) {
-    //   r = dayjs( a);
-
-    // } else {
-    //   r = dayjs();
-
-    // }
-
     if ( !!r.tz && '' !== _.timezone) r.tz(_.timezone);
-
 		return (r);
 
 	};
