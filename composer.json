@@ -11,7 +11,8 @@
 		"homepage": "http://brayworth.com"
 	}],
 	"require": {
-		"php": ">=7.0",
+    "php": ">=7.0",
+    "ext-session": "*",
 		"matthiasmullie/minify" : "^1.3.61",
 		"tijsverkoyen/css-to-inline-styles": "^2.2",
 		"erusev/parsedown": "^1.7",
