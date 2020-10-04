@@ -11,25 +11,16 @@
 namespace dao;
 
 class notifications extends _dao {
-  const dbVersion = 0.01;
+  const _version = 1;
+  protected static $dbVersion = 0;
   protected $_db_name = 'notifications';
 
 	protected function structure( $name = null) {
-		if ( is_null( $name)) {
-			$name = $this->db_name();
+		if ( is_null( $name)) $name = $this->db_name();
 
-    }
-
-    $defaults = (object)[];
-    if ( file_exists( $path = \config::defaultsPath())) {
-      $defaults = (object)json_decode( file_get_contents( $path));
-
-    }
-
-    $v = isset( $defaults->notifications_db_version) ? $defaults->notifications_db_version : 0;
-    if ( $v < self::dbVersion) {
-      $defaults->notifications_db_version = self::dbVersion;
-      \file_put_contents( $path, \json_encode( $defaults, JSON_PRETTY_PRINT));
+    self::$dbVersion = (int)\config::option( 'notifications_db_version');
+    if ( self::$dbVersion < self::_version) {
+      \config::option( 'notifications_db_version', self::_version);
 
       $dbc = \sys::dbCheck( $this->_db_name);
       $dbc->defineField( 'json', 'blob' );

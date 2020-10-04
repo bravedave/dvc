@@ -206,6 +206,61 @@ abstract class config {
 
   }
 
+	static protected $_options_ = [];
+
+	static protected function _options_file() {
+		return implode( DIRECTORY_SEPARATOR, [
+			\config::dataPath(),
+			'_config_.json'
+
+		]);
+
+	}
+
+  static function option( string $key, string $val = null) : string {
+		$ret = '';
+
+		if ( !self::$_options_) {
+			if ( file_exists( $path = self::_options_file())) {
+				self::$_options_ = (array)json_decode( file_get_contents( $path));
+
+			}
+
+		}
+
+		if ( isset( self::$_options_[$key])) $ret = (string)self::$_options_[$key];
+
+		if ( !is_null( $val)) {
+
+			/* writer */
+			if ( (string)$val == '') {
+				if ( isset( self::$_options_[$key])) {
+					unset( self::$_options_[$key]);
+
+        }
+
+			}
+			else {
+				self::$_options_[$key] = (string)$val;
+
+			}
+
+      file_put_contents(
+        self::_options_file(),
+        json_encode(
+          self::$_options_,
+          JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
+
+        )
+
+      );
+
+		}
+
+		return $ret;
+
+	}
+
   static public function defaultsPath() {
     return implode( DIRECTORY_SEPARATOR, [
       \config::dataPath(),
