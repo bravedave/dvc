@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 WD=`pwd`
 PORT=$[RANDOM%1000+1024]

@@ -11,6 +11,8 @@
 
 namespace dvc\core;
 
+use dvc\push;
+
 abstract class controller {
 	public $authorized = false;
 	public $authorised = false;
@@ -769,5 +771,10 @@ abstract class controller {
 		]);
 
 	}
+
+  public function serviceWorker() {
+    push::serviceWorker();
+
+  }
 
 }

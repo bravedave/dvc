@@ -360,8 +360,78 @@ abstract class config {
 
 	} // static function init2()
 
+	static function notification_KeyPath() {
+		$path = implode( DIRECTORY_SEPARATOR, [
+			self::dataPath(),
+			'notificationKeys'
 
-	static protected function _route_map_path() : string {
+		]);
+
+		if ( ! is_dir( $path)) {
+			mkdir( $path);
+			chmod( $path, 0777 );
+
+		}
+
+		return $path;
+
+	}
+
+	static function notification_keys() : object {
+		$a = [
+			'pubKey' => '',
+			'privKey' => ''
+
+		];
+
+		$pubPath = implode(
+			DIRECTORY_SEPARATOR, [
+				self::notification_KeyPath(),
+				'public_key.txt'
+
+			]
+
+		);
+
+		$privPath = implode(
+			DIRECTORY_SEPARATOR, [
+				self::notification_KeyPath(),
+				'private_key.txt'
+
+			]
+
+		);
+
+		if ( file_exists( $privPath) && file_exists( $pubPath)) {
+			$a['privKey'] = file_get_contents( $privPath);
+			$a['pubKey'] = file_get_contents( $pubPath);
+
+		}
+		else {
+			/**
+			 * they need to be created
+			 */
+
+			if ( \class_exists( 'Minishlink\WebPush\VAPID')) {
+				$keys = (object)\Minishlink\WebPush\VAPID::createVapidKeys();
+				$a['privKey'] = $keys->privateKey;
+				$a['pubKey'] = $keys->publicKey;
+
+				if ( file_exists( $privPath)) @unlink( $privPath);
+				if ( file_exists( $pubPath)) @unlink( $pubPath);
+
+				file_put_contents( $privPath, $keys->privateKey);
+				file_put_contents( $pubPath, $keys->publicKey);
+
+			}
+
+		}
+
+		return (object)$a;
+
+  }
+
+  static protected function _route_map_path() : string {
 		return self::dataPath() . '/controllerMap.json';
 
 	}

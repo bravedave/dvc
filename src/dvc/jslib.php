@@ -48,6 +48,7 @@ abstract class jslib {
 		'js/_brayworth_.modal.js',
 		'js/_brayworth_.modalDialog.js',
 		'js/_brayworth_.post.js',
+		'js/_brayworth_.push.js',
 		'js/_brayworth_.strings.js',
 		'js/_brayworth_.swipe.js',
 		'js/_brayworth_.table.js',
