@@ -38,23 +38,15 @@ class sitemap extends _dao {
 
 	}
 
-	public function getById( $id) {
-		if ( $res = $this->db->Result( sprintf( 'SELECT * FROM sitemap WHERE id = %s', (int)$id))) {
-			if ( $row = $res->fetch())
-				return ( new dto\dto( $row));
+	public function getbyPath( $path) {
+    $sql = sprintf(
+      'SELECT * FROM sitemap WHERE path = "%s" LIMIT 1',
+      $path
 
-		}
+    );
 
-		return ( false);
-
-	}
-
-	public function getDTObyPath( $path) {
-		if ( $res = $this->db->Result( sprintf( 'SELECT * FROM sitemap WHERE path = "%s" LIMIT 1', $path))) {
-			if ( $row = $res->fetch()) {
-				return ( new dto\dto( $row));
-
-			}
+		if ( $res = $this->Result( $sql)) {
+      return $res->dto();
 
 		}
 
