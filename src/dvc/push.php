@@ -32,7 +32,7 @@ class push {
 
   static function test() {
     $path = implode( DIRECTORY_SEPARATOR, [
-      config::dvcchat_KeyPath(),
+      config::notification_KeyPath(),
       'subscription.json'
 
     ]);
@@ -43,8 +43,8 @@ class push {
       $auth = array(
         'VAPID' => array(
           'subject' => 'https://github.com/bravedave/dvc-chat/',
-          'publicKey' => config::dvcchat_keys()->pubKey,
-          'privateKey' => config::dvcchat_keys()->privKey,
+          'publicKey' => config::notification_keys()->pubKey,
+          'privateKey' => config::notification_keys()->privKey,
 
         ),
 
