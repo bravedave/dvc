@@ -11,8 +11,6 @@
 
 class push extends Controller {
 	protected function _index() {
-    \sys::logger( sprintf('<%s> %s', application::app()->getRootPath(), __METHOD__));
-
 		$this->render([
       'footer' => implode( DIRECTORY_SEPARATOR, [
         application::app()->getRootPath(),

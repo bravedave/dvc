@@ -16,7 +16,12 @@ use Minishlink\WebPush\Subscription;
 
 class push {
   static function enabled() {
-    return class_exists( 'Minishlink\WebPush\WebPush');
+    if ( \config::checkDBconfigured()) {
+      return class_exists( 'Minishlink\WebPush\WebPush');
+
+    }
+
+    return false;
 
   }
 
@@ -31,73 +36,71 @@ class push {
   }
 
   static function test() {
-    $path = implode( DIRECTORY_SEPARATOR, [
-      config::notification_KeyPath(),
-      'subscription.json'
+    $dao = new \dao\notifications;
+    if ( $dtoSet = $dao->getForUserID( \currentUser::id())) {
 
-    ]);
-
-    if ( \file_exists( $path)) {
-      $subscription = Subscription::create( (array)json_decode( file_get_contents( $path)));
-
-      $auth = array(
-        'VAPID' => array(
-          'subject' => 'https://github.com/bravedave/dvc-chat/',
-          'publicKey' => config::notification_keys()->pubKey,
-          'privateKey' => config::notification_keys()->privKey,
-
-        ),
-
-      );
-
-      // \sys::logger( sprintf('<%s> %s', print_r( $auth, true), __METHOD__));
-
-      $defaultOptions = array(
-        'TTL' => 300, // defaults to 4 weeks
-        'urgency' => 'normal', // protocol defaults to "normal"
-        'topic' => 'push', // not defined by default - collapse_key
-      );
-
-
-      $webPush = new WebPush( $auth); //, $defaultOptions);
-      $report = $webPush->sendOneNotification(
-          $subscription,
-          "Hello! 👋"
-      );
-
-      /**
-       * handle eventual errors here,
-       * and remove the subscription from your
-       * server if it is expired
-       *
-       */
-      $endpoint = $report->getRequest()->getUri()->__toString();
-
-      if ($report->isSuccess()) {
-        \sys::logger(
-          sprintf(
-            '<Message sent successfully for subscription {$%s}> %s',
-            $subscription->getEndpoint(),
-            __METHOD__
-
-          )
-
-        );
+      foreach ($dtoSet as $dto) {
+        $subscription = Subscription::create( (array)json_decode( $dto->json));
+        self::webPush( $subscription, "Hello! 👋");
 
       }
-      else {
-        \sys::logger(
-          sprintf(
-            '<Message failed to send for subscription {$%s}> <%s> %s',
-            $subscription->getEndpoint(),
-            $report->getReason(),
-            __METHOD__
 
-          )
+    }
 
-        );
+  }
 
-      }
+  static protected function WebPush( $subscription, $message) {
+    $auth = array(
+      'VAPID' => array(
+        'subject' => 'https://github.com/bravedave/dvc-chat/',
+        'publicKey' => config::notification_keys()->pubKey,
+        'privateKey' => config::notification_keys()->privKey,
+
+      ),
+
+    );
+
+    $defaultOptions = array(
+      'TTL' => 300, // defaults to 4 weeks
+      'urgency' => 'normal', // protocol defaults to "normal"
+      'topic' => 'push', // not defined by default - collapse_key
+    );
+
+    $webPush = new WebPush( $auth); //, $defaultOptions);
+
+    $report = $webPush->sendOneNotification( $subscription, $message);
+
+    /**
+     * handle eventual errors here,
+     * and remove the subscription from your
+     * server if it is expired
+     *
+     */
+    $endpoint = $report->getRequest()->getUri()->__toString();
+
+    if ($report->isSuccess()) {
+      \sys::logger(
+        sprintf(
+          '<Message sent successfully for subscription {$%s}> %s',
+          $subscription->getEndpoint(),
+          __METHOD__
+
+        )
+
+      );
+
+    }
+    else {
+      \sys::logger(
+        sprintf(
+          '<Message failed to send for subscription {$%s}> <%s> %s',
+          $subscription->getEndpoint(),
+          $report->getReason(),
+          __METHOD__
+
+        )
+
+      );
 
     }
 

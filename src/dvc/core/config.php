@@ -204,7 +204,16 @@ abstract class config {
 
 		return self::$_dataPath;
 
-	}
+  }
+
+  static public function defaultsPath() {
+    return implode( DIRECTORY_SEPARATOR, [
+      \config::dataPath(),
+      'defaults.json'
+
+    ]);
+
+  }
 
 	static protected $_logpath = null;
 
@@ -266,12 +275,7 @@ abstract class config {
 
 			} // if ( file_exists( $path))
 
-			$path = implode( DIRECTORY_SEPARATOR, [
-				\config::dataPath(),
-				'defaults.json'
-
-			]);
-
+      $path = self::defaultsPath();
 			if ( file_exists( $path)) {
 				$_a = [
 					'db_type' => \config::$DB_TYPE,

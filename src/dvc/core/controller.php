@@ -12,6 +12,7 @@
 namespace dvc\core;
 
 use dvc\push;
+use Json;
 
 abstract class controller {
 	public $authorized = false;
@@ -592,10 +593,48 @@ abstract class controller {
 	}
 
 	protected function postHandler() {
-		if ( $action = $this->getPost( 'action')) {
-			\Json::nak($action);
+    $action = $this->getPost( 'action');
 
-		} else { \Json::nak('...'); }
+		if ( 'send-test-message' == $action) {
+			push::test();
+
+		}
+		elseif ( 'subscription-delete' == $action) {
+      if ( $endpoint = $this->getPost( 'endpoint')) {
+        $dao = new \dao\notifications;
+        $dao->deleteByEndPoint( $endpoint);
+        Json::ack( $action);
+
+      } else { Json::nak( $action); }
+
+		}
+		elseif ( 'subscription-save' == $action) {
+      if ( $json = $this->getPost( 'json')) {
+        $subscription = (object)json_decode( $json);
+
+        if ( isset( $subscription->endpoint) && $subscription->endpoint) {
+          $dao = new \dao\notifications;
+          if ( $dto = $dao->getByEndPoint( $subscription->endpoint)) {
+            $dao->UpdateByID( ['json' => $json], $dto->id);
+
+          }
+          else {
+            $dao->Insert( [
+              'json' => $json,
+              'endpoint' => $subscription->endpoint,
+              'user_id' => \currentUser::id()
+
+            ]);
+
+          }
+
+          Json::ack( $action);
+
+        } else { Json::nak( $action); }
+
+      } else { Json::nak( $action); }
+
+		} else { Json::nak( $action); }
 
 	}
 

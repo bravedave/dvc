@@ -50,7 +50,7 @@ $(document).ready( () => {
       }
       else {
 
-        _.push.url = _.url( 'chat');
+        _.push.url = _.url( '');
         _.push.applicationServerKey = '<?= trim( config::notification_keys()->pubKey) ?>';
         _.push.serviceWorker = _.url( 'serviceWorker');
         _.push.load();
