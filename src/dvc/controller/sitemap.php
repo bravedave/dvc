@@ -41,7 +41,7 @@ class sitemap extends Controller {
 			if ( currentUser::isadmin()) {
 				if ( (int)$id > 0 ) {
 					$dao = new dao\sitemap;
-					if ( $dto = $dao->getById( $id)) {
+					if ( $dto = $dao->getByID( $id)) {
 						$dao->UpdateByID([
 							'exclude_from_sitemap' => ( $dto->exclude_from_sitemap ? 0 : 1 )
 						], $id);

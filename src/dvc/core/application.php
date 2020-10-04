@@ -331,9 +331,13 @@ class application {
 
 				try {
 					$dao = new \dao\sitemap;
-					if ( $dto = $dao->getDTObyPath( $path)) {
-						$dao->Q( sprintf( 'UPDATE sitemap SET visits = visits + 1 WHERE id = %d', (int)$dto->id));
+					if ( $dto = $dao->getbyPath( $path)) {
+						if ( $debug) \sys::logger( sprintf( 'found path : %s : %s', $path, __METHOD__));
+            $dao->UpdateByID(
+              [ 'visits' => $dto->visits + 1],
+              (int)$dto->id
 
+            );
 
 					}
 					else {
