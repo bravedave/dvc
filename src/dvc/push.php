@@ -25,6 +25,20 @@ class push {
 
   }
 
+  static function send( $message, $user) {
+    $dao = new \dao\notifications;
+    if ( $dtoSet = $dao->getForUserID( $user)) {
+
+      foreach ($dtoSet as $dto) {
+        $subscription = Subscription::create( (array)json_decode( $dto->json));
+        self::webPush( $subscription, "Hello! 👋");
+
+      }
+
+    }
+
+  }
+
   static function serviceWorker() {
     sys::serve( implode( DIRECTORY_SEPARATOR, [
       __DIR__,
@@ -36,16 +50,7 @@ class push {
   }
 
   static function test( int $user) {
-    $dao = new \dao\notifications;
-    if ( $dtoSet = $dao->getForUserID( $user)) {
-
-      foreach ($dtoSet as $dto) {
-        $subscription = Subscription::create( (array)json_decode( $dto->json));
-        self::webPush( $subscription, "Hello! 👋");
-
-      }
-
-    }
+    self::send( "Hello! 👋", $user);
 
   }
 
