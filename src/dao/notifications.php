@@ -43,7 +43,7 @@ class notifications extends _dao {
 
     );
 
-    \sys::logger( sprintf('<%s> %s', $sql, __METHOD__));
+    // \sys::logger( sprintf('<%s> %s', $sql, __METHOD__));
     $this->Q( $sql);
 
   }

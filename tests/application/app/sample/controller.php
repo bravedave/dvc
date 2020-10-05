@@ -20,6 +20,7 @@ class controller extends \Controller {
 		$this->render([
 			'primary' => 'default',
 			'secondary' => [
+				'index-hello',
 				'index',
 				'index-modal',
         'index-option'

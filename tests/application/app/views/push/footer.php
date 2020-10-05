@@ -53,7 +53,13 @@ $(document).ready( () => {
         _.push.url = _.url( '');
         _.push.applicationServerKey = '<?= trim( config::notification_keys()->pubKey) ?>';
         _.push.serviceWorker = _.url( 'serviceWorker');
-        _.push.load();
+        _.push.load().then( () => {
+          if ( !_.push.active) {
+            _.push.subscribeIfPermissive();
+
+          }
+
+        });
 
         $('#<?= $_chat ?>')
         .on( 'contextmenu', function( e) {
@@ -100,22 +106,7 @@ $(document).ready( () => {
 
         })
         .on( 'send-test-message', e => {
-          _.post({
-            url : _.url('chat'),
-            data : {
-              action : 'send-test-message'
-
-            },
-
-          }).then( d => {
-            if ( 'ack' == d.response) {
-            }
-            else {
-              _.growl( d);
-
-            }
-
-          });
+          _.push.testMessage();
 
         })
         .on( 'subscribe', e => {

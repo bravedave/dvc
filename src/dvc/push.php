@@ -35,9 +35,9 @@ class push {
 
   }
 
-  static function test() {
+  static function test( int $user) {
     $dao = new \dao\notifications;
-    if ( $dtoSet = $dao->getForUserID( \currentUser::id())) {
+    if ( $dtoSet = $dao->getForUserID( $user)) {
 
       foreach ($dtoSet as $dto) {
         $subscription = Subscription::create( (array)json_decode( $dto->json));
@@ -91,16 +91,35 @@ class push {
 
     }
     else {
-      \sys::logger(
-        sprintf(
-          '<Message failed to send for subscription {$%s}> <%s> %s',
-          $subscription->getEndpoint(),
-          $report->getReason(),
-          __METHOD__
+      if ( \preg_match( '@(401 Unauthorized|403 Forbidden)@', $report->getReason())) {
+        $dao = new \dao\notifications;
+        $dao->deleteByEndPoint( $subscription->getEndpoint());
 
-        )
+        \sys::logger(
+          sprintf(
+            '<Unregistered on failed send for subscription {$%s}> <%s> %s',
+            $subscription->getEndpoint(),
+            $report->getReason(),
+            __METHOD__
 
-      );
+          )
+
+        );
+
+      }
+      else {
+        \sys::logger(
+          sprintf(
+            '<Message failed to send for subscription {$%s}> <%s> %s',
+            $subscription->getEndpoint(),
+            $report->getReason(),
+            __METHOD__
+
+          )
+
+        );
+
+      }
 
     }
 

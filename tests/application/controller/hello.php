@@ -27,7 +27,10 @@ class hello extends Controller {
 		$this->render([
 			'title' => 'hello world',
 			'primary' => 'hello',
-			'secondary' => ['index']
+      'secondary' => [
+        'index-hello',
+        'index'
+      ]
 
 		]);
 

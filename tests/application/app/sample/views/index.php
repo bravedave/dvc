@@ -11,7 +11,7 @@
 a { color: inherit; }
 
 </style>
-<ul class="nav flex-column text-secondary">
+<ul class="nav flex-column">
 	<li class="nav-item h6"><a class="nav-link" href="<?= strings::url('tests/') ?>">Tests</a></li>
 
 <?php if ( $this->Request->ServerIsLocal()) { ?>
@@ -70,12 +70,6 @@ a { color: inherit; }
 	if ( $this->Request->ServerIsLocal()) {
 		printf( '<li class="nav-item"><a class="nav-link" href="%s">SiteMap</a></li>', strings::url( 'sitemap/report'));
 
-	}
-
-	if ( 'hello' != $this->name) {
-		printf( '<li class="nav-item h6"><a class="nav-link" href="%s">Hello World</a></li>', strings::url('hello'));
-
-	}	// if ( 'hello' != $this->name)
-	?>
+	} ?>
 
 </ul>

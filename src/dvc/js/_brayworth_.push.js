@@ -79,8 +79,7 @@
         navigator.serviceWorker.register( _.push.serviceWorker).then(
           () => {
             console.log('[SW] Service worker has been registered');
-            _.push.updateSubscription();
-            resolve();
+            _.push.updateSubscription().then( () => resolve());
 
           },
           e => {
@@ -179,6 +178,26 @@
 
   };
 
+  _.push.subscribeIfPermissive = () => {
+    if ( !_.push.active && 'granted' == Notification.permission) {
+      _.push.subscribe();
+
+    }
+
+  };
+
+  _.push.testMessage = () => {
+    _.post({
+      url: _.push.url,
+      data: {
+        action: 'send-test-message'
+
+      },
+
+    }).then(d => _.growl(d));
+
+  }
+
   _.push.unsubscribe = () => {
     // console.log('unsubscribe ..');
 
@@ -219,18 +238,24 @@
   };
 
   _.push.updateSubscription = () => {
-    navigator.serviceWorker.ready
-      .then(serviceWorkerRegistration => serviceWorkerRegistration.pushManager.getSubscription())
-      .then(subscription => {
+    return new Promise( ( resolve, reject) => {
+      navigator.serviceWorker.ready
+        .then(serviceWorkerRegistration => serviceWorkerRegistration.pushManager.getSubscription())
+        .then(subscription => {
 
-        if (!subscription) return;
+          if (!!subscription) {
+            _.push.active = true;
+            // console.log( 'Keep server push in sync with the latest endpoint');
+            return _.push.sendSubscriptionToServer(subscription);
 
-        _.push.active = true;
-        // console.log( 'Keep server push in sync with the latest endpoint');
-        return _.push.sendSubscriptionToServer(subscription);
+          }
 
-      })
-      .catch(e => console.error('Error when updating the subscription', e));
+          resolve();
+
+        })
+        .catch(e => console.error('Error when updating the subscription', e));
+
+    });
 
   };
 

@@ -596,7 +596,7 @@ abstract class controller {
     $action = $this->getPost( 'action');
 
 		if ( 'send-test-message' == $action) {
-			push::test();
+			push::test( \currentUser::id());
 
 		}
 		elseif ( 'subscription-delete' == $action) {
