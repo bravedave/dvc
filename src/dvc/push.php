@@ -31,7 +31,7 @@ class push {
 
       foreach ($dtoSet as $dto) {
         $subscription = Subscription::create( (array)json_decode( $dto->json));
-        self::webPush( $subscription, "Hello! 👋");
+        self::webPush( $subscription, $message);
 
       }
 
