@@ -40,12 +40,35 @@ class push {
   }
 
   static function serviceWorker() {
-    sys::serve( implode( DIRECTORY_SEPARATOR, [
-      __DIR__,
-      'js',
-      'service-worker.js'
+    Response::javascript_headers();
 
-    ]));
+    printf(
+      'self.addEventListener(\'push\', function (event) {
+        if (!(self.Notification && self.Notification.permission === \'granted\')) {
+          return;
+        }
+
+        const sendNotification = body => {
+          // you could refresh a notification badge here with postMessage API
+          const title = "%s";
+          return self.registration.showNotification(title, {
+            body,
+
+          });
+
+        };
+
+        if (event.data) {
+          const message = event.data.text();
+          event.waitUntil(sendNotification(message));
+
+        }
+
+      });',
+
+      \htmlentities( \config::$WEBNAME)
+
+    );
 
   }
 

@@ -21,7 +21,8 @@
 		"erusev/parsedown": "^1.7",
 		"giggsey/libphonenumber-for-php": "^8.11",
 		"twbs/bootstrap": "^4.5",
-		"phpmailer/phpmailer": "^6.1"
+		"phpmailer/phpmailer": "^6.1",
+		"minishlink/web-push": "^6.0"
 
 	},
 	"autoload": {
