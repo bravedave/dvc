@@ -292,6 +292,30 @@ abstract class strings {
 
 	}
 
+	static public function FirstNames( $string) {
+		if ( preg_match( '/&/', $string)) {
+			$x = explode( '&', $string);
+			if ( count( $x) > 1)  {	// this might be david & lynne bray or david bray & lynne ralph
+				//~ \sys::dump( $x);
+				$a = [
+					self::FirstWord( trim( $x[0])),
+					self::FirstWord( trim( $x[1]))
+
+				];
+
+				return implode( ' & ', $a);
+
+			} else { return self::FirstWord( $string); }
+
+		} else { return self::FirstWord( $string); }
+
+  }
+
+	static public function FirstWord( $string) {
+		return ( explode( ' ', trim( $string))[0]);
+
+  }
+
 	static function getCommonPath( array $paths) : string {
 		$lastOffset = 1;
 		$common = '/';
