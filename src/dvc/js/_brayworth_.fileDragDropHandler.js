@@ -127,13 +127,14 @@
 	let enqueue = function( params) {
 		let options = $.extend({
 			postData : {},
-			droppedFiles : {},
+      droppedFiles : {},
+      batchSize : 10
 
 		}, params);
 
 		return new Promise( function( resolve, reject) {
 			/*
-			* create forms with 10 elements
+			* create forms with {options.batchSize} elements
 			*/
 
 			let data = new FormData();
@@ -143,7 +144,7 @@
 			}
 
 			$.each( options.droppedFiles, function(i, file) {
-				if ( i > 0 && i % 10 == 0) {
+				if ( i > 0 && i % options.batchSize == 0) {
 					queue.push( data);
 
 					data = new FormData();
@@ -326,10 +327,8 @@
 			if ( options.droppedFiles) {
 				_me.prop( 'disabled', true);
 				if (options.queue) {
-					enqueue( options).then( function() {
-						_me.val('').prop( 'disabled', false);
-
-					});
+          enqueue( options)
+          .then( () => _me.val('').prop( 'disabled', false));
 
 				}
 				else {
