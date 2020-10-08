@@ -184,12 +184,8 @@ abstract class jslib {
 		if ( !application::app())
 			throw new Exceptions\ExternalUseViolation;
 
-		self::$tinylib = \strings::url( sprintf( 'js/%s/%s?v=', $libdir, $lib));
-		$jslib = implode( DIRECTORY_SEPARATOR, [
-      \config::tempdir(),
-      $lib
-
-    ]);
+		self::$tinylib = sprintf( '%sjs/%s/%s?v=', \url::$URL, $libdir, $lib);
+		$jslib = sprintf( '%s/app/public/js/%s/%s', application::app()->getRootPath(), $libdir, $lib);
 		if ( file_exists( $jslib)) {
 
 			if ( $debug) sys::logger( sprintf( 'jslib::tinymce found :: %s', $jslib));
