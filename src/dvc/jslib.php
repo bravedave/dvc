@@ -184,7 +184,7 @@ abstract class jslib {
 		if ( !application::app())
 			throw new Exceptions\ExternalUseViolation;
 
-		self::$tinylib = \strings::url( sprintf( '%sjs/%s/%s?v=', $libdir, $lib));
+		self::$tinylib = \strings::url( sprintf( 'js/%s/%s?v=', $libdir, $lib));
 		$jslib = implode( DIRECTORY_SEPARATOR, [
       \config::tempdir(),
       $lib
