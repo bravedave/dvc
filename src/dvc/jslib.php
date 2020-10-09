@@ -258,10 +258,10 @@ abstract class jslib {
     \sys::logger( sprintf('<%s> %s', $path, __METHOD__));
 
 		$files = [
-      implode( DIRECTORY_SEPARATOR, [ $path, 'tinymce.min.js' ]),
-      implode( DIRECTORY_SEPARATOR, [ $path, 'icons', 'default', 'icons.min.js' ])
+      implode( DIRECTORY_SEPARATOR, [ $path, 'tinymce.min.js' ])
 
     ];
+    // implode( DIRECTORY_SEPARATOR, [ $path, 'icons', 'default', 'icons.min.js' ])
 
     if ( file_exists( $_file = implode( DIRECTORY_SEPARATOR, [ $path, 'themes', 'silver', 'theme.min.js' ]))) {
 			$files[] = $_file;
