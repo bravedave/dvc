@@ -778,6 +778,34 @@ abstract class controller {
 
 	}
 
+	public function js( string $lib = '') {
+		if ( in_array( $lib, ['tinymce','tinymce5']))  {
+			if ( preg_match( '/(content\.min\.css|content\.css)$/', $uri = $this->Request->getUri())) {
+        $_f = sprintf(
+          'tinymce' == $lib ?
+          '%s/dvc/public/js/%s/skins/lightgray/content.min.css' :
+					'%s/dvc/public/js/%s/skins/content/default/content.min.css',
+          self::application()->getInstallPath(),
+          $lib
+
+        );
+
+				file_exists( $_f) ?
+					sys::serve( $_f) :
+					sys::logger( 'error serving lib tinymce.css');
+
+				//~ sys::logger( sprintf( 'serving lib tinymce %s', $this->Request->getUri()));
+
+			}
+			else {
+				sys::logger( sprintf( 'error serving lib tinymce %s', $this->Request->getUri()));
+
+			}
+
+		}
+
+  }
+
 	public function logout() {
 		\dvc\session::destroy();
 		\Response::redirect( \url::$URL );
