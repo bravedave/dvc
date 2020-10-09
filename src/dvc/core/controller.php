@@ -791,14 +791,14 @@ abstract class controller {
         );
 
 				file_exists( $_f) ?
-					sys::serve( $_f) :
-					sys::logger( 'error serving lib tinymce.css');
+					\sys::serve( $_f) :
+					\sys::logger( 'error serving lib tinymce.css');
 
 				//~ sys::logger( sprintf( 'serving lib tinymce %s', $this->Request->getUri()));
 
 			}
 			else {
-				sys::logger( sprintf( 'error serving lib tinymce %s', $this->Request->getUri()));
+				\sys::logger( sprintf( 'error serving lib tinymce %s', $this->Request->getUri()));
 
 			}
 
