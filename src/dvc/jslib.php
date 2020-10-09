@@ -241,7 +241,8 @@ abstract class jslib {
 
   public function tinyserve( string $libname = 'tinymce', string $plugins = 'autolink,paste,lists,table,colorpicker,textcolor') {
 		$debug = self::$debug;
-    $debug = TRUE;
+    // $debug = TRUE;
+    $debug = false;
 
     $path = implode( DIRECTORY_SEPARATOR, [
       \application::app()->getInstallPath(),
