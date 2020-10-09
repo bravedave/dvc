@@ -64,14 +64,16 @@ abstract class jslib {
     'js/templation.js',
     'js/templation.js',
     'js/dayjs/dayjs.min.js',
-    'js/dayjs/customParseFormat.js',
     'js/dayjs/timezone.js',
     'js/dayjs/localeData.js',
     'js/dayjs/localizedFormat.js',
     'js/dayjs/updateLocale.js',
     'js/dayjs/utc.js',
 
-	];
+  ];
+
+  // buggy
+  // 'js/dayjs/customParseFormat.js',
 
 	public static $brayworthlibDOPOFiles = [
 		'js/dopo.js'
