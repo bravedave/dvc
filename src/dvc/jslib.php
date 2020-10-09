@@ -239,7 +239,55 @@ abstract class jslib {
 
 	}
 
-	public static function brayworth( $lib = false, $libdir = '') {
+  public function tinyserve( string $libname = 'tinymce', string $plugins = 'autolink,paste,lists,table,colorpicker,textcolor') {
+		$debug = self::$debug;
+    $debug = TRUE;
+
+    $path = implode( DIRECTORY_SEPARATOR, [
+      \application::app()->getInstallPath(),
+      'dvc',
+      'public',
+      'js',
+      'tinymce5'
+
+    ]);
+
+    \sys::logger( sprintf('<%s> %s', $path, __METHOD__));
+
+		$files = [ implode( DIRECTORY_SEPARATOR, [ $path, 'tinymce.min.js' ])];
+    if ( file_exists( $_file = implode( DIRECTORY_SEPARATOR, [ $path, 'themes', 'silver', 'theme.min.js' ]))) {
+			$files[] = $_file;
+
+		}
+		elseif ( file_exists( $_file = implode( DIRECTORY_SEPARATOR, [ $path, 'themes', 'modern', 'theme.min.js' ]))) {
+			$files[] = $_file;
+
+		}
+
+		foreach( explode( ',', $plugins) as $plugin) {
+			$files[] = implode( DIRECTORY_SEPARATOR, [ $path, 'plugins', trim( $plugin), 'plugin.min.js']);
+
+    }
+
+		if ( $debug) {
+			foreach ( $files as $file) {
+        \sys::logger( sprintf('<%s> <%s> %s', $file, \filesize( $file), __METHOD__));
+
+			}
+
+		}
+
+		jslib::viewjs([
+			'debug' => false,
+			'libName' => $libname,
+			'jsFiles' => $files,
+			'libFile' => \config::tempdir()  . '_' . $libname . '.js'
+
+		]);
+
+  }
+
+  public static function brayworth( $lib = false, $libdir = '') {
 		$debug = self::$debug;
 		//~ $debug = true;
 
