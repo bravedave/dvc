@@ -260,7 +260,7 @@ abstract class jslib {
 
     ]);
 
-    \sys::logger( sprintf('<%s> %s', $path, __METHOD__));
+    // \sys::logger( sprintf('<%s> %s', $path, __METHOD__));
 
 		$files = [
       implode( DIRECTORY_SEPARATOR, [ $path, 'tinymce.min.js' ]),
