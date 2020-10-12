@@ -32,29 +32,34 @@ class icon {
   const envelope_open = 62;
   const envelope_open_fill = 63;
 
-  const fileRichText = 70;
+  const fileRichText = 170;
 
-  const github = 80;
+  const gear = 180;
+  const gear_fill = 181;
+  const gear_wide = 182;
+  const gear_wide_connected = 183;
 
-  const house = 90;
+  const github = 184;
 
-  const question = 120;
+  const house = 190;
 
-  const people = 145;
-  const people_fill = 146;
+  const question = 220;
 
-  const person = 150;
-  const person_check = 152;
-  const person_check_fill = 154;
+  const people = 345;
+  const people_fill = 346;
 
-  const person_dash = 156;
+  const person = 350;
+  const person_check = 352;
+  const person_check_fill = 354;
 
-  const person_fill = 160;
+  const person_dash = 356;
 
-  const phone = 165;
-  const phone_fill = 166;
+  const person_fill = 360;
 
-  const sliders = 210;
+  const phone = 410;
+  const phone_fill = 411;
+
+  const sliders = 500;
 
 
   static function get( int $icon ) : string {
@@ -120,6 +125,22 @@ class icon {
     }
     elseif ( self::fileRichText == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/file-richtext.svg');
+
+    }
+    elseif ( self::gear == $icon) {
+      return file_get_contents( __DIR__ . '/icons/gear.svg');
+
+    }
+    elseif ( self::gear_fill == $icon) {
+      return file_get_contents( __DIR__ . '/icons/gear-fill.svg');
+
+    }
+    elseif ( self::gear_wide == $icon) {
+      return file_get_contents( __DIR__ . '/icons/gear-wide.svg');
+
+    }
+    elseif ( self::gear_wide_connected == $icon) {
+      return file_get_contents( __DIR__ . '/icons/gear-wide-connected.svg');
 
     }
     elseif ( self::github == $icon) {
