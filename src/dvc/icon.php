@@ -128,19 +128,19 @@ class icon {
 
     }
     elseif ( self::gear == $icon) {
-      return file_get_contents( __DIR__ . '/icons/gear.svg');
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/gear.svg');
 
     }
     elseif ( self::gear_fill == $icon) {
-      return file_get_contents( __DIR__ . '/icons/gear-fill.svg');
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/gear-fill.svg');
 
     }
     elseif ( self::gear_wide == $icon) {
-      return file_get_contents( __DIR__ . '/icons/gear-wide.svg');
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/gear-wide.svg');
 
     }
     elseif ( self::gear_wide_connected == $icon) {
-      return file_get_contents( __DIR__ . '/icons/gear-wide-connected.svg');
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/gear-wide-connected.svg');
 
     }
     elseif ( self::github == $icon) {
@@ -148,7 +148,7 @@ class icon {
 
     }
     elseif ( self::house == $icon) {
-      return file_get_contents( __DIR__ . '/icons/house.svg');
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/house.svg');
 
     }
     elseif ( self::question == $icon) {
