@@ -42,6 +42,7 @@ class icon {
   const github = 184;
 
   const house = 190;
+  const house_plus = 191;
 
   const question = 220;
 
@@ -153,7 +154,7 @@ class icon {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/house.svg');
 
     }
-    elseif ( self::house == $icon) {
+    elseif ( self::house_plus == $icon) {
       return file_get_contents( __DIR__ . '/icons/house-plus.svg');
 
     }
