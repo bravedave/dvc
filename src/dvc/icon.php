@@ -55,6 +55,8 @@ class icon {
   const person_dash = 356;
 
   const person_fill = 360;
+  const person_plus = 361;
+  const person_plus_fill = 362;
 
   const phone = 410;
   const phone_fill = 411;
@@ -181,6 +183,14 @@ class icon {
     }
     elseif ( self::person_fill == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/person-fill.svg');
+
+    }
+    elseif ( self::person_plus == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/person-plus.svg');
+
+    }
+    elseif ( self::person_plus_fill == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/person-plus-fill.svg');
 
     }
     elseif ( self::phone == $icon) {
