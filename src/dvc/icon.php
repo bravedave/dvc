@@ -153,6 +153,10 @@ class icon {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/house.svg');
 
     }
+    elseif ( self::house == $icon) {
+      return file_get_contents( __DIR__ . '/icons/house-plus.svg');
+
+    }
     elseif ( self::question == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/question.svg');
 
