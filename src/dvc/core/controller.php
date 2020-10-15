@@ -11,6 +11,7 @@
 
 namespace dvc\core;
 
+use dvc\jslib;
 use dvc\push;
 use Json;
 
@@ -798,7 +799,7 @@ abstract class controller {
 
 			}
 			else {
-				\sys::logger( sprintf( 'error serving lib tinymce %s', $this->Request->getUri()));
+        jslib::tinyserve();
 
 			}
 
