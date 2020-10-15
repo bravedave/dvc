@@ -3,24 +3,24 @@
  * BrayWorth Pty Ltd
  * e. david@brayworth.com.au
  *
- * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
- *      http://creativecommons.org/licenses/by/4.0/
+ * MIT License
  *
-*/
+ * */
 /*jshint esversion: 6 */
-_brayworth_.post = function( params) {
-	let options = {
-		url : _brayworth_.url(),
-		type : 'POST',
-		data : {},
-		growl : function( d) {
-			$('body').growlAjax( d);
+( _ => {
+  _.post = param => {
+    let opts = {
+      url : _.url(),
+      type : 'POST',
+      data : {},
+      growl : d => $('body').growlAjax( d),
 
-		},
+    };
 
-	};
+    $.extend( opts, param);
+    return $.ajax(opts);
 
-	$.extend( options, params);
-	return $.ajax(options);
+  };
 
-};
+}) (_brayworth_);
+

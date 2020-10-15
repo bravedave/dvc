@@ -147,9 +147,10 @@ abstract class Response {
 
 	}
 
-	static function json_headers( $modifyTime = 0) {
+	static function json_headers( $modifyTime = 0, $length = 0) {
 		self::_common_headers( $modifyTime);
 		header('Content-type: application/json');
+		if ( $length) header( sprintf('Content-type: %s', $length));
 
 	}
 
