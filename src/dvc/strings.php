@@ -493,7 +493,13 @@ abstract class strings {
 		//~ '@(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n\']+@',	// Blank Lines at Start
 		return( preg_replace($search, $replace, $html));
 
-	}
+  }
+
+  static function imageInline( $path) {
+    $data = base64_encode( file_get_contents( $path));
+    return 'data:'.mime_content_type($path).';base64,'.$data;
+
+  }
 
 	static function initials( $name ) {
 		if ( (string)$name == "" )
@@ -624,8 +630,9 @@ abstract class strings {
 				'pixel.png'
 
 			]);
-			$imageData = base64_encode( file_get_contents($image));
-			self::$_pixel = 'data:'.mime_content_type($image).';base64,'.$imageData;
+			// $imageData = base64_encode( file_get_contents($image));
+			// self::$_pixel = 'data:'.mime_content_type($image).';base64,'.$imageData;
+			self::$_pixel = self::imageInline( $image);
 
 		}
 
