@@ -45,8 +45,9 @@ class Json {
 
 	public function __destruct() {
 		if ( $this->dumpOnDestruct) {
-			\Response::json_headers();
-			print json_encode( $this->_json );
+      $response = json_encode( $this->_json );
+      \Response::json_headers( 0, \strlen( $response));
+			print $response;
 
 		}
 
