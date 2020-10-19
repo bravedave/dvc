@@ -222,7 +222,7 @@ if ( !window._brayworth_ )
 
         });
 
-        document.body.appendChild(script);
+        document.body.appendChild(s);
         console.log('no tinyMCE');
 
       }
