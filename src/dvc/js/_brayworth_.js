@@ -208,7 +208,32 @@ if ( !window._brayworth_ )
 		_.hourglass.on();
 		window.location.href = _.url(_url, withProtocol);
 
-	};
+  };
+
+  _.tiny = () => {
+    return new Promise( ( resolve, reject) => {
+      if ('undefined' == typeof tinyMCE) {
+        let s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = _.url("js/tinymce5/");
+        s.addEventListener('load', e => {
+          console.log('tinymce dynamically loaded ...')
+          resolve();
+
+        });
+
+        document.body.appendChild(script);
+        console.log('no tinyMCE');
+
+      }
+      else {
+        resolve();
+
+      }
+
+    });
+
+  };
 
   _.urlwrite = _.url = ( _url, withProtocol) => {
 		if ( 'undefined' == typeof _url)
