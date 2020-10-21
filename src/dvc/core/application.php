@@ -465,7 +465,7 @@ class application {
 	}
 
 	protected function serve( $path ) {
-		if ( self::$debug) sys::$debug = true;
+		if ( self::$debug) \sys::$debug = true;
 		\sys::serve( $path);
 
 		return $this;
