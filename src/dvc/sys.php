@@ -45,8 +45,8 @@ abstract class sys {
 			return \config::$DB_CACHE_PREFIX;
 
 		}
-        elseif ( 'mysql' == \config::$DB_TYPE ) {
-			return \config::$DB_NAME;
+    elseif ( 'mysql' == \config::$DB_TYPE ) {
+      return \config::$DB_NAME;
 
 		}
 		else {
