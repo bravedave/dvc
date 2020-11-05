@@ -33,6 +33,9 @@ class icon {
   const envelope_open_fill = 63;
 
   const fileRichText = 170;
+  const file_rich_text = 170;
+  const file_text = 171;
+  const file_text_fill = 172;
 
   const gear = 180;
   const gear_fill = 181;
@@ -126,8 +129,16 @@ class icon {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/envelope-open-fill.svg');
 
     }
-    elseif ( self::fileRichText == $icon) {
+    elseif ( self::file_rich_text == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/file-richtext.svg');
+
+    }
+    elseif ( self::file_text == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/file-text.svg');
+
+    }
+    elseif ( self::file_text_fill == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/file-text-fill.svg');
 
     }
     elseif ( self::gear == $icon) {

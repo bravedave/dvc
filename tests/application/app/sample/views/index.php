@@ -66,6 +66,8 @@ a { color: inherit; }
 	});
 	</script>
 
+  <li class="nav-item"><a class="nav-link" href="<?= strings::url( $this->route . '/icons') ?>">Icons</a></li>
+
 	<?php
 	if ( $this->Request->ServerIsLocal()) {
 		printf( '<li class="nav-item"><a class="nav-link" href="%s">SiteMap</a></li>', strings::url( 'sitemap/report'));

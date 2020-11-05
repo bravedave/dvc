@@ -6,7 +6,6 @@
  *
  * MIT License
  *
- * styleguide : https://codeguide.co/
 */
 
 namespace halfmoon;

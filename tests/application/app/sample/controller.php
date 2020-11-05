@@ -64,12 +64,46 @@ class controller extends \Controller {
 
 	}
 
+	public function icons() {
+    $render = [
+      'title' => 'Icons',
+      'primary' => [
+        'icons',
+        'icons-code',
+        'icons-credit'
+      ],
+      'secondary' => 'index'
+
+    ];
+
+		if ( \config::$SYNTAX_HIGHLIGHT_DOCS) {
+			// '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">'
+			$render['css'] = [
+				'<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github-gist.min.css">'
+
+			];
+
+			$render['scripts'] = [
+				'<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>',
+				'<script>hljs.initHighlightingOnLoad();</script>'
+
+			];
+
+		}
+
+    $this->render( $render);
+
+  }
+
 	public function info() {
-		/* default setting
-		* in case you forget to disable this on a production server
-		* - only running on localhost
-		*/
+    /**
+     * default setting
+     * in case you forget to disable this on a production server
+     * - only running on localhost
+     */
+
 		if ( $this->Request->ServerIsLocal()) {
+
 			$this->render([
 				'title' => 'PHP Info',
 				'primary' => 'info',
