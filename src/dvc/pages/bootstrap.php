@@ -6,12 +6,11 @@
  *
  * MIT License
  *
- * DO NOT change this file
- * Copy it to <application>/app/dvc/ and modify it there
- *
 */
 
 namespace dvc\pages;
+
+use strings;
 
 class bootstrap extends page {
 
@@ -34,6 +33,10 @@ class bootstrap extends page {
 			$this->dvc = '4';
 
 		}
+		elseif ( self::$Bootstrap_Version == '5' && $this->dvc) {
+			$this->dvc = '4';
+
+		}
 
 		parent::__construct( $title );
 		if ( !self::$pageContainer) {
@@ -44,8 +47,8 @@ class bootstrap extends page {
 		$this->meta[] = sprintf('<meta name="viewport" content="width=device-width, initial-scale=%s, shrink-to-fit=no" />', self::$SCALE);
 
 		if ( self::$Bootstrap_Version == '3') {
-			$css = \url::tostring( 'bootstrap.3/css/bootstrap.min.css');
-			$js = \url::tostring( 'bootstrap.3/js/bootstrap.min.js');
+			$css = strings::url( 'bootstrap.3/css/bootstrap.min.css');
+			$js = strings::url( 'bootstrap.3/js/bootstrap.min.js');
 
 			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
 
@@ -53,8 +56,17 @@ class bootstrap extends page {
 
 		}
 		elseif ( self::$Bootstrap_Version == '4') {
-			$css = \url::tostring( 'assets/bootstrap/css');
-			$js = \url::tostring( 'assets/bootstrap/js');
+			$css = strings::url( 'assets/bootstrap/css');
+			$js = strings::url( 'assets/bootstrap/js');
+
+			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
+
+			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
+
+		}
+		elseif ( self::$Bootstrap_Version == '5') {
+			$css = strings::url( 'bootstrap5/css/bootstrap.min.css');
+			$js = strings::url( 'bootstrap5/js/bootstrap.bundle.min.js');
 
 			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
 

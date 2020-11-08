@@ -9,25 +9,28 @@
 **/	?>
 
 <nav class="navbar navbar-expand navbar-light bg-light sticky-top" role="navigation" >
-	<div class="navbar-brand" ><?= $this->data->title	?></div>
+	<div class="container-fluid">
+    <div class="navbar-brand" ><?= $this->data->title	?></div>
 
-	<ul class="ml-auto navbar-nav">
-		<li class="nav-item">
-			<a class="nav-link" href="<?= strings::url() ?>">
-				<?= dvc\icon::get( dvc\icon::house ) ?>
+    <ul class="ml-auto navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="<?= strings::url() ?>">
+          <?= dvc\icon::get( dvc\icon::house ) ?>
 
-			</a>
+        </a>
 
-		</li>
+      </li>
 
-		<li class="nav-item">
-			<a class="nav-link" href="https://github.com/bravedave/">
-				<?= dvc\icon::get( dvc\icon::github ) ?>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/bravedave/">
+          <?= dvc\icon::get( dvc\icon::github ) ?>
 
-			</a>
+        </a>
 
-		</li>
+      </li>
 
-	</ul>
+    </ul>
+
+  </div>
 
 </nav>

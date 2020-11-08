@@ -19,4 +19,5 @@ config::route_register( 'halfmoon', 'halfmoon\controller');
 config::route_register( 'pageless');
 config::route_register( 'tests', 'sample\controller');
 config::route_register( 'webapp', 'webapp\controller');
+config::route_register( 'bootstrap5', 'bootstrap5\controller');
 config::route_register( 'home', '');

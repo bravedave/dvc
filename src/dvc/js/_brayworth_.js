@@ -25,7 +25,11 @@ if ( !window._brayworth_ )
 	_.bootstrap_version = () => {
 		if ( 'undefined' != typeof bootstrap) {
 			if ( !!bootstrap.Alert) {
-				if ( /4/.test( bootstrap.Alert.VERSION)) {
+				if ( /5/.test( bootstrap.Alert.VERSION)) {
+					return 5;
+
+				}
+				else if ( /4/.test( bootstrap.Alert.VERSION)) {
 					return 4;
 
 				}

@@ -589,6 +589,8 @@ abstract class sys {
 
 	static public function serveBootStrap( $type = 'css') {
 		if ( \config::$BOOTSTRAP_REQUIRE_POPPER) {
+      \sys::logger( sprintf('deprecated : $BOOTSTRAP_REQUIRE_POPPER is deprcated : %s', __FILE__));
+
 			if ( 'css' == $type) {
 				$lib = __DIR__ . '/bootstrap4/css/bootstrap.min.css';
 				self::serve( $lib);
