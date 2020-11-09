@@ -20,17 +20,22 @@ class icon {
 
   const chat = 45;
 
-  const chevronLeft = 48;
-  const chevronRight = 49;
+  const check = 46;
+  const check_all = 47;
+  const check2 = 48;
+  const check2_all = 49;
 
-  const diamond = 50;
-  const diamond_fill = 51;
-  const diamond_half = 52;
+  const chevronLeft = 50;
+  const chevronRight = 51;
 
-  const envelope = 60;
-  const envelope_fill = 61;
-  const envelope_open = 62;
-  const envelope_open_fill = 63;
+  const diamond = 60;
+  const diamond_fill = 61;
+  const diamond_half = 62;
+
+  const envelope = 70;
+  const envelope_fill = 71;
+  const envelope_open = 72;
+  const envelope_open_fill = 73;
 
   const fileRichText = 170;
   const file_rich_text = 170;
@@ -91,6 +96,22 @@ class icon {
     }
     elseif ( self::chat == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/chat.svg');
+
+    }
+    elseif ( self::check == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/check.svg');
+
+    }
+    elseif ( self::check_all == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/check-all.svg');
+
+    }
+    elseif ( self::check2 == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/check2.svg');
+
+    }
+    elseif ( self::check2_all == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/check2-all.svg');
 
     }
     elseif ( self::chevronLeft == $icon) {

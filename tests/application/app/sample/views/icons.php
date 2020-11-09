@@ -35,4 +35,18 @@
 
   <div class="col text-danger"><?= dvc\icon::get( dvc\icon::file_text_fill ) ?></div>
 
+
+</div>
+
+<div class="row">
+  <div class="col"><?= dvc\icon::get( dvc\icon::check ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::check_all ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::check2 ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::check2_all ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::person_check ) ?></div>
+
 </div>
