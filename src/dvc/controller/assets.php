@@ -35,8 +35,9 @@ class assets extends Controller {
 			$files = [];
 			foreach( cssmin::$dvc4Files as $f) {
 				$path = sprintf( '%s/../public/%s', __DIR__, $f);
-				// printf( '%s<br />', $path);
+				// \sys::logger( sprintf('<%s> %s', $path, __METHOD__));
 				if ( $_f = realpath( $path)) {
+          // \sys::logger( sprintf('<%s> %s', $_f, __METHOD__));
 					$key = basename( $_f);
 					$files[ $key] = $_f;
 
