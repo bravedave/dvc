@@ -15,15 +15,35 @@ class Json {
 	protected $_json = [];
 	protected $dumpOnDestruct = true;
 
-	static function nak( $description) {
+	static public function nak( $description) : Json {
 		return ( new Json( [ 'response' => 'nak', 'description' => $description]));
 
 	}
 
-	static function ack( $description) {
+	static public function ack( $description) : Json {
 		return ( new Json( [ 'response' => 'ack', 'description' => $description]));
 
 	}
+
+  static public function read( string $path) : object {
+    return file_exists( $path) ?
+      json_decode( file_get_contents( $path)):
+      (object)[];
+
+  }
+
+  static public function write( string $path, object $object) {
+    return file_put_contents(
+      $path,
+      json_encode(
+        $object,
+        JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
+
+      )
+
+    );
+
+  }
 
 	function __construct( $a = null) {
 		if ( !is_null( $a))
