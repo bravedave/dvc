@@ -6,14 +6,17 @@
  *
  * MIT License
  *
- * DO NOT change this file
- * Copy it to <application>/app/views/ and modify it there
- *
 */	?>
+
 <footer class="footer-fixed">
 	<div class="container-fluid">
 		<div class="row mb-0">
-			<div class="col text-right" id="brayworthLOGO">
+			<div class="col text-muted font-italic">
+        BootStrap: <?= sys::bootStrap_verion()->version ?>
+
+			</div>
+
+			<div class="col-auto" id="brayworthLOGO">
 				<a title="software by BrayWorth using php" href="https://brayworth.com" target="_blank">BrayWorth</a>
 
 			</div>

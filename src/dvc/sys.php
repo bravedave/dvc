@@ -588,6 +588,49 @@ abstract class sys {
 
 	}
 
+	static public function bootStrap_verion() : \stdClass {
+    $ret = (object)[
+      'version' => 0,
+      'short' => 0,
+      'major' => 0,
+
+    ];
+
+    $root = realpath( __DIR__ . '/../../../../twbs');
+    if ( !$root) {
+      $root = realpath( __DIR__ . '/../../vendor/twbs');
+    }
+
+    if ( $root) {
+      $path = realpath(
+        implode(
+          DIRECTORY_SEPARATOR,
+          [
+            $root,
+            'bootstrap',
+            'package.json'
+
+          ]
+
+        )
+
+      );
+
+      if ( \file_exists( $path)) {
+        if ( $j = @json_decode( \file_get_contents( $path))) {
+          $ret->version = $j->version;
+          $ret->short = $j->version_short;
+
+        }
+
+      }
+
+    }
+
+    return $ret;
+
+  }
+
 	static public function serveBootStrap( $type = 'css') {
 		if ( \config::$BOOTSTRAP_REQUIRE_POPPER) {
       \sys::logger( sprintf('deprecated : $BOOTSTRAP_REQUIRE_POPPER is deprcated : %s', __FILE__));
