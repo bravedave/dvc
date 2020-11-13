@@ -700,7 +700,37 @@ abstract class strings {
 
 	}
 
-	static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = false ) {
+	static function street_index( $street ) {
+    /**
+     * Makes a street no, name into an indexable value
+     * 38 Chapel Street becomes
+     * Chapel Street   38
+     */
+		$strStreetIndex = $street;	// safety
+
+		if ( is_numeric( substr( $street, 0, 1 ) ) ) {
+			$aStreet = explode( ' ', $street );
+
+			$no = array_shift( $aStreet);
+			if ( false != strpos( $no, '/')) {
+				$_no = explode('/', $no);
+				$_r = array_reverse( $_no);
+				$no = implode( ' ', $_r);
+
+			}
+
+			$aStreet[] = str_pad( trim( (string)$no), 6, ' ', STR_PAD_LEFT);
+			$strStreetIndex = implode( ' ', $aStreet );
+			if ( '' == $strStreetIndex)
+				$strStreetIndex = $street;	// safety
+
+		}
+
+		return ( $strStreetIndex);
+
+  }
+
+  static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = false ) {
 
 		if ( $maxrows > 0 ) {
 			$x = preg_split( "/\n/", $inText );
