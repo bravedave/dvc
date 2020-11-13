@@ -32,8 +32,17 @@ class assets extends Controller {
 
 	public function brayworth( $type = 'css', $p2 = '') {
 		if ( 'css' == $type) {
-			$files = [];
-			foreach( cssmin::$dvc4Files as $f) {
+      $files = [];
+
+      $lib ='dvc-4';
+      $_files = cssmin::$dvc4Files;
+      if ( sys::bootStrap_verion()->major >= 5) {
+        $lib = 'dvc-5';
+        $_files = 'css/brayworth.bootstrap.fix.css';
+
+      }
+
+			foreach( $_files as $f) {
 				$path = sprintf( '%s/../public/%s', __DIR__, $f);
 				// \sys::logger( sprintf('<%s> %s', $path, __METHOD__));
 				if ( $_f = realpath( $path)) {
@@ -45,11 +54,12 @@ class assets extends Controller {
 
 			}
 
-			cssmin::viewcss([
+
+      cssmin::viewcss([
 				'debug' => false,
-				'libName' => 'dvc-4',
+				'libName' => $lib,
 				'cssFiles' => $files,
-				'libFile' => config::tempdir()  . '_dvc-4_.css'
+				'libFile' => config::tempdir()  . '_' . $lib . '.css'
 
 			]);
 
