@@ -620,6 +620,7 @@ abstract class sys {
         if ( $j = @json_decode( \file_get_contents( $path))) {
           $ret->version = $j->version;
           $ret->short = $j->version_short;
+          $ret->major = (int)$j->version_short;
 
         }
 
