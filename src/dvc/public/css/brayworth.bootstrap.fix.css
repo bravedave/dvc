@@ -65,3 +65,8 @@ button.close {
     padding-right: 5px;
     padding-left: 5px
 }
+
+.form-group {
+    margin-bottom: .5rem
+}
+.input-group-prepend { display: flex; }
