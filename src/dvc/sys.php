@@ -40,6 +40,20 @@ abstract class sys {
 
 	}
 
+	static function diskspace() {
+		$ret = (object)[
+			'free' => disk_free_space( __DIR__ ),
+			'total' => disk_total_space( __DIR__ ),
+			'threshhold' => \config::$FREE_DISKSPACE_THRESHHOLD
+
+		];
+
+		$ret->exceeded = $ret->free < $ret->threshhold;
+
+		return $ret;
+
+	}
+
 	static function dbCachePrefix() {
 		if ( \config::$DB_CACHE_PREFIX) {
 			return \config::$DB_CACHE_PREFIX;
