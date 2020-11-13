@@ -11,8 +11,8 @@
 <footer class="footer-fixed">
 	<div class="container-fluid">
 		<div class="row mb-0">
-			<div class="col text-muted font-italic">
-        BootStrap: <?= sys::bootStrap_verion()->version ?>
+			<div class="col text-muted">
+        <em>BootStrap: <?= sys::bootStrap_verion()->version ?></em>
 
 			</div>
 

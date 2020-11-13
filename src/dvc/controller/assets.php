@@ -38,7 +38,7 @@ class assets extends Controller {
       $_files = cssmin::$dvc4Files;
       if ( sys::bootStrap_verion()->major >= 5) {
         $lib = 'dvc-5';
-        $_files = 'css/brayworth.bootstrap.fix.css';
+        $_files[] = 'css/brayworth.bootstrap.fix.css';
 
       }
 
@@ -53,7 +53,6 @@ class assets extends Controller {
 				}
 
 			}
-
 
       cssmin::viewcss([
 				'debug' => false,
