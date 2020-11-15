@@ -70,3 +70,5 @@ button.close {
     margin-bottom: .5rem
 }
 .input-group-prepend { display: flex; }
+
+select:not(.form-select) { appearance: auto;}
