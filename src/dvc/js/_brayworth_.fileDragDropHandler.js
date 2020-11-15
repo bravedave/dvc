@@ -69,7 +69,7 @@
 	};
 
 	// new version
-	_b_.fileDragDropContainer = function (params) {
+	_b_.fileDragDropContainer = params => {
 		let options = $.extend({
 			fileControl: false,
 			multiple: true,
@@ -88,7 +88,7 @@
 
 		if (options.fileControl) {
 
-			let wrapper = $('<div class="pointer btn btn-outline-secondary btn-block btn-sm upload-btn-wrapper">')
+			let wrapper = $('<div class="pointer btn btn-outline-secondary d-block btn-sm upload-btn-wrapper">')
 				.css({
 					'position': 'relative',
 					'overflow': 'hidden'
