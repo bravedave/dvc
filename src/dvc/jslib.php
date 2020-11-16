@@ -162,11 +162,12 @@ abstract class jslib {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
 
-		$files = [
-      sprintf(  '%s/public/js/%s/tinymce.min.js', __DIR__, $libdir),
-      sprintf(  '%s/public/js/%s/icons/default/icons.min.js', __DIR__, $libdir)
+    $files = [ sprintf(  '%s/public/js/%s/tinymce.min.js', __DIR__, $libdir)];
 
-    ];
+    if ( file_exists( $_file = sprintf(  '%s/public/js/%s/icons/default/icons.min.js', __DIR__, $libdir))) {
+      $files[] = $_file;
+
+    }
 
 		if ( file_exists( $_file = sprintf(  '%s/public/js/%s/themes/silver/theme.min.js', __DIR__, $libdir))) {
 			$files[] = $_file;
@@ -203,7 +204,7 @@ abstract class jslib {
 					$modtime = max( [ $modtime, filemtime( $file)]);
 
 				else
-					sys::logger( 'cannot locate library file ' . $file);
+					sys::logger( 'cannot locate tinymce library file ' . $file);
 
 			}
 
