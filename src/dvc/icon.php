@@ -67,11 +67,16 @@ class icon {
   const person_plus = 361;
   const person_plus_fill = 362;
 
+  const plus = 380;
+  const plus_circle = 381;
+  const plus_circle_fill = 382;
+  const plus_square = 383;
+  const plus_square_fill = 384;
+
   const phone = 410;
   const phone_fill = 411;
 
   const sliders = 500;
-
 
   static function get( int $icon ) : string {
     if ( self::app == $icon) {
@@ -230,6 +235,26 @@ class icon {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/person-plus-fill.svg');
 
     }
+    elseif ( self::plus == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/plus.svg');
+
+    }
+    elseif ( self::plus_circle == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/plus_circle.svg');
+
+    }
+    elseif ( self::plus_circle_fill == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/plus_circle_fill.svg');
+
+    }
+    elseif ( self::plus_square == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/plus_square.svg');
+
+    }
+    elseif ( self::plus_square_fill == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/plus_square_fill.svg');
+
+    }
     elseif ( self::phone == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/phone.svg');
 
@@ -265,22 +290,22 @@ class icon {
       .bi-chevron-right { background-image: url("<?= dvc\icon::inline( dvc\icon::chevronRight ) ?>"); }
 
       </style>
-        */
-      $icon = self::get( $icon);
+    */
+    $icon = self::get( $icon);
 
-      $icon = \preg_replace( [
-          "@#<@",
-          "@^(\t|\s)*@m",
-          "@(\r?\n|\r)@",
-          '@"@',
-      ], [
-          '%23',
-          '',
-          '',
-          "'"
-      ], $icon);
+    $icon = \preg_replace( [
+        "@#<@",
+        "@^(\t|\s)*@m",
+        "@(\r?\n|\r)@",
+        '@"@',
+    ], [
+        '%23',
+        '',
+        '',
+        "'"
+    ], $icon);
 
-      return 'data:image/svg+xml,'.$icon;
+    return 'data:image/svg+xml,'.$icon;
 
   }
 
