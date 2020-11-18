@@ -15,31 +15,6 @@ class db {
 
 	public $log = false;
 
-	protected function _flushCache() {
-    if ( \config::$DB_CACHE == 'APC') {
-      /**
-       * the automatic caching is controlled by:
-       *	=> \dao\_dao->getByID addes to cache
-       *  => \dao\_dao->UpdateByID flushes the cache selectively
-       *		 - and sets flushCache to FALSE - so you won't be here
-       *
-       *	if you are here it is because Update was called casually outside
-       *	of UpdateByID <=> a master flush is required
-       */
-      $cache = \dvc\cache::instance();
-      $cache->flush();
-      if ( \config::$DB_CACHE_DEBUG || \config::$DB_CACHE_DEBUG_FLUSH) {
-        foreach ( debug_backtrace() as $e ) {
-          sys::logger( sprintf( 'post flush: %s(%s)', $e['file'], $e['line'] ));
-
-        }
-
-      }
-
-    }
-
-  }
-
 	public static function dbTimeStamp() {
 		return ( date( "Y-m-d H:i:s", time()));
 
@@ -134,6 +109,31 @@ class db {
 
 	}
 
+	public function flushCache() {
+    if ( \config::$DB_CACHE == 'APC') {
+      /**
+       * the automatic caching is controlled by:
+       *	=> \dao\_dao->getByID addes to cache
+       *  => \dao\_dao->UpdateByID flushes the cache selectively
+       *		 - and sets flushCache to FALSE - so you won't be here
+       *
+       *	if you are here it is because Update was called casually outside
+       *	of UpdateByID <=> a master flush is required
+       */
+      $cache = \dvc\cache::instance();
+      $cache->flush();
+      if ( \config::$DB_CACHE_DEBUG || \config::$DB_CACHE_DEBUG_FLUSH) {
+        foreach ( debug_backtrace() as $e ) {
+          sys::logger( sprintf( 'post flush: %s(%s)', $e['file'], $e['line'] ));
+
+        }
+
+      }
+
+    }
+
+  }
+
 	public function field_exists( $table, $field ) {
 		$ret = FALSE;
 
@@ -214,7 +214,7 @@ class db {
 	}
 
 	public function Update( $table, $a, $scope, $flushCache = true ) {
-    if ( (bool)$flushCache) $this->_flushCache();
+    if ( (bool)$flushCache) $this->flushCache();
 
 		$aX = [];
 		foreach ( $a as $k => $v ) {
