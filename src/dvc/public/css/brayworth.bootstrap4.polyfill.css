@@ -72,3 +72,5 @@ button.close {
 .input-group-prepend { display: flex; }
 
 select:not(.form-select) { appearance: auto;}
+
+a { text-decoration: none; }
