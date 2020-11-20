@@ -69,7 +69,8 @@ button.close {
 .form-group {
     margin-bottom: .5rem
 }
-.input-group-prepend { display: flex; }
+.input-group-prepend,
+.input-group-append { display: flex; }
 
 select:not(.form-select) { appearance: auto;}
 
