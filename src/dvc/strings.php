@@ -284,7 +284,7 @@ abstract class strings {
 
 	}
 
-	static function endswith($string, $test) {
+	static public function endswith($string, $test) {
 		$strlen = strlen($string);
 		$testlen = strlen($test);
 		if ($testlen > $strlen) return false;
@@ -329,7 +329,7 @@ abstract class strings {
 
   }
 
-	static function getCommonPath( array $paths) : string {
+	static public function getCommonPath( array $paths) : string {
 		$lastOffset = 1;
 		$common = '/';
 		while (($index = strpos($paths[0], '/', $lastOffset)) !== FALSE) {
@@ -347,7 +347,7 @@ abstract class strings {
 
 	}
 
-	static function getRelativePath( string $from, string $to, string $ps = DIRECTORY_SEPARATOR) : string {
+	static public function getRelativePath( string $from, string $to, string $ps = DIRECTORY_SEPARATOR) : string {
 		// https://www.php.net/manual/en/function.realpath.php#105876
 
 		$arFrom = explode( $ps, rtrim( $from, $ps));
@@ -362,7 +362,7 @@ abstract class strings {
 
 	}
 
-	static function getDateAsANSI( $strDate) {
+	static public function getDateAsANSI( $strDate) {
 
 		if ( preg_match("@^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$@", $strDate))
 		return ( date( 'Y-m-d', strtotime( $strDate)));
@@ -375,12 +375,12 @@ abstract class strings {
 
 	}
 
-	static function getGUID() {
+	static public function getGUID() {
 		return ( sprintf( '{%s}', self::getUID()));
 
 	}
 
-	static function getUID(){
+	static public function getUID(){
 		$charid = strtoupper(md5(self::rand()));
 		$uuid = sprintf( '%s-%s-%s-%s-%s',
 			substr($charid, 0, 8),
@@ -393,7 +393,7 @@ abstract class strings {
 
 	}
 
-	static function GoodStreetString( $street ) {
+	static public function GoodStreetString( $street ) {
 		if ( preg_match( '/The\s?Drive/i', $street ))
 			return ( $street);
 		if ( preg_match( '/The\s?Avenue/i', $street ))
@@ -424,6 +424,90 @@ abstract class strings {
 
 
 		return ( trim( preg_replace( $find, $replace, $street ), ', '));
+
+  }
+
+	static public function HoursMinutes( $str) {
+		$hm = self::HoursMinutesSeconds( $str);
+		return (
+			str_pad( (string)$hm["hours"], 2, "0", STR_PAD_LEFT ) . ":" .
+			str_pad( (string)$hm["minutes"], 2, "0", STR_PAD_LEFT ));
+
+	}
+
+	static public function HoursMinutesSeconds( $str, $format = 'array' ) {
+		$str = trim( $str );
+		if ($str == '') return 0;
+
+		$iOffset = 0;
+		$eTag = substr( $str, strlen( $str )-1, 1 );
+		$iHours = 0;
+		$iMinutes = 0;
+		$iSeconds = 0;
+
+		if ( $eTag == 'p' || $eTag == 'P' ) {
+			$iOffset = 12;
+			$str = trim( substr( $str, 0, strlen( $str ) -1 ));
+
+    }
+    elseif ( $eTag == 'a' || $eTag == 'A' ) {
+			$str = trim( substr( $str, 0, strlen( $str ) -1 ));
+
+    }
+    elseif ( $eTag == 'm' || $eTag == 'M' ) {
+			$eTag = strtolower( substr( $str, strlen( $str )-2, 2 ));
+			if ( $eTag == 'pm' ) {
+				$iOffset = 12;
+				$str = trim( substr( $str, 0, strlen( $str ) -2 ));
+
+      }
+      elseif ( $eTag == 'am' ) {
+				$str = trim( substr( $str, 0, strlen( $str ) -2 ));
+
+      }
+
+		}
+
+		//echo "Lookin @:$str\n";
+		if ( is_integer(strpos( $str, ':'))) {
+			// hours and minutes
+			$a = explode( ":", $str);
+			//print_r($a);
+			$iHours = (int)$a[0];
+			$iMinutes = (int)$a[1];
+
+    }
+    elseif ( strpos( $str, '.') > 0 ) {
+			// hours and minutes
+			$a = explode( ".", $str);
+			$iHours = (int)$a[0];
+			$iMinutes = (int)$a[1];
+
+    }
+    else {
+			$iHours = (int)$str;
+			//echo "Nuffin:$str\n";
+
+		}
+
+		$aRet = [
+			"hours" => ( $iHours + ( $iHours == 12 ? 0 : $iOffset )),
+			"minutes" => $iMinutes,
+			"seconds" => $iSeconds
+
+		];
+
+		if ( $format == "string" ) {
+			return (
+				str_pad( (string)$aRet["hours"], 2, "0", STR_PAD_LEFT ) . ":" .
+				str_pad( (string)$aRet["minutes"], 2, "0", STR_PAD_LEFT ) . ":" .
+				str_pad( (string)$aRet["seconds"], 2, "0", STR_PAD_LEFT ) );
+
+		}
+		else {
+			return ($aRet);
+
+		}
 
   }
 
