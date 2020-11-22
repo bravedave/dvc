@@ -14,11 +14,13 @@ abstract class _dao {
 	protected $_sql_getByID = 'SELECT * FROM %s WHERE id = %d';
 	protected $_sql_getAll = 'SELECT %s FROM %s %s';
 
-	public $db;
 	protected $_db_name = null;
+	protected $_db_cache_prefix = null;
 	protected $_db_allways_check_structure = true;
+  protected $template = null;
+
+	public $db;
 	public $log = false;
-	protected $template = null;
 
 	function __construct( \dvc\dbi $db = null ) {
 
@@ -44,7 +46,7 @@ abstract class _dao {
 	protected function cacheKey( int $id, string $field = '') : string {
 		if ( $field) {
 			return sprintf( '%s_%s_%s_%s',
-				\sys::dbCachePrefix(),
+				$this->cachePrefix(),
 				$this->db_name(),
 				$id,
 				$field
@@ -54,7 +56,7 @@ abstract class _dao {
 		}
 		else {
 			return sprintf( '%s_%s_%s',
-				\sys::dbCachePrefix(),
+				$this->cachePrefix(),
 				$this->db_name(),
 				$id
 
@@ -67,7 +69,17 @@ abstract class _dao {
 	protected function cacheKey_delete( int $id, string $field = '') {
 		return sprintf( '/%s/', $this->cacheKey( $id, $field));
 
-	}
+  }
+
+  protected function cachePrefix() {
+    if ( $this->_db_cache_prefix) {
+      return \sys::dbCachePrefix() . $this->_db_cache_prefix;
+
+    }
+
+    return \sys::dbCachePrefix();
+
+  }
 
 	protected function before() {
 		/*
