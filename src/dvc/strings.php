@@ -35,7 +35,7 @@ abstract class strings {
 
 	}
 
-	static function asLocalDate( $date, $time = false, $epoch = 0) {
+	static public function asLocalDate( $date, $time = false, $epoch = 0) {
 		if ( (string)$date == '0000-00-00') {
 			return ( false);
 
@@ -59,7 +59,7 @@ abstract class strings {
 
 	}
 
-	static function asLocalPhone( $_tel = '' ) {
+	static public function asLocalPhone( $_tel = '' ) {
 		$debug = false;
 		// $debug = true;
 
@@ -112,13 +112,13 @@ abstract class strings {
 
 	}
 
-	static function asMobilePhone( $mobile = '' ) {
+	static public function asMobilePhone( $mobile = '' ) {
 		//~ \sys::logger( sprintf( 'deprecated :: %s > use AsLocalPhone', __METHOD__));
 		return self::AsLocalPhone( $mobile);
 
 	}
 
-	static function asShortDate( $date, $time = false) {
+	static public function asShortDate( $date, $time = false) {
 		if ( (string)$date == '0000-00-00') {
 			return ( false);
 
@@ -144,7 +144,7 @@ abstract class strings {
 
 	}
 
-	static function asLongDate( $date, $time = false) {
+	static public function asLongDate( $date, $time = false) {
 		if ( (string)$date == '0000-00-00') {
 			return ( false);
 
@@ -171,7 +171,7 @@ abstract class strings {
 
 	}
 
-	static function array2csv(array &$array) {
+	static public function array2csv(array &$array) {
 		if (count($array) == 0) {
 			return null;
 
@@ -194,7 +194,7 @@ abstract class strings {
 
 	}
 
-	static function BRITISHDateAsANSI( $strDate) {
+	static public function BRITISHDateAsANSI( $strDate) {
 		// split it, must have 3 parts, dd/mm/yyyy
 		$a = explode( "/", $strDate );
 		if ( @checkdate( $a[1], $a[0], $a[2] )) {
@@ -210,7 +210,7 @@ abstract class strings {
 
 	}
 
-	static function cleanPhoneString( string $tel) : string {
+	static public function cleanPhoneString( string $tel) : string {
 		//~ $debug = true;
 		$debug = false;
 
@@ -262,7 +262,7 @@ abstract class strings {
 
 	}
 
-	static function CheckEmailAddress( $email) {
+	static public function CheckEmailAddress( $email) {
 		return ( filter_var($email, FILTER_VALIDATE_EMAIL));
 
 	}
@@ -511,7 +511,7 @@ abstract class strings {
 
   }
 
-	static function html2text($document) : string {
+	static public function html2text($document) : string {
 		$search = array(
 			'@<[\/\!]*?[^<>]*?>@si',			// trim blank lines from beginning and end
 			'@<br[\s]/>@si',
@@ -566,7 +566,7 @@ abstract class strings {
 
 	}
 
-	static function htmlSanitize( $html ) {
+	static public function htmlSanitize( $html ) {
 		/*
 			'@<style[^>]*?>.*?</style>@si',  	// Strip out javascript
 			http://css-tricks.com/snippets/php/sanitize-database-inputs/
@@ -613,13 +613,13 @@ abstract class strings {
 
   }
 
-  static function imageInline( $path) {
+  static public function imageInline( $path) {
     $data = base64_encode( file_get_contents( $path));
     return 'data:'.mime_content_type($path).';base64,'.$data;
 
   }
 
-	static function initials( $name ) {
+	static public function initials( $name ) {
 		if ( (string)$name == "" )
 		return '';
 
@@ -634,7 +634,7 @@ abstract class strings {
 
 	}
 
-	static function InLocalTimeZone($format="r", $timestamp=false, $timezone=false) {
+	static public function InLocalTimeZone($format="r", $timestamp=false, $timezone=false) {
 		$userTimezone = new \DateTimeZone( !empty($timezone) ? $timezone : 'GMT');
 		$gmtTimezone = new \DateTimeZone( 'GMT');
 		$myDateTime = new \DateTime( ( $timestamp != false ? date("r", (int)$timestamp) : date("r")), $gmtTimezone);
@@ -643,22 +643,22 @@ abstract class strings {
 
 	}
 
-	static function isValidMd5($md5 ='') {
+	static public function isValidMd5($md5 ='') {
 		return preg_match('/^[a-f0-9]{32}$/', $md5);
 
 	}
 
-	static function IsEmailAddress( $email) {
+	static public function IsEmailAddress( $email) {
 		return ( self::CheckEmailAddress($email));
 
 	}
 
-	static function isEmail( $email) {	// compatible case and naming with my javascript routine
+	static public function isEmail( $email) {	// compatible case and naming with my javascript routine
 		return ( self::CheckEmailAddress($email));
 
 	}
 
-	static function isMobilePhone( string $_tel = '') : bool {
+	static public function isMobilePhone( string $_tel = '') : bool {
 		try {
 			$tel = preg_replace( '@[^0-9\+]@','', $_tel);
 			//~ \sys::logger( sprintf( 'IsMobilePhone :: %s', $tel));
@@ -691,7 +691,7 @@ abstract class strings {
 
 	}
 
-	static function isPhone( string $_tel = '') : bool {
+	static public function isPhone( string $_tel = '') : bool {
 		try {
 			$tel = preg_replace( '@[^0-9\+]@','', $_tel);
 			//~ \sys::logger( sprintf( 'IsMobilePhone :: %s', $tel));
@@ -719,7 +719,7 @@ abstract class strings {
 
 	}
 
-	static function isOurEmailDomain( $email) {
+	static public function isOurEmailDomain( $email) {
 		$email_array = explode("@", $email);
 		$domains = explode( ',', config::$EMAILDOMAIN);
 
@@ -733,7 +733,7 @@ abstract class strings {
 
 	}
 
-	static function lorum() {
+	static public function lorum() {
 		return html\element::lorum();
 
 	}
