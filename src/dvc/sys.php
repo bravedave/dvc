@@ -16,7 +16,7 @@ abstract class sys {
 
 	static $debug = false;
 
-	static function dbi() {
+	public static function dbi() {
 		if ( is_null( self::$_dbi)) {
 			if ( \config::$DB_TYPE == 'sqlite' ) {
 				self::$_dbi = sqlite\db::instance();
@@ -33,14 +33,14 @@ abstract class sys {
 
 	}
 
-	static function dbCheck( string $file) {
+	public static function dbCheck( string $file) {
     return 'sqlite' == \config::$DB_TYPE ?
       new sqlite\dbCheck( self::dbi(), $file ) :
       new \dao\dbCheck( self::dbi(), $file );
 
 	}
 
-	static function diskspace() {
+	public static function diskspace() {
 		$ret = (object)[
 			'free' => disk_free_space( __DIR__ ),
 			'total' => disk_total_space( __DIR__ ),
@@ -54,7 +54,7 @@ abstract class sys {
 
 	}
 
-	static function dbCachePrefix() {
+	public static function dbCachePrefix() {
 		if ( \config::$DB_CACHE_PREFIX) {
 			return \config::$DB_CACHE_PREFIX;
 
@@ -88,7 +88,7 @@ abstract class sys {
 
 	}
 
-	static function getTemplate( $template) {
+	public static function getTemplate( $template) {
 		if ( $template) {
 			if ( $template = preg_replace( '/[^\da-z_]/i', '', $template)) {
 				$template .= '.html';
@@ -122,7 +122,7 @@ abstract class sys {
 
 	}
 
-	static function logging( $level = null) {
+	public static function logging( $level = null) {
 		/**
 		 * Debug logging
 		 *	I just use 1-5, stuff fromthe application class is output if log level is 3
@@ -136,7 +136,7 @@ abstract class sys {
 
 	}
 
-	static function logger( $v, $level = 0) {
+	public static function logger( $v, $level = 0) {
 		if ( (int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel ) {
 			error_log( $v );
 
@@ -144,22 +144,22 @@ abstract class sys {
 
 	}
 
-	static function logloaderon( $b) {
+	public static function logloaderon( $b) {
 		error_log( sprintf( 'deprecated : %s', self::traceCaller()));
 
 	}
 
-	static function loaderCounter( hitter $hitter) {
+	public static function loaderCounter( hitter $hitter) {
 		error_log( sprintf( 'deprecated : %s', self::traceCaller()));
 
 	}
 
-	static function logloader( $v) {
+	public static function logloader( $v) {
 		error_log( sprintf( 'deprecated : %s : %s', $v, self::traceCaller()));
 
 	}
 
-	static function logSQL( $v, $level = 0 ) {
+	public static function logSQL( $v, $level = 0 ) {
 		self::logger( preg_replace( [ "@\r\n@","@\n@","@\t@","@\s\s*@" ], ' ', $v ));
 
 	}
@@ -175,7 +175,7 @@ abstract class sys {
 
 	}
 
-  static function option( $key, $val = null ) {
+  public static function option( $key, $val = null ) {
 		$debug = false;
 		// $debug = true;
 
@@ -231,12 +231,12 @@ abstract class sys {
 
   }
 
-  static function set_error_handler() {
+  public static function set_error_handler() {
 		errsys::initiate( false );
 
 	}
 
-	static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = false) {
+	public static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = false) {
 		/**
 		 * text2html: converts plain text to html by swaping in <br /> for \n
 		 *
@@ -283,7 +283,7 @@ abstract class sys {
 
 	}
 
-	static function trace( $v, $level = 0 ) {
+	public static function trace( $v, $level = 0 ) {
 		self::logger( $v);
 		$level = (int)$level;
 		$iLevel = 0;
@@ -306,7 +306,7 @@ abstract class sys {
 
 	}
 
-	static function traceCaller() {
+	public static function traceCaller() {
 		$trace = debug_backtrace();
 		if ( isset( $trace[2])) {
 			$caller = $trace[2];
@@ -323,7 +323,7 @@ abstract class sys {
 
 	}
 
-	static function dump( $v, $title = '', $lExit = true) {
+	public static function dump( $v, $title = '', $lExit = true) {
 		if ( !$title) {
 			if ( gettype( $v) == 'object')
 				$title = get_class( $v);
@@ -348,12 +348,12 @@ abstract class sys {
 
 	}
 
-	static function isWindows() {
+	public static function isWindows() {
 		return ( 'WIN' === strtoupper(substr(PHP_OS, 0, 3)));
 
 	}
 
-	static function mailer() {
+	public static function mailer() {
 		$mail = new \PHPMailer;
 		$mail->XMailer = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
 
@@ -421,7 +421,7 @@ abstract class sys {
 
   }
 
-	static public function serve( $path) {
+	public static function serve( $path) {
 		if ( file_exists( $path)) {
 
 			$serve = [
@@ -602,7 +602,7 @@ abstract class sys {
 
 	}
 
-	static public function bootStrap_verion() : \stdClass {
+	public static function bootStrap_verion() : \stdClass {
     $ret = (object)[
       'version' => 0,
       'short' => 0,
@@ -646,7 +646,7 @@ abstract class sys {
 
   }
 
-	static public function serveBootStrap( $type = 'css') {
+	public static function serveBootStrap( $type = 'css') {
 		if ( \config::$BOOTSTRAP_REQUIRE_POPPER) {
       \sys::logger( sprintf('deprecated : $BOOTSTRAP_REQUIRE_POPPER is deprcated : %s', __FILE__));
 
@@ -705,7 +705,7 @@ abstract class sys {
 
 	}
 
-	static public function serveFullcalendar( $type = 'css') {
+	public static function serveFullcalendar( $type = 'css') {
 		$root = realpath( __DIR__ . '/public/fullcalendar-4/');
 		if ( $root) {
 			if ( 'css' == $type) {

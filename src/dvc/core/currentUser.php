@@ -17,17 +17,17 @@ abstract class currentUser {
 	// THE only instance of the class
 	protected static $instance;
 
-	static public function avatar() {
+	public static function avatar() {
 		return \session::get( 'avatar', strings::url( 'images/avatar.png'));
 
 	}
 
-	static public function exchangeAuth() {
+	public static function exchangeAuth() {
 		throw new Exceptions\exchangeAuthIsAStub;
 
 	}
 
-	static public function id() {
+	public static function id() {
 		if ( $u = self::user()) {
 			return (int)$u->id;
 
@@ -37,18 +37,18 @@ abstract class currentUser {
 
 	}
 
-	static function isadmin() {
+	public static function isadmin() {
 		return ( self::user()->isadmin()) ;
 
 	}
 
-	static public function soAuth() {
+	public static function soAuth() {
 		sys::logger( 'soAuth is stub');
 		return ( new \imap\soAccount);
 
 	}
 
-	static function user() {
+	public static function user() {
 		if ( !isset( self::$instance )) {
 			self::$instance = new \user;
 			// sys::logger( 'currentUser::user init');
@@ -60,12 +60,12 @@ abstract class currentUser {
 
 	}
 
-	static function valid() {
+	public static function valid() {
 		return ( self::user()->valid()) ;
 
 	}
 
-	static function sync( oauth $o) {
+	public static function sync( oauth $o) {
 		if ( method_exists( self::user(), 'sync'))
 			return ( self::user()->sync( $o));
 
