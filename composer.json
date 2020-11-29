@@ -20,7 +20,7 @@
 		"tijsverkoyen/css-to-inline-styles": "^2.2",
 		"erusev/parsedown": "^1.7",
 		"giggsey/libphonenumber-for-php": "^8.11",
-		"twbs/bootstrap": "*",
+		"twbs/bootstrap": "<6",
 		"phpmailer/phpmailer": "^6.1"
 
 	},
