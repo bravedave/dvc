@@ -60,4 +60,39 @@
 
   };
 
+  _.get.sms = () => {
+    return _.get.modal(_.url('sms/dialog'))
+
+  };
+  _.get.sms._enabled = 0;
+  _.get.sms.enabled = () => {
+    return new Promise(resolve => {
+      if (1 == _.get.sms._enabled) resolve();
+
+      if (0 == _.get.sms._enabled) {
+        _.post({
+          url: _.url('sms'),
+          data: { action: 'sms-enabled' },
+
+        }).then(d => {
+          if ('ack' == d.response) {
+            _.get.sms._enabled = 1;
+            resolve();
+
+          }
+          else {
+            _.get.sms._enabled = 2;
+            // console.log( d);
+            console.log('sms not enabled...');
+
+          }
+
+        });
+
+      }
+
+    });
+
+  };
+
 }) (_brayworth_);
