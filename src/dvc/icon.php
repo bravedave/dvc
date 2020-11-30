@@ -56,6 +56,9 @@ class icon {
   const house = 190;
   const house_plus = 191;
 
+  const menu_down = 201;
+  const menu_up = 202;
+
   const question = 220;
 
   const people = 345;
@@ -81,6 +84,8 @@ class icon {
   const phone_fill = 411;
 
   const sliders = 500;
+
+  const x = 600;
 
   static function get( int $icon ) : string {
     if ( self::app == $icon) {
@@ -215,6 +220,14 @@ class icon {
       return file_get_contents( __DIR__ . '/icons/house-plus.svg');
 
     }
+    elseif ( self::menu_down == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/menu-down.svg');
+
+    }
+    elseif ( self::menu_up == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/menu-up.svg');
+
+    }
     elseif ( self::question == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/question.svg');
 
@@ -285,6 +298,10 @@ class icon {
     }
     elseif ( self::sliders == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/phone.svg');
+
+    }
+    elseif ( self::x == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/x.svg');
 
     }
 

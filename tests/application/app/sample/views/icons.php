@@ -47,6 +47,12 @@
 
   <div class="col"><?= dvc\icon::get( dvc\icon::check2_all ) ?></div>
 
+  <div class="col"><?= dvc\icon::get( dvc\icon::menu_down ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::menu_up ) ?></div>
+
   <div class="col"><?= dvc\icon::get( dvc\icon::person_check ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::x ) ?></div>
 
 </div>
