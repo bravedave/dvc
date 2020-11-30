@@ -191,6 +191,25 @@ class db {
 
 	}
 
+	public function table_exists( string $table) : bool {
+    $sql = sprintf(
+      "SELECT name FROM sqlite_master WHERE type='table' and name='%s'",
+      $this->escape( $table)
+
+    );
+
+		if ( $result = $this->result( $sql)) {
+			if ( $dto = $result->dto()) {
+				return true;
+
+			}
+
+		}
+
+		return ( false );
+
+	}
+
 	public function Update( $table, $a, $scope, $flushCache = TRUE ) {
     if ( (bool)$flushCache) $this->flushCache();
 

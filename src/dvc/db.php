@@ -213,6 +213,26 @@ class db {
 
 	}
 
+	public function table_exists( string $table) : bool {
+    $sql = sprintf(
+      'SELECT * FROM information_schema.tables WHERE table_schema = "%s" AND table_name = "%s" LIMIT 1',
+      $this->escape( $this->dbname),
+      $this->escape( $table)
+
+    );
+
+		if ( $result = $this->result( $sql)) {
+			if ( $dto = $result->dto()) {
+				return true;
+
+			}
+
+		}
+
+		return ( false );
+
+  }
+
 	public function Update( $table, $a, $scope, $flushCache = true ) {
     if ( (bool)$flushCache) $this->flushCache();
 
