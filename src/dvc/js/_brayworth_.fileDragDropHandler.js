@@ -19,8 +19,8 @@
 			});
  */
 /*jshint esversion: 6 */
-(function( _b_ ) {
-	_b_.fileDragDropContainer = function( params) {
+(_ => {
+	_.fileDragDropContainer = params => {
 		let options = $.extend({
 			fileControl : false,
 			multiple : true,
@@ -28,7 +28,7 @@
 
 		}, params);
 
-		//~ console.log( '_b_.fileDragDropContainer');
+		//~ console.log( '_.fileDragDropContainer');
 		let c = $('<div></div>');
 
 		$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>')
@@ -45,7 +45,7 @@
 			$('<div class="input-group-prepend"></div>').append( lbl).appendTo( ig);
 
 			let div = $('<div class="custom-file"></div>').appendTo( ig);
-			let fileControl = $('<input type="file" class="custom-file-input" />');
+			let fileControl = $('<input type="file" class="custom-file-input">');
 
 			if ( !!options.multiple) {
 				fileControl.prop('multiple', true);
@@ -69,7 +69,7 @@
 	};
 
 	// new version
-	_b_.fileDragDropContainer = params => {
+	_.fileDragDropContainer = params => {
 		let options = $.extend({
 			fileControl: false,
 			multiple: true,
@@ -77,7 +77,7 @@
 
 		}, params);
 
-		//~ console.log( '_b_.fileDragDropContainer');
+		//~ console.log( '_.fileDragDropContainer');
 		let c = $('<div></div>');
 
 		$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>')
@@ -96,10 +96,10 @@
 				});
 
 			$('<i class="fa"></i>')
-				.addClass(_brayworth_.browser.isMobileDevice ? 'fa-camera' : 'fa-upload')
+				.addClass( _.browser.isMobileDevice ? 'fa-camera' : 'fa-upload')
 				.appendTo(wrapper);
 
-			let fileControl = $('<input type="file" />')
+			let fileControl = $('<input type="file">')
 				.css({
 					'width': '100%',
 					'position': 'absolute',
@@ -124,7 +124,7 @@
 	};
 
 	let queue = [];
-	let enqueue = function( params) {
+	let enqueue = params => {
 		let options = $.extend({
 			postData : {},
       droppedFiles : {},
@@ -143,7 +143,7 @@
 
 			}
 
-			$.each( options.droppedFiles, function(i, file) {
+			$.each( options.droppedFiles, (i, file) => {
 				if ( i > 0 && i % options.batchSize == 0) {
 					queue.push( data);
 
@@ -173,7 +173,7 @@
 			}
 
 			//~ console.log( queue.length)
-			let queueHandler = function() {
+			let queueHandler = () => {
 				if ( queue.length > 0) {
 					let data = queue.shift();
 					let p = ( progressQue.data('items') - queue.length) / progressQue.data('items') * 100;
@@ -201,20 +201,14 @@
 	};
 
 	let sendData = function( params) {
-			//~ droppedFiles : {},
-			//~ postData : {},
 		let options = $.extend({
 			url : false,
-			onUpload : function( response) {},
+			onUpload : response => true,
 			host : $('body'),
 
 		}, params);
 
 		let formData = this;
-		// Display the key/value pairs
-		//~ for (var pair of formData.entries()) {
-		    //~ console.log(pair[0]+ ', ' + pair[1]);
-		//~ }
 
 		return new Promise( function( resolve, reject) {
 
@@ -234,9 +228,9 @@
 				cache: false,
 				contentType: false,
 				processData: false,
-				xhr: function() {
+				xhr: () => {
 					let xhr = new window.XMLHttpRequest();
-					xhr.upload.addEventListener("progress", function (e) {
+					xhr.upload.addEventListener("progress", e => {
 						//~ if (e.lengthComputable)
 							//~ $('.box__fill', options.host).css('width', ( e.loaded / e.total * 100) + '%');
 						if (e.lengthComputable) {
@@ -253,33 +247,26 @@
 				}
 
 			})
-			.done( function( d) {
+			.done( d => {
 				if ( 'ack' == d.response) {
-					$.each( d.data, function( i, j) {
-						$('body').growl( j);
-
-					});
+					$.each( d.data, ( i, j) => _.growl( j));
 
 				}
 				else {
-					$('body').growl( d);
+					_.growl( d);
 
 				}
 
 				options.onUpload( d);
-
 				resolve();
 
 			})
-			.always( function( r) {
-				options.host.removeClass('is-uploading');
-
-			})
-			.fail( function( r) {
+			.always( () => options.host.removeClass('is-uploading'))
+			.fail( r => {
 				console.warn(r);
-				_b_.modal({
+				_.modal({
 					title : 'Upload Error',
-					text : 'there was an error uploading the attachments<br />we recommend you reload your browser'
+					text : 'there was an error uploading the attachments<br>we recommend you reload your browser'
 				});
 
 			});
@@ -288,26 +275,27 @@
 
 	};
 
-	let uploader = function( params) {
-			//~ url : false,
-			//~ onUpload : function( response) {},
-			//~ host : false,
-		let options = $.extend({
-			postData : {},
-			droppedFiles : {},
+	let uploader = params => {
+    return new Promise( resolve => {
+      let options = $.extend({
+        postData : {},
+        droppedFiles : {},
 
-		}, params);
+      }, params);
 
-		let data = new FormData();
-		for(let o in options.postData) { data.append( o, options.postData[o]); }
+      let data = new FormData();
+      for(let o in options.postData) { data.append( o, options.postData[o]); }
 
-		$.each( options.droppedFiles, function(i, file) { data.append('files-'+i, file); });
+      $.each( options.droppedFiles, (i, file) => data.append('files-'+i, file));
+      sendData.call( data, options);
 
-		sendData.call( data, options);
+      resolve();
 
-	}
-	;
-	_b_.fileDragDropHandler = function( params) {
+    });
+
+  };
+
+	_.fileDragDropHandler = function( params) {
 		let _el = $(this);
 
 		let options = $.extend( {
@@ -332,7 +320,7 @@
 
 				}
 				else {
-					uploader( options);
+					uploader( options).then( () => _me.val('').prop( 'disabled', false));
 
 				}
 
@@ -375,7 +363,6 @@
 
 		}	// if (isAdvancedUpload && !options.host.hasClass('has-advanced-upload'))
 
-	}
-	;
+	};
 
 })( _brayworth_ );
