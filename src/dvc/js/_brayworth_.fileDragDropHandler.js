@@ -305,9 +305,9 @@
 
 		}, params);
 
-		if ( !options.url)
-			throw 'Invalid upload url';
+		if ( !options.url) throw 'Invalid upload url';
 
+    console.log($('input[type="file"]', this));
 		$('input[type="file"]', this).on( 'change', function( e) {
 			let _me = $(this);
 
