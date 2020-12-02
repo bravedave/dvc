@@ -305,9 +305,9 @@
 
 		}, params);
 
-		if ( !options.url) throw 'Invalid upload url';
+		if ( !options.url)
+			throw 'Invalid upload url';
 
-    console.log($('input[type="file"]', this));
 		$('input[type="file"]', this).on( 'change', function( e) {
 			let _me = $(this);
 
@@ -315,13 +315,11 @@
 			if ( options.droppedFiles) {
 				_me.prop( 'disabled', true);
 				if (options.queue) {
-          console.log( 'enqueue ..');
           enqueue( options)
           .then( () => _me.val('').prop( 'disabled', false));
 
 				}
 				else {
-          console.log('single ..');
 					uploader( options).then( () => _me.val('').prop( 'disabled', false));
 
 				}
