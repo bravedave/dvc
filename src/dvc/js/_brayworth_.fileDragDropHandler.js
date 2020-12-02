@@ -315,11 +315,13 @@
 			if ( options.droppedFiles) {
 				_me.prop( 'disabled', true);
 				if (options.queue) {
+          console.log( 'enqueue ..');
           enqueue( options)
           .then( () => _me.val('').prop( 'disabled', false));
 
 				}
 				else {
+          console.log('single ..');
 					uploader( options).then( () => _me.val('').prop( 'disabled', false));
 
 				}
