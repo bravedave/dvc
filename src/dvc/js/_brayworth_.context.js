@@ -7,279 +7,282 @@
  *
  * */
 /*jshint esversion: 6 */
-_brayworth_.context = function() {
-	return ({
-		root : $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
-		items : [],
-		length : 0,
-		detachOnHide : true,
-		hideClass : ( _brayworth_.bootstrap_version() < 4 ? 'hidden' : 'd-none'),
+( _ => {
+  _.context = () => {
+    return ({
+      root : $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
+      items : [],
+      length : 0,
+      detachOnHide : true,
+      hideClass : ( _.bootstrap_version() < 4 ? 'hidden' : 'd-none'),
 
-		create : function( item, after) {
-			let el = $( '<li></li>').append( item);
+      create : function( item, after) {
+        let el = $( '<li></li>').append( item);
 
-			if ( !!after) {
-				if ('prepend' == after) {
-					el.prependTo( this.root);
+        if ( !!after) {
+          if ('prepend' == after) {
+            el.prependTo( this.root);
 
-				}
-				else {
-					el.insertAfter( after);
+          }
+          else {
+            el.insertAfter( after);
 
-				}
+          }
 
-			}
-			else {
-				el.appendTo( this.root);
+        }
+        else {
+          el.appendTo( this.root);
 
-			}
+        }
 
-			this.items.push( el);
-			this.length = this.items.length;
-			return ( el);
+        this.items.push( el);
+        this.length = this.items.length;
+        return ( el);
 
-		},
+      },
 
-		append : function( item) {
-			this.create( item);
-			return ( this);
+      append : function( item) {
+        this.create( item);
+        return ( this);
 
-		},
+      },
 
-		prepend : function( item) {
-			this.create( item, 'prepend');
-			return ( this);
+      prepend : function( item) {
+        this.create( item, 'prepend');
+        return ( this);
 
-		},
+      },
 
-		open : function( e) {
-			let css = {
-				position: 'absolute',
-				top : 10,
-				left : $(document).width() - 140,
+      open : function( e) {
+        let css = {
+          position: 'absolute',
+          top : 10,
+          left : $(document).width() - 140,
 
-			};
+        };
 
-			if ( !!e.pageY) { css.top = Math.max( e.pageY + 2, 0); }
-			if ( !!e.pageX) { css.left = Math.max( e.pageX + 2, 0); }
+        if ( !!e.pageY) { css.top = Math.max( e.pageY + 2, 0); }
+        if ( !!e.pageX) { css.left = Math.max( e.pageX + 2, 0); }
 
-			//~ console.log( this.root.width());
+        //~ console.log( this.root.width());
 
-			let root = this.root;
-			(function( e) {
-				let t = $( e.target);
-				if ( t.length > 0) {
-					css['z-index'] = t.zIndex() + 10;
+        let root = this.root;
+        (e => {
+          let t = $( e.target);
+          if ( t.length > 0) {
+            css['z-index'] = t.zIndex() + 10;
 
-				}
+          }
 
-			})( e);
+        })( e);
 
 
-			if ( this.detachOnHide) {
-				root.css(css).appendTo( 'body').data('hide', 'detach');
+        if ( this.detachOnHide) {
+          root.css(css).appendTo( 'body').data('hide', 'detach');
 
-			}
-			else {
-				//~ console.log( this.root.parent());
-				if ( root.parent().length < 1) {
-					root.appendTo( 'body').data('hide', 'hide');
+        }
+        else {
+          //~ console.log( this.root.parent());
+          if ( root.parent().length < 1) {
+            root.appendTo( 'body').data('hide', 'hide');
 
-				}
+          }
 
-				root.css(css).removeClass('hidden d-none');
+          root.css(css).removeClass('hidden d-none');
 
-			}
+        }
 
-			let offset = root.offset();
-			let wH = $(window).height();
-			let wW = $(window).width();
-			let sT = $(window).scrollTop();
-			/* try to keep menu on screen horizontally */
-			if ( offset.left + root.width() > wW) {
-				//~ console.log( 'uh oh - right!');
-				let l = wW - root.width() - 5;
-				root.css( 'left', Math.max( l, 2));
-				offset = root.offset();
+        let offset = root.offset();
+        let wH = $(window).height();
+        let wW = $(window).width();
+        let sT = $(window).scrollTop();
+        /* try to keep menu on screen horizontally */
+        if ( offset.left + root.width() > wW) {
+          //~ console.log( 'uh oh - right!');
+          let l = wW - root.width() - 5;
+          root.css( 'left', Math.max( l, 2));
+          offset = root.offset();
 
-			}
+        }
 
-			/* try to keep menu on screen vertically */
-			if ( offset.top + this.root.height() > ( wH + sT)) {
-				//~ console.log( 'uh oh - top!');
-				let t = (wH + sT) - root.height() - 5;
-				root.css( 'top', Math.max( t, sT + 2));
-				offset = root.offset();
+        /* try to keep menu on screen vertically */
+        if ( offset.top + this.root.height() > ( wH + sT)) {
+          //~ console.log( 'uh oh - top!');
+          let t = (wH + sT) - root.height() - 5;
+          root.css( 'top', Math.max( t, sT + 2));
+          offset = root.offset();
 
-			}
+        }
 
 
-			/* add helper class to display the submenu on left if the window width is restrictive on the right */
-			if ( offset.left > ( wW - (root.width()* 2))) {
-				root.addClass( 'menu-contextmenu-right');
+        /* add helper class to display the submenu on left if the window width is restrictive on the right */
+        if ( offset.left > ( wW - (root.width()* 2))) {
+          root.addClass( 'menu-contextmenu-right');
 
-			}
-			else {
-				root.removeClass( 'menu-contextmenu-right');
+        }
+        else {
+          root.removeClass( 'menu-contextmenu-right');
 
-			}
+        }
 
-			/* add helper class to display the submenu high if the window height is restrictive at bottom */
-			if ( offset.top + ( root.height() * 1.2) > ( wH + sT)) {
-				root.addClass( 'menu-contextmenu-low');
+        /* add helper class to display the submenu high if the window height is restrictive at bottom */
+        if ( offset.top + ( root.height() * 1.2) > ( wH + sT)) {
+          root.addClass( 'menu-contextmenu-low');
 
-			}
-			else {
-				root.removeClass( 'menu-contextmenu-low');
+        }
+        else {
+          root.removeClass( 'menu-contextmenu-low');
 
-			}
+        }
 
-			return ( this);
+        return ( this);
 
-		},
+      },
 
-		close : function() {
-			if ( this.detachOnHide) {
-				this.root.remove();
+      close : function() {
+        if ( this.detachOnHide) {
+          this.root.remove();
 
-			}
-			else {
-				this.root.addClass( this.hideClass);
+        }
+        else {
+          this.root.addClass( this.hideClass);
 
-			}
+        }
 
-			return ( this);
+        return ( this);
 
-		},
+      },
 
-		remove : function() {
-			return ( this.close());
+      remove : function() {
+        return ( this.close());
 
-		},
+      },
 
-		attachTo : function( parent) {
+      attachTo : function( parent) {
 
-			let _me = this;
+        let _me = this;
 
-			$( parent)
-			.off( 'click.removeContexts')
-			.on( 'click.removeContexts', function( e) {
-				if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
-					if ( /^(a)$/i.test( e.target.nodeName )) {
-						return;
+        $( parent)
+        .off( 'click.removeContexts')
+        .on( 'click.removeContexts', e => {
+          if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
+            if ( /^(a)$/i.test( e.target.nodeName )) {
+              return;
 
-					}
+            }
 
-				}
+          }
 
-				$(document).trigger('hide-contexts');
+          $(document).trigger('hide-contexts');
 
-			})
-			.on( 'contextmenu', function( e) {
-				/*--[ check for abandonment ]--*/
-				if( $(e.target).closest('[data-role="contextmenu"]').length) {
-					return;
+        })
+        .on( 'contextmenu', e => {
+          /*--[ check for abandonment ]--*/
+          if( $(e.target).closest('[data-role="contextmenu"]').length) {
+            return;
 
-				}
+          }
 
-				$(document).trigger('hide-contexts');
+          $(document).trigger('hide-contexts');
 
-				if ( e.shiftKey) {
-					return;
+          if ( e.shiftKey) {
+            return;
 
-				}
+          }
 
-				if ( /^(input|textarea|img|a|select)$/i.test( e.target.nodeName ) || $(e.target).closest('a').length > 0) {
-					return;
+          if ( /^(input|textarea|img|a|select)$/i.test( e.target.nodeName ) || $(e.target).closest('a').length > 0) {
+            return;
 
-				}
+          }
 
-				if ( $(e.target).closest('table').data('nocontextmenu') == 'yes' ) {
-					return;
+          if ( $(e.target).closest('table').data('nocontextmenu') == 'yes' ) {
+            return;
 
-				}
+          }
 
-				if ( $(e.target).hasClass('modal' ) || $(e.target).closest('.modal').length > 0) {
-					return;
+          if ( $(e.target).hasClass('modal' ) || $(e.target).closest('.modal').length > 0) {
+            return;
 
-				}
+          }
 
-				/** This stops the menu on jquery-ui dialogs */
-				if ( $(e.target).hasClass('ui-widget-overlay' ) || $(e.target).closest( '.ui-dialog').length > 0) {
-					return;
+          /** stops the menu on jquery-ui dialogs */
+          if ( $(e.target).hasClass('ui-widget-overlay' ) || $(e.target).closest( '.ui-dialog').length > 0) {
+            return;
 
-				}
+          }
 
-				if (typeof window.getSelection != "undefined") {
-					let sel = window.getSelection();
-					if (sel.rangeCount) {
-						if ( sel.anchorNode.parentNode == e.target ) {
-							let frag = sel.getRangeAt(0).cloneContents();
-							let text = frag.textContent;
-							if ( text.length > 0 )
-								return;
+          if (typeof window.getSelection != "undefined") {
+            let sel = window.getSelection();
+            if (sel.rangeCount) {
+              if ( sel.anchorNode.parentNode == e.target ) {
+                let frag = sel.getRangeAt(0).cloneContents();
+                let text = frag.textContent;
+                if ( text.length > 0 )
+                  return;
 
-						}
+              }
 
-					}
+            }
 
-				}
-				/*--[ end: check for abandonment ]--*/
+          }
+          /*--[ end: check for abandonment ]--*/
 
-				e.preventDefault();
-				_me.open( e);
+          e.preventDefault();
+          _me.open( e);
 
-			});
+        });
 
-			return ( _me);
+        return ( _me);
 
-		}
+      }
 
-	});
+    });
 
-};
+  };
 
-$(document)
-.on( 'hide-contexts', (e) => {
-	$('[data-role="contextmenu"]').each((i, el) => {
-		let _el = $(el);
-		if (!!_el.data('hide')) {
-			if (_el.data('hide') == 'hide') {
-				$(el).addClass(_brayworth_.bootstrap_version() >= 4 ? 'd-none' : 'hidden');
+  $(document)
+  .on( 'hide-contexts', e => {
+    $('[data-role="contextmenu"]').each((i, el) => {
+      let _el = $(el);
+      if (!!_el.data('hide')) {
+        if (_el.data('hide') == 'hide') {
+          $(el).addClass(_.bootstrap_version() >= 4 ? 'd-none' : 'hidden');
 
-			} else { $(el).remove(); }
+        } else { $(el).remove(); }
 
-		} else { $(el).remove(); }
+      } else { $(el).remove(); }
 
-	});
+    });
 
-})
-.ready( () => {
-	$(document)
-	.on( 'keyup.removeContexts', ( e) => {
-		if ( 27 == e.keyCode) {
-			$(document).trigger( 'hide-contexts');
+  })
+  .ready( () => {
+    $(document)
+    .on( 'keyup.removeContexts', e => {
+      if ( 27 == e.keyCode) {
+        $(document).trigger( 'hide-contexts');
 
-		}
+      }
 
-	})
-	.on( 'click.removeContexts', ( e) => {
-		if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
-			if ( /^(a)$/i.test( e.target.nodeName )) { return; }
+    })
+    .on( 'click.removeContexts', e => {
+      if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
+        if ( /^(a)$/i.test( e.target.nodeName )) { return; }
 
-		}
+      }
 
-		$(document).trigger('hide-contexts');
+      $(document).trigger('hide-contexts');
 
-	})
-	.on( 'contextmenu.removeContexts', ( e) => {
-		if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
-			if ( /^(a)$/i.test( e.target.nodeName )) { return; }
+    })
+    .on( 'contextmenu.removeContexts', e => {
+      if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
+        if ( /^(a)$/i.test( e.target.nodeName )) { return; }
 
-		}
+      }
 
-		$(document).trigger('hide-contexts');
+      $(document).trigger('hide-contexts');
 
-	});
+    });
 
-});
+  });
+
+}) (_brayworth_);
