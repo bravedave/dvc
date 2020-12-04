@@ -28,7 +28,7 @@
       hiddenDiv.html(content + '<br class="autosize-lbr">');
 
       _me.css('height', (hiddenDiv.height() * 1.1) + 14);
-      console.log('height', (hiddenDiv.height()*1.1) + 14);
+      // console.log('height', (hiddenDiv.height()*1.1) + 14);
 
     }
 
@@ -42,7 +42,7 @@
       .on('change.autoResize', update);
 
     update.call(this);
-    console.log('resize');
+    // console.log('resize');
     return (this);
 
   }
