@@ -36,12 +36,13 @@
       .addClass('autosize-textarea autosize-common')
       .off('keyup.autoResize')
       .off('change.autoResize')
+      .off('resize', update)
       .on('resize', update)
       .on('keyup.autoResize', update)
       .on('change.autoResize', update);
 
     update.call(this);
-
+    console.log('resize');
     return (this);
 
   }
