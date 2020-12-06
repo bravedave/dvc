@@ -56,10 +56,15 @@ class icon {
   const house = 190;
   const house_plus = 191;
 
-  const menu_down = 201;
-  const menu_up = 202;
+  const list = 220;
+  const list_check = 221;
+  const list_nested = 222;
+  const list_ol = 223;
+  const list_stars = 224;
+  const list_ul = 225;
 
-  const question = 220;
+  const menu_down = 301;
+  const menu_up = 302;
 
   const people = 345;
   const people_fill = 346;
@@ -82,6 +87,8 @@ class icon {
 
   const phone = 410;
   const phone_fill = 411;
+
+  const question = 440;
 
   const sliders = 500;
 
@@ -220,6 +227,30 @@ class icon {
       return file_get_contents( __DIR__ . '/icons/house-plus.svg');
 
     }
+    elseif ( self::list == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/list.svg');
+
+    }
+    elseif ( self::list_check == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/list-check.svg');
+
+    }
+    elseif ( self::list_nested == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/list-nested.svg');
+
+    }
+    elseif ( self::list_ol == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/list-ol.svg');
+
+    }
+    elseif ( self::list_stars == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/list-stars.svg');
+
+    }
+    elseif ( self::list_ul == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/list-ul.svg');
+
+    }
     elseif ( self::menu_down == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/menu-down.svg');
 
@@ -237,7 +268,7 @@ class icon {
 
     }
     elseif ( self::people_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap4/icons/people_fill.svg');
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/people-fill.svg');
 
     }
     elseif ( self::person == $icon) {
@@ -249,7 +280,7 @@ class icon {
 
     }
     elseif ( self::person_check_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap4/icons/person-check_fill.svg');
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/person-check-fill.svg');
 
     }
     elseif ( self::person_dash == $icon) {
