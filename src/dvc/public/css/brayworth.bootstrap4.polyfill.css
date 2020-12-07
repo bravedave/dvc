@@ -75,3 +75,5 @@ button.close {
 select:not(.form-select) { appearance: auto;}
 
 a { text-decoration: none; }
+
+.font-weight-bold { font-weight: bold; }
