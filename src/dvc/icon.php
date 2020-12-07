@@ -15,22 +15,27 @@ class icon {
   const at = 15;
   const box = 20;
 
-  const calendar_event = 40;
-  const calendar_event_fill = 41;
-  const calendar_minus = 42;
-  const calendar_minus_fill = 43;
-  const calendar_plus = 44;
-  const calendar_plus_fill = 45;
+  const calendar = 40;
+  const calendar_date = 41;
+  const calendar_date_fill = 42;
+  const calendar_day = 43;
+  const calendar_day_fill = 44;
+  const calendar_event = 45;
+  const calendar_event_fill = 46;
+  const calendar_minus = 47;
+  const calendar_minus_fill = 48;
+  const calendar_plus = 49;
+  const calendar_plus_fill = 50;
 
-  const chat = 46;
+  const chat = 60;
 
-  const check = 47;
-  const check_all = 48;
-  const check2 = 49;
-  const check2_all = 50;
+  const check = 70;
+  const check_all = 71;
+  const check2 = 72;
+  const check2_all = 73;
 
-  const chevronLeft = 51;
-  const chevronRight = 52;
+  const chevronLeft = 75;
+  const chevronRight = 76;
 
   const diamond = 80;
   const diamond_fill = 81;
@@ -105,6 +110,26 @@ class icon {
     }
     elseif ( self::box == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/box.svg');
+
+    }
+    elseif ( self::calendar == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar.svg');
+
+    }
+    elseif ( self::calendar_date == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar-date.svg');
+
+    }
+    elseif ( self::calendar_date_fill == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar-date-fill.svg');
+
+    }
+    elseif ( self::calendar_day == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar-day.svg');
+
+    }
+    elseif ( self::calendar_day_fill == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar-day-fill.svg');
 
     }
     elseif ( self::calendar_event == $icon) {

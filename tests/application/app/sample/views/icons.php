@@ -11,6 +11,33 @@
 ?>
 
 <div class="row mb-4">
+  <div class="col"><?= dvc\icon::get( dvc\icon::calendar ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::calendar_date ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::calendar_date_fill ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::calendar_day ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::calendar_day_fill ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::calendar_event ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::calendar_event_fill ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::calendar_minus ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::calendar_minus_fill ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::calendar_plus ) ?></div>
+
+  <div class="col"><?= dvc\icon::get( dvc\icon::calendar_plus_fill ) ?></div>
+
+  <div class="col">&nbsp;</div>
+
+</div>
+
+<div class="row mb-4">
   <div class="col"><?= dvc\icon::get( dvc\icon::check ) ?></div>
 
   <div class="col"><?= dvc\icon::get( dvc\icon::check_all ) ?></div>
