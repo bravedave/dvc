@@ -41,6 +41,16 @@ class icon {
   const diamond_fill = 81;
   const diamond_half = 82;
 
+  const document = 85;
+  const document_code = 86;
+  const document_diff = 87;
+  const document_richtext = 88;
+  const document_spreadsheet = 89;
+  const document_text = 90;
+
+  const documents = 91;
+  const documents_alt = 92;
+
   const envelope = 120;
   const envelope_fill = 121;
   const envelope_open = 122;
@@ -194,6 +204,38 @@ class icon {
     }
     elseif ( self::diamond_half == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/diamond-half.svg');
+
+    }
+    elseif ( self::document == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/document.svg');
+
+    }
+    elseif ( self::document_code == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/document-code.svg');
+
+    }
+    elseif ( self::document_diff == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/document-diff.svg');
+
+    }
+    elseif ( self::document_richtext == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/document-richtext.svg');
+
+    }
+    elseif ( self::document_spreadsheet == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/document-spreadsheet.svg');
+
+    }
+    elseif ( self::document_text == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/document-text.svg');
+
+    }
+    elseif ( self::documents == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/documents.svg');
+
+    }
+    elseif ( self::documents_alt == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap4/icons/documents-alt.svg');
 
     }
     elseif ( self::envelope == $icon) {
