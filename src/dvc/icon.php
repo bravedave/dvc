@@ -12,64 +12,128 @@ namespace dvc;
 
 class icon {
   const app = 10;
-  const at = 15;
-  const box = 20;
 
-  const calendar = 40;
-  const calendar_date = 41;
-  const calendar_date_fill = 42;
-  const calendar_day = 43;
-  const calendar_day_fill = 44;
-  const calendar_event = 45;
-  const calendar_event_fill = 46;
-  const calendar_minus = 47;
-  const calendar_minus_fill = 48;
-  const calendar_plus = 49;
-  const calendar_plus_fill = 50;
+	const arrow_90deg_down = 19;
+	const arrow_90deg_left = 20;
+	const arrow_90deg_right = 21;
+	const arrow_90deg_up = 22;
+	const arrow_bar_bottom = 23;
+	const arrow_bar_down = 24;
+	const arrow_bar_left = 25;
+	const arrow_bar_right = 26;
+	const arrow_bar_up = 27;
+	const arrow_clockwise = 280;
+	const arrow_counterclockwise = 29;
+	const arrow_down_circle_fill = 30;
+	const arrow_down_circle = 31;
+	const arrow_down_left_circle_fill = 32;
+	const arrow_down_left_circle = 33;
+	const arrow_down_left_square_fill = 34;
+	const arrow_down_left_square = 35;
+	const arrow_down_left = 36;
+	const arrow_down_right_circle_fill = 37;
+	const arrow_down_right_circle = 38;
+	const arrow_down_right_square_fill = 39;
+	const arrow_down_right_square = 40;
+	const arrow_down_right = 41;
+	const arrow_down_short = 42;
+	const arrow_down_square_fill = 43;
+	const arrow_down_square = 44;
+	const arrow_down_up = 45;
+	const arrow_down = 46;
+	const arrow_left_circle_fill = 47;
+	const arrow_left_circle = 48;
+	const arrow_left_right = 49;
+	const arrow_left_short = 50;
+	const arrow_left_square_fill = 51;
+	const arrow_left_square = 52;
+	const arrow_left = 53;
+	const arrow_repeat = 54;
+	const arrow_return_left = 55;
+	const arrow_return_right = 56;
+	const arrow_right_circle_fill = 57;
+	const arrow_right_circle = 58;
+	const arrow_right_short = 59;
+	const arrow_right_square_fill = 60;
+	const arrow_right_square = 61;
+	const arrow_right = 62;
+	const arrow_up_circle_fill = 63;
+	const arrow_up_circle = 64;
+	const arrow_up_down = 65;
+	const arrow_up_left_circle_fill = 66;
+	const arrow_up_left_circle = 67;
+	const arrow_up_left_square_fill = 68;
+	const arrow_up_left_square = 69;
+	const arrow_up_left = 70;
+	const arrow_up_right_circle_fill = 71;
+	const arrow_up_right_circle = 72;
+	const arrow_up_right_square_fill = 73;
+	const arrow_up_right_square = 74;
+	const arrow_up_right = 75;
+	const arrow_up_short = 76;
+	const arrow_up_square_fill = 77;
+	const arrow_up_square = 78;
+	const arrow_up = 79;
 
-  const chat = 60;
+  const at = 80;
 
-  const check = 70;
-  const check_all = 71;
-  const check2 = 72;
-  const check2_all = 73;
+  const box = 101;
 
-  const chevronLeft = 75;
-  const chevronRight = 76;
+  const calendar = 140;
+  const calendar_date = 141;
+  const calendar_date_fill = 142;
+  const calendar_day = 143;
+  const calendar_day_fill = 144;
+  const calendar_event = 145;
+  const calendar_event_fill = 146;
+  const calendar_minus = 147;
+  const calendar_minus_fill = 148;
+  const calendar_plus = 149;
+  const calendar_plus_fill = 150;
 
-  const diamond = 80;
-  const diamond_fill = 81;
-  const diamond_half = 82;
+  const chat = 160;
 
-  const document = 85;
-  const document_code = 86;
-  const document_diff = 87;
-  const document_richtext = 88;
-  const document_spreadsheet = 89;
-  const document_text = 90;
+  const check = 170;
+  const check_all = 171;
+  const check2 = 172;
+  const check2_all = 173;
 
-  const documents = 91;
-  const documents_alt = 92;
+  const chevronLeft = 175;
+  const chevronRight = 176;
 
-  const envelope = 120;
-  const envelope_fill = 121;
-  const envelope_open = 122;
-  const envelope_open_fill = 123;
+  const diamond = 180;
+  const diamond_fill = 181;
+  const diamond_half = 182;
 
-  const fileRichText = 170;
-  const file_rich_text = 170;
-  const file_text = 171;
-  const file_text_fill = 172;
+  const document = 185;
+  const document_code = 186;
+  const document_diff = 187;
+  const document_richtext = 188;
+  const document_spreadsheet = 189;
+  const document_text = 190;
 
-  const gear = 180;
-  const gear_fill = 181;
-  const gear_wide = 182;
-  const gear_wide_connected = 183;
+  const documents = 191;
+  const documents_alt = 192;
 
-  const github = 184;
+  const envelope = 195;
+  const envelope_fill = 196;
+  const envelope_open = 197;
+  const envelope_open_fill = 198;
 
-  const house = 190;
-  const house_plus = 191;
+  const fileRichText = 200;
+  const file_rich_text = 201;
+  const file_text = 202;
+  const file_text_fill = 203;
+
+  const gear = 210;
+  const gear_fill = 211;
+  const gear_wide = 212;
+  const gear_wide_connected = 213;
+
+  const github = 214;
+
+  const house = 215;
+  const house_plus = 216;
 
   const list = 220;
   const list_check = 221;
@@ -110,34 +174,76 @@ class icon {
   const x = 600;
 
   static function get( int $icon ) : string {
-    if ( self::app == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap4/icons/app.svg');
+    if ( self::app == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/app.svg');
 
-    }
-    elseif ( self::at == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap4/icons/at.svg');
+    elseif ( self::arrow_90deg_down == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-90deg-down.svg');
+    elseif ( self::arrow_90deg_left == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-90deg-left.svg');
+    elseif ( self::arrow_90deg_right == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-90deg-right.svg');
+    elseif ( self::arrow_90deg_up == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-90deg-up.svg');
+    elseif ( self::arrow_bar_bottom == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-bar-bottom.svg');
+    elseif ( self::arrow_bar_down == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-bar-down.svg');
+    elseif ( self::arrow_bar_left == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-bar-left.svg');
+    elseif ( self::arrow_bar_right == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-bar-right.svg');
+    elseif ( self::arrow_bar_up == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-bar-up.svg');
+    elseif ( self::arrow_clockwise == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-clockwise.svg');
+    elseif ( self::arrow_counterclockwise == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-counterclockwise.svg');
+    elseif ( self::arrow_down_circle_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-circle-fill.svg');
+    elseif ( self::arrow_down_circle == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-circle.svg');
+    elseif ( self::arrow_down_left_circle_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-left-circle-fill.svg');
+    elseif ( self::arrow_down_left_circle == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-left-circle.svg');
+    elseif ( self::arrow_down_left_square_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-left-square-fill.svg');
+    elseif ( self::arrow_down_left_square == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-left-square.svg');
+    elseif ( self::arrow_down_left == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-left.svg');
+    elseif ( self::arrow_down_right_circle_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-right-circle-fill.svg');
+    elseif ( self::arrow_down_right_circle == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-right-circle.svg');
+    elseif ( self::arrow_down_right_square_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-right-square-fill.svg');
+    elseif ( self::arrow_down_right_square == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-right-square.svg');
+    elseif ( self::arrow_down_right == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-right.svg');
+    elseif ( self::arrow_down_short == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-short.svg');
+    elseif ( self::arrow_down_square_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-square-fill.svg');
+    elseif ( self::arrow_down_square == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-square.svg');
+    elseif ( self::arrow_down_up == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down-up.svg');
+    elseif ( self::arrow_down == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-down.svg');
+    elseif ( self::arrow_left_circle_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-left-circle-fill.svg');
+    elseif ( self::arrow_left_circle == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-left-circle.svg');
+    elseif ( self::arrow_left_right == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-left-right.svg');
+    elseif ( self::arrow_left_short == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-left-short.svg');
+    elseif ( self::arrow_left_square_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-left-square-fill.svg');
+    elseif ( self::arrow_left_square == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-left-square.svg');
+    elseif ( self::arrow_left == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-left.svg');
+    elseif ( self::arrow_repeat == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-repeat.svg');
+    elseif ( self::arrow_return_left == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-return-left.svg');
+    elseif ( self::arrow_return_right == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-return-right.svg');
+    elseif ( self::arrow_right_circle_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-right-circle-fill.svg');
+    elseif ( self::arrow_right_circle == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-right-circle.svg');
+    elseif ( self::arrow_right_short == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-right-short.svg');
+    elseif ( self::arrow_right_square_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-right-square-fill.svg');
+    elseif ( self::arrow_right_square == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-right-square.svg');
+    elseif ( self::arrow_right == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-right.svg');
+    elseif ( self::arrow_up_circle_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-circle-fill.svg');
+    elseif ( self::arrow_up_circle == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-circle.svg');
+    elseif ( self::arrow_up_down == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-down.svg');
+    elseif ( self::arrow_up_left_circle_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-left-circle-fill.svg');
+    elseif ( self::arrow_up_left_circle == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-left-circle.svg');
+    elseif ( self::arrow_up_left_square_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-left-square-fill.svg');
+    elseif ( self::arrow_up_left_square == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-left-square.svg');
+    elseif ( self::arrow_up_left == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-left.svg');
+    elseif ( self::arrow_up_right_circle_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-right-circle-fill.svg');
+    elseif ( self::arrow_up_right_circle == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-right-circle.svg');
+    elseif ( self::arrow_up_right_square_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-right-square-fill.svg');
+    elseif ( self::arrow_up_right_square == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-right-square.svg');
+    elseif ( self::arrow_up_right == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-right.svg');
+    elseif ( self::arrow_up_short == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-short.svg');
+    elseif ( self::arrow_up_square_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-square-fill.svg');
+    elseif ( self::arrow_up_square == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up-square.svg');
+    elseif ( self::arrow_up == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/arrow-up.svg');
+    elseif ( self::at == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/at.svg');
 
-    }
-    elseif ( self::box == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap4/icons/box.svg');
-
-    }
-    elseif ( self::calendar == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar.svg');
-
-    }
-    elseif ( self::calendar_date == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar-date.svg');
-
-    }
-    elseif ( self::calendar_date_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar-date-fill.svg');
-
-    }
-    elseif ( self::calendar_day == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar-day.svg');
-
-    }
+    elseif ( self::box == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/box.svg');
+    elseif ( self::calendar == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar.svg');
+    elseif ( self::calendar_date == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar-date.svg');
+    elseif ( self::calendar_date_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar-date-fill.svg');
+    elseif ( self::calendar_day == $icon) return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar-day.svg');
     elseif ( self::calendar_day_fill == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap4/icons/calendar-day-fill.svg');
 

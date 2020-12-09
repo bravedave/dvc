@@ -11,6 +11,93 @@
 use dvc\icon; ?>
 
 <div class="row mb-4">
+  <div class="col"><?= icon::get( icon::arrow_90deg_left ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_90deg_right ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_90deg_up ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_bar_bottom ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_bar_down ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_bar_left ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_bar_right ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_bar_up ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_clockwise ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_counterclockwise ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_down_circle_fill ) ?></div>
+</div>
+
+
+<div class="row mb-4">
+  <div class="col"><?= icon::get( icon::arrow_down_circle ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_down_left_circle_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_down_left_circle ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_down_left_square_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_down_left_square ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_down_left ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_down_right_circle_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_down_right_circle ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_down_right_square_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_down_right_square ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_down_right ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_down_short ) ?></div>
+</div>
+
+
+<div class="row mb-4">
+  <div class="col"><?= icon::get( icon::arrow_down_square_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_down_square ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_down_up ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_down ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_left_circle_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_left_circle ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_left_right ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_left_short ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_left_square_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_left_square ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_left ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_repeat ) ?></div>
+</div>
+
+
+<div class="row mb-4">
+  <div class="col"><?= icon::get( icon::arrow_return_left ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_return_right ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_right_circle_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_right_circle ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_right_short ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_right_square_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_right_square ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_right ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_up_circle_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_up_circle ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_up_down ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_up_left_circle_fill ) ?></div>
+</div>
+
+
+<div class="row mb-4">
+  <div class="col"><?= icon::get( icon::arrow_up_left_circle ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_up_left_square_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_up_left_square ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_up_left ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_up_right_circle_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_up_right_circle ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_up_right_square_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_up_right_square ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_up_right ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_up_short ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_up_square_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::arrow_up_square ) ?></div>
+</div>
+
+
+<div class="row mb-4">
+  <div class="col"><?= icon::get( icon::arrow_up ) ?></div>
+  <div class="col"><?= icon::get( icon::at ) ?></div>
+  <div class="col-10">&nbsp;</div>
+
+</div>
+
+
+<div class="row mb-4">
   <div class="col"><?= icon::get( icon::calendar ) ?></div>
 
   <div class="col"><?= icon::get( icon::calendar_date ) ?></div>
