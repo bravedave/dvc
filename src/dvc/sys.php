@@ -16,6 +16,50 @@ abstract class sys {
 
 	static $debug = false;
 
+	public static function bootStrap_verion() : \stdClass {
+    $ret = (object)[
+      'version' => 0,
+      'short' => 0,
+      'major' => 0,
+
+    ];
+
+    $root = realpath( __DIR__ . '/../../../../twbs');
+    if ( !$root) {
+      $root = realpath( __DIR__ . '/../../vendor/twbs');
+    }
+
+    if ( $root) {
+      $path = realpath(
+        implode(
+          DIRECTORY_SEPARATOR,
+          [
+            $root,
+            'bootstrap',
+            'package.json'
+
+          ]
+
+        )
+
+      );
+
+      if ( \file_exists( $path)) {
+        if ( $j = @json_decode( \file_get_contents( $path))) {
+          $ret->version = $j->version;
+          $ret->short = $j->version_short;
+          $ret->major = (int)$j->version_short;
+
+        }
+
+      }
+
+    }
+
+    return $ret;
+
+  }
+
 	public static function dbi() {
 		if ( is_null( self::$_dbi)) {
 			if ( \config::$DB_TYPE == 'sqlite' ) {
@@ -37,20 +81,6 @@ abstract class sys {
     return 'sqlite' == \config::$DB_TYPE ?
       new sqlite\dbCheck( self::dbi(), $file ) :
       new \dao\dbCheck( self::dbi(), $file );
-
-	}
-
-	public static function diskspace() {
-		$ret = (object)[
-			'free' => disk_free_space( __DIR__ ),
-			'total' => disk_total_space( __DIR__ ),
-			'threshhold' => \config::$FREE_DISKSPACE_THRESHHOLD
-
-		];
-
-		$ret->exceeded = $ret->free < $ret->threshhold;
-
-		return $ret;
 
 	}
 
@@ -88,6 +118,45 @@ abstract class sys {
 
 	}
 
+	public static function diskspace() {
+		$ret = (object)[
+			'free' => disk_free_space( __DIR__ ),
+			'total' => disk_total_space( __DIR__ ),
+			'threshhold' => \config::$FREE_DISKSPACE_THRESHHOLD
+
+		];
+
+		$ret->exceeded = $ret->free < $ret->threshhold;
+
+		return $ret;
+
+	}
+
+	public static function dump( $v, $title = '', $lExit = true) {
+		if ( !$title) {
+			if ( gettype( $v) == 'object')
+				$title = get_class( $v);
+			else
+				$title = gettype( $v);
+
+		}
+
+		if ( $title == 'dvc\dbResult' || $title == 'dvc\sqlite\dbResult') {
+			printf( '<h1>%s</h1>', $title);
+			while ( $r = $v->dto())
+				new html\dump( $r, get_class( $r));
+
+		}
+		else {
+			new html\dump( $v, $title );
+
+		}
+
+		if ( $lExit )
+			exit;
+
+	}
+
 	public static function getTemplate( $template) {
 		if ( $template) {
 			if ( $template = preg_replace( '/[^\da-z_]/i', '', $template)) {
@@ -119,6 +188,11 @@ abstract class sys {
 			}
 
 		}
+
+	}
+
+	public static function isWindows() {
+		return ( 'WIN' === strtoupper(substr(PHP_OS, 0, 3)));
 
 	}
 
@@ -161,195 +235,6 @@ abstract class sys {
 
 	public static function logSQL( $v, $level = 0 ) {
 		self::logger( preg_replace( [ "@\r\n@","@\n@","@\t@","@\s\s*@" ], ' ', $v ));
-
-	}
-
-  protected static $_options = [];
-
-	protected static function _options_file() {
-		return implode( DIRECTORY_SEPARATOR, [
-      rtrim( config::dataPath(), '/ '),
-      'sys.json'
-
-    ]);
-
-	}
-
-  public static function option( $key, $val = null ) {
-		$debug = false;
-		// $debug = true;
-
-		if ( !self::$_options) {
-      if ( file_exists( $config = self::_options_file())) {
-        self::$_options = (array)json_decode( file_get_contents( $config));
-
-      }
-
-		}
-
-		$ret = '';
-		if ( self::$_options) {
-      /* return the existing value */
-      if ( isset( self::$_options[$key])) {
-        $ret = (string)self::$_options[$key];
-
-        if ( $debug) self::logger( sprintf( 'retrieve option value : %s = %s', $key, $ret));
-
-      } elseif ( $debug) { self::logger( sprintf( 'retrieve option value (default - not set) : %s = %s', $key, $ret)); }
-
-		} elseif ( $debug) { self::logger( sprintf( 'retrieve option value (null): %s = %s', $key, $ret)); }
-
-
-		if ( !is_null( $val)) {
-
-			/* writer */
-			if ( (string)$val == '') {
-				if ( isset( self::$_options[$key])) {
-					unset( self::$_options[$key]);
-
-        }
-
-			}
-			else {
-				self::$_options[$key] = (string)$val;
-
-			}
-
-      file_put_contents(
-        self::_options_file(),
-        json_encode(
-          self::$_options,
-          JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
-
-        )
-
-      );
-
-		}
-
-		return ( $ret);
-
-  }
-
-  public static function set_error_handler() {
-		errsys::initiate( false );
-
-	}
-
-	public static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = false) {
-		/**
-		 * text2html: converts plain text to html by swaping in <br /> for \n
-		 *
-		 * $inText : text to be converted
-		 * $maxRows : the number of rows to convert - default -1 == all
-		 * $allAsteriskAsList : convert * (asterisk) to list (<ul><li>{text}</li></ul>)
-		 **/
-
-		if ( $maxrows > 0 ) {
-			$a = [
-				"/\\\\n/",
-				"/(\n)|(\\\\n)/"
-			];
-			$x = preg_split( "/\n/", $inText );
-			while ( count( $x ) > ($maxrows+1) )
-				array_pop( $x );
-			$inText = implode( "<br />", $x );
-
-		}
-
-		$a = [
-			"/\r\n/",
-			"/---\\n/",
-			"/\\\\n/",
-			"/\n/",
-			"/$\*/"
-		];
-
-		$aR = [
-			"\n",
-			'<hr align="left" style="width: 200px; margin: 0;" />',
-			'<br />',
-			'<br />',
-			'<br />&bull;'
-		];
-
-		if ( $allAsteriskAsList ) {
-			$a[] = "/\*/";
-			$aR[] = "<br />&bull;";
-			$inText = rtrim( $inText, " .*" );
-		}
-
-		return ( preg_replace( $a, $aR, $inText));
-
-	}
-
-	public static function trace( $v, $level = 0 ) {
-		self::logger( $v);
-		$level = (int)$level;
-		$iLevel = 0;
-		foreach ( debug_backtrace() as $e ) {
-			if ( isset( $e['file'])) {
-				self::logger( sprintf( '%s(%s)', $e['file'], $e['line'] ));
-
-			}
-			else {
-				self::logger( print_r( $e, true));
-
-			}
-
-			if ( $level > 0 && ++$iLevel > $level ) {
-				break;
-
-			}
-
-		}
-
-	}
-
-	public static function traceCaller() {
-		$trace = debug_backtrace();
-		if ( isset( $trace[2])) {
-			$caller = $trace[2];
-			if (isset($caller['class'])) {
-				return sprintf( '%s/%s', $caller['class'], $caller['function'] );
-
-			}
-
-			return $caller['function'];
-
-		}
-
-		return 'unknown caller';
-
-	}
-
-	public static function dump( $v, $title = '', $lExit = true) {
-		if ( !$title) {
-			if ( gettype( $v) == 'object')
-				$title = get_class( $v);
-			else
-				$title = gettype( $v);
-
-		}
-
-		if ( $title == 'dvc\dbResult' || $title == 'dvc\sqlite\dbResult') {
-			printf( '<h1>%s</h1>', $title);
-			while ( $r = $v->dto())
-				new html\dump( $r, get_class( $r));
-
-		}
-		else {
-			new html\dump( $v, $title );
-
-		}
-
-		if ( $lExit )
-			exit;
-
-	}
-
-	public static function isWindows() {
-		return ( 'WIN' === strtoupper(substr(PHP_OS, 0, 3)));
 
 	}
 
@@ -418,6 +303,73 @@ abstract class sys {
 
     $mail->setFrom( \config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME);
     return ( $mail);
+
+  }
+
+  protected static $_options = [];
+
+	protected static function _options_file() {
+		return implode( DIRECTORY_SEPARATOR, [
+      rtrim( config::dataPath(), '/ '),
+      'sys.json'
+
+    ]);
+
+	}
+
+  public static function option( $key, $val = null ) {
+		$debug = false;
+		// $debug = true;
+
+		if ( !self::$_options) {
+      if ( file_exists( $config = self::_options_file())) {
+        self::$_options = (array)json_decode( file_get_contents( $config));
+
+      }
+
+		}
+
+		$ret = '';
+		if ( self::$_options) {
+      /* return the existing value */
+      if ( isset( self::$_options[$key])) {
+        $ret = (string)self::$_options[$key];
+
+        if ( $debug) self::logger( sprintf( 'retrieve option value : %s = %s', $key, $ret));
+
+      } elseif ( $debug) { self::logger( sprintf( 'retrieve option value (default - not set) : %s = %s', $key, $ret)); }
+
+		} elseif ( $debug) { self::logger( sprintf( 'retrieve option value (null): %s = %s', $key, $ret)); }
+
+
+		if ( !is_null( $val)) {
+
+			/* writer */
+			if ( (string)$val == '') {
+				if ( isset( self::$_options[$key])) {
+					unset( self::$_options[$key]);
+
+        }
+
+			}
+			else {
+				self::$_options[$key] = (string)$val;
+
+			}
+
+      file_put_contents(
+        self::_options_file(),
+        json_encode(
+          self::$_options,
+          JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
+
+        )
+
+      );
+
+		}
+
+		return ( $ret);
 
   }
 
@@ -602,50 +554,6 @@ abstract class sys {
 
 	}
 
-	public static function bootStrap_verion() : \stdClass {
-    $ret = (object)[
-      'version' => 0,
-      'short' => 0,
-      'major' => 0,
-
-    ];
-
-    $root = realpath( __DIR__ . '/../../../../twbs');
-    if ( !$root) {
-      $root = realpath( __DIR__ . '/../../vendor/twbs');
-    }
-
-    if ( $root) {
-      $path = realpath(
-        implode(
-          DIRECTORY_SEPARATOR,
-          [
-            $root,
-            'bootstrap',
-            'package.json'
-
-          ]
-
-        )
-
-      );
-
-      if ( \file_exists( $path)) {
-        if ( $j = @json_decode( \file_get_contents( $path))) {
-          $ret->version = $j->version;
-          $ret->short = $j->version_short;
-          $ret->major = (int)$j->version_short;
-
-        }
-
-      }
-
-    }
-
-    return $ret;
-
-  }
-
 	public static function serveBootStrap( $type = 'css') {
 		if ( \config::$BOOTSTRAP_REQUIRE_POPPER) {
       \sys::logger( sprintf('deprecated : $BOOTSTRAP_REQUIRE_POPPER is deprcated : %s', __FILE__));
@@ -747,6 +655,98 @@ abstract class sys {
 			throw new \Exception( 'Cannot locate fullcalendar-4 bootstrap');
 
 		}
+
+	}
+
+  public static function set_error_handler() {
+		errsys::initiate( false );
+
+	}
+
+	public static function text2html( $inText, $maxrows = -1, $allAsteriskAsList = false) {
+		/**
+		 * text2html: converts plain text to html by swaping in <br /> for \n
+		 *
+		 * $inText : text to be converted
+		 * $maxRows : the number of rows to convert - default -1 == all
+		 * $allAsteriskAsList : convert * (asterisk) to list (<ul><li>{text}</li></ul>)
+		 **/
+
+		if ( $maxrows > 0 ) {
+			$a = [
+				"/\\\\n/",
+				"/(\n)|(\\\\n)/"
+			];
+			$x = preg_split( "/\n/", $inText );
+			while ( count( $x ) > ($maxrows+1) )
+				array_pop( $x );
+			$inText = implode( "<br />", $x );
+
+		}
+
+		$a = [
+			"/\r\n/",
+			"/---\\n/",
+			"/\\\\n/",
+			"/\n/",
+			"/$\*/"
+		];
+
+		$aR = [
+			"\n",
+			'<hr align="left" style="width: 200px; margin: 0;" />',
+			'<br />',
+			'<br />',
+			'<br />&bull;'
+		];
+
+		if ( $allAsteriskAsList ) {
+			$a[] = "/\*/";
+			$aR[] = "<br />&bull;";
+			$inText = rtrim( $inText, " .*" );
+		}
+
+		return ( preg_replace( $a, $aR, $inText));
+
+	}
+
+	public static function trace( $v, $level = 0 ) {
+		self::logger( $v);
+		$level = (int)$level;
+		$iLevel = 0;
+		foreach ( debug_backtrace() as $e ) {
+			if ( isset( $e['file'])) {
+				self::logger( sprintf( '%s(%s)', $e['file'], $e['line'] ));
+
+			}
+			else {
+				self::logger( print_r( $e, true));
+
+			}
+
+			if ( $level > 0 && ++$iLevel > $level ) {
+				break;
+
+			}
+
+		}
+
+	}
+
+	public static function traceCaller() {
+		$trace = debug_backtrace();
+		if ( isset( $trace[2])) {
+			$caller = $trace[2];
+			if (isset($caller['class'])) {
+				return sprintf( '%s/%s', $caller['class'], $caller['function'] );
+
+			}
+
+			return $caller['function'];
+
+		}
+
+		return 'unknown caller';
 
 	}
 
