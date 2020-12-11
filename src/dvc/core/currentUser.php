@@ -11,6 +11,7 @@
 namespace dvc\core;
 use dvc\errsys;
 use dvc\strings;
+use session;
 use sys;
 
 abstract class currentUser {
@@ -18,7 +19,7 @@ abstract class currentUser {
 	protected static $instance;
 
 	public static function avatar() {
-		return \session::get( 'avatar', strings::url( 'images/avatar.png'));
+		return session::get( 'avatar', strings::url( 'images/avatar.png'));
 
 	}
 
@@ -42,9 +43,23 @@ abstract class currentUser {
 
 	}
 
+  public static function option( $key, $val = null ) {
+    return sys::option( $key, $val);
+
+  }
+
 	public static function soAuth() {
 		sys::logger( 'soAuth is stub');
 		return ( new \imap\soAccount);
+
+	}
+
+	public static function sync( oauth $o) {
+		if ( method_exists( self::user(), 'sync'))
+			return ( self::user()->sync( $o));
+
+		sys::logger( 'user class does not correctly inherit _user (legacy did not require this, but (e.g.) use of oauth does)');
+		return ( false);
 
 	}
 
@@ -62,15 +77,6 @@ abstract class currentUser {
 
 	public static function valid() {
 		return ( self::user()->valid()) ;
-
-	}
-
-	public static function sync( oauth $o) {
-		if ( method_exists( self::user(), 'sync'))
-			return ( self::user()->sync( $o));
-
-		sys::logger( 'user class does not correctly inherit _user (legacy did not require this, but (e.g.) use of oauth does)');
-		return ( false);
 
 	}
 
