@@ -14,7 +14,7 @@ use dvc\icon; ?>
   <div class="col"><?= icon::get( icon::arrow_90deg_left ) ?></div>
   <div class="col"><?= icon::get( icon::arrow_90deg_right ) ?></div>
   <div class="col"><?= icon::get( icon::arrow_90deg_up ) ?></div>
-  <div class="col"><?= icon::get( icon::arrow_bar_bottom ) ?></div>
+  <div class="col">&nbsp;</div>
   <div class="col"><?= icon::get( icon::arrow_bar_down ) ?></div>
   <div class="col"><?= icon::get( icon::arrow_bar_left ) ?></div>
   <div class="col"><?= icon::get( icon::arrow_bar_right ) ?></div>
@@ -68,7 +68,7 @@ use dvc\icon; ?>
   <div class="col"><?= icon::get( icon::arrow_right ) ?></div>
   <div class="col"><?= icon::get( icon::arrow_up_circle_fill ) ?></div>
   <div class="col"><?= icon::get( icon::arrow_up_circle ) ?></div>
-  <div class="col"><?= icon::get( icon::arrow_up_down ) ?></div>
+  <div class="col">&nbsp;</div>
   <div class="col"><?= icon::get( icon::arrow_up_left_circle_fill ) ?></div>
 </div>
 
