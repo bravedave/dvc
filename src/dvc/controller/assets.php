@@ -23,7 +23,13 @@ class assets extends Controller {
 	}
 
 	public function bootstrap( $type = 'css', $version = 4) {
-		if ( 4 == (int)$version) {
+    // \sys::logger( sprintf('<%s/%s> %s', $type, $version, __METHOD__));
+
+		if ( 'fonts' == $type) {
+      sys::serveBootStrap( $type, $version);
+
+    }
+		elseif ( 4 == (int)$version) {
 			sys::serveBootStrap( $type);
 
 		}

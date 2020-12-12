@@ -16,7 +16,7 @@
                     <div class="modal-header bg-secondary text-white py-2">
                         <h5 class="modal-title" id="<?= $_modal ?>Label"><?= $this->title ?></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                            <span aria-hidden="true"><i class="bi bi-x"></i></span>
                         </button>
                     </div>
                     <div class="modal-body">
@@ -25,7 +25,7 @@
                                 <div class="input-group" id="<?= $_uid = strings::rand() ?>">
                                     <input type="text" class="form-control" placeholder="name" />
                                     <div class="input-group-append">
-                                        <button type="button" class="btn btn-light input-group-text"><i class="fa fa-clipboard"></i></button>
+                                        <button type="button" class="btn btn-light input-group-text"><i class="bi bi-clipboard-plus"></i></button>
 
                                     </div>
 

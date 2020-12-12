@@ -15,7 +15,7 @@
     <ul class="ml-auto navbar-nav">
       <li class="nav-item">
         <a class="nav-link" href="<?= strings::url() ?>">
-          <?= dvc\icon::get( dvc\icon::house ) ?>
+          <i class="bi bi-house"></i>
 
         </a>
 
@@ -23,7 +23,7 @@
 
       <li class="nav-item">
         <a class="nav-link" href="https://github.com/bravedave/">
-          <?= dvc\icon::get( dvc\icon::github ) ?>
+          <i class="bi bi-github"></i>
 
         </a>
 

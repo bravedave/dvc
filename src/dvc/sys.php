@@ -554,8 +554,28 @@ abstract class sys {
 
 	}
 
-	public static function serveBootStrap( $type = 'css') {
-		if ( \config::$BOOTSTRAP_REQUIRE_POPPER) {
+	public static function serveBootStrap( $type = 'css', $fontFile = null) {
+
+    // self::logger( sprintf('<%s> %s', $type, __METHOD__));
+		if ( 'icons' == $type) {
+      $lib = __DIR__ . '/bootstrap-icons/font/bootstrap-icons.css';
+      // self::logger( $lib);
+      self::serve( $lib);
+
+    }
+    elseif ( 'fonts' == $type) {
+      if ( \in_array( $fontFile, [
+        'bootstrap-icons.woff',
+        'bootstrap-icons.woff2'
+
+        ])) {
+          $lib = __DIR__ . '/bootstrap-icons/font/fonts/' . $fontFile;
+          self::serve( $lib);
+
+      }
+
+    }
+    elseif ( \config::$BOOTSTRAP_REQUIRE_POPPER) {
       \sys::logger( sprintf('deprecated : $BOOTSTRAP_REQUIRE_POPPER is deprcated : %s', __FILE__));
 
 			if ( 'css' == $type) {

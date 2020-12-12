@@ -57,17 +57,10 @@ class bootstrap extends page {
 		}
 		elseif ( self::$Bootstrap_Version == '4') {
 			$css = strings::url( 'assets/bootstrap/css');
+			$icons = strings::url( 'assets/bootstrap/icons');
 			$js = strings::url( 'assets/bootstrap/js');
 
-			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
-
-			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
-
-		}
-		elseif ( self::$Bootstrap_Version == '5') {
-			$css = strings::url( 'bootstrap5/css/bootstrap.min.css');
-			$js = strings::url( 'bootstrap5/js/bootstrap.bundle.min.js');
-
+			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $icons));
 			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
 
 			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);

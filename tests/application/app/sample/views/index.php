@@ -9,13 +9,13 @@
 */	?>
 <style>
 a { color: inherit; }
-
+.nav-link > .bi { margin-left: -1.25rem; margin-right: .25rem; width: 1rem; }
 </style>
 <ul class="nav flex-column">
 	<li class="nav-item h6"><a class="nav-link" href="<?= strings::url('tests/') ?>">Tests</a></li>
 
 <?php if ( $this->Request->ServerIsLocal()) { ?>
-	<li class="nav-item"><a class="nav-link" href="<?= strings::url('tests/info') ?>">phpinfo()</a>
+	<li class="nav-item"><a class="nav-link" href="<?= strings::url('tests/info') ?>"><i class="bi bi-info"></i>phpinfo()</a>
 
 <?php } // if ( Request::ServerIsLocal()) ?>
 
