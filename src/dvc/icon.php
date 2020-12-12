@@ -167,6 +167,8 @@ class icon {
 
   const phone = 410;
   const phone_fill = 411;
+  const telephone = 412;
+  const telephone_fill = 412;
 
   const question = 440;
 
@@ -497,6 +499,14 @@ class icon {
     }
     elseif ( self::phone_fill == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap-icons/phone-fill.svg');
+
+    }
+    elseif ( self::telephone == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap-icons/telephone.svg');
+
+    }
+    elseif ( self::telephone_fill == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap-icons/telephone-fill.svg');
 
     }
     elseif ( self::sliders == $icon) {
