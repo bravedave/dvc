@@ -106,6 +106,7 @@ class icon {
   const check2 = 172;
   const check2_all = 173;
 
+  const chevronStart = 174;
   const chevronLeft = 175;
   const chevronRight = 176;
 
@@ -305,6 +306,10 @@ class icon {
     }
     elseif ( self::check2_all == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap-icons/check2-all.svg');
+
+    }
+    elseif ( self::chevronStart == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap-icons/chevron-bar-left.svg');
 
     }
     elseif ( self::chevronLeft == $icon) {
