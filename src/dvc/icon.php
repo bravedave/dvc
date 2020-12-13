@@ -78,7 +78,14 @@ class icon {
 
   const at = 80;
 
-  const box = 101;
+  const bath = 101;
+  const bath_fill = 102;
+  const bed = 103;
+  const bed_fill = 104;
+  const car = 105;
+  const car_fill = 106;
+
+  const box = 107;
 
   const calendar = 140;
   const calendar_date = 141;
@@ -239,6 +246,13 @@ class icon {
     elseif ( self::arrow_up_square == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/arrow-up-square.svg');
     elseif ( self::arrow_up == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/arrow-up.svg');
     elseif ( self::at == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/at.svg');
+
+    elseif ( self::bath == $icon) return file_get_contents( __DIR__ . '/icons/bath.svg');
+    elseif ( self::bath_fill == $icon) return file_get_contents( __DIR__ . '/icons/bath-fill.svg');
+    elseif ( self::bed == $icon) return file_get_contents( __DIR__ . '/icons/bed.svg');
+    elseif ( self::bed_fill == $icon) return file_get_contents( __DIR__ . '/icons/bed-fill.svg');
+    elseif ( self::car == $icon) return file_get_contents( __DIR__ . '/icons/car.svg');
+    elseif ( self::car_fill == $icon) return file_get_contents( __DIR__ . '/icons/car-fill.svg');
 
     elseif ( self::box == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/box.svg');
     elseif ( self::calendar == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/calendar.svg');

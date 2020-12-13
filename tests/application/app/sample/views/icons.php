@@ -92,7 +92,13 @@ use dvc\icon; ?>
 <div class="row mb-4">
   <div class="col"><?= icon::get( icon::arrow_up ) ?></div>
   <div class="col"><?= icon::get( icon::at ) ?></div>
-  <div class="col-10">&nbsp;</div>
+  <div class="col"><?= icon::get( icon::bed ) ?></div>
+  <div class="col"><?= icon::get( icon::bed_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::bath ) ?></div>
+  <div class="col"><?= icon::get( icon::bath_fill ) ?></div>
+  <div class="col"><?= icon::get( icon::car ) ?></div>
+  <div class="col"><?= icon::get( icon::car_fill ) ?></div>
+  <div class="col-4">&nbsp;</div>
 
 </div>
 
