@@ -33,7 +33,7 @@
 
 }
 
-@media screen {
+@media print {
   .d-print-w100 { width: 100%!important}
 
 }
