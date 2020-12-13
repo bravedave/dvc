@@ -34,7 +34,12 @@
 }
 
 @media print {
-  .d-print-w100 { width: 100%!important}
+  .d-print-w100 {
+    width: 100%!important;
+    max-width: 100%!important;
+    display: block;
+
+  }
 
 }
 
