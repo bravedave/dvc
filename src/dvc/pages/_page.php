@@ -75,14 +75,7 @@ class _page {
 		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/brayworth/js'));
 		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/brayworth/dopo'));
 
-		if ( '5' == \config::$FONTAWESOME) {
-				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'fontawesome5/css/fontawesome-all.css'));
-
-		}
-		else {
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'css/font-awesome.min.css'));
-
-		}
+    $this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'css/font-awesome.min.css'));
 
 		if ( $this->dvc == '4') {
 			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'assets/brayworth/css'));

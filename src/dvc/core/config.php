@@ -109,7 +109,6 @@ abstract class config {
 	static $DB_CACHE_DEBUG_FLUSH = false;
 
 	static $DEFAULT_CONTROLLER = 'home';
-	static $FONTAWESOME = '4';
 
 	static $EMAILDOMAIN = 'example.com';
 	static $EMAIL_STATIONARY = 'email.html';
