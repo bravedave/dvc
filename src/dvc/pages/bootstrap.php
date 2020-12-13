@@ -17,7 +17,7 @@ class bootstrap extends page {
 	static $SCALE = 1;
 
 	static $contentClass = 'col pt-3 pb-4';
-	static $primaryClass = 'col-md-9 pt-3 pb-4';
+	static $primaryClass = 'col-md-9 pt-3 pb-4 d-print-w100';
 	static $secondaryClass = 'col-md-3 pt-3 pb-4 d-print-none';
 
 	function __construct( $title = '' ) {

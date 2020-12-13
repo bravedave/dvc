@@ -34,6 +34,11 @@
 }
 
 @media screen {
+  .d-print-w100 { width: 100%!important}
+
+}
+
+@media screen {
 	/* file upload css */
 	.box__dragndrop, .box__uploading, .box__success, .box__error { display: none; }
 	.has-advanced-upload .box__dragndrop {
