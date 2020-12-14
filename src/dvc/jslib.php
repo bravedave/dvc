@@ -38,6 +38,7 @@ abstract class jslib {
 		'js/_brayworth_.growl.js',
 		'js/_brayworth_.hashScroll.js',
 		'js/_brayworth_.hourglass.js',
+		'js/_brayworth_.html2text.js',
 		'js/_brayworth_.initDatePickers.js',
 		'js/_brayworth_.InitHRefs.js',
 		'js/_brayworth_.inPrivate.js',
