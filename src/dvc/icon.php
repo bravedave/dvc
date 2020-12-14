@@ -100,6 +100,8 @@ class icon {
   const calendar_plus_fill = 150;
 
   const chat = 160;
+  const chat_dots = 161;
+  const chat_dots_fill = 162;
 
   const check = 170;
   const check_all = 171;
@@ -290,6 +292,14 @@ class icon {
     }
     elseif ( self::chat == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap-icons/chat.svg');
+
+    }
+    elseif ( self::chat_dots == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap-icons/chat-dots.svg');
+
+    }
+    elseif ( self::chat_dots_fill == $icon) {
+      return file_get_contents( __DIR__ . '/bootstrap-icons/chat-dots-fill.svg');
 
     }
     elseif ( self::check == $icon) {
