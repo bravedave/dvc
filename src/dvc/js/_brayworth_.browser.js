@@ -18,5 +18,6 @@
 
 	_.browser.isChromeOniOS = _.browser.isIPhone && navigator.userAgent.toLowerCase().indexOf('CriOS') > -1;
 	_.browser.isMobileDevice = _.browser.isIPhone || _.browser.isIPad || _.browser.isAndroid;
+	_.browser.isPhone = _.browser.isIPhone || _.browser.isAndroid;
 
 })(_brayworth_);
