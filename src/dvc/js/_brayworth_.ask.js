@@ -21,8 +21,6 @@
  * */
 /*jshint esversion: 6 */
 ( _ => {
-  _.alert = p => _.ask(_.extend( {headClass: 'text-white bg-warning'}, p));
-
   _.ask = params => {
     let dlg = $([
       '<div class="modal" tabindex="-1" role="dialog">',
@@ -81,5 +79,8 @@
     return dlg;	// a jQuery element
 
   }
+
+  _.ask.alert = p => _.ask(_.extend({ headClass: 'text-white bg-danger' }, p));
+  _.ask.warning = p => _.ask(_.extend({ headClass: 'text-white bg-warning' }, p));
 
 })(_brayworth_);
