@@ -187,6 +187,9 @@ use dvc\icon; ?>
 </div>
 
 <div class="row mb-4">
+  <div class="col-6">&nbsp;</div>
+  <div class="col-2">&nbsp;</div>
+
   <div class="col"><?= icon::get( icon::file_rich_text ) ?></div>
 
   <div class="col"><?= icon::get( icon::file_text ) ?></div>
@@ -195,9 +198,16 @@ use dvc\icon; ?>
 
   <div class="col text-primary"><?= icon::get( icon::file_text_fill ) ?></div>
 
+</div>
+
+<div class="row mb-2">
   <div class="col"><?= icon::get( icon::github ) ?></div>
 
   <div class="col"><?= icon::get( icon::house ) ?></div>
+
+  <div class="col"><?= icon::get( icon::image ) ?></div>
+
+  <div class="col"><?= icon::get( icon::images ) ?></div>
 
   <div class="col"><?= icon::get( icon::list ) ?></div>
 
@@ -210,6 +220,10 @@ use dvc\icon; ?>
   <div class="col"><?= icon::get( icon::list_stars ) ?></div>
 
   <div class="col"><?= icon::get( icon::list_ul ) ?></div>
+
+  <div class="col">&nbsp;</div>
+
+  <div class="col">&nbsp;</div>
 
 </div>
 
