@@ -22,22 +22,7 @@
 /*jshint esversion: 6 */
 ( _ => {
   _.ask = params => {
-    let dlg = $([
-      '<div class="modal" tabindex="-1" role="dialog">',
-        '<div class="modal-dialog modal-dialog-centered modal-sm" role="document">',
-          '<div class="modal-content">',
-            '<div class="modal-header py-2">',
-              '<h5 class="modal-title text-truncate" title="Modal">Modal</h5>',
-              '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>',
-            '</div>',
-            '<div class="modal-body"></div>',
-            '<div class="modal-footer py-0"></div>',
-          '</div>',
-        '</div>',
-      '</div>'
-      ].join('')
-
-    );
+    let dlg = _.modal.template();
 
     let options = _.extend({
       beforeOpen: function() {

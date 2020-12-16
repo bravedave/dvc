@@ -33,28 +33,41 @@
   };
 
   _.get.modal = url => {
-    return new Promise((resolve, reject) => {
-      _.get( url).then( modal => {
-        let _modal = $(modal);
+    return new Promise( resolve => {
+      if ( !!url) {
+        _.get( url).then( modal => {
+          let _modal = $(modal);
 
-        if ( _modal.hasClass('modal')) {
-          _modal.appendTo('body');
-          _modal.on('hidden.bs.modal', e => _modal.remove());
+          if ( _modal.hasClass('modal')) {
+            _modal.appendTo('body');
+            _modal.on('hidden.bs.modal', e => _modal.remove());
 
-        }
-        else {
-          let w = $('<div></div>');
+          }
+          else {
+            let w = $('<div></div>');
 
-          w.append( _modal).appendTo('body');
-          _modal = $( '.modal', w);
-          _modal.on('hidden.bs.modal', e => w.remove());
+            w.append( _modal).appendTo('body');
+            _modal = $( '.modal', w);
+            _modal.on('hidden.bs.modal', e => w.remove());
 
-        }
+          }
 
+          _modal.modal('show');
+          resolve( _modal);
+
+        });
+
+      }
+      else {
+        let _modal = _.modal.template();
+
+        _modal.appendTo('body');
+        _modal.on('hidden.bs.modal', e => _modal.remove());
         _modal.modal('show');
-        resolve( _modal);
 
-      });
+        resolve(_modal);
+
+      }
 
     });
 
