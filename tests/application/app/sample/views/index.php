@@ -9,7 +9,7 @@
 */	?>
 <style>
 a { color: inherit; }
-.nav-link > .bi { margin-left: -1.25rem; margin-right: .25rem; width: 1rem; }
+.flex-column .nav-link > .bi { margin-left: -1.25rem; margin-right: .25rem; width: 1rem; }
 </style>
 <ul class="nav flex-column">
 	<li class="nav-item h6"><a class="nav-link" href="<?= strings::url('tests/') ?>">Tests</a></li>
