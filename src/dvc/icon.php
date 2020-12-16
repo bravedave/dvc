@@ -168,7 +168,7 @@ class icon {
   const person_fill = 360;
   const person_plus = 361;
   const person_plus_fill = 362;
-  const person_reload = 362;
+  const person_reload = 363;
 
   const plus = 380;
   const plus_circle = 381;
