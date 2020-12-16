@@ -168,6 +168,7 @@ class icon {
   const person_fill = 360;
   const person_plus = 361;
   const person_plus_fill = 362;
+  const person_reload = 362;
 
   const plus = 380;
   const plus_circle = 381;
@@ -254,82 +255,32 @@ class icon {
     elseif ( self::bath_fill == $icon) return file_get_contents( __DIR__ . '/icons/bath-fill.svg');
     elseif ( self::bed == $icon) return file_get_contents( __DIR__ . '/icons/bed.svg');
     elseif ( self::bed_fill == $icon) return file_get_contents( __DIR__ . '/icons/bed-fill.svg');
+    elseif ( self::box == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/box.svg');
+
     elseif ( self::car == $icon) return file_get_contents( __DIR__ . '/icons/car.svg');
     elseif ( self::car_fill == $icon) return file_get_contents( __DIR__ . '/icons/car-fill.svg');
-
-    elseif ( self::box == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/box.svg');
     elseif ( self::calendar == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/calendar.svg');
     elseif ( self::calendar_date == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-date.svg');
     elseif ( self::calendar_date_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-date-fill.svg');
     elseif ( self::calendar_day == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-day.svg');
-    elseif ( self::calendar_day_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-day-fill.svg');
+    elseif ( self::calendar_day_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-day-fill.svg');
+    elseif ( self::calendar_event == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-event.svg');
+    elseif ( self::calendar_event_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-event-fill.svg');
+    elseif ( self::calendar_minus == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-minus.svg');
+    elseif ( self::calendar_minus_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-minus-fill.svg');
+    elseif ( self::calendar_plus == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-plus.svg');
+    elseif ( self::calendar_plus_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-plus-fill.svg');
+    elseif ( self::chat == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/chat.svg');
+    elseif ( self::chat_dots == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/chat-dots.svg');
+    elseif ( self::chat_dots_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/chat-dots-fill.svg');
+    elseif ( self::check == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/check.svg');
+    elseif ( self::check_all == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/check-all.svg');
+    elseif ( self::check2 == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/check2.svg');
+    elseif ( self::check2_all == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/check2-all.svg');
+    elseif ( self::chevronStart == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/chevron-bar-left.svg');
+    elseif ( self::chevronLeft == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/chevron-left.svg');
+    elseif ( self::chevronRight == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/chevron-right.svg');
 
-    }
-    elseif ( self::calendar_event == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-event.svg');
-
-    }
-    elseif ( self::calendar_event_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-event-fill.svg');
-
-    }
-    elseif ( self::calendar_minus == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-minus.svg');
-
-    }
-    elseif ( self::calendar_minus_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-minus-fill.svg');
-
-    }
-    elseif ( self::calendar_plus == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-plus.svg');
-
-    }
-    elseif ( self::calendar_plus_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/calendar-plus-fill.svg');
-
-    }
-    elseif ( self::chat == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/chat.svg');
-
-    }
-    elseif ( self::chat_dots == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/chat-dots.svg');
-
-    }
-    elseif ( self::chat_dots_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/chat-dots-fill.svg');
-
-    }
-    elseif ( self::check == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/check.svg');
-
-    }
-    elseif ( self::check_all == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/check-all.svg');
-
-    }
-    elseif ( self::check2 == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/check2.svg');
-
-    }
-    elseif ( self::check2_all == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/check2-all.svg');
-
-    }
-    elseif ( self::chevronStart == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/chevron-bar-left.svg');
-
-    }
-    elseif ( self::chevronLeft == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/chevron-left.svg');
-
-    }
-    elseif ( self::chevronRight == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/chevron-right.svg');
-
-    }
     elseif ( self::diamond == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap-icons/diamond.svg');
 
@@ -466,70 +417,25 @@ class icon {
       return file_get_contents( __DIR__ . '/bootstrap-icons/question.svg');
 
     }
-    elseif ( self::people == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/people.svg');
 
-    }
-    elseif ( self::people_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/people-fill.svg');
+    elseif ( self::people == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/people.svg');
+    elseif ( self::people_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/people-fill.svg');
+    elseif ( self::person == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/person.svg');
+    elseif ( self::person_check == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/person-check.svg');
+    elseif ( self::person_check_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/person-check-fill.svg');
+    elseif ( self::person_dash == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/person-dash.svg');
+    elseif ( self::person_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/person-fill.svg');
+    elseif ( self::person_plus == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/person-plus.svg');
+    elseif ( self::person_plus_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/person-plus-fill.svg');
+    elseif ( self::person_reload == $icon) return file_get_contents( __DIR__ . '/icons/person-reload.svg');
+    elseif ( self::plus == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/plus.svg');
+    elseif ( self::plus_circle == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/plus_circle.svg');
+    elseif ( self::plus_circle_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/plus_circle_fill.svg');
+    elseif ( self::plus_square == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/plus_square.svg');
+    elseif ( self::plus_square_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/plus_square_fill.svg');
+    elseif ( self::phone == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/phone.svg');
+    elseif ( self::phone_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/phone-fill.svg');
 
-    }
-    elseif ( self::person == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/person.svg');
-
-    }
-    elseif ( self::person_check == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/person-check.svg');
-
-    }
-    elseif ( self::person_check_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/person-check-fill.svg');
-
-    }
-    elseif ( self::person_dash == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/person-dash.svg');
-
-    }
-    elseif ( self::person_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/person-fill.svg');
-
-    }
-    elseif ( self::person_plus == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/person-plus.svg');
-
-    }
-    elseif ( self::person_plus_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/person-plus-fill.svg');
-
-    }
-    elseif ( self::plus == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/plus.svg');
-
-    }
-    elseif ( self::plus_circle == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/plus_circle.svg');
-
-    }
-    elseif ( self::plus_circle_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/plus_circle_fill.svg');
-
-    }
-    elseif ( self::plus_square == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/plus_square.svg');
-
-    }
-    elseif ( self::plus_square_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/plus_square_fill.svg');
-
-    }
-    elseif ( self::phone == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/phone.svg');
-
-    }
-    elseif ( self::phone_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/phone-fill.svg');
-
-    }
     elseif ( self::telephone == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap-icons/telephone.svg');
 
