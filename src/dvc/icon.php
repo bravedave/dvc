@@ -132,9 +132,9 @@ class icon {
   const envelope_open_fill = 198;
 
   const fileRichText = 200;
-  const file_rich_text = 201;
-  const file_text = 202;
-  const file_text_fill = 203;
+  const file_rich_text = 200;
+  const file_text = 201;
+  const file_text_fill = 202;
 
   const gear = 210;
   const gear_fill = 211;
@@ -146,12 +146,15 @@ class icon {
   const house = 215;
   const house_plus = 216;
 
-  const list = 220;
-  const list_check = 221;
-  const list_nested = 222;
-  const list_ol = 223;
-  const list_stars = 224;
-  const list_ul = 225;
+  const image = 220;
+  const images = 221;
+
+  const list = 240;
+  const list_check = 241;
+  const list_nested = 242;
+  const list_ol = 243;
+  const list_stars = 244;
+  const list_ul = 245;
 
   const menu_down = 301;
   const menu_up = 302;
@@ -341,38 +344,18 @@ class icon {
       return file_get_contents( __DIR__ . '/bootstrap-icons/envelope-open-fill.svg');
 
     }
-    elseif ( self::file_rich_text == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/file-richtext.svg');
+    elseif ( self::image == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/image.svg');
+    elseif ( self::images == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/images.svg');
+    elseif ( self::file_rich_text == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/file-richtext.svg');
+    elseif ( self::file_text == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/file-text.svg');
+    elseif ( self::file_text_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/file-text-fill.svg');
 
-    }
-    elseif ( self::file_text == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/file-text.svg');
+    elseif ( self::gear == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/gear.svg');
+    elseif ( self::gear_fill == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/gear-fill.svg');
+    elseif ( self::gear_wide == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/gear-wide.svg');
+    elseif ( self::gear_wide_connected == $icon) return file_get_contents( __DIR__ . '/bootstrap-icons/gear-wide-connected.svg');
+    elseif ( self::github == $icon) return file_get_contents( __DIR__ . '/icons/github.svg');
 
-    }
-    elseif ( self::file_text_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/file-text-fill.svg');
-
-    }
-    elseif ( self::gear == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/gear.svg');
-
-    }
-    elseif ( self::gear_fill == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/gear-fill.svg');
-
-    }
-    elseif ( self::gear_wide == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/gear-wide.svg');
-
-    }
-    elseif ( self::gear_wide_connected == $icon) {
-      return file_get_contents( __DIR__ . '/bootstrap-icons/gear-wide-connected.svg');
-
-    }
-    elseif ( self::github == $icon) {
-      return file_get_contents( __DIR__ . '/icons/github.svg');
-
-    }
     elseif ( self::house == $icon) {
       return file_get_contents( __DIR__ . '/bootstrap-icons/house.svg');
 
