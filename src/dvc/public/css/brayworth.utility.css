@@ -71,3 +71,9 @@
 body.upscroll > nav.sticky-top,
 body.upscroll > footer { opacity: 0; transition: opacity 2s ease-in-out; }
 body.upscroll [data-role="content-primary"] { height: auto; }
+
+.bi-plus {
+  font-size: 2rem;
+  line-height: 1rem;
+  margin: -.1rem -.5rem .1rem;
+}
