@@ -73,7 +73,7 @@ body.upscroll > footer { opacity: 0; transition: opacity 2s ease-in-out; }
 body.upscroll [data-role="content-primary"] { height: auto; }
 
 .bi-2x::before {
-  font-size: 1.7rem;
-  line-height: 1rem;
+  font-size: 1.5rem;
+  line-height: 1.rem;
   margin: 0 -.35rem 0;
 }
