@@ -72,14 +72,8 @@ body.upscroll > nav.sticky-top,
 body.upscroll > footer { opacity: 0; transition: opacity 2s ease-in-out; }
 body.upscroll [data-role="content-primary"] { height: auto; }
 
-.bi-plus::before {
-  font-size: 2rem;
-  line-height: 1rem;
-  margin: 0 -.5rem;
-}
-
-.bi-link::before {
+.bi-2x::before {
   font-size: 1.7rem;
   line-height: 1rem;
-  margin: 0 -.5rem 0;
+  margin: 0 -.35rem 0;
 }
