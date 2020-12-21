@@ -91,6 +91,32 @@ use dvc\icon; ?>
 
 <div class="row mb-4">
   <div class="col"><?= icon::get( icon::arrow_up ) ?></div>
+  <div class="col-2">&nbsp;</div>
+  <div class="col"><?= icon::get( icon::box_arrow_down_left ) ?></div>
+  <div class="col"><?= icon::get( icon::box_arrow_down_right ) ?></div>
+  <div class="col"><?= icon::get( icon::box_arrow_down ) ?></div>
+  <div class="col"><?= icon::get( icon::box_arrow_in_down_left ) ?></div>
+  <div class="col"><?= icon::get( icon::box_arrow_in_down_right ) ?></div>
+  <div class="col"><?= icon::get( icon::box_arrow_in_down ) ?></div>
+  <div class="col"><?= icon::get( icon::box_arrow_in_left ) ?></div>
+  <div class="col"><?= icon::get( icon::box_arrow_in_right ) ?></div>
+  <div class="col"><?= icon::get( icon::box_arrow_in_up_left ) ?></div>
+  <div class="col"><?= icon::get( icon::box_arrow_in_up_right ) ?></div>
+</div>
+
+<div class="row mb-4">
+  <div class="col"><?= icon::get( icon::box_arrow_in_up ) ?></div>
+  <div class="col"><?= icon::get( icon::box_arrow_left ) ?></div>
+  <div class="col"><?= icon::get( icon::box_arrow_right ) ?></div>
+  <div class="col"><?= icon::get( icon::box_arrow_up_left ) ?></div>
+  <div class="col"><?= icon::get( icon::box_arrow_up_right ) ?></div>
+  <div class="col"><?= icon::get( icon::box_arrow_up ) ?></div>
+  <div class="col-6">&nbsp;</div>
+
+</div>
+
+<div class="row mb-4">
+  <div class="col-5">&nbsp;</div>
   <div class="col"><?= icon::get( icon::at ) ?></div>
   <div class="col"><?= icon::get( icon::bed ) ?></div>
   <div class="col"><?= icon::get( icon::bed_fill ) ?></div>
@@ -98,34 +124,22 @@ use dvc\icon; ?>
   <div class="col"><?= icon::get( icon::bath_fill ) ?></div>
   <div class="col"><?= icon::get( icon::car ) ?></div>
   <div class="col"><?= icon::get( icon::car_fill ) ?></div>
-  <div class="col-4">&nbsp;</div>
 
 </div>
 
 
 <div class="row mb-4">
   <div class="col"><?= icon::get( icon::calendar ) ?></div>
-
   <div class="col"><?= icon::get( icon::calendar_date ) ?></div>
-
   <div class="col"><?= icon::get( icon::calendar_date_fill ) ?></div>
-
   <div class="col"><?= icon::get( icon::calendar_day ) ?></div>
-
   <div class="col"><?= icon::get( icon::calendar_day_fill ) ?></div>
-
   <div class="col"><?= icon::get( icon::calendar_event ) ?></div>
-
   <div class="col"><?= icon::get( icon::calendar_event_fill ) ?></div>
-
   <div class="col"><?= icon::get( icon::calendar_minus ) ?></div>
-
   <div class="col"><?= icon::get( icon::calendar_minus_fill ) ?></div>
-
   <div class="col"><?= icon::get( icon::calendar_plus ) ?></div>
-
   <div class="col"><?= icon::get( icon::calendar_plus_fill ) ?></div>
-
   <div class="col">&nbsp;</div>
 
 </div>
@@ -200,7 +214,7 @@ use dvc\icon; ?>
 
 </div>
 
-<div class="row mb-2">
+<div class="row mb-4">
   <div class="col"><?= icon::get( icon::github ) ?></div>
 
   <div class="col"><?= icon::get( icon::house ) ?></div>
@@ -227,7 +241,7 @@ use dvc\icon; ?>
 
 </div>
 
-<div class="row mb-2">
+<div class="row mb-4">
   <div class="col"><?= icon::get( icon::menu_down ) ?></div>
 
   <div class="col"><?= icon::get( icon::menu_up ) ?></div>
