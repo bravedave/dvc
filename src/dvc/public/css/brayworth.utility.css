@@ -75,5 +75,11 @@ body.upscroll [data-role="content-primary"] { height: auto; }
 .bi-plus::before {
   font-size: 2rem;
   line-height: 1rem;
-  margin: -.1rem -.5rem .1rem;
+  margin: 0 -.5rem;
+}
+
+.bi-link::before {
+  font-size: 1.7rem;
+  line-height: 1rem;
+  margin: 0 -.5rem 0;
 }
