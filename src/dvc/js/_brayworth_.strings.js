@@ -220,9 +220,7 @@
 
   String.prototype.toHtml = function () {
     let s = this;
-    s = s.replace(/<br>\n/g, '<br>');
     s = s.replace(/\n/g, '<br>');
-    s = s.replace(/<br>/g, "<br>\n");
     s = s.replace(/â&#8364;¢/g, '&bull;');
     s = s.replace(/&(r|l)dquo;/g, "&quot;");
     s = s.replace(/&(r|l)squo;/g, "&#39;");
