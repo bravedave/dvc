@@ -95,8 +95,8 @@
 
 				});
 
-			$('<i class="fa"></i>')
-				.addClass( _.browser.isMobileDevice ? 'fa-camera' : 'fa-upload')
+			$('<i class="bi"></i>')
+        .addClass(_.browser.isMobileDevice ? 'bi-camera-fill' : 'bi-upload')
 				.appendTo(wrapper);
 
 			let fileControl = $('<input type="file">')

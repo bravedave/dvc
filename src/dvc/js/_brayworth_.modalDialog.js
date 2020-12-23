@@ -7,8 +7,8 @@
  *
  *
 	test:
-		_brayworth_.modalDialog.call( $('<div class="modal"><div class="modal-content"><div class="modal-header"><i class="fa fa-times close"></i><h1>Header</h1></div><div class="modal-body">Hello World</div></div></div>').appendTo('body'))
-		_brayworth_.modalDialog.call( $('<div class="modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header py-1"><h5 class="modal-title">Hello World</h5><i class="fa fa-times close"></i></div><div class="modal-body">...</div></div></div></div>').appendTo('body'))
+		_brayworth_.modalDialog.call( $('<div class="modal"><div class="modal-content"><div class="modal-header"><h1>Header</h1><button type="button" class="close" data-dismiss="modal">&times;</button></div><div class="modal-body">Hello World</div></div></div>').appendTo('body'))
+		_brayworth_.modalDialog.call( $('<div class="modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header py-1"><h5 class="modal-title">Hello World</h5><button type="button" class="close" data-dismiss="modal">&times;</button></div><div class="modal-body">...</div></div></div></div>').appendTo('body'))
 */
 /*jshint esversion: 6 */
 $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {

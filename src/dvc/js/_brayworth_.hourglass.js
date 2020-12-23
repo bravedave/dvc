@@ -16,11 +16,11 @@ var hourglass = _brayworth_.hourglass = {
 		if ( _me.h) _me.off();
 
 		return new Promise( (resolve, reject) => {
-			let inner = $('<i class="fa fa-circle-o-notch fa-spin fa-4x text-white" style="position: fixed; top: 50%; left: 48%"></i>');
+      let inner = $('<i class="spinner-border text-white" style="position: fixed; top: 50%; left: 48%; width: 3rem; height: 3rem;"></i>');
 			if (!!msg) {
 				inner = $('<h1 class="p-4 text-white text-center" style="position: fixed; top: 50%; width: 100%"></h1>')
 					.html( msg)
-					.append('<i class="fa fa-fw fa-spinner fa-pulse text-white ml-2"></i>');
+          .append('<i class="spinner-grow text-white ml-2 mb-2"></i>');
 
 			}
 

@@ -22,7 +22,7 @@ class footer extends html\footer {
 
 			$div = $content->append( 'div', null, [ 'class' => 'pull-right' ]);
 				$ul = $div->append( 'ul', null, [ 'class' => 'copyright']);
-					$ul->add( sprintf( '&copy; Brayworth %s <i class="fa fa-code"></i>', date('Y')));
+					$ul->add( sprintf( '&copy; Brayworth %s <i class="bi bi-code-slash"></i>', date('Y')));
 
 		// sys::logger('footer extends html\footer - parse to parent');
 		parent::__construct( $content);
