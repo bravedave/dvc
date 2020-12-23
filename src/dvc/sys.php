@@ -552,13 +552,15 @@ abstract class sys {
 
 		}
 
-	}
+  }
 
+
+  const bootstrap_font_dir = __DIR__ . '/resource/bootstrap-icons/font/';
 	public static function serveBootStrap( $type = 'css', $fontFile = null) {
 
     // self::logger( sprintf('<%s> %s', $type, __METHOD__));
 		if ( 'icons' == $type) {
-      $lib = __DIR__ . '/bootstrap-icons/font/bootstrap-icons.css';
+      $lib = self::bootstrap_font_dir . 'bootstrap-icons.css';
       // self::logger( $lib);
       self::serve( $lib);
 
@@ -569,7 +571,7 @@ abstract class sys {
         'bootstrap-icons.woff2'
 
         ])) {
-          $lib = __DIR__ . '/bootstrap-icons/font/fonts/' . $fontFile;
+          $lib = self::bootstrap_font_dir . 'fonts/' . $fontFile;
           self::serve( $lib);
 
       }
