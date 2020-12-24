@@ -22,3 +22,4 @@
 ##### [Components](/docs/component)
 
 ##### [Utilities](/docs/utilities)
+- [Icons](/docs/icons)

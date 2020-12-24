@@ -11,17 +11,17 @@
 use dvc\icon; ?>
 
 <div class="row mb-4">
-  <div class="col"><?= icon::get( icon::arrow_90deg_left ) ?></div>
-  <div class="col"><?= icon::get( icon::arrow_90deg_right ) ?></div>
-  <div class="col"><?= icon::get( icon::arrow_90deg_up ) ?></div>
-  <div class="col">&nbsp;</div>
-  <div class="col"><?= icon::get( icon::arrow_bar_down ) ?></div>
-  <div class="col"><?= icon::get( icon::arrow_bar_left ) ?></div>
-  <div class="col"><?= icon::get( icon::arrow_bar_right ) ?></div>
-  <div class="col"><?= icon::get( icon::arrow_bar_up ) ?></div>
-  <div class="col"><?= icon::get( icon::arrow_clockwise ) ?></div>
-  <div class="col"><?= icon::get( icon::arrow_counterclockwise ) ?></div>
-  <div class="col"><?= icon::get( icon::arrow_down_circle_fill ) ?></div>
+  <div class="col"><i class="bi bi-arrow-90deg-left"></i></div>
+  <div class="col"><i class="bi bi-arrow-90deg-right"></i></div>
+  <div class="col"><i class="bi bi-arrow-90deg-up"></i></div>
+  <div class="col-2">&nbsp;</div>
+  <div class="col"><i class="bi bi-arrow-bar-down"></i></div>
+  <div class="col"><i class="bi bi-arrow-bar-left"></i></div>
+  <div class="col"><i class="bi bi-arrow-bar-right"></i></div>
+  <div class="col"><i class="bi bi-arrow-bar-up"></i></div>
+  <div class="col"><i class="bi bi-arrow-clockwise"></i></div>
+  <div class="col"><i class="bi bi-arrow-counterclockwise"></i></div>
+  <div class="col"><i class="bi bi-arrow-down-circle-fill"></i></div>
 </div>
 
 
@@ -91,7 +91,7 @@ use dvc\icon; ?>
 
 <div class="row mb-4">
   <div class="col"><?= icon::get( icon::arrow_up ) ?></div>
-  <div class="col-2">&nbsp;</div>
+  <div class="col">&nbsp;</div>
   <div class="col"><?= icon::get( icon::box_arrow_down_left ) ?></div>
   <div class="col"><?= icon::get( icon::box_arrow_down_right ) ?></div>
   <div class="col"><?= icon::get( icon::box_arrow_down ) ?></div>
@@ -145,29 +145,18 @@ use dvc\icon; ?>
 </div>
 
 <div class="row mb-4">
-  <div class="col"><?= icon::get( icon::check ) ?></div>
-
-  <div class="col"><?= icon::get( icon::check_all ) ?></div>
-
-  <div class="col"><?= icon::get( icon::check2 ) ?></div>
-
-  <div class="col"><?= icon::get( icon::check2_all ) ?></div>
-
-  <div class="col"><?= icon::get( icon::document ) ?></div>
-
-  <div class="col"><?= icon::get( icon::document_code ) ?></div>
-
-  <div class="col"><?= icon::get( icon::document_diff ) ?></div>
-
-  <div class="col"><?= icon::get( icon::document_richtext ) ?></div>
-
-  <div class="col"><?= icon::get( icon::document_spreadsheet ) ?></div>
-
-  <div class="col"><?= icon::get( icon::document_text ) ?></div>
-
-  <div class="col"><?= icon::get( icon::documents ) ?></div>
-
-  <div class="col"><?= icon::get( icon::documents_alt ) ?></div>
+  <div class="col"><i class="bi bi-check"></i></div>
+  <div class="col"><i class="bi bi-check-all"></i></div>
+  <div class="col"><i class="bi bi-check2"></i></div>
+  <div class="col"><i class="bi bi-check2-all"></i></div>
+  <div class="col"><i class="bi bi-file"></i></div>
+  <div class="col"><i class="bi bi-file-code"></i></div>
+  <div class="col"><i class="bi bi-file-diff"></i></div>
+  <div class="col"><i class="bi bi-file-richtext"></i></div>
+  <div class="col"><i class="bi bi-file-spreadsheet"></i></div>
+  <div class="col"><i class="bi bi-file-text"></i></div>
+  <div class="col"><i class="bi bi-files"></i></div>
+  <div class="col"><i class="bi bi-files-alt"></i></div>
 
 </div>
 

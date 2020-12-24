@@ -34,9 +34,17 @@ class docs extends Controller {
 
 		}
 
+    $primary = [(string)$view];
+    if ( 'icons' == $view) {
+      $primary[] = 'icons-code';
+      $primary[] = 'icons-credit';
+
+    }
+    $primary[] = 'docs-format';
+
 		$render = [
 			'title' => $this->title = sprintf( 'Docs - %s', ucwords( $view)),
-			'primary' => [(string)$view, 'docs-format'],
+			'primary' => $primary,
 			'secondary' => $contents,
 
 		];
@@ -57,10 +65,6 @@ class docs extends Controller {
 		}
 
 		$this->render( $render);
-
-	}
-
-	public function css() {
 
 	}
 

@@ -64,37 +64,6 @@ class controller extends \Controller {
 
 	}
 
-	public function icons() {
-    $render = [
-      'title' => 'Icons',
-      'primary' => [
-        'icons',
-        'icons-code',
-        'icons-credit'
-      ],
-      'secondary' => 'index'
-
-    ];
-
-		if ( \config::$SYNTAX_HIGHLIGHT_DOCS) {
-			// '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">'
-			$render['css'] = [
-				'<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github-gist.min.css">'
-
-			];
-
-			$render['scripts'] = [
-				'<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>',
-				'<script>hljs.initHighlightingOnLoad();</script>'
-
-			];
-
-		}
-
-    $this->render( $render);
-
-  }
-
 	public function info() {
     /**
      * default setting
