@@ -10,7 +10,7 @@
 
 <ul class="nav flex-column">
   <li class="nav-item">
-    <a class="nav-link" href="<?= strings::url( 'hello') ?>">Samples and Tests</a>
+    <a class="nav-link pl-0 h5 m-0" href="<?= strings::url( 'hello') ?>">Samples and Tests</a>
 
   </li
   >
