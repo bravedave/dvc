@@ -15,7 +15,7 @@ if ( config::checkDBconfigured()) {
 
 }
 
-config::route_register( 'halfmoon', 'halfmoon\controller');
+config::route_register( 'halfmoon', '');
 config::route_register( 'pageless');
 config::route_register( 'tests', 'sample\controller');
 config::route_register( 'webapp', 'webapp\controller');
