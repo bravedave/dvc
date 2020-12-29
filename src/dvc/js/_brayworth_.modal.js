@@ -154,7 +154,6 @@
         if ( !!j.icon) {
           b = $( '<div class="pointer pt-1 px-2"></div>').append(
             $('<i class="fa m-0" style="cursor: pointer;"></i>').addClass( j.icon));
-          // var b = $( '<i class="fa fa-fw pull-right" style="margin-right: 1rem; padding-right: 1rem; cursor: pointer;"></i>').addClass( j.icon);
 
         }
         else {
