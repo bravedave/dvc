@@ -9,6 +9,8 @@
 */
 
 namespace dvc\pages;
+
+use config;
 use dvc\cssmin;
 
 class _page {
@@ -45,7 +47,7 @@ class _page {
 	function __construct( $title = '' ) {
 		$this->data = (object)['title' => ''];
 
-		$this->data->title = $this->title = ( $title == '' ? \config::$WEBNAME : $title );
+		$this->data->title = $this->title = ( $title == '' ? config::$WEBNAME : $title );
 
 		$this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />';
 		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
@@ -75,7 +77,10 @@ class _page {
 		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/brayworth/js'));
 		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/brayworth/dopo'));
 
-    $this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'css/font-awesome.min.css'));
+    if ( config::$FONTAWESOME) {
+      $this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'css/font-awesome.min.css'));
+
+    }
 
 		if ( $this->dvc == '4') {
 			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'assets/brayworth/css'));

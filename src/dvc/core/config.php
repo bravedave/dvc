@@ -83,6 +83,7 @@ abstract class config {
 	static $DATE_FORMAT_LONG = 'D d M Y';
 	static $DATETIME_FORMAT = 'Y-m-d g:ia';
 	static $DATETIME_FORMAT_LONG = 'D d M Y g:ia';
+  static $FONTAWESOME = false;
   static $TIME_FORMAT = 'g:ia';
 
   static $FREE_DISKSPACE_THRESHHOLD = 10485760000; // 10G
