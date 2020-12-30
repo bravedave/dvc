@@ -21,7 +21,7 @@
 /*jshint esversion: 6 */
 (_ => {
 	_.fileDragDropContainer = params => {
-		let options = $.extend({
+		let options = _.extend({
 			fileControl : false,
 			multiple : true,
 			title : 'Choose file'
@@ -70,7 +70,8 @@
 
 	// new version
 	_.fileDragDropContainer = params => {
-		let options = $.extend({
+		let options = _.extend({
+			accept: '',
 			fileControl: false,
 			multiple: true,
 			title: 'Choose file'
@@ -78,7 +79,8 @@
 		}, params);
 
 		//~ console.log( '_.fileDragDropContainer');
-		let c = $('<div></div>');
+    let c = $('<div></div>');
+    c.data( 'accept', options.accept);
 
 		$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>')
 			.appendTo($('<div class="progress box__uploading"></div>').appendTo(c));
@@ -113,7 +115,12 @@
 			if (!!options.multiple) {
 				fileControl.prop('multiple', true);
 
-			}
+      }
+
+      if ( '' != options.accept) {
+        fileControl.attr('accept', options.accept);
+
+      }
 
 			wrapper.appendTo(c);
 
@@ -123,43 +130,67 @@
 
 	};
 
+  let acceptable = (file, accepting) => {
+    if (accepting.length > 0) {
+      return accepting.indexOf( file.type) > -1;
+
+    }
+    else {
+      return true;
+
+    }
+
+  };
+
 	let queue = [];
 	let enqueue = params => {
-		let options = $.extend({
+		let options = _.extend({
 			postData : {},
       droppedFiles : {},
-      batchSize : 10
+      batchSize : 10,
+      accept : ''
 
 		}, params);
 
-		return new Promise( function( resolve, reject) {
+		return new Promise( resolve => {
 			/*
 			* create forms with {options.batchSize} elements
 			*/
 
 			let data = new FormData();
-			for(let o in options.postData) {
-				data.append( o, options.postData[o]);
+			for(let o in options.postData) data.append( o, options.postData[o]);
 
-			}
-
+      // console.table(options);
+      let accepting = '' != options.accept ? String( options.accept).split(',') : [];
+      let fileCount = 0;
 			$.each( options.droppedFiles, (i, file) => {
-				if ( i > 0 && i % options.batchSize == 0) {
-					queue.push( data);
+        if (acceptable(file, accepting)) {
+          fileCount++;
+          // console.log( file);
 
-					data = new FormData();
-					for(let o in options.postData) {
-						data.append( o, options.postData[o]);
+          if (fileCount > 0 && fileCount % options.batchSize == 0) {
+            queue.push( data);
 
-					}
+            data = new FormData();
+            for(let o in options.postData) data.append( o, options.postData[o]);
 
-				}
+          }
 
-				data.append('files-'+i, file);
+          data.append('files-'+i, file);
+
+        }
+        else {
+          _.growl({
+            response : 'nak',
+            description : 'not accepting ' + file.type
+
+          });
+
+        }
 
 			});
 
-			queue.push( data);
+      if ( fileCount > 0) queue.push( data);
 
 			let progressQue = $('.progress-queue', options.host);
 			if ( queue.length > 0) {
@@ -201,7 +232,7 @@
 	};
 
 	let sendData = function( params) {
-		let options = $.extend({
+		let options = _.extend({
 			url : false,
 			onUpload : response => true,
 			host : $('body'),
@@ -218,7 +249,8 @@
 				.css('width', '0')
 				.attr('aria-valuenow', '0');
 
-			options.host.addClass('is-uploading');
+      console.log( options.host);
+      options.host.addClass('is-uploading');
 
 			$.ajax({
 				url: options.url,
@@ -277,18 +309,36 @@
 
 	let uploader = params => {
     return new Promise( resolve => {
-      let options = $.extend({
+      let options = _.extend({
         postData : {},
-        droppedFiles : {},
+        droppedFiles: {},
+        accept: '',
 
       }, params);
 
       let data = new FormData();
       for(let o in options.postData) { data.append( o, options.postData[o]); }
 
-      $.each( options.droppedFiles, (i, file) => data.append('files-'+i, file));
-      sendData.call( data, options);
+      let accepting = '' != options.accept ? String(options.accept).split(',') : [];
+      let fileCount = 0;
+      $.each( options.droppedFiles, (i, file) => {
+        if (acceptable(file,accepting)) {
+          fileCount++;
+          data.append('files-'+i, file);
 
+        }
+        else {
+          _.growl({
+            response: 'nak',
+            description: 'not accepting ' + file.type
+
+          });
+
+        }
+
+      });
+
+      if (fileCount > 0) sendData.call( data, options);
       resolve();
 
     });
@@ -296,12 +346,14 @@
   };
 
 	_.fileDragDropHandler = function( params) {
-		let _el = $(this);
+    let _el = $(this);
+    let _data = _el.data();
 
-		let options = $.extend( {
+		let options = _.extend( {
 			url : false,
 			queue : false,
-			host : _el
+      host : _el,
+      accept : _data.accept
 
 		}, params);
 
@@ -328,7 +380,7 @@
 
 		});
 
-		let isAdvancedUpload = (function() {
+		let isAdvancedUpload = (() => {
 			let div = document.createElement('div');
 			return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
 		})();
@@ -345,10 +397,11 @@
 			.on('dragleave dragend drop', function() { $(this).removeClass('is-dragover'); })
 			.on('drop', function(e) {
 				e.preventDefault();
-				options.droppedFiles = e.originalEvent.dataTransfer.files;
+        options.droppedFiles = e.originalEvent.dataTransfer.files;
+
 
 				if ( options.droppedFiles) {
-					if (options.queue) {
+          if (options.queue) {
 						enqueue( options);
 
 					}
