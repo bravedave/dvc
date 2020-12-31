@@ -1,12 +1,11 @@
-/*
-	David Bray
-	D'Arcy Estate Agents & BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Attribution-NonCommercial-NoDerivatives 4.0 International Public License.
-		https://creativecommons.org/licenses/by-nc-nd/4.0/
-
-	*/
+/**
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+ * */
 /*jshint esversion: 6 */
 _brayworth_.toaster = function() {};
 
@@ -78,7 +77,7 @@ $(document).ready( function() {
 
 			return new Promise( function( resolve, reject) {
 
-				let timestamp = _brayworth_.moment();
+				let timestamp = _brayworth_.dayjs();
 
 				let toast = $('<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true"></div>').attr( 'data-delay', options.delay);
 				let header = $('<div class="toast-header"></div>').appendTo(toast);
@@ -109,7 +108,7 @@ $(document).ready( function() {
 				}
 
 				let utime = function( toast, timer, timestamp, utime) {
-					let d = moment.duration( _brayworth_.moment().diff( timestamp));
+					let d = dayjs.duration( _brayworth_.dayjs().diff( timestamp));
 					timer.html( parseInt( d.as('seconds')) + ' second(s) ago');
 
 					if ( toast.hasClass('show')) {
