@@ -25,11 +25,11 @@ if ( !window._brayworth_ )
 	_.bootstrap_version = () => {
 		if ( 'undefined' != typeof bootstrap) {
 			if ( !!bootstrap.Alert) {
-				if ( /5/.test( bootstrap.Alert.VERSION)) {
+				if ( /^5/.test( bootstrap.Alert.VERSION)) {
 					return 5;
 
 				}
-				else if ( /4/.test( bootstrap.Alert.VERSION)) {
+				else if ( /^4/.test( bootstrap.Alert.VERSION)) {
 					return 4;
 
 				}
@@ -117,6 +117,10 @@ if ( !window._brayworth_ )
     dayjs.extend(dayjs_plugin_utc);
     dayjs.extend(dayjs_plugin_timezone);
     dayjs.extend(dayjs_plugin_updateLocale);
+    dayjs.extend(dayjs_plugin_duration);
+    // console.log('dayjs_plugin_duration');
+    // console.log(dayjs.duration);
+
     // dayjs.extend(dayjs_plugin_customParseFormat); // upsets timezone if loaded first
 
     if ('' !== _.timezone) {
