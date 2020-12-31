@@ -70,6 +70,7 @@ abstract class jslib {
     'js/dayjs/localizedFormat.js',
     'js/dayjs/updateLocale.js',
     'js/dayjs/utc.js',
+    'js/dayjs/duration.js',
 
   ];
 
