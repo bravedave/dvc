@@ -308,7 +308,7 @@
 
   _.templates.buttonCSS = 'btn btn-default';
   _.templates.modalDefaultClass = '';
-  _.templates.modal = function() {
+  _.templates.modal = () => {
     let _t = templation.template('modal');
       _t.header = _t.get( '.modal-header');
       _t.body = _t.get( '.modal-body');
