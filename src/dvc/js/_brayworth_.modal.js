@@ -64,7 +64,7 @@
       autoOpen : true,
       buttons : {},
       headButtons : {},
-      closeIcon: 'fa-times',
+      closeIcon: 'bi-x',
       onOpen : function() {},
       onEnter : function() {},
 
