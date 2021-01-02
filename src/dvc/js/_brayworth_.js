@@ -227,7 +227,7 @@ if ( !window._brayworth_ )
         });
 
         document.body.appendChild(s);
-        console.log('no tinyMCE');
+        // console.log('no tinyMCE');
 
       }
       else {

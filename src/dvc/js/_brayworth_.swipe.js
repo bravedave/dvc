@@ -15,14 +15,12 @@ _brayworth_.swipeOff = function() {
 };
 
 _brayworth_.swipeOn = function( params) {
-	let options = {
-		left : function() {},
-		right : function() {},
-		up : function() {},
-		down : function() {},
-	};
-
-	$.extend( options, params);
+  let options = _brayworth_.extend( {
+		left : () => {},
+		right : () => {},
+		up : () => {},
+		down : () => {},
+	}, params);
 
 	let down = false;
 

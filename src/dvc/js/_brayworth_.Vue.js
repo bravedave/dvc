@@ -1,42 +1,49 @@
-/*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-	*/
+/**
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+ * */
 /*jshint esversion: 6 */
-_brayworth_.Vue = function( params) {
-	let options = {
-		filters: {}
-	};
+( _ => {
+  _.Vue = params => {
+    let options = _.extend( {
+      filters: {}
+    }, params);
 
-	let filters = {
-		capitalize: function (value) {
-			if (!value) return '';
-			return value.toCapitalCase();
+    options.filters = _.extend({
+      capitalize: function (value) {
+        if (!value) return '';
+        return value.toCapitalCase();
 
-		}
+      }
 
-	};
+    }, filters);
 
-	$.extend( options, params);
-	$.extend( options.filters, filters);
+    return new Promise( resolve => {
+      if ( 'undefined' === typeof Vue) {
+        let s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = _.url('js/vue.min.js');
+        s.addEventListener('load', e => {
+          console.log('vuejs dynamically loaded ...')
+          resolve( new Vue( options));
 
-	return new Promise( function( resolve, reject) {
-		if ( 'undefined' === typeof Vue) {
-			_cms_.getScript( _brayworth_.urlwrite( 'js/vue.min.js')).then( function(d) {
-				resolve( new Vue( options));
+        });
 
-			});
+        document.body.appendChild(s);
 
-		}
-		else {
-			resolve( new Vue( options));
+      }
+      else {
+        resolve( new Vue( options));
 
-		}
+      }
 
-	});
+    });
 
-};
+  };
+
+}) (_brayworth_);
+

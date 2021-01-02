@@ -10,13 +10,11 @@
 /*jshint esversion: 6 */
 _brayworth_.ScrollTo = function( el, params) {
 
-	let options = {
+  let options = _brayworth_.extend( {
 		marginTop : 0,
 		duration : 800
 
-	};
-
-	$.extend( options, params);
+	}, params);
 
 	return ( new Promise( function( resolve, reject) {
 		let _el = ( el instanceof jQuery ? el : $(el));

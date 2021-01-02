@@ -23,16 +23,15 @@ $.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
 	}
 
 	let modal = this;				// the modal
-	let options = {
+  let options = _brayworth_.extend( {
 		mobile : _brayworth_.browser.isMobileDevice,
-		beforeClose : function() {},
-		afterClose : function() {},
-		onEnter : function() {},
+		beforeClose : () => {},
+		afterClose : () => {},
+		onEnter : () => {},
 		onEscape : function() { this.close(); },
-		onOpen : function() {},
-	};
+    onOpen : () => {},
 
-	$.extend( options, _options);
+	}, _options);
 
 	let close = $( '.modal-header .close', this);	// Get the <span> element that closes the modal
 

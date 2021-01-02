@@ -9,15 +9,14 @@
 /*jshint esversion: 6 */
 ( _ => {
   _.post = param => {
-    let opts = {
+    let opts = _.extend({
       url : _.url(),
       type : 'POST',
       data : {},
       growl : d => $('body').growlAjax( d),
 
-    };
+    }, param);
 
-    $.extend( opts, param);
     return $.ajax(opts);
 
   };

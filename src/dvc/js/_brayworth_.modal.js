@@ -54,7 +54,7 @@
 
     }
 
-    let options = {
+    let options = _.extend( {
       title : '',
       width : false,
       height : false,
@@ -68,9 +68,7 @@
       onOpen : function() {},
       onEnter : function() {},
 
-    };
-
-    $.extend( options, params);
+    }, params);
 
     let t = _brayworth_.templates.modal();
     t.get('.close').addClass(options.closeIcon);
@@ -107,13 +105,13 @@
         let j = {
           text : i,
           title : '',
-          click : function( e) {}
+          click : e => {}
         };
 
         if ( 'function' == typeof el)
           j.click = el;
         else
-          $.extend( j, el) ;
+          j = _.extend( j, el) ;
 
         let btn = $('<button />')
           .addClass( _brayworth_.templates.buttonCSS)
@@ -142,13 +140,13 @@
           text : i,
           title : false,
           icon : false,
-          click : function( e) {},
+          click : e => {},
         };
 
         if ( 'function' == typeof el)
           j.click = el;
         else
-          $.extend( j, el);
+          j = _.extend( j, el);
 
         let b;
         if ( !!j.icon) {

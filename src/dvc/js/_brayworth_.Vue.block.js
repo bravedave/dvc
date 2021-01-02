@@ -63,53 +63,51 @@
 
 	*/
 /*jshint esversion: 6 */
-(function() {
-	let cache = {};
+( _ => {
+  let cache = {};
 
-	_brayworth_.Vue.block = function( params) {
-		//~ console.log('_brayworth_.Vue.block');
+  _.Vue.block = function( params) {
+    //~ console.log('_.Vue.block');
 
-		return ( new Promise( function( resolve, reject) {
-			let options = {
-				block : '',
-				url : _brayworth_.urlwrite(),
+    return ( new Promise( function( resolve, reject) {
+      let options = _.extend( {
+        block : '',
+        url : _.url(),
 
-			};
+      }, params);
 
-			$.extend( options, params);
+      if ( !options.block) {
+        reject( 'no template'); // rejected
 
-			if ( !options.block) {
-				reject( 'no template'); // rejected
+      }
+      else if ( 'string' != typeof options.block) {
+        reject( 'template must be a string'); // rejected
 
-			}
-			else if ( 'string' != typeof options.block) {
-				reject( 'template must be a string'); // rejected
+      }
+      else 	if ( options.block in cache) {
+        //~ console.log( 'resolve from cache');
+        resolve( cache[options.block]); // fulfilled
 
-			}
-			else 	if ( options.block in cache) {
-				//~ console.log( 'resolve from cache');
-				resolve( cache[options.block]); // fulfilled
+      }
+      else {
+        //~ console.log( 'not resolve from cache', cache);
+        _.post({
+          url : options.url,
+          data : {
+            action : 'get-vue-block',
+            block : options.block,
+          }
 
-			}
-			else {
-				//~ console.log( 'not resolve from cache', cache);
-				_brayworth_.post({
-					url : options.url,
-					data : {
-						action : 'get-vue-block',
-						block : options.block,
-					}
+        }).then( function( d) {
+          cache[options.block] = d;
+          resolve( d); // fulfilled
 
-				}).then( function( d) {
-					cache[options.block] = d;
-					resolve( d); // fulfilled
+        });
 
-				});
+      }
 
-			}
+    }));
 
-		}));
+  };
 
-	};
-
-})();
+}) (_brayworth_);
