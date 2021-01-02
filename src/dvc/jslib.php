@@ -70,11 +70,11 @@ abstract class jslib {
     'js/dayjs/localizedFormat.js',
     'js/dayjs/updateLocale.js',
     'js/dayjs/utc.js',
-    'js/dayjs/duration.js',
 
   ];
 
   // buggy
+  // 'js/dayjs/duration.js',
   // 'js/dayjs/customParseFormat.js',
 
 	public static $brayworthlibDOPOFiles = [
@@ -305,7 +305,7 @@ abstract class jslib {
 
   public static function brayworth( $lib = false, $libdir = '') {
 		$debug = self::$debug;
-		//~ $debug = true;
+		// $debug = true;
 
 		if ( !$lib) { $lib = 'brayworthlib.js'; }
 
