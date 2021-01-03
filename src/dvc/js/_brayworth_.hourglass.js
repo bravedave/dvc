@@ -15,7 +15,7 @@ var hourglass = _brayworth_.hourglass = {
 
 		if ( _me.h) _me.off();
 
-		return new Promise( (resolve, reject) => {
+		return new Promise( resolve => {
       let inner = $('<i class="spinner-border text-white" style="position: fixed; top: 50%; left: 48%; width: 3rem; height: 3rem;"></i>');
 			if (!!msg) {
 				inner = $('<h1 class="p-4 text-white text-center" style="position: fixed; top: 50%; width: 100%"></h1>')
