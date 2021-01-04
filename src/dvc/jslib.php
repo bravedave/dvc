@@ -61,6 +61,7 @@ abstract class jslib {
 		'js/autofill.js',
 		'js/autoResize.js',
 		'js/brayworth.js',
+		'js/spinner.js',
 		'js/js.cookie.js',
     'js/templation.js',
     'js/templation.js',
