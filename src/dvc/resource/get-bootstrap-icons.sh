@@ -11,6 +11,6 @@ git pull
 
 cd ..
 
-rsync -arR --dry-run bootstrap-icons.tmp/./icons/ bootstrap-icons.tmp/./font/ bootstrap-icons/
+rsync -arR bootstrap-icons.tmp/./icons/ bootstrap-icons.tmp/./font/ bootstrap-icons/
 
 echo "done : $me"
