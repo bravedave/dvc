@@ -3,93 +3,106 @@
  * BrayWorth Pty Ltd
  * e. david@brayworth.com.au
  *
- * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
- *      http://creativecommons.org/licenses/by/4.0/
+ * MIT License
  *
-*/
+ * $('#el).swipeon({ left : function(e) { console.log( 'oh left we go ...')} })
+ *
+ * */
 /*jshint esversion: 6 */
-_brayworth_.swipeOff = function() {
-	$(this)
-		.off('mousedown touchstart')
-		.off('mouseup touchend');
-};
+( _ => {
+  _.swipeOff = function() {
+    $(this)
+      .off('mousedown touchstart')
+      .off('mouseup touchend');
+  };
 
-_brayworth_.swipeOn = function( params) {
-  let options = _brayworth_.extend( {
-		left : () => {},
-		right : () => {},
-		up : () => {},
-		down : () => {},
-	}, params);
+  _.swipeOn = function( params) {
+    let options = _.extend( {
+      left : () => {},
+      right : () => {},
+      up : () => {},
+      down : () => {},
+    }, params);
 
-	let down = false;
+    let down = false;
 
-	let touchEvent = function( e) {
-		let _touchEvent = function( x, y) { return ({'x':x,'y':y}); };
-		let evt = e.originalEvent;
-		try {
-			if ('undefined' !== typeof evt.pageX) {
-				return ( _touchEvent( evt.pageX, evt.pageY));
+    let touchEvent = e => {
+      let _touchEvent = (x,y) => {return {'x':x,'y':y}};
+      let evt = e.originalEvent;
+      try {
+        if ('undefined' !== typeof evt.pageX) {
+          return ( _touchEvent( evt.pageX, evt.pageY));
 
-			}
-			else if ('undefined' !== typeof evt.touches) {
-				if ( evt.touches.length > 0)
-					return ( _touchEvent( evt.touches[0].pageX, evt.touches[0].pageY));
-				else
-					return ( _touchEvent( evt.changedTouches[0].pageX, evt.changedTouches[0].pageY));
+        }
+        else if ('undefined' !== typeof evt.touches) {
+          if ( evt.touches.length > 0)
+            return ( _touchEvent( evt.touches[0].pageX, evt.touches[0].pageY));
+          else
+            return ( _touchEvent( evt.changedTouches[0].pageX, evt.changedTouches[0].pageY));
 
-			}
+        }
 
-		}
-		catch( err) {
-			console.warn( err);
+      }
+      catch( err) {
+        console.warn( err);
 
-		}
-		return ( _touchEvent(0,0));
+      }
+      return ( _touchEvent(0,0));
 
-	};
+    };
 
-	let swipeEvent = function( down, up) {
-		let j = {
-			'direction' : '',
-			x : up.x - down.x,
-			y : up.y - down.y };
+    let swipeEvent = (down,up) => {
+      let j = {
+        'direction' : '',
+        x : up.x - down.x,
+        y : up.y - down.y };
 
-		if ( j.x > 70)
-			j.direction = 'right';
-		else if ( j.x < -70)
-			j.direction = 'left';
+      if ( j.x > 70) {
+        j.direction = 'right';
 
-		return (j);
+      }
+      else if ( j.x < -70) {
+        j.direction = 'left';
 
-	};
+      }
 
-	let _me = $(this)
+      return (j);
 
-	_me
-	.on('mousedown touchstart', function (e) {
-		if ( /^(input|textarea|img|a|select)$/i.test( e.target.nodeName ))
-			return;
+    };
 
-		down = touchEvent(e);
+    let _me = $(this)
 
-	})
-	.on('mouseup touchend',function (e) {
-		if ( down) {
-			let sEvt = swipeEvent( down, touchEvent( e));
-			down = false;	// reset
+    _me
+    .on('mousedown touchstart', function (e) {
+      if ( /^(input|textarea|img|a|select)$/i.test( e.target.nodeName ))
+        return;
 
-			if ( sEvt.direction == 'left') {
-				options.left.call( _me, sEvt);
+      down = touchEvent(e);
+      if ( down) _me.addClass('swiping');
 
-			}
-			else if ( sEvt.direction == 'right') {
-				options.right.call( _me, sEvt);
+    })
+    .on('mouseup touchend',function (e) {
+      if ( down) {
+        let sEvt = swipeEvent( down, touchEvent( e));
+        down = false;	// reset
+        if ( down) _me.removeClass('swiping');
 
-			}
+        if ( sEvt.direction == 'left') {
+          options.left.call( _me, sEvt);
 
-		}
+        }
+        else if ( sEvt.direction == 'right') {
+          options.right.call( _me, sEvt);
 
-	});
+        }
 
-};
+      }
+
+    });
+
+  };
+
+  $.fn.swipeOn = _.swipeOn;
+  $.fn.swipeOff = _.swipeOff;
+
+}) (_brayworth_);

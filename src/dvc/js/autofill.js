@@ -12,9 +12,9 @@
  *		the response will be parsed in the fashion [<jsonObject>.label]
  * */
 /*jshint esversion: 6 */
-($ => {
+(($, _) => {
 	$.fn.autofill = function( params) {
-		var _me = $(this);
+		let _me = $(this);
 
 		if ( 'string' == typeof params) {
 			if ( 'destroy' == params) {
@@ -29,7 +29,7 @@
 
 		}
 
-		let options = _brayworth_.extend({
+		let options = _.extend({
 			timeout : 400,
 			appendTo : _me.parent(),
 			wrapper : $('<div class="autofill-wrapper"></div>'),
@@ -38,7 +38,7 @@
 			minLength : 3,
 			minWidth : 150,
 			select : false,
-			source : function( request, response) {},
+			source : (request,response) => {},
 
 		}, params);
 
@@ -54,12 +54,10 @@
 
 		let keyMove = {
 			active : -1,
-			items : function() {
-				return ( $('>li', list));
-
-			},
-
+			items : () => $('>li', list),
 			current : false,
+			_initialized : false,
+
 			activate : function( item ) {
 				if ( this.current) {
 					this.current.removeClass( 'active');
@@ -67,32 +65,31 @@
 
 				}
 
-				this.current = $( item);
+				this.current = $(item);
 				this.current.addClass('active');
 
 			},
 
 			deactivate : function( item ) {
 
-				var _item = $(item);
+				let _item = $(item);
 				if ( _item.hasClass('active')) {
 					_item.removeClass( 'active');
 
 				}
 
 				if ( this.current && !this.current.hasClass('active')) {
-					/* there is no item active */
-					this.current = false;
+          this.current = false; // there is no item active
 
 				}
 
 			},
 
 			up : function() {
-				var items = this.items();
+				let items = this.items();
 				if ( items.length > 0) {
-					var item = -1;
-					$.each( items, function( i, el) {
+					let item = -1;
+					$.each( items, (i,el) => {
 						if ( $(el).hasClass('active')) {
 							item = i;
 							return ( true);
@@ -124,8 +121,8 @@
 			down : function() {
 				let items = this.items();
 				if ( items.length > 0) {
-					var item = -1;
-					$.each( items, function( i, el) {
+					let item = -1;
+					$.each( items, (i,el) => {
 						if ( $(el).hasClass('active')) {
 							item = i;
 							return ( true);
@@ -153,31 +150,27 @@
 
 			},
 
-			selectitem : function( event) {
+			selectitem : function( e) {
 				keyMove.activate( this);
 
 				let item = $(this).data('item');
 				_me.val( !!item.value ? item.value : ( !!item.label ? item.label : item));
-				if ( !!event.stopPropagation) {
-					/*
-					* this stops the click going through to an underlying element
-					*/
-					event.stopPropagation(); event.preventDefault();
+				if ( !!e.stopPropagation) {
+					// this stops the click going through to an underlying element
+					e.stopPropagation(); e.preventDefault();
 
 				}
 
 				keyMove.clear();
-
-				if ( 'function' == typeof options.select)
-					options.select( event, {item:item});
+				if ( 'function' == typeof options.select) options.select( e, {item:item});
 
 			},
 
 			select : function( event) {
-				var items = this.items();
+				let items = this.items();
 				if ( items.length > 0) {
-					var item = -1;
-					$.each( items, function( i, el) {
+					let item = -1;
+					$.each( items, (i,el) => {
 						if ( $(el).hasClass('active')) {
 							item = i;
 							return ( false);
@@ -202,23 +195,17 @@
 
 			},
 
-			clear : function() {
-				list.html('');
-				this.current = false;
-
-			},
-
-			_initialized : false,
+			clear : () => { list.html(''); this.current = false; },
 
 			init : function() {
 				if ( this._initialized) return;
-				/*
-				* initialise placement of the list item
-				*
-				* this is sized and placed the first time it is used
-				* the element should be positioned and sized correctly
-				* by now.
-				*/
+				/**
+         * initialise placement of the list item
+         *
+         * this is sized and placed the first time it is used the element
+         * should be positioned and sized correctly by now.
+         *
+         */
 
 				this._initialized = true;
 
@@ -247,7 +234,8 @@
 		let iterant = 0;
 		let blurTimeOut = false;
 
-		_me.on( 'focus.autofill', function() {
+    _me
+    .on( 'focus.autofill', () => {
 			if ( blurTimeOut) {
 				window.clearTimeout( blurTimeOut);
 				blurTimeOut = false;
@@ -255,7 +243,7 @@
 			}
 
 		})
-		.on( 'blur.autofill', function() {
+		.on( 'blur.autofill', () => {
 
 			if ( blurTimeOut) {
 				window.clearTimeout( blurTimeOut);
@@ -263,7 +251,7 @@
 
 			}
 
-			blurTimeOut = window.setTimeout( function() {
+			blurTimeOut = window.setTimeout( () => {
 				//~ console.log( 'setTimeout :: clear');
 				keyMove.clear();
 				blurTimeOut = false;
@@ -271,7 +259,7 @@
 			}, 900);
 
 		})
-		.on( 'keydown.autofill', function ( e) {
+		.on( 'keydown.autofill', e => {
 			//~ console.log( 'keydown.autofill', e.keyCode);
 			if ( e.keyCode == 9 && options.autoFocus) {
 				keyMove.select( e);
@@ -280,12 +268,8 @@
 			}
 
 		})
-		.on( 'keypress.autofill', function ( e) {
-			/*
-			* allowing enter through will probably submit the form,
-			* enter just settles here
-			*/
-			//~ console.log( 'keypress.autofill', e.keyCode);
+		.on( 'keypress.autofill', e => {
+			// allowing enter to pass thru will probably submit the form, just settle here
 			return ( e.keyCode || e.which || e.charCode || 0) !== 13;
 
 		})
@@ -293,8 +277,7 @@
 			if ( e.shiftKey)
 				return;
 
-			if ( !_brayworth_.browser.isMobileDevice) {
-				// console.log( 'keyup.autofill', e.keyCode);
+			if ( !_.browser.isMobileDevice) {
 				if ( e.keyCode == 13) {
 					keyMove.select( e);
 					return;
@@ -333,8 +316,7 @@
 				//~ console.table( options.source);
 
 				let rex = new RegExp( lastVal);
-
-				$.each( options.source, function( i, el) {
+				$.each( options.source, ( i, el) => {
 
 					if ( !!el.label) {
 						if ( rex.test( el.label)) {
@@ -442,4 +424,4 @@
 
 	}
 
-})(jQuery);
+})(jQuery, _brayworth_);

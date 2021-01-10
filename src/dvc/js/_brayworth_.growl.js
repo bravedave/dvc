@@ -244,10 +244,15 @@
 
   $(document).ready( () => {
     if ( 4 == _.bootstrap_version() && 'undefined' != typeof dayjs) {
-      _.growl = p => _.toaster( p);
+      $.fn.growl = _.growl = p => _.toaster( p);
 
     }
 
   });
+
+  $.fn.growlSuccess = _.growlSuccess;
+  $.fn.growlError = _.growlError;
+  $.fn.growlAjax = _.growlAjax;
+  $.fn.growl = _.growl;
 
 }) (_brayworth_);

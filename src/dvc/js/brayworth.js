@@ -7,58 +7,54 @@
  *
  * */
 /*jshint esversion: 6 */
-$(document).ready( function() {
-	_brayworth_.InitHRefs();
-	_brayworth_.initDatePickers();
+( ($,_) => {
+  $(document).ready( () => {
+    $('[data-role="back-button"]').each( ( i, el ) => {
+      //~ console.log('processing : window.history.back()');
+      $(el)
+      .css('cursor','pointer')
+      .on('click', e => {
+        e.stopPropagation(); e.preventDefault();
+        //~ console.log('window.history.back()');
+        window.history.back();
 
-	$('[data-role="back-button"]').each( ( i, el ) => {
-		//~ console.log('processing : window.history.back()');
-		$(el)
-		.css('cursor','pointer')
-		.on('click', e => {
-			e.stopPropagation(); e.preventDefault();
-			//~ console.log('window.history.back()');
-			window.history.back();
+      });
 
-		});
+    });
 
-	});
+    $('[data-role="visibility-toggle"]').each( ( i, el ) => {
+      let _el = $(el);
+      let target = _el.data('target');
+      let oT = $('#' + target);
+      if ( oT) {
+        _el
+        .css('cursor','pointer')
+        .on('click', e => {
+          e.stopPropagation(); e.preventDefault();
+          oT.toggle();
 
-	$('[data-role="visibility-toggle"]').each( ( i, el ) => {
-		let _el = $(el);
-		let target = _el.data('target');
-		let oT = $('#' + target);
-		if ( oT) {
-			_el
-			.css('cursor','pointer')
-			.on('click', e => {
-				e.stopPropagation(); e.preventDefault();
-				oT.toggle();
+        });
 
-			});
+      }
 
-		}
+    });
 
-	});
+    $('[role="print-page"]').each( ( i, el ) => {
+      $(el).on('click', e => {
+        e.preventDefault();
+        window.print();
 
-	$('[role="print-page"]').each( ( i, el ) => {
-		$(el).on('click', e => {
-			e.preventDefault();
-			window.print();
+      });
 
-		});
+    });
 
-	});
+  });
 
-});
-
-
-( $ => {
 	$.fn.serializeFormJSON = function () {
 
 		let o = {};
 		let a = this.serializeArray();
-		$.each(a, ( i, el) => {
+		$.each(a, (i,el) => {
 			if (o[el.name]) {
 				if (!o[el.name].push) {
 					o[el.name] = [o[el.name]];
@@ -78,13 +74,6 @@ $(document).ready( function() {
 		return o;
 
 	};
-
-	$.fn.growlSuccess = _brayworth_.growlSuccess;
-	$.fn.growlError = _brayworth_.growlError;
-	$.fn.growlAjax = _brayworth_.growlAjax;
-	$.fn.growl = _brayworth_.growl;
-	$.fn.swipeOn = _brayworth_.swipeOn;
-	$.fn.swipeOff = _brayworth_.swipeOff;
 
 	$.fn.zIndex = function ( z) {
 		if ( /number|string/.test( typeof z)) {
@@ -111,4 +100,4 @@ $(document).ready( function() {
 
 	};
 
-})( jQuery);
+})( jQuery, _brayworth_);
