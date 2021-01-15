@@ -219,22 +219,6 @@ if ( !window._brayworth_ )
       _.get.script( _.url("js/tinymce5/")) :
       Promise.resolve();
 
-    // return new Promise( resolve => {
-    //   if ('undefined' == typeof tinyMCE) {
-    //     let s = document.createElement('script');
-    //     s.type = 'text/javascript';
-    //     s.src = _.url("js/tinymce5/");
-    //     s.addEventListener('load', () => resolve());
-    //     document.body.appendChild(s);
-
-    //   }
-    //   else {
-    //     resolve();
-
-    //   }
-
-    // });
-
   };
 
   _.urlwrite = _.url = ( _url, withProtocol) => {
