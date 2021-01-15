@@ -215,21 +215,25 @@ if ( !window._brayworth_ )
   };
 
   _.tiny = () => {
-    return new Promise( resolve => {
-      if ('undefined' == typeof tinyMCE) {
-        let s = document.createElement('script');
-        s.type = 'text/javascript';
-        s.src = _.url("js/tinymce5/");
-        s.addEventListener('load', () => resolve());
-        document.body.appendChild(s);
+    return 'undefined' == typeof tinyMCE ?
+      _.get.script( _.url("js/tinymce5/")) :
+      Promise.resolve();
 
-      }
-      else {
-        resolve();
+    // return new Promise( resolve => {
+    //   if ('undefined' == typeof tinyMCE) {
+    //     let s = document.createElement('script');
+    //     s.type = 'text/javascript';
+    //     s.src = _.url("js/tinymce5/");
+    //     s.addEventListener('load', () => resolve());
+    //     document.body.appendChild(s);
 
-      }
+    //   }
+    //   else {
+    //     resolve();
 
-    });
+    //   }
+
+    // });
 
   };
 
