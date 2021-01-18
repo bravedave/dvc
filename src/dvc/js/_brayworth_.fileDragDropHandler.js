@@ -200,7 +200,7 @@
 				.css('width', '0')
 				.attr('aria-valuenow', '0');
 
-      console.log( options.host);
+      // console.log( options.host);
       options.host.addClass('is-uploading');
 
 			$.ajax({
