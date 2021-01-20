@@ -9,14 +9,14 @@
 
 ( $ => {
   $.fn.spinner = function( state) {
+    let _data = this.data();
     if ( 'off' == String( state)) {
-      let _data = this.data();
       this.removeClass().addClass( _data.class);
 
     }
     else {
 
-      if ( !this.hasData( 'class')) {
+      if ( !_data.class) {
         this.data( 'class', this.attr( 'class'));
 
       }
