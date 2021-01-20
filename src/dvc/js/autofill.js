@@ -278,7 +278,12 @@
 				return;
 
 			if ( !_.browser.isMobileDevice) {
-				if ( e.keyCode == 13) {
+				if ( e.keyCode == 9) {
+          console.log('tab', 'keyup.autofill');
+					return;
+
+				}
+				else if ( e.keyCode == 13) {
 					keyMove.select( e);
 					return;
 
