@@ -279,8 +279,7 @@
 
 			if ( !_.browser.isMobileDevice) {
 				if ( e.keyCode == 9) {
-          console.log('tab', 'keyup.autofill');
-					return;
+          return; // tab key does not trigger search
 
 				}
 				else if ( e.keyCode == 13) {
