@@ -47,8 +47,18 @@ abstract class sys {
       if ( \file_exists( $path)) {
         if ( $j = @json_decode( \file_get_contents( $path))) {
           $ret->version = $j->version;
-          $ret->short = $j->version_short;
-          $ret->major = (int)$j->version_short;
+
+          $short = $j->version;
+          if ( isset( $j->version_short)) {
+            $ret->short = $j->version_short;
+
+          }
+          elseif ( isset( $j->config->version_short)) {
+            $ret->short = $j->config->version_short;
+
+          };
+
+          $ret->major = (int)$short;
 
         }
 
