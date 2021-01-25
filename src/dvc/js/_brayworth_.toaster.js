@@ -13,7 +13,7 @@
   $(document).ready( () => {
     let adjustTop = () => false;
     let wrap = $('<div style="position: absolute; top: 50px; right: 20px; width: 300px"></div>');
-    let nav = $('[role="growler"]');
+    let nav = $('[data-role="growler"]');
     let mode = 'append';
 
     if ( nav.length > 0) {
