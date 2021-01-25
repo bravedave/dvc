@@ -134,6 +134,7 @@ abstract class Response {
 
 	static function javascript_headers( $modifyTime = 0, $expires = 0) {
 		self::_common_headers( $modifyTime, $expires);
+		header('X-Content-Type-Options: nosniff');
 		header('Content-type: text/javascript');
 
 	}
