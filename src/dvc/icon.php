@@ -209,7 +209,7 @@ class icon {
 
   const icon_dir = __DIR__ . '/resource/bootstrap-icons/icons/';
 
-  static function get( int $icon ) : string {
+  static public function get( int $icon ) : string {
     if ( self::app == $icon) return file_get_contents( self::icon_dir . 'app.svg');
 
     elseif ( self::arrow_90deg_down == $icon) return file_get_contents( self::icon_dir . 'arrow-90deg-down.svg');
@@ -476,7 +476,17 @@ class icon {
 
   }
 
-  static function inline( int $icon) {
+  static public function base64_data( int $icon) {
+    $str = self::get( $icon);
+    $data = base64_encode( $str);
+    // $finfo = new \finfo(FILEINFO_MIME_TYPE);
+    // $finfo->buffer($str)
+
+    return 'data:image/svg+xml;base64,'.$data;
+
+  }
+
+  static public function inline( int $icon) {
     /*
       <style>
       .bi {
