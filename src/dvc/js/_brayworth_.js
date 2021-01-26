@@ -67,6 +67,8 @@ if ( !window._brayworth_ )
 
   _.timezone = '';
 
+  _.table = {};
+
   $(document).on('content-load', (e, j) => {
     const els = [
       'header',
