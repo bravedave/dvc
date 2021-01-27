@@ -134,7 +134,7 @@ abstract class errsys {
 
 	}
 
-	static public function err_handler( $errno, $errstr, $errfile, $errline, $errcontext) {
+	static public function err_handler( $errno, $errstr, $errfile, $errline) {
 		if ( self::$_shutup )
 			return;
 
@@ -258,8 +258,8 @@ abstract class errsys {
 	}
 
 	static public function initiate( $log = false ) {
-		set_error_handler(function( $errno, $errstr, $errfile, $errline, $errcontext) {
-			errsys::err_handler( $errno, $errstr, $errfile, $errline, $errcontext);
+		set_error_handler(function( $errno, $errstr, $errfile, $errline) {
+			errsys::err_handler( $errno, $errstr, $errfile, $errline);
 		});
 
 		set_exception_handler(function( $e ) {
