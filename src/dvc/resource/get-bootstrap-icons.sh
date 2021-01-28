@@ -7,7 +7,7 @@ echo "start : $me"
 
 [ -d bootstrap-icons.tmp ] || git clone https://github.com/twbs/icons/ bootstrap-icons.tmp
 cd bootstrap-icons.tmp
-git pull
+git pull --rebase
 
 cd ..
 
