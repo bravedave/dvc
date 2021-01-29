@@ -400,26 +400,28 @@ abstract class strings {
 			return ( $street);
 
 		$find = [
+			'@\savenue$@i','@\savenue,@i','@\save$@i',
+			'@\screscent$@i','@\screscent,@i',
+			'@\scourt$@i','@\scourt,@i',
+			'@\sdrive$@i','@\sdrive,@i',
+			'@\sesplanade$@i','@\sesplanade,@i',
+			'@\sparade$@i','@\spde$@i','@\sparade,@i','@\spde,@i',
+			'@\splace$@i','@\splace,@i',
 			'@\sroad$@i','@\sroad,@i',
 			'@\sstreet$@i','@\sstreet,@i','@\sstreet\s@i',
-			'@\savenue$@i','@\savenue,@i','@\save$@i',
-			'@\sparade$@i','@\spde$@i','@\sparade,@i','@\spde,@i',
 			'@\sterrace$@i','@\stce$@i','@\sterrace,@i','@\stce,@i',
-			'@\sdrive$@i','@\sdrive,@i',
-			'@\splace$@i','@\splace,@i',
-			'@\scourt$@i','@\scourt,@i',
-			'@\screscent$@i','@\screscent,@i'
-			];
+    ];
 		$replace = [
+      ' Av',' Av,',' Av,',
+			' Cres',' Cres,',
+			' Ct',' Ct,',
+			' Dr',' Dr,',
+      ' Esp',' Esp',
+			' Pd',' Pd',' Pd,',' Pd,',
+			' Pl',' Pl,',
 			' Rd',' Rd,',
 			' St',' St,',' St, ',
-			' Av',' Av,',' Av,',
-			' Pd',' Pd',' Pd,',' Pd,',
 			' Tc',' Tc',' Tc,',' Tc,',
-			' Dr',' Dr,',
-			' Pl',' Pl,',
-			' Ct',' Ct,',
-			' Cres',' Cres,'
 			];
 
 
