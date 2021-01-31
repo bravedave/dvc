@@ -49,7 +49,7 @@ class _page {
 
 		$this->data->title = $this->title = ( $title == '' ? config::$WEBNAME : $title );
 
-		$this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />';
+		// $this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />';
 		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
 
 		if ( \userAgent::isLegacyIE()) {

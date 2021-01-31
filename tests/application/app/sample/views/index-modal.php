@@ -8,14 +8,16 @@
  *
 */
 
+use dvc\theme;
+
 $m = new dvc\html\modal;
 
 $m->title()->setContent( 'Hello World');
 
 /* add/remove classes */
-$m->header()->addClass( 'py-2 bg-primary text-light');
-$m->footer()->addClass( 'py-2');
-$m->dialog()->removeClass( 'modal-dialog-centered');
+$m->header()->addClass( theme::modalHeader());  // 'py-2 bg-primary text-light');
+// $m->footer()->addClass( 'py-2');
+// $m->dialog()->removeClass( 'modal-dialog-centered');
 
 /* add elements */
 $m->body()->append( 'input', null, [
@@ -46,27 +48,27 @@ $form->render();   ?>
 
 <ul class="nav flex-column">
 	<li class="nav-item text-center border-top mt-4 pt-2">
-        <button class="btn btn-outline-primary"
-            data-toggle="modal"
-            data-target="#<?= $m->id ?>">modal</button>
+    <button class="btn btn-outline-primary"
+      data-toggle="modal"
+      data-target="#<?= $m->id ?>">modal</button>
 
-    </li>
+  </li>
 
 </ul>
 
 <script>
-$(document).ready( function() {
-    $('#<?= $form->id ?>').on( 'submit', function( e) {
-        let _form = $(this);
-        let _data = _form.serializeFormJSON();
+$(document).ready( () => {
+  $('#<?= $form->id ?>').on( 'submit', function( e) {
+    let _form = $(this);
+    let _data = _form.serializeFormJSON();
 
-        $('#<?= $m->id ?>').modal( 'hide');
+    $('#<?= $m->id ?>').modal( 'hide');
 
-        console.log( _data);
+    console.log( _data);
 
-        return false;
+    return false;
 
-    });
+  });
 
 });
 </script>

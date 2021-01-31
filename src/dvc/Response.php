@@ -17,12 +17,13 @@ abstract class Response {
 			header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $modifyTime) . ' GMT');
 			if ( $expires) {
 				header('Expires: ' . gmdate( 'D, j M Y H:i:s', time() + $expires ) . ' GMT' );
+        header('Cache-Control: max-age=' . $expires);
 
 			}
 			else {
-				header('Expires: ' . gmdate( 'D, j M Y H:i:s' ) . ' GMT' );    	// Date in the past
-				header('Cache-Control: max-age=0, no-cache, must-revalidate, proxy-revalidate');
-				header('Pragma: no-cache');                          			// HTTP/1.0
+        header('Expires: ' . gmdate( 'D, j M Y H:i:s' ) . ' GMT' );    	// Date in the past
+				header('Cache-Control: no-cache');
+				// header('Pragma: no-cache');                          			// HTTP/1.0
 
 			}
 
@@ -30,8 +31,8 @@ abstract class Response {
 		else {
 			header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');	// always modified
 			header('Expires: ' . gmdate( 'D, j M Y H:i:s' ) . ' GMT' );    	// Date in the past
-			header('Cache-Control: max-age=0, no-cache, must-revalidate, proxy-revalidate');
-			header('Pragma: no-cache');                          			// HTTP/1.0
+			header('Cache-Control: no-cache');
+			// header('Pragma: no-cache');                          			// HTTP/1.0
 
 		}
 

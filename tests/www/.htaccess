@@ -13,7 +13,3 @@ FallbackResource /_dvc.php
 	php_value post_max_size 40M
 	php_value upload_max_filesize 40M
 </IfModule>
-
-Header unset Pragma
-Header unset Last-Modified
-Header unset Cache-Control
