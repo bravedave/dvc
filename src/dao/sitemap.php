@@ -24,7 +24,7 @@ class sitemap extends _dao {
 		if ( self::$_db_allways_check_sitemap) {
 			self::$_db_allways_check_sitemap = false;
 
-			$dbc = sys::dbCheck();
+			$dbc = sys::dbCheck($this->_db_name);
 			$dbc->defineField( 'path', 'text' );
 			$dbc->defineField( 'visits', 'bigint', 20 );
 			$dbc->defineField( 'exclude_from_sitemap', 'tinyint' );

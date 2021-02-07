@@ -26,7 +26,7 @@ class bwui extends _dao {
 			self::$_db_allways_check_bwui = false;
 			$this->_db_allways_check_structure = false;
 
-			$dbc = sys::dbCheck();
+			$dbc = sys::dbCheck($this->_db_name);
 			$dbc->defineField( 'created', 'datetime');
 			$dbc->defineField( 'updated', 'datetime');
 			$dbc->defineField( 'key', 'varchar', 32);
