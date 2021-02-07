@@ -10,6 +10,8 @@
 
 namespace dao;
 
+use sys;
+
 class sitemap extends _dao {
 	protected $_db_name = 'sitemap';
 
@@ -22,10 +24,7 @@ class sitemap extends _dao {
 		if ( self::$_db_allways_check_sitemap) {
 			self::$_db_allways_check_sitemap = false;
 
-			$dbc = 'sqlite' == \config::$DB_TYPE ?
-				new \dvc\sqlite\dbCheck( $this->db, $this->_db_name) :
-				new dbCheck( $this->db, $this->_db_name);
-
+			$dbc = sys::dbCheck();
 			$dbc->defineField( 'path', 'text' );
 			$dbc->defineField( 'visits', 'bigint', 20 );
 			$dbc->defineField( 'exclude_from_sitemap', 'tinyint' );

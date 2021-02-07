@@ -8,7 +8,11 @@
  *
 */
 
-class config extends dvc\config {}
+class config extends dvc\config {
+  // const lockdown = true;
+  // const use_inline_logon = true;
+
+}
 
 if ( config::checkDBconfigured()) {
     config::$SITEMAPS = true;

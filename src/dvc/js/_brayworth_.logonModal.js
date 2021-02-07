@@ -58,7 +58,7 @@
 			.then( d => {
 				$('body').growl(d);
 				if ('ack' == d.response) {
-					window.location.reload(true);
+					window.location.reload();
 
 				}
 				else {
