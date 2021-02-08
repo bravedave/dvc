@@ -394,10 +394,10 @@ abstract class strings {
 	}
 
 	static public function GoodStreetString( $street ) {
-		if ( preg_match( '/The\s?Drive/i', $street ))
-			return ( $street);
-		if ( preg_match( '/The\s?Avenue/i', $street ))
-			return ( $street);
+
+    if ( preg_match( '/The\s?Drive/i', $street )) return ( $street);
+		if ( preg_match( '/The\s?Avenue/i', $street )) return ( $street);
+		if ( preg_match( '/The\s?Esplanade/i', $street )) return ( $street);
 
 		$find = [
 			'@\savenue$@i','@\savenue,@i','@\save$@i',
