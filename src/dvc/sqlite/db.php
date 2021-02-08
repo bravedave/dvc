@@ -71,11 +71,10 @@ class db {
 
 				/* Get field information for all columns */
 				if ( $fields = $this->fieldList( $table)) {
-					//~ sys::dump( $fields);
-				// 	$finfo = $res->fetch_fields();
+          foreach ($fields as $field) {
+            printf( '<br />%s %s %s', $field->name, $field->type, ( $field->pk ? 'primary key' : ''));
 
-				 	foreach ($fields as $field)
-				 		printf( '<br />%s %s %s', $field->name, $field->type, ( $field->pk ? 'primary key' : ''));
+          }
 
 				}
 
