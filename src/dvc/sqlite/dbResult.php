@@ -16,11 +16,8 @@ class dbResult {
 	protected $db;
 
 	public function __construct(  $result = null, $db = null) {
-		if ( $result)
-			$this->result = $result;
-
-		if ( $db)
-			$this->db = $db;
+		if ( $result) $this->result = $result;
+		if ( $db) $this->db = $db;
 
 	}
 
@@ -33,8 +30,10 @@ class dbResult {
 
 	public function dto( $template = NULL) {
 		if ( $dto = $this->fetch()) {
-			if ( is_null( $template))
+			if ( is_null( $template)) {
 				return ( new \dao\dto\dto( $dto));
+
+      }
 
 			return ( new $template( $dto));
 
@@ -55,15 +54,19 @@ class dbResult {
 		$ret = [];
 		if ( is_callable( $func)) {
 			while ( $dto = $this->dto( $template)) {
-				if ( $d = $func( $dto))
+				if ( $d = $func( $dto)) {
 					$ret[] = $d;
+
+        }
 
 			}
 
 		}
 		else {
-			while ( $dto = $this->dto( $template))
+			while ( $dto = $this->dto( $template)) {
 				$ret[] = $dto;
+
+      }
 
 		}
 
