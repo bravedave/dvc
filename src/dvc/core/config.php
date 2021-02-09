@@ -118,7 +118,8 @@ abstract class config {
 
   static $IMAP_AUTH_SERVER = '';
 
-	static $JQUERY_VERSION = '3.4';
+	// static $JQUERY_VERSION = '3.4';
+	static $JQUERY_VERSION = '';
 
 	static $MAILSERVER = 'localhost';
 	static $MAILER = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
