@@ -173,8 +173,9 @@ class icon {
   const list_stars = 244;
   const list_ul = 245;
 
-  const menu_down = 301;
-  const menu_up = 302;
+  const man_walking = 301;
+  const menu_down = 302;
+  const menu_up = 303;
 
   const people = 345;
   const people_fill = 346;
@@ -364,24 +365,12 @@ class icon {
       return file_get_contents( self::icon_dir . 'files-alt.svg');
 
     }
-    elseif ( self::envelope == $icon) {
-      return file_get_contents( self::icon_dir . 'envelope.svg');
 
-    }
-    elseif ( self::envelope_fill == $icon) {
-      return file_get_contents( self::icon_dir . 'envelope-fill.svg');
+    elseif ( self::envelope == $icon) return file_get_contents( self::icon_dir . 'envelope.svg');
+    elseif ( self::envelope_fill == $icon) return file_get_contents( self::icon_dir . 'envelope-fill.svg');
+    elseif ( self::envelope_open == $icon) return file_get_contents( self::icon_dir . 'envelope-open.svg');
+    elseif ( self::envelope_open_fill == $icon) return file_get_contents( self::icon_dir . 'envelope-open-fill.svg');
 
-    }
-    elseif ( self::envelope_open == $icon) {
-      return file_get_contents( self::icon_dir . 'envelope-open.svg');
-
-    }
-    elseif ( self::envelope_open_fill == $icon) {
-      return file_get_contents( self::icon_dir . 'envelope-open-fill.svg');
-
-    }
-    elseif ( self::image == $icon) return file_get_contents( self::icon_dir . 'image.svg');
-    elseif ( self::images == $icon) return file_get_contents( self::icon_dir . 'images.svg');
     elseif ( self::file_rich_text == $icon) return file_get_contents( self::icon_dir . 'file-richtext.svg');
     elseif ( self::file_text == $icon) return file_get_contents( self::icon_dir . 'file-text.svg');
     elseif ( self::file_text_fill == $icon) return file_get_contents( self::icon_dir . 'file-text-fill.svg');
@@ -392,50 +381,22 @@ class icon {
     elseif ( self::gear_wide_connected == $icon) return file_get_contents( self::icon_dir . 'gear-wide-connected.svg');
     elseif ( self::github == $icon) return file_get_contents( __DIR__ . '/icons/github.svg');
 
-    elseif ( self::house == $icon) {
-      return file_get_contents( self::icon_dir . 'house.svg');
+    elseif ( self::house == $icon) return file_get_contents( self::icon_dir . 'house.svg');
+    elseif ( self::house_plus == $icon) return file_get_contents( __DIR__ . '/icons/house-plus.svg');
 
-    }
-    elseif ( self::house_plus == $icon) {
-      return file_get_contents( __DIR__ . '/icons/house-plus.svg');
+    elseif ( self::image == $icon) return file_get_contents( self::icon_dir . 'image.svg');
+    elseif ( self::images == $icon) return file_get_contents( self::icon_dir . 'images.svg');
 
-    }
-    elseif ( self::list == $icon) {
-      return file_get_contents( self::icon_dir . 'list.svg');
+    elseif ( self::list == $icon) return file_get_contents( self::icon_dir . 'list.svg');
+    elseif ( self::list_check == $icon) return file_get_contents( self::icon_dir . 'list-check.svg');
+    elseif ( self::list_nested == $icon) return file_get_contents( self::icon_dir . 'list-nested.svg');
+    elseif ( self::list_ol == $icon) return file_get_contents( self::icon_dir . 'list-ol.svg');
+    elseif ( self::list_stars == $icon) return file_get_contents( self::icon_dir . 'list-stars.svg');
+    elseif ( self::list_ul == $icon) return file_get_contents( self::icon_dir . 'list-ul.svg');
 
-    }
-    elseif ( self::list_check == $icon) {
-      return file_get_contents( self::icon_dir . 'list-check.svg');
-
-    }
-    elseif ( self::list_nested == $icon) {
-      return file_get_contents( self::icon_dir . 'list-nested.svg');
-
-    }
-    elseif ( self::list_ol == $icon) {
-      return file_get_contents( self::icon_dir . 'list-ol.svg');
-
-    }
-    elseif ( self::list_stars == $icon) {
-      return file_get_contents( self::icon_dir . 'list-stars.svg');
-
-    }
-    elseif ( self::list_ul == $icon) {
-      return file_get_contents( self::icon_dir . 'list-ul.svg');
-
-    }
-    elseif ( self::menu_down == $icon) {
-      return file_get_contents( self::icon_dir . 'menu-down.svg');
-
-    }
-    elseif ( self::menu_up == $icon) {
-      return file_get_contents( self::icon_dir . 'menu-up.svg');
-
-    }
-    elseif ( self::question == $icon) {
-      return file_get_contents( self::icon_dir . 'question.svg');
-
-    }
+    elseif ( self::man_walking == $icon) return file_get_contents( __DIR__ . '/icons/man-walking.svg');
+    elseif ( self::menu_down == $icon) return file_get_contents( self::icon_dir . 'menu-down.svg');
+    elseif ( self::menu_up == $icon) return file_get_contents( self::icon_dir . 'menu-up.svg');
 
     elseif ( self::people == $icon) return file_get_contents( self::icon_dir . 'people.svg');
     elseif ( self::people_fill == $icon) return file_get_contents( self::icon_dir . 'people-fill.svg');
@@ -454,6 +415,8 @@ class icon {
     elseif ( self::plus_square_fill == $icon) return file_get_contents( self::icon_dir . 'plus_square_fill.svg');
     elseif ( self::phone == $icon) return file_get_contents( self::icon_dir . 'phone.svg');
     elseif ( self::phone_fill == $icon) return file_get_contents( self::icon_dir . 'phone-fill.svg');
+
+    elseif ( self::question == $icon) return file_get_contents( self::icon_dir . 'question.svg');
 
     elseif ( self::telephone == $icon) {
       return file_get_contents( self::icon_dir . 'telephone.svg');
