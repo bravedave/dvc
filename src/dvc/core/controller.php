@@ -251,11 +251,58 @@ abstract class controller {
 
 	protected function access_control() {
 		// warning - don't impose an access_control of FALSE on the home page !
-		return ( TRUE);
+		return ( true);
 
 	}
 
+	protected function authorizeIMAP() : bool {
+    $debug = false;
+    // $debug = true;
+
+    if ( $u = $this->getPost( 'u')) {
+      if ( $p = $this->getPost( 'p')) {
+
+        if ( \auth::ImapTest( $u, $p)) {
+          if ( $debug) \sys::logger( sprintf('<successful logon for %s> %s', $u, __METHOD__));
+
+          $dao = new \dao\users;
+          $dao->validate( $u);
+
+          return true;
+
+        }
+        else {
+          if ( $debug) \sys::logger( sprintf('<unsuccessful logon for %s> %s', $u, __METHOD__));
+
+        }
+
+      }
+
+    }
+
+    return false;
+
+  }
+
 	protected function authorize() {
+
+    if ( $this->isPost()) {
+      $action = $this->getPost( 'action');
+      if ( $action == '-system-logon-' && auth::ImapAuthEnabled()) {
+        if ( $this->authorizeIMAP()) {
+          Json::ack( $action);
+
+        }
+        else {
+          Json::nak( $action);
+
+        }
+        die;
+
+      }
+
+    }
+
 		if ( \auth::GoogleAuthEnabled()) {
 			if ( $this->debug) \sys::logger( sprintf( 'gauth - test :: %s', __METHOD__));
 			if ( \user::hasGoogleFlag()) {
@@ -274,29 +321,29 @@ abstract class controller {
 
 		if ( \config::use_inline_logon) {
 			$p = new \config::$PAGE_TEMPLATE_LOGON( 'Log On' );
-				$p->footer = FALSE;
-				if ( \config::allow_password_recovery) {
-					$p->latescripts[] = '<script>$(document).ready( function() { _brayworth_.logon_retrieve_password = true; _brayworth_.logonModal(); })</script>';
+      $p->footer = false;
+      if ( \config::allow_password_recovery) {
+        $p->latescripts[] = '<script>( _ => $(document).ready( () => { _.logon_retrieve_password = true; _.logonModal(); }))( _brayworth_);</script>';
 
-				}
-				else {
-					$p->latescripts[] = '<script>$(document).ready( function() { _brayworth_.logonModal(); })</script>';
+      }
+      else {
+        $p->latescripts[] = '<script>$(document).ready( () => _brayworth_.logonModal())</script>';
 
-				}
+      }
 
-				$p->meta[] = '<meta name="viewport" content="initial-scale=1" />';
-				$p
-					->header()
-					->content();
-				//~ $this->loadView( 'logon');
+      $p->meta[] = '<meta name="viewport" content="initial-scale=1" />';
+      $p->header()->content();
 
 		}
 		else {
-			if ( $this->Redirect_OnLogon)
+			if ( $this->Redirect_OnLogon) {
 				\Response::redirect( \url::tostring( sprintf( 'logon?referer=%s', $this->Redirect_OnLogon)));
 
-			else
+      }
+			else {
 				\Response::redirect( \url::tostring( 'logon'));
+
+      }
 
 		}
 		die;

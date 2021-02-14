@@ -115,7 +115,11 @@ abstract class config {
 	static $EMAIL_STATIONARY = 'email.html';
 
 	static $HTML_TICK = '&#10003;';
-	static $JQUERY_VERSION = '3.4';
+
+  static $IMAP_AUTH_SERVER = '';
+
+	// static $JQUERY_VERSION = '3.4';
+	static $JQUERY_VERSION = '';
 
 	static $MAILSERVER = 'localhost';
 	static $MAILER = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
@@ -344,6 +348,7 @@ abstract class config {
 					'support_name' => \config::$SUPPORT_NAME,
 					'support_email' => \config::$SUPPORT_EMAIL,
 					'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,
+					'imap_auth_server' => \config::$IMAP_AUTH_SERVER,
 				];
 
 				$a = (object)array_merge( $_a, (array)json_decode( file_get_contents( $path)));
@@ -357,6 +362,7 @@ abstract class config {
 				\config::$SUPPORT_NAME = $a->support_name;
 				\config::$SUPPORT_EMAIL = $a->support_email;
 				\config::$EMAIL_ERRORS_TO_SUPPORT = $a->email_errors_to_support;
+				\config::$IMAP_AUTH_SERVER = $a->imap_auth_server;
 
 			} // if ( file_exists( $path))
 			else {
@@ -377,8 +383,10 @@ abstract class config {
 						'support_name' => \config::$SUPPORT_NAME,
 						'support_email' => \config::$SUPPORT_EMAIL,
 						'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,
+            'imap_auth_server' => \config::$IMAP_AUTH_SERVER,
 
 					];
+
 					file_put_contents( $path, json_encode( $a, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
 				} // if ( file_exists( $path))

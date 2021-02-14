@@ -10,6 +10,8 @@
 
 namespace dao;
 
+use sys;
+
 class bwui extends _dao {
 	protected $_db_name = 'bwui';
 
@@ -24,10 +26,7 @@ class bwui extends _dao {
 			self::$_db_allways_check_bwui = false;
 			$this->_db_allways_check_structure = false;
 
-			$dbc = 'sqlite' == \config::$DB_TYPE ?
-				new \dvc\sqlite\dbCheck( $this->db, $this->_db_name ) :
-				new dbCheck( $this->db, $this->_db_name );
-
+			$dbc = sys::dbCheck($this->_db_name);
 			$dbc->defineField( 'created', 'datetime');
 			$dbc->defineField( 'updated', 'datetime');
 			$dbc->defineField( 'key', 'varchar', 32);

@@ -75,18 +75,11 @@
 
   _.get.script = url => {
     return new Promise(resolve => {
-      if ('undefined' == typeof tinyMCE) {
-        let s = document.createElement('script');
-        s.type = 'text/javascript';
-        s.src = url;
-        s.addEventListener('load', () => resolve());
-        document.body.appendChild(s);
-
-      }
-      else {
-        resolve();
-
-      }
+      let s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.src = url;
+      s.addEventListener('load', () => resolve());
+      document.body.appendChild(s);
 
     });
 

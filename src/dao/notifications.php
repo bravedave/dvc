@@ -10,6 +10,8 @@
 
 namespace dao;
 
+use sys;
+
 class notifications extends _dao {
   const _version = 1;
   protected static $dbVersion = 0;
@@ -22,7 +24,7 @@ class notifications extends _dao {
     if ( self::$dbVersion < self::_version) {
       \config::option( 'notifications_db_version', self::_version);
 
-      $dbc = \sys::dbCheck( $this->_db_name);
+      $dbc = sys::dbCheck( $this->_db_name);
       $dbc->defineField( 'json', 'blob' );
       $dbc->defineField( 'endpoint', 'varchar', 500);
       $dbc->defineField( 'user_id', 'bigint');
@@ -43,7 +45,6 @@ class notifications extends _dao {
 
     );
 
-    // \sys::logger( sprintf('<%s> %s', $sql, __METHOD__));
     $this->Q( $sql);
 
   }

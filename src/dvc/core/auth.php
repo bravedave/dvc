@@ -12,19 +12,27 @@ namespace dvc\core;
 use dvc\html;
 
 abstract class auth {
-	static function GoogleAuthEnabled() {
-		if ( is_null( \config::$oauth2_client_id) || is_null( \config::$oauth2_secret) || is_null( \config::$oauth2_redirect ))
-			return ( false);
+	static function button() {
+		if ( \auth::GoogleAuthEnabled()) {
+			if ( \currentUser::valid()) {
+				return ( sprintf( '<a href="%s"><img alt="logout" src="%s" /><img alt="avatar" class="user-avatar" title="%s" src="%s" /><img alt="logout" src="%s" /></a>',
+					\strings::url( 'auth/logout'),
+					\strings::url( 'images/logout-left9x50.png'),
+					\currentUser::user()->name,
+					\currentUser::avatar(),
+					\strings::url( 'images/logout-63x50.png')
+					));
 
-		return ( true);
+			}
+			else {
+				return ( sprintf( '<a href="#dlgLogon" data-toggle="modal"><img alt="logon with google" src="%s" /></a>',
+					\strings::url( 'images/gfb-signin-246x54.png' )));
 
-	}
+			}
 
-	static function FacebookAuthEnabled() {
-		if ( is_null( \config::$facebook_oauth2_client_id) || is_null( \config::$facebook_oauth2_secret) || is_null( \config::$facebook_oauth2_redirect))
-			return ( false);
+		}
 
-		return ( true);
+		return ( '');
 
 	}
 
@@ -120,28 +128,70 @@ abstract class auth {
 
 	}
 
-	static function button() {
-		if ( \auth::GoogleAuthEnabled()) {
-			if ( \currentUser::valid()) {
-				return ( sprintf( '<a href="%s"><img alt="logout" src="%s" /><img alt="avatar" class="user-avatar" title="%s" src="%s" /><img alt="logout" src="%s" /></a>',
-					\strings::url( 'auth/logout'),
-					\strings::url( 'images/logout-left9x50.png'),
-					\currentUser::user()->name,
-					\currentUser::avatar(),
-					\strings::url( 'images/logout-63x50.png')
-					));
+	static function FacebookAuthEnabled() {
+		if ( is_null( \config::$facebook_oauth2_client_id) || is_null( \config::$facebook_oauth2_secret) || is_null( \config::$facebook_oauth2_redirect))
+			return ( false);
 
-			}
-			else {
-				return ( sprintf( '<a href="#dlgLogon" data-toggle="modal"><img alt="logon with google" src="%s" /></a>',
-					\strings::url( 'images/gfb-signin-246x54.png' )));
-
-			}
-
-		}
-
-		return ( '');
+		return ( true);
 
 	}
+
+	static function GoogleAuthEnabled() {
+		if ( is_null( \config::$oauth2_client_id) || is_null( \config::$oauth2_secret) || is_null( \config::$oauth2_redirect ))
+			return ( false);
+
+		return ( true);
+
+	}
+
+	static function ImapAuthEnabled() {
+		if ( is_null( \config::$IMAP_AUTH_SERVER)) {
+			return ( false);
+
+    }
+
+		return ( true);
+
+	}
+
+  static function ImapTest( string $u, string $p) : bool {
+    $debug = false;
+    $debug = true;
+
+    $port = '143';
+    $secure = 'tls';
+    $inbox = 'Inbox';
+    $server = \config::$IMAP_AUTH_SERVER;
+		if ( preg_match('@^ssl://@', $server)) {
+      $port = '993';
+			$secure = 'ssl';
+      $server = preg_replace( '@^ssl://@', '', $server);
+
+    }
+
+    $server = sprintf(
+      '{%s:%s/%s}%s',
+      $server,
+      $port,
+      $secure,
+      $inbox
+
+    );
+
+    try {
+      if ( $stream = imap_open( $server, $u, $p, OP_HALFOPEN, 1, ['DISABLE_AUTHENTICATOR' => 'GSSAPI'] )) {
+        imap_close( $stream);
+        return true;
+
+      }
+
+    } catch (\Throwable $th) {
+      if ( $debug) \sys::logger( sprintf('<fail on %s> <%s:%s> %s', $server, $u, $p, __METHOD__));
+
+    }
+
+    return false;
+
+  }
 
 }
