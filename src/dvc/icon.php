@@ -173,9 +173,10 @@ class icon {
   const list_stars = 244;
   const list_ul = 245;
 
-  const man_walking = 301;
-  const menu_down = 302;
-  const menu_up = 303;
+  const magic = 301;
+  const man_walking = 302;
+  const menu_down = 303;
+  const menu_up = 304;
 
   const people = 345;
   const people_fill = 346;
@@ -394,6 +395,7 @@ class icon {
     elseif ( self::list_stars == $icon) return file_get_contents( self::icon_dir . 'list-stars.svg');
     elseif ( self::list_ul == $icon) return file_get_contents( self::icon_dir . 'list-ul.svg');
 
+    elseif ( self::magic == $icon) return file_get_contents( __DIR__ . '/icons/magic.svg');
     elseif ( self::man_walking == $icon) return file_get_contents( __DIR__ . '/icons/man-walking.svg');
     elseif ( self::menu_down == $icon) return file_get_contents( self::icon_dir . 'menu-down.svg');
     elseif ( self::menu_up == $icon) return file_get_contents( self::icon_dir . 'menu-up.svg');
