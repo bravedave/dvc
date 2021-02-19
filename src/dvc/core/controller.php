@@ -592,7 +592,7 @@ abstract class controller {
 		}
 
 		foreach ( $options['css'] as $css) {
-			if ( preg_match('/^<link/', $css)) {
+			if ( preg_match('/^<(link|style)/', $css)) {
 				$p->css[] = $css;
 
 			}
