@@ -58,7 +58,7 @@ class dbResult {
 
 		}
 
-		return ( false);
+		return null;
 
 	}
 
