@@ -64,6 +64,7 @@ abstract class jslib {
 		'js/js.cookie.js',
     'js/templation.js',
     'js/templation.js',
+    'js/timedate.js',
     'js/dayjs/dayjs.min.js',
     'js/dayjs/timezone.js',
     'js/dayjs/localeData.js',
