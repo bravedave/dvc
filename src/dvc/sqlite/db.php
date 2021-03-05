@@ -109,6 +109,23 @@ class db {
 
   }
 
+	public function field_exists( $table, $field ) {
+		$ret = false;
+
+    $fieldList = $this->fieldList( $table);
+		foreach ( $fieldList as $f) {
+			if ( $field === $f->name) {
+        return true;
+        break;  // never executes
+
+      }
+
+    }
+
+		return ($ret);
+
+	}
+
 	public function fieldList( $table ) {
 		$ret = [];
 		if ( $result = $this->result( sprintf( 'PRAGMA table_info(%s)', $table))) {
