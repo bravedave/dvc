@@ -617,7 +617,14 @@ abstract class strings {
 
   static public function imageInline( $path) {
     $data = base64_encode( file_get_contents( $path));
-    return 'data:'.mime_content_type($path).';base64,'.$data;
+    if ( preg_match( '@\.svg$@', $path)) {
+      return 'data:image/svg+xml;base64,'.$data;
+
+    }
+    else {
+      return 'data:'.mime_content_type($path).';base64,'.$data;
+
+    }
 
   }
 
