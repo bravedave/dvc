@@ -48,3 +48,10 @@
     padding: 12px;
 
 }
+
+.markdown-body > blockquote {
+    border-left: 3px solid #eee;
+    padding-left: 1rem;
+    margin-left: 1rem;
+
+}
