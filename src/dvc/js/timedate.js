@@ -349,6 +349,23 @@
 
         }
 
+        return this;  // chain
+
+      },
+
+      reconHours : function() {
+        if (this.Hours > 12) {
+          this.Suffix = (this.Hours == 24 ? 'am' : 'pm');
+          this.Hours -= 12;
+
+        }
+        else if (this.Hours == 12) {
+          this.Suffix = 'pm';
+
+        }
+
+        return this;  // chain
+
       },
 
       toSeconds : function() {
@@ -357,16 +374,18 @@
       },
 
       toString : function( bShort) {
-        this.recon();
+        this
+        .recon()
+        .reconHours();
 
         let h = String(this.Hours);
         let m = String(this.Minutes);
         if ( bShort ) {
           let r = h;
-          if ( this.Minutes )
-            r += m.padStart(2,'0');
+          if ( this.Minutes ) r += m.padStart(2,'0');
           r += ( /pm/i.test( this.Suffix ) ? 'p' : 'a' );
-          return ( r );
+
+          return r;
 
         }
         else {
@@ -385,53 +404,55 @@
     try {
 
       if ( eTag == 'p' || eTag == 'P' ) {
-
         j.Suffix = 'pm';
         s = s.substring(0, s.length -1 ).trim();
-      } else if ( eTag == 'a' || eTag == 'A' ) {
 
+      }
+      else if ( eTag == 'a' || eTag == 'A' ) {
         s = s.substring(0, s.length -1 ).trim();
-      } else if ( eTag == 'm' || eTag == 'M' ) {
 
+      }
+      else if ( eTag == 'm' || eTag == 'M' ) {
         eTag = s.substring( s.length -2, s.length );
-        if ( eTag == 'pm' || eTag == 'pM' || eTag == 'Pm' || eTag == 'PM' ) {
-
+        // if ( eTag == 'pm' || eTag == 'pM' || eTag == 'Pm' || eTag == 'PM' ) {
+        if ( /^pm$/i.test( eTag)) {
           j.Suffix = 'pm';
           s = s.substring(0, s.length -2 ).trim();
-        } else if ( eTag == 'am' || eTag == 'aM' || eTag == 'Am' || eTag == 'AM' ) {
 
-          s = s.substring(0, s.length -2 ).trim();
         }
+        // else if ( eTag == 'am' || eTag == 'aM' || eTag == 'Am' || eTag == 'AM' ) {
+        else if ( /^am$/i.test( eTag)) {
+          s = s.substring(0, s.length -2 ).trim();
+
+        }
+
       }
 
       if ( s.indexOf(':') > 0 ) {
-
         // hours and minutes
         let a = s.split(':');
         j.Hours = parseInt(a[0],10);
         j.Minutes = parseInt(a[1],10);
-      } else if ( s.indexOf('.') > 0 ) {
 
+      }
+      else if ( s.indexOf('.') > 0 ) {
         // hours and minutes
         let a = s.split('.');
         j.Hours = parseInt(a[0],10);
         j.Minutes = parseInt(a[1],10);
-      } else {
 
+      }
+      else {
         j.Hours = parseInt(s,10);
+
       }
 
-      if ( j.Hours > 12 ) {
+      j.reconHours();
 
-        j.Suffix = ( j.Hours == 24 ? 'am' : 'pm' );
-        j.Hours -= 12;
-      } else if ( j.Hours == 12 ) {
-
-        j.Suffix = 'pm';
-      }
-    } catch(e) {
-
+    }
+    catch(e) {
       throw( 'unable to parse time format : ' + e.description  );
+
     }
 
     return j;
