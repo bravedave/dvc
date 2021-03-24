@@ -541,7 +541,7 @@ abstract class strings {
       "@</ul[^>]*>\n@",
       "@</p[^>]*>@"
     ], "", $text );
-    $text = trim( preg_replace($search, $replace, $text), '\n');
+    $text = trim( preg_replace($search, $replace, $text), "\n");
     // die( $text);
 
 		/*
