@@ -4,4 +4,5 @@ example/application/app/public/
 vendor/
 *.lock
 tests/application/data
+tests/tests/data
 src/dvc/resource/bootstrap-icons.tmp

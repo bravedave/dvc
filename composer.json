@@ -32,11 +32,16 @@
 		}
 
   },
-  "scripts": {
-    "post-update-cmd": [
-      "src/dvc/resource/get-bootstrap-icons.sh"
+	"autoload-dev": {
+		"psr-4": {
+			"tests\\": "tests/tests/"
 
-    ]
+		}
+
+  },
+  "scripts": {
+    "post-update-cmd": "src/dvc/resource/get-bootstrap-icons.sh",
+    "test": "tests\\tests::simple"
 
   }
 
