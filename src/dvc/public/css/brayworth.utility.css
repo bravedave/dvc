@@ -80,10 +80,7 @@ body.upscroll [data-role="content-primary"] { height: auto; }
 
 .bi-flip-horizontal {
   display: flex;
-  margin-top: .22em;
-  margin-bottom: -.22em;
-  transform: scale(-1, 1);
+  transform: scale(-1, 1) translate(0, .2em);
 }
-
 
 .swiping { cursor: grab; user-select: none;}
