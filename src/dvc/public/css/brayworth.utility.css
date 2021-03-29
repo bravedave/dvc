@@ -78,7 +78,10 @@ body.upscroll [data-role="content-primary"] { height: auto; }
   margin: 0 -.35rem 0;
 }
 
-.bi-flip-horizontal { transform: scale(-1, 1); }
+.bi-flip-horizontal {
+  display: flex;
+  transform: scale(-1, 1);
+}
 
 
 .swiping { cursor: grab; user-select: none;}
