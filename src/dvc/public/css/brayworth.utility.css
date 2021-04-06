@@ -83,4 +83,13 @@ body.upscroll [data-role="content-primary"] { height: auto; }
   transform: scale(-1, 1) translate(0, .2em);
 }
 
+.bi-spin {
+  -webkit-animation: bi-spin 2s infinite linear;
+  animation: bi-spin 2s infinite linear;
+}
+.bi-pulse {
+  -webkit-animation: bi-spin 1s infinite steps(8);
+  animation: bi-spin 1s infinite steps(8);
+}
+
 .swiping { cursor: grab; user-select: none;}
