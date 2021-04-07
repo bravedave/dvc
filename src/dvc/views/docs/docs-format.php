@@ -22,6 +22,8 @@ $(document).ready( () => {
 		.html('')
 		.append( $('<h4></h4>').html( title));
 
+    document.title = title;
+
 	}
 
 })
