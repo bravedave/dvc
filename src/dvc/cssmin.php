@@ -56,13 +56,13 @@ abstract class cssmin {
 
 		if ( file_exists( application::app()->getRootPath() . '/app/public/' )) {
 			if ( !( file_exists( $outputDIR)) && is_writable( self::$rootPath)) {
-				mkdir( $outputDIR, 0777, TRUE);
+				mkdir( $outputDIR, 0777, true);
 				chmod( $outputDIR, 0777);
 
 			}
 
 			if ( is_writable( $outputDIR)) {
-				$contents = array();
+				$contents = [];
 				foreach ( $files as $file) {
 					if ( realpath( $file)) {
 						$contents[] = file_get_contents( $file);
@@ -78,36 +78,36 @@ abstract class cssmin {
 
 				$content = implode("\n", $contents);
 				if ( $minify) {
-					$minifier = new \MatthiasMullie\Minify\CSS();
+					$minifier = new \MatthiasMullie\Minify\CSS;
 					$minifier->add( implode("\n", $contents));
 					$content = $minifier->minify();
 
 				}
 
 				file_put_contents( $output, $content);
-				return ( TRUE);
+				return ( true);
 				//~ sys::logger( 'no of files = ' . count( $contents));
 
 			}
 			else {
-				sys::logger( sprintf( '%s is not writable - cannot create a css.min.css here', $outputDIR));
-				sys::logger( sprintf( 'please create a writable data folder : %s', $outputDIR ));
-				sys::logger( sprintf( 'mkdir --mode=0777 %s', $outputDIR ));
+        \sys::logger( sprintf('<%s is not writable - cannot create a css.min.css here> %s', $outputDIR, __METHOD__));
+				\sys::logger( sprintf('<please create a writable data folder : %s> %s', $outputDIR, __METHOD__));
+				\sys::logger( sprintf( 'mkdir --mode=0777 %s', $outputDIR ));
 
 			}
 
 		}
 		else {
-			sys::logger( '[root]/app/public/ does not exist');
+      \sys::logger( sprintf('<%s/app/public/ does not exist> %s', application::app()->getRootPath(), __METHOD__));
 
 		}
-		return ( FALSE);
+		return ( false);
 
 	}
 
 	public static function dvc( $minfile = null, $cssdir = null, $version = null) {
 		$debug = self::$debug;
-		//~ $debug = TRUE;
+		// $debug = true;
 
 		$cssdir = (string)$cssdir;
 
@@ -130,55 +130,54 @@ abstract class cssmin {
 
 		}
 
-		$files = [];
-		foreach( self::$dvcminFiles as $f)
-			$files[] = __DIR__ . '/public/' . $f;
+		$files = array_map( fn( $file) => __DIR__ . '/' . $file, self::$dvcminFiles);
 
 		if ( !application::app())
 			throw new \Exceptions\ExternalUseViolation;
 
 		if ( $cssdir) {
-			self::$dvcmin = sprintf( '%scss/%s/%s?v=%s', \url::$URL, $cssdir, $minfile, \config::$VERSION );
+			self::$dvcmin = \strings::url( sprintf( 'css/%s/%s?v=%s', $cssdir, $minfile, \config::$VERSION ));
 			$cssmin = sprintf( '%s/app/public/css/%s/%s', application::app()->getRootPath(), $cssdir, $minfile);
 
 		}
 		else {
-			self::$dvcmin = sprintf( '%scss/%s?vv=%s', \url::$URL, $minfile, \config::$VERSION );
+			self::$dvcmin = \strings::url( sprintf( 'css/%s?vv=%s', $minfile, \config::$VERSION ));
 			$cssmin = sprintf( '%s/app/public/css/%s', application::app()->getRootPath(), $minfile);
 
 		}
 
 		if ( realpath( $cssmin)) {
-
-			if ( $debug) sys::logger( sprintf( 'css.min::dvc :: found :: %s', $cssmin));
+			if ( $debug) \sys::logger( sprintf('<found %s> %s', realpath( $cssmin), __METHOD__));
 
 			$modtime = 0;
 			foreach ( $files as $file) {
-				if ( realpath( $file))
+				if ( realpath( $file)) {
 					$modtime = max( [ $modtime, filemtime( $file)]);
 
-				else
-					sys::logger( 'cannot locate css.min file ' . $file);
+        }
+				else {
+          \sys::logger( sprintf('<cannot locate css.min file %s> %s', $file, __METHOD__));
+
+        }
 
 			}
 
 			$cssmodtime = filemtime( $cssmin);
 			if ( $cssmodtime < $modtime) {
-				if ( $debug) sys::logger( 'css.min::dvc :: latest mod time = ' . date( 'r', $modtime));
-				if ( $debug) sys::logger( 'css.min::dvc :: you need to update ' . $cssmin);
-				return ( self::__createmin( $cssdir, $minfile, $files, TRUE));
+				if ( $debug) \sys::logger( sprintf('<latest mod time = %s you need to update %s> %s', date( 'r', $modtime), $cssmin, __METHOD__));
+				return ( self::__createmin( $cssdir, $minfile, $files, true));
 
 			}
 			else {
-				if ( $debug) sys::logger( 'css.min::dvc :: you have the latest version of ' . $cssmin);
-				return ( TRUE);
+				if ( $debug) \sys::logger( sprintf('<you have the latest version of %s> %s', $cssmin, __METHOD__));
+        return ( true);
 
 			}
 
 		}
 		else {
-			if ( $debug) sys::logger( sprintf( 'css.min::dvc :: not found :: %s - creating', $cssmin));
-			return ( self::__createmin( $cssdir, $minfile, $files, TRUE));
+			if ( $debug) \sys::logger( sprintf('<css.min::dvc :: not found :: %s - creating> %s', $cssmin, __METHOD__));
+			return ( self::__createmin( $cssdir, $minfile, $files, true));
 
 		}
 
@@ -187,10 +186,9 @@ abstract class cssmin {
 	protected static function _css_create( $options) {
 
 		$input = [];
-
 		if ( is_array( $options->cssFiles)) {
 			foreach ( $options->cssFiles as $file) {
-				if ( $options->debug) sys::logger( sprintf( '%s :: appending file %s', $options->libName, $file));
+				if ( $options->debug) \sys::logger( sprintf( '<%s :: appending file %s> %s', $options->libName, $file, __METHOD__));
 				$input[] = file_get_contents( realpath( $file));
 
 			}
@@ -201,12 +199,12 @@ abstract class cssmin {
 
 			foreach ($gi as $key => $item) {
 				if ( $options->leadKey && $key == $options->leadKey) {
-					if ( $options->debug) sys::logger( sprintf( '%s :: prepending leadKey %s', $options->libName, $options->leadKey));
+					if ( $options->debug) sys::logger( sprintf( '<%s :: prepending leadKey %s> %s', $options->libName, $options->leadKey, __METHOD__));
 					array_unshift( $input, file_get_contents( $item->getRealPath()));
 
 				}
 				else {
-					if ( $options->debug) sys::logger( sprintf( '%s :: appending key %s', $options->libName, $key));
+					if ( $options->debug) sys::logger( sprintf( '<%s :: appending key %s> %s', $options->libName, $key, __METHOD__));
 					$input[] = file_get_contents( $item->getRealPath());
 
 				}
@@ -231,7 +229,7 @@ abstract class cssmin {
 		if ( $age < 3600)
 			$expires = 36;
 
-		if ( $options->debug) sys::logger( sprintf( '%s :: serving(%s) %s', $options->libName, $expires, $options->libFile));
+		if ( $options->debug) \sys::logger( sprintf( '<%s :: serving(%s) %s> %s', $options->libName, $expires, $options->libFile, __METHOD__));
 		Response::css_headers( filemtime( $options->libFile), $expires);
 		print file_get_contents( $options->libFile);
 
@@ -265,14 +263,14 @@ abstract class cssmin {
 
 					$libmodtime = filemtime( $options->libFile);
 					if ( $libmodtime < $modtime) {
-						if ( $options->debug) sys::logger( sprintf( '%s :: updating %s, latest mod time = %s', $options->libName, $options->libFile, date( 'r', $modtime)));
+						if ( $options->debug) \sys::logger( sprintf( '<%s :: updating %s, latest mod time = %s> %s', $options->libName, $options->libFile, date( 'r', $modtime), __METHOD__));
 
 						self::_css_create( $options);
 						self::_css_serve( $options);
 
 					}
 					else {
-						if ( $options->debug) sys::logger( sprintf( '%s :: latest version (%s)', $options->libName, $options->libFile));
+						if ( $options->debug) \sys::logger( sprintf( '<%s :: latest version (%s)> %s', $options->libName, $options->libFile, __METHOD__));
 							self::_css_serve( $options);
 
 					}
@@ -280,7 +278,7 @@ abstract class cssmin {
 				}
 				else {
 					/* create and serve */
-					if ( $options->debug) sys::logger( sprintf( '%s :: creating %s', $options->libName, $options->libFile));
+					if ( $options->debug) \sys::logger( sprintf( '<%s :: creating %s> %s', $options->libName, $options->libFile, __METHOD__));
 
 					self::_css_create( $options);
 					self::_css_serve( $options);

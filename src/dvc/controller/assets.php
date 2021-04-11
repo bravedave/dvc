@@ -49,10 +49,8 @@ class assets extends Controller {
       // }
 
 			foreach( $_files as $f) {
-				$path = sprintf( '%s/../public/%s', __DIR__, $f);
-				// \sys::logger( sprintf('<%s> %s', $path, __METHOD__));
+				$path = sprintf( '%s/../%s', __DIR__, $f);
 				if ( $_f = realpath( $path)) {
-          // \sys::logger( sprintf('<%s> %s', $_f, __METHOD__));
 					$key = basename( $_f);
 					$files[ $key] = $_f;
 

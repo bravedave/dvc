@@ -1,8 +1,9 @@
 .bak
 autoload-local-path.php
 example/application/app/public/
-vendor/
-*.lock
+src/dvc/resource/bootstrap-icons.tmp
+tests/application/app/public
 tests/application/data
 tests/tests/data
-src/dvc/resource/bootstrap-icons.tmp
+vendor/
+*.lock
