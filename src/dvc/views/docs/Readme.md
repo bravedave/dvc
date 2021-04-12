@@ -1,4 +1,6 @@
-# DVC - Data View Controller
+# DVC
+
+## DVC - Data View Controller
 
 > PHP framework for web applications and APIs.
 
@@ -6,11 +8,11 @@
 
 * Configured with Bootstrap4, but could just as easily support others.
 
-## Running
+### Running
 
 * Install the template project from https://github.com/bravedave/hello, it will pull in this project as part of the install
 
-## Development Install
+### Development Install
 
 note: _instructions for PHP Version 7.4.x_
 

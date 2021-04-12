@@ -42,10 +42,10 @@ class docs extends Controller {
 
 	}
 
-	protected function _index( $view = 'index') {
-		if ( !$view) $view = 'index';
+	protected function _index( $view = 'index.md') {
+		if ( !$view) $view = 'index.md';
 
-		//~ $this->debug = true;
+		// $this->debug = true;
 
 		if ( $this->debug) \sys::logger( sprintf('<%s> %s', $view, __METHOD__));
 		if ( preg_match( '@\.(png|jpg)$@', $view) && $_img = $this->_hasImage( $view)) {

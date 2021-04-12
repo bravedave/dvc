@@ -25,30 +25,33 @@ For Example, a table that requires maintenance, perhaps a stock item
 <?php
 
 class _template extends Controller {
-	protected function posthandler() {
-		$action = $this->getPost('action');
+  protected function posthandler() {
+    $action = $this->getPost('action');
 
-		if ( 'gibblegok' == $action) {
-			\Json::ack( $action);
+    if ( 'gibblegok' == $action) {
+      \Json::ack( $action);
 
-		}
-		else { parent::postHandler(); }
+    }
+    else { parent::postHandler(); }
 
-	}
+  }
 
-	protected function _index() {
-		$this->render([
-			'title' => $this->title = sprintf( '%s : Index', $this->label),
-			'primary' => 'blank',
-			'secondary' => 'blank']);
-	}
+  protected function _index() {
+    $this->render([
+      'title' => $this->title = sprintf( '%s : Index', $this->label),
+      'primary' => 'blank',
+      'secondary' => 'blank'
 
-	function index() {
-		$this->isPost() ?
-			$this->postHandler() :
-			$this->_index();
+    ]);
 
-	}
+  }
+
+  function index() {
+    $this->isPost() ?
+      $this->postHandler() :
+      $this->_index();
+
+  }
 
 }
 ```
