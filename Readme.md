@@ -1,10 +1,9 @@
 # DVC - Data View Controller
 
 > PHP framework for web applications and APIs.
+Configured with Bootstrap4, but could just as easily support others.
 
 * <https://brayworth.com/docs/>
-
-* Configured with Bootstrap4, but could just as easily support others.
 
 ## Development Install
 
