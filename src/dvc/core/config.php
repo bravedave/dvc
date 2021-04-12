@@ -111,7 +111,7 @@ abstract class config {
 
 	static $DEFAULT_CONTROLLER = 'home';
 
-	static $EMAILDOMAIN = 'example.com';
+	static $EMAILDOMAIN = 'example.tld';
 	static $EMAIL_STATIONARY = 'email.html';
 
 	static $HTML_TICK = '&#10003;';
@@ -342,6 +342,7 @@ abstract class config {
 					'db_type' => \config::$DB_TYPE,
 					'date_format' => \config::$DATE_FORMAT,
 					'datetime_format' => \config::$DATETIME_FORMAT,
+					'emaildomain' => \config::$EMAILDOMAIN,
 					'sitemaps' => \config::$SITEMAPS,
 					'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
 					'timezone' => \config::$TIMEZONE,
@@ -356,6 +357,7 @@ abstract class config {
 				\config::$DB_TYPE = $a->db_type;
 				\config::$DATE_FORMAT = $a->date_format;
 				\config::$DATETIME_FORMAT = $a->datetime_format;
+				\config::$EMAILDOMAIN = $a->emaildomain;
 				\config::$SITEMAPS = $a->sitemaps;
 				\config::$SYNTAX_HIGHLIGHT_DOCS = $a->syntax_highlight_docs;
 				\config::$TIMEZONE = $a->timezone;
@@ -377,6 +379,7 @@ abstract class config {
 						'db_type' => 'sqlite',
 						'date_format' => 'd/m/Y',
 						'datetime_format' => 'd/m/Y g:ia',
+						'emaildomain' => \config::$EMAILDOMAIN,
 						'sitemaps' => \config::$SITEMAPS,
 						'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
 						'timezone' => \config::$TIMEZONE,
