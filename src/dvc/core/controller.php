@@ -13,6 +13,7 @@ namespace dvc\core;
 
 use dvc\jslib;
 use dvc\push;
+use dvc\userAgent;
 use Json;
 
 abstract class controller {
