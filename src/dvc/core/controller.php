@@ -846,7 +846,14 @@ abstract class controller {
 
 			}
 			else {
-        jslib::tinyserve();
+        if ( userAgent::isMobileDevice()) {
+          jslib::tinyserve( 'tiny-imap-mobile', 'autolink,lists');
+
+        }
+        else {
+          jslib::tinyserve( 'tiny-imap', 'autolink,paste,lists,table,image,imagetools,link,spellchecker');
+
+        }
 
 			}
 

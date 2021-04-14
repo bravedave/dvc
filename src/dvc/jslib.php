@@ -161,7 +161,7 @@ abstract class jslib {
 
 	}
 
-	public static function tinymce( $lib = 'tinylib.js', $libdir = 'tinymce', $plugins = 'autolink,paste,lists,table,colorpicker,textcolor') {
+	public static function tinymce( $lib = 'tinylib.js', $libdir = 'tinymce', $plugins = 'autolink,paste,lists,table,colorpicker,textcolor,image,imagetools,link') {
 		$debug = self::$debug;
 		//~ $debug = TRUE;
 
