@@ -250,7 +250,7 @@ abstract class jslib {
 
 	}
 
-  public function tinyserve( string $libname = 'tinymce', string $plugins = 'autolink,paste,lists,table,colorpicker,textcolor') {
+  public static function tinyserve( string $libname = 'tinymce', string $plugins = 'autolink,paste,lists,table,colorpicker,textcolor') {
 		$debug = self::$debug;
     // $debug = TRUE;
     $debug = false;
