@@ -104,6 +104,13 @@ abstract class sys {
 
 		}
 		else {
+      /**
+       * it's probably sqlite, so we need a unique prefix for this database
+       *
+       * this could require further development if we are going to support
+       * multiple cached sqlite databases in the same application, otherwise
+       * this database, this appication is unique
+       * */
 			$path = implode( DIRECTORY_SEPARATOR, [
 				\config::dataPath(),
 				'dbCachePrefix.json'

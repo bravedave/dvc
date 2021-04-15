@@ -24,6 +24,10 @@
 		"phpmailer/phpmailer": "^6.1"
 
 	},
+  "require-dev" : {
+    "ext-apcu":"*",
+    "matthiasmullie/scrapbook":"*"
+  },
 	"autoload": {
 		"psr-4": {
 			"": "src/",

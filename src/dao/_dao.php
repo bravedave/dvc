@@ -295,11 +295,32 @@ abstract class _dao {
 			$cache = \dvc\cache::instance();
 			$key = $this->cacheKey( $id);
 			if ( $dto = $cache->get( $key)) {
-				return ( $dto);
+        /**
+         * The problem is I have some dirty unserializable dto's,
+         * particularly in CMS (private repository)
+         *
+         * So - the default $dto sets the cache version, test and
+         * make sure it's comming from this app,
+         * otherwise discard and read from the source
+         * */
+        if ( isset( $dto->__cache_version)) {
+          if ( $dto->__cache_version == \config::$DB_CACHE_VERSION) {
+            if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version : %s> %s', $dto->__cache_version, __METHOD__));
+            return ( $dto);
+
+          }
+
+        }
+
+        if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version not set on dto> %s', __METHOD__));
 
 			}
 
 		}
+    else {
+      if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache not enabled> %s', __METHOD__));
+
+    }
 
 		$this->db->log = $this->log;
 		if ( $res = $this->Result( sprintf( $this->_sql_getByID, $this->_db_name, (int)$id ))) {

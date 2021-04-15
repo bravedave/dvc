@@ -105,6 +105,7 @@ abstract class config {
 	*/
 	static $DB_CACHE = '';	// values = 'APC'
 	static $DB_CACHE_PREFIX = '';	// alphanumeric only, optionally create uniqueness for applications
+	static $DB_CACHE_VERSION = 'dto';
 	static $DB_CACHE_TTL = 300;
 	static $DB_CACHE_DEBUG = false;
 	static $DB_CACHE_DEBUG_FLUSH = false;
@@ -306,11 +307,14 @@ abstract class config {
 	}
 
 	static public function initialize() {
-		/*
-		* config initialize is called in _application->__construct()
-		*
-		* This is a local overwrite of the db and google parameters
-		*/
+		/**
+		 * config initialize is called in _application->__construct()
+		 *
+		 * This is a local overwrite of the db and google parameters
+		 */
+
+    // \sys::logger( sprintf('%s', __METHOD__));
+
 		if ( !( is_null( \application::app()))) {
 			// $path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
 			$path = implode( DIRECTORY_SEPARATOR, [
@@ -340,6 +344,10 @@ abstract class config {
 			if ( file_exists( $path)) {
 				$_a = [
 					'db_type' => \config::$DB_TYPE,
+					'db_cache' => \config::$DB_CACHE,
+					'db_cache_debug' => \config::$DB_CACHE_DEBUG,
+					'db_cache_debug_flush' => \config::$DB_CACHE_DEBUG_FLUSH,
+					'db_cache_version' => \config::$DB_CACHE_VERSION,
 					'date_format' => \config::$DATE_FORMAT,
 					'datetime_format' => \config::$DATETIME_FORMAT,
 					'emaildomain' => \config::$EMAILDOMAIN,
@@ -355,6 +363,10 @@ abstract class config {
 				$a = (object)array_merge( $_a, (array)json_decode( file_get_contents( $path)));
 
 				\config::$DB_TYPE = $a->db_type;
+				\config::$DB_CACHE = $a->db_cache;
+				\config::$DB_CACHE_DEBUG = $a->db_cache_debug;
+				\config::$DB_CACHE_DEBUG_FLUSH = $a->db_cache_debug_flush;
+				\config::$DB_CACHE_VERSION = $a->db_cache_version;
 				\config::$DATE_FORMAT = $a->date_format;
 				\config::$DATETIME_FORMAT = $a->datetime_format;
 				\config::$EMAILDOMAIN = $a->emaildomain;
@@ -377,6 +389,10 @@ abstract class config {
 				if ( !file_exists( $path)) {
 					$a = [
 						'db_type' => 'sqlite',
+            'db_cache' => \config::$DB_CACHE,
+            'db_cache_debug' => \config::$DB_CACHE_DEBUG,
+            'db_cache_debug_flush' => \config::$DB_CACHE_DEBUG_FLUSH,
+            'db_cache_version' => bin2hex( random_bytes( 6)),
 						'date_format' => 'd/m/Y',
 						'datetime_format' => 'd/m/Y g:ia',
 						'emaildomain' => \config::$EMAILDOMAIN,
