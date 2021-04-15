@@ -295,15 +295,6 @@ abstract class _dao {
 			$cache = \dvc\cache::instance();
 			$key = $this->cacheKey( $id);
 			if ( $dto = $cache->get( $key)) {
-        if ( \config::$DB_CACHE_INDEX) {
-          if ( isset( $dto[\config::$DB_CACHE_INDEX])) {
-            \sys::logger( sprintf('<%s> %s', 'found on cache index', __METHOD__));
-            return $dto[\config::$DB_CACHE_INDEX];
-
-          }
-
-        }
-
 				return ( $dto);
 
 			}
@@ -314,7 +305,7 @@ abstract class _dao {
 		if ( $res = $this->Result( sprintf( $this->_sql_getByID, $this->_db_name, (int)$id ))) {
 			if ( $dto = $res->dto( $this->template)) {
 				if ( \config::$DB_CACHE == 'APC') {
-					$cache->set( $key, $dto, \config::$DB_CACHE_INDEX);
+					$cache->set( $key, $dto);
 
 				}
 
