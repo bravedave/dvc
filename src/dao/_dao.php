@@ -96,8 +96,10 @@ abstract class _dao {
 	}
 
 	protected function check() {
-		if ( $dbc = $this->structure())
+		if ( $dbc = $this->structure()) {
 			return $dbc->check();
+
+    }
 
 		return false;
 
@@ -107,8 +109,10 @@ abstract class _dao {
 		if ( 'sqlite' == \config::$DB_TYPE) {
 			$fieldList = $this->db->fieldList($this->db_name());
 			$o = new dto\dto;
-			foreach ( $fieldList as $f)
+			foreach ( $fieldList as $f) {
 				$o->{$f->name} = $f->dflt_value;
+
+      }
 
 			return ( $o);
 
@@ -181,15 +185,15 @@ abstract class _dao {
   public function count() : int {
 		if ( is_null( $this->_db_name)) throw new Exceptions\DBNameIsNull;
 
-        if ( $res = $this->Result( sprintf( 'SELECT COUNT(*) as i FROM `%s`', $this->_db_name))) {
-            if ( $dto = $res->dto()) {
-                return $dto->i;
-
-            }
+    if ( $res = $this->Result( sprintf( 'SELECT COUNT(*) as i FROM `%s`', $this->_db_name))) {
+        if ( $dto = $res->dto()) {
+            return $dto->i;
 
         }
 
-        return 0;
+    }
+
+    return 0;
 
 	}
 
@@ -249,6 +253,14 @@ abstract class _dao {
 			$cache = \dvc\cache::instance();
 			$key = $this->cacheKey( $id, $fld);
 			if ( $v = $cache->get( $key)) {
+        if ( \config::$DB_CACHE_INDEX) {
+          if ( isset( $v[\config::$DB_CACHE_INDEX])) {
+            return $v[\config::$DB_CACHE_INDEX];
+
+          }
+
+        }
+
 				return ( $v);
 
 			}
@@ -283,6 +295,15 @@ abstract class _dao {
 			$cache = \dvc\cache::instance();
 			$key = $this->cacheKey( $id);
 			if ( $dto = $cache->get( $key)) {
+        if ( \config::$DB_CACHE_INDEX) {
+          if ( isset( $dto[\config::$DB_CACHE_INDEX])) {
+            \sys::logger( sprintf('<%s> %s', 'found on cache index', __METHOD__));
+            return $dto[\config::$DB_CACHE_INDEX];
+
+          }
+
+        }
+
 				return ( $dto);
 
 			}
@@ -293,7 +314,7 @@ abstract class _dao {
 		if ( $res = $this->Result( sprintf( $this->_sql_getByID, $this->_db_name, (int)$id ))) {
 			if ( $dto = $res->dto( $this->template)) {
 				if ( \config::$DB_CACHE == 'APC') {
-					$cache->set( $key, $dto);
+					$cache->set( $key, $dto, \config::$DB_CACHE_INDEX);
 
 				}
 
