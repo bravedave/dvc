@@ -253,14 +253,6 @@ abstract class _dao {
 			$cache = \dvc\cache::instance();
 			$key = $this->cacheKey( $id, $fld);
 			if ( $v = $cache->get( $key)) {
-        if ( \config::$DB_CACHE_INDEX) {
-          if ( isset( $v[\config::$DB_CACHE_INDEX])) {
-            return $v[\config::$DB_CACHE_INDEX];
-
-          }
-
-        }
-
 				return ( $v);
 
 			}
