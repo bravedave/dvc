@@ -17,8 +17,7 @@ class cache {
 	protected $ttl = 60;
 
 	protected function __construct() {
-		if ( \config::$DB_CACHE_DEBUG)
-			\sys::logger( 'dvc\cache : __construct');
+		if ( \config::$DB_CACHE_DEBUG) \sys::logger( __METHOD__);
 
 		$this->ttl = \config::$DB_CACHE_TTL;
 
@@ -37,12 +36,14 @@ class cache {
 
 	function get( $key) {
 		if ( $res = $this->_cache->get( $key)) {
-			if ( \config::$DB_CACHE_DEBUG)
-				\sys::logger( sprintf( 'dvc\cache : get(%s) (hit)', $key));
+			if ( \config::$DB_CACHE_DEBUG) {
+				\sys::logger( sprintf( 'get(%s) (hit) : %s', $key, __METHOD__));
+
+      }
 
 		}
 		elseif ( \config::$DB_CACHE_DEBUG) {
-			\sys::logger( sprintf( 'dvc\cache : get(%s) (miss)', $key));
+			\sys::logger( sprintf( 'get(%s) (miss) : %s', $key, __METHOD__));
 
 		}
 
@@ -52,8 +53,10 @@ class cache {
 
 	function set( $key, $value) {
 		if ( $this->_cache->set( $key, $value, $this->ttl)) {
-			if ( \config::$DB_CACHE_DEBUG)
-				\sys::logger( sprintf( 'dvc\cache : set(%s)', $key));
+			if ( \config::$DB_CACHE_DEBUG) {
+				\sys::logger( sprintf( 'set(%s) : %s', $key, __METHOD__));
+
+      }
 
 		}
 
@@ -62,14 +65,14 @@ class cache {
 	function delete( $key, $wildcard = false) {
 		if ( $wildcard) {
 			if ( \config::$DB_CACHE_DEBUG) {
-				\sys::logger( sprintf( 'dvc\cache : wildard delete(%s)', $key));
+				\sys::logger( sprintf( 'wildard delete(%s) : %s', $key, __METHOD__));
 
 			}
 
 			$cachedKeys = new \APCUIterator( $key);
 			foreach ($cachedKeys AS $_key) {
 				if ( \config::$DB_CACHE_DEBUG) {
-					\sys::logger( sprintf( 'dvc\cache : wildard delete(%s) => %s', $key, $_key['key']));
+					\sys::logger( sprintf( 'wildard delete(%s) => %s : %s', $key, $_key['key'], __METHOD__));
 
 				}
 
@@ -80,7 +83,7 @@ class cache {
 		}
 		else {
 			if ( \config::$DB_CACHE_DEBUG) {
-				\sys::logger( sprintf( 'dvc\cache : delete(%s)', $key));
+				\sys::logger( sprintf( 'delete(%s) : %s', $key, __METHOD__));
 
 			}
 
@@ -92,7 +95,7 @@ class cache {
 
 	function flush() {
 		if ( \config::$DB_CACHE_DEBUG || \config::$DB_CACHE_DEBUG_FLUSH) {
-			\sys::logger( sprintf('<flush> %s', __METHOD__));
+			\sys::logger( sprintf('<flush> : %s', __METHOD__));
 
 		}
 
