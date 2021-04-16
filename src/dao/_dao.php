@@ -301,10 +301,16 @@ abstract class _dao {
             return ( $dto);
 
           }
+          else {
+            if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version mismatch %s:%s> %s[\]%s', $dto->__cache_version, \config::$DB_CACHE_VERSION, get_class( $this), __METHOD__));
+
+          }
 
         }
+        else {
+          if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version not set on dto> %s[\]%s', get_class( $this), __METHOD__));
 
-        if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version not set on dto> %s[\]%s', get_class( $this), __METHOD__));
+        }
 
 			}
 
