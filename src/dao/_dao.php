@@ -297,7 +297,6 @@ abstract class _dao {
          * */
         if ( isset( $dto->__cache_version) && isset( $dto->__cache_suffix)) {
           if ( $dto->__cache_version == \config::$DB_CACHE_VERSION . $dto->__cache_suffix) {
-            if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version : %s> %s[\]%s', $dto->__cache_version, get_class( $this), __METHOD__));
             return ( $dto);
 
           }
