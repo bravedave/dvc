@@ -100,7 +100,7 @@ abstract class sys {
 
 		}
     elseif ( 'mysql' == \config::$DB_TYPE ) {
-      return \config::$DB_NAME;
+      return str_replace( '.', '_', \config::$DB_HOST . \config::$DB_NAME);
 
 		}
 		else {
