@@ -295,8 +295,8 @@ abstract class _dao {
          * make sure it's comming from this app,
          * otherwise discard and read from the source
          * */
-        if ( isset( $dto->__cache_version) && isset( $dto->__cache_appendix)) {
-          if ( $dto->__cache_version == \config::$DB_CACHE_VERSION . $dto->__cache_appendix) {
+        if ( isset( $dto->__cache_version) && isset( $dto->__cache_suffix)) {
+          if ( $dto->__cache_version == \config::$DB_CACHE_VERSION . $dto->__cache_suffix) {
             if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version : %s> %s[\]%s', $dto->__cache_version, get_class( $this), __METHOD__));
             return ( $dto);
 
