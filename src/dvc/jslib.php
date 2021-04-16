@@ -42,6 +42,7 @@ abstract class jslib {
 		'js/_brayworth_.initDatePickers.js',
 		'js/_brayworth_.InitHRefs.js',
 		'js/_brayworth_.inPrivate.js',
+    'js/_brayworth_.isWindowHidden.js',
 		'js/_brayworth_.lazyImageLoader.js',
 		'js/_brayworth_.loadModal.js',
 		'js/_brayworth_.logonModal.js',
