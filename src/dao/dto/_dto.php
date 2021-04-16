@@ -12,6 +12,7 @@ namespace dao\dto;
 
 class _dto {
   public $__cache_version = '';
+  public $__cache_appendix = '';
 
 	public function __construct( $row = null ) {
     $this->__cache_version = \config::$DB_CACHE_VERSION;
