@@ -297,14 +297,14 @@ abstract class _dao {
          * */
         if ( isset( $dto->__cache_version)) {
           if ( $dto->__cache_version == \config::$DB_CACHE_VERSION) {
-            if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version : %s> %s', $dto->__cache_version, __METHOD__));
+            if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version : %s> %s[\]%s', $dto->__cache_version, get_class( $this), __METHOD__));
             return ( $dto);
 
           }
 
         }
 
-        if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version not set on dto> %s', __METHOD__));
+        if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version not set on dto> %s[\]%s', get_class( $this), __METHOD__));
 
 			}
 
