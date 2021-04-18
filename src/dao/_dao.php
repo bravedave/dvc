@@ -304,7 +304,7 @@ abstract class _dao {
          */
         if ( $thisType = get_class( $dto)) {
           $thisType = $thisType; // namespace will have preceding \, get_class will come from root
-          $approvedType = ltrim( $this->template ? $this->template : __NAMESPACE__ . 'dto\dto', '\\');
+          $approvedType = ltrim( $this->template ? $this->template : __NAMESPACE__ . '\dto\dto', '\\');
           if ( $thisType == $approvedType) {
             if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<type check %s:%s> %s[\]%s', $thisType, $approvedType, get_class( $this), __METHOD__));
             return ( $dto);
