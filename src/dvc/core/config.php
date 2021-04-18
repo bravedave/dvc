@@ -106,9 +106,10 @@ abstract class config {
 	static $DB_CACHE = '';	// values = 'APC'
 	static $DB_CACHE_PREFIX = '';	// alphanumeric only, optionally create uniqueness for applications
 	static $DB_CACHE_VERSION = 'dto';
-	static $DB_CACHE_TTL = 300;
+	static $DB_CACHE_TTL = 600; // 10 minutes
 	static $DB_CACHE_DEBUG = false;
 	static $DB_CACHE_DEBUG_FLUSH = false;
+	static $DB_CACHE_DEBUG_TYPE_CONFLICT = true;
 
 	static $DEFAULT_CONTROLLER = 'home';
 
@@ -347,6 +348,7 @@ abstract class config {
 					'db_cache' => \config::$DB_CACHE,
 					'db_cache_debug' => \config::$DB_CACHE_DEBUG,
 					'db_cache_debug_flush' => \config::$DB_CACHE_DEBUG_FLUSH,
+					'db_cache_debug_type_conflict' => \config::$DB_CACHE_DEBUG_TYPE_CONFLICT,
 					'db_cache_version' => \config::$DB_CACHE_VERSION,
 					'date_format' => \config::$DATE_FORMAT,
 					'datetime_format' => \config::$DATETIME_FORMAT,
@@ -366,6 +368,7 @@ abstract class config {
 				\config::$DB_CACHE = $a->db_cache;
 				\config::$DB_CACHE_DEBUG = $a->db_cache_debug;
 				\config::$DB_CACHE_DEBUG_FLUSH = $a->db_cache_debug_flush;
+				\config::$DB_CACHE_DEBUG_TYPE_CONFLICT = $a->db_cache_debug_type_conflict;
 				\config::$DB_CACHE_VERSION = $a->db_cache_version;
 				\config::$DATE_FORMAT = $a->date_format;
 				\config::$DATETIME_FORMAT = $a->datetime_format;
@@ -392,6 +395,7 @@ abstract class config {
             'db_cache' => \config::$DB_CACHE,
             'db_cache_debug' => \config::$DB_CACHE_DEBUG,
             'db_cache_debug_flush' => \config::$DB_CACHE_DEBUG_FLUSH,
+            'db_cache_debug_type_conflict' => \config::$DB_CACHE_DEBUG_TYPE_CONFLICT,
             'db_cache_version' => bin2hex( random_bytes( 6)),
 						'date_format' => 'd/m/Y',
 						'datetime_format' => 'd/m/Y g:ia',

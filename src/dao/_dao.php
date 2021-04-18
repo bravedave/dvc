@@ -216,6 +216,13 @@ abstract class _dao {
 		$this->db->log = $this->log;
 		$this->Q( sprintf( 'DELETE FROM %s WHERE id = %d', $this->_db_name, (int)$id ));
 
+		if ( \config::$DB_CACHE == 'APC') {
+			$cache = \dvc\cache::instance();
+			$key = $this->cacheKey_delete( $id);
+			$cache->delete( $key, true);
+
+		}
+
 	}
 
 	public function dtoSet( $res, $func = null) : array {
@@ -288,28 +295,54 @@ abstract class _dao {
 			$key = $this->cacheKey( $id);
 			if ( $dto = $cache->get( $key)) {
         /**
-         * The problem is I have some dirty unserializable dto's,
-         * particularly in CMS (private repository)
+         * The problem is there are some dirty unserializable dto's,
+         * particularly in CMS (private repository) which is very old code
+         *
+         * so, check the type matches ..
+         * debug is currently on for this => \dvc\core\config::$DB_CACHE_DEBUG_TYPE_CONFLICT = true;
+         *
+         */
+        if ( $thisType = get_class( $dto)) {
+          $thisType = $thisType; // namespace will have preceding \, get_class will come from root
+          $approvedType = ltrim( $this->template ? $this->template : __NAMESPACE__ . 'dto\dto', '\\');
+          if ( $thisType == $approvedType) {
+            if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<type check %s:%s> %s[\]%s', $thisType, $approvedType, get_class( $this), __METHOD__));
+            return ( $dto);
+
+          }
+          elseif ( \config::$DB_CACHE_DEBUG || \config::$DB_CACHE_DEBUG_TYPE_CONFLICT) {
+            \sys::logger( sprintf('<fails type check %s:%s> %s[\]%s', $thisType, $approvedType, get_class( $this), __METHOD__));
+
+          }
+
+        }
+        elseif ( \config::$DB_CACHE_DEBUG || \config::$DB_CACHE_DEBUG_TYPE_CONFLICT) {
+          \sys::logger( sprintf('<cached object has no type> %s[\]%s', get_class( $this), __METHOD__));
+
+        }
+
+        /**
+         * dropping this ..
          *
          * So - the default $dto sets the cache version, test and
          * make sure it's comming from this app,
          * otherwise discard and read from the source
          * */
-        if ( isset( $dto->__cache_version) && isset( $dto->__cache_suffix)) {
-          if ( $dto->__cache_version == \config::$DB_CACHE_VERSION . $dto->__cache_suffix) {
-            return ( $dto);
+        // if ( isset( $dto->__cache_version) && isset( $dto->__cache_suffix)) {
+        //   if ( $dto->__cache_version == \config::$DB_CACHE_VERSION . $dto->__cache_suffix) {
+        //     return ( $dto);
 
-          }
-          else {
-            if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version mismatch %s:%s> %s[\]%s', $dto->__cache_version, \config::$DB_CACHE_VERSION, get_class( $this), __METHOD__));
+        //   }
+        //   else {
+        //     if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version mismatch %s:%s> %s[\]%s', $dto->__cache_version, \config::$DB_CACHE_VERSION, get_class( $this), __METHOD__));
 
-          }
+        //   }
 
-        }
-        else {
-          if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version not set on dto> %s[\]%s', get_class( $this), __METHOD__));
+        // }
+        // else {
+        //   if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version not set on dto> %s[\]%s', get_class( $this), __METHOD__));
 
-        }
+        // }
 
 			}
 
