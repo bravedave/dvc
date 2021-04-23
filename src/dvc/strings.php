@@ -194,6 +194,42 @@ abstract class strings {
 
 	}
 
+	static public function brief( $text, $length = 100 ) {
+		$debug = false;
+		//~ $debug = TRUE;
+		//~ if ( $debug) \sys::logger( sprintf( 'dao\dto\brief ( %s)', $length));
+
+		$text = strip_tags( $text);
+
+		if ( strlen( $text) < $length) {
+			if ( $debug) \sys::logger( sprintf( 'strings::brief returning ( %s)', strlen( $text)));
+			return ( $text);
+
+		}
+
+		$a = explode( ' ', $text);
+		if ( $debug) \sys::logger( sprintf( 'strings::brief ( %s)', count( $a)));
+
+		$r = [];
+		$i = 0;
+		foreach( $a as $t) {
+			$i += strlen( $t);
+			if ( $i < $length) {
+				$r[] = $t;
+				$i++;
+
+			}
+			else {
+				break;
+
+			}
+
+		}
+
+		return ( trim( implode( ' ', $r), ' \t\n\r'));
+
+	}
+
 	static public function BRITISHDateAsANSI( $strDate) {
 		// split it, must have 3 parts, dd/mm/yyyy
 		$a = explode( "/", $strDate );
