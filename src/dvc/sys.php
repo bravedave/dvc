@@ -406,7 +406,24 @@ abstract class sys {
 			];
 
 			$path_parts = pathinfo( $path);
-			if ( isset( $path_parts['extension'])) {
+      $mimetype = mime_content_type( $path );
+
+			if ( self::$debug) \sys::logger( sprintf('<%s> %s', $mimetype, __METHOD__));
+
+			if ( 'image/jpeg' == $mimetype) {
+				if ( strstr( $path, url::$URL . 'images/')) {
+					Response::jpg_headers( filemtime( $path), \config::$CORE_IMG_EXPIRE_TIME);
+
+				}
+				else {
+					Response::jpg_headers( filemtime( $path));
+
+				}
+				readfile( $path);
+				if ( self::$debug) \sys::logger( "served: $path");
+
+			}
+			elseif ( isset( $path_parts['extension'])) {
 				$ext = strtolower( $path_parts['extension']);
 
 				if ( $ext == 'css' ) {
