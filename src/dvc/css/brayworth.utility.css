@@ -86,6 +86,7 @@ body.upscroll [data-role="content-primary"] { height: auto; }
 .bi-spin {
   -webkit-animation: bi-spin 2s infinite linear;
   animation: bi-spin 2s infinite linear;
+  display: flex !important;
 }
 .bi-pulse {
   -webkit-animation: bi-spin 1s infinite steps(8);
