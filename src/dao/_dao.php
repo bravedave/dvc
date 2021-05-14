@@ -321,29 +321,6 @@ abstract class _dao {
 
         }
 
-        /**
-         * dropping this ..
-         *
-         * So - the default $dto sets the cache version, test and
-         * make sure it's comming from this app,
-         * otherwise discard and read from the source
-         * */
-        // if ( isset( $dto->__cache_version) && isset( $dto->__cache_suffix)) {
-        //   if ( $dto->__cache_version == \config::$DB_CACHE_VERSION . $dto->__cache_suffix) {
-        //     return ( $dto);
-
-        //   }
-        //   else {
-        //     if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version mismatch %s:%s> %s[\]%s', $dto->__cache_version, \config::$DB_CACHE_VERSION, get_class( $this), __METHOD__));
-
-        //   }
-
-        // }
-        // else {
-        //   if ( \config::$DB_CACHE_DEBUG) \sys::logger( sprintf('<cache version not set on dto> %s[\]%s', get_class( $this), __METHOD__));
-
-        // }
-
 			}
 
 		}
