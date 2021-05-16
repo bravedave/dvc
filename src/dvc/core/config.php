@@ -415,6 +415,12 @@ abstract class config {
 
 			}
 
+      if ( '\dvc\pages\bootstrap5' == \config::$PAGE_TEMPLATE) {
+        \config::$BOOTSTRAP_VERSION = '5';
+
+      }
+
+
 			// $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
 			$path = sprintf('%s%sgoogle.json', \config::dataPath(), DIRECTORY_SEPARATOR);
 			if ( file_exists( $path)) {

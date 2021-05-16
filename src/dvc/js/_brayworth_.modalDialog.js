@@ -11,100 +11,103 @@
 		_brayworth_.modalDialog.call( $('<div class="modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header py-1"><h5 class="modal-title">Hello World</h5><button type="button" class="close" data-dismiss="modal">&times;</button></div><div class="modal-body">...</div></div></div></div>').appendTo('body'))
 */
 /*jshint esversion: 6 */
-$.fn.modalDialog = _brayworth_.modalDialog = function ( _options) {
-	if ( /string/.test( typeof( _options))) {
-		if ( _options == 'close') {
-			let modal = this.data( 'modal');
-			modal.close();
-			return (modal);	// chain
+( _ => {
+  $.fn.modalDialog = _.modalDialog = function ( _options) {
+    if ( /string/.test( typeof( _options))) {
+      if ( _options == 'close') {
+        let modal = this.data( 'modal');
+        modal.close();
+        return (modal);	// chain
 
-		}
+      }
 
-	}
+    }
 
-	let modal = this;				// the modal
-  let options = _brayworth_.extend( {
-		mobile : _brayworth_.browser.isMobileDevice,
-		beforeClose : () => {},
-		afterClose : () => {},
-		onEnter : () => {},
-		onEscape : function() { this.close(); },
-    onOpen : () => {},
+    let modal = this;				// the modal
+    let options = _.extend( {
+      mobile : _.browser.isMobileDevice,
+      beforeClose : () => {},
+      afterClose : () => {},
+      onEnter : () => {},
+      onEscape : function() { this.close(); },
+      onOpen : () => {},
 
-	}, _options);
+    }, _options);
 
-	let close = $( '.modal-header .close', this);	// Get the <span> element that closes the modal
+    let close = $( '.modal-header .close', this);	// Get the <span> element that closes the modal
 
-	modal.close = function() {
-		options.beforeClose.call( modal);
-		modal.removeClass( 'modal-active');
-		$('body').removeClass( 'modal-open').css('padding-right', '');	// credit bootstrap class
-		//~ $(window).off('click');
-		options.afterClose.call( modal);
+    modal.close = () => {
+      options.beforeClose.call( modal);
+      modal.removeClass( 'modal-active');
+      $('body').removeClass( 'modal-open').css('padding-right', '');	// credit bootstrap class
+      //~ $(window).off('click');
+      options.afterClose.call( modal);
 
-		modal = false;
-		$(document).unbind('keyup.modal');
-		$(document).unbind('keypress.modal');
+      modal = false;
+      $(document).unbind('keyup.modal');
+      $(document).unbind('keypress.modal');
 
-	};
+    };
 
-	$('body').addClass( 'modal-open');	// bootstrap class
+    $('body').addClass( 'modal-open');	// bootstrap class
 
-	if ( options.mobile) {
-		modal.addClass( 'modal-mobile');
+    if ( options.mobile) {
+      modal.addClass( 'modal-mobile');
 
-	}
-	else {
-		(function() {
-			let rect = document.body.getBoundingClientRect();
-			if (document.body.scrollHeight > window.innerHeight) {
-				$('body').css('padding-right', '17px');	// credit bootstrap
+    }
+    else {
+      (() => {
+        let rect = document.body.getBoundingClientRect();
+        if (document.body.scrollHeight > window.innerHeight) {
+          $('body').css('padding-right', '17px');	// credit bootstrap
 
-			}
+        }
 
-		})();
+      })();
 
-	}
+    }
 
-	modal.addClass( 'modal-active').data('modal', modal);
+    modal.addClass( 'modal-active').data('modal', modal);
 
-	let _AF = $('[autofocus]',modal);
-	if ( _AF.length > 0) {
-		_AF.first().focus();
+    let _AF = $('[autofocus]',modal);
+    if ( _AF.length > 0) {
+      _AF.first().focus();
 
-	}
-	else {
-		_AF = $('textarea:not([readonly]), input:not([readonly]), button:not([disabled]), a:not([tabindex="0"])',modal);
-		if ( _AF.length > 0)
-			_AF.first().focus();
+    }
+    else {
+      _AF = $('textarea:not([readonly]), input:not([readonly]), button:not([disabled]), a:not([tabindex="0"])',modal);
+      if ( _AF.length > 0)
+        _AF.first().focus();
 
-	}
+    }
 
-	$(document)
-	.on( 'keyup.modal', function( e) {
-		if (e.keyCode == 27) {
-			// escape key maps to keycode `27`
-			if ( modal) {
-				options.onEscape.call( modal, e);
+    $(document)
+    .on( 'keyup.modal', e => {
+      if (e.keyCode == 27) {
+        // escape key maps to keycode `27`
+        if ( modal) {
+          options.onEscape.call( modal, e);
 
-			}
+        }
 
-		}
+      }
 
-	})
-	.on( 'keypress.modal', function( e) {
-		if (e.keyCode == 13) {
-			options.onEnter.call( modal, e);
+    })
+    .on( 'keypress.modal', e => {
+      if (e.keyCode == 13) {
+        options.onEnter.call( modal, e);
 
-		}
+      }
 
-	});
+    });
 
-	// When the user clicks on <span> (x), close the modal
-	close.off('click').addClass('pointer').on('click', function(e) { modal.close(); });
+    // When the user clicks on <span> (x), close the modal
+    close.off('click').addClass('pointer').on('click', e => modal.close());
 
-	options.onOpen.call( modal);
+    options.onOpen.call( modal);
 
-	return ( modal);	// chain
+    return ( modal);	// chain
 
-};
+  };
+
+}) (_brayworth_);

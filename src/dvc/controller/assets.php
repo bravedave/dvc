@@ -33,7 +33,7 @@ class assets extends Controller {
 			sys::serveBootStrap( $type);
 
 		}
-		elseif ( 5 == (int)$version && in_array( $type, ['css','js'])) {
+		elseif ( 5 == (int)$version && in_array( $type, ['polyfill','css','js'])) {
 			sys::serveBootStrap5( $type);
 
 		}

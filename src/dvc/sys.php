@@ -694,6 +694,12 @@ abstract class sys {
       self::serve( $lib);
 
     }
+    elseif ( 'polyfill' == $type) {
+      $lib = sprintf( '%s/resource/bootstrap4-5.polyfill.css',__DIR__);
+      \sys::logger( sprintf('<%s> %s', $lib, __METHOD__));
+      self::serve( $lib);
+
+    }
     elseif ( 'js' == $type) {
       $lib = sprintf( '%s/resource/bootstrap5/js/bootstrap.bundle.min.js',__DIR__);
       \sys::logger( sprintf('<%s> %s', $lib, __METHOD__));

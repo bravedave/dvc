@@ -9,9 +9,6 @@
 	This is similar to bootstraps modal in construction,
 	but also has similarity to jquery-ui functionality
 
-	load:
-		$('<script />').attr('src','/js/_brayworth_.modal.js').appendTo('head');
-
 	Test:
 		_brayworth_.modal.call( $('<div title="fred">hey jude</div>'))
 		_brayworth_.modal.call( $('<div title="fred">hey jude</div>'), {
@@ -58,9 +55,9 @@
       title : '',
       width : false,
       height : false,
-      mobile : _brayworth_.browser.isMobileDevice,
-      fullScreen : _brayworth_.browser.isMobileDevice,
-      className :  _brayworth_.templates.modalDefaultClass,
+      mobile : _.browser.isMobileDevice,
+      fullScreen : _.browser.isMobileDevice,
+      className :  _.templates.modalDefaultClass,
       autoOpen : true,
       buttons : {},
       headButtons : {},
@@ -70,7 +67,7 @@
 
     }, params);
 
-    let t = _brayworth_.templates.modal();
+    let t = _.templates.modal();
     t.get('.close').addClass(options.closeIcon);
 
     if ( options.className != '') {
@@ -114,7 +111,7 @@
           j = _.extend( j, el) ;
 
         let btn = $('<button />')
-          .addClass( _brayworth_.templates.buttonCSS)
+          .addClass( _.templates.buttonCSS)
           .html( j.text)
           .on( 'click', function( e) {
             j.click.call( t.get(), e, this);
@@ -135,8 +132,8 @@
 
     if ( Object.keys( options.headButtons).length > 0) {
       let margin = 'ml-auto';
-      $.each( options.headButtons, function( i, el) {
-        var j = {
+      $.each( options.headButtons, ( i, el) => {
+        let j = {
           text : i,
           title : false,
           icon : false,
@@ -151,13 +148,17 @@
         let b;
         if ( !!j.icon) {
           b = $( '<div class="pointer pt-1 px-2"></div>').append(
-            $('<i class="fa m-0" style="cursor: pointer;"></i>').addClass( j.icon));
+            $('<i class="m-0"></i>')
+            .addClass( j.icon)
+            .addClass(/^fa/.test(j.icon) ? 'fa' : 'bi')
+
+          );
 
         }
         else {
           b = $('<button></button>')
             .html( j.text)
-            .addClass( _brayworth_.templates.buttonCSS);
+            .addClass( _.templates.buttonCSS);
 
         }
 
@@ -178,12 +179,12 @@
     }
 
     let previousElement = document.activeElement;
-    let hideClass = _brayworth_.bootstrap_version() < 4 ? 'hidden' : 'd-none';
+    let hideClass = _.bootstrap_version() < 4 ? 'hidden' : 'd-none';
     let bodyElements = [];
     if ( options.fullScreen) {
       /* hide all the body elements */
-      $('body > *').each( function( i, el){
-        var _el = $(el);
+      $('body > *').each( ( i, el) => {
+        let _el = $(el);
         if ( !_el.hasClass(hideClass)) {
           _el.addClass(hideClass);
           bodyElements.push( _el);
@@ -209,20 +210,19 @@
 
     t.appendTo( 'body');
 
-    let _modal = _brayworth_.modalDialog.call( t.get(), {
+    let _modal = _.modalDialog.call( t.get(), {
       mobile : options.mobile,
       onOpen : options.onOpen,
       onEnter : options.onEnter,
-      afterClose : function() {
+      afterClose : () => {
         t.get().remove();
-        if ( !!options.afterClose && 'function' == typeof options.afterClose)
+        if ( !!options.afterClose && 'function' == typeof options.afterClose) {
           options.afterClose.call( t.modal);
 
-        /* re-activate the body elements */
-        $.each( bodyElements, function( i, el){
-          $(el).removeClass(hideClass);
+        }
 
-        });
+        /* re-activate the body elements */
+        $.each( bodyElements, ( i, el) => $(el).removeClass(hideClass));
 
         previousElement.focus();
 
@@ -230,20 +230,16 @@
 
     });
 
-    _modal.modal = _brayworth_.modal;	// to be sure, bootstrap has it's own modal
+    _modal.modal = _.modal;	// to be sure, bootstrap has it's own modal
 
-    _modal.load = function( url) {
+    _modal.load = url => {
       /*
-       * this is a wrapper on the modal->body element
-       * for jQuery.load
+       * a wrapper on the modal->body element for jQuery.load
        */
-      return new Promise( function( resolve, reject) {
-        var d = $('<div></div>');
+      return new Promise( resolve => {
+        let d = $('<div></div>');
         t.append( d);
-        d.load( url, function() {
-          resolve( _modal);
-
-        });
+        d.load( url, () => resolve( _modal));
 
       });
 
@@ -295,7 +291,7 @@
         '<div class="modal-content">',
           '<div class="modal-header py-2">',
             '<h5 class="modal-title text-truncate" title="Modal">Modal</h5>',
-            '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>',
+    '<button type="button" class="close" data-' + (_.bootstrap_version() >= 5 ? 'bs-' : '') + 'dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>',
           '</div>',
           '<div class="modal-body"></div>',
           '<div class="modal-footer py-0"></div>',

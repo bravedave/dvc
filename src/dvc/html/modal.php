@@ -41,33 +41,47 @@ class modal extends div {
 
 		$this->_dialog = $this->append( 'div', null, [
 			'class' => 'modal-dialog modal-dialog-centered',
-			'id' => (string)$id . 'Dialog' ]);
+			'id' => (string)$id . 'Dialog'
 
-			$content = $this->_dialog->append( 'div', null, [
-				'class' => 'modal-content' ]);
+    ]);
 
-				$this->_header = $content->append( 'div', null, [
-					'class' => 'modal-header' ]);
+    $content = $this->_dialog->append( 'div', null, [
+      'class' => 'modal-content'
 
-					$this->_title = $this->_header->append( 'h4', 'Title', [
-						'class' => 'modal-title',
-						'id' => (string)$id . 'Label' ]);
+    ]);
 
-					$button = $this->_header->append( 'button', null, [
-						'type' => 'button',
-						'class' => 'close',
-						'data-dismiss' => 'modal',
-						'aria-label' => 'Close' ]);
+    $this->_header = $content->append( 'div', null, [
+      'class' => 'modal-header py-2 '
 
-						$button->append( 'span', '&times;', ['aria-hidden' => 'true' ]);
+    ]);
 
-				$this->_body = $content->append( 'div', null, [
-					'class' => 'modal-body',
-					'id' => (string)$id . 'Body' ]);
+    $this->_title = $this->_header->append( 'h4', 'Title', [
+      'class' => 'modal-title',
+      'id' => (string)$id . 'Label'
 
-				$this->_footer = $content->append( 'div', null, [
-					'class' => 'modal-footer',
-					'id' => (string)$id . 'Footer' ]);
+    ]);
+
+    $button = $this->_header->append( 'button', null, [
+      'type' => 'button',
+      'class' => 'close',
+      5 == \config::$BOOTSTRAP_VERSION ? 'data-bs-dismiss' : 'data-toggle' => 'modal',
+      'aria-label' => 'Close'
+
+    ]);
+
+    $button->append( 'span', '&times;', ['aria-hidden' => 'true' ]);
+
+    $this->_body = $content->append( 'div', null, [
+      'class' => 'modal-body',
+      'id' => (string)$id . 'Body'
+
+    ]);
+
+    $this->_footer = $content->append( 'div', null, [
+      'class' => 'modal-footer',
+      'id' => (string)$id . 'Footer'
+
+    ]);
 
 	}
 

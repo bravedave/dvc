@@ -42,28 +42,27 @@ a { color: inherit; }
 
 	<li class="nav-item"><a class="nav-link" href="#" id="<?= $uid = strings::rand() ?>">Ask a Question</a></li>
 	<script>
-	$(document).ready( function() {
-		$('#<?= $uid ?>').on( 'click', function( e) {
-			e.stopPropagation();e.preventDefault();
+  ( _ => {
+    $('#<?= $uid ?>').on( 'click', function( e) {
+      e.stopPropagation();e.preventDefault();
 
-			_brayworth_.ask({
-				headClass: 'text-white bg-danger',
-				title : 'This is Red',
-				text : 'Do you agree ?',
-				buttons : {
-					yes : function() {
-						$(this).modal('hide');
-						console.log( 'ok', this);
+      _.ask.alert({
+        title : 'This is Red',
+        text : 'Do you agree ?',
+        buttons : {
+          yes : function() {
+            $(this).modal('hide');
+            console.log( 'ok', this);
 
-					}
+          }
 
-				}
+        }
 
-			});
+      });
 
-		});
+    });
 
-	});
+  }) (_brayworth_);
 	</script>
 
 	<?php

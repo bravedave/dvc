@@ -15,24 +15,27 @@ $m = new dvc\html\modal;
 $m->title()->setContent( 'Hello World');
 
 /* add/remove classes */
-$m->header()->addClass( theme::modalHeader());  // 'py-2 bg-primary text-light');
-// $m->footer()->addClass( 'py-2');
-// $m->dialog()->removeClass( 'modal-dialog-centered');
+$m->header()->addClass( theme::modalHeader());
 
 /* add elements */
 $m->body()->append( 'input', null, [
-    'class' => 'form-control',
-    'placeholder' => 'hello world' ]);
+  'class' => 'form-control',
+  'placeholder' => 'hello world'
+
+]);
 
 $action = $m->footer()->append( 'button', 'close', [
-    'class' => 'btn btn-secondary',
-    'type' => 'button',
-    'data-toggle' => 'modal',
-    'data-target' => '#' . $m->id ]);
+  'class' => 'btn btn-secondary',
+  'type' => 'button',
+  5 == \config::$BOOTSTRAP_VERSION ? 'data-bs-dismiss' : 'data-toggle' => 'modal'
+
+]);
 
 $action = $m->footer()->append( 'button', 'save', [
-    'class' => 'btn btn-primary',
-    'type' => 'submit' ]);
+  'class' => 'btn btn-primary',
+  'type' => 'submit'
+
+]);
 
 /* wrap in a form */
 $form = new dvc\html\form;
@@ -49,8 +52,8 @@ $form->render();   ?>
 <ul class="nav flex-column">
 	<li class="nav-item text-center border-top mt-4 pt-2">
     <button class="btn btn-outline-primary"
-      data-toggle="modal"
-      data-target="#<?= $m->id ?>">modal</button>
+      data-bs-toggle="modal"
+      data-bs-target="#<?= $m->id ?>">modal</button>
 
   </li>
 
