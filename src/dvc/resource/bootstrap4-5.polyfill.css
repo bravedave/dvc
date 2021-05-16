@@ -7,19 +7,19 @@
 
 */
 .input-group>.input-group-append:not(:last-child)>.input-group-text {
-    margin-right: -1px;
+  margin-right: -1px;
 }
 
 /*
   these are for bootstrap4 compatibility, bootstrap5 has dropped
 */
 .alert-dismissible .close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    padding: .75rem 1.25rem;
-    color: inherit
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  padding: .75rem 1.25rem;
+  color: inherit
 }
 
 .close {
@@ -77,3 +77,6 @@ select:not(.form-select) { appearance: auto;}
 a { text-decoration: none; }
 
 .font-weight-bold { font-weight: bold; }
+
+.text-left { text-align: left!important; }
+.text-right { text-align: right!important; }
