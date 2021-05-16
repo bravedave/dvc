@@ -4,6 +4,7 @@
 *.php text eol=lf
 *.json text eol=lf
 *.js text eol=lf
+*.sh text eol=lf
 
 src/dvc/bootstrap-icons/* linguist-vendored
 src/dvc/bootstrap4/* linguist-vendored

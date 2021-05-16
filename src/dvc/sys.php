@@ -638,34 +638,51 @@ abstract class sys {
 			}
 
 		}
+    elseif ( 'css' == $type) {
+      $lib = sprintf( '%s/resource/bootstrap4/css/bootstrap.min.css',__DIR__);
+      \sys::logger( sprintf('<%s> %s', $lib, __METHOD__));
+      self::serve( $lib);
+
+    }
+    elseif ( 'js' == $type) {
+      $lib = sprintf( '%s/resource/bootstrap/js/bootstrap.bundle.min.js',__DIR__);
+      \sys::logger( sprintf('<%s> %s', $lib, __METHOD__));
+      self::serve( $lib);
+
+    }
 		else {
-			$root = realpath( __DIR__ . '/../../../../twbs');
-			if ( !$root) {
-				$root = realpath( __DIR__ . '/../../vendor/twbs');
-			}
+      \sys::logger( sprintf('<%s> %s', $type, __METHOD__));
 
-			if ( $root) {
-				$path = realpath( sprintf( '%s/bootstrap/dist', $root));
-				if ( 'css' == $type) {
-					$lib = sprintf( '%s/css/bootstrap.min.css',$path);
-					self::serve( $lib);
+    }
+		// else {
 
-				}
-				elseif ( 'js' == $type) {
-					$lib = sprintf( '%s/js/bootstrap.bundle.min.js',$path);
-					// self::logger( $lib);
-					self::serve( $lib);
+			// $root = realpath( __DIR__ . '/../../../../twbs');
+			// if ( !$root) {
+			// 	$root = realpath( __DIR__ . '/../../vendor/twbs');
+			// }
 
-				}
+			// if ( $root) {
+			// 	$path = realpath( sprintf( '%s/bootstrap/dist', $root));
+			// 	if ( 'css' == $type) {
+			// 		$lib = sprintf( '%s/css/bootstrap.min.css',$path);
+			// 		self::serve( $lib);
 
-			}
-			else {
-				\sys::logger( sprintf('<%s> %s', __DIR__, __METHOD__));
-				throw new \Exception( 'Cannot locate twbs bootstrap - install with composer require twbs/bootstrap');
+			// 	}
+			// 	elseif ( 'js' == $type) {
+			// 		$lib = sprintf( '%s/js/bootstrap.bundle.min.js',$path);
+			// 		// self::logger( $lib);
+			// 		self::serve( $lib);
 
-			}
+			// 	}
 
-		}
+			// }
+			// else {
+			// 	\sys::logger( sprintf('<%s> %s', __DIR__, __METHOD__));
+			// 	throw new \Exception( 'Cannot locate twbs bootstrap - install with composer require twbs/bootstrap');
+
+			// }
+
+		// }
 
 	}
 
