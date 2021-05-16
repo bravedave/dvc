@@ -11,6 +11,6 @@ git pull --rebase
 
 cd ..
 
-rsync -arR bootstrap-icons.tmp/./icons/ bootstrap-icons.tmp/./font/ bootstrap-icons/
+rsync -arR --delete bootstrap-icons.tmp/./icons/ bootstrap-icons.tmp/./font/ bootstrap-icons/
 
 echo "done : $me"
