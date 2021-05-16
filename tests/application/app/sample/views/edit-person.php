@@ -14,8 +14,8 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header <?= theme::modalHeader() ?> py-2">
-            <h5 class="modal-title" id="<?= $_modal ?>Label"><?= $this->title ?><?= \config::$BOOTSTRAP_VERSION ?></h5>
-            <button type="button" class="close" data-<?= 5 == \config::$BOOTSTRAP_VERSION ? 'bs-dismiss' : 'dismiss' ?>="modal" aria-label="Close">
+            <h5 class="modal-title" id="<?= $_modal ?>Label"><?= $this->title ?></h5>
+            <button type="button" class="close" <?= dvc\bs::data('dismiss', 'modal') ?> aria-label="Close">
               <span aria-hidden="true"><i class="bi bi-x"></i></span>
             </button>
 
@@ -26,7 +26,7 @@
                 <div class="col">
                   <div class="input-group" id="<?= $_uid = strings::rand() ?>">
                     <input type="text" class="form-control" placeholder="name">
-            <?php if ( 5 == \config::$BOOTSTRAP_VERSION) { ?>
+            <?php if ( 5 == dvc\bs::$VERSION) { ?>
                     <button type="button" class="btn btn-outline-secondary"><i class="bi bi-clipboard-plus"></i></button>
 
             <?php } else { ?>
@@ -73,7 +73,7 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-<?= 5 == \config::$BOOTSTRAP_VERSION ? 'bs-dismiss' : 'dismiss' ?>="modal">close</button>
+            <button type="button" class="btn btn-secondary" <?= dvc\bs::data('dismiss', 'modal') ?>>close</button>
             <button type="submit" class="btn btn-primary">save</button>
 
           </div>

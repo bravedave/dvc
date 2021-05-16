@@ -13,7 +13,7 @@
     <div class="dropdown" id="<?= $_uid = strings::rand() ?>">
       <button class="btn btn-secondary dropdown-toggle"
         type="button" id="dropdownMenuButton"
-        data-<?= 5 == \config::$BOOTSTRAP_VERSION ? 'bs-toggle' : 'toggle' ?>="dropdown" aria-haspopup="true" aria-expanded="false">
+        <?= dvc\bs::data('toggle', 'dropdown') ?> aria-haspopup="true" aria-expanded="false">
           Dropdown button
 
       </button>

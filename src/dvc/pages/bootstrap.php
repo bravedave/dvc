@@ -21,7 +21,6 @@ class bootstrap extends page {
 	static $secondaryClass = 'col-md-3 pt-3 pb-4 d-print-none';
 
 	function __construct( $title = '' ) {
-		// \sys::logger( sprintf( 'Bootstrap_Version : bootstrap : %s', self::$Bootstrap_Version));
 
 		parent::$pageContainer = self::$pageContainer;
 		self::$BootStrap = true;

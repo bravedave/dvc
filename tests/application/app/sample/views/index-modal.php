@@ -8,14 +8,12 @@
  *
 */
 
-use dvc\theme;
-
 $m = new dvc\html\modal;
 
 $m->title()->setContent( 'Hello World');
 
 /* add/remove classes */
-$m->header()->addClass( theme::modalHeader());
+$m->header()->addClass( dvc\theme::modalHeader());
 
 /* add elements */
 $m->body()->append( 'input', null, [
@@ -27,7 +25,7 @@ $m->body()->append( 'input', null, [
 $action = $m->footer()->append( 'button', 'close', [
   'class' => 'btn btn-secondary',
   'type' => 'button',
-  5 == \config::$BOOTSTRAP_VERSION ? 'data-bs-dismiss' : 'data-toggle' => 'modal'
+  dvc\bs::data('dismiss') => 'modal'
 
 ]);
 
@@ -52,8 +50,9 @@ $form->render();   ?>
 <ul class="nav flex-column">
 	<li class="nav-item text-center border-top mt-4 pt-2">
     <button class="btn btn-outline-primary"
-      data-bs-toggle="modal"
-      data-bs-target="#<?= $m->id ?>">modal</button>
+      <?= dvc\bs::data('toggle', 'modal') ?>
+      <?= dvc\bs::data('target', '#' . $m->id) ?>
+      >modal.</button>
 
   </li>
 

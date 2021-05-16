@@ -9,6 +9,8 @@
 */
 
 nameSpace dvc\html;
+
+use dvc\bs;
 use strings;
 
 class modal extends div {
@@ -64,7 +66,7 @@ class modal extends div {
     $button = $this->_header->append( 'button', null, [
       'type' => 'button',
       'class' => 'close',
-      5 == \config::$BOOTSTRAP_VERSION ? 'data-bs-dismiss' : 'data-toggle' => 'modal',
+      bs::data('dismiss', 'modal') => 'modal',
       'aria-label' => 'Close'
 
     ]);

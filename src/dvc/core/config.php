@@ -416,7 +416,7 @@ abstract class config {
 			}
 
       if ( '\dvc\pages\bootstrap5' == \config::$PAGE_TEMPLATE) {
-        \config::$BOOTSTRAP_VERSION = '5';
+        bs::$VERSION = '5';
 
       }
 

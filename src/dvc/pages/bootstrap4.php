@@ -13,10 +13,12 @@
 
 namespace dvc\pages;
 
+use dvc\core\bs;
+
 class bootstrap4 extends bootstrap {
 
 	function __construct( $title = '' ) {
-		\config::$BOOTSTRAP_VERSION = '4';
+		bs::$VERSION = \config::$BOOTSTRAP_VERSION = '4';
 		self::$Bootstrap_Version = '4';
 
 		parent::__construct( $title );
