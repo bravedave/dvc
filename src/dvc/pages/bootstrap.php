@@ -66,6 +66,17 @@ class bootstrap extends page {
 			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
 
 		}
+		elseif ( self::$Bootstrap_Version == '5') {
+			$css = strings::url( 'assets/bootstrap/css/5');
+			$icons = strings::url( 'assets/bootstrap/icons');
+			$js = strings::url( 'assets/bootstrap/js/5');
+
+			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $icons));
+			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
+
+			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
+
+		}
 		else { throw new \Exceptions\InvalidBootstrapVersion; }
 
 	}

@@ -351,6 +351,7 @@ abstract class config {
 					'date_format' => \config::$DATE_FORMAT,
 					'datetime_format' => \config::$DATETIME_FORMAT,
 					'emaildomain' => \config::$EMAILDOMAIN,
+					'page_template' => \config::$PAGE_TEMPLATE,
 					'sitemaps' => \config::$SITEMAPS,
 					'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
 					'timezone' => \config::$TIMEZONE,
@@ -370,6 +371,7 @@ abstract class config {
 				\config::$DATE_FORMAT = $a->date_format;
 				\config::$DATETIME_FORMAT = $a->datetime_format;
 				\config::$EMAILDOMAIN = $a->emaildomain;
+				\config::$PAGE_TEMPLATE = $a->page_template;
 				\config::$SITEMAPS = $a->sitemaps;
 				\config::$SYNTAX_HIGHLIGHT_DOCS = $a->syntax_highlight_docs;
 				\config::$TIMEZONE = $a->timezone;
@@ -396,6 +398,7 @@ abstract class config {
 						'date_format' => 'd/m/Y',
 						'datetime_format' => 'd/m/Y g:ia',
 						'emaildomain' => \config::$EMAILDOMAIN,
+						'page_template' => \config::$PAGE_TEMPLATE,
 						'sitemaps' => \config::$SITEMAPS,
 						'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
 						'timezone' => \config::$TIMEZONE,
