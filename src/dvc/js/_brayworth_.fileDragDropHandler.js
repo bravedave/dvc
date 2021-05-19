@@ -186,13 +186,14 @@
 		let options = _.extend({
 			url : false,
 			onUpload : response => true,
+			onError : d => _.growl(d),
 			host : $('body'),
 
 		}, params);
 
 		let formData = this;
 
-		return new Promise( function( resolve, reject) {
+		return new Promise( resolve => {
 
 			// this is a form
 			let progressBar = $('.box__fill', options.host);
@@ -236,7 +237,7 @@
 
 				}
 				else {
-					_.growl( d);
+          options.onError( d);
 
 				}
 
@@ -247,10 +248,10 @@
 			.always( () => options.host.removeClass('is-uploading'))
 			.fail( r => {
 				console.warn(r);
-				_.modal({
-					title : 'Upload Error',
-					text : 'there was an error uploading the attachments<br>we recommend you reload your browser'
-				});
+        _.ask.alert({
+          title: 'Upload Error',
+          text: 'there was an error<br>consider reloading your browser'
+        });
 
 			});
 
