@@ -237,7 +237,7 @@
 
 				}
 				else {
-          options.onError( d);
+					options.onError( d);
 
 				}
 
@@ -265,6 +265,7 @@
         postData : {},
         droppedFiles: {},
         accept: '',
+        onReject: d => _.growl(d),
 
       }, params);
 
@@ -280,7 +281,7 @@
 
         }
         else {
-          _.growl({
+          options.onReject({
             response: 'nak',
             description: 'not accepting ' + file.type
 
