@@ -99,7 +99,8 @@
 			postData : {},
       droppedFiles : {},
       batchSize : 10,
-      accept : ''
+      accept : '',
+      onReject: d => _.growl(d)
 
 		}, params);
 
@@ -131,7 +132,7 @@
 
         }
         else {
-          _.growl({
+          options.onReject({
             response : 'nak',
             description : 'not accepting ' + file.type
 
@@ -185,8 +186,9 @@
 	let sendData = function( params) {
 		let options = _.extend({
 			url : false,
-			onUpload : response => true,
 			onError : d => _.growl(d),
+      onReject : d => _.growl(d),
+			onUpload : response => true,
 			host : $('body'),
 
 		}, params);
