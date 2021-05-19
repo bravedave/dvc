@@ -134,7 +134,8 @@
         else {
           options.onReject({
             response : 'nak',
-            description : 'not accepting ' + file.type
+            description : 'not accepting ' + file.type,
+            file : file
 
           });
 
@@ -187,7 +188,6 @@
 		let options = _.extend({
 			url : false,
 			onError : d => _.growl(d),
-      onReject : d => _.growl(d),
 			onUpload : response => true,
 			host : $('body'),
 
@@ -285,7 +285,8 @@
         else {
           options.onReject({
             response: 'nak',
-            description: 'not accepting ' + file.type
+            description: 'not accepting ' + file.type,
+            file: file
 
           });
 
