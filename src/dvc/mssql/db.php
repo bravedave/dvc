@@ -1,14 +1,14 @@
 <?php
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+*/
 
-	This work is licensed under a Creative Commons Attribution 4.0 International Public License.
-		http://creativecommons.org/licenses/by/4.0/
-	*/
-
-NameSpace dvc\mssql;
+namespace dvc\mssql;
 
 class db {
 	public $log = FALSE;
@@ -22,7 +22,7 @@ class db {
 	static function instance( $params) {
 
 			//~ 'CharacterSet' => 'UTF-8',
-		$conn = \sqlsrv_connect( $params->serverName, $params->connectionInfo);
+		$conn = \sqlsrv_connect( $params->serverName, (array)$params->connectionInfo);
 
 		if ( $conn ) {
 			return new self( $conn);
