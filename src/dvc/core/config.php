@@ -415,6 +415,16 @@ abstract class config {
 
 			}
 
+      if ( \config::$DB_CACHE == 'APC') {
+        $apcuAvailabe = function_exists('apcu_enabled') && apcu_enabled();
+        if ( !$apcuAvailabe) {
+          \sys::logger( sprintf('<WARNING : APCu enabled but not available - disabling> %s', __METHOD__));
+          \config::$DB_CACHE = '';
+
+        }
+
+      }
+
       if ( '\dvc\pages\bootstrap5' == \config::$PAGE_TEMPLATE) {
         bs::$VERSION = '5';
 
