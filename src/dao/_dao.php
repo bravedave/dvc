@@ -366,7 +366,7 @@ abstract class _dao {
 
 	public function Update( $a, $condition, $flushCache = true) {
 		if ( is_null( $this->db_name()))
-			throw new Exception\DBNameIsNull;
+			throw new Exceptions\DBNameIsNull;
 
 		$this->db->log = $this->log;
 		return ( $this->db->Update( $this->db_name(), $a, $condition, $flushCache ));
@@ -375,7 +375,7 @@ abstract class _dao {
 
 	public function UpdateByID( $a, $id ) {
 		if ( is_null( $this->db_name()))
-			throw new Exception\DBNameIsNull;
+			throw new Exceptions\DBNameIsNull;
 
 		if ( \config::$DB_CACHE == 'APC') {
 			$cache = \dvc\cache::instance();
