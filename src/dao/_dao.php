@@ -172,6 +172,26 @@ abstract class _dao {
 
 	}
 
+  protected function _quote( string $val) {
+    if ( 'sqlite' == \config::$DB_TYPE) {
+      return sprintf(
+        "'%s'",
+        $this->escape( $val)
+
+      );
+
+    }
+    else {
+      return sprintf(
+        '"%s"',
+        $this->escape( $val)
+
+      );
+
+    }
+
+  }
+
 	public function create() {		/* returns a new dto of the file */
 		if ( is_null( $this->template)) {
 			return ( $this->_create());

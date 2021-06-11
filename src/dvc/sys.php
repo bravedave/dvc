@@ -72,7 +72,7 @@ abstract class sys {
 
 	public static function dbi() {
 		if ( is_null( self::$_dbi)) {
-			if ( \config::$DB_TYPE == 'sqlite' ) {
+			if ( 'sqlite' == \config::$DB_TYPE) {
 				self::$_dbi = sqlite\db::instance();
 
 			}
