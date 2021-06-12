@@ -213,6 +213,11 @@ class db {
 
 	}
 
+  public function quote( string $val) {
+		return sprintf( '"%s"', $this->escape( $val));
+
+  }
+
 	public function table_exists( string $table) : bool {
     $sql = sprintf(
       'SELECT * FROM information_schema.tables WHERE table_schema = "%s" AND table_name = "%s" LIMIT 1',

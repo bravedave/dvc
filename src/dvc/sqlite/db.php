@@ -186,6 +186,11 @@ class db {
 
 	}
 
+  public function quote( string $val) {
+		return sprintf( "'%s'", $this->escape( $val));
+
+  }
+
 	public function result(  $query) {
 		$dbResult = new dbResult( $this->Q( $query), $this);
 		return ( $dbResult);
