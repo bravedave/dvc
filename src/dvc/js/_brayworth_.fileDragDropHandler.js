@@ -83,7 +83,8 @@
 
   let acceptable = (file, accepting) => {
     if (accepting.length > 0) {
-			console.log(file.type, accepting);
+			console.log(file.type);
+			console.log(file, accepting);
       return accepting.indexOf( file.type) > -1;
 
     }
