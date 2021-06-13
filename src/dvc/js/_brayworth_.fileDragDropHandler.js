@@ -83,6 +83,7 @@
 
   let acceptable = (file, accepting) => {
     if (accepting.length > 0) {
+			console.log(file.type, accepting);
       return accepting.indexOf( file.type) > -1;
 
     }
@@ -104,7 +105,7 @@
 
 		}, params);
 
-		console.log( options.accept)
+		// console.log( options.accept)
 
 		return new Promise( resolve => {
 			/*
