@@ -83,9 +83,12 @@
 
   let acceptable = (file, accepting) => {
     if (accepting.length > 0) {
-			console.log(file.type);
-			console.log(file, accepting);
-      return accepting.indexOf( file.type) > -1;
+			let type = file.type;
+			if ( '' == type && /\.heic$/i.test( file.name)) {
+				type = 'image/heic';
+
+			}
+      return accepting.indexOf( type) > -1;
 
     }
     else {
