@@ -104,6 +104,8 @@
 
 		}, params);
 
+		console.log( options.accept)
+
 		return new Promise( resolve => {
 			/*
 			* create forms with {options.batchSize} elements
