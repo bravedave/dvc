@@ -13,6 +13,8 @@
 namespace dvc\sqlite;
 
 class dbCheck {	// extends _dao {
+	public $temporary = false;
+
 	protected $table;
 	protected $pk = "id";
 	protected $structure = [];
@@ -92,7 +94,13 @@ class dbCheck {	// extends _dao {
 
 		}
 
-		$sql = sprintf( 'CREATE TABLE IF NOT EXISTS `%s`(%s)', $this->table, implode( ',', $fields ));
+		$sql = sprintf(
+			'CREATE %s TABLE IF NOT EXISTS `%s`(%s)',
+			$this->temporary ? 'TEMPORARY' : '',
+			$this->table,
+			implode( ',', $fields)
+
+		);
 		//~ print "<pre>" . print_r( $fields, TRUE ) . "</pre>";
 		//~ print $sql;
 		$this->db->Q( $sql );
