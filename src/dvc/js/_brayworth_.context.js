@@ -16,6 +16,23 @@
       detachOnHide : true,
       hideClass : ( _.bootstrap_version() < 4 ? 'hidden' : 'd-none'),
 
+      addClose : function() {
+        let _context = this;
+        this.append('<hr>');
+        this.append(
+          $('<a href="#">close</a>')
+          .on('click', function (e) {
+            e.stopPropagation(); e.preventDefault();
+            _context.close();
+
+          })
+
+        );
+
+        return this;
+
+      },
+
       create : function( item, after) {
         let el = $( '<li></li>').append( item);
 
