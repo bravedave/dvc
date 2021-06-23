@@ -280,7 +280,7 @@ abstract class sys {
 
 		$mailconfig = sprintf(
 			'%s/mail-config.json',
-			trim( \config::dataPath(), '/ ')
+			rtrim( \config::dataPath(), '/ ')
 
 		);
 
@@ -316,7 +316,7 @@ abstract class sys {
 
 			$mailconfig = sprintf(
 				'%s/mail-config-sample.json',
-				trim( \config::dataPath(), '/ ')
+				rtrim( \config::dataPath(), '/ ')
 			);
 
 			file_put_contents( $mailconfig, json_encode((object)[
