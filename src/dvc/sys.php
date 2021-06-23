@@ -287,7 +287,11 @@ abstract class sys {
 		if ( file_exists( $mailconfig)) {
 			$_mc = json_decode( file_get_contents( $mailconfig));
 
-			if ( isset( $_mc->Host)) $mail->Host = $_mc->Host;
+			if ( isset( $_mc->Host)) {
+        $mail->isSMTP(); // use smtp with server set to mail
+        $mail->Host = $_mc->Host;
+
+      }
 
 			if ( isset( $_mc->Port)) $mail->Port = $_mc->Port;
 
