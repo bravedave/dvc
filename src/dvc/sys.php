@@ -275,48 +275,60 @@ abstract class sys {
 
       ];
 
-      $mailconfig = sprintf( '%s/mail-config.json', trim( \config::dataPath(), '/ '));
-      if ( file_exists( $mailconfig)) {
-        $_mc = json_decode( file_get_contents( $mailconfig));
-
-        if ( isset( $_mc->Host)) $mail->Host = $_mc->Host;
-
-        if ( isset( $_mc->Port)) $mail->Port = $_mc->Port;
-
-        if ( isset( $_mc->SMTPSecure)) $mail->SMTPSecure = $_mc->SMTPSecure;
-
-        if ( isset( $_mc->SMTPOptions)) {
-          if ( isset( $_mc->SMTPOptions->ssl)) {
-            $mail->SMTPOptions = [
-              'ssl' => (array)$_mc->SMTPOptions->ssl
-
-            ];
-
-          }
-
-        }
-
-        if ( isset( $_mc->SMTPUserName) && isset( $_mc->SMTPPassword)) {
-          $mail->SMTPAuth = true;
-          $mail->Username = $_mc->SMTPUserName;
-          $mail->Password = $_mc->SMTPPassword;
-
-        }
-
-      }
-      else {
-        file_put_contents( $mailconfig, json_encode((object)[
-            'Host' => $mail->Host,
-            'Port' => $mail->Port,
-            'SMTPSecure' => $mail->SMTPSecure,
-            'SMTPOptions' => $mail->SMTPOptions
-          ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
-
-        );
-
-      }
 
     }
+
+		$mailconfig = sprintf(
+			'%s/mail-config.json',
+			trim( \config::dataPath(), '/ ')
+
+		);
+
+		if ( file_exists( $mailconfig)) {
+			$_mc = json_decode( file_get_contents( $mailconfig));
+
+			if ( isset( $_mc->Host)) $mail->Host = $_mc->Host;
+
+			if ( isset( $_mc->Port)) $mail->Port = $_mc->Port;
+
+			if ( isset( $_mc->SMTPSecure)) $mail->SMTPSecure = $_mc->SMTPSecure;
+
+			if ( isset( $_mc->SMTPOptions)) {
+				if ( isset( $_mc->SMTPOptions->ssl)) {
+					$mail->SMTPOptions = [
+						'ssl' => (array)$_mc->SMTPOptions->ssl
+
+					];
+
+				}
+
+			}
+
+			if ( isset( $_mc->SMTPUserName) && isset( $_mc->SMTPPassword)) {
+				$mail->SMTPAuth = true;
+				$mail->Username = $_mc->SMTPUserName;
+				$mail->Password = $_mc->SMTPPassword;
+
+			}
+
+		}
+		else {
+
+			$mailconfig = sprintf(
+				'%s/mail-config-sample.json',
+				trim( \config::dataPath(), '/ ')
+			);
+
+			file_put_contents( $mailconfig, json_encode((object)[
+					'Host' => $mail->Host,
+					'Port' => $mail->Port,
+					'SMTPSecure' => $mail->SMTPSecure,
+					'SMTPOptions' => $mail->SMTPOptions
+				], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+
+			);
+
+		}
 
     $mail->setFrom( \config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME);
     return ( $mail);
