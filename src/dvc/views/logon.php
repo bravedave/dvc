@@ -49,11 +49,13 @@
           $('#<?= $_btnReset ?>').on('click', e => $('#<?= $_form ?>').trigger('reset-password'));
           $('#<?= $_form ?>')
             .on('reset-password', function(e) {
+              let _form = $(this);
+              let _data = _form.serializeFormJSON();
               _.post({
                   url: _.url(),
                   data: {
                     action: '-send-password-',
-                    u: u,
+                    u: _data.u,
 
                   }
 
@@ -61,19 +63,9 @@
                 .then(d => {
                   _.growl(d);
                   if ('ack' == d.response) {
-                    _.ask({
-                      title: d.description,
-                      text: d.message,
-                      buttons: {
-                        OK: function(e) {
-                          this.modal('close');
-                          _.logonModal();
-
-                        }
-
-                      }
-
-                    });
+                    $('.modal-body', _form).append(
+                      $('<div class="alert alert-info"></div>').html(d.message)
+                    )
 
                   }
 
