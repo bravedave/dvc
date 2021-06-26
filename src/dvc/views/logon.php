@@ -24,7 +24,7 @@
             <input type="text" name="u" class="form-control" placeholder="username or email" autocomplete="username" required>
           </div>
           <div class="form-group">
-            <input type="password" class="form-control" placeholder="password" autocomplete="current-password">
+            <input type="password" name="p" class="form-control" placeholder="password" autocomplete="current-password" required>
           </div>
 
         </div>
