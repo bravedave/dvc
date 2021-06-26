@@ -91,9 +91,8 @@
                   window.location.reload();
 
                 } else {
-                  $('.modal-body', _form).append(
-                    $('<div class="alert alert-info"></div>').html(d.description)
-                  );
+                  $('.modal-body', _form)
+                    .append($('<div class="alert alert-danger">failed</div>'));
 
                 }
 
