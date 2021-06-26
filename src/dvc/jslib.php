@@ -23,6 +23,7 @@ abstract class jslib {
 	public static $tinylib = false;
 	public static $brayworthlib = false;
 	// 'js/_brayworth_.bootstrapModalPop.js',
+  // 'js/_brayworth_.logonModal.js',
 	public static $brayworthlibFiles = [
 		'js/jquery.visible.js',
 		'js/_brayworth_.js',
@@ -45,7 +46,6 @@ abstract class jslib {
     'js/_brayworth_.isWindowHidden.js',
 		'js/_brayworth_.lazyImageLoader.js',
 		'js/_brayworth_.loadModal.js',
-		'js/_brayworth_.logonModal.js',
 		'js/_brayworth_.mobile-nav-hider.js',
 		'js/_brayworth_.modal.js',
 		'js/_brayworth_.modalDialog.js',

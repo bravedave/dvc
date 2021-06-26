@@ -265,11 +265,6 @@ abstract class controller {
     if (\config::use_inline_logon) {
       $p = new \config::$PAGE_TEMPLATE_LOGON('Log On');
       $p->footer = false;
-      // if (\config::allow_password_recovery) {
-      //   $p->latescripts[] = '<script>( _ => $(document).ready( () => { _.logon_retrieve_password = true; _.logonModal(); }))( _brayworth_);</script>';
-      // } else {
-      //   $p->latescripts[] = '<script>$(document).ready( () => _brayworth_.logonModal())</script>';
-      // }
       $p->latescripts[] = '<script>(_ => $(document).ready( () => _.get.modal(_.url(\'logon/form\'))))( _brayworth_);</script>';
 
       $p->meta[] = '<meta name="viewport" content="initial-scale=1" />';

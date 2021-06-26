@@ -79,8 +79,6 @@
             let _form = $(this);
             let _data = _form.serializeFormJSON();
 
-            $('<?= $_modal ?>').modal('hide');
-
             _.post({
                 url: _.url(),
                 data: _data
@@ -89,10 +87,13 @@
               .then(d => {
                 $('body').growl(d);
                 if ('ack' == d.response) {
+                  $('<?= $_modal ?>').modal('hide');
                   window.location.reload();
 
                 } else {
-                  setTimeout(_.logonModal, 2000);
+                  $('.modal-body', _form).append(
+                    $('<div class="alert alert-info"></div>').html(d.description)
+                  );
 
                 }
 
