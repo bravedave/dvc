@@ -17,7 +17,6 @@ class page extends _page {
 
 	static public $Bootstrap_Version = '3';
 
-	static public $MainContextMenu = true;
 	static public $BootStrap = false;
   static public $pageContainer = '';
   static public $pageContentTag = 'div';

@@ -11,6 +11,11 @@
 class logon extends Controller {
 	public $RequireValidation = false;
 
+	public function form() {
+    $this->load('logon');
+
+  }
+
 	public function index() {
 		if ( auth::GoogleAuthEnabled()) {
 			Response::redirect( strings::url( 'auth/request'));
