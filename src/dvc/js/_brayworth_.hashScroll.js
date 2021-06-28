@@ -58,12 +58,14 @@
 
       }
       else {
-        $('html,body').animate({ scrollTop: t}, {
-          duration : options.duration,
-          complete : resolve,
-          fail : reject,
+        _el[0].scrollIntoView({ behavior: "smooth" });
+        resolve();
+        // $('html,body').animate({ scrollTop: t}, {
+        //   duration : options.duration,
+        //   complete : resolve,
+        //   fail : reject,
 
-        });
+        // });
 
       }
 
