@@ -7,25 +7,25 @@
  *
  * */
 /*jshint esversion: 6 */
-( _ => {
+(_ => {
   _.context = () => {
     return ({
-      root : $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
-      items : [],
-      length : 0,
-      detachOnHide : true,
-      hideClass : ( _.bootstrap_version() < 4 ? 'hidden' : 'd-none'),
+      root: $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
+      items: [],
+      length: 0,
+      detachOnHide: true,
+      hideClass: (_.bootstrap_version() < 4 ? 'hidden' : 'd-none'),
 
-      addClose : function() {
+      addClose: function () {
         let _context = this;
         this.append('<hr>');
         this.append(
           $('<a href="#">close</a>')
-          .on('click', function (e) {
-            e.stopPropagation(); e.preventDefault();
-            _context.close();
+            .on('click', function (e) {
+              e.stopPropagation(); e.preventDefault();
+              _context.close();
 
-          })
+            })
 
         );
 
@@ -33,75 +33,73 @@
 
       },
 
-      create : function( item, after) {
-        let el = $( '<li></li>').append( item);
+      create: function (item, after) {
+        let el = $('<li></li>').append(!!item?item:'<a></a>');
 
-        if ( !!after) {
+        if (!!after) {
           if ('prepend' == after) {
-            el.prependTo( this.root);
+            el.prependTo(this.root);
 
           }
           else {
-            el.insertAfter( after);
+            el.insertAfter(after);
 
           }
 
         }
         else {
-          el.appendTo( this.root);
+          el.appendTo(this.root);
 
         }
 
-        this.items.push( el);
+        this.items.push(el);
         this.length = this.items.length;
-        return ( el);
+        return (el);
 
       },
 
-      append : function( item) {
-        this.create( item);
-        return ( this);
+      append: function (item) {
+        return this.create(item);
 
       },
 
-      prepend : function( item) {
-        this.create( item, 'prepend');
-        return ( this);
+      prepend: function (item) {
+        return this.create(item, 'prepend');
 
       },
 
-      open : function( e) {
+      open: function (e) {
         let css = {
           position: 'absolute',
-          top : 10,
-          left : $(document).width() - 140,
+          top: 10,
+          left: $(document).width() - 140,
 
         };
 
-        if ( !!e.pageY) { css.top = Math.max( e.pageY + 2, 0); }
-        if ( !!e.pageX) { css.left = Math.max( e.pageX + 2, 0); }
+        if (!!e.pageY) { css.top = Math.max(e.pageY + 2, 0); }
+        if (!!e.pageX) { css.left = Math.max(e.pageX + 2, 0); }
 
         //~ console.log( this.root.width());
 
         let root = this.root;
         (e => {
-          let t = $( e.target);
-          if ( t.length > 0) {
+          let t = $(e.target);
+          if (t.length > 0) {
             css['z-index'] = t.zIndex() + 10;
 
           }
 
-        })( e);
+        })(e);
 
 
-        if ( this.detachOnHide) {
-          root.css(css).appendTo( 'body').data('hide', 'detach');
+        if (this.detachOnHide) {
+          root.css(css).appendTo('body').data('hide', 'detach');
 
         }
         else {
           //~ console.log( this.root.parent());
-          if ( root.parent().length < 1) {
-            root.appendTo( 'body').data('hide', 'hide');
+          if (root.parent().length < 1) {
+            root.appendTo('body').data('hide', 'hide');
 
           }
 
@@ -114,142 +112,142 @@
         let wW = $(window).width();
         let sT = $(window).scrollTop();
         /* try to keep menu on screen horizontally */
-        if ( offset.left + root.width() > wW) {
+        if (offset.left + root.width() > wW) {
           //~ console.log( 'uh oh - right!');
           let l = wW - root.width() - 5;
-          root.css( 'left', Math.max( l, 2));
+          root.css('left', Math.max(l, 2));
           offset = root.offset();
 
         }
 
         /* try to keep menu on screen vertically */
-        if ( offset.top + this.root.height() > ( wH + sT)) {
+        if (offset.top + this.root.height() > (wH + sT)) {
           //~ console.log( 'uh oh - top!');
           let t = (wH + sT) - root.height() - 5;
-          root.css( 'top', Math.max( t, sT + 2));
+          root.css('top', Math.max(t, sT + 2));
           offset = root.offset();
 
         }
 
 
         /* add helper class to display the submenu on left if the window width is restrictive on the right */
-        if ( offset.left > ( wW - (root.width()* 2))) {
-          root.addClass( 'menu-contextmenu-right');
+        if (offset.left > (wW - (root.width() * 2))) {
+          root.addClass('menu-contextmenu-right');
 
         }
         else {
-          root.removeClass( 'menu-contextmenu-right');
+          root.removeClass('menu-contextmenu-right');
 
         }
 
         /* add helper class to display the submenu high if the window height is restrictive at bottom */
-        if ( offset.top + ( root.height() * 1.2) > ( wH + sT)) {
-          root.addClass( 'menu-contextmenu-low');
+        if (offset.top + (root.height() * 1.2) > (wH + sT)) {
+          root.addClass('menu-contextmenu-low');
 
         }
         else {
-          root.removeClass( 'menu-contextmenu-low');
+          root.removeClass('menu-contextmenu-low');
 
         }
 
-        return ( this);
+        return (this);
 
       },
 
-      close : function() {
-        if ( this.detachOnHide) {
+      close: function () {
+        if (this.detachOnHide) {
           this.root.remove();
 
         }
         else {
-          this.root.addClass( this.hideClass);
+          this.root.addClass(this.hideClass);
 
         }
 
-        return ( this);
+        return (this);
 
       },
 
-      remove : function() {
-        return ( this.close());
+      remove: function () {
+        return (this.close());
 
       },
 
-      attachTo : function( parent) {
+      attachTo: function (parent) {
 
         let _me = this;
 
-        $( parent)
-        .off( 'click.removeContexts')
-        .on( 'click.removeContexts', e => {
-          if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
-            if ( /^(a)$/i.test( e.target.nodeName )) {
-              return;
-
-            }
-
-          }
-
-          $(document).trigger('hide-contexts');
-
-        })
-        .on( 'contextmenu', e => {
-          /*--[ check for abandonment ]--*/
-          if( $(e.target).closest('[data-role="contextmenu"]').length) {
-            return;
-
-          }
-
-          $(document).trigger('hide-contexts');
-
-          if ( e.shiftKey) {
-            return;
-
-          }
-
-          if ( /^(input|textarea|img|a|select)$/i.test( e.target.nodeName ) || $(e.target).closest('a').length > 0) {
-            return;
-
-          }
-
-          if ( $(e.target).closest('table').data('nocontextmenu') == 'yes' ) {
-            return;
-
-          }
-
-          if ( $(e.target).hasClass('modal' ) || $(e.target).closest('.modal').length > 0) {
-            return;
-
-          }
-
-          /** stops the menu on jquery-ui dialogs */
-          if ( $(e.target).hasClass('ui-widget-overlay' ) || $(e.target).closest( '.ui-dialog').length > 0) {
-            return;
-
-          }
-
-          if (typeof window.getSelection != "undefined") {
-            let sel = window.getSelection();
-            if (sel.rangeCount) {
-              if ( sel.anchorNode.parentNode == e.target ) {
-                let frag = sel.getRangeAt(0).cloneContents();
-                let text = frag.textContent;
-                if ( text.length > 0 )
-                  return;
+        $(parent)
+          .off('click.removeContexts')
+          .on('click.removeContexts', e => {
+            if ($(e.target).closest('[data-role="contextmenu"]').length > 0) {
+              if (/^(a)$/i.test(e.target.nodeName)) {
+                return;
 
               }
 
             }
 
-          }
-          /*--[ end: check for abandonment ]--*/
+            $(document).trigger('hide-contexts');
 
-          e.preventDefault();
-          _me.open( e);
+          })
+          .on('contextmenu', e => {
+            /*--[ check for abandonment ]--*/
+            if ($(e.target).closest('[data-role="contextmenu"]').length) {
+              return;
 
-        });
+            }
 
-        return ( _me);
+            $(document).trigger('hide-contexts');
+
+            if (e.shiftKey) {
+              return;
+
+            }
+
+            if (/^(input|textarea|img|a|select)$/i.test(e.target.nodeName) || $(e.target).closest('a').length > 0) {
+              return;
+
+            }
+
+            if ($(e.target).closest('table').data('nocontextmenu') == 'yes') {
+              return;
+
+            }
+
+            if ($(e.target).hasClass('modal') || $(e.target).closest('.modal').length > 0) {
+              return;
+
+            }
+
+            /** stops the menu on jquery-ui dialogs */
+            if ($(e.target).hasClass('ui-widget-overlay') || $(e.target).closest('.ui-dialog').length > 0) {
+              return;
+
+            }
+
+            if (typeof window.getSelection != "undefined") {
+              let sel = window.getSelection();
+              if (sel.rangeCount) {
+                if (sel.anchorNode.parentNode == e.target) {
+                  let frag = sel.getRangeAt(0).cloneContents();
+                  let text = frag.textContent;
+                  if (text.length > 0)
+                    return;
+
+                }
+
+              }
+
+            }
+            /*--[ end: check for abandonment ]--*/
+
+            e.preventDefault();
+            _me.open(e);
+
+          });
+
+        return (_me);
 
       }
 
@@ -258,41 +256,39 @@
   };
 
   $(document)
-  .on( 'hide-contexts', e => {
-    $('[data-role="contextmenu"]').each((i, el) => {
-      let _el = $(el);
-      if (!!_el.data('hide')) {
-        if (_el.data('hide') == 'hide') {
-          $(el).addClass(_.bootstrap_version() >= 4 ? 'd-none' : 'hidden');
+    .on('hide-contexts', e => {
+      $('[data-role="contextmenu"]').each((i, el) => {
+        let _el = $(el);
+        if (!!_el.data('hide')) {
+          if (_el.data('hide') == 'hide') {
+            $(el).addClass(_.bootstrap_version() >= 4 ? 'd-none' : 'hidden');
+
+          } else { $(el).remove(); }
 
         } else { $(el).remove(); }
 
-      } else { $(el).remove(); }
+      });
 
-    });
-
-  })
-  .ready( () => {
-    $(document)
-    .on( 'keyup.removeContexts', e => {
-      if ( 27 == e.keyCode) {
-        $(document).trigger( 'hide-contexts');
+    })
+    .on('keyup.removeContexts', e => {
+      if (27 == e.keyCode) {
+        $(document).trigger('hide-contexts');
 
       }
 
     })
-    .on( 'click.removeContexts', e => {
-      if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
-        if ( /^(a)$/i.test( e.target.nodeName )) { return; }
+    .on('click.removeContexts', e => {
+      if ($(e.target).closest('[data-role="contextmenu"]').length > 0) {
+        if (/^(a)$/i.test(e.target.nodeName)) { return; }
 
       }
 
       $(document).trigger('hide-contexts');
 
     })
-    .on( 'contextmenu.removeContexts', e => {
-      if ( $(e.target).closest( '[data-role="contextmenu"]' ).length > 0 ) {
-        if ( /^(a)$/i.test( e.target.nodeName )) { return; }
+    .on('contextmenu.removeContexts', e => {
+      if ($(e.target).closest('[data-role="contextmenu"]').length > 0) {
+        if (/^(a)$/i.test(e.target.nodeName)) { return; }
 
       }
 
@@ -300,6 +296,4 @@
 
     });
 
-  });
-
-}) (_brayworth_);
+})(_brayworth_);
