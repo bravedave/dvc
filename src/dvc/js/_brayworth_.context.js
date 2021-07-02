@@ -20,7 +20,7 @@
         let _context = this;
         this.append();
         this
-          .append('<div class="btn">close</div>')
+          .append('<div class="pointer">close</div>')
           .on('click', e => {
             e.stopPropagation();
             _context.close();
