@@ -705,7 +705,7 @@ abstract class strings {
 
 	}
 
-	static public function isMobilePhone( string $_tel = '') : bool {
+	static public function isMobilePhone( ?string $_tel = '') : bool {
 		try {
 			$tel = preg_replace( '@[^0-9\+]@','', $_tel);
 			//~ \sys::logger( sprintf( 'IsMobilePhone :: %s', $tel));
@@ -738,7 +738,7 @@ abstract class strings {
 
 	}
 
-	static public function isPhone( string $_tel = '') : bool {
+	static public function isPhone( ?string $_tel = '') : bool {
 		try {
 			$tel = preg_replace( '@[^0-9\+]@','', $_tel);
 			//~ \sys::logger( sprintf( 'IsMobilePhone :: %s', $tel));
