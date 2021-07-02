@@ -18,23 +18,21 @@
 
       addClose: function () {
         let _context = this;
-        this.append('<hr>');
-        this.append(
-          $('<a href="#">close</a>')
-            .on('click', function (e) {
-              e.stopPropagation(); e.preventDefault();
-              _context.close();
+        this.append();
+        this
+          .append($('<a href="#">close</a>'))
+          .on('click', function (e) {
+            e.stopPropagation(); e.preventDefault();
+            _context.close();
 
-            })
-
-        );
+          });
 
         return this;
 
       },
 
       create: function (item, after) {
-        let el = $('<li></li>').append(!!item?item:'<hr>');
+        let el = $('<li></li>').append(!!item ? item : '<hr>');
 
         if (!!after) {
           if ('prepend' == after) {
