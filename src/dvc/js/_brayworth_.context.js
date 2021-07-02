@@ -20,9 +20,9 @@
         let _context = this;
         this.append();
         this
-          .append($('<a href="#">close</a>'))
-          .on('click', function (e) {
-            e.stopPropagation(); e.preventDefault();
+          .append('<div class="btn">close</div>')
+          .on('click', e => {
+            e.stopPropagation();
             _context.close();
 
           });
@@ -91,17 +91,24 @@
 
 
         if (this.detachOnHide) {
-          root.css(css).appendTo('body').data('hide', 'detach');
+          root
+            .css(css)
+            .appendTo('body')
+            .data('hide', 'detach');
 
         }
         else {
           //~ console.log( this.root.parent());
           if (root.parent().length < 1) {
-            root.appendTo('body').data('hide', 'hide');
+            root
+              .appendTo('body')
+              .data('hide', 'hide');
 
           }
 
-          root.css(css).removeClass('hidden d-none');
+          root
+            .css(css)
+            .removeClass('hidden d-none');
 
         }
 
@@ -109,9 +116,9 @@
         let wH = $(window).height();
         let wW = $(window).width();
         let sT = $(window).scrollTop();
+
         /* try to keep menu on screen horizontally */
         if (offset.left + root.width() > wW) {
-          //~ console.log( 'uh oh - right!');
           let l = wW - root.width() - 5;
           root.css('left', Math.max(l, 2));
           offset = root.offset();
@@ -120,7 +127,6 @@
 
         /* try to keep menu on screen vertically */
         if (offset.top + this.root.height() > (wH + sT)) {
-          //~ console.log( 'uh oh - top!');
           let t = (wH + sT) - root.height() - 5;
           root.css('top', Math.max(t, sT + 2));
           offset = root.offset();
@@ -128,23 +134,33 @@
         }
 
 
-        /* add helper class to display the submenu on left if the window width is restrictive on the right */
+        /**
+         * add helper class to display the submenu on left
+         * if the window width is restrictive on the right
+         */
         if (offset.left > (wW - (root.width() * 2))) {
-          root.addClass('menu-contextmenu-right');
+          root
+            .addClass('menu-contextmenu-right');
 
         }
         else {
-          root.removeClass('menu-contextmenu-right');
+          root
+            .removeClass('menu-contextmenu-right');
 
         }
 
-        /* add helper class to display the submenu high if the window height is restrictive at bottom */
+        /**
+         * add helper class to display the submenu high
+         * if the window height is restrictive at bottom
+         */
         if (offset.top + (root.height() * 1.2) > (wH + sT)) {
-          root.addClass('menu-contextmenu-low');
+          root
+            .addClass('menu-contextmenu-low');
 
         }
         else {
-          root.removeClass('menu-contextmenu-low');
+          root
+            .removeClass('menu-contextmenu-low');
 
         }
 
