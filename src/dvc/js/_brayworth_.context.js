@@ -34,7 +34,7 @@
       },
 
       create: function (item, after) {
-        let el = $('<li></li>').append(!!item?item:'<a></a>');
+        let el = $('<li></li>').append(!!item?item:'<hr>');
 
         if (!!after) {
           if ('prepend' == after) {
