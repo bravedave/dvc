@@ -9,7 +9,8 @@
 /*jshint esversion: 6 */
 (_ => {
   _.context = () => {
-    return ({
+
+    let cx = {
       root: $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
       items: [],
       length: 0,
@@ -265,7 +266,49 @@
 
       }
 
-    });
+    };
+
+    /*
+      ( _ => {
+        $(document)
+        .on( 'contextmenu', function( e) {
+          if ( e.shiftKey)
+            return;
+
+          e.stopPropagation();e.preventDefault();
+
+          _.hideContexts();
+
+          let ctx = _.context();
+          ctx.append.a()
+            .html('hello')
+            .on( 'click', function( e) {
+              e.stopPropagation();e.preventDefault();
+
+              ctx.close();
+            });
+
+          ctx.open( e);
+        });
+
+      }) (_brayworth_);
+    */
+
+    cx.append.a = () => {
+      let a = $('<a href="#"></a>');
+      cx.append(a);
+      return a;
+
+    };
+
+    cx.prepend.a = () => {
+      let a = $('<a href="#"></a>');
+      cx.prepend(a);
+      return a;
+
+    };
+
+    return cx;
 
   };
 
