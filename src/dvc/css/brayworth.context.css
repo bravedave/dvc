@@ -62,7 +62,7 @@ ul.menu.menu-contextmenu ul.menu > li > * > .fa.fa-pull-right,
 ul.menu.menu-contextmenu > li > * > .bi.pull-right,
 ul.menu.menu-contextmenu ul.menu > li > * > .bi.pull-right { margin-right: -20px; margin-top: 3px; }
 
-ul.menu.menu-contextmenu .pointer,
+ul.menu.menu-contextmenu .pointer:hover,
 ul.menu.menu-contextmenu a:hover {
   background-color: #eee;
   text-decoration: none;
