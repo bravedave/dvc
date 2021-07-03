@@ -318,6 +318,54 @@
 
   };
 
+  _.contextX = () => {
+    let _ctx = $('<div class="dropdown-menu" data-role="contextmenu"></div>');
+
+    _ctx.extend({
+      addClose: function () {
+        let _context = this;
+        this.append('<div class="dropdown-divider"></div>');
+
+        $('<a class="dropdown-item">close</a>')
+          .appendTo(this)
+          .on('click', e => _context.close());
+
+        return this;
+
+      },
+
+      close: function (e) {
+        this
+          .closest('[data-role="contextmenu"]')
+          .remove();
+      },
+
+      open: function (e) {
+        $('[data-role="contextmenu"]').remove();
+
+        let offsets = $(e.currentTarget).offset()
+        let dropdown = $('<div class="dropdown position-absolute"></div>')
+          .css({
+            top: (e.pageY - offsets.top) + 'px',
+            left: (e.pageX - offsets.left) + 'px'
+          });
+
+        $('<div class="position-relative"></div>')
+          .append(dropdown)
+          .insertBefore(e.currentTarget);
+
+        dropdown
+          .append(this)
+          .dropdown('show');
+
+      }
+
+    });
+
+    return _ctx;
+
+  };
+
   $(document)
     .on('hide-contexts', e => {
       $('[data-role="contextmenu"]').each((i, el) => {
