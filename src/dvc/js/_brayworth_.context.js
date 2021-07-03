@@ -21,7 +21,8 @@
         let _context = this;
         this.append();
         this
-          .append('<div class="pointer">close</div>')
+          .append.a()
+          .html('close')
           .on('click', e => {
             e.stopPropagation();
             _context.close();
@@ -271,25 +272,28 @@
     /*
       ( _ => {
         $(document)
-        .on( 'contextmenu', function( e) {
-          if ( e.shiftKey)
-            return;
+          .on( 'contextmenu', function( e) {
+            if ( e.shiftKey)
+              return;
 
-          e.stopPropagation();e.preventDefault();
+            e.stopPropagation();e.preventDefault();
 
-          _.hideContexts();
+            _.hideContexts();
 
-          let ctx = _.context();
-          ctx.append.a()
-            .html('hello')
-            .on( 'click', function( e) {
-              e.stopPropagation();e.preventDefault();
+            let ctx = _.context();
+            ctx.append.a()
+              .html('hello')
+              .on( 'click', function( e) {
+                e.stopPropagation();
+                _.ask({text:'hello'});
 
-              ctx.close();
-            });
+                ctx.close();
+              });
 
-          ctx.open( e);
-        });
+            ctx
+              .addClose()
+              .open( e);
+          });
 
       }) (_brayworth_);
     */
