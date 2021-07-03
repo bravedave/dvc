@@ -59,12 +59,14 @@
       },
 
       append: function (item) {
-        return this.create(item);
+        this.create(item);
+        return this;
 
       },
 
       prepend: function (item) {
-        return this.create(item, 'prepend');
+        this.create(item, 'prepend');
+        return this;
 
       },
 
