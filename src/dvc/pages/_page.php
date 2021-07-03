@@ -223,7 +223,7 @@ class _page {
 		if ( !$this->charset)
       $this->charset = 'utf-8';
 
-    $this->meta[] = sprintf( '<meta charset=%s" />', $this->charset);
+    $this->meta[] = sprintf( '<meta charset="%s" />', $this->charset);
 		$this->meta[] = sprintf( '<meta http-equiv="Content-Type" content="text/html; charset=%s" />', $this->charset);
 
 		foreach ( $this->meta as $meta )
