@@ -10,7 +10,7 @@
 
 namespace dvc\pages;
 
-use strings;
+use strings, dvc\Exceptions\InvalidBootstrapVersion;
 
 class bootstrap extends page {
 
@@ -78,7 +78,7 @@ class bootstrap extends page {
 			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
 
 		}
-		else { throw new \Exceptions\InvalidBootstrapVersion; }
+		else { throw new InvalidBootstrapVersion; }
 
 	}
 
