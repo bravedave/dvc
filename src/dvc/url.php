@@ -71,7 +71,7 @@ abstract class url {
 			$script = preg_replace( '@(\/|\\\)$@', '', $script );
 
       $port = '';
-      if (preg_match('@^Apache@', $_SERVER['SERVER_SOFTWARE'])) {
+      if (preg_match('@^Apache@', $_SERVER['SERVER_SOFTWARE']??'')) {
         if (application::use_full_url) {
           if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80) {
             // \sys::logger(sprintf('<%s:%s> %s', $_SERVER['SERVER_SOFTWARE'], $_SERVER['SERVER_PORT'], __METHOD__));
