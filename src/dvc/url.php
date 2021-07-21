@@ -70,12 +70,22 @@ abstract class url {
 			if ( isset( $_SERVER['SCRIPT_NAME'] )) $script = dirname( $_SERVER['SCRIPT_NAME'] );
 			$script = preg_replace( '@(\/|\\\)$@', '', $script );
 
-			if ( !( defined( 'URL_APPLICATION' ))) define( 'URL_APPLICATION', '//' . $server . $script . '/' );
+      $port = '';
+      if (preg_match('@^Apache@', $_SERVER['SERVER_SOFTWARE'])) {
+        if (application::use_full_url) {
+          if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80) {
+            // \sys::logger(sprintf('<%s:%s> %s', $_SERVER['SERVER_SOFTWARE'], $_SERVER['SERVER_PORT'], __METHOD__));
+            $port = ':' . $_SERVER['SERVER_PORT'];
+          }
+        }
+      }
+
+      if ( !( defined( 'URL_APPLICATION' ))) define( 'URL_APPLICATION', '//' . $server . $script . $port . '/' );
 
 			if ( !( defined( 'URL' ))) {
 				if ( application::use_full_url) {
 					$script = preg_replace( '@/application$@', '', $script );
-					define( 'URL', '//' . $server . $script . '/' );
+					define( 'URL', '//' . $server . $script . $port . '/' );
 					// \sys::logger( sprintf( 'defining URL as %s - %s', $server, $script ), 3 );
 
 				}
