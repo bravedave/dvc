@@ -14,8 +14,9 @@ if [[ "" == $apache ]]; then
   $php -S localhost:$PORT _dvc.php
 
 else
-  error_log="`pwd`/../application/data/error.log"
-  config="`pwd`/../application/data/httpd.conf"
+  data="`pwd`/../application/data"
+  error_log="$data/error.log"
+  config="$data/httpd.conf"
   [[ ! -f $error_log ]] || rm $error_log
   if [[ ! -f $config ]]; then
     cp $WD/httpd-minimal.conf $config
@@ -33,8 +34,8 @@ else
     -c "DocumentRoot `pwd`" \
     -c "Listen $PORT" \
     -c "ErrorLog $error_log" \
-    -c "CustomLog `pwd`/../application/data/access.log combined" \
-    -c "PidFile `pwd`/../application/data/httpd.pid"
+    -c "CustomLog $data/access.log combined" \
+    -c "PidFile $data/httpd.pid"
 
 fi
 cd $WD
