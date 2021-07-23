@@ -73,7 +73,7 @@ abstract class url {
       $port = '';
       if (preg_match('@^Apache@', $_SERVER['SERVER_SOFTWARE']??'')) {
         if (application::use_full_url) {
-          if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80) {
+          if (isset($_SERVER['SERVER_PORT']) && !in_array($_SERVER['SERVER_PORT'],[80,443])) {
             // \sys::logger(sprintf('<%s:%s> %s', $_SERVER['SERVER_SOFTWARE'], $_SERVER['SERVER_PORT'], __METHOD__));
             $port = ':' . $_SERVER['SERVER_PORT'];
           }
