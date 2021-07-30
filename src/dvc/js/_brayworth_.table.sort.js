@@ -15,6 +15,7 @@
 				let debug = false;
 				let tbody = $('tbody', table);
 				if ( !tbody) tbody = table;
+        if (tbody.length > 1) tbody = tbody.first();
 
 				if ( 'undefined' == typeof order)
 					order = ( tbody.data('order') == "desc" ? "asc" : "desc" );
