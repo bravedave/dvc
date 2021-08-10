@@ -10,6 +10,8 @@
 
 namespace dvc\core;
 use dvc\errsys;
+use dvc\Exceptions\exchangeAuthIsAStub;
+use dvc\oauth;
 use dvc\strings;
 use session;
 use sys;
@@ -24,7 +26,7 @@ abstract class currentUser {
 	}
 
 	public static function exchangeAuth() {
-		throw new Exceptions\exchangeAuthIsAStub;
+		throw new exchangeAuthIsAStub;
 
 	}
 
