@@ -216,6 +216,9 @@ if ( !window._brayworth_ )
 
   };
 
+  // https://dev.to/ovi/20-javascript-one-liners-that-will-help-you-code-like-a-pro-4ddc
+  _.randomString = () => Math.random().toString(36).slice(2);
+
   _.tiny = () => {
     return 'undefined' == typeof tinyMCE ?
       _.get.script( _.url("js/tinymce5/")) :
