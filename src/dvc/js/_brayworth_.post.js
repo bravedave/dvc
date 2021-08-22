@@ -6,20 +6,15 @@
  * MIT License
  *
  * */
-/*jshint esversion: 6 */
-( _ => {
-  _.post = param => {
-    let opts = _.extend({
-      url : _.url(),
-      type : 'POST',
-      data : {},
-      growl : d => $('body').growlAjax( d),
+(_ => _.post = opts => {
+  return $.ajax(
+    _.extend({
+      url: _.url(),
+      type: 'POST',
+      data: {},
+      growl: d => _.growl(d),
 
-    }, param);
+    }, opts)
+  );
 
-    return $.ajax(opts);
-
-  };
-
-}) (_brayworth_);
-
+})(_brayworth_);
