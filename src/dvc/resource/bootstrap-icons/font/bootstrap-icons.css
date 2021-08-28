@@ -1,7 +1,7 @@
 @font-face {
   font-family: "bootstrap-icons";
-  src: url("./fonts/bootstrap-icons.woff2?856008caa5eb66df68595e734e59580d") format("woff2"),
-url("./fonts/bootstrap-icons.woff?856008caa5eb66df68595e734e59580d") format("woff");
+  src: url("./fonts/bootstrap-icons.woff2?08010997d90ae93356d746b56abb8ea3") format("woff2"),
+url("./fonts/bootstrap-icons.woff?08010997d90ae93356d746b56abb8ea3") format("woff");
 }
 
 [class^="bi-"]::before,
@@ -1388,3 +1388,19 @@ url("./fonts/bootstrap-icons.woff?856008caa5eb66df68595e734e59580d") format("wof
 .bi-translate::before { content: "\f658"; }
 .bi-x-lg::before { content: "\f659"; }
 .bi-safe::before { content: "\f65a"; }
+.bi-apple::before { content: "\f65b"; }
+.bi-microsoft::before { content: "\f65d"; }
+.bi-windows::before { content: "\f65e"; }
+.bi-behance::before { content: "\f65c"; }
+.bi-dribbble::before { content: "\f65f"; }
+.bi-line::before { content: "\f660"; }
+.bi-medium::before { content: "\f661"; }
+.bi-paypal::before { content: "\f662"; }
+.bi-pinterest::before { content: "\f663"; }
+.bi-signal::before { content: "\f664"; }
+.bi-snapchat::before { content: "\f665"; }
+.bi-spotify::before { content: "\f666"; }
+.bi-stack-overflow::before { content: "\f667"; }
+.bi-strava::before { content: "\f668"; }
+.bi-wordpress::before { content: "\f669"; }
+.bi-vimeo::before { content: "\f66a"; }
