@@ -91,6 +91,11 @@
 
   };
 
+  String.prototype.AsPhone = function () {
+    return this.isMobilePhone() ?
+      this.AsMobilePhone() : this.AsLocalPhone();
+  };
+
   String.prototype.format = function () {
     let args = arguments;
     return this.replace(/\{\{|\}\}|\{(\d+)\}/g, function (m, n) {
