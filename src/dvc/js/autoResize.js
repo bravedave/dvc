@@ -6,28 +6,30 @@
  * MIT License
  *
  * */
-/*jshint esversion: 6 */
-($ => {
-  $.fn.autoResize = function () {
+ ($ => {
+  $.fn.autoResize = function() {
     let hiddenDiv = $('<div class="autosize-common autosize-hiddendiv"></div>');
+
+    if ( this.hasClass('form-control-sm')) {
+      this.addClass('autosize-common-sm');
+      hiddenDiv.addClass('autosize-common-sm');
+    }
 
     hiddenDiv
       .width(this.width())
       .appendTo(this.parent());
 
-
-    let update = function () {
-      let _me = (this instanceof jQuery ? this : $(this));
-      let content = _me.val();
+    let update = () => {
+      let content = this.val();
 
       hiddenDiv
-          .css('line-height', _me.css('line-height'))
-          .width(_me.width());
+          .css('line-height', this.css('line-height'))
+          .width(this.width());
 
       content = content.replace(/\n/g, '<br />');
       hiddenDiv.html(content + '<br class="autosize-lbr">');
 
-      _me.css('height', (hiddenDiv.height() * 1.1) + 14);
+      this.css('height', (hiddenDiv.height() * 1.1) + 14);
       // console.log('height', (hiddenDiv.height()*1.1) + 14);
 
     }

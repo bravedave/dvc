@@ -16,6 +16,10 @@
 	transition: width 0.9s ease;
 }
 
+.autosize-common-sm {
+	font-size: .875rem;
+}
+
 .autosize-lbr { line-height: 3px; }
 
 .autosize-textarea { overflow: hidden; }
