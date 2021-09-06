@@ -5,9 +5,12 @@
  *
  * MIT License
  *
+ * https://learn.jquery.com/plugins/basic-plugin-creation/
+ * 
  * */
  ($ => {
   $.fn.autoResize = function() {
+
     let hiddenDiv = $('<div class="autosize-common autosize-hiddendiv"></div>');
 
     if ( this.hasClass('form-control-sm')) {
