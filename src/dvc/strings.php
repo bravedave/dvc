@@ -935,6 +935,23 @@ abstract class strings {
 
 	}
 
+	static public function toEmail822( $email, $name = '') : string {
+		if ( self::isEmail( $email)) {
+			if ( $name) {
+				return ( sprintf( '%s <%s>', $name, $email));
+
+			}
+			else {
+				return ( sprintf( '%s <%s>', $email, $email));
+
+			}
+
+		}
+
+		return '';
+
+	}
+
 	static function url( string $url = '', bool $protocol = false) : string {
 		return url::toString( $url, $protocol);
 
