@@ -20,7 +20,7 @@
 
   }
 
-  div:not([data-role="emailEditor"]) .has-advanced-upload::before {
+  div:not(.email-editor) .has-advanced-upload::before {
     display: inline-block;
     width: 90%;
     margin-left: 0.25em;
@@ -31,7 +31,7 @@
 
   }
 
-  div[data-role="emailEditor"] .has-advanced-upload::after {
+  div.email-editor .has-advanced-upload::after {
     display: inline-block;
     width: 90%;
     margin-left: 0.25em;
