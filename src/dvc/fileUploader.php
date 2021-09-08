@@ -67,6 +67,13 @@ class fileUploader {
           }
 
         }
+        elseif ( in_array( $strType, ['text/csv'])) {
+          if ( !preg_match( '@\.csv@', $target)) {
+            $target .= '.csv';
+
+          }
+
+        }
 
         if ($debug) \sys::logger(sprintf('<target %s> %s', $target, __METHOD__));
 
