@@ -29,7 +29,7 @@ class fileUploader {
 
   public function save( array $file, string $fileName = '', array $deleteFiles = []) {
     $debug = false;
-    $debug = true;
+    // $debug = true;
 
     /*--- ---[uploads]--- ---*/
     if ($debug) \sys::logger(sprintf('%s : %s', $file['name'], __METHOD__));
