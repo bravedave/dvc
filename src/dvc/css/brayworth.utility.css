@@ -20,7 +20,7 @@
 
   }
 
-  div:not(.email-attachment-container) .has-advanced-upload::before {
+  div:not(email-attachment-container) .has-advanced-upload::before {
     display: inline-block;
     width: 90%;
     margin-left: 0.25em;
