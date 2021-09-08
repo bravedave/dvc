@@ -139,8 +139,6 @@
 
         }
         else {
-					console.log(file);
-
           options.onReject({
             response : 'nak',
             description : 'not accepting ' + file.type,
