@@ -48,7 +48,7 @@ class dbCheck {	// extends _dao {
 			$type = 'BLOB';
 		elseif ( in_array( strtolower( $type), ['varchar','varbinary','mediumtext','date','datetime']) !== false)
 			$type = 'TEXT';
-		elseif ( in_array( strtolower( $type), ['float','double']) !== false)
+		elseif ( in_array( strtolower( $type), ['float','double','decimal']) !== false)
 			$type = 'REAL';
 
 		$this->structure[] = [

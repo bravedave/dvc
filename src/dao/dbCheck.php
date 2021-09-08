@@ -46,7 +46,7 @@ class dbCheck extends _dao {
 				$len = 32;
 
 			}
-			elseif ( ( $type == "bigint" || $type == "double" || $type == "float" )) {
+			elseif ( ( $type == "bigint" || $type == "double" || $type == "decimal" || $type == "float" )) {
 				$len = 20;
 
 			}
@@ -116,6 +116,16 @@ class dbCheck extends _dao {
 			}
 			elseif ( $fld["type"] == "int" ) {
 				$fields[] = "`" . $fld["name"] . "`  int default '" . (int)$fld["default"] . "'";
+
+			}
+			elseif ( $fld["type"] == "decimal" ) {
+				$fields[] = sprintf(
+					'`%s` decimal(%d,%d) default %d',
+					$fld["name"],
+					$fld["length"],
+					$fld["decimal"],
+					(int)$fld["default"]
+				);
 
 			}
 			elseif ( $fld["type"] == "double" ) {
