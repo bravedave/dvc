@@ -30,8 +30,8 @@
 		}, params);
 
 		//~ console.log( '_.fileDragDropContainer');
-    let c = $('<div></div>');
-    c.data( 'accept', options.accept);
+		let c = $('<div></div>');
+		c.data('accept', options.accept);
 
 		$('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>')
 			.appendTo($('<div class="progress box__uploading"></div>').appendTo(c));
@@ -49,7 +49,7 @@
 				});
 
 			$('<i class="bi"></i>')
-        .addClass(_.browser.isMobileDevice ? 'bi-camera-fill' : 'bi-upload')
+				.addClass(_.browser.isMobileDevice ? 'bi-camera-fill' : 'bi-upload')
 				.appendTo(wrapper);
 
 			let fileControl = $('<input type="file">')
@@ -66,12 +66,12 @@
 			if (!!options.multiple) {
 				fileControl.prop('multiple', true);
 
-      }
+			}
 
-      if ( '' != options.accept) {
-        fileControl.attr('accept', options.accept);
+			if ('' != options.accept) {
+				fileControl.attr('accept', options.accept);
 
-      }
+			}
 
 			wrapper.appendTo(c);
 
@@ -81,104 +81,108 @@
 
 	};
 
-  let acceptable = (file, accepting) => {
-    if (accepting.length > 0) {
+	let acceptable = (file, accepting) => {
+		if (accepting.length > 0) {
 			let type = file.type;
-			if ( '' == type && /\.heic$/i.test( file.name)) {
+			if ('' == type && /\.heic$/i.test(file.name)) {
 				type = 'image/heic';
 
 			}
-      return accepting.indexOf( type) > -1;
+			else if ('' == type && /\.csv$/i.test(file.name)) {
+				type = 'text/csv';
 
-    }
-    else {
-      return true;
+			}
+			return accepting.indexOf(type) > -1;
 
-    }
+		}
+		else {
+			return true;
 
-  };
+		}
+
+	};
 
 	let queue = [];
 	let enqueue = params => {
 		let options = _.extend({
-			postData : {},
-      droppedFiles : {},
-      batchSize : 10,
-      accept : '',
-      onReject: d => _.growl(d)
+			postData: {},
+			droppedFiles: {},
+			batchSize: 10,
+			accept: '',
+			onReject: d => _.growl(d)
 
 		}, params);
 
 		// console.log( options.accept)
 
-		return new Promise( resolve => {
+		return new Promise(resolve => {
 			/*
 			* create forms with {options.batchSize} elements
 			*/
 
 			let data = new FormData();
-			for(let o in options.postData) data.append( o, options.postData[o]);
+			for (let o in options.postData) data.append(o, options.postData[o]);
 
-      // console.table(options);
-      let accepting = '' != options.accept ? String( options.accept).split(',') : [];
-      let fileCount = 0;
-			$.each( options.droppedFiles, (i, file) => {
-        if (acceptable(file, accepting)) {
-          fileCount++;
-          // console.log( file);
+			// console.table(options);
+			let accepting = '' != options.accept ? String(options.accept).split(',') : [];
+			let fileCount = 0;
+			$.each(options.droppedFiles, (i, file) => {
+				if (acceptable(file, accepting)) {
+					fileCount++;
+					// console.log( file);
 
-          if (fileCount > 0 && fileCount % options.batchSize == 0) {
-            queue.push( data);
+					if (fileCount > 0 && fileCount % options.batchSize == 0) {
+						queue.push(data);
 
-            data = new FormData();
-            for(let o in options.postData) data.append( o, options.postData[o]);
+						data = new FormData();
+						for (let o in options.postData) data.append(o, options.postData[o]);
 
-          }
+					}
 
-          data.append('files-'+i, file);
+					data.append('files-' + i, file);
 
-        }
-        else {
-          options.onReject({
-            response : 'nak',
-            description : 'not accepting ' + file.type,
-            file : file
+				}
+				else {
+					options.onReject({
+						response: 'nak',
+						description: 'not accepting ' + file.type,
+						file: file
 
-          });
+					});
 
-        }
+				}
 
 			});
 
-      if ( fileCount > 0) queue.push( data);
+			if (fileCount > 0) queue.push(data);
 
 			let progressQue = $('.progress-queue', options.host);
-			if ( queue.length > 0) {
+			if (queue.length > 0) {
 				progressQue
 					.data('items', queue.length)
 					.css('width', '0')
 					.attr('aria-valuenow', '0');
 
-				progressQue.parent().removeClass( 'd-none');
+				progressQue.parent().removeClass('d-none');
 
 			}
 
 			//~ console.log( queue.length)
 			let queueHandler = () => {
-				if ( queue.length > 0) {
+				if (queue.length > 0) {
 					let data = queue.shift();
-					let p = ( progressQue.data('items') - queue.length) / progressQue.data('items') * 100;
+					let p = (progressQue.data('items') - queue.length) / progressQue.data('items') * 100;
 					//~ console.log( 'queue', p)
 					progressQue
 						.css('width', p + '%')
 						.attr('aria-valuenow', p);
 
 					//~ console.log( data, queue.length)
-					sendData.call( data, options).then( queueHandler);
+					sendData.call(data, options).then(queueHandler);
 
 				}
 				else {
-					progressQue.parent().addClass( 'd-none');
+					progressQue.parent().addClass('d-none');
 					resolve();
 
 				}
@@ -191,18 +195,18 @@
 
 	};
 
-	let sendData = function( params) {
+	let sendData = function (params) {
 		let options = _.extend({
-			url : false,
-			onError : d => _.growl(d),
-			onUpload : response => true,
-			host : $('body'),
+			url: false,
+			onError: d => _.growl(d),
+			onUpload: response => true,
+			host: $('body'),
 
 		}, params);
 
 		let formData = this;
 
-		return new Promise( resolve => {
+		return new Promise(resolve => {
 
 			// this is a form
 			let progressBar = $('.box__fill', options.host);
@@ -210,8 +214,8 @@
 				.css('width', '0')
 				.attr('aria-valuenow', '0');
 
-      // console.log( options.host);
-      options.host.addClass('is-uploading');
+			// console.log( options.host);
+			options.host.addClass('is-uploading');
 
 			$.ajax({
 				url: options.url,
@@ -225,11 +229,11 @@
 					let xhr = new window.XMLHttpRequest();
 					xhr.upload.addEventListener("progress", e => {
 						//~ if (e.lengthComputable)
-							//~ $('.box__fill', options.host).css('width', ( e.loaded / e.total * 100) + '%');
+						//~ $('.box__fill', options.host).css('width', ( e.loaded / e.total * 100) + '%');
 						if (e.lengthComputable) {
 							progressBar
-								.css('width', ( e.loaded / e.total * 100) + '%')
-								.attr('aria-valuenow', ( e.loaded / e.total * 100));
+								.css('width', (e.loaded / e.total * 100) + '%')
+								.attr('aria-valuenow', (e.loaded / e.total * 100));
 
 						}
 
@@ -240,102 +244,102 @@
 				}
 
 			})
-			.done( d => {
-				if ( 'ack' == d.response) {
-					$.each( d.data, ( i, j) => _.growl( j));
+				.done(d => {
+					if ('ack' == d.response) {
+						$.each(d.data, (i, j) => _.growl(j));
 
-				}
-				else {
-					options.onError( d);
+					}
+					else {
+						options.onError(d);
 
-				}
+					}
 
-				options.onUpload( d);
-				resolve();
+					options.onUpload(d);
+					resolve();
 
-			})
-			.always( () => options.host.removeClass('is-uploading'))
-			.fail( r => {
-				console.warn(r);
-        _.ask.alert({
-          title: 'Upload Error',
-          text: 'there was an error<br>consider reloading your browser'
-        });
+				})
+				.always(() => options.host.removeClass('is-uploading'))
+				.fail(r => {
+					console.warn(r);
+					_.ask.alert({
+						title: 'Upload Error',
+						text: 'there was an error<br>consider reloading your browser'
+					});
 
-			});
+				});
 
 		});
 
 	};
 
 	let uploader = params => {
-    return new Promise( resolve => {
-      let options = _.extend({
-        postData : {},
-        droppedFiles: {},
-        accept: '',
-        onReject: d => _.growl(d),
+		return new Promise(resolve => {
+			let options = _.extend({
+				postData: {},
+				droppedFiles: {},
+				accept: '',
+				onReject: d => _.growl(d),
 
-      }, params);
+			}, params);
 
-      let data = new FormData();
-      for(let o in options.postData) { data.append( o, options.postData[o]); }
+			let data = new FormData();
+			for (let o in options.postData) { data.append(o, options.postData[o]); }
 
-      let accepting = '' != options.accept ? String(options.accept).split(',') : [];
-      let fileCount = 0;
-      $.each( options.droppedFiles, (i, file) => {
-        if (acceptable(file,accepting)) {
-          fileCount++;
-          data.append('files-'+i, file);
-
-        }
-        else {
-          options.onReject({
-            response: 'nak',
-            description: 'not accepting ' + file.type,
-            file: file
-
-          });
-
-        }
-
-      });
-
-      if (fileCount > 0) sendData.call( data, options);
-      resolve();
-
-    });
-
-  };
-
-	_.fileDragDropHandler = function( params) {
-    let _el = $(this);
-    let _data = _el.data();
-
-		let options = _.extend( {
-			url : false,
-			queue : false,
-      host : _el,
-      accept : _data.accept
-
-		}, params);
-
-		if ( !options.url)
-			throw 'Invalid upload url';
-
-		$('input[type="file"]', this).on( 'change', function( e) {
-			let _me = $(this);
-
-			options.droppedFiles = e.originalEvent.target.files;
-			if ( options.droppedFiles) {
-				_me.prop( 'disabled', true);
-				if (options.queue) {
-          enqueue( options)
-          .then( () => _me.val('').prop( 'disabled', false));
+			let accepting = '' != options.accept ? String(options.accept).split(',') : [];
+			let fileCount = 0;
+			$.each(options.droppedFiles, (i, file) => {
+				if (acceptable(file, accepting)) {
+					fileCount++;
+					data.append('files-' + i, file);
 
 				}
 				else {
-					uploader( options).then( () => _me.val('').prop( 'disabled', false));
+					options.onReject({
+						response: 'nak',
+						description: 'not accepting ' + file.type,
+						file: file
+
+					});
+
+				}
+
+			});
+
+			if (fileCount > 0) sendData.call(data, options);
+			resolve();
+
+		});
+
+	};
+
+	_.fileDragDropHandler = function (params) {
+		let _el = $(this);
+		let _data = _el.data();
+
+		let options = _.extend({
+			url: false,
+			queue: false,
+			host: _el,
+			accept: _data.accept
+
+		}, params);
+
+		if (!options.url)
+			throw 'Invalid upload url';
+
+		$('input[type="file"]', this).on('change', function (e) {
+			let _me = $(this);
+
+			options.droppedFiles = e.originalEvent.target.files;
+			if (options.droppedFiles) {
+				_me.prop('disabled', true);
+				if (options.queue) {
+					enqueue(options)
+						.then(() => _me.val('').prop('disabled', false));
+
+				}
+				else {
+					uploader(options).then(() => _me.val('').prop('disabled', false));
 
 				}
 
@@ -348,37 +352,37 @@
 			return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
 		})();
 
-		if ( isAdvancedUpload && !options.host.hasClass('has-advanced-upload')) {
+		if (isAdvancedUpload && !options.host.hasClass('has-advanced-upload')) {
 
 			//~ console.log( 'setup has-advanced-upload');
 			options.host
-			.addClass('has-advanced-upload')
-			.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
-				e.preventDefault(); e.stopPropagation();
-			})
-			.on('dragover dragenter', function() { $(this).addClass('is-dragover'); })
-			.on('dragleave dragend drop', function() { $(this).removeClass('is-dragover'); })
-			.on('drop', function(e) {
-				e.preventDefault();
-        options.droppedFiles = e.originalEvent.dataTransfer.files;
+				.addClass('has-advanced-upload')
+				.on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
+					e.preventDefault(); e.stopPropagation();
+				})
+				.on('dragover dragenter', function () { $(this).addClass('is-dragover'); })
+				.on('dragleave dragend drop', function () { $(this).removeClass('is-dragover'); })
+				.on('drop', function (e) {
+					e.preventDefault();
+					options.droppedFiles = e.originalEvent.dataTransfer.files;
 
 
-				if ( options.droppedFiles) {
-          if (options.queue) {
-						enqueue( options);
+					if (options.droppedFiles) {
+						if (options.queue) {
+							enqueue(options);
+
+						}
+						else {
+							uploader(options);
+
+						}
 
 					}
-					else {
-						uploader( options);
 
-					}
-
-				}
-
-			});
+				});
 
 		}	// if (isAdvancedUpload && !options.host.hasClass('has-advanced-upload'))
 
 	};
 
-})( _brayworth_ );
+})(_brayworth_);
