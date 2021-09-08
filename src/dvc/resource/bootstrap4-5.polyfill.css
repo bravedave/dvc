@@ -80,3 +80,9 @@ a { text-decoration: none; }
 
 .text-left { text-align: left!important; }
 .text-right { text-align: right!important; }
+
+@media (min-width: 768px) {
+	.dropdown-with-submenu::after {
+		margin-left: calc(100% - .75em);
+	}
+}
