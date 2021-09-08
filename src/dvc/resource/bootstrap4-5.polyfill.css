@@ -83,6 +83,6 @@ a { text-decoration: none; }
 
 @media (min-width: 768px) {
 	.dropdown-with-submenu::after {
-		margin-left: calc(100% - .75em);
+		margin-left: calc(100% - .75em)!important;
 	}
 }

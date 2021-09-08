@@ -72,8 +72,8 @@ class bootstrap extends page {
 			$js = strings::url( 'assets/bootstrap/js/5');
 
 			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $icons));
-			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
 			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $polyfill));
+			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
 
 			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
 
