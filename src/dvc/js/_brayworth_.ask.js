@@ -32,7 +32,7 @@
 
         let footer = $('.modal-footer', modal);
         $.each( options.buttons, ( key, j) => {
-            $('<button class="btn btn-light" type="button" />')
+            $('<button class="btn btn-light" type="button"></button>')
             .html(key)
             .appendTo(footer)
             .on('click', e => j.call(modal, e));
