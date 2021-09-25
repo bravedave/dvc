@@ -855,6 +855,24 @@ abstract class strings {
 
 	}
 
+  static public function safe_file_name( string $str) : string {
+    if ($ext = pathinfo($str, PATHINFO_EXTENSION)) {
+      $str = trim(preg_replace('/' . preg_quote($ext, '/') . '$/', '', $str), '. ');
+      $str = preg_replace('@\s+@', ' ', $str);
+      $str = preg_replace('@\.+@', '.', $str);
+      //~ \sys::logger( sprintf( '<%s>.<%s> : %s', $str, $ext, __METHOD__));
+
+      $str = sprintf('%s.%s', preg_replace('@[^0-9a-z\-\_\s\.]@i', '', $str), $ext);
+
+      return $str;
+    } else {
+      $str = preg_replace('!\s+!', ' ', $str);
+      //~ \sys::logger( sprintf( '<<%s>> : %s', $str, __METHOD__));
+
+      return preg_replace('@[^0-9a-z\-\_\s]@i', '', $str);
+    }
+  }
+
 	static function SmartCase($name) {
 		$name = strtolower($name);
 		$name = join("'", array_map('ucwords', explode("'", $name)));
