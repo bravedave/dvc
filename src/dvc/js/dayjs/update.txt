@@ -1,9 +1,10 @@
 cd dayjs/
-curl -O https://unpkg.com/dayjs@1.10.4/dayjs.min.js
-curl -O https://unpkg.com/dayjs@1.10.4/plugin/utc.js
-curl -O https://unpkg.com/dayjs@1.10.4/plugin/timezone.js
-curl -O https://unpkg.com/dayjs@1.10.4/plugin/localizedFormat.js
-curl -O https://unpkg.com/dayjs@1.10.4/plugin/localeData.js
-curl -O https://unpkg.com/dayjs@1.10.4/plugin/updateLocale.js
-curl -O https://unpkg.com/dayjs@1.10.4/plugin/customParseFormat.js
-curl -O https://unpkg.com/dayjs@1.10.4/plugin/duration.js
+curl -O https://unpkg.com/dayjs@1.10.7/dayjs.min.js
+curl -O https://unpkg.com/dayjs@1.10.7/plugin/utc.js
+curl -O https://unpkg.com/dayjs@1.10.7/plugin/timezone.js
+curl -O https://unpkg.com/dayjs@1.10.7/plugin/localizedFormat.js
+curl -O https://unpkg.com/dayjs@1.10.7/plugin/localeData.js
+curl -O https://unpkg.com/dayjs@1.10.7/plugin/updateLocale.js
+curl -O https://unpkg.com/dayjs@1.10.7/plugin/customParseFormat.js
+curl -O https://unpkg.com/dayjs@1.10.7/plugin/duration.js
+curl -O https://registry.npmjs.org/dayjs/-/dayjs-1.10.7.tgz
