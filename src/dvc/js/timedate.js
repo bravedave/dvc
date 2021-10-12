@@ -340,7 +340,7 @@
           i -= 12;  // 12am is 0 hours, 12pm is 12 hours
 
         }
-        else if ('pm' == this.Suffix) {
+        else if (12 != i && 'pm' == this.Suffix) {
           i += 12;
 
         }
