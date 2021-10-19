@@ -287,14 +287,14 @@
 
   _.modal.template = () => $([
     '<div class="modal" tabindex="-1" role="dialog">',
-      '<div class="modal-dialog modal-dialog-centered modal-sm" role="document">',
+      '<div class="modal-dialog modal-dialog-centered" role="document">',
         '<div class="modal-content">',
-          '<div class="modal-header py-2">',
+          '<div class="modal-header">',
             '<h5 class="modal-title text-truncate" title="Modal">Modal</h5>',
     '<button type="button" class="close" data-' + (_.bootstrap_version() >= 5 ? 'bs-' : '') + 'dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>',
           '</div>',
           '<div class="modal-body"></div>',
-          '<div class="modal-footer py-0"></div>',
+          '<div class="modal-footer"></div>',
         '</div>',
       '</div>',
     '</div>'
