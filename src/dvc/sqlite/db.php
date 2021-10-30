@@ -175,7 +175,7 @@ class db {
 		/****************************************
 		  * You are here because there was an error **/
 		$message = sprintf( "Error : SQLite : %s\nError : SQLite : %s",
-			$query,
+			$sql,
 			$this->_db->lastErrorMsg );
 
 		\sys::logSQL( $sql);
