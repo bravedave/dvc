@@ -21,7 +21,8 @@
 		"erusev/parsedown": "^1.7",
 		"giggsey/libphonenumber-for-php": "^8.11",
 		"twbs/bootstrap": "<5",
-		"phpmailer/phpmailer": "^6.1"
+		"phpmailer/phpmailer": "^6.1",
+		"twbs/bootstrap-icons": "^1.7"
 
 	},
   "require-dev" : {

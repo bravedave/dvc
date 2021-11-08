@@ -6,7 +6,7 @@
  * MIT License
  *
  * https://learn.jquery.com/plugins/basic-plugin-creation/
- * 
+ *
  * */
  ($ => {
   $.fn.autoResize = function() {
@@ -29,7 +29,7 @@
           .css('line-height', this.css('line-height'))
           .width(this.width());
 
-      content = content.replace(/\n/g, '<br />');
+      content = content.replace(/\n/g, '<br>');
       hiddenDiv.html(content + '<br class="autosize-lbr">');
 
       this.css('height', (hiddenDiv.height() * 1.1) + 14);

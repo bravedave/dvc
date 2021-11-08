@@ -209,7 +209,8 @@ class icon {
 
   const x = 600;
 
-  const icon_dir = __DIR__ . '/resource/bootstrap-icons/icons/';
+  // const icon_dir = __DIR__ . '/resource/bootstrap-icons/icons/';
+  const icon_dir = sys::bootstrap_icon_dir;
 
   static public function get( int $icon ) : string {
     if ( self::app == $icon) return file_get_contents( self::icon_dir . 'app.svg');
