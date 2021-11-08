@@ -16,6 +16,23 @@ abstract class sys {
 
   static $debug = false;
 
+  protected static function _twbs_dir() {
+    $dir = realpath(__DIR__ . '/../../../../twbs');
+    if (!$dir) {
+      $dir = realpath(__DIR__ . '/../../vendor/twbs');
+    }
+
+    return $dir;
+  }
+
+  public static function bootstrap_icon_dir() {
+    if ($dir = self::_twbs_dir()) {
+      return $dir . '/bootstrap-icons/icons/';
+    }
+
+    return '';
+  }
+
   public static function bootStrap_verion(): \stdClass {
     $ret = (object)[
       'version' => 0,
@@ -24,12 +41,7 @@ abstract class sys {
 
     ];
 
-    $root = realpath(__DIR__ . '/../../../../twbs');
-    if (!$root) {
-      $root = realpath(__DIR__ . '/../../vendor/twbs');
-    }
-
-    if ($root) {
+    if ($root = self::_twbs_dir()) {
       $path = realpath(
         implode(
           DIRECTORY_SEPARATOR,
@@ -497,15 +509,11 @@ abstract class sys {
     }
   }
 
-  // const bootstrap_font_dir = __DIR__ . '/resource/bootstrap-icons/font/';
-  const bootstrap_dir = __DIR__ . '/../../vendor/twbs/';
-  const bootstrap_icon_dir = __DIR__ . '/../../vendor/twbs/bootstrap-icons/icons/';
-  const bootstrap_font_dir = __DIR__ . '/../../vendor/twbs/bootstrap-icons/font/';
   public static function serveBootStrap($type = 'css', $fontFile = null) {
 
     // self::logger( sprintf('<%s> %s', $type, __METHOD__));
     if ('icons' == $type) {
-      if ($lib = realpath(self::bootstrap_font_dir . 'bootstrap-icons.css')) {
+      if ($lib = realpath(self::_twbs_dir() . '/bootstrap-icons/font/bootstrap-icons.css')) {
         self::serve($lib);
       } else {
         \sys::logger(sprintf('<cannot locate bootstrap_font_css_file> %s', __METHOD__));
@@ -516,7 +524,7 @@ abstract class sys {
         'bootstrap-icons.woff2'
 
       ])) {
-        if ($lib = realpath(self::bootstrap_font_dir . 'fonts/' . $fontFile)) {
+        if ($lib = realpath(self::_twbs_dir() . '/bootstrap-icons/font/fonts/' . $fontFile)) {
           // self::logger($lib);
           self::serve($lib);
         } else {
@@ -546,14 +554,14 @@ abstract class sys {
         ]);
       }
     } elseif ('css' == $type) {
-      if ($lib = realpath(self::bootstrap_dir . '/bootstrap/dist/css/bootstrap.min.css')) {
+      if ($lib = realpath(self::_twbs_dir() . '/bootstrap/dist/css/bootstrap.min.css')) {
         // \sys::logger(sprintf('<%s> %s', $lib, __METHOD__));
         self::serve($lib);
       } else {
         \sys::logger(sprintf('<cannot locate bootstrap_css_file> %s', __METHOD__));
       }
     } elseif ('js' == $type) {
-      if ($lib = realpath(self::bootstrap_dir . '/bootstrap/dist/js/bootstrap.bundle.min.js')) {
+      if ($lib = realpath(self::_twbs_dir() . '/bootstrap/dist/js/bootstrap.bundle.min.js')) {
         // \sys::logger(sprintf('<%s> %s', $lib, __METHOD__));
         self::serve($lib);
       } else {
@@ -562,7 +570,6 @@ abstract class sys {
     } else {
       \sys::logger(sprintf('<%s> %s', $type, __METHOD__));
     }
-
   }
 
   public static function serveBootStrap5($type = 'css') {
