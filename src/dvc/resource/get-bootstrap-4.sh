@@ -3,6 +3,13 @@
 me=`basename "$0"`
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
+if [ -d bootstrap4 ]; then
+  echo "no longer included"
+  echo "should be removed .."
+  rm -fR bootstrap4
+fi
+exit 0
+
 echo "start : $me"
 
 [ -d bootstrap-4.tmp ] || git clone --branch v4-dev https://github.com/twbs/bootstrap/ bootstrap-4.tmp
