@@ -436,6 +436,8 @@ abstract class controller {
   }
 
   protected function modal($params = []) {
+    \sys::trace(sprintf('deprecated : %s', __METHOD__));
+
     $defaults = [
       'title' => sprintf('%s Modal', \config::$WEBNAME),
       'class' => '',

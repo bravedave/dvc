@@ -11,3 +11,5 @@
 */
 
 class timer extends dvc\timer {}
+
+\sys::trace(sprintf('deprecated : please call dvc\timer directly : %s', __METHOD__));
