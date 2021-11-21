@@ -6,9 +6,7 @@
  *
  * MIT License
  *
-*/
-
-use dvc\push; ?>
+*/  ?>
 
 <ul class="nav flex-column">
 	<li class="nav-item h6">
