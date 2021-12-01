@@ -411,7 +411,7 @@ class application {
 		}
 
 		if ( !file_exists( $controllerFile)) {
-			throw new Exceptions\CannotLocateController;
+			throw new CannotLocateController;
 
 		}
 
