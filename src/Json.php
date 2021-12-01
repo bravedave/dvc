@@ -12,4 +12,4 @@
 
 class Json extends dvc\Json {}
 
-\sys::trace(sprintf('deprecated : please call dvc\Json directly : %s', __METHOD__));
+// \sys::trace(sprintf('deprecated : please call dvc\Json directly : %s', __METHOD__));
