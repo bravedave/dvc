@@ -51,7 +51,10 @@ class _dbinfo extends _dao {
 
     if (file_exists($store = $this->db_version_file())) {
       $json = json_decode(file_get_contents($store));
-      $_version = (float)$json->{$key} ?? 0;
+      $_version = 0;
+      if (isset($json->{$key})) {
+        $_version = (float)$json->{$key};
+      }
     }
 
     if ($_version < $version) {
