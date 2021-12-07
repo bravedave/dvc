@@ -236,9 +236,6 @@
 
         $(this).siblings('.autofill-wrapper').remove();
 
-        console.log(this);
-        console.log('autofill-destroy');
-
       })
       .on('focus.autofill', () => {
         if (blurTimeOut) {
