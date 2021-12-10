@@ -11,106 +11,98 @@
 namespace dvc;
 
 class db {
-	protected $mysqli, $dbname;
+  protected $mysqli, $dbname;
 
-	public $log = false;
+  public $log = false;
 
-	public static function dbTimeStamp() {
-		return ( date( "Y-m-d H:i:s", time()));
+  public static function dbTimeStamp() {
+    return (date("Y-m-d H:i:s", time()));
+  }
 
-	}
+  public static function mysqli_field_type($type_id) {
+    static $types;
 
-	public static function mysqli_field_type($type_id) {
-		static $types;
+    if (!isset($types)) {
+      $types = array();
+      $constants = get_defined_constants(true);
+      foreach ($constants['mysqli'] as $c => $n) if (preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) $types[$n] = $m[1];
+    }
 
-		if (!isset($types)) {
-			$types = array();
-			$constants = get_defined_constants(true);
-			foreach ($constants['mysqli'] as $c => $n) if (preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) $types[$n] = $m[1];
-		}
+    return array_key_exists($type_id, $types) ? $types[$type_id] : "unKnown";
+  }
 
-		return array_key_exists($type_id, $types)? $types[$type_id] : "unKnown";
+  function __construct($host, $database, $user, $pass) {
+    $this->dbname = $database;
+    $this->mysqli = @new \mysqli($host, $user, $pass, $database);
 
-	}
+    if ($this->mysqli->connect_error) {
+      sys::logger(sprintf('\mysqli( %s, %s, ***, %s )',  $host, $user, $database));
+      sys::logger(sprintf('Connect Error (%s) %s', $this->mysqli->connect_errno, $this->mysqli->connect_error));
+      throw new Exceptions\UnableToSelectDatabase;
+    }
 
-	function __construct( $host, $database, $user, $pass ) {
-		$this->dbname = $database;
-		$this->mysqli = @new \mysqli( $host, $user, $pass, $database );
+    $this->mysqli->set_charset('utf8');
+  }
 
-		if ($this->mysqli->connect_error) {
-			sys::logger( sprintf( '\mysqli( %s, %s, ***, %s )',	$host, $user, $database));
-			sys::logger( sprintf( 'Connect Error (%s) %s', $this->mysqli->connect_errno, $this->mysqli->connect_error));
-			throw new Exceptions\UnableToSelectDatabase;
+  function __destruct() {
+    if ($this->mysqli)
+      $this->mysqli->close();
+  }
 
-		}
+  public function affected_rows() {
+    return ($this->mysqli->affected_rows);
+  }
 
-		$this->mysqli->set_charset( 'utf8');
+  public function dump() {
+    if ($dbR = $this->result(sprintf('SHOW TABLES FROM %s', \config::$DB_NAME))) {
+      $uID = 0;
+      while ($row = $dbR->fetch_row()) {
+        printf(
+          '<span data-role="visibility-toggle" data-target="bqt%s">Table: %s</span><br />%s',
+          $uID,
+          $row[0],
+          PHP_EOL
+        );
+        printf(
+          '<blockquote id="bqt%s" style="font-family: monospace; display: none;">%s',
+          $uID++,
+          PHP_EOL
+        );
 
-	}
+        /* Get field information for all columns */
+        if ($res = $this->result(sprintf('SELECT * FROM `%s` LIMIT 1', $this->escape($row[0])))) {
+          $finfo = $res->fetch_fields();
 
-	function __destruct() {
-		if ( $this->mysqli)
-			$this->mysqli->close();
+          foreach ($finfo as $val)
+            printf('<br />%s %s (%s)', $val->name, $this->field_type($val->type), $val->length);
+        }
 
-	}
-
-	public function affected_rows() {
-		return ( $this->mysqli->affected_rows);
-
-	}
-
-	public function dump() {
-		if ( $dbR = $this->result( sprintf( 'SHOW TABLES FROM %s', \config::$DB_NAME ))) {
-			$uID = 0;
-			while ( $row = $dbR->fetch_row()) {
-				printf( '<span data-role="visibility-toggle" data-target="bqt%s">Table: %s</span><br />%s',
-					$uID,
-					$row[0],
-					PHP_EOL	);
-				printf( '<blockquote id="bqt%s" style="font-family: monospace; display: none;">%s',
-					$uID++,
-					PHP_EOL	);
-
-				/* Get field information for all columns */
-				if ( $res = $this->result( sprintf( 'SELECT * FROM `%s` LIMIT 1', $this->escape( $row[0] )))) {
-					$finfo = $res->fetch_fields();
-
-					foreach ($finfo as $val)
-						printf( '<br />%s %s (%s)', $val->name, $this->field_type( $val->type ), $val->length);
-
-				}
-
-				print "</blockquote>\n";
-
-			}
-
-		}
-		else {
-			printf( '<pre>
+        print "</blockquote>\n";
+      }
+    } else {
+      printf(
+        '<pre>
 				DB Error, could not list tables
 				MySQL Error: %s
 				MySQL Host: %s
 			</pre>',
-				mysqli_error(),
-				\config::$DB_HOST);
-
-		}
-
+        mysqli_error($this->mysqli),
+        \config::$DB_HOST
+      );
+    }
   }
 
-  public function escape( $s ) {
-		return ( $this->mysqli->real_escape_string($s));
+  public function escape($s) {
+    return ($this->mysqli->real_escape_string($s));
+  }
 
-	}
+  public function fetchFields($table) {
+    $res = $this->Q("SELECT * FROM `$table` LIMIT 1");
+    return ($res->fetch_fields());
+  }
 
-	public function fetchFields( $table ) {
-		$res = $this->Q( "SELECT * FROM `$table` LIMIT 1");
-		return ( $res->fetch_fields());
-
-	}
-
-	public function flushCache() {
-    if ( \config::$DB_CACHE == 'APC') {
+  public function flushCache() {
+    if (\config::$DB_CACHE == 'APC') {
       /**
        * the automatic caching is controlled by:
        *	=> \dao\_dao->getByID addes to cache
@@ -122,134 +114,124 @@ class db {
        */
       $cache = \dvc\cache::instance();
       $cache->flush();
-      if ( \config::$DB_CACHE_DEBUG || \config::$DB_CACHE_DEBUG_FLUSH) {
-        foreach ( debug_backtrace() as $e ) {
-          sys::logger( sprintf( 'post flush: %s(%s)', $e['file'], $e['line'] ));
-
+      if (\config::$DB_CACHE_DEBUG || \config::$DB_CACHE_DEBUG_FLUSH) {
+        foreach (debug_backtrace() as $e) {
+          sys::logger(sprintf('post flush: %s(%s)', $e['file'], $e['line']));
         }
-
       }
+    }
+  }
 
+  public function field_exists($table, $field) {
+    $ret = FALSE;
+
+    $result = $this->Q("SHOW COLUMNS FROM $table");
+    if (mysqli_num_rows($result) > 0) {
+      while ($row = mysqli_fetch_assoc($result)) {
+        if ($row['Field'] == $field) {
+          $ret = TRUE;
+          break;
+        }
+      }
+    }
+    return ($ret);
+  }
+
+  public function field_type($v) {
+    return (self::mysqli_field_type($v));
+  }
+
+  public function fieldList($table) {
+    $result = $this->Q("SHOW COLUMNS FROM `$table`");
+    $ret = array();
+    while ($row = mysqli_fetch_assoc($result))
+      $ret[] = $row["Field"];
+
+    return ($ret);
+  }
+
+  public function getCharSet() {
+    return ($this->mysqli->character_set_name());
+  }
+
+  public function getDBName() {
+    return ($this->dbname);
+  }
+
+  public function Insert($table, $a) {
+    $fA = [];
+    $fV = [];
+    foreach ($a as $k => $v) {
+      $fA[] = $k;
+      $fV[] = $this->mysqli->real_escape_string($v);
     }
 
+    $sql = sprintf('INSERT INTO `%s`(`%s`) VALUES("%s")', $table, implode("`,`", $fA), implode('","', $fV));
+
+    $this->Q($sql);
+    return ($this->mysqli->insert_id);
   }
 
-	public function field_exists( $table, $field ) {
-		$ret = FALSE;
+  public function Q($query) {
+    if ($this->log) sys::logSQL($query);
+    if ($result = $this->mysqli->query($query)) return ($result);
 
-		$result = $this->Q( "SHOW COLUMNS FROM $table");
-		if ( mysqli_num_rows($result) > 0 ) {
-			while ($row = mysqli_fetch_assoc($result)) {
-				if ( $row['Field'] == $field ) {
-					$ret = TRUE;
-					break;
 
-				}
+    /****************************************
+     * You are here because there was an error **/
+    $message = sprintf(
+      "Error : MySQLi : %s\nError : MySQLi : %s",
+      $query,
+      $this->mysqli->error
+    );
 
-			}
+    sys::logSQL($message);
+    foreach (debug_backtrace() as $e) {
+      sys::logger(sprintf('%s(%s)', $e['file'] ?? '?file', $e['line'] ?? '?line'));
+    }
 
-		}
-		return ($ret);
-
-	}
-
-	public function field_type( $v ) {
-		return ( self::mysqli_field_type($v));
-
+    throw new \Exception($message);
   }
 
-  public function fieldList( $table ) {
-		$result = $this->Q( "SHOW COLUMNS FROM `$table`");
-		$ret = array();
-		while ($row = mysqli_fetch_assoc( $result ))
-			$ret[] = $row["Field"];
-
-		return ( $ret );
-
-	}
-
-	public function getCharSet() {
-		return ( $this->mysqli->character_set_name());
-
-	}
-
-	public function getDBName() {
-		return ( $this->dbname);
-
-	}
-
-	public function Insert( $table, $a ) {
-		$fA = [];
-		$fV = [];
-		foreach ( $a as $k => $v ) {
-			$fA[] = $k;
-			$fV[] = $this->mysqli->real_escape_string ($v);
-
-		}
-
-		$sql = sprintf( 'INSERT INTO `%s`(`%s`) VALUES("%s")', $table, implode( "`,`", $fA ), implode( '","', $fV ));
-
-		$this->Q( $sql);
-		return ( $this->mysqli->insert_id);
-
-	}
-
-	public function Q( $query ) {
-		if ( $this->log ) sys::logSQL( $query );
-		if ( $result = $this->mysqli->query($query)) return ( $result );
-
-
-		/****************************************
-		  * You are here because there was an error **/
-		$message = sprintf( "Error : MySQLi : %s\nError : MySQLi : %s",
-			$query,
-			$this->mysqli->error );
-
-		sys::logSQL( $message );
-		foreach ( debug_backtrace() as $e )
-			sys::logger( sprintf( '%s(%s)', $e['file'], $e['line'] ));
-
-		throw new \Exception( $message );
-
-	}
-
-  public function quote( string $val) {
-		return sprintf( '"%s"', $this->escape( $val));
-
+  public function quote(string $val) {
+    return sprintf('"%s"', $this->escape($val));
   }
 
-	public function table_exists( string $table) : bool {
+  public function result($query) {
+    try {
+      $dbResult = new dbResult($this->Q($query), $this);
+      return ($dbResult);
+    } catch (\Exception $e) {
+      throw new Exceptions\SQLException;
+    }
+  }
+
+  public function table_exists(string $table): bool {
     $sql = sprintf(
       'SELECT * FROM information_schema.tables WHERE table_schema = "%s" AND table_name = "%s" LIMIT 1',
-      $this->escape( $this->dbname),
-      $this->escape( $table)
+      $this->escape($this->dbname),
+      $this->escape($table)
 
     );
 
-		if ( $result = $this->result( $sql)) {
-			if ( $dto = $result->dto()) {
-				return true;
-
-			}
-
-		}
-
-		return ( false );
-
-  }
-
-	public function Update( $table, $a, $scope, $flushCache = true ) {
-    if ( (bool)$flushCache) $this->flushCache();
-
-		$aX = [];
-		foreach ( $a as $k => $v ) {
-			$aX[] = "`$k` = '" . $this->mysqli->real_escape_string($v) . "'";
-
+    if ($result = $this->result($sql)) {
+      if ($dto = $result->dto()) {
+        return true;
+      }
     }
 
-		$sql = sprintf( 'UPDATE `%s` SET %s %s', $table, implode( ', ', $aX ), $scope);
-		return ( $this->Q( $sql));
+    return (false);
+  }
 
-	}
+  public function Update($table, $a, $scope, $flushCache = true) {
+    if ((bool)$flushCache) $this->flushCache();
 
+    $aX = [];
+    foreach ($a as $k => $v) {
+      $aX[] = "`$k` = '" . $this->mysqli->real_escape_string($v) . "'";
+    }
+
+    $sql = sprintf('UPDATE `%s` SET %s %s', $table, implode(', ', $aX), $scope);
+    return ($this->Q($sql));
+  }
 }
