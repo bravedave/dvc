@@ -6,15 +6,12 @@
  * MIT License
  *
  * */
-(_ => _.post = opts => {
-  return $.ajax(
-    _.extend({
-      url: _.url(),
-      type: 'POST',
-      data: {},
-      growl: d => _.growl(d),
+(_ => _.post = opts => $.ajax({
+  ...{
+    url: _.url(),
+    type: 'POST',
+    data: {},
+    growl: d => _.growl(d),
 
-    }, opts)
-  );
-
-})(_brayworth_);
+  }, ...opts
+}))(_brayworth_);
