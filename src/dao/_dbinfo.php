@@ -58,15 +58,17 @@ class _dbinfo extends _dao {
     }
 
     if ($_version < $version) {
-      if ( $this->debug) \sys::logger(sprintf('<%s> <needs update %s ? %s> %s', $store, $_version, $version, __METHOD__));
+      if ($this->debug) \sys::logger(sprintf('<%s> <needs update %s ? %s> %s', $store, $_version, $version, __METHOD__));
       $this->dump($verbose = false);
 
       $_version = $json->{$key} = $version;
 
       file_put_contents($store, json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
-      chmod($store, 0666);
+      if (posix_geteuid() == fileowner($store)) {
+        chmod($store, 0666);
+      }
     } else {
-      if ( $this->debug) \sys::logger(sprintf('<%s> <up to date %s ? %s> %s', $store, $_version, $version, __METHOD__));
+      if ($this->debug) \sys::logger(sprintf('<%s> <up to date %s ? %s> %s', $store, $_version, $version, __METHOD__));
     }
     return $_version;
   }
