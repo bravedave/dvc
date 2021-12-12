@@ -6,7 +6,6 @@
  * MIT License
  *
  * */
-
 ( _ => {
   _.isWindowHidden = () => {
     // https://stackoverflow.com/questions/7389328/detect-if-browser-tab-has-focus

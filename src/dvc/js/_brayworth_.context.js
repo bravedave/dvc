@@ -372,11 +372,11 @@
         let _el = $(el);
         if (!!_el.data('hide')) {
           if (_el.data('hide') == 'hide') {
-            $(el).addClass(_.bootstrap_version() >= 4 ? 'd-none' : 'hidden');
+            _el.addClass(_.bootstrap_version() >= 4 ? 'd-none' : 'hidden');
 
-          } else { $(el).remove(); }
+          } else { _el.remove(); }
 
-        } else { $(el).remove(); }
+        } else { _el.remove(); }
 
       });
 

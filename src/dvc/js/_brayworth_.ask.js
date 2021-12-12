@@ -19,7 +19,6 @@
     });
 
  * */
-/*jshint esversion: 6 */
 ( _ => {
   _.ask = params => {
     let dlg = _.modal.template();

@@ -6,7 +6,6 @@
  * MIT License
  *
  * */
-/*jshint esversion: 6 */
 ( _ => {
   _.get.DataUri = url => {
     return new Promise( resolve => {

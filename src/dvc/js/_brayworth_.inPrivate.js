@@ -21,8 +21,8 @@
 
 _brayworth_.inPrivate = () => {
   return new Promise(function detect(resolve) {
-    var yes = function () { resolve(true); }; // is in private mode
-    var not = function () { resolve(false); }; // not in private mode
+    let yes = () => resolve(true); // is in private mode
+    let not = () => resolve(false); // not in private mode
 
     function detectChromeOpera() {
       // https://developers.google.com/web/updates/2017/08/estimating-available-storage-space
