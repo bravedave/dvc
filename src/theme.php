@@ -11,5 +11,3 @@
 */
 
 class theme extends dvc\theme {}
-
-\sys::trace(sprintf('deprecated : please call dvc\theme directly : %s', __METHOD__));
