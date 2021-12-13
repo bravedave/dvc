@@ -7,42 +7,42 @@
  *
  * */
 /*jshint esversion: 6 */
-if ( !window._brayworth_ )
-	window._brayworth_ = () => { return ( window._brayworth_); };
+if (!window._brayworth_)
+  window._brayworth_ = () => { return (window._brayworth_); };
 
 (_ => {
-	_.version = 0.2;
-	_._brayworth_ = true;
-	_.currentUser = false;
-	_.logon_retrieve_password = false;
-	_.templates = {};
+  _.version = 0.2;
+  _._brayworth_ = true;
+  _.currentUser = false;
+  _.logon_retrieve_password = false;
+  _.templates = {};
 
-	_.hideContexts = () => {
-		$(document).trigger('hide-contexts');
+  _.hideContexts = () => {
+    $(document).trigger('hide-contexts');
 
-	};
+  };
 
-	_.bootstrap_version = () => {
-		if ( 'undefined' != typeof bootstrap) {
-			if ( !!bootstrap.Alert) {
-				if ( /^5/.test( bootstrap.Alert.VERSION)) {
-					return 5;
+  _.bootstrap_version = () => {
+    if ('undefined' != typeof bootstrap) {
+      if (!!bootstrap.Alert) {
+        if (/^5/.test(bootstrap.Alert.VERSION)) {
+          return 5;
 
-				}
-				else if ( /^4/.test( bootstrap.Alert.VERSION)) {
-					return 4;
+        }
+        else if (/^4/.test(bootstrap.Alert.VERSION)) {
+          return 4;
 
-				}
-				else if ( /3/.test( bootstrap.Alert.VERSION)) {
-					return 3;
+        }
+        else if (/3/.test(bootstrap.Alert.VERSION)) {
+          return 3;
 
-				}
+        }
 
-			}
+      }
 
-		}
+    }
 
-		return 0;
+    return 0;
 
   };
 
@@ -84,7 +84,7 @@ if ( !window._brayworth_ )
           .then(response => response.text())
           .then(html => {
 
-            let _k = $( 'body >' + k);
+            let _k = $('body >' + k);
 
             _k.html(html);
             $('a[wapp-role="navigation"]', _k).each((i, el) => {
@@ -113,7 +113,7 @@ if ( !window._brayworth_ )
 
   });
 
-  $(document).ready( () => {
+  $(document).ready(() => {
     dayjs.extend(dayjs_plugin_localeData);
     dayjs.extend(dayjs_plugin_localizedFormat);
     dayjs.extend(dayjs_plugin_utc);
@@ -146,28 +146,31 @@ if ( !window._brayworth_ )
 
   });
 
-  _.dayjs = ( a,b,c,d) => {
+  _.dayjs = (a, b, c, d) => {
     let r = false;
 
     if ('DD/MM/YYYY' == b) {
       let _a = String(a).split('/');
-      if ( 3 == _a.length) {
+      if (3 == _a.length) {
         // console.log( _a, Number( _a[1]));
 
-        _a[1] = Number( _a[1]) - 1; //Javascript months are 0-11
+        _a[1] = Number(_a[1]) - 1; //Javascript months are 0-11
         // console.log( _a);
 
-        a = new Date( _a[2], _a[1], _a[0]);
+        a = new Date(_a[2], _a[1], _a[0]);
 
       }
 
     }
 
-    r = dayjs( a,b,c,d);
-    if ( !!r.tz && '' !== _.timezone) r.tz(_.timezone);
-		return (r);
+    r = dayjs(a, b, c, d);
+    if (!!r.tz && '' !== _.timezone) r.tz(_.timezone);
+    return (r);
 
-	};
+  };
+
+  // https://blog.saviomartin.com/20-killer-javascript-one-liners
+  _.isDateValid = (...val) => !Number.isNaN(new Date(...val).valueOf());
 
   _.getMeta = (mName) => {
     let metas = document.getElementsByTagName('meta');
@@ -184,35 +187,35 @@ if ( !window._brayworth_ )
 
   }
 
-	_.moment = ( a,b,c,d) => {
-		/**
-		* if you call this and the moment library
-		* is undefined it will error (der)
-		*
-		* The intention is that:
-		*	a. the library will be loaded
+  _.moment = (a, b, c, d) => {
+    /**
+    * if you call this and the moment library
+    * is undefined it will error (der)
+    *
+    * The intention is that:
+    *	a. the library will be loaded
     *	b. you could/will redefine this function to control
     * 		 the timezone being operated in
     */
 
-		let r = moment( a,b,c,d);
-		// d.utcOffset( desirable timezone);
-		return (r);
+    let r = moment(a, b, c, d);
+    // d.utcOffset( desirable timezone);
+    return (r);
 
-	};
+  };
 
-	_.nav = (_url, withProtocol) => {
-		if ( _.browser.isIPhone) {
-			$(window).on('pagehide', () => _.hourglass.off());
+  _.nav = (_url, withProtocol) => {
+    if (_.browser.isIPhone) {
+      $(window).on('pagehide', () => _.hourglass.off());
 
-		}
-		else {
-			$(window).on('unload', () => _.hourglass.off());
+    }
+    else {
+      $(window).on('unload', () => _.hourglass.off());
 
-		};
+    };
 
-		_.hourglass.on();
-		window.location.href = _.url(_url, withProtocol);
+    _.hourglass.on();
+    window.location.href = _.url(_url, withProtocol);
 
   };
 
@@ -221,19 +224,19 @@ if ( !window._brayworth_ )
 
   _.tiny = () => {
     return 'undefined' == typeof tinyMCE ?
-      _.get.script( _.url("js/tinymce5/")) :
+      _.get.script(_.url("js/tinymce5/")) :
       Promise.resolve();
 
   };
 
-  _.urlwrite = _.url = ( _url, withProtocol) => {
-		if ( 'undefined' == typeof _url)
-			_url = '';
+  _.urlwrite = _.url = (_url, withProtocol) => {
+    if ('undefined' == typeof _url)
+      _url = '';
 
-		let prefix = !!withProtocol ? location.protocol + '//' : '/'
+    let prefix = !!withProtocol ? location.protocol + '//' : '/'
 
-		return ( prefix + _url);
+    return (prefix + _url);
 
-	};
+  };
 
 })(_brayworth_);
