@@ -5,7 +5,7 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  padding-top: 40px;
+  padding-top: 45px;
 }
 
 html {
@@ -79,7 +79,7 @@ footer .page-number:after {
 }
 
 .table {
-  width: 90%;
+  width: 100%;
   page-break-inside: avoid;
 }
 
@@ -87,7 +87,8 @@ table>thead>tr {
   vertical-align: bottom;
 }
 
-table>thead.border-bottom>tr>td {
+table>thead.border-bottom>tr>td,
+table>tbody.border-bottom>tr>td {
   border-bottom: 1px solid silver;
 }
 
@@ -95,10 +96,8 @@ table>tbody>tr {
   vertical-align: top;
 }
 
-.table>thead>tr>td:not(pb-0),
-.table>tbody>tr>td:not(pb-0) {
-  padding: 8px 8px;
-}
+.table>thead>tr>td:not(pb-0) {padding: 8px 8px 4px;}
+.table>tbody>tr>td:not(pb-0) {padding: 8px 8px;}
 
 .table>thead>tr>td.pb-0,
 .table>tbody>tr>td.pb-0 {
