@@ -13,6 +13,8 @@ namespace dvc;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class template {
+
+  const pdf_css = __DIR__ . '/css/brayworth.pdf.css';
   protected $_template = '', $_css = [];
 
   public $title = '';
@@ -25,7 +27,7 @@ class template {
     $this->_template = file_get_contents($filepath);
   }
 
-  function css($path) {
+  function css(string $path = self::pdf_css) : self {
     if ((bool)$path) {
       $this->_css[] = file_get_contents($path);
     }
