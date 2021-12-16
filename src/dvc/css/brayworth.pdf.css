@@ -10,12 +10,12 @@ body {
 
 html {
   width: 210mm;
+  height: 297mm;
 }
 
 html,
 body {
   font-size: 12px;
-  height: 297mm
 }
 
 header {
