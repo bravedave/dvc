@@ -8,10 +8,13 @@ body {
   padding-top: 40px;
 }
 
+html {
+  width: 210mm;
+}
+
 html,
 body {
   font-size: 12px;
-  width: 210mm;
   height: 297mm
 }
 
