@@ -31,15 +31,14 @@
   },
 	"autoload": {
 		"psr-4": {
-			"": "src/",
-			"dvc\\": "src/dvc/"
+      "dvc\\": "src/dvc/"
 
 		}
 
   },
 	"autoload-dev": {
-		"psr-4": {
-			"tests\\": "tests/tests/"
+    "psr-4": {
+      "": "tests/app/"
 
 		}
 

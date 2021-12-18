@@ -17,573 +17,517 @@ use dvc\Exceptions\MissingRootPath;
 use dvc\Exceptions\SecurityException;
 use dvc\Request;
 use dvc\timer;
+use dvc\utility;
 
-define( 'APPLICATION', 1 );
+define('APPLICATION', 1);
 
 class application {
-	protected static $_request = null;
+  protected static $_request = null;
 
-	protected static $instance = null;
+  protected static $instance = null;
 
-	protected $_app_executed = false;
+  protected $_app_executed = false;
 
-	public $exclude_from_sitemap = false;
+  public $exclude_from_sitemap = false;
 
-	protected $rootPath = null;
+  protected $rootPath = null;
 
-	protected $_route = null;
+  protected $_route = null;
 
-	protected $paths = [];
+  protected $paths = [];
 
-	protected $url_action = null;
+  protected $url_action = null;
 
-	protected $url_controller = null;
-	protected $url_parameter_1 = null;
-	protected $url_parameter_2 = null;
-	protected $url_parameter_3 = null;
+  protected $url_controller = null;
+  protected $url_parameter_1 = null;
+  protected $url_parameter_2 = null;
+  protected $url_parameter_3 = null;
 
-	protected $url_served = '';
+  protected $url_served = '';
 
-	public function app_executed() {
-		return $this->_app_executed;
-
-	}
-
-
-	protected $_timer = null;
-
-	protected $db = false;
-
-	public $defaultController = null;
-
-	protected $minimum = false;
-	protected $service = false;
+  public function app_executed() {
+    return $this->_app_executed;
+  }
 
 
-	const use_full_url = true;
+  protected $_timer = null;
 
-	static $debug = false;
+  protected $db = false;
 
-	static function app() {
-		return ( self::$instance);
+  public $defaultController = null;
 
-	}
+  protected $minimum = false;
+  protected $service = false;
 
-	static function isService() {
-		if ( self::$instance)
-			return ( self::$instance->service);
 
-		return ( false);
+  const use_full_url = true;
 
-	}
+  static $debug = false;
 
-	static function Request() {
-		if ( is_null( self::$_request))
-			self::$_request = Request::get();
+  static function app() {
+    return (self::$instance);
+  }
 
-		return ( self::$_request);
+  static function isService() {
+    if (self::$instance)
+      return (self::$instance->service);
 
-	}
+    return (false);
+  }
 
-	static function route() {
-		// \sys::logger( sprintf('<%s> %s', self::$instance->_route, __METHOD__));
-		return self::$instance->_route;
+  static function Request() {
+    if (is_null(self::$_request))
+      self::$_request = Request::get();
 
-	}
+    return (self::$_request);
+  }
 
-	static function timer() {
-		if ( self::$instance) {
-			if ( self::$instance->_timer) {
-				return ( self::$instance->_timer);
+  static function route() {
+    // \sys::logger( sprintf('<%s> %s', self::$instance->_route, __METHOD__));
+    return self::$instance->_route;
+  }
 
-			}
+  static function timer() {
+    if (self::$instance) {
+      if (self::$instance->_timer) {
+        return (self::$instance->_timer);
+      }
+    }
 
-		}
+    return (new timer);
+  }
 
-		return ( new timer);
+  /**
+   * "Start" the application:
+   * Analyze the URL elements and calls the according controller/method or the fallback
+   */
+  public function __construct($rootPath) {
+    self::$instance = $this;
 
-	}
+    $this->rootPath = realpath($rootPath);
+    errsys::initiate(false);
+    // \sys::set_error_handler();
 
-	/**
-	* "Start" the application:
-	* Analyze the URL elements and calls the according controller/method or the fallback
-	*/
-	public function __construct( $rootPath ) {
-		self::$instance = $this;
+    $this->_timer = new timer;
 
-		$this->rootPath = realpath( $rootPath);
-		errsys::initiate( false );
-		// \sys::set_error_handler();
+    \config::initialize();  // this initializes config
 
-		$this->_timer = new timer;
+    if (self::$debug) \sys::logger(sprintf('rootpath :: %s', $this->rootPath));
 
-		\config::initialize();	// this initializes config
+    $tz = \config::$TIMEZONE;
+    $mailserver = \config::$MAILSERVER;
 
-		if ( self::$debug) \sys::logger( sprintf( 'rootpath :: %s', $this->rootPath ));
+    ini_set('date.timezone', $tz);
+    ini_set('SMTP', $mailserver);
 
-		$tz = \config::$TIMEZONE;
-		$mailserver = \config::$MAILSERVER;
-
-		ini_set ('date.timezone', $tz);
-		ini_set ('SMTP', $mailserver);
-
-		$_url = trim( self::Request()->getUrl(), '/. ');
-		if ( preg_match('/\.(png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml|html?)(\?.*)?$/i', $_url)) {
-		//~ if (preg_match('/\.(?:png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml|html?)(\?.*)?$/i', $_url)) {
-			/*
+    $_url = trim(self::Request()->getUrl(), '/. ');
+    if (preg_match('/\.(png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml|html?)(\?.*)?$/i', $_url)) {
+      //~ if (preg_match('/\.(?:png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml|html?)(\?.*)?$/i', $_url)) {
+      /*
 			 * You are only here because
 			 *	the file was not found in the <webroot>
 			 *	this may be a public document
 			 */
 
-			// remove the tail after ?
-			$_url = preg_replace( '@(\?.*)?$@', '', $_url);
+      // remove the tail after ?
+      $_url = preg_replace('@(\?.*)?$@', '', $_url);
 
-			// check for any .. in the string, which could lead to a parent folder
-			if ( strpos( $_url, '..') !== false)
-				throw new SecurityException;
+      // check for any .. in the string, which could lead to a parent folder
+      if (strpos($_url, '..') !== false)
+        throw new SecurityException;
 
-			// sanitize, noting that it may have / in the string, and that's ok because leading /. have been removed
-			$_url = preg_replace( '@[^a-zA-Z0-9\_\-\./]@', '', $_url);
+      // sanitize, noting that it may have / in the string, and that's ok because leading /. have been removed
+      $_url = preg_replace('@[^a-zA-Z0-9\_\-\./]@', '', $_url);
 
-			if ( $this->publicFile( $_url))
-				return;
+      if ($this->publicFile($_url))
+        return;
+    }
 
-		}
+    controller::application($this);
 
-		controller::application( $this);
+    $this->checkDB();
 
-		$this->checkDB();
+    if ($this->minimum) {
+      if (self::$debug) \sys::logger('exit: I am minimum');
+      return;  // job done
 
-		if ( $this->minimum) {
-			if ( self::$debug) \sys::logger( 'exit: I am minimum');
-			return;	// job done
+    }
 
-		}
+    $this->countVisit();
 
-		$this->countVisit();
+    $this->splitUrl();    // create array with URL parts in $url
 
-		$this->splitUrl();		// create array with URL parts in $url
-
-		/*
+    /*
 		 * example: if controller would be "car",
 		 * then this line would translate into: $this->car = new car();
 		 */
-		if ( is_null( $this->defaultController )) {
-			$this->defaultController = \config::$DEFAULT_CONTROLLER;
+    if (is_null($this->defaultController)) {
+      $this->defaultController = \config::$DEFAULT_CONTROLLER;
+    }
 
-		}
+    if (trim($this->url_controller == '')) {
+      $this->url_controller = $this->defaultController;
+    }
 
-		if ( trim( $this->url_controller == '' )) {
-			$this->url_controller = $this->defaultController;
+    if ($this->service) {
+      if (self::$debug) \sys::logger('exit: I am a service');
+      return;  // job done
 
-		}
+    }
 
-		if ( $this->service) {
-			if ( self::$debug) \sys::logger( 'exit: I am a service');
-			return;	// job done
+    if ($_route = \config::route($this->url_controller)) {
+      $this->_route = $this->url_controller;
+      $this->url_controller = $_route;
+    } else {
+      $this->_search_for_controller();
+      $this->_route = $this->url_controller;
+    }
 
-		}
-
-		if ( $_route = \config::route( $this->url_controller)) {
-			$this->_route = $this->url_controller;
-			$this->url_controller = $_route;
-
-		}
-		else {
-			$this->_search_for_controller();
-			$this->_route = $this->url_controller;
-
-		}
-
-		/*
+    /*
 		* Quiet Security - some actions are protected
 		* from outside calling, don't broadcast the error
 		*/
-		$_protectedActions = [
-			'__construct',
-			'__destruct',
-			'application',
-			'authorize',
-			'before',
-			'dbResult',
-			'dbEscape',
-			'getParam',
-			'hasView',
-			'getView',
-			'loadView',
-			'load',
-			'init',
-			'page',
-			'render',
-			'isPost',
-			'getPost',
-			'sql'
-		];
+    $_protectedActions = [
+      '__construct',
+      '__destruct',
+      'application',
+      'authorize',
+      'before',
+      'dbResult',
+      'dbEscape',
+      'getParam',
+      'hasView',
+      'getView',
+      'loadView',
+      'load',
+      'init',
+      'page',
+      'render',
+      'isPost',
+      'getPost',
+      'sql'
+    ];
 
-		if ( in_array( strtolower( $this->url_action), $_protectedActions)) {
-			\sys::logger( sprintf( 'protecting action %s => %s', $this->url_action, 'index'));
-			$this->url_action = 'index';
+    if (in_array(strtolower($this->url_action), $_protectedActions)) {
+      \sys::logger(sprintf('protecting action %s => %s', $this->url_action, 'index'));
+      $this->url_action = 'index';
+    }
 
-		}
-
-		self::Request()->setControllerName( $this->url_controller);
-		self::Request()->setActionName( (string)$this->url_action);
+    self::Request()->setControllerName($this->url_controller);
+    self::Request()->setActionName((string)$this->url_action);
 
 
-		$url_controller_name = $this->url_controller;
+    $url_controller_name = $this->url_controller;
 
-		$this->url_controller = new $this->url_controller( $this->rootPath );
-		$this->url_controller->name = $url_controller_name;
-		$this->url_controller->timer = $this->_timer;
+    $this->url_controller = new $this->url_controller($this->rootPath);
+    $this->url_controller->name = $url_controller_name;
+    $this->url_controller->timer = $this->_timer;
 
-		$this->url_controller->init( $url_controller_name);
+    $this->url_controller->init($url_controller_name);
 
-		/**
-		 * Between here and the end of this function the application will execute
-		 *
-		 * check for method: does such a method exist in the controller ?
-		 */
-		if ( method_exists($this->url_controller, $this->url_action)) {
+    /**
+     * Between here and the end of this function the application will execute
+     *
+     * check for method: does such a method exist in the controller ?
+     */
+    if (method_exists($this->url_controller, $this->url_action)) {
 
-			$this->url_served = sprintf( '%s%s%s/%s', \url::$PROTOCOL,
-				\url::$URL,
-				self::Request()->getControllerName(),
-				self::Request()->getActionName());
+      $this->url_served = sprintf(
+        '%s%s%s/%s',
+        \url::$PROTOCOL,
+        \url::$URL,
+        self::Request()->getControllerName(),
+        self::Request()->getActionName()
+      );
 
-			// call the method and pass the arguments to it
-			if (isset($this->url_parameter_3)) {
-				// will translate to something like $this->home->method($param_1, $param_2, $param_3);
-				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s, %s, %s)',
-					$this->url_controller->name,
-					$this->url_action,
-					$this->url_parameter_1,
-					$this->url_parameter_2,
-					$this->url_parameter_3));
+      // call the method and pass the arguments to it
+      if (isset($this->url_parameter_3)) {
+        // will translate to something like $this->home->method($param_1, $param_2, $param_3);
+        if (self::$debug) \sys::logger(sprintf(
+          '%s->{%s}(%s, %s, %s)',
+          $this->url_controller->name,
+          $this->url_action,
+          $this->url_parameter_1,
+          $this->url_parameter_2,
+          $this->url_parameter_3
+        ));
 
-				$this->url_controller->{$this->url_action}(
-					$this->url_parameter_1,
-					$this->url_parameter_2,
-					$this->url_parameter_3);
+        $this->url_controller->{$this->url_action}(
+          $this->url_parameter_1,
+          $this->url_parameter_2,
+          $this->url_parameter_3
+        );
+      } elseif (isset($this->url_parameter_2)) {
 
-			}
-			elseif (isset($this->url_parameter_2)) {
+        if (self::$debug) \sys::logger(sprintf(
+          '%s->{%s}(%s, %s)',
+          $this->url_controller->name,
+          $this->url_action,
+          $this->url_parameter_1,
+          $this->url_parameter_2
+        ));
 
-				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s, %s)',
-					$this->url_controller->name,
-					$this->url_action,
-					$this->url_parameter_1,
-					$this->url_parameter_2));
+        // will translate to something like $this->home->method($param_1, $param_2);
+        $this->url_controller->{$this->url_action}(
+          $this->url_parameter_1,
+          $this->url_parameter_2
+        );
+      } elseif (isset($this->url_parameter_1)) {
 
-				// will translate to something like $this->home->method($param_1, $param_2);
-				$this->url_controller->{$this->url_action}(
-					$this->url_parameter_1,
-					$this->url_parameter_2);
+        if (self::$debug) \sys::logger(sprintf(
+          '%s->{%s}(%s)',
+          $this->url_controller->name,
+          $this->url_action,
+          $this->url_parameter_1
+        ));
 
-			}
-			elseif (isset($this->url_parameter_1)) {
+        // will translate to something like $this->home->method($param_1);
+        $this->url_controller->{$this->url_action}($this->url_parameter_1);
+      } else {
+        if (self::$debug) \sys::logger(sprintf(
+          '%s->{%s}()',
+          $this->url_controller->name,
+          $this->url_action
+        ));
 
-				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}(%s)',
-					$this->url_controller->name,
-					$this->url_action,
-					$this->url_parameter_1));
+        /**
+         * if no parameters given, just call the
+         * method without parameters,
+         * like $this->home->method();
+         */
+        $this->url_controller->{$this->url_action}();
+      }
+    } else {
+      $this->url_served = sprintf('%s%s%s', \url::$PROTOCOL, \url::$URL, self::Request()->getControllerName());
 
-				// will translate to something like $this->home->method($param_1);
-				$this->url_controller->{$this->url_action}($this->url_parameter_1);
+      if (self::$debug) \sys::logger('fallback');
+      if (self::$debug) \sys::logger(sprintf('%s->index(%s)', $this->url_controller->name, $this->url_action));
 
-			}
-			else {
-				if ( self::$debug) \sys::logger( sprintf( '%s->{%s}()',
-					$this->url_controller->name,
-					$this->url_action));
+      $this->url_controller->index($this->url_action);
+    }
 
-				/**
-				 * if no parameters given, just call the
-				 * method without parameters,
-				 * like $this->home->method();
-				 */
-				$this->url_controller->{$this->url_action}();
+    $this->_app_executed = true;
+  }
 
-			}
+  public function __destruct() {
+    $debug = false;
+    // $debug = true;
 
-		}
-		else {
-			$this->url_served = sprintf( '%s%s%s', \url::$PROTOCOL, \url::$URL, self::Request()->getControllerName());
+    if ($this->app_executed()) {
+      if (\config::$SITEMAPS) {
+        $path = $this->return_url();
 
-			if ( self::$debug) \sys::logger( 'fallback');
-			if ( self::$debug) \sys::logger( sprintf( '%s->index(%s)', $this->url_controller->name, $this->url_action));
-
-			$this->url_controller->index( $this->url_action);
-
-		}
-
-		$this->_app_executed = true;
-
-	}
-
-	public function __destruct() {
-		$debug = false;
-		// $debug = true;
-
-		if ( $this->app_executed()) {
-			if ( \config::$SITEMAPS ) {
-				$path = $this->return_url();
-
-				try {
-					$dao = new \dao\sitemap;
-					if ( $dto = $dao->getbyPath( $path)) {
-						if ( $debug) \sys::logger( sprintf( 'found path : %s : %s', $path, __METHOD__));
+        try {
+          $dao = new \dao\sitemap;
+          if ($dto = $dao->getbyPath($path)) {
+            if ($debug) \sys::logger(sprintf('found path : %s : %s', $path, __METHOD__));
             $dao->UpdateByID(
-              [ 'visits' => $dto->visits + 1],
+              ['visits' => $dto->visits + 1],
               (int)$dto->id
 
             );
-
-					}
-					else {
-						if ( $debug) \sys::logger( sprintf( 'not found path : %s : %s', $path, __METHOD__));
-						$a = [
-							'path' => $path,
-							'visits' => 1,
-							'exclude_from_sitemap' => ((bool)$this->exclude_from_sitemap ? 1 : 0 )
-						];
-
-						$dao->Insert( $a);
-
-					}
-
-				}
-				catch ( \Exception $e) {
-					error_log( $e->getMessage());
-
-				}
-
-			}
-			else {
-				if ( $debug) \sys::logger( sprintf('<%s> %s', 'not enabled', __METHOD__));
-
-			}
-
-		}
-
-	}
-
-	protected function _search_for_controller() {
-		$controllerFile = $this->rootPath . '/controller/' . $this->url_controller . '.php';
-		/*---[ check for controller: does such a controller exist ? ]--- */
-
-		if ( !file_exists( $controllerFile)) {
-			$controllerFile = __DIR__ . '/../controller/' . $this->url_controller . '.php';	// is there a default controller for this action
-			if ( self::$debug) \sys::logger( 'checking for system default controller : ' . $controllerFile);
-
-		}
-
-		if ( !file_exists( $controllerFile)) {
-			$controllerFile = $this->rootPath . '/controller/' . $this->defaultController . '.php';			// invalid URL, so show home/index
-			if ( !file_exists( $controllerFile)) {
-				$controllerFile = $this->rootPath . '/controller/' . \config::$DEFAULT_CONTROLLER . '.php';	// invalid URL, so home/index
-				if ( !file_exists( $controllerFile)) {
-					$controllerFile = __DIR__ . '/../controller/' . \config::$DEFAULT_CONTROLLER . '.php';	// invalid URL, so system home/index
-					if ( self::$debug) \sys::logger( 'checking for system default controller (deep)');
-
-				}
-				else {
-					if ( self::$debug) \sys::logger( 'default controller');
-
-				}
-
-			}
-			else {
-				if ( self::$debug) \sys::logger( 'default controller');
-
-			}
-
-			if ( $this->url_controller != '' ) {
-				if ( self::$debug) \sys::logger( 'bumped controller => action');
-				$this->url_parameter_3 = $this->url_parameter_2;
-				$this->url_parameter_2 = $this->url_parameter_1;
-				$this->url_parameter_1 = $this->url_action;
-				$this->url_action = $this->url_controller;	// bump
-
-			}
-			$this->url_controller = $this->defaultController;
-
-		}
-
-		if ( !file_exists( $controllerFile)) {
-			throw new CannotLocateController;
-
-		}
-
-		require $controllerFile;
-
-	}
-
-	protected function checkDB() {
-		/**
-		 * checkDB is called during __construct
-		 *
-		 * use this method to run database checks
-		 *
-		 */
-
-	}
-
-	protected function publicFile( $_url) {
-		if ( !$_url) return false;
-
-		$_file = sprintf( '%s/app/public/%s', $this->rootPath, $_url);
-		if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
-		if ( file_exists( $_file)) {
-			$this->url_served = \url::$PROTOCOL . \url::$URL . self::Request()->getUrl();
-			$this->serve( $_file);
-			return true;
-
-		}
-
-		$_file = sprintf( '%s/public/%s', $this->rootPath, $_url);
-		if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
-		if ( file_exists( $_file)) {
-			\sys::logger( sprintf( 'DEPRECATED FILE LOCATION :: %s', $_file));
-			\sys::logger( sprintf( 'Please use app/public :: %s', $_file));
-			$this->url_served = \url::$PROTOCOL . \url::$URL . self::Request()->getUrl();
-			$this->serve( $_file);
-			return true;
-
-		}
-
-		/* this is a system level document - this is the core distribution javascript */
-		$_file = sprintf( '%s/../public/%s', __DIR__, $_url);
-		if ( self::$debug) \sys::logger( sprintf( 'looking for :: %s', $_file));
-		if ( file_exists( $_file)) {
-			$this->url_served = \url::$PROTOCOL . \url::$URL . self::Request()->getUrl();
-			$this->serve( $_file);
-			return true;
-
-		}
-
-	}
-
-	protected function serve( $path ) {
-		if ( self::$debug) \sys::$debug = true;
-		\sys::serve( $path);
-
-		return $this;
-
-	}
-
-	protected function splitUrl() {
-		/**
-		* Get and split the URL
-		*/
-		$url = self::Request()->getUrl();
-		if ( self::Request()->ReWriteBase() != '' && '/' . $url == self::Request()->ReWriteBase()) {
-			if ( self::$debug) \sys::logger( sprintf( 'ReWriteBase = %s', Request::get()->ReWriteBase()));
-			$url = '';
-
-		}
-
-		if ( $url != "" ) {
-			if ( self::$debug) \sys::logger( 'Url: ' . $url);
-
-			// split URL
-			$url = self::Request()->getSegments();
-
-			// Put URL parts into according properties
-			$this->url_controller = self::Request()->getSegment(0);
-			$this->url_action = self::Request()->getSegment(1);
-			$this->url_parameter_1 = self::Request()->getSegment(2);
-			$this->url_parameter_2 = self::Request()->getSegment(3);
-			$this->url_parameter_3 = self::Request()->getSegment(4);
-
-			// turn debug on if you have problems with the URL
-			if ( self::$debug) \sys::logger( 'Controller: ' . $this->url_controller);
-			if ( self::$debug) \sys::logger( 'Action: ' . $this->url_action);
-			if ( self::$debug) \sys::logger( 'Parameter 1: ' . $this->url_parameter_1);
-			if ( self::$debug) \sys::logger( 'Parameter 2: ' . $this->url_parameter_2);
-			if ( self::$debug) \sys::logger( 'Parameter 3: ' . $this->url_parameter_3);
-
-		}
-
-		return $this;
-
-	}
-
-	public function action() {
-		return self::Request()->getActionName();
-
-	}
-
-	public function addPath( $path) {
-		$this->paths[] = $path;
-
-	}
-
-	public function controller() {
-		if ( is_string( $this->url_controller))
-			return ( $this->url_controller );
-
-		elseif ( isset( $this->url_controller))
-			return ( $this->url_controller->name );
-
-		return '';
-
-	}
-
-	public function countVisit() {
-		/**
-		 * countVisit is called during __construct
-		 *
-		 * use this method to gather statistics
-		 *
-		 */
-
-	}
-
-	public function dbi() {
-		return \sys::dbi();
-
-	}
-
-	public function getPaths() {
-		return $this->paths;
-
-	}
-
-	public function getRootPath() {
-		return isset( $this )  ?
-			$this->rootPath :
-			self::app()->getRootPath();
-
-	}
-
-	public function getInstallPath() {
-		return ( realpath( __DIR__ . '/../../'));	// parent of parent
-
-	}
-
-	public function return_url() {
-		return ( $this->url_served);
-
-	}
-
-	static function run( $dir = null ) {
-		if ( is_null( $dir)) {
-			if ( method_exists( '\application', 'startDir')) {
-				$app = new \application( \application::startDir());
-
-			}
-			else {
-				throw new MissingRootPath;
-
-			}
-
-		}
-		else {
-			$app = new application( $dir );
-
-		}
-
-	}
-
+          } else {
+            if ($debug) \sys::logger(sprintf('not found path : %s : %s', $path, __METHOD__));
+            $a = [
+              'path' => $path,
+              'visits' => 1,
+              'exclude_from_sitemap' => ((bool)$this->exclude_from_sitemap ? 1 : 0)
+            ];
+
+            $dao->Insert($a);
+          }
+        } catch (\Exception $e) {
+          error_log($e->getMessage());
+        }
+      } else {
+        if ($debug) \sys::logger(sprintf('<%s> %s', 'not enabled', __METHOD__));
+      }
+    }
+  }
+
+  protected function _search_for_controller() {
+    $controllerFile = $this->rootPath . '/controller/' . $this->url_controller . '.php';
+    /*---[ check for controller: does such a controller exist ? ]--- */
+
+    if (!file_exists($controllerFile)) {
+      $controllerFile = __DIR__ . '/../controller/' . $this->url_controller . '.php';  // is there a default controller for this action
+      if (self::$debug) \sys::logger('checking for system default controller : ' . $controllerFile);
+    }
+
+    if (!file_exists($controllerFile)) {
+      $controllerFile = $this->rootPath . '/controller/' . $this->defaultController . '.php';      // invalid URL, so show home/index
+      if (!file_exists($controllerFile)) {
+        $controllerFile = $this->rootPath . '/controller/' . \config::$DEFAULT_CONTROLLER . '.php';  // invalid URL, so home/index
+        if (!file_exists($controllerFile)) {
+          $controllerFile = __DIR__ . '/../controller/' . \config::$DEFAULT_CONTROLLER . '.php';  // invalid URL, so system home/index
+          if (self::$debug) \sys::logger('checking for system default controller (deep)');
+        } else {
+          if (self::$debug) \sys::logger('default controller');
+        }
+      } else {
+        if (self::$debug) \sys::logger('default controller');
+      }
+
+      if ($this->url_controller != '') {
+        if (self::$debug) \sys::logger('bumped controller => action');
+        $this->url_parameter_3 = $this->url_parameter_2;
+        $this->url_parameter_2 = $this->url_parameter_1;
+        $this->url_parameter_1 = $this->url_action;
+        $this->url_action = $this->url_controller;  // bump
+
+      }
+      $this->url_controller = $this->defaultController;
+    }
+
+    if (!file_exists($controllerFile)) {
+      throw new CannotLocateController;
+    }
+
+    require $controllerFile;
+  }
+
+  protected function checkDB() {
+    /**
+     * checkDB is called during __construct
+     *
+     * use this method to run database checks
+     *
+     */
+  }
+
+  protected function publicFile($_url) {
+    if (!$_url) return false;
+
+    $_file = sprintf('%s/app/public/%s', $this->rootPath, $_url);
+    if (self::$debug) \sys::logger(sprintf('looking for :: %s', $_file));
+    if (file_exists($_file)) {
+      $this->url_served = \url::$PROTOCOL . \url::$URL . self::Request()->getUrl();
+      $this->serve($_file);
+      return true;
+    }
+
+    $_file = sprintf('%s/public/%s', $this->rootPath, $_url);
+    if (self::$debug) \sys::logger(sprintf('looking for :: %s', $_file));
+    if (file_exists($_file)) {
+      \sys::logger(sprintf('DEPRECATED FILE LOCATION :: %s', $_file));
+      \sys::logger(sprintf('Please use app/public :: %s', $_file));
+      $this->url_served = \url::$PROTOCOL . \url::$URL . self::Request()->getUrl();
+      $this->serve($_file);
+      return true;
+    }
+
+    /* this is a system level document - this is the core distribution javascript */
+    $_file = sprintf('%s/../public/%s', __DIR__, $_url);
+    if (self::$debug) \sys::logger(sprintf('looking for :: %s', $_file));
+    if (file_exists($_file)) {
+      $this->url_served = \url::$PROTOCOL . \url::$URL . self::Request()->getUrl();
+      $this->serve($_file);
+      return true;
+    }
+  }
+
+  protected function serve($path) {
+    if (self::$debug) \sys::$debug = true;
+    \sys::serve($path);
+
+    return $this;
+  }
+
+  protected function splitUrl() {
+    /**
+     * Get and split the URL
+     */
+    $url = self::Request()->getUrl();
+    if (self::Request()->ReWriteBase() != '' && '/' . $url == self::Request()->ReWriteBase()) {
+      if (self::$debug) \sys::logger(sprintf('ReWriteBase = %s', Request::get()->ReWriteBase()));
+      $url = '';
+    }
+
+    if ($url != "") {
+      if (self::$debug) \sys::logger('Url: ' . $url);
+
+      // split URL
+      $url = self::Request()->getSegments();
+
+      // Put URL parts into according properties
+      $this->url_controller = self::Request()->getSegment(0);
+      $this->url_action = self::Request()->getSegment(1);
+      $this->url_parameter_1 = self::Request()->getSegment(2);
+      $this->url_parameter_2 = self::Request()->getSegment(3);
+      $this->url_parameter_3 = self::Request()->getSegment(4);
+
+      // turn debug on if you have problems with the URL
+      if (self::$debug) \sys::logger('Controller: ' . $this->url_controller);
+      if (self::$debug) \sys::logger('Action: ' . $this->url_action);
+      if (self::$debug) \sys::logger('Parameter 1: ' . $this->url_parameter_1);
+      if (self::$debug) \sys::logger('Parameter 2: ' . $this->url_parameter_2);
+      if (self::$debug) \sys::logger('Parameter 3: ' . $this->url_parameter_3);
+    }
+
+    return $this;
+  }
+
+  public function action() {
+    return self::Request()->getActionName();
+  }
+
+  public function addPath($path) {
+    $this->paths[] = $path;
+  }
+
+  public function controller() {
+    if (is_string($this->url_controller))
+      return ($this->url_controller);
+
+    elseif (isset($this->url_controller))
+      return ($this->url_controller->name);
+
+    return '';
+  }
+
+  public function countVisit() {
+    /**
+     * countVisit is called during __construct
+     *
+     * use this method to gather statistics
+     *
+     */
+  }
+
+  public function dbi() {
+    return \sys::dbi();
+  }
+
+  public function getPaths() {
+    return $this->paths;
+  }
+
+  public function getRootPath() {
+    return isset($this)  ?
+      $this->rootPath :
+      self::app()->getRootPath();
+  }
+
+  public function getInstallPath() {
+    return (realpath(__DIR__ . '/../../'));  // parent of parent
+
+  }
+
+  public function return_url() {
+    return ($this->url_served);
+  }
+
+  static function run($dir = null) {
+    utility::load_dvc_autoloader_fallback();
+
+    if (is_null($dir)) {
+      if (method_exists('\application', 'startDir')) {
+        $app = new \application(\application::startDir());
+      } else {
+        throw new MissingRootPath;
+      }
+    } else {
+      $app = new application($dir);
+    }
+  }
 }

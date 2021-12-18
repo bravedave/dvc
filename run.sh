@@ -18,7 +18,7 @@ if [[ "" == $apache ]]; then
   cd $WD
 
 else
-  data="`pwd`/tests/application/data"
+  data="`pwd`/tests/data"
   error_log="$data/error.log"
   access_log="$data/access.log"
   config="$data/httpd.conf"
