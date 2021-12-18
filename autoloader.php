@@ -9,7 +9,7 @@
 */
 
 include_once __DIR__ . '/src/dvc/utility.php';
-dvc\utility::load_dvc_autoloader_fallback();
+dvc\core\application::load_dvc_autoloader_fallback();
 
 // spl_autoload_register( function ($class) {
 // 	if ( $lib = realpath( implode([

@@ -58,32 +58,4 @@ abstract class utility {
 
 	}
 
-  protected static $_loaded_fallback = false;
-  static function load_dvc_autoloader_fallback() {
-    if ( !self::$_loaded_fallback) {
-
-      self::$_loaded_fallback = true;
-
-      spl_autoload_register(function ($class) {
-        if ($lib = realpath(implode([
-          __DIR__,
-          DIRECTORY_SEPARATOR,
-          '..',
-          DIRECTORY_SEPARATOR,
-          str_replace('\\', '/', $class),
-          '.php'
-
-        ]))) {
-
-          include_once $lib;
-          core\load::logger(sprintf('lib: %s', $lib));
-          return (true);
-        }
-        return (false);
-      });
-
-    }
-
-  }
-
 }

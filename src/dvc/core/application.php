@@ -517,9 +517,33 @@ class application {
     return ($this->url_served);
   }
 
-  static function run($dir = null) {
-    utility::load_dvc_autoloader_fallback();
+  protected static $_loaded_fallback = false;
+  static function load_dvc_autoloader_fallback() {
+    if (!self::$_loaded_fallback) {
 
+      self::$_loaded_fallback = true;
+
+      spl_autoload_register(function ($class) {
+        if ($lib = realpath(implode([
+          __DIR__,
+          DIRECTORY_SEPARATOR,
+          '..',
+          DIRECTORY_SEPARATOR,
+          str_replace('\\', '/', $class),
+          '.php'
+
+        ]))) {
+
+          include_once $lib;
+          load::logger(sprintf('lib: %s', $lib));
+          return (true);
+        }
+        return (false);
+      });
+    }
+  }
+
+  static function run($dir = null) {
     if (is_null($dir)) {
       if (method_exists('\application', 'startDir')) {
         $app = new \application(\application::startDir());
@@ -531,3 +555,5 @@ class application {
     }
   }
 }
+
+application::load_dvc_autoloader_fallback();
