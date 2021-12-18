@@ -33,7 +33,7 @@ abstract class sys {
     return '';
   }
 
-  public static function bootStrap_verion(): \stdClass {
+  public static function bootStrap_version(): \stdClass {
     $ret = (object)[
       'version' => 0,
       'short' => 0,

@@ -19,7 +19,7 @@ if (preg_match('/\.(?:png|ico|jpg|jpeg|gif|css|js)$/', $_SERVER['REQUEST_URI']))
 }
 
 // load the autoloader
-require __DIR__ . '/../application/autoloader.php';
+require __DIR__ . '/../application/autoload.php';
 
 // run the application
 application::run();

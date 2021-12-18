@@ -14,96 +14,78 @@ use strings, dvc\Exceptions\InvalidBootstrapVersion;
 
 class bootstrap extends page {
 
-	static $SCALE = 1;
+  static $SCALE = 1;
 
-	static $contentClass = 'col pt-3 pb-4';
-	static $primaryClass = 'col-md-9 pt-3 pb-4 d-print-w100';
-	static $secondaryClass = 'col-md-3 pt-3 pb-4 d-print-none';
+  static $contentClass = 'col pt-3 pb-4';
+  static $primaryClass = 'col-md-9 pt-3 pb-4 d-print-w100';
+  static $secondaryClass = 'col-md-3 pt-3 pb-4 d-print-none';
 
-	function __construct( $title = '' ) {
+  function __construct($title = '') {
 
-		parent::$pageContainer = self::$pageContainer;
-		self::$BootStrap = true;
-		if ( self::$Bootstrap_Version == '3') {
-			$this->jQuery2 = true;
+    parent::$pageContainer = self::$pageContainer;
+    self::$BootStrap = true;
+    if (self::$Bootstrap_Version == '3') {
+      $this->jQuery2 = true;
+    } elseif (self::$Bootstrap_Version == '4' && $this->dvc) {
+      $this->dvc = '4';
+    } elseif (self::$Bootstrap_Version == '5' && $this->dvc) {
+      $this->dvc = '4';
+    }
 
-		}
-		elseif ( self::$Bootstrap_Version == '4' && $this->dvc) {
-			$this->dvc = '4';
+    parent::__construct($title);
+    if (!self::$pageContainer) {
+      self::$pageContainer = 'container-fluid pb-2';
+    }
 
-		}
-		elseif ( self::$Bootstrap_Version == '5' && $this->dvc) {
-			$this->dvc = '4';
+    $this->meta[] = sprintf('<meta name="viewport" content="width=device-width, initial-scale=%s, shrink-to-fit=no" />', self::$SCALE);
 
-		}
+    if (self::$Bootstrap_Version == '3') {
+      $css = strings::url('bootstrap.3/css/bootstrap.min.css');
+      $js = strings::url('bootstrap.3/js/bootstrap.min.js');
 
-		parent::__construct( $title );
-		if ( !self::$pageContainer) {
-			self::$pageContainer = 'container-fluid pb-2';
+      array_unshift($this->css, sprintf('<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
 
-		}
+      $this->latescripts[] = sprintf('<script type="text/javascript" src="%s"></script>', $js);
+    } elseif (self::$Bootstrap_Version == '4') {
+      $css = strings::url('assets/bootstrap/css');
+      $icons = strings::url('assets/bootstrap/icons');
+      $js = strings::url('assets/bootstrap/js');
 
-		$this->meta[] = sprintf('<meta name="viewport" content="width=device-width, initial-scale=%s, shrink-to-fit=no" />', self::$SCALE);
+      array_unshift($this->css, sprintf('<link type="text/css" rel="stylesheet" media="all" href="%s" />', $icons));
+      array_unshift($this->css, sprintf('<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
 
-		if ( self::$Bootstrap_Version == '3') {
-			$css = strings::url( 'bootstrap.3/css/bootstrap.min.css');
-			$js = strings::url( 'bootstrap.3/js/bootstrap.min.js');
+      $this->latescripts[] = sprintf('<script type="text/javascript" src="%s"></script>', $js);
+    } elseif (self::$Bootstrap_Version == '5') {
+      $css = strings::url('assets/bootstrap/css/5');
+      $polyfill = strings::url('assets/bootstrap/polyfill/5');
+      $icons = strings::url('assets/bootstrap/icons');
+      $js = strings::url('assets/bootstrap/js/5');
 
-			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
+      array_unshift($this->css, sprintf('<link type="text/css" rel="stylesheet" media="all" href="%s" />', $icons));
+      array_unshift($this->css, sprintf('<link type="text/css" rel="stylesheet" media="all" href="%s" />', $polyfill));
+      array_unshift($this->css, sprintf('<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
 
-			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
+      $this->latescripts[] = sprintf('<script type="text/javascript" src="%s"></script>', $js);
+    } else {
+      throw new InvalidBootstrapVersion;
+    }
+  }
 
-		}
-		elseif ( self::$Bootstrap_Version == '4') {
-			$css = strings::url( 'assets/bootstrap/css');
-			$icons = strings::url( 'assets/bootstrap/icons');
-			$js = strings::url( 'assets/bootstrap/js');
+  public function content($class = null, $more = null) {
+    if (is_null($class))
+      $class = self::$contentClass;
 
-			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $icons));
-			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
+    return (parent::content($class, $more));  // chain
 
-			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
+  }
 
-		}
-		elseif ( self::$Bootstrap_Version == '5') {
-			$css = strings::url( 'assets/bootstrap/css/5');
-			$polyfill = strings::url( 'assets/bootstrap/polyfill/5');
-			$icons = strings::url( 'assets/bootstrap/icons');
-			$js = strings::url( 'assets/bootstrap/js/5');
+  public function primary($class = null, $more = null, $tag = null) {
+    return (parent::primary($class ?? self::$primaryClass, $more, $tag));  // chain
 
-			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $icons));
-			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $polyfill));
-			array_unshift( $this->css, sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css));
+  }
 
-			$this->latescripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', $js);
+  public function secondary($class = null, $more = null, $tag = null) {
+    return (parent::secondary($class ?? self::$secondaryClass, $more, $tag));  // chain
 
-		}
-		else { throw new InvalidBootstrapVersion; }
-
-	}
-
-	public function content( $class = null, $more = null) {
-		if ( is_null( $class))
-			$class = self::$contentClass;
-
-		return ( parent::content( $class, $more));	// chain
-
-	}
-
-	public function primary( $class = null, $more = null) {
-		if ( is_null( $class))
-			$class = self::$primaryClass;
-
-		return ( parent::primary( $class, $more));	// chain
-
-	}
-
-	public function secondary( $class = null, $more = null) {
-		if ( is_null( $class))
-			$class =  self::$secondaryClass;
-
-		return ( parent::secondary( $class, $more));	// chain
-
-	}
-
+  }
 }

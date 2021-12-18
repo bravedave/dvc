@@ -24,6 +24,9 @@ else
   config="$data/httpd.conf"
   pidFile="$data/httpd.pid"
 
+  [[ -d $data ]] || mkdir -p $data
+  [[ -d $data ]] || exit 0
+
   if [ "$1" == "kill" ]; then
     if [[ -f $pidFile ]]; then
       kill `cat $pidFile`
@@ -60,9 +63,9 @@ else
         -f $config \
         -c "Listen $PORT" \
         -c "PidFile $data/httpd.pid"
-      tail -f $data/error.log
 
     fi
+    tail -f $data/error.log
 
   fi
 

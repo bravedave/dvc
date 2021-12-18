@@ -17,14 +17,22 @@ use dvc\core\bs;
 
 class bootstrap5 extends bootstrap {
 
-	function __construct( $title = '' ) {
+  function __construct($title = '') {
     bs::$VERSION = \config::$BOOTSTRAP_VERSION = '5';
-		self::$Bootstrap_Version = '5';
+    self::$Bootstrap_Version = '5';
 
-		parent::__construct( $title );
+    parent::__construct($title);
 
-		$this->topOfPage = [];
+    $this->topOfPage = [];
+  }
 
-	}
+  public function primary($class = null, $more = null, $tag = 'main') {
+    return (parent::primary($class, $more, $tag));  // chain
 
+  }
+
+  public function secondary($class = null, $more = null, $tag = 'aside') {
+    return (parent::secondary($class, $more, $tag));  // chain
+
+  }
 }

@@ -11,99 +11,86 @@
 namespace dvc\pages;
 
 class page extends _page {
-	public $timer = null;
+  public $timer = null;
 
-	protected $boolOpen = false;
+  protected $boolOpen = false;
 
-	static public $Bootstrap_Version = '3';
+  static public $Bootstrap_Version = '3';
 
-	static public $BootStrap = false;
+  static public $BootStrap = false;
   static public $pageContainer = '';
   static public $pageContentTag = 'div';
 
-	protected static $developer = false;
-	protected $topOfPage = [];
+  protected static $developer = false;
+  protected $topOfPage = [];
 
-	function __construct( $title = '' ) {
+  function __construct($title = '') {
 
-		parent::__construct( $title);
+    parent::__construct($title);
 
-		$this->meta[] = '<meta name="page-constructor" content="_default" />';
-		$this->topOfPage[] = '	<div id="top-of-page"></div>';
+    $this->meta[] = '<meta name="page-constructor" content="_default" />';
+    $this->topOfPage[] = '	<div id="top-of-page"></div>';
 
-		$aCss = [ 'custom'];
-		if ( \application::app()) {
-			$aCss[] = \application::app()->controller();
+    $aCss = ['custom'];
+    if (\application::app()) {
+      $aCss[] = \application::app()->controller();
+    }
 
-		}
+    foreach ($aCss as $cssFile) {
+      if (file_exists($_file = realpath('.') . '/css/' . $cssFile . '.css')) {
+        $modtime = filemtime($_file);
+        $this->css[] = sprintf('<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring(sprintf('css/%s.css?v=%s', $cssFile, $modtime)));
+      } else {
+        if (file_exists($_file = \application::app()->getRootPath() . '/app/public/css/' . $cssFile . '.css')) {
+          $modtime = filemtime($_file);
+          $this->css[] = sprintf('<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring(sprintf('css/%s.css?v=%s', $cssFile, $modtime)));
+        }
+      }
+    }
+  }
 
-		foreach ( $aCss as $cssFile) {
-			if ( file_exists( $_file = realpath( '.' ) . '/css/' . $cssFile . '.css' )) {
-				$modtime = filemtime( $_file);
-				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( sprintf( 'css/%s.css?v=%s', $cssFile, $modtime)));
+  public function closeHeader() {
+    if ($this->headerOPEN) {
 
-			}
-			else {
-				if ( file_exists( $_file = \application::app()->getRootPath() . '/app/public/css/' . $cssFile . '.css' )) {
-					$modtime = filemtime( $_file);
-					$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \url::tostring( sprintf( 'css/%s.css?v=%s', $cssFile, $modtime )));
+      $this->headerOPEN = false;
 
-				}
+      printf('%s</head>%s', PHP_EOL, PHP_EOL);
 
-			}
-
-		}
-
-	}
-
-	public function closeHeader() {
-		if ( $this->headerOPEN) {
-
-			$this->headerOPEN = false;
-
-			printf( '%s</head>%s', PHP_EOL, PHP_EOL);
-
-			/* this is a bit legacy-ish
+      /* this is a bit legacy-ish
 				originally closeheader opened the page */
-			$this->pageHeader();
+      $this->pageHeader();
+    }
 
-		}
+    return ($this);
+  }
 
-		return ( $this);
+  public function pageHeader() {
+    if ($this->boolpageHeader)
+      return ($this);
 
-	}
+    $ret = parent::pageHeader();
+    foreach ($this->topOfPage as $s) {
+      print $s . PHP_EOL;
+    }
 
-	public function pageHeader() {
-		if ( $this->boolpageHeader )
-			return ( $this);
+    return ($ret);
+  }
 
-		$ret = parent::pageHeader();
-		foreach ( $this->topOfPage as $s) {
-			print $s . PHP_EOL;
+  public function title($navbar = '') {
+    if (!$navbar) {
+      $navbar = 'navbar-default';
+    }
 
-		}
+    return (parent::title($navbar));
+  }
 
-		return ( $ret);
+  protected function openContent() {
+    if (!$this->contentOPEN) {
+      $this->contextmenu();
 
-	}
+      if (self::$BootStrap) {
 
-	public function title( $navbar = '') {
-		if ( !$navbar) {
-			$navbar = 'navbar-default';
-
-		}
-
-		return ( parent::title( $navbar));
-
-	}
-
-	protected function openContent() {
-		if ( !$this->contentOPEN ) {
-			$this->contextmenu();
-
-			if ( self::$BootStrap) {
-
-				$this->closeContentTags[] = sprintf(
+        $this->closeContentTags[] = sprintf(
           '</div></%s>%s<!-- /_page:Main Content Area -->%s',
           self::$pageContentTag,
           PHP_EOL,
@@ -111,28 +98,25 @@ class page extends _page {
 
         );
 
-				$classes = [];
+        $classes = [];
 
-				if ( (int)self::$Bootstrap_Version == 3) $classes[] = 'main-content-wrapper';
+        if ((int)self::$Bootstrap_Version == 3) $classes[] = 'main-content-wrapper';
 
-				if ( self::$pageContainer) {
-					$classes[] = self::$pageContainer;
+        if (self::$pageContainer) {
+          $classes[] = self::$pageContainer;
+        }
 
-				}
-
-				if ( $this->hasTitleBar && (int)self::$Bootstrap_Version == 3) $classes[] = 'with-nav-bar';
+        if ($this->hasTitleBar && (int)self::$Bootstrap_Version == 3) $classes[] = 'with-nav-bar';
 
         print '<!-- _page:Main Content Area -->' . PHP_EOL;
         printf(
           '<%s class="%s" data-role="main-content-wrapper"><div class="row">%s',
           self::$pageContentTag,
-          implode( ' ', $classes),
+          implode(' ', $classes),
           PHP_EOL
 
         );
-
-			}
-			else {
+      } else {
 
         $this->closeContentTags[] = sprintf(
           '	</%s><!-- /_page:Main Content Area -->%s',
@@ -141,90 +125,76 @@ class page extends _page {
 
         );
 
-				$classes = ['main-content-wrapper'];
-				if ( $this->hasTitleBar) {
-					$classes[] = 'with-nav-bar';
+        $classes = ['main-content-wrapper'];
+        if ($this->hasTitleBar) {
+          $classes[] = 'with-nav-bar';
+        }
 
-				}
-
-				printf(
+        printf(
           '%s%s	<%s class="%s" data-role="main-content-wrapper"><!-- _page:Main Content Area -->%s',
           PHP_EOL,
           PHP_EOL,
           self::$pageContentTag,
-          implode( ' ', $classes),
+          implode(' ', $classes),
           PHP_EOL
 
         );
+      }
 
-			}
+      $this->contentOPEN = TRUE;
+    }
 
-			$this->contentOPEN = TRUE;
+    return ($this);
+  }
 
-		}
+  public function content($class = null, $more = null) {
+    if (is_null($class)) $class = 'content';
 
-		return ( $this);
+    $this
+      ->header()
+      ->closeSection()
+      ->openContent()
+      ->section('content', $class, 'content', $more);
 
-	}
+    return ($this);  // chain
 
-	public function content( $class = null, $more = null) {
-		if ( is_null( $class)) $class = 'content';
+  }
 
-		$this
-			->header()
-			->closeSection()
-			->openContent()
-			->section( 'content', $class, 'content', $more);
+  public function primary($class = null, $more = null, $tag = null) {
+    $this
+      ->header()
+      ->closeSection()
+      ->openContent()
+      ->section('content-primary', $class ?? 'content-primary', 'content-primary', $more, $tag);
 
-		return ( $this);	// chain
+    return ($this);  // chain
 
-	}
+  }
 
-	public function primary( $class = null, $more = null) {
-		if ( is_null( $class)) {
-			$class = 'content-primary';
+  public function secondary($class = null, $more = null, $tag = null) {
+    $this
+      ->header()
+      ->closeSection()
+      ->openContent()
+      ->section('content-secondary', $class ?? 'content-secondary', 'content-secondary', $more, $tag);
 
-		}
+    return ($this);  // chain
 
-		$this
-			->header()
-			->closeSection()
-			->openContent()
-			->section( 'content-primary', $class, 'content-primary', $more);
+  }
 
-		return ( $this);	// chain
+  public function pagefooter() {
+    $this->_pagefooter();
 
-	}
+    if ('' == self::$footerTemplate) {
+      self::$footerTemplate = 'footer';
+    }
 
-	public function secondary( $class= null, $more = null) {
-		if ( is_null( $class)) {
-			$class = 'content-secondary';
+    return (parent::pagefooter());  // chain
 
-		}
+  }
 
-		$this
-			->header()
-			->closeSection()
-			->openContent()
-			->section( 'content-secondary', $class, 'content-secondary', $more);
-
-		return ( $this);	// chain
-
-	}
-
-	public function pagefooter() {
-		$this->_pagefooter();
-
-		if ( '' == self::$footerTemplate) {
-			self::$footerTemplate = 'footer';
-
-		}
-
-		return ( parent::pagefooter());	// chain
-
-	}
-
-	public function menu() {}
-	public function contextmenu() {}
-
+  public function menu() {
+  }
+  public function contextmenu() {
+  }
 }

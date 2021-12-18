@@ -23,7 +23,7 @@ if (!window._brayworth_)
   };
 
   _.bootstrap_version = () => {
-    if ('undefined' != typeof bootstrap) {
+    if (undefined != window.bootstrap) {
       if (!!bootstrap.Alert) {
         if (/^5/.test(bootstrap.Alert.VERSION)) {
           return 5;
@@ -37,6 +37,19 @@ if (!window._brayworth_)
           return 3;
 
         }
+
+      }
+
+    }
+
+    return 0;
+
+  };
+
+  _.bootstrap_version.extended = () => {
+    if (undefined != window.bootstrap) {
+      if (!!bootstrap.Alert) {
+        return bootstrap.Alert.VERSION;
 
       }
 

@@ -14,281 +14,270 @@ use config;
 use dvc\cssmin;
 
 class _page {
-	protected $boolHeader = false,
-		$boolpageHeader = false,
-		$headerOPEN = false,
-		$contentOPEN = false,
-		$sectionOPEN = false,
-		$sectionNAME = '',
-		$hasTitleBar = false,
-		$dvc = '3';
+  protected $boolHeader = false,
+    $boolpageHeader = false,
+    $headerOPEN = false,
+    $contentOPEN = false,
+    $sectionOPEN = false,
+    $sectionNAME = '',
+    $sectionTAG = 'div',
+    $hasTitleBar = false,
+    $dvc = '3';
 
-	public $title = '';
-	public $data = false;
-	public $charset = false;
+  public $title = '';
+  public $data = false;
+  public $charset = false;
 
-	public $meta = [],
-		$scripts = [],
-		$latescripts = [],
-		$css = [],
-		$closeTags = [],
-		$closeContentTags = [],
-		$footer = true,
-		$bodyClass = false,
-		$debug = false,
-		$jQuery2 = false;
+  public $meta = [],
+    $scripts = [],
+    $latescripts = [],
+    $css = [],
+    $closeTags = [],
+    $closeContentTags = [],
+    $footer = true,
+    $bodyClass = false,
+    $debug = false,
+    $jQuery2 = false;
 
-	static $docType = false;
+  static $docType = false;
 
-	static $momentJS = false;	// load momentJS sources
-	static $FullCalendar = false;	// load fullCalendar sources, set to 4 for version 4
-	static $footerTemplate = '';
+  static $momentJS = false;  // load momentJS sources
+  static $FullCalendar = false;  // load fullCalendar sources, set to 4 for version 4
+  static $footerTemplate = '';
 
-	function __construct( $title = '' ) {
-		$this->data = (object)['title' => ''];
+  function __construct($title = '') {
+    $this->data = (object)['title' => ''];
 
-		$this->data->title = $this->title = ( $title == '' ? config::$WEBNAME : $title );
+    $this->data->title = $this->title = ($title == '' ? config::$WEBNAME : $title);
 
-		// $this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />';
-		$this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
+    // $this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />';
+    $this->meta[] = '<meta http-equiv="Content-Language" content="en" />';
 
-		if ( \userAgent::isLegacyIE()) {
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'js/jquery-1.11.3.min.js'));
+    if (\userAgent::isLegacyIE()) {
+      $this->scripts[] = sprintf('<script type="text/javascript" src="%s"></script>', \strings::url('js/jquery-1.11.3.min.js'));
+    } elseif ($this->jQuery2) {
+      $this->scripts[] = sprintf('<script type="text/javascript" src="%s"></script>', \strings::url('js/jquery-2.2.4.min.js'));
+    } else {
+      $this->scripts[] = sprintf('<script type="text/javascript" src="%s"></script>', \strings::url('assets/jquery'));
+    }
 
-		}
-		elseif ( $this->jQuery2) {
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'js/jquery-2.2.4.min.js'));
-
-		}
-		else {
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/jquery'));
-
-		}
-
-		/*
+    /*
 		 * momentJS is required for fullCalendar
 		 * otherwise optional
 		 */
-		if ( self::$momentJS || ( self::$FullCalendar &&  4 != (int)self::$FullCalendar)) {
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url('js/moment.min.js'));
-
-		}
-
-		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/brayworth/js'));
-		$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url( 'assets/brayworth/dopo'));
-
-    if ( config::$FONTAWESOME) {
-      $this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'css/font-awesome.min.css'));
-
+    if (self::$momentJS || (self::$FullCalendar &&  4 != (int)self::$FullCalendar)) {
+      $this->scripts[] = sprintf('<script type="text/javascript" src="%s"></script>', \strings::url('js/moment.min.js'));
     }
 
-		if ( $this->dvc == '4') {
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( 'assets/brayworth/css'));
+    $this->scripts[] = sprintf('<script type="text/javascript" src="%s"></script>', \strings::url('assets/brayworth/js'));
+    $this->scripts[] = sprintf('<script type="text/javascript" src="%s"></script>', \strings::url('assets/brayworth/dopo'));
 
-		}
-		elseif ( $this->dvc) {
-			if ( cssmin::dvc()) {
-				$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', cssmin::$dvcmin );
+    if (config::$FONTAWESOME) {
+      $this->css[] = sprintf('<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url('css/font-awesome.min.css'));
+    }
 
-			}
-			else {
-				$this->css[] = '<!-- no minified library :: normally we would bundle the css -->';
-				foreach ( cssmin::$dvcminFiles as $src)
-					$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url( $src));
+    if ($this->dvc == '4') {
+      $this->css[] = sprintf('<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url('assets/brayworth/css'));
+    } elseif ($this->dvc) {
+      if (cssmin::dvc()) {
+        $this->css[] = sprintf('<link type="text/css" rel="stylesheet" media="all" href="%s" />', cssmin::$dvcmin);
+      } else {
+        $this->css[] = '<!-- no minified library :: normally we would bundle the css -->';
+        foreach (cssmin::$dvcminFiles as $src)
+          $this->css[] = sprintf('<link type="text/css" rel="stylesheet" media="all" href="%s" />', \strings::url($src));
+      }
+    }
+    if (4 == (int)self::$FullCalendar) {
+      $this->css[] = sprintf('<link type="text/css" rel="stylesheet" href="%s" />', \strings::url('assets/fullcalendar/css'));
+      $this->scripts[] = sprintf('<script type="text/javascript" src="%s"></script>', \strings::url('assets/fullcalendar/js'));
+    } elseif (self::$FullCalendar) {
+      $this->css[] = sprintf('<link type="text/css" rel="stylesheet" href="%s" />', \strings::url('fullcalendar/fullcalendar.min.css'));
+      $this->css[] = sprintf('<link type="text/css" rel="stylesheet" href="%s" media="print" />', \strings::url('fullcalendar/fullcalendar.print.css'));
+      $this->scripts[] = sprintf('<script type="text/javascript" src="%s"></script>', \strings::url('fullcalendar/fullcalendar.min.js'));
+    }
+  }
 
-			}
+  function __destruct() {
+    $this->close();
+  }
 
-		}
-		if ( 4 == (int)self::$FullCalendar) {
-			$this->css[] = sprintf('<link type="text/css" rel="stylesheet" href="%s" />', \strings::url('assets/fullcalendar/css'));
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url('assets/fullcalendar/js'));
+  protected function _pagefooter() {
+    return $this
+      ->header()
+      ->pageHeader()
+      ->closeSection()
+      ->closeContent();
+  }
 
-		}
-		elseif ( self::$FullCalendar ) {
-			$this->css[] = sprintf( '<link type="text/css" rel="stylesheet" href="%s" />', \strings::url('fullcalendar/fullcalendar.min.css'));
-			$this->css[] = sprintf('<link type="text/css" rel="stylesheet" href="%s" media="print" />', \strings::url('fullcalendar/fullcalendar.print.css'));
-			$this->scripts[] = sprintf( '<script type="text/javascript" src="%s"></script>', \strings::url('fullcalendar/fullcalendar.min.js'));
+  public function close() {
+    $this
+      ->header()
+      ->pageHeader()
+      ->closeSection()
+      ->closeContent();
 
-		}
+    $time = '';
+    if ($this->boolOpen) {
+      if ($this->footer)
+        $this->pagefooter();
 
-	}
+      foreach ($this->closeTags as $tag)
+        print $tag;
 
-	function __destruct() {
-		$this->close();
+      $this->closeTags = [];
 
-	}
+      foreach ($this->latescripts as $script)
+        print "\t" . $script . PHP_EOL;
 
-	protected function _pagefooter() {
-		return $this
-			->header()
-			->pageHeader()
-			->closeSection()
-			->closeContent();
+      printf('%s</body>%s</html>%s', PHP_EOL, PHP_EOL, PHP_EOL);
+    }
 
-	}
+    $this->boolOpen = FALSE;
+  }
 
-	public function close() {
-		$this
-			->header()
-			->pageHeader()
-			->closeSection()
-			->closeContent();
+  protected function closeContent() {
+    $this->closeSection();  // added 20 July, 2017
+    if ($this->contentOPEN) {
+      foreach ($this->closeContentTags as $tag)
+        print $tag;
 
-		$time = '';
-		if ( $this->boolOpen ) {
-			if ( $this->footer )
-				$this->pagefooter();
+      $this->contentOPEN = FALSE;
+    }
 
-			foreach ( $this->closeTags as $tag )
-				print $tag;
+    if ($this->debug) \sys::logger(__METHOD__);
 
-			$this->closeTags = [];
+    return ($this);  // chain
 
-			foreach ( $this->latescripts as $script )
-				print "\t" . $script . PHP_EOL;
+  }
 
-			printf( '%s</body>%s</html>%s', PHP_EOL, PHP_EOL, PHP_EOL );
+  public function closeHeader() {
+    if ($this->headerOPEN) {
+      $this->headerOPEN = false;
+      printf('%s</head>%s', PHP_EOL, PHP_EOL);
+    }
 
-		}
+    return ($this);
+  }
 
-		$this->boolOpen = FALSE;
+  public function closeSection() {
+    if ($this->sectionOPEN)
+      printf(
+        '%s	</%s><!-- %s -->%s%s',
+        PHP_EOL,
+        $this->sectionTAG,
+        $this->sectionNAME,
+        PHP_EOL,
+        PHP_EOL
+      );
 
-	}
+    $this->sectionOPEN = false;
 
-	protected function closeContent() {
-		$this->closeSection();	// added 20 July, 2017
-		if ( $this->contentOPEN ) {
-			foreach ( $this->closeContentTags as $tag )
-				print $tag;
+    return ($this);  // chain
 
-			$this->contentOPEN = FALSE;
+  }
 
-		}
+  public function content($class = null, $more = null) {
+    if (is_null($class)) $class = 'content';
 
-    if ( $this->debug) \sys::logger( __METHOD__);
+    $this
+      ->header()
+      ->pageHeader()
+      ->closeSection()
+      ->openContent()
+      ->section('content', $class, 'content', $more);
 
-		return ( $this);	// chain
+    return ($this);  // chain
 
-	}
+  }
 
-	public function closeHeader() {
-		if ( $this->headerOPEN) {
-			$this->headerOPEN = false;
-			printf( '%s</head>%s', PHP_EOL, PHP_EOL);
+  public function header($boolCloseHeader = true) {
+    if ($this->boolHeader)
+      return ($this);
 
-		}
+    $this->boolHeader = true;
+    $this->headerOPEN = true;
 
-		return ( $this);
+    $this->open();
+    \Response::html_headers($this->charset);
 
-	}
+    print self::$docType ? self::$docType : \Response::html_docType();
 
-	public function closeSection() {
-		if ( $this->sectionOPEN )
-			printf( '%s	</div><!-- %s -->%s%s', PHP_EOL, $this->sectionNAME, PHP_EOL, PHP_EOL );
+    printf('%s<head>%s', PHP_EOL, PHP_EOL);
 
-		$this->sectionOPEN = false;
-
-		return ( $this);	// chain
-
-	}
-
-	public function content( $class = null, $more = null) {
-		if ( is_null( $class)) $class = 'content';
-
-		$this
-			->header()
-			->pageHeader()
-			->closeSection()
-			->openContent()
-			->section( 'content', $class, 'content', $more);
-
-		return ( $this);	// chain
-
-	}
-
-	public function header( $boolCloseHeader = true ) {
-		if ( $this->boolHeader )
-			return ( $this);
-
-		$this->boolHeader = true;
-		$this->headerOPEN = true;
-
-		$this->open();
-		\Response::html_headers( $this->charset);
-
-		print self::$docType ? self::$docType : \Response::html_docType();
-
-		printf( '%s<head>%s', PHP_EOL, PHP_EOL);
-
-		if ( !$this->charset)
+    if (!$this->charset)
       $this->charset = 'utf-8';
 
-    $this->meta[] = sprintf( '<meta charset="%s" />', $this->charset);
-		$this->meta[] = sprintf( '<meta http-equiv="Content-Type" content="text/html; charset=%s" />', $this->charset);
+    $this->meta[] = sprintf('<meta charset="%s" />', $this->charset);
+    $this->meta[] = sprintf('<meta http-equiv="Content-Type" content="text/html; charset=%s" />', $this->charset);
 
-		foreach ( $this->meta as $meta )
-			print "\t" . $meta . PHP_EOL;
+    foreach ($this->meta as $meta)
+      print "\t" . $meta . PHP_EOL;
 
-		printf( '	<title>%s</title>%s', $this->title, PHP_EOL);
+    printf('	<title>%s</title>%s', $this->title, PHP_EOL);
 
-		foreach ( $this->css as $css )
-			print "\t" . $css . PHP_EOL;
+    foreach ($this->css as $css)
+      print "\t" . $css . PHP_EOL;
 
-		foreach ( $this->scripts as $script )
-			print "\t" . $script . PHP_EOL;
+    foreach ($this->scripts as $script)
+      print "\t" . $script . PHP_EOL;
 
-		if ( $boolCloseHeader)
-			$this->closeHeader();
+    if ($boolCloseHeader)
+      $this->closeHeader();
 
-		return ( $this );
+    return ($this);
+  }
 
-	}
+  public function isOpen() {
+    return ((bool)$this->boolOpen);
+  }
 
-	public function isOpen() {
-		return ( (bool)$this->boolOpen);
+  public function open() {
+    $this->boolOpen = true;
+  }
 
-	}
+  protected function openContent() {
+    if ($this->contentOPEN)
+      return ($this);
 
-	public function open() {
-		$this->boolOpen = true;
+    $this->closeContentTags[] = '	</div><!-- /_page:Main Content Area -->' . PHP_EOL;
+    $classes = ['main-content-wrapper'];
+    if ($this->hasTitleBar)
+      $classes[] = 'with-nav-bar';
 
-	}
+    printf('%s%s	<div class="%s" data-role="main-content-wrapper"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode(' ', $classes), PHP_EOL);
 
-	protected function openContent() {
-		if ( $this->contentOPEN )
-			return ( $this);
+    $this->contentOPEN = true;
 
-		$this->closeContentTags[] = '	</div><!-- /_page:Main Content Area -->' . PHP_EOL;
-		$classes = ['main-content-wrapper'];
-		if ( $this->hasTitleBar)
-			$classes[] = 'with-nav-bar';
+    return ($this);
+  }
 
-		printf( '%s%s	<div class="%s" data-role="main-content-wrapper"><!-- _page:Main Content Area -->%s', PHP_EOL, PHP_EOL, implode( ' ', $classes), PHP_EOL);
+  public function newSection($name = 'content', $class = 'content', $role = 'content', $more = '') {
+    $this
+      ->header()
+      ->closeSection()
+      ->openContent()
+      ->section($name, $class, $role, $more);
 
-		$this->contentOPEN = true;
+    return ($this);  // chain
 
-		return ( $this);
+  }
 
-	}
+  public function section(
+    $name = 'content',
+    $class = 'content',
+    $role = 'content',
+    $more = '',
+    $tag = null
+  ): self {
 
-	public function newSection( $name = 'content', $class = 'content', $role = 'content', $more = '') {
-		$this
-			->header()
-			->closeSection()
-			->openContent()
-			->section( $name, $class, $role, $more);
+    $this->closeSection();
+    $this->sectionOPEN = true;
+    $this->sectionNAME = $name;
+    $this->sectionTAG = $tag ?? 'div';
 
-		return ( $this);	// chain
-
-	}
-
-	public function section( $name = 'content', $class = 'content', $role = 'content', $more = '') {
-		$this->closeSection();
-		$this->sectionOPEN = true;
-		$this->sectionNAME = $name;
-
-		printf(
-      '	<div class="%s" data-role="%s" %s>%s',
+    printf(
+      '	<%s class="%s" data-role="%s" %s>%s',
+      $this->sectionTAG,
       $class,
       $role,
       $more,
@@ -296,59 +285,54 @@ class _page {
 
     );
 
-		return ( $this);	// chain
+    return ($this);  // chain
 
-	}
+  }
 
-	public function pagefooter() {
-		$this->_pagefooter();
+  public function pagefooter() {
+    $this->_pagefooter();
 
-		$v = new \view;
-			$v->load( self::$footerTemplate ? self::$footerTemplate : 'footer');
+    $v = new \view;
+    $v->load(self::$footerTemplate ? self::$footerTemplate : 'footer');
 
-		return ( $this);	// chain
+    return ($this);  // chain
 
-	}
+  }
 
-	public function pageHeader() {
-		if ( $this->boolpageHeader )
-			return ( $this);
+  public function pageHeader() {
+    if ($this->boolpageHeader)
+      return ($this);
 
-		$this->boolpageHeader = true;
+    $this->boolpageHeader = true;
 
-		$this->closeHeader();
+    $this->closeHeader();
 
-		if ( $this->bodyClass)
-			printf( '<body class="%s">%s', $this->bodyClass, PHP_EOL);
+    if ($this->bodyClass)
+      printf('<body class="%s">%s', $this->bodyClass, PHP_EOL);
 
-		else
-			print '<body>' . PHP_EOL;
+    else
+      print '<body>' . PHP_EOL;
 
-		return ( $this);
+    return ($this);
+  }
 
-	}
-
-	public function title( $navbar = 'navbar-default') {
+  public function title($navbar = 'navbar-default') {
     $this
       ->header()
       ->pageHeader();
 
-    if ( $this->debug) \sys::logger( sprintf('<%s> %s', $navbar, __METHOD__));
+    if ($this->debug) \sys::logger(sprintf('<%s> %s', $navbar, __METHOD__));
 
-    if ( $navbar) {
-      $v = new \view( $this->data);
-        $v->title = $this->title;
-        foreach( (array)$navbar as $_){
-          $v->load( $_);
-
-        }
+    if ($navbar) {
+      $v = new \view($this->data);
+      $v->title = $this->title;
+      foreach ((array)$navbar as $_) {
+        $v->load($_);
+      }
 
       $this->hasTitleBar = true;
-
     }
 
-		return ( $this);
-
-	}
-
+    return ($this);
+  }
 }
