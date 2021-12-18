@@ -529,6 +529,8 @@ class application {
           DIRECTORY_SEPARATOR,
           '..',
           DIRECTORY_SEPARATOR,
+          '..',
+          DIRECTORY_SEPARATOR,
           str_replace('\\', '/', $class),
           '.php'
 
