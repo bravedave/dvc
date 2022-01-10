@@ -438,6 +438,7 @@ abstract class strings {
 		$find = [
 			'@\savenue$@i','@\savenue,@i','@\save$@i','@\save,@i',
 			'@\screscent$@i','@\screscent,@i',
+			'@\sclose$@i','@\sclose,@i',
 			'@\scourt$@i','@\scourt,@i',
 			'@\sdrive$@i','@\sdrive,@i',
 			'@\sesplanade$@i','@\sesplanade,@i',
@@ -451,6 +452,7 @@ abstract class strings {
 		$replace = [
       ' Av',' Av,',' Av',' Av,',
 			' Cres',' Cres,',
+			' Cl',' Cl,',
 			' Ct',' Ct,',
 			' Dr',' Dr,',
       ' Esp',' Esp,',
