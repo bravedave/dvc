@@ -162,7 +162,7 @@ class db {
       $message = sprintf(
         "Error : SQLite : %s\nError : SQLite : %s",
         $sql,
-        $this->_db->lastErrorMsg
+        $this->_db->lastErrorMsg()
       );
 
       \sys::logSQL($sql);
