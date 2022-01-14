@@ -8,14 +8,14 @@
 
 	Modal Content
 	*/
-.surely-not-using-this.modal:not(.modal-bootstrap) {
+.modal:not(.modal-bootstrap) {
 	background-color: rgb(0,0,0); /* Fallback color */
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-.surely-not-using-this.modal:not(.modal-active) {
+.modal:not(.modal-active) {
 	display: none; /* Hidden by default */
 }
-.surely-not-using-this.modal.modal-active {
+.modal.modal-active {
 	display: block; /* Hidden by default */
 }
 
