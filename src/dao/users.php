@@ -11,7 +11,7 @@
 namespace dao;
 
 class users extends _dao {
-  public function validate() {
+  public function validate() : bool {
     throw new \Exception( 'not implemented');
 
   }

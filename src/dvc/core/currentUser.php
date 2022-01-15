@@ -35,6 +35,11 @@ abstract class currentUser {
 
 	}
 
+	public static function DisplayName() {
+		return self::name();
+
+	}
+
 	public static function id() {
 		if ( $u = self::user()) {
 			return (int)$u->id;

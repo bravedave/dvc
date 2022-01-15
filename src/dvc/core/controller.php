@@ -222,9 +222,9 @@ abstract class controller {
           if ($debug) \sys::logger(sprintf('<successful logon for %s> %s', $u, __METHOD__));
 
           $dao = new \dao\users;
-          $dao->validate($u);
-
-          return true;
+          if (method_exists($dao, 'validatedByIMAP')) {
+            return $dao->{'validatedByIMAP'}($u, $p);
+          }
         } else {
           if ($debug) \sys::logger(sprintf('<unsuccessful logon for %s> %s', $u, __METHOD__));
         }

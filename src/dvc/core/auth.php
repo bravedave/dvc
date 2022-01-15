@@ -156,7 +156,7 @@ abstract class auth {
 
   static function ImapTest( string $u, string $p) : bool {
     $debug = false;
-    $debug = true;
+    // $debug = true;
 
     $port = '143';
     $secure = 'tls';
