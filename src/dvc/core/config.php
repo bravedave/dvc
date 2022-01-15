@@ -137,6 +137,7 @@ abstract class config {
 	static $PORTAL = 'http://localhost/';
 	static $PORTAL_ADMIN = 'http://localhost/';
 
+	static $SESSION_CACHE_EXPIRE = 180;
 	static $SITEMAPS = false;
 	static $SYNTAX_HIGHLIGHT_DOCS = false;
 
@@ -353,6 +354,7 @@ abstract class config {
 					'emaildomain' => \config::$EMAILDOMAIN,
 					'page_template' => \config::$PAGE_TEMPLATE,
 					'sitemaps' => \config::$SITEMAPS,
+          'session_cache_expire' => \config::$SESSION_CACHE_EXPIRE,
 					'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
 					'timezone' => \config::$TIMEZONE,
 					'support_name' => \config::$SUPPORT_NAME,
@@ -373,6 +375,7 @@ abstract class config {
 				\config::$EMAILDOMAIN = $a->emaildomain;
 				\config::$PAGE_TEMPLATE = $a->page_template;
 				\config::$SITEMAPS = $a->sitemaps;
+				\config::$SESSION_CACHE_EXPIRE = $a->session_cache_expire;
 				\config::$SYNTAX_HIGHLIGHT_DOCS = $a->syntax_highlight_docs;
 				\config::$TIMEZONE = $a->timezone;
 				\config::$SUPPORT_NAME = $a->support_name;
@@ -399,6 +402,7 @@ abstract class config {
 						'datetime_format' => 'd/m/Y g:ia',
 						'emaildomain' => \config::$EMAILDOMAIN,
 						'page_template' => \config::$PAGE_TEMPLATE,
+            'session_cache_expire' => \config::$SESSION_CACHE_EXPIRE,
 						'sitemaps' => \config::$SITEMAPS,
 						'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
 						'timezone' => \config::$TIMEZONE,

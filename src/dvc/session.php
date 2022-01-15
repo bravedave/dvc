@@ -46,7 +46,7 @@ class session {
 
 		}
 
-		session_cache_expire(30);
+		session_cache_expire(config::$SESSION_CACHE_EXPIRE);
 		session_start();
 
 		$this->__session = $_SESSION;
@@ -65,7 +65,7 @@ class session {
 
 	protected function _edit() {
 		if ( !$this->open) {
-			session_cache_expire(30);
+      session_cache_expire(config::$SESSION_CACHE_EXPIRE);
 			session_start();
 			$this->open = true;
 
