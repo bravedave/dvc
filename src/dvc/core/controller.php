@@ -11,9 +11,12 @@
 
 namespace dvc\core;
 
-use dvc\jslib;
-use dvc\push;
-use dvc\userAgent;
+use dvc\{
+  jslib,
+  push,
+  session,
+  userAgent
+};
 use Json;
 use strings;
 
@@ -720,7 +723,7 @@ abstract class controller {
   }
 
   public function logout() {
-    \dvc\session::destroy();
+    session::destroy(__METHOD__);
     \Response::redirect();
     header('HTTP/1.1 401 Unauthorized');
   }
