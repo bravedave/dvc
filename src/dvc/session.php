@@ -13,9 +13,9 @@ namespace dvc;
 class session {
 	// THE only instance of the class
 	protected static $instance;
-	var $__session = [];
-	var $open = false;
-	var $domain = null;
+	protected $__session = [];
+	protected $open = false;
+	protected $domain = null;
 
 	protected function __construct() {
 		$CookieParams = session_get_cookie_params();
@@ -141,11 +141,13 @@ class session {
 
 	}
 
-	static function destroy() {
+	static function destroy( string $msg = '') {
 		self::close();
 
 		session_start();
 		session_destroy();
+
+    if ( $msg) \sys::logger( sprintf('<%s> %s', $msg, __METHOD__));
 
 	}
 
