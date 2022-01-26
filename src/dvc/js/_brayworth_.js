@@ -17,7 +17,13 @@ if (!window._brayworth_)
   _.logon_retrieve_password = false;
   _.templates = {};
 
-  _.hideContexts = () => {
+  _.hideContexts = e => {
+    if ( !!e) {
+      e.stopPropagation();
+      e.preventDefault();
+
+    }
+
     $(document).trigger('hide-contexts');
 
   };
