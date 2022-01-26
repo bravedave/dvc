@@ -188,6 +188,11 @@ if (!window._brayworth_)
 
   };
 
+  _.asDayJS = d => new Promise(resolve => {
+    let djs = _.dayjs(d);
+    if (djs.isValid() && djs.unix() > 0) resolve(djs);
+  });
+
   // https://blog.saviomartin.com/20-killer-javascript-one-liners
   _.isDateValid = (...val) => !Number.isNaN(new Date(...val).valueOf());
 
