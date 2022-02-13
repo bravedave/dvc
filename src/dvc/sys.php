@@ -567,6 +567,13 @@ abstract class sys {
       } else {
         \sys::logger(sprintf('<cannot locate bootstrap_css_file> %s', __METHOD__));
       }
+    } elseif ('bootstrap.bundle.min.js.map' == $type) {
+      if ($lib = realpath(self::_twbs_dir() . '/bootstrap/dist/js/bootstrap.bundle.min.js.map')) {
+        // \sys::logger(sprintf('<%s> %s', $lib, __METHOD__));
+        self::serve($lib);
+      } else {
+        \sys::logger(sprintf('<cannot locate bootstrap_js_map> %s', __METHOD__));
+      }
     } else {
       \sys::logger(sprintf('<%s> %s', $type, __METHOD__));
     }
