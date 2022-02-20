@@ -6,9 +6,25 @@
  * MIT License
  *
  * */
-/*jshint esversion: 6 */
 if (!window._brayworth_)
-  window._brayworth_ = () => { return (window._brayworth_); };
+  window._brayworth_ = srch => {
+    /**
+     * this is jQuery like .. ish, working on it
+     */
+    if (!!srch) {
+      if (/^#/.test(String(srch))) {
+        srch = String(srch).substring(1);
+        return document.getElementById(srch);
+      }
+      else if (/^\./.test(String(srch))) {
+        srch = String(srch).substring(1);
+        return document.getElementsByClassName(srch);
+      }
+    }
+
+    return (window._brayworth_);
+
+  };
 
 (_ => {
   _.version = 0.2;
@@ -18,7 +34,7 @@ if (!window._brayworth_)
   _.templates = {};
 
   _.hideContexts = e => {
-    if ( !!e) {
+    if (!!e) {
       e.stopPropagation();
       e.preventDefault();
 
