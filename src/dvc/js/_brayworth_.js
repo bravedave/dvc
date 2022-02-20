@@ -13,7 +13,7 @@ if (!window._brayworth_)
      * this is jQuery like .. ish, working on it
      */
     if (!!srch) {
-      if (/^#[a-z0-9]*$/i.test(String(srch))) {
+      if (/^#[a-z0-9_]*$/i.test(String(srch))) {
         srch = String(srch).substring(1);
 
         if (_.debug) console.log('document.getElementById(', srch, ')');
