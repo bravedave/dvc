@@ -21,6 +21,7 @@ if (!window._brayworth_)
         return document.getElementsByClassName(srch);
       }
       else {
+        console.log('document.querySelectorAll(',srch,')');
         return document.querySelectorAll(srch);
       }
     }
