@@ -8,25 +8,39 @@
  * */
 if (!window._brayworth_)
   window._brayworth_ = srch => {
+    let _ = _brayworth_;
     /**
      * this is jQuery like .. ish, working on it
      */
     if (!!srch) {
-      if (/^#[a-z]/i.test(String(srch))) {
+      if (/^#[a-z0-9]*$/i.test(String(srch))) {
         srch = String(srch).substring(1);
+
+        if (_.debug) console.log('document.getElementById(', srch, ')');
+
         return document.getElementById(srch);
       }
       else if (/^\.[a-z]/.test(String(srch))) {
         srch = String(srch).substring(1);
-        return document.getElementsByClassName(srch);
+
+        if (_.debug) console.log('document.getElementsByClassName(', srch, ')');
+
+        let col = document.getElementsByClassName(srch);
+        let r = [];
+        for (let i = 0; i < col.length; i++) {
+          r.push(col[i]);
+        }
+        return r;
       }
       else {
-        console.log('document.querySelectorAll(',srch,')');
+
+        if (_.debug) console.log('document.querySelectorAll(', srch, ')');
+
         return document.querySelectorAll(srch);
       }
     }
 
-    return (window._brayworth_);
+    return (_);
 
   };
 
@@ -34,6 +48,7 @@ if (!window._brayworth_)
   _.version = 0.2;
   _._brayworth_ = true;
   _.currentUser = false;
+  _.debug = false;
   _.logon_retrieve_password = false;
   _.templates = {};
 
