@@ -12,13 +12,16 @@ if (!window._brayworth_)
      * this is jQuery like .. ish, working on it
      */
     if (!!srch) {
-      if (/^#/.test(String(srch))) {
+      if (/^#[a-z]/i.test(String(srch))) {
         srch = String(srch).substring(1);
         return document.getElementById(srch);
       }
-      else if (/^\./.test(String(srch))) {
+      else if (/^\.[a-z]/.test(String(srch))) {
         srch = String(srch).substring(1);
         return document.getElementsByClassName(srch);
+      }
+      else {
+        return document.querySelectorAll(srch);
       }
     }
 
