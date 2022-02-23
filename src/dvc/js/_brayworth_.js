@@ -290,7 +290,6 @@ if (!window._brayworth_) {
         let timeDiff = now - this.start; //in ms
 
         timeDiff /= 10; // strip the ms
-        console.log(this);
         return Math.round(timeDiff) / 100; // return seconds
       };
 
