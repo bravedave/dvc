@@ -6,7 +6,7 @@
  * MIT License
  *
  * */
-if (!window._brayworth_)
+if (!window._brayworth_) {
   window._brayworth_ = srch => {
     let _ = _brayworth_;
     /**
@@ -43,6 +43,7 @@ if (!window._brayworth_)
     return (_);
 
   };
+}
 
 (_ => {
   _.version = 0.2;
@@ -280,6 +281,22 @@ if (!window._brayworth_)
 
   // https://dev.to/ovi/20-javascript-one-liners-that-will-help-you-code-like-a-pro-4ddc
   _.randomString = () => Math.random().toString(36).slice(2);
+
+  _.timer = () => {
+    return (new function () {
+      this.start = new Date();
+      this.elapsed = () => {
+        let now = new Date();
+        let timeDiff = now - this.start; //in ms
+
+        timeDiff /= 10; // strip the ms
+        console.log(this);
+        return Math.round(timeDiff) / 100; // return seconds
+      };
+
+    });
+
+  };
 
   _.tiny = () => {
     return 'undefined' == typeof tinyMCE ?
