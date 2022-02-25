@@ -39,12 +39,12 @@ class template {
   /**
    * replace( var, content) - replace the var with content
    *
-   * @param mixed var
+   * @param var
    * @param string content
    *
    * @return self // chain
    */
-  function replace(mixed $var, string $content = '') : self {
+  function replace( $var, string $content = '') : self {
     if (\is_array($var)) {
       foreach ($var as $k => $v) {
         $this->replace($k, $v);
