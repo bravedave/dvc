@@ -279,7 +279,7 @@ if (!window._brayworth_) {
 
   };
 
-  _.generateRandomInt = (min, max) => {
+  const generateRandomInt = (min, max) => {
     return Math.floor((Math.random() * (max + 1 - min)) + min);
   };
 
