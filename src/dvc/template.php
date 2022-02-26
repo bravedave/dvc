@@ -27,7 +27,7 @@ class template {
     $this->_template = file_get_contents($filepath);
   }
 
-  function css(string $path = self::pdf_css) : self {
+  function css(string $path = self::pdf_css): self {
     if ((bool)$path) {
       $this->_css[] = file_get_contents($path);
     }
@@ -36,10 +36,23 @@ class template {
 
   }
 
-  function replace($var, $content) {
-    $this->_template = str_replace(sprintf('{{%s}}', $var), $content, $this->_template);
-
-    return ($this);  // chain
+  /**
+   * replace( var, content) - replace the var with content
+   *
+   * @param var
+   * @param string content
+   *
+   * @return self // chain
+   */
+  function replace( $var, string $content = '') : self {
+    if (\is_array($var)) {
+      foreach ($var as $k => $v) {
+        $this->replace($k, $v);
+      }
+    } else {
+      $this->_template = str_replace(sprintf('{{%s}}', $var), $content, $this->_template);
+    }
+    return $this;  // chain
 
   }
 
