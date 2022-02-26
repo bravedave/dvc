@@ -65,6 +65,6 @@
   }
 
   _.ask.alert = p => _.ask(_.extend({ headClass: 'text-white bg-danger' }, p));
-  _.ask.warning = p => _.ask(_.extend({ headClass: 'text-secondary bg-warning' }, p));
+  _.ask.warning = p => _.ask(_.extend({ headClass: 'text-white bg-warning' }, p));
 
 })(_brayworth_);
