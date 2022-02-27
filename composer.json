@@ -44,8 +44,11 @@
 
   },
   "scripts": {
+    "bootstrap": [
+      "src/dvc/resource/dvc-sass-bootstrap-4.sh"
+    ],
     "post-update-cmd": [
-      "src/dvc/resource/get-bootstrap-4.sh",
+      "src/dvc/resource/dvc-sass-bootstrap-4.sh",
       "src/dvc/resource/get-bootstrap-5.sh",
       "src/dvc/resource/get-bootstrap-icons.sh"
     ],

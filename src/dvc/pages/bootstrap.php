@@ -48,6 +48,9 @@ class bootstrap extends page {
       $this->latescripts[] = sprintf('<script type="text/javascript" src="%s"></script>', $js);
     } elseif (self::$Bootstrap_Version == '4') {
       $css = strings::url('assets/bootstrap/css');
+      if ($theme = \currentUser::option('theme')) {
+        $css = strings::url('assets/bootstrap/css?t=' . $theme);
+      }
       $icons = strings::url('assets/bootstrap/icons');
       $js = strings::url('assets/bootstrap/js');
 

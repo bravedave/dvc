@@ -509,7 +509,15 @@ abstract class sys {
     }
   }
 
-  public static function serveBootStrap($type = 'css', $fontFile = null) {
+  /**
+   * serveBootStrap($type = 'css', $fontFile = null) : void
+   *
+   * @param string $type
+   * @param string $fontFile
+   *
+   * @return void
+   */
+  public static function serveBootStrap(string $type = 'css', string $fontFile = null): void {
 
     // self::logger( sprintf('<%s> %s', $type, __METHOD__));
     if ('icons' == $type) {
@@ -554,11 +562,15 @@ abstract class sys {
         ]);
       }
     } elseif ('css' == $type) {
-      if ($lib = realpath(self::_twbs_dir() . '/bootstrap/dist/css/bootstrap.min.css')) {
-        // \sys::logger(sprintf('<%s> %s', $lib, __METHOD__));
+      $themeFile = __DIR__ . '/resource/bootstrap.min.css';
+      if ('pink' == \currentUser::option('theme')) {
+        $themeFile = __DIR__ . '/resource/bootstrap-pink.min.css';
+      }
+      if ($lib = realpath($themeFile)) {
         self::serve($lib);
       } else {
-        \sys::logger(sprintf('<cannot locate bootstrap_css_file> %s', __METHOD__));
+        // \sys::logger(sprintf('<cannot locate bootstrap_css_file> <%s> %s', __DIR__, __METHOD__));
+        \sys::logger(sprintf('<cannot locate bootstrap_css_file> <%s> %s', $themeFile, __METHOD__));
       }
     } elseif ('js' == $type) {
       if ($lib = realpath(self::_twbs_dir() . '/bootstrap/dist/js/bootstrap.bundle.min.js')) {
