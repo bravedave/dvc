@@ -563,7 +563,9 @@ abstract class sys {
       }
     } elseif ('css' == $type) {
       $themeFile = __DIR__ . '/resource/bootstrap.min.css';
-      if ('pink' == \currentUser::option('theme')) {
+      if ('blue' == \currentUser::option('theme')) {
+        $themeFile = __DIR__ . '/resource/bootstrap-blue.min.css';
+      } elseif ('pink' == \currentUser::option('theme')) {
         $themeFile = __DIR__ . '/resource/bootstrap-pink.min.css';
       }
       if ($lib = realpath($themeFile)) {

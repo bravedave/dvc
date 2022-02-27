@@ -9,6 +9,6 @@
 */
 
 class config extends dvc\config {
-  static $BOOTSTRAP_VERSION = '5';
-  static $PAGE_TEMPLATE = '\dvc\pages\bootstrap5';
+  // static $BOOTSTRAP_VERSION = '5';
+  // static $PAGE_TEMPLATE = '\dvc\pages\bootstrap5';
 }

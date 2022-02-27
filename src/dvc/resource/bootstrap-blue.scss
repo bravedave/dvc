@@ -1,0 +1,16 @@
+// Colors
+
+// Start with assigning color names to specific hex values.
+$enable-shadows : true;
+$enable-gradients : true;
+
+$theme-colors: (
+  "primary": #050A30,
+  "secondary":#000C66,
+
+  "warning":#CEB915,
+  "danger":#E71B33,
+
+  "info":#7EC8E3,
+  "success":#75F1A4,
+);
