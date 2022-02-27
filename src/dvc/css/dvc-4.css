@@ -24,6 +24,10 @@ html.desktop { min-height: calc( 100%); }
 @media (min-width: 768px) {
 	.menu.menu-contextmenu,
 	[data-role="content-secondary"] { font-size: .875rem }
+
+	[data-role="content-secondary"] {
+    min-height: calc(100vh - 80px);
+  }
 }
 
 .footer-fixed {
