@@ -163,10 +163,22 @@ class db {
     $fV = [];
     foreach ($a as $k => $v) {
       $fA[] = $k;
-      $fV[] = $this->mysqli->real_escape_string($v);
+      // $fV[] = $this->mysqli->real_escape_string($v);
+      $fV[] = $this->quote($v);
     }
 
-    $sql = sprintf('INSERT INTO `%s`(`%s`) VALUES("%s")', $table, implode("`,`", $fA), implode('","', $fV));
+    // $sql = sprintf(
+    //   'INSERT INTO `%s`(`%s`) VALUES("%s")',
+    //   $table,
+    //   implode("`,`", $fA),
+    //   implode('","', $fV)
+    // );
+    $sql = sprintf(
+      'INSERT INTO `%s`(`%s`) VALUES(%s)',
+      $table,
+      implode("`,`", $fA),
+      implode(',', $fV)
+    );
 
     $this->Q($sql);
     return ($this->mysqli->insert_id);
@@ -193,7 +205,7 @@ class db {
     throw new \Exception($message);
   }
 
-  public function quote(string $val) {
+  public function quote(?string $val) {
     return sprintf('"%s"', $this->escape($val));
   }
 
@@ -228,7 +240,8 @@ class db {
 
     $aX = [];
     foreach ($a as $k => $v) {
-      $aX[] = "`$k` = '" . $this->mysqli->real_escape_string($v) . "'";
+      // $aX[] = "`$k` = '" . $this->mysqli->real_escape_string($v) . "'";
+      $aX[] = sprintf('`%s` = %s', $k, $this->quote($v));
     }
 
     $sql = sprintf('UPDATE `%s` SET %s %s', $table, implode(', ', $aX), $scope);
