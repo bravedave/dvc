@@ -17,9 +17,17 @@
         if (!tbody) tbody = table;
         if (tbody.length > 1) tbody = tbody.first();
 
-        if ('undefined' == typeof order)
-          order = (tbody.data('order') == "desc" ? "asc" : "desc");
+        if ('undefined' == typeof order) {
+          if ( key == tbody.data('orderkey') {
+            order = (tbody.data('order') == "desc" ? "asc" : "desc");
+          }
+          else {
+            order = "desc";
+          }
+        }
+
         tbody.data('order', order);
+        tbody.data('orderkey', key);
 
         if (!sorttype)
           sorttype = 'string';
