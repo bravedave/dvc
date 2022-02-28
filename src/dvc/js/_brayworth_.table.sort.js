@@ -18,7 +18,7 @@
         if (tbody.length > 1) tbody = tbody.first();
 
         if ('undefined' == typeof order) {
-          if ( key == tbody.data('orderkey') {
+          if ( key == tbody.data('orderkey')) {
             order = (tbody.data('order') == "desc" ? "asc" : "desc");
           }
           else {
