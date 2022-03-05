@@ -565,6 +565,8 @@ abstract class sys {
       $themeFile = __DIR__ . '/resource/bootstrap.min.css';
       if ('blue' == \currentUser::option('theme')) {
         $themeFile = __DIR__ . '/resource/bootstrap-blue.min.css';
+      } elseif ('orange' == \currentUser::option('theme')) {
+        $themeFile = __DIR__ . '/resource/bootstrap-orange.min.css';
       } elseif ('pink' == \currentUser::option('theme')) {
         $themeFile = __DIR__ . '/resource/bootstrap-pink.min.css';
       }
