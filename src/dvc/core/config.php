@@ -356,9 +356,10 @@ abstract class config {
 					'sitemaps' => \config::$SITEMAPS,
           'session_cache_expire' => \config::$SESSION_CACHE_EXPIRE,
 					'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
-					'timezone' => \config::$TIMEZONE,
 					'support_name' => \config::$SUPPORT_NAME,
 					'support_email' => \config::$SUPPORT_EMAIL,
+					'timezone' => \config::$TIMEZONE,
+					'theme' => \config::$THEME,
 					'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,
 					'imap_auth_server' => \config::$IMAP_AUTH_SERVER,
 				];
@@ -378,6 +379,7 @@ abstract class config {
 				\config::$SESSION_CACHE_EXPIRE = $a->session_cache_expire;
 				\config::$SYNTAX_HIGHLIGHT_DOCS = $a->syntax_highlight_docs;
 				\config::$TIMEZONE = $a->timezone;
+				\config::$THEME = $a->theme;
 				\config::$SUPPORT_NAME = $a->support_name;
 				\config::$SUPPORT_EMAIL = $a->support_email;
 				\config::$EMAIL_ERRORS_TO_SUPPORT = $a->email_errors_to_support;
@@ -406,6 +408,7 @@ abstract class config {
 						'sitemaps' => \config::$SITEMAPS,
 						'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
 						'timezone' => \config::$TIMEZONE,
+						'theme' => \config::$THEME,
 						'support_name' => \config::$SUPPORT_NAME,
 						'support_email' => \config::$SUPPORT_EMAIL,
 						'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,

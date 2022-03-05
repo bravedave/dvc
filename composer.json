@@ -47,6 +47,9 @@
     "bootstrap": [
       "src/dvc/resource/dvc-sass-bootstrap-4.sh"
     ],
+    "bootstrap5": [
+      "src/dvc/resource/get-bootstrap-5.sh"
+    ],
     "post-update-cmd": [
       "src/dvc/resource/dvc-sass-bootstrap-4.sh",
       "src/dvc/resource/get-bootstrap-5.sh",

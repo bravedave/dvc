@@ -10,6 +10,8 @@
 
 namespace dvc\pages;
 
+use config;
+use currentUser;
 use strings, dvc\Exceptions\InvalidBootstrapVersion;
 
 class bootstrap extends page {
@@ -51,7 +53,9 @@ class bootstrap extends page {
       $this->latescripts[] = sprintf('<script type="text/javascript" src="%s"></script>', $js);
     } elseif (self::$Bootstrap_Version == '4') {
       $css = strings::url('assets/bootstrap/css');
-      if ($theme = \currentUser::option('theme')) {
+      if ($theme = currentUser::option('theme')) {
+        $css = strings::url('assets/bootstrap/css?t=' . $theme);
+      } elseif ($theme = config::$THEME) {
         $css = strings::url('assets/bootstrap/css?t=' . $theme);
       }
       $icons = strings::url('assets/bootstrap/icons');
@@ -63,6 +67,9 @@ class bootstrap extends page {
       $this->latescripts[] = sprintf('<script type="text/javascript" src="%s"></script>', $js);
     } elseif (self::$Bootstrap_Version == '5') {
       $css = strings::url('assets/bootstrap/css/5');
+      if ($theme = config::$THEME) {
+        $css = strings::url('assets/bootstrap/css/5?t=' . $theme);
+      }
       $polyfill = strings::url('assets/bootstrap/polyfill/5');
       $icons = strings::url('assets/bootstrap/icons');
       $js = strings::url('assets/bootstrap/js/5');

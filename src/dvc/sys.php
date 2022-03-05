@@ -569,6 +569,12 @@ abstract class sys {
         $themeFile = __DIR__ . '/resource/bootstrap-orange.min.css';
       } elseif ('pink' == \currentUser::option('theme')) {
         $themeFile = __DIR__ . '/resource/bootstrap-pink.min.css';
+      } elseif ('blue' == \config::$THEME) {
+        $themeFile = __DIR__ . '/resource/bootstrap-blue.min.css';
+      } elseif ('orange' == \config::$THEME) {
+        $themeFile = __DIR__ . '/resource/bootstrap-orange.min.css';
+      } elseif ('pink' == \config::$THEME) {
+        $themeFile = __DIR__ . '/resource/bootstrap-pink.min.css';
       }
       if ($lib = realpath($themeFile)) {
         self::serve($lib);
@@ -598,8 +604,21 @@ abstract class sys {
   public static function serveBootStrap5($type = 'css') {
 
     if ('css' == $type) {
-      $lib = sprintf('%s/resource/bootstrap5/css/bootstrap.min.css', __DIR__);
-      // \sys::logger( sprintf('<%s> %s', $lib, __METHOD__));
+      $lib = __DIR__ . '/resource/bootstrap5/css/bootstrap.min.css';
+      if ('blue' == \currentUser::option('theme')) {
+        $lib = __DIR__ . '/resource/bootstrap5/bootstrap-blue.min.css';
+      } elseif ('orange' == \currentUser::option('theme')) {
+        $lib = __DIR__ . '/resource/bootstrap5/bootstrap-orange.min.css';
+      } elseif ('pink' == \currentUser::option('theme')) {
+        $lib = __DIR__ . '/resource/bootstrap5/bootstrap-pink.min.css';
+      } elseif ('blue' == \config::$THEME) {
+        $lib = __DIR__ . '/resource/bootstrap5/bootstrap-blue.min.css';
+      } elseif ('orange' == \config::$THEME) {
+        $lib = __DIR__ . '/resource/bootstrap5/bootstrap-orange.min.css';
+      } elseif ('pink' == \config::$THEME) {
+        $lib = __DIR__ . '/resource/bootstrap5/bootstrap-pink.min.css';
+      }
+      \sys::logger( sprintf('<%s> %s', $lib, __METHOD__));
       self::serve($lib);
     } elseif ('polyfill' == $type) {
       $lib = sprintf('%s/resource/bootstrap4-5.polyfill.css', __DIR__);

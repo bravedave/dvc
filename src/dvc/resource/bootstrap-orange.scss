@@ -15,3 +15,8 @@ $theme-colors: (
   "success":#65D03D,
   "light":#fff1d8
 );
+
+.bg-gradient-navbar {
+   background: #FFA500 linear-gradient(90deg, #966100, #FFD68A) repeat-x !important;
+}
+
