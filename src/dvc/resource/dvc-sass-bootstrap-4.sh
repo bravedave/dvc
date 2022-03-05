@@ -27,6 +27,10 @@ if [ -x "$(command -v sassc)" ]; then
     sassc --omit-map-comment -t compressed bootstrap-blue.scss ../bootstrap-blue.min.css
     logger "$me : wrote bootstrap-blue.min.css"
 
+    cat ../bootstrap-orange.scss bootstrap.scss >bootstrap-orange.scss
+    sassc --omit-map-comment -t compressed bootstrap-orange.scss ../bootstrap-orange.min.css
+    logger "$me : wrote bootstrap-orange.min.css"
+
 	else
 		logger "rsync command not found .."
 	fi

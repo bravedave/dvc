@@ -17,7 +17,7 @@ class bootstrap extends page {
   static $SCALE = 1;
 
   static $contentClass = 'col pt-3 pb-4';
-  static $primaryClass = 'col-md-9 pt-3 pb-4 d-print-w100';
+  static $primaryClass = 'col pt-3 pb-4 d-print-w100';
   static $secondaryClass = 'col-md-3 pt-3 pb-4 d-print-none';
 
   function __construct($title = '') {
@@ -25,11 +25,14 @@ class bootstrap extends page {
     parent::$pageContainer = self::$pageContainer;
     self::$BootStrap = true;
     if (self::$Bootstrap_Version == '3') {
+      $this->primaryClass = 'col-md-9 pt-3 pb-4 d-print-w100';
       $this->jQuery2 = true;
-    } elseif (self::$Bootstrap_Version == '4' && $this->dvc) {
-      $this->dvc = '4';
-    } elseif (self::$Bootstrap_Version == '5' && $this->dvc) {
-      $this->dvc = '4';
+    } elseif ($this->dvc) {
+      if (self::$Bootstrap_Version == '4') {
+        $this->dvc = '4';
+      } elseif (self::$Bootstrap_Version == '5') {
+        $this->dvc = '4';
+      }
     }
 
     parent::__construct($title);
