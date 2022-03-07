@@ -10,6 +10,8 @@
 
 namespace dvc\pages;
 
+use config;
+use currentUser;
 use strings, dvc\Exceptions\InvalidBootstrapVersion;
 
 class bootstrap extends page {
@@ -17,7 +19,7 @@ class bootstrap extends page {
   static $SCALE = 1;
 
   static $contentClass = 'col pt-3 pb-4';
-  static $primaryClass = 'col-md-9 pt-3 pb-4 d-print-w100';
+  static $primaryClass = 'col pt-3 pb-4 d-print-w100';
   static $secondaryClass = 'col-md-3 pt-3 pb-4 d-print-none';
 
   function __construct($title = '') {
@@ -25,11 +27,14 @@ class bootstrap extends page {
     parent::$pageContainer = self::$pageContainer;
     self::$BootStrap = true;
     if (self::$Bootstrap_Version == '3') {
+      $this->primaryClass = 'col-md-9 pt-3 pb-4 d-print-w100';
       $this->jQuery2 = true;
-    } elseif (self::$Bootstrap_Version == '4' && $this->dvc) {
-      $this->dvc = '4';
-    } elseif (self::$Bootstrap_Version == '5' && $this->dvc) {
-      $this->dvc = '4';
+    } elseif ($this->dvc) {
+      if (self::$Bootstrap_Version == '4') {
+        $this->dvc = '4';
+      } elseif (self::$Bootstrap_Version == '5') {
+        $this->dvc = '4';
+      }
     }
 
     parent::__construct($title);
@@ -48,7 +53,9 @@ class bootstrap extends page {
       $this->latescripts[] = sprintf('<script type="text/javascript" src="%s"></script>', $js);
     } elseif (self::$Bootstrap_Version == '4') {
       $css = strings::url('assets/bootstrap/css');
-      if ($theme = \currentUser::option('theme')) {
+      if ($theme = currentUser::option('theme')) {
+        $css = strings::url('assets/bootstrap/css?t=' . $theme);
+      } elseif ($theme = config::$THEME) {
         $css = strings::url('assets/bootstrap/css?t=' . $theme);
       }
       $icons = strings::url('assets/bootstrap/icons');
@@ -60,6 +67,9 @@ class bootstrap extends page {
       $this->latescripts[] = sprintf('<script type="text/javascript" src="%s"></script>', $js);
     } elseif (self::$Bootstrap_Version == '5') {
       $css = strings::url('assets/bootstrap/css/5');
+      if ($theme = config::$THEME) {
+        $css = strings::url('assets/bootstrap/css/5?t=' . $theme);
+      }
       $polyfill = strings::url('assets/bootstrap/polyfill/5');
       $icons = strings::url('assets/bootstrap/icons');
       $js = strings::url('assets/bootstrap/js/5');

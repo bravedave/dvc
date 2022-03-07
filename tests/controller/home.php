@@ -19,6 +19,7 @@ class home extends Controller {
         'primary' => ['main']
       ]);
     } else {
+      \sys::logger(sprintf('<%s> %s', config::$PAGE_TEMPLATE, __METHOD__));
       $this->render([
         'secondary' => ['aside'],
         'primary' => ['main']

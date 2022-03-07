@@ -11,12 +11,16 @@
 .gravatar.gravatar-32 { width: 32px; }
 .gravatar.gravatar-16 { width: 16px; }
 
-.bg-gradient-pink {
-   background: #eb000a linear-gradient(90deg, #eb000a, #ff00c3) repeat-x !important;
-}
-
 .bg-gradient-blue {
     background: #050A30 linear-gradient(90deg,#050a30,#7ec8e3) repeat-x!important;
+}
+
+.bg-gradient-orange {
+   background: #FFA500 linear-gradient(90deg, #966100, #FFD68A) repeat-x !important;
+}
+
+.bg-gradient-pink {
+   background: #eb000a linear-gradient(90deg, #eb000a, #ff00c3) repeat-x !important;
 }
 
 @media screen and (min-width: 768px){

@@ -16,25 +16,52 @@
     <a class="nav-link" href="#">Link</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#" id="<?= $_uidAlert = strings::rand() ?>">Alert</a>
+    <a class="nav-link" href="#" id="<?= $_uid = strings::rand() ?>">Alert</a>
   </li>
+  <script>
+    (_ => {
+      $('#<?= $_uid ?>').on('click', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        _.ask.alert({
+          text: 'how you doin ?',
+          buttons: {
+            'ok': function(e) {
+              this.modal('hide')
+            }
+          }
+        })
+
+      });
+
+    })(_brayworth_);
+  </script>
   <li class="nav-item">
     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
   </li>
 </ul>
-<script>
-  (_ => {
-    $('#<?= $_uidAlert ?>').on( 'click', function( e) {
-      e.stopPropagation();e.preventDefault();
 
-      _.ask.alert({
-        text:'how you doin ?',
-        buttons : {
-          'ok' : function(e) { this.modal('hide')}
-        }
-      })
+<h6 class="mt-2">Text Colors</h6>
+<ul>
+  <li class="text-primary">.text-primary</li>
+  <li class="text-secondary">.text-secondary</li>
+  <li class="text-success">.text-success</li>
+  <li class="text-danger">.text-danger</li>
+  <li class="text-warning">.text-warning</li>
+  <li class="text-info">.text-info</li>
+</ul>
 
-    });
+<div class="row">
+  <div class="col bg-primary">&nbsp;</div>
+  <div class="col bg-secondary">&nbsp;</div>
+  <div class="col bg-success">&nbsp;</div>
+  <div class="col bg-lite">&nbsp;</div>
+</div>
 
-  })(_brayworth_);
-</script>
+<div class="row">
+  <div class="col bg-lite">&nbsp;</div>
+  <div class="col bg-danger">&nbsp;</div>
+  <div class="col bg-warning">&nbsp;</div>
+  <div class="col bg-info">&nbsp;</div>
+</div>

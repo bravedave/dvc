@@ -3,12 +3,18 @@
 // Start with assigning color names to specific hex values.
 $enable-shadows : true;
 $enable-gradients : true;
+// $gradient: linear-gradient(90deg, rgba($white, .15), rgba($white, 0)) !default;
 
 $theme-colors: (
-  "primary": #323232,
-  "secondary":#FA4EAB,
-  "warning":#EFE502,
+  "primary": #FA4EAB,
+  "secondary":#6c757d,
+  "warning":#DBCB06,
   "danger":#FA4E55,
-  "info":#c6006b,
-  "success":#06ac52,
+  "info":#5e64f9,
+  "success":#08c45f,
 );
+
+.bg-gradient-navbar {
+   background: #eb000a linear-gradient(90deg, #eb000a, #ff00c3) repeat-x !important;
+}
+

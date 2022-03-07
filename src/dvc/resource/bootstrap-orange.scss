@@ -5,18 +5,18 @@ $enable-shadows : true;
 $enable-gradients : true;
 
 $theme-colors: (
-  "primary":#000C66,
-  "secondary": #050A30,
+  "primary": #FFA500,
+  "secondary":#FF72E6,
 
   "warning":#CEB915,
   "danger":#E71B33,
 
-  "info":#195B73,
-  "success":#0D8239,
-  "light":#f5f6fe
+  "info":#00CDFF,
+  "success":#65D03D,
+  "light":#fff1d8
 );
 
 .bg-gradient-navbar {
-    background: #050A30 linear-gradient(90deg,#050a30,#7ec8e3) repeat-x!important;
+   background: #FFA500 linear-gradient(90deg, #966100, #FFD68A) repeat-x !important;
 }
 
