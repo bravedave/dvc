@@ -124,7 +124,7 @@ class _page {
 
       $this->closeTags = [];
 
-      foreach ($this->latescripts as $script) printf("\n\t%s\n", $script);
+      foreach ($this->latescripts as $script) printf("\n\t%s", $script);
 
       print "\n</body>\n</html>\n";
     }
