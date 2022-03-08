@@ -118,18 +118,15 @@ class _page {
 
     $time = '';
     if ($this->boolOpen) {
-      if ($this->footer)
-        $this->pagefooter();
+      if ($this->footer) $this->pagefooter();
 
-      foreach ($this->closeTags as $tag)
-        print $tag;
+      foreach ($this->closeTags as $tag) print $tag;
 
       $this->closeTags = [];
 
-      foreach ($this->latescripts as $script)
-        print "\t" . $script . PHP_EOL;
+      foreach ($this->latescripts as $script) printf("\n\t%s\n", $script);
 
-      printf('%s</body>%s</html>%s', PHP_EOL, PHP_EOL, PHP_EOL);
+      print "\n</body>\n</html>\n";
     }
 
     $this->boolOpen = FALSE;
