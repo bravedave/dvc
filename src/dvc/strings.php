@@ -303,6 +303,10 @@ abstract class strings {
 
 	}
 
+  static public function ComparePhoneNumbers($p1, $p2) {
+    return (self::CleanPhoneString($p1) == self::CleanPhoneString($p2));
+  }
+
 	static public function DateDiff( $date1, $date2 = null, $format = '%R%a') {
 		if ( $date1 && '0000-00-00' != (string)$date1) {
 			//~ \sys::logger( sprintf( '%s : %s', $date1));
