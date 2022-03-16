@@ -64,6 +64,11 @@ if (!window._brayworth_) {
 
   };
 
+  _.asLocaleNumber = (n, fractions = 2) => Number(n).toLocaleString(undefined, {
+    minimumFractionDigits: fractions,
+    maximumFractionDigits: fractions
+  });
+
   _.bootstrap_version = () => {
     if (undefined != window.bootstrap) {
       if (!!bootstrap.Alert) {
