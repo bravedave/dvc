@@ -11,7 +11,7 @@
 use dvc\theme;
 ?>
 
-<nav class="<?= theme::navbar() ?>" role="navigation">
+<nav class="<?= theme::navbar() ?> navbar-expand" role="navigation">
   <div class="container-fluid">
     <div class="navbar-brand"><?= $this->data->title  ?></div>
 
