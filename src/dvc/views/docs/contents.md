@@ -7,6 +7,7 @@
   - [apache](/docs/installing-apache)
   - [vps](/docs/installing-vps)
 - [first app](/docs/firstapp)
+- [Risorca - a module](/docs/risorsa)
 - [how does it work](/docs/how-does-it-work)
 
 ## [Structure](/docs/structure)
