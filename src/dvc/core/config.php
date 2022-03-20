@@ -199,6 +199,11 @@ abstract class config {
 
 				}
 
+				if ( !file_exists( $ignore = self::$_dataPath . DIRECTORY_SEPARATOR . '.gitignore')) {
+					file_put_contents( $ignore, '*');
+
+				}
+
 				if ( !is_dir( self::$_dataPath))
 					throw new \Exception( 'error/nodatapath');
 
