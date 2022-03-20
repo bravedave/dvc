@@ -11,31 +11,37 @@
 use dvc\theme;
 ?>
 
-<nav class="<?= theme::navbar() ?>" role="navigation" >
-	<div class="container-fluid">
-    <div class="navbar-brand" ><?= $this->data->title	?></div>
+<nav class="<?= theme::navbar() ?>" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-brand"><?= $this->data->title  ?></div>
 
-    <ul class="ml-auto navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="<?= strings::url() ?>">
-          <i class="bi bi-house"></i>
-          <span class="sr-only">Home</span>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#<?= $_uid = strings::rand() ?>" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        </a>
+    <div class="collapse navbar-collapse" id="<?= $_uid ?>">
+      <ul class="ml-auto navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="<?= strings::url() ?>">
+            <i class="bi bi-house"></i>
+            <span class="sr-only">Home</span>
 
-      </li>
+          </a>
 
-      <li class="nav-item">
-        <a class="nav-link" href="https://github.com/bravedave/">
-          <i class="bi bi-github"></i>
-          <span class="sr-only">GitHub</span>
+        </li>
 
-        </a>
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/bravedave/">
+            <i class="bi bi-github"></i>
+            <span class="sr-only">GitHub</span>
 
-      </li>
+          </a>
 
-    </ul>
+        </li>
 
+      </ul>
+
+    </div>
   </div>
 
 </nav>
