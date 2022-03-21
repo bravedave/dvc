@@ -212,6 +212,7 @@ abstract class errsys {
 					error_log( '---[probable duplicate    : error is logged in the exception]---');
 					error_log( sprintf( '---[controller : %s]---', \application::app()->controller()));
 					error_log( sprintf( '---[action : %s]---', \application::app()->action()));
+					error_log( sprintf( '---[method : %s]---', Request::get()->getServer('REQUEST_METHOD')));
           if ( \method_exists( 'currentUser', 'name')) {
             error_log( sprintf( '---[user : %s]---', \currentUser::name()));
 
