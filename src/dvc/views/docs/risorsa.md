@@ -116,9 +116,9 @@ class controller extends \Controller {
 }
 ```
 
-the app now runs at <http://localhost:8080/risorsa> and says *hello from risorsa ..*
+>the app now runs at <http://localhost:8080/risorsa> and says *hello from risorsa ..*
 
-you can remove the lines between *"these lines is temporary"* inclusive of those lines, the app will still run, you have a navbar, footer and blank views .. a clean start
+* remove the lines between *"these lines is temporary"* inclusive of those lines, the app will still run, you have a navbar, footer and blank views .. a clean start
 
 >you can create a navbar and footer, it's not required as this is a module, so a navbar and footer is probably more global than this, to create one, create a file at *src/app/views/navbar-default.php* and *src/app/views/footer.php* -  and use the bootstrap examples
 
@@ -161,18 +161,16 @@ namespace risorsa;  ?>
 #### Connect to a database
 
 >Note the data folder is created with a .gitignore file, do not upload the data folder to a public repository
-
 >To save data we will need a database, there are many... *DVC* supports SQLite and that is simple - mysql and mariadb are supported.
+>db_type is the important line - noting it is sqlite, refresh your page and the data file *db.sqlite* is created in the data folder
 
 * rename src/data/defaults-sample.json to src/data/defaults.json
-
-db_type is the important line - noting it is sqlite, refresh your page and the data file *db.sqlite* is created in the data folder
 
 #### Design a Table
 
 >Our goal is to maintain a table of computer assets, and previously we mentioned the information required to be stored. Here the objective is to create a table definition and use *DVC*'s builtin table maintenance system
-
-> When thinking database/table/records, my preference is to reference DAO - Data Access Objects - and DTO - Data Transition Objects. DAO Objects are intelligent, DTO Objects are simple.
+>When thinking database/table/records, my preference is to reference DAO - Data Access Objects - and DTO - Data Transition Objects. DAO Objects are intelligent, DTO Objects are simple.
+>*use field types are MySQL, and are converted to SQLite equivalents - for compatibility across database types*
 
 * Create the folders src/risorsa/dao, and src/risorsa/dao/db
 * Create a file src/risorsa/dao/db/risorsa.php
@@ -197,6 +195,8 @@ $dbc->defineField('cpu', 'varchar');
 $dbc->defineField('memory', 'varchar');
 $dbc->defineField('hdd', 'varchar');
 $dbc->defineField('os', 'varchar');
+
+$dbc->check();  // actually do the work, check that table and fields exis
 ```
 
 #### Initiate Auto Table Maintenance
