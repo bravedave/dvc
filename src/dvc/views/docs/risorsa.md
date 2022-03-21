@@ -61,10 +61,13 @@ We are creating most of the code in *namespace risorsa*, there are other ways to
 
 1. Create a directory `mkdir src/controller`
 1. Create the referencing controller
-   1. Create a file *src/controller/risorsa.php*
+   * Create a file *src/controller/risorsa.php*
 
 ```php
 <?php
+/**
+ * file src/controller/risorsa.php
+ */
 class risorsa extends risorsa\controller {}
 ```
 
@@ -72,11 +75,13 @@ that about wraps up the *getting ready* phase, on to coding the application..
 
 #### Create the controller
 
-* create a file src/risorsa/controller
+* create a file *src/risorsa/controller.php*
 
 ```php
 <?php
-
+/**
+ * file src/risorsa/controller.php
+ */
 namespace risorsa;
 
 use strings;
@@ -225,11 +230,11 @@ now all you have to do is maintain a version and call it regularly, do this as p
 1. Create a file src/risorsa/config.php
 
 ```php
+<?php
 /**
  * file : src/risorsa/config.php
  * change the namespace, add the use line
  */
-<?php
 
 namespace risorsa;
 
@@ -264,6 +269,8 @@ if you are running the app and refresh the browser at <http://localhost:8080/ris
 
 >Tip : <https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite> will allow you to open and view sqlite files
 ><img src="risorsa-sqlite.jpg" class="img img-fluid">
+
+that wraps up storage, lets create the add/edit modal, and a report matrix
 
 #### Create an Add record modal
 
