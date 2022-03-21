@@ -2,6 +2,18 @@
 
 ## How to create a PHP module
 
+### Goal
+
+Create a module to record computer assets in a business. We want to record:
+
+1. Computer
+1. Puchase Date
+1. Computer Name
+1. CPU
+1. Memory
+1. HDD
+1. OS
+
 <em>
 Assuming Installed and running - suggest WSL
 
@@ -34,6 +46,14 @@ and using *bravedave/dvc*
 * update autoload `composer u`
 
 by now the app should run `./run.sh`
+
+for consistency in the documentation, lets change the port to be static
+
+1. Edit the file ./run.sh
+1. Change the port to 8080
+1. Restart the `./run.sh`
+
+and you should be able to see it in your browser at <http://localhost:8080/>.
 
 ### Creating an application
 
@@ -91,21 +111,13 @@ class controller extends \Controller {
 }
 ```
 
-the app now runs at /risorsa and says *hello from risorsa ..*
+the app now runs at <http://localhost:8080/risorsa> and says *hello from risorsa ..*
 
 you can remove the lines between *"these lines is temporary"* inclusive of those lines, the app will still run, but you have a navbar, footer and blank views .. a clean start
 
 * you can create a navbar and footer, it's not required as this is a module, so a navbar and footer is probably more global than this, to create one, create a file at *src/app/views/navbar-default.php* and *src/app/views/footer.php* -  and use the bootstrap examples
 
 so ... to the app
-
-#### Connect to a database
-
-keeping it simple, use sqlite - mysql and mariadb are supported.
-
-* rename src/data/defaults-sample.json to src/data/defaults.json
-
-db_type is the important line - noting it is sqlite, refresh your page and the data file *db.sqlite* is created in the data folder
 
 #### Create an Index page
 
@@ -114,6 +126,9 @@ db_type is the important line - noting it is sqlite, refresh your page and the d
 
 ```php
 <?php
+/**
+ * file : src/risorsa/views/index.php
+ * */
 
 namespace risorsa;  ?>
 
@@ -137,3 +152,119 @@ namespace risorsa;  ?>
 ```php
     'secondary' => ['index'],
 ```
+
+#### Connect to a database
+
+> Note the data folder is created with a .gitignore file, do not upload the data folder to a public repository
+
+To save data we will need a database, there are many... *DVC* supports SQLite and that is simple - mysql and mariadb are supported.
+
+* rename src/data/defaults-sample.json to src/data/defaults.json
+
+db_type is the important line - noting it is sqlite, refresh your page and the data file *db.sqlite* is created in the data folder
+
+#### Design a Table
+
+Our goal is to maintain a table of computer assets, and previously we mentioned the information required to be stored. Here the objective is to create a table definition and use *DVC*'s builtin table maintenance system
+
+> When thinking database/table/records, my preference is to reference DAO - Data Access Objects - and DTO - Data Transition Objects. DAO Objects are intelligent, DTO Objects are simple.
+
+1. Create the folders src/risorsa/dao, and src/risorsa/dao/db
+1. Create a file src/risorsa/dao/db/risorsa.php
+
+```php
+<?php
+/**
+ * file : src/risorsa/dao/db/risorsa.php
+ * */
+
+namespace risorsa\dao;
+
+$dbc =\sys::dbCheck('risorsa');
+
+$dbc->defineField('created', 'datetime');
+$dbc->defineField('updated', 'datetime');
+
+$dbc->defineField('computer', 'varchar');
+$dbc->defineField('puchase date', 'varchar');
+$dbc->defineField('computer name', 'varchar');
+$dbc->defineField('cpu', 'varchar');
+$dbc->defineField('memory', 'varchar');
+$dbc->defineField('hdd', 'varchar');
+$dbc->defineField('os', 'varchar');
+
+$dbc->check();
+```
+
+#### Initiate Auto Table Maintenance
+
+*DVC*'s table maintenance is simple, it can add fields that are missing. It maintains a version, of if you increment the version, it checks that table. It can maintain indexes also.
+
+Find and copy the maintenance file into the dao folder, adjust the namespace
+
+```bash
+cp vendor/bravedave/dvc/src/dao/dbinfo.php src/risorsa/dao/
+```
+
+```php
+/**
+ * file : src/risorsa/dao/dbinfo.php
+ * change the namespace, add the use line
+ */
+namespace risorsa\dao;
+
+use dao\_dbinfo;
+
+class dbinfo extends _dbinfo {
+```
+
+now all you have to do is maintain a version and call it regularly, do this as part of your *config*
+
+>all you have to do is call the checking routine, this will create any tables from template files in the db folder. it will also maintain a file in the data folder of table versions (src/data/db_version.json)
+
+1. Create a file src/risorsa/config.php
+
+```php
+/**
+ * file : src/risorsa/config.php
+ * change the namespace, add the use line
+ */
+<?php
+
+namespace risorsa;
+
+class config extends \config {  // noting: config extends global config classes
+  const risorsa_db_version = 1;
+
+  static function risorsa_checkdatabase() {
+    $dao = new dao\dbinfo;
+    // $dao->debug = true;
+    $dao->checkVersion('risorsa', self::risorsa_db_version);
+  }
+
+}
+```
+
+1. Add a checking routine to your controller to call the checking routine regularly
+
+> before is a routine of the controller class, it's called at the end of __construct
+
+```php
+/**
+ * file : src/risorsa/controller
+ */
+  protected function before() {
+    config::risorsa_checkdatabase();  // add this line
+    parent::before();
+  }
+
+```
+
+if you are running the app and refresh the browser at <http://localhost:8080/risorsa> it will create the table
+
+>Tip : <https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite> will allow you to open and view sqlite files
+><img src="risorsa-sqlite.jpg" class="img img-fluid">
+
+#### Create an Add record modal
+
+#### Create an Report Matrix
