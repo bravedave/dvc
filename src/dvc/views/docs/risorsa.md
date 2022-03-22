@@ -584,4 +584,6 @@ use strings;  ?>
 </script>
 ```
 
+Right now the form will add a record to the database, you can view it using SQL - just reporting to go !
+
 #### Create an Report Matrix
