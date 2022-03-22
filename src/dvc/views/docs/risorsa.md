@@ -2,6 +2,8 @@
 
 ## How to create a PHP module
 
+>Preamble - this guide uses Bootstrap version 4, it is recommended when starting new projects to use version 5
+
 ### Goal
 
 Create a module to record computer assets in a business. We want to record:
@@ -73,6 +75,25 @@ class risorsa extends risorsa\controller {}
 
 that about wraps up the *getting ready* phase, on to coding the application..
 
+#### Create a config
+
+>a central config file is useful for specifying constants
+
+* Create a file src/risorsa/config.php
+
+```php
+<?php
+/**
+ * file : src/risorsa/config.php
+ */
+namespace risorsa;
+
+class config extends \config {  // noting: config extends global config classes
+  const label = 'Risorsa';  // general label for application
+
+}
+```
+
 #### Create the controller
 
 * create a file *src/risorsa/controller.php*
@@ -87,8 +108,6 @@ namespace risorsa;
 use strings;
 
 class controller extends \Controller {
-  protected $viewPath = __DIR__ . '/views/';
-
   protected function _index() {
     // these lines is temporary
     print 'hello from risorsa ..';
@@ -107,6 +126,8 @@ class controller extends \Controller {
 
   protected function before() {
     parent::before();
+
+    $this->viewPath[] = __DIR__ . '/views/';  // location for module specific views
   }
 
   protected function postHandler() {
@@ -134,21 +155,9 @@ so ... to the app
 /**
  * file : src/risorsa/views/index.php
  * */
-
 namespace risorsa;  ?>
 
 <h6 class="mt-1">Risorsa</h6>
-
-<ul class="nav flex-column">
-  <li class="nav-item">
-    <a class="nav-link" href="#"><i class="bi bi-plus-circle"></i> new</a>
-  </li>
-</ul>
-<script>
-( _ => $(document).ready( () => {
-
-}))( _brayworth_);
-</script>
 ```
 
 1. Modify the controllers secondary view to load 'index'
@@ -224,32 +233,31 @@ class dbinfo extends _dbinfo {
 >all you have to do is call the checking routine, this will create any tables from template files in the db folder. it will also maintain a file in the data folder of table versions (src/data/db_version.json)
 >Do this as part of your *config*
 
-* Create a file src/risorsa/config.php
+* modify file src/risorsa/config.php
 
 ```php
 <?php
 /**
  * file : src/risorsa/config.php
- * change the namespace, add the use line
  */
-
 namespace risorsa;
 
 class config extends \config {  // noting: config extends global config classes
   const risorsa_db_version = 1;
+
+  const label = 'Risorsa';  // general label for application
 
   static function risorsa_checkdatabase() {
     $dao = new dao\dbinfo;
     // $dao->debug = true;
     $dao->checkVersion('risorsa', self::risorsa_db_version);
   }
-
 }
 ```
 
 * Add a checking routine to your controller to call the checking routine regularly
 
-> before is a routine of the controller class, it's called at the end of __construct
+> before is a routine of the controller class, it's called at the end of __construct, note we have added the location of module specific views, we use that later in edit and matrix reporting
 
 ```php
 /**
@@ -258,8 +266,9 @@ class config extends \config {  // noting: config extends global config classes
   protected function before() {
     config::risorsa_checkdatabase();  // add this line
     parent::before();
-  }
 
+    $this->viewPath[] = __DIR__ . '/views/';  // location for module specific views
+  }
 ```
 
 if you are running the app and refresh the browser at <http://localhost:8080/risorsa> it will create the table
@@ -302,11 +311,13 @@ class risorsa extends _dto {
 
 ##### DAO - Data Access Object
 
->the dao has a few defaul action *getByID( $id)* for instance returns a dto of the given id
+>the dao has a few default action *getByID( $id)* for instance returns a dto of the given id
 
 ```php
 <?php
-
+/**
+ * file : src/risorsa/dao/risorsa.php
+ */
 namespace risorsa\dao;
 
 use dao\_dao;
@@ -315,11 +326,262 @@ class risorsa extends _dao {
   protected $_db_name = 'risorsa';
   protected $template = __NAMESPACE__ . '\dto\risorsa';
 
+  public function Insert($a) {
+    $a['created'] = $a['updated'] = self::dbTimeStamp();
+    return parent::Insert($a);
+  }
+
+  public function UpdateByID($a, $id) {
+    $a['updated'] = self::dbTimeStamp();
+    return parent::UpdateByID($a, $id);
+  }
 }
 ```
 
 that wraps up storage, lets create the add/edit modal, and a report matrix
 
+#### Control the execution of adding a record
+
+>Using the MVC convention, the controller will organise data and call the view
+
+* create an edit routine in the controller, add this function to src/risorsa/controller
+
+```php
+/**
+ * file : src/risorsa/controller.php
+ */
+  public function edit($id = 0) {
+    // tip : the structure is available in the view at $this->data->dto
+    $this->data = (object)[
+      'title' => $this->title = config::label,
+      'dto' => new dao\dto\risorsa
+    ];
+
+    $this->load('edit');  // located in views
+  }
+```
+
 #### Create an Add record modal
+
+>In this section we create a Bootstrap Modal dialog to add/edit a record, the structure of the data is defined earlier in the dto section, and the dto will be provided to the view
+>*Note : we will be using javascript/ajax to post the data, the merit is more apparent when contructing the matrix..*
+
+* create a file src/risorsa/views/edit.php
+
+```php
+<?php
+/**
+ * file : src/risorsa/views/edit.php
+ */
+namespace risorsa;
+
+use strings, theme;
+
+$dto = $this->data->dto;
+
+?>
+<form id="<?= $_form = strings::rand() ?>" autocomplete="off">
+
+  <input type="hidden" name="action" value="risorsa-save">
+  <input type="hidden" name="id" value="<?= $dto->id ?>">
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="<?= $_modal = strings::rand() ?>" aria-labelledby="<?= $_modal ?>Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header <?= theme::modalHeader() ?>">
+          <h5 class="modal-title" id="<?= $_modal ?>Label"><?= $this->title ?></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <!-- --[computer]-- -->
+          <div class="form-row">
+            <div class="col-md-3 col-form-label">computer</div>
+            <div class="col mb-2">
+              <input type="text" class="form-control" name="computer" value="<?= $dto->computer ?>">
+
+            </div>
+
+          </div>
+
+          <!-- --[puchase_date]-- -->
+          <div class="form-row">
+            <div class="col-md-3 col-form-label text-truncate">puchase date</div>
+            <div class="col mb-2">
+              <input type="text" class="form-control" name="puchase_date" value="<?= $dto->puchase_date ?>">
+
+            </div>
+
+          </div>
+
+          <!-- --[computer_name]-- -->
+          <div class="form-row">
+            <div class="col-md-3 col-form-label text-truncate">computer name</div>
+            <div class="col mb-2">
+              <input type="text" class="form-control" name="computer_name" value="<?= $dto->computer_name ?>">
+
+            </div>
+
+          </div>
+
+          <!-- --[cpu]-- -->
+          <div class="form-row">
+            <div class="col-md-3 col-form-label text-truncate">cpu</div>
+            <div class="col mb-2">
+              <input type="text" class="form-control" name="cpu" value="<?= $dto->cpu ?>">
+
+            </div>
+
+          </div>
+
+          <!-- --[memory]-- -->
+          <div class="form-row">
+            <div class="col-md-3 col-form-label text-truncate">memory</div>
+            <div class="col mb-2">
+              <input type="text" class="form-control" name="memory" value="<?= $dto->memory ?>">
+
+            </div>
+
+          </div>
+
+          <!-- --[hdd]-- -->
+          <div class="form-row">
+            <div class="col-md-3 col-form-label text-truncate">hdd</div>
+            <div class="col mb-2">
+              <input type="text" class="form-control" name="hdd" value="<?= $dto->hdd ?>">
+
+            </div>
+
+          </div>
+
+          <!-- --[os]-- -->
+          <div class="form-row">
+            <div class="col-md-3 col-form-label text-truncate">os</div>
+            <div class="col mb-2">
+              <input type="text" class="form-control" name="os" value="<?= $dto->os ?>">
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (_ => $('#<?= $_modal ?>').on('shown.bs.modal', () => {
+      $('#<?= $_form ?>')
+        .on('submit', function(e) {
+          let _form = $(this);
+          let _data = _form.serializeFormJSON();
+
+          _.post({
+            url: _.url('<?= $this->route ?>'),
+            data: _data,
+
+          }).then(d => {
+            if ('ack' == d.response) {
+              $('#<?= $_modal ?>')
+                .trigger('success')
+                .modal('hide');
+            } else {
+              _.growl(d);
+
+            }
+
+          });
+
+          // console.table( _data);
+
+          return false;
+        });
+    }))(_brayworth_);
+  </script>
+</form>
+```
+
+##### Handle the save
+
+>modify the controller's postHandler to handle the save
+
+* Modify src/risorsa/controller.php
+
+```php
+  protected function postHandler() {
+    $action = $this->getPost('action');
+
+    if ('risorsa-save' == $action) {
+      $a = [
+        'computer' => $this->getPost('computer'),
+        'puchase_date' => $this->getPost('puchase_date'),
+        'computer_name' => $this->getPost('computer_name'),
+        'cpu' => $this->getPost('cpu'),
+        'memory' => $this->getPost('memory'),
+        'hdd' => $this->getPost('hdd'),
+        'os' => $this->getPost('os')
+
+      ];
+
+      $dao = new dao\risorsa;
+      if ($id = (int)$this->getPost('id')) {
+
+        $dao->UpdateByID($a, $id);
+      } else {
+        $dao->Insert($a);
+      }
+      Json::ack($action); // json return { "response": "ack", "description" : "risorsa-save" }
+    } else {
+      parent::postHandler();
+    }
+  }
+```
+
+##### Allow the add control to trigger the modal/form to add a new record
+
+* modify the click event of the add control
+
+```php
+<?php
+/**
+ * file : src/risorsa/views/index.php
+ * */
+namespace risorsa;
+
+use strings;  ?>
+
+<h6 class="mt-1"><?= config::label ?></h6>
+
+<ul class="nav flex-column">
+  <li class="nav-item">
+    <a class="nav-link" href="#" id="<?= $_uidAdd = strings::rand() ?>"><i class="bi bi-plus-circle"></i> new</a>
+  </li>
+</ul>
+<script>
+  (_ => $(document).ready(() => {
+    $('#<?= $_uidAdd ?>').on('click', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+
+      /**
+       * note:
+       * on success of adding new, tell the document there
+       * was a new record, will be used by the matrix
+       *  */
+      _.get.modal(_.url('<?= $this->route ?>/edit'))
+        .then(m => m.on('success', e => $(document).trigger('risorsa-add-new')));
+
+      console.log('click');
+
+    });
+
+  }))(_brayworth_);
+</script>
+```
 
 #### Create an Report Matrix
