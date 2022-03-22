@@ -610,22 +610,148 @@ Right now the form will add a record to the database, you can view it using SQL 
   }
 ```
 
-* modify the controller to request the data
+* modify the controller to supply the data, add this logic into the posthandler
+
+>the data is going to be requested using ajax ...there are a number of advantages
+
+>1. The Page will load faster - because it is smaller
+>2. When modifying data, we can update it without reloading the page - once we exceed 10-20 records this becomes significant improvement to the UI.
 
 ```php
 <?php
 /**
  * file : src/risorsa/controller.php
  * */
-  protected function _index() {
+  protected function postHandler() {
+    $action = $this->getPost('action');
 
-    $dao = new dao\risorsa;
-    // tip : the structure is available in the view at $this->data->dtoSet
-    $this->data = (object)[
-      'dtoSet' => $dao->getMatrix()
-    ];
+    if ('get-matrix' == $action) {
+      /*
+        (_ => {
+          _.post({
+            url: _.url('risorsa'),
+            data: {
+              action: 'get-matrix'
+            },
+          }).then(d => {
+            if ('ack' == d.response) {
+              console.table(d.data);
+            } else {
+              _.growl(d);
+            }
+          });
 
+        })(_brayworth_);
+       */
+      $dao = new dao\risorsa;
+      Json::ack($action)
+        ->add('data', $dao->getMatrix());
+    } elseif ('risorsa-save' == $action) {
+    // ... note, we inserted this at the start and have changed the if/else to logically continue ...
     // ... more code ...
 ```
 
+>we inserted a test routine which can be executed from the console
+
+##### Create the View
+
+* create the file src/risorsa/views/matrix.php
+
+```php
+<?php
+/**
+ * file : src/risorsa/views/matrix.php
+ */
+namespace risorsa;
+
+use strings;
+
+?>
+<div class="table-responsive">
+  <table class="table table-sm" id="<?= $_uidMatrix = strings::rand() ?>">
+    <thead class="small">
+      <td>computer</td>
+      <td>purchase date</td>
+      <td>computer name</td>
+      <td>cpu</td>
+      <td>memory</td>
+      <td>hdd</td>
+      <td>os</td>
+
+    </thead>
+
+    <tbody></tbody>
+
+  </table>
+</div>
+<script>
+  (_ => {
+
+    const matrix = data => {
+      let table = $('#<?= $_uidMatrix ?>');
+      let tbody = $('#<?= $_uidMatrix ?> > tbody');
+
+      tbody.html('');
+      $.each(data, (i, dto) => {
+        $(`<tr>
+          <td>${dto.computer}</td>
+          <td>${dto.purchase_date}</td>
+          <td>${dto.computer_name}</td>
+          <td>${dto.cpu}</td>
+          <td>${dto.memory}</td>
+          <td>${dto.hdd}</td>
+          <td>${dto.os}</td>
+        </tr>`)
+          .data('dto', dto)
+          .appendTo(tbody);
+
+      });
+
+    };
+
+    $('#<?= $_uidMatrix ?>')
+      .on('refresh', function(e) {
+        _.post({
+          url: _.url('<?= $this->route ?>'),
+          data: {
+            action: 'get-matrix'
+          },
+        }).then(d => {
+          if ('ack' == d.response) {
+            matrix(d.data);
+          } else {
+            _.growl(d);
+          }
+        });
+
+      });
+
+    $(document).ready(() => $('#<?= $_uidMatrix ?>').trigger('refresh'));
+
+  })(_brayworth_);
+</script>
+```
+
 ##### Load the View
+
+* Modify the src/risorsa/controller.php to load the matrix view
+
+```php
+/**
+ * file : src/risorsa/controller.php
+ * */
+  protected function _index() {
+
+    $this->render([
+      'title' => $this->title = config::label,
+
+      'primary' => ['matrix'],  /* load the matrix view */
+
+      'secondary' => ['index'],
+      'data' => (object)[
+        'searchFocus' => true,
+        'pageUrl' => strings::url($this->route)
+      ]
+    ]);
+  }
+```
