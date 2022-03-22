@@ -9,7 +9,7 @@
 Create a module to record computer assets in a business. We want to record:
 
 1. Computer
-1. Puchase Date
+1. Purchase Date
 1. Computer Name
 1. CPU
 1. Memory
@@ -198,7 +198,7 @@ $dbc->defineField('created', 'datetime');
 $dbc->defineField('updated', 'datetime');
 
 $dbc->defineField('computer', 'varchar');
-$dbc->defineField('puchase_date', 'varchar');
+$dbc->defineField('purchase_date', 'varchar');
 $dbc->defineField('computer_name', 'varchar');
 $dbc->defineField('cpu', 'varchar');
 $dbc->defineField('memory', 'varchar');
@@ -300,7 +300,7 @@ class risorsa extends _dto {
   public $updated = '';
 
   public $computer = '';
-  public $puchase_date = '';
+  public $purchase_date = '';
   public $computer_name = '';
   public $cpu = '';
   public $memory = '';
@@ -406,11 +406,11 @@ $dto = $this->data->dto;
 
           </div>
 
-          <!-- --[puchase_date]-- -->
+          <!-- --[purchase_date]-- -->
           <div class="form-row">
-            <div class="col-md-3 col-form-label text-truncate">puchase date</div>
+            <div class="col-md-3 col-form-label text-truncate">purchase date</div>
             <div class="col mb-2">
-              <input type="text" class="form-control" name="puchase_date" value="<?= $dto->puchase_date ?>">
+              <input type="text" class="form-control" name="purchase_date" value="<?= $dto->purchase_date ?>">
 
             </div>
 
@@ -519,7 +519,7 @@ $dto = $this->data->dto;
     if ('risorsa-save' == $action) {
       $a = [
         'computer' => $this->getPost('computer'),
-        'puchase_date' => $this->getPost('puchase_date'),
+        'purchase_date' => $this->getPost('purchase_date'),
         'computer_name' => $this->getPost('computer_name'),
         'cpu' => $this->getPost('cpu'),
         'memory' => $this->getPost('memory'),
