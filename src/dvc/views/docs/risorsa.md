@@ -588,3 +588,44 @@ use strings;  ?>
 Right now the form will add a record to the database, you can view it using SQL - just reporting to go !
 
 #### Create an Report Matrix
+
+>The goal in this section is to Use a controller to request some modelling of data, and supply that modelled data to a view - and it will do that when requested by the default function of the controller... *_index*
+
+##### Request some Modelled Data
+
+* modify the file src/risorsa/dao/risorsa.php to include the getMatrix function
+
+```php
+<?php
+/**
+ * file : src/risorsa/dao/risorsa.php
+ * */
+  public function getMatrix() : array {
+    $sql = 'SELECT * FROM `risorsa`';
+    if ( $res = $this->Result($sql)) {
+      return $this->dtoSet($res);
+    }
+
+    return [];
+  }
+```
+
+* modify the controller to request the data
+
+```php
+<?php
+/**
+ * file : src/risorsa/controller.php
+ * */
+  protected function _index() {
+
+    $dao = new dao\risorsa;
+    // tip : the structure is available in the view at $this->data->dtoSet
+    $this->data = (object)[
+      'dtoSet' => $dao->getMatrix()
+    ];
+
+    // ... more code ...
+```
+
+##### Load the View
