@@ -411,7 +411,7 @@ $dto = $this->data->dto;
           <div class="form-row">
             <div class="col-md-3 col-form-label text-truncate">purchase date</div>
             <div class="col mb-2">
-              <input type="text" class="form-control" name="purchase_date" value="<?= $dto->purchase_date ?>">
+              <input type="date" class="form-control" name="purchase_date" value="<?= $dto->purchase_date ?>">
 
             </div>
 
@@ -612,8 +612,9 @@ Right now the form will add a record to the database, you can view it using SQL 
 
 * modify the controller to supply the data, add this logic into the posthandler
 
+>note that there is 2 logics here, a get-by-id, and a get-matrix logic<br>
 >the data is going to be requested using ajax ...there are a number of advantages
-
+>
 >1. The Page will load faster - because it is smaller
 >2. When modifying data, we can update it without reloading the page - once we exceed 10-20 records this becomes significant improvement to the UI.
 
@@ -625,7 +626,37 @@ Right now the form will add a record to the database, you can view it using SQL 
   protected function postHandler() {
     $action = $this->getPost('action');
 
-    if ('get-matrix' == $action) {
+    if ('get-by-id' == $action) {
+      /*
+        (_ => {
+          _.post({
+            url: _.url('risorsa'),
+            data: {
+              action: 'get-by-id',
+              id : 1
+            },
+          }).then(d => {
+            if ('ack' == d.response) {
+              console.log(d.data);
+            } else {
+              _.growl(d);
+            }
+          });
+
+        })(_brayworth_);
+       */
+      if ($id = (int)$this->getPost('id')) {
+        $dao = new dao\risorsa;
+        if ($dto = $dao->getByID($id)) {
+          Json::ack($action)
+            ->add('data', $dto);
+        } else {
+          Json::nak($action);
+        }
+      } else {
+        Json::nak($action);
+      }
+    } elseif ('get-matrix' == $action) {
       /*
         (_ => {
           _.post({
@@ -670,14 +701,15 @@ use strings;
 <div class="table-responsive">
   <table class="table table-sm" id="<?= $_uidMatrix = strings::rand() ?>">
     <thead class="small">
-      <td>computer</td>
-      <td>purchase date</td>
-      <td>computer name</td>
-      <td>cpu</td>
-      <td>memory</td>
-      <td>hdd</td>
-      <td>os</td>
-
+      <tr>
+        <td>computer</td>
+        <td>purchase date</td>
+        <td>computer name</td>
+        <td>cpu</td>
+        <td>memory</td>
+        <td>hdd</td>
+        <td>os</td>
+      </tr>
     </thead>
 
     <tbody></tbody>
@@ -687,26 +719,74 @@ use strings;
 <script>
   (_ => {
 
+    const edit = function() {
+      let _me = $(this);
+      let _dto = _me.data('dto');
+
+      _.get.modal(_.url(`<?= $this->route ?>/edit/${_dto.id}`))
+        .then(m => m.on('success', e => _me.trigger('refresh')));
+
+    };
+
     const matrix = data => {
       let table = $('#<?= $_uidMatrix ?>');
       let tbody = $('#<?= $_uidMatrix ?> > tbody');
 
       tbody.html('');
       $.each(data, (i, dto) => {
-        $(`<tr>
-          <td>${dto.computer}</td>
-          <td>${dto.purchase_date}</td>
-          <td>${dto.computer_name}</td>
-          <td>${dto.cpu}</td>
-          <td>${dto.memory}</td>
-          <td>${dto.hdd}</td>
-          <td>${dto.os}</td>
+        $(`<tr class="pointer">
+          <td class="js-computer">${dto.computer}</td>
+          <td class="js-purchase_date">${dto.purchase_date}</td>
+          <td class="js-computer_name">${dto.computer_name}</td>
+          <td class="js-cpu">${dto.cpu}</td>
+          <td class="js-memory">${dto.memory}</td>
+          <td class="js-hdd">${dto.hdd}</td>
+          <td class="js-os">${dto.os}</td>
         </tr>`)
           .data('dto', dto)
+          .on('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            $(this).trigger('edit');
+
+          })
+          .on('edit', edit)
+          .on('refresh', refresh)
           .appendTo(tbody);
 
       });
 
+    };
+
+    const refresh = function(e) {
+      e.stopPropagation();
+
+      let _me = $(this);
+      let _dto = _me.data('dto');
+
+      _.post({
+        url: _.url('<?= $this->route ?>'),
+        data: {
+          action: 'get-by-id',
+          id: _dto.id
+        },
+
+      }).then(d => {
+        if ('ack' == d.response) {
+          $('.js-computer', _me).html(d.data.computer);
+          $('.js-purchase_date', _me).html(d.data.purchase_date);
+          $('.js-computer_name', _me).html(d.data.computer_name);
+          $('.js-cpu', _me).html(d.data.cpu);
+          $('.js-memory', _me).html(d.data.memory);
+          $('.js-hdd', _me).html(d.data.hdd);
+          $('.js-os', _me).html(d.data.os);
+
+        } else {
+          _.growl(d);
+
+        }
+      });
     };
 
     $('#<?= $_uidMatrix ?>')
