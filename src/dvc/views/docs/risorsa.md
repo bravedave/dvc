@@ -63,7 +63,7 @@ and you should be able to see it in your browser at <http://localhost:8080/>.
 
 We are creating most of the code in *namespace risorsa*, there are other ways to reference the program, but we are going to create a *DVC* controller to reference it directly. In *DVC* controllers are located in src/app/controller, and this controller is risorsa
 
-1. Create a directory `mkdir src/controller`
+1. Create a folder at *src/controller*
 1. Create the referencing controller
    * Create a file *src/controller/risorsa.php*
 
@@ -139,7 +139,8 @@ class controller extends \Controller {
 }
 ```
 
->the app now runs at <http://localhost:8080/risorsa> and says *hello from risorsa ..*
+>the app now runs at <http://localhost:8080/risorsa> and says *hello from risorsa ..*<br>
+**special note : the url is /risorca**
 
 * remove the lines between *"these lines is temporary"* inclusive of those lines, the app will still run, you have a navbar, footer and blank views .. a clean start
 
@@ -315,6 +316,8 @@ class risorsa extends _dto {
 
 >the dao has a few default action *getByID( $id)* for instance returns a dto of the given id
 
+* create a file src/risorsa/dao/risorsa.php
+
 ```php
 <?php
 /**
@@ -359,7 +362,13 @@ that wraps up storage, lets create the add/edit modal, and a report matrix
       'dto' => new dao\dto\risorsa
     ];
 
-    $this->load('edit');  // located in views
+    if ($id = (int)$id) {
+      $dao = new dao\risorsa;
+      $this->data->dto = $dao->getByID($id);
+      $this->data->title .= ' edit';
+    }
+
+    $this->load('edit');
   }
 ```
 
@@ -544,6 +553,21 @@ $dto = $this->data->dto;
   }
 ```
 
+>This will actually introduce an error, Json of Json::ack will not be found, add the reference at the top of the controller, just after the namespace declaration
+
+```php
+<?php
+/**
+ * file src/risorsa/controller.php
+ */
+namespace risorsa;
+
+use Json; // add this line
+use strings;
+
+class controller extends \Controller {
+```
+
 ##### Allow the add control to trigger the modal/form to add a new record
 
 * modify the click event of the add control
@@ -683,7 +707,8 @@ Right now the form will add a record to the database, you can view it using SQL 
     // ... more code ...
 ```
 
->we inserted a test routine which can be executed from the console
+>**read the above carefully**, we modified the logic on the risora-save action,<br>
+we also inserted a test routine which can be executed from the console
 
 ##### Create the View
 
@@ -729,6 +754,14 @@ use strings;
 
     };
 
+    const localeDate = s => {
+      if (_.isDateValid(s)) {
+        let d = new Date(s);
+        return d.toLocaleDateString();
+      }
+      return s;
+    };
+
     const matrix = data => {
       let table = $('#<?= $_uidMatrix ?>');
       let tbody = $('#<?= $_uidMatrix ?> > tbody');
@@ -737,7 +770,7 @@ use strings;
       $.each(data, (i, dto) => {
         $(`<tr class="pointer">
           <td class="js-computer">${dto.computer}</td>
-          <td class="js-purchase_date">${dto.purchase_date}</td>
+          <td class="js-purchase_date">${localeDate(dto.purchase_date)}</td>
           <td class="js-computer_name">${dto.computer_name}</td>
           <td class="js-cpu">${dto.cpu}</td>
           <td class="js-memory">${dto.memory}</td>
