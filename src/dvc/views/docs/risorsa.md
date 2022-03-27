@@ -20,6 +20,7 @@ Create a module to record computer assets in a business. We want to record:
 Assuming Installed and running - suggest WSL
 
 1. PHP
+1. Git
 1. Composer
 1. VS Code
 
