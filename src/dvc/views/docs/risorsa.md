@@ -20,7 +20,7 @@ Create a module to record computer assets in a business. We want to record:
 Assuming Installed and running - suggest WSL
 
 1. PHP
-   * *under Alpine Linux ...  php8, php8-zip, php8-iconv, php8-dom, php8-curl, php8-session, php8-sqlite3, php8-ctype, php8-openssl, php8-mbstring*
+   * *under Alpine Linux ...  php8, php8-zip, php8-iconv, php8-dom, php8-curl, php8-session, php8-sqlite3, php8-ctype, php8-openssl, php8-mbstring, php8-posix*
 1. Git
 1. Composer
 1. VS Code
