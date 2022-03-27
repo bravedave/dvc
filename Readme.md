@@ -51,4 +51,4 @@ run.cmd
 
 ... the tests are visible on <http://localhost/>
 
-There is a tutorial at <src/dvc/views/docs/risorsa.md>
+There is a tutorial at (src/dvc/views/docs/risorsa.md)
