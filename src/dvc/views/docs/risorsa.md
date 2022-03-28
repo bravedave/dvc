@@ -841,6 +841,7 @@ use strings;
 
       });
 
+    $(document).on('risorsa-add-new', e => $('#<?= $_uidMatrix ?>').trigger('refresh'));
     $(document).ready(() => $('#<?= $_uidMatrix ?>').trigger('refresh'));
 
   })(_brayworth_);
