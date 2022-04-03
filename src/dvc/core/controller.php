@@ -733,7 +733,7 @@ abstract class controller {
   }
 
   public function init($name = '') {
-    self::$url = sprintf('%s%s/', \url::$URL, $name);
+    self::$url = strings::url($name . '/');
     if ($this->debug) \sys::logger(self::$url);
   }
 

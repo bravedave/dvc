@@ -60,7 +60,7 @@ class home extends Controller {
 		/*
 			if you set this you will get some stats in the system log
 			about how many loads have occurrered	*/
-		//~ sys::loaderCounter( new dvc\hitter('total loads'));
+		//~ sys::loaderCounter( new dvc\core\hitter('total loads'));
 		parent::index( $data);
 
 	}

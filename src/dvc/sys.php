@@ -217,7 +217,7 @@ abstract class sys {
     error_log(sprintf('deprecated : %s', self::traceCaller()));
   }
 
-  public static function loaderCounter(hitter $hitter) {
+  public static function loaderCounter(core\hitter $hitter) {
     error_log(sprintf('deprecated : %s', self::traceCaller()));
   }
 
@@ -604,7 +604,7 @@ abstract class sys {
   public static function serveBootStrap5($type = 'css') {
 
     if ('css' == $type) {
-      $lib = __DIR__ . '/resource/bootstrap5/css/bootstrap.min.css';
+      $lib = __DIR__ . '/resource/bootstrap5/bootstrap.min.css';
       if ('blue' == \currentUser::option('theme')) {
         $lib = __DIR__ . '/resource/bootstrap5/bootstrap-blue.min.css';
       } elseif ('orange' == \currentUser::option('theme')) {
