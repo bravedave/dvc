@@ -10,32 +10,9 @@
 
 namespace dao\dto;
 
-class _dto {
-	public function __construct( $row = null ) {
-		$this->populate( $row);
+use dvc;
 
-	}
-
-	protected function populate( $row = null ) {
-		if ( !( is_null( $row ))) {
-			foreach ( $row as $k => $v ) {
-				$this->{$k} = $v;
-
-			}
-
-		}
-
-	}
-
-	public function toString() {
-		$s = array();
-		foreach ( $this as $k => $v) {
-			$s[] = sprintf( '%s = %s', $k, $v);
-
-		}
-
-		return ( implode( PHP_EOL, $s));
-
-	}
-
+class _dto extends dvc\dao\dto\_dto {
 }
+
+\sys::trace(sprintf('deprecated : please call dvc\dao\dto\_dto directly : %s', __METHOD__));
