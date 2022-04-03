@@ -10,6 +10,8 @@
 
 namespace dao\dto;
 
+use dvc\dao\dto\_dto;
+
 class mailmessage extends _dto {
 	var $Flags = [];
 	var $Folder = '';

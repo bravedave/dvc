@@ -10,6 +10,8 @@
 
 namespace dao\dto;
 
+use dvc\dao\dto\_dto;
+
 class mailfolder extends _dto {
 	public $name = '';
 	public $fullname = '';
