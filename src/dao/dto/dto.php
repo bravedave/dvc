@@ -10,4 +10,11 @@
 
 namespace dao\dto;
 
-class dto extends _dto {}
+use dvc;
+
+class dto extends dvc\dao\dto\_dto {
+  public function __construct($row = null) {
+    \sys::logger(sprintf('deprecated : please call dvc\dao\dto\_dto directly : %s', get_class($this)));
+    parent::__construct($row);
+  }
+}
