@@ -15,4 +15,4 @@ use dvc;
 class _dto extends dvc\dao\dto\_dto {
 }
 
-\sys::trace(sprintf('deprecated : please call dvc\dao\dto\_dto directly : %s', __METHOD__));
+\sys::logger(sprintf('deprecated : please call dvc\dao\dto\_dto directly : %s', __METHOD__));
