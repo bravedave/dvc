@@ -13,8 +13,9 @@ cd ..
 
 rsync -arR --delete bootstrap-5.tmp/dist/./ bootstrap-5.tmp/./scss/ bootstrap5/
 
+echo \*>bootstrap5/css/.gitignore
+echo \*>bootstrap5/scss/.gitignore
 cd bootstrap5/scss
-echo \*>.gitignore
 
 cat ../../bootstrap-custom.scss bootstrap.scss >bootstrap-custom.scss
 sassc --omit-map-comment -t compressed bootstrap-custom.scss ../bootstrap.min.css
