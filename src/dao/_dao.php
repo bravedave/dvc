@@ -10,6 +10,8 @@
 
 namespace dao;
 
+use dvc;
+
 abstract class _dao {
 	protected $_sql_getByID = 'SELECT * FROM %s WHERE id = %d';
 	protected $_sql_getAll = 'SELECT %s FROM %s %s';
@@ -22,7 +24,7 @@ abstract class _dao {
 	public $db;
 	public $log = false;
 
-	function __construct( \dvc\dbi $db = null ) {
+	function __construct( dvc\dbi $db = null ) {
 
 		if ( !\config::checkDBconfigured()) {
 		    // \sys::logger( sprintf('<Call the doctor I think I\'m gonna crash> %s', __METHOD__));
@@ -108,7 +110,7 @@ abstract class _dao {
 	protected function _create() {
 		if ( 'sqlite' == \config::$DB_TYPE) {
 			$fieldList = $this->db->fieldList($this->db_name());
-			$o = new dto\dto;
+			$o = new dvc\dao\dto\dto;
 			foreach ( $fieldList as $f) {
 				$o->{$f->name} = $f->dflt_value;
 
@@ -162,7 +164,7 @@ abstract class _dao {
 
 		});
 
-		$o = new dto\dto;
+		$o = new dvc\dao\dto\dto;
 		foreach( $dtoSet as $dto) {
 			$o->{$dto->Field} = $dto->Default;
 
@@ -172,7 +174,7 @@ abstract class _dao {
 
 	}
 
-	public function create() {		/* returns a new dto of the file */
+	public function create() {		/* returns a new dvc\dao\dto of the file */
 		if ( is_null( $this->template)) {
 			return ( $this->_create());
 
@@ -217,7 +219,7 @@ abstract class _dao {
 		$this->Q( sprintf( 'DELETE FROM %s WHERE id = %d', $this->_db_name, (int)$id ));
 
 		if ( \config::$DB_CACHE == 'APC') {
-			$cache = \dvc\cache::instance();
+			$cache = dvc\cache::instance();
 			$key = $this->cacheKey_delete( $id);
 			$cache->delete( $key, true);
 
@@ -226,12 +228,12 @@ abstract class _dao {
 	}
 
 	public function dtoSet( $res, $func = null) : array {
-		if ( $res instanceof \dvc\dbResult || $res instanceof \dvc\sqlite\dbResult) {
+		if ( $res instanceof dvc\dbResult || $res instanceof dvc\sqlite\dbResult) {
 			return $res->dtoSet( $func, $this->template);
 
 		}
 		else {
-			throw new \Exception( sprintf( '"Argument 1 passed to %s must be an instance of dvc\dbResult or \dvc\sqlite\dbResult', __METHOD__));
+			throw new \Exception( sprintf( '"Argument 1 passed to %s must be an instance of dvc\dbResult or dvc\sqlite\dbResult', __METHOD__));
 
 		}
 
@@ -257,7 +259,7 @@ abstract class _dao {
 		}
 
 		if ( \config::$DB_CACHE == 'APC') {
-			$cache = \dvc\cache::instance();
+			$cache = dvc\cache::instance();
 			$key = $this->cacheKey( $id, $fld);
 			if ( $v = $cache->get( $key)) {
 				return ( $v);
@@ -291,7 +293,7 @@ abstract class _dao {
 		}
 
 		if ( \config::$DB_CACHE == 'APC') {
-			$cache = \dvc\cache::instance();
+			$cache = dvc\cache::instance();
 			$key = $this->cacheKey( $id);
 			if ( $dto = $cache->get( $key)) {
         /**
@@ -299,7 +301,7 @@ abstract class _dao {
          * particularly in CMS (private repository) which is very old code
          *
          * so, check the type matches ..
-         * debug is currently on for this => \dvc\core\config::$DB_CACHE_DEBUG_TYPE_CONFLICT = true;
+         * debug is currently on for this => dvc\core\config::$DB_CACHE_DEBUG_TYPE_CONFLICT = true;
          *
          */
         if ( $thisType = get_class( $dto)) {
@@ -378,7 +380,7 @@ abstract class _dao {
 			throw new Exceptions\DBNameIsNull;
 
 		if ( \config::$DB_CACHE == 'APC') {
-			$cache = \dvc\cache::instance();
+			$cache = dvc\cache::instance();
 			$key = $this->cacheKey_delete( $id);
 			$cache->delete( $key, true);
 
