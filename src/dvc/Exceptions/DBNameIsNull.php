@@ -8,6 +8,6 @@
  *
 */
 
-namespace dao\Exceptions;
+namespace dvc\Exceptions;
 
-class DBNotConfigured extends \dvc\Exceptions\Exception {}
+class DBNameIsNull extends Exception {}
