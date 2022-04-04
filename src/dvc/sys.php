@@ -422,6 +422,7 @@ abstract class sys {
           if (self::$debug) \sys::logger("served: $path");
         } elseif ($ext == 'eml') {
           Response::headers('application/octet-stream', filemtime($path));
+          header(sprintf('Content-Disposition: attachment; filename="%s"', $path_parts['basename']));
           readfile($path);
           if (self::$debug) \sys::logger("served: $path");
         } elseif ($ext == 'eot') {
