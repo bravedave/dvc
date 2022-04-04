@@ -420,6 +420,10 @@ abstract class sys {
           Response::javascript_headers(filemtime($path), $expires);
           readfile($path);
           if (self::$debug) \sys::logger("served: $path");
+        } elseif ($ext == 'eml') {
+          Response::headers('application/octet-stream', filemtime($path));
+          readfile($path);
+          if (self::$debug) \sys::logger("served: $path");
         } elseif ($ext == 'eot') {
           Response::headers('application/vnd.ms-fontobject', filemtime($path), \config::$FONT_EXPIRE_TIME);
           readfile($path);
