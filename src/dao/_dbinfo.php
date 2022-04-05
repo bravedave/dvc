@@ -67,6 +67,7 @@ class _dbinfo extends _dao {
       if (posix_geteuid() == fileowner($store)) {
         chmod($store, 0666);
       }
+      clearstatcache();
     } else {
       if ($this->debug) \sys::logger(sprintf('<%s> <up to date %s ? %s> %s', $store, $_version, $version, __METHOD__));
     }
