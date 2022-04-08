@@ -141,7 +141,7 @@ class controller extends \Controller {
 ```
 
 >the app now runs at <http://localhost:8080/risorsa> and says *hello from risorsa ..*<br>
-**special note : the url is /risorca**
+**special note : the url is /risorsa**
 
 * remove the lines between *"these lines is temporary"* inclusive of those lines, the app will still run, you have a navbar, footer and blank views .. a clean start
 
