@@ -708,7 +708,7 @@ Right now the form will add a record to the database, you can view it using SQL 
     // ... more code ...
 ```
 
->**read the above carefully**, we modified the logic on the risora-save action,<br>
+>**read the above carefully**, we modified the logic on the risorsa-save action,<br>
 we also inserted a test routine which can be executed from the console
 
 ##### Create the View
