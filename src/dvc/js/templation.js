@@ -40,7 +40,7 @@ window.templation = {
 
 };
 
-(() => {
+(_ => {
 	// const newLocal = '<div class="modal"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content" role="dialog" aria-labelledby="modal-title"><div class="modal-header py-1 bg-primary text-white"><h5 class="modal-title text-truncate" id="modal-title"></h5><i class="bi bi-x close text-white"></i></div><div class="modal-body"></div></div></div></div>';
 	/*
 		some predefined templates
@@ -200,4 +200,4 @@ window.templation = {
 
 	};
 
-})();
+})(_brayworth_);
