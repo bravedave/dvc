@@ -63,13 +63,18 @@
         buttons: {},
         headButtons: {},
         closeIcon: 'bi-x',
-        onOpen: () => {},
-        onEnter: () => {},
+        onOpen: () => { },
+        onEnter: () => { },
       }, ...params
     };
 
     let t = _.templates.modal();
-    t.get('.close').addClass(options.closeIcon);
+    let close = t.get('.close');
+    if ($('.bi', close).length > 0) {
+      $('.bi', close).addClass(options.closeIcon);
+    } else if (close.length > 0) {
+      close.addClass(options.closeIcon);
+    }
 
     if (options.className != '') {
       t.get('.modal-dialog').addClass(options.className);

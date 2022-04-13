@@ -41,7 +41,7 @@ window.templation = {
 };
 
 (() => {
-	const newLocal = '<div class="modal"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content" role="dialog" aria-labelledby="modal-title"><div class="modal-header py-1 bg-primary text-white"><h5 class="modal-title text-truncate" id="modal-title"></h5><i class="bi bi-x close text-white"></i></div><div class="modal-body"></div></div></div></div>';
+	// const newLocal = '<div class="modal"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content" role="dialog" aria-labelledby="modal-title"><div class="modal-header py-1 bg-primary text-white"><h5 class="modal-title text-truncate" id="modal-title"></h5><i class="bi bi-x close text-white"></i></div><div class="modal-body"></div></div></div></div>';
 	/*
 		some predefined templates
 		add more with templation.loadHTML('tr','<tr></tr>');
@@ -52,8 +52,7 @@ window.templation = {
 		form : '<form></form>',
 		table : '<table><thead></thead><tbody></tbody><tfoot></tfoot></table>',
 		tr : '<tr></tr>',
-		modal: newLocal,
-
+		modal: _.modal.template()[0].outerHTML,
 	};
 
 	function _t( src) {
