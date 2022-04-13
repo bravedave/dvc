@@ -300,7 +300,7 @@
           <div class="modal-header">
             <h5 class="modal-title text-truncate" title="Modal">Modal</h5>
             <button type="button" class="close" data-${_.bootstrap_version() >= 5 ? 'bs-' : ''}dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+              <i aria-hidden="true" class="bi bi-x"></i>
             </button>
           </div>
           <div class="modal-body"></div>
