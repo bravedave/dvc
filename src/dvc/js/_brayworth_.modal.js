@@ -71,8 +71,10 @@
     let t = _.templates.modal();
     let close = t.get('.close');
     if ($('.bi', close).length > 0) {
+      console.log('add to .bi')
       $('.bi', close).addClass(options.closeIcon);
     } else if (close.length > 0) {
+      console.log('add to close')
       close.addClass(options.closeIcon);
     }
 
