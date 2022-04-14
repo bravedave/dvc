@@ -17,7 +17,7 @@ class fileUploader {
 
   public function __construct(array $_params = []) {
     $options = array_merge([
-      'path' => config::dataPath(),
+      'path' => \config::dataPath(),
       'accept' => []
 
     ], $_params);
@@ -41,8 +41,7 @@ class fileUploader {
         $source = $file['tmp_name'];
         $target = implode(DIRECTORY_SEPARATOR, [
           $this->path,
-          strtolower($fileName ?: $file['name'])
-
+          \strings::safe_file_name( strtolower($fileName ?: $file['name']))
         ]);
 
         if (in_array($strType, ['image/jpeg', 'image/pjpeg'])) {
