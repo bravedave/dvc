@@ -309,6 +309,41 @@
       </div>
     </div>`);
 
+  _.modal.pdf = p => {
+    let options = {
+      ...{
+        size: 'lg',
+        title: 'Viewer',
+        text: '',
+        headClass: '',
+        url: 'string' == typeof p ? p : ''
+      },
+      ...p
+    };
+
+    let m = _.ask(options);
+
+    let id = _.randomString();
+
+    let iframe = $('<iframe>').attr({
+      src: options.url,
+      id: id,
+      frameborder: 0,
+      width: '100%',
+      height: '100%'
+    });
+
+    $('.modal-body', m)
+      .addClass('p-2')
+      .append(`<style>
+        @media (min-width: 768px) {
+          #${id} { min-height: calc(100vh - 230px) !important; }
+        }
+        </style>`)
+      .append(iframe);
+
+  };
+
   _.templates.buttonCSS = 'btn btn-default';
   _.templates.modalDefaultClass = '';
   _.templates.modal = () => {
