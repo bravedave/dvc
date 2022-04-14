@@ -43,9 +43,9 @@
 
           if (0 == bCount) footer.addClass('d-none');
 
-          if ( 'sm' == String(options.size)) $('.modal-dialog', modal).addClass('modal-sm');
-          if ( 'lg' == String(options.size)) $('.modal-dialog', modal).addClass('modal-lg');
-          if ( 'xl' == String(options.size)) $('.modal-dialog', modal).addClass('modal-xl');
+          if ('sm' == String(options.size)) $('.modal-dialog', modal).addClass('modal-sm');
+          if ('lg' == String(options.size)) $('.modal-dialog', modal).addClass('modal-lg');
+          if ('xl' == String(options.size)) $('.modal-dialog', modal).addClass('modal-xl');
 
         },
         buttons: {},
@@ -65,7 +65,15 @@
 
     }
 
-    $('.modal-header', dlg).addClass(options.headClass);
+    if (/text\-/.test(options.headClass)) {
+      $('.modal-header', dlg).removeClass('text-white text-light text-dark text-success text-danger text-warning text-info');
+    }
+    if (/bg\-/.test(options.headClass)) {
+      $('.modal-header', dlg).removeClass('bg-white bg-light bg-dark bg-success bg-danger bg-warning bg-info');
+    }
+
+    if ('' != String(options.headClass)) $('.modal-header', dlg).addClass(options.headClass);
+
     dlg.appendTo('body');
     options.beforeOpen.call(dlg);
     dlg.modal('show');
