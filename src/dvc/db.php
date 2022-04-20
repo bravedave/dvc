@@ -45,8 +45,16 @@ class db {
   }
 
   function __destruct() {
-    if ($this->mysqli)
+    if ($this->mysqli) {
+      if ( $a = $this->mysqli->error_list) {
+        foreach ($a as $e) {
+          \sys::logger( sprintf('<mysql-error : %s> %s', $e, __METHOD__));
+        }
+      }
       $this->mysqli->close();
+      $this->mysqli = null;
+
+    }
   }
 
   public function affected_rows() {
