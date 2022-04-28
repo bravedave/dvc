@@ -27,7 +27,7 @@ class bootstrap extends page {
     parent::$pageContainer = self::$pageContainer;
     self::$BootStrap = true;
     if (self::$Bootstrap_Version == '3') {
-      $this->primaryClass = 'col-md-9 pt-3 pb-4 d-print-w100';
+      self::$primaryClass = 'col-md-9 pt-3 pb-4 d-print-w100';
       $this->jQuery2 = true;
     } elseif ($this->dvc) {
       if (self::$Bootstrap_Version == '4') {
