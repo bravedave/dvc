@@ -21,7 +21,6 @@
     "ext-fileinfo": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "ext-posix": "*",
     "ext-session": "*",
     "matthiasmullie/minify": "^1.3.61",
     "tijsverkoyen/css-to-inline-styles": "^2.2",
