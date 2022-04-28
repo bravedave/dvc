@@ -79,7 +79,7 @@ class Request {
       $this->segments = [];
       foreach ($segs as $seg) {
         if ($seg) {
-          if (!preg_match('/[a-z]/i', $seg)) {
+          if (!preg_match('/^[a-z0-9]/i', $seg)) {
             \sys::logger(sprintf('<%s> %s', $seg, __METHOD__));
             break;
           }
