@@ -57,6 +57,7 @@
       "src/dvc/resource/get-bootstrap-5.sh",
       "src/dvc/resource/get-bootstrap-icons.sh"
     ],
+    "start": "bash ./run.sh",
     "test": "tests\\tests::simple"
   }
 }
