@@ -11,6 +11,7 @@
 namespace dao;
 
 use sys;
+use dvc\dao\_dao;
 
 class bwui extends _dao {
 	protected $_db_name = 'bwui';
