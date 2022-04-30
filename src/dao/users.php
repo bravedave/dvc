@@ -10,6 +10,8 @@
 
 namespace dao;
 
+use dvc\dao\_dao;
+
 class users extends _dao {
   public function validate() : bool {
     throw new \Exception( 'not implemented');

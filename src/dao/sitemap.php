@@ -10,6 +10,7 @@
 
 namespace dao;
 
+use dvc\dao\_dao;
 use sys;
 
 class sitemap extends _dao {

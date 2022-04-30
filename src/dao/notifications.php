@@ -10,6 +10,7 @@
 
 namespace dao;
 
+use dvc\dao\_dao;
 use sys;
 
 class notifications extends _dao {

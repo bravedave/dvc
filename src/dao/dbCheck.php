@@ -10,6 +10,8 @@
 
 namespace dao;
 
+use dvc\dao\_dao;
+
 class dbCheck extends _dao {
   public $temporary = false;
 

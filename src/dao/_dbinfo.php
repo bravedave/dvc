@@ -10,6 +10,8 @@
 
 namespace dao;
 
+use dvc\dao\_dao;
+
 class _dbinfo extends _dao {
   protected $_store = '';
 
