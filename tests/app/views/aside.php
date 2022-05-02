@@ -16,11 +16,14 @@
     <a class="nav-link" href="#">Link</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#" id="<?= $_uid = strings::rand() ?>">Alert</a>
+    <a class="nav-link js-<?= $_uid = strings::rand() ?>-alert" href="#">Alert</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link js-<?= $_uid ?>-toast" href="#">Toast</a>
   </li>
   <script>
     (_ => {
-      $('#<?= $_uid ?>').on('click', function(e) {
+      $('.js-<?= $_uid ?>-alert').on('click', function(e) {
         e.stopPropagation();
         e.preventDefault();
 
@@ -32,6 +35,15 @@
             }
           }
         })
+      });
+
+      $('.js-<?= $_uid ?>-toast').on('click', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        _.growl( 'how you doin ?');
+        _.growl( { response:'nak',description:'how you doin ?'});
+        _.growl( { response:'ack',description:'great !!'});
 
       });
 
