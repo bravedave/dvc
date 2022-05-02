@@ -11,7 +11,6 @@
     url: _.url(),
     type: 'POST',
     data: {},
-    growl: d => _.growl(d),
-
+    growl: _.growl
   }, ...opts
 }))(_brayworth_);

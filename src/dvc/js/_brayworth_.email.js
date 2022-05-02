@@ -5,29 +5,23 @@
  *
  * MIT License
  *
+ * _brayworth_.rfc922({email:'david@brayworth.com.au', name:'David Bray'});
  * */
-
-/*jshint esversion: 6 */
 (_ => {
   _.email = {}
 
-  _.email.rfc922 = (params) => {
-    if ( 'string' == typeof params) return params;
+  _.email.rfc922 = params => {
+    if ('string' == typeof params) return params;
 
-    let o = _.extend({
-      email: '',
-      name: ''
-    }, params);
+    let o = {
+      ...{
+        "email":"",
+        "name": ""
+      }, ...params
+    };
 
-    if (o.name == '')
-      return params.email;
+    if (o.name == '') return params.email;
 
-    let _t = '{name} <{email}>';
-
-    return _t
-      .replace(/{name}/, o.name)
-      .replace(/{email}/, o.email);
-
+    return `${o.name} <${o.email}>`;
   };
-
-}) (_brayworth_);
+})(_brayworth_);

@@ -38,7 +38,6 @@
     });
 
 */
-/*jshint esversion: 6 */
 (_ => {
   _.modal = function (params) {
     if ('string' == typeof params) {

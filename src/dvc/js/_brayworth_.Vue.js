@@ -6,44 +6,33 @@
  * MIT License
  *
  * */
-/*jshint esversion: 6 */
-( _ => {
+(_ => {
   _.Vue = params => {
-    let options = _.extend( {
-      filters: {}
-    }, params);
+    let options = {
+      ...{
+        filters: {}
+      }, ...params
+    };
 
-    options.filters = _.extend({
-      capitalize: function (value) {
-        if (!value) return '';
-        return value.toCapitalCase();
+    options.filters = {
+      ...{
+        capitalize: value => {
+          if (!value) return '';
+          return value.toCapitalCase();
+        }
+      }, ...filters
+    };
 
-      }
-
-    }, filters);
-
-    return new Promise( resolve => {
-      if ( 'undefined' === typeof Vue) {
-        let s = document.createElement('script');
-        s.type = 'text/javascript';
-        s.src = _.url('js/vue.min.js');
-        s.addEventListener('load', e => {
+    return new Promise(resolve => {
+      if ('undefined' === typeof Vue) {
+        _.get.script(_.url('js/vue.min.js')).then(() => {
           console.log('vuejs dynamically loaded ...')
-          resolve( new Vue( options));
-
+          resolve(new Vue(options));
         });
-
-        document.body.appendChild(s);
-
       }
       else {
-        resolve( new Vue( options));
-
+        resolve(new Vue(options));
       }
-
     });
-
   };
-
-}) (_brayworth_);
-
+})(_brayworth_);
