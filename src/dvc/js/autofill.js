@@ -214,6 +214,7 @@
           left: _mePos.left - parentPos.left
         };
         childOffset.width = Math.max(_me.outerWidth(), options.minWidth);
+        childOffset.width = `calc(100% - ${childOffset.left}px)`;
         options.wrapper.css(childOffset);
         /*-- --[ position exactly where ? ]-- --*/
 
