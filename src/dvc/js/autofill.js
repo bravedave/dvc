@@ -322,7 +322,7 @@
             if (!!el.label) {
               if (rex.test(el.label)) {
                 $('<li class="list-group-item p-1" tabindex="-1"></li>')
-                  .append($('<div class="text-truncate"></div>').html(el.label))
+                  .append($('<div class="text-truncate"></div>').text(el.label))
                   .data('item', el)
                   .on('click', function (e) {
                     keyMove.selectitem.call(this, e);
@@ -336,11 +336,11 @@
 
             } else if (rex.test(el)) {
               $('<li class="list-group-item p-1" tabindex="-1"></li>')
-                .append($('<div class="text-truncate"></div>')
-                  .html(el)).data('item', {
-                    label: el,
-                    value: el
-                  })
+                .append($('<div class="text-truncate"></div>').text(el))
+                .data('item', {
+                  label: el,
+                  value: el
+                })
                 .on('click', function (e) {
                   keyMove.selectitem.call(this, e);
                 })
@@ -360,7 +360,7 @@
             let render = el => {
 
               let _pad = $('<div class="text-truncate" tabindex="-1"></div>');
-              _pad.html(!!el.label ? el.label : (!!el.value ? el.value : el));
+              _pad.text(!!el.label ? el.label : (!!el.value ? el.value : el));
 
               let _li = $('<li class="list-group-item p-1" tabindex="-1"></li>').append(_pad);
               let touchStartTimeout = false;
