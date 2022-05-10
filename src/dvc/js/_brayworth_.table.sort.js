@@ -5,8 +5,8 @@
  *
  * MIT License
  *
+ * sorttype: 'string' | 'numberic'
  * */
-/*jshint esversion: 6 */
 (_ => {
   _.table = {
     'sortOn': (table, key, sorttype, order) => {
