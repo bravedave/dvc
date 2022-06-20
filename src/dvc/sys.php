@@ -493,6 +493,9 @@ abstract class sys {
           if (self::$debug) \sys::logger(sprintf('served: %s', $path));
         } elseif ($ext == 'zip') {
           Response::zip_headers($path_parts['basename'], filemtime($path));
+          \sys::logger( sprintf('<nested output buffering : %s> %s', ob_get_level(), __METHOD__));
+          ob_flush();
+          ob_end_flush();
           readfile($path);
           if (self::$debug) \sys::logger(sprintf('served: %s', $path));
         } elseif ($ext == 'html') {
