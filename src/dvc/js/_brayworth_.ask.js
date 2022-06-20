@@ -7,17 +7,12 @@
  *
  * test:
     _brayworth_.ask({
-        buttons : {
-            yes : function() {
-                $(this).modal('hide');
-                console.log( 'ok', this);
-
-            }
-
-        }
-
+      buttons : {
+        yes : e => console.log( 'ok', this)
+      }
     });
 
+    _brayworth_.ask.alert.confirm('ok to do this').then(e => console.log('righto'));
  * */
 (_ => {
   _.ask = params => {
@@ -34,11 +29,14 @@
           let bCount = 0;
           $.each(options.buttons, (key, j) => {
             bCount++;
-            $('<button class="btn btn-light" type="button"></button>')
-              .html(key)
+            $(`<button class="btn btn-outline-secondary" type="button">${key}</button>`)
               .appendTo(footer)
-              .on('click', e => j.call(modal, e));
+              .on('click', e => {
+                e.stopPropagation();
+                modal.modal('hide');
 
+                j.call(modal, e);
+              })
           });
 
           if (0 == bCount) footer.addClass('d-none');
@@ -52,7 +50,7 @@
         headClass: 'text-white bg-dark',
         onClose: e => { },
         removeOnClose: true,
-        text: 'Question',
+        text: 'string' == typeof params ? params : '',
         title: 'Topic',
         size: ''
       }, ...params
@@ -60,17 +58,11 @@
 
     // console.log( options);
 
-    if (options.removeOnClose) {
-      dlg.on('hidden.bs.modal', function (e) { $(this).remove(); });
+    if (options.removeOnClose) dlg.on('hidden.bs.modal', function (e) { $(this).remove(); });
 
-    }
+    if (/text\-/.test(options.headClass)) $('.modal-header', dlg).removeClass('text-white text-light text-dark text-success text-danger text-warning text-info');
 
-    if (/text\-/.test(options.headClass)) {
-      $('.modal-header', dlg).removeClass('text-white text-light text-dark text-success text-danger text-warning text-info');
-    }
-    if (/bg\-/.test(options.headClass)) {
-      $('.modal-header', dlg).removeClass('bg-white bg-light bg-dark bg-success bg-danger bg-warning bg-info');
-    }
+    if (/bg\-/.test(options.headClass)) $('.modal-header', dlg).removeClass('bg-white bg-light bg-dark bg-success bg-danger bg-warning bg-info');
 
     if ('' != String(options.headClass)) $('.modal-header', dlg).addClass(options.headClass);
 
@@ -79,11 +71,41 @@
     dlg.modal('show');
 
     return dlg;	// a jQuery element
+  };
 
-  }
+  _.ask.confirm = p => new Promise(resolve => _.ask({
+    ...{
+      title: 'Confirm',
+      text: 'string' == typeof p ? p : '',
+      buttons: { confirm: e => resolve() }
+    }, ...p
+  }));
 
   _.ask.alert = p => _.ask({ ...{ headClass: 'text-white bg-danger', size: 'sm', title: 'Alert', text: 'string' == typeof p ? p : '' }, ...p });
+  _.ask.alert.confirm = p => new Promise(resolve => _.ask.alert({
+    ...{
+      title: 'Confirm',
+      text: 'string' == typeof p ? p : '',
+      buttons: { confirm: e => resolve() }
+    }, ...p
+  }));
+
   _.ask.success = p => _.ask({ ...{ headClass: 'text-white bg-success', title: 'Success', text: 'string' == typeof p ? p : '' }, ...p });
+  _.ask.success.confirm = p => new Promise(resolve => _.ask.success({
+    ...{
+      title: 'Confirm',
+      text: 'string' == typeof p ? p : '',
+      buttons: { confirm: e => resolve() }
+    }, ...p
+  }));
+
   _.ask.warning = p => _.ask({ ...{ headClass: 'text-white bg-warning', size: 'sm', title: 'Warning', text: 'string' == typeof p ? p : '' }, ...p });
+  _.ask.warning.confirm = p => new Promise(resolve => _.ask.warning({
+    ...{
+      title: 'Confirm',
+      text: 'string' == typeof p ? p : '',
+      buttons: { confirm: e => resolve() }
+    }, ...p
+  }));
 
 })(_brayworth_);

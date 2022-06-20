@@ -311,7 +311,7 @@
   _.modal.pdf = p => {
     let options = {
       ...{
-        size: 'lg',
+        size: 'xl',
         title: 'Viewer',
         text: '',
         headClass: '',
@@ -324,22 +324,15 @@
 
     let id = _.randomString();
 
-    let iframe = $('<iframe>').attr({
-      src: options.url,
-      id: id,
-      frameborder: 0,
-      width: '100%',
-      height: '100%'
-    });
-
     $('.modal-body', m)
       .addClass('p-2')
       .append(`<style>
         @media (min-width: 768px) {
-          #${id} { min-height: calc(100vh - 230px) !important; }
+          #${id} { min-height: calc(100vh - 100px) !important; }
         }
-        </style>`)
-      .append(iframe);
+        </style>
+        <iframe title="${options.title}" id="${id}" src="${options.url}"
+          width="100%" height="100%" frameborder="0"></iframe>`);
 
   };
 

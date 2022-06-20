@@ -15,6 +15,9 @@ $theme-colors: (
 );
 
 .bg-gradient-navbar {
-   background: #eb000a linear-gradient(90deg, #eb000a, #ff00c3) repeat-x !important;
+  background: #eb000a linear-gradient(90deg, #eb000a, #ff00c3) repeat-x !important;
 }
 
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
