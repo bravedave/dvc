@@ -14,9 +14,9 @@
 .modal:not(.modal-active) {
 	display: none; /* Hidden by default */
 }
-/* .modal.modal-active {
+.modal.modal-active {
 	display: block;
-} */
+}
 
 .modal .close.fa {
 	margin-top: -.7rem;
