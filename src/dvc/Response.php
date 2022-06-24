@@ -130,7 +130,7 @@ abstract class Response {
 
   static function json_headers($modifyTime = 0, $length = 0) {
     self::_common_headers($modifyTime);
-    header('Content-type: application/json');
+    header('Content-type: application/json; charset=utf-8');
     if ($length) header(sprintf('Content-length: %s', $length));
   }
 
@@ -188,16 +188,13 @@ abstract class Response {
       $p->header();
     }
 
-    print '<div style="margin: 50px auto 10px auto; padding: 10px; border: 1px solid silver; max-width: 600px;">';
+    printf('<div style="margin: 50px auto 10px auto; padding: 10px; border: 1px solid silver; max-width: 600px;">
+      <p style="margin-top: 15px; margin-bottom: 15px;">%s</p>
 
-    printf('<p style="margin-top: 15px; margin-bottom: 15px;">%s</p>
-
-		<div style="text-align: right; padding-right: 20x;">
-			<a style="text-decoration: none; font-style: italic;" href="%s">%s .... .</a>
-
-		</div>', $message,  $url, ($auto ? 'redirecting' : 'continue'));
-
-    print '</div>';
+		  <div style="text-align: right; padding-right: 20px;">
+			  <a style="text-decoration: none; font-style: italic;" href="%s">%s .... .</a>
+		  </div>
+    </div>', $message,  $url, ($auto ? 'redirecting' : 'continue'));
 
     exit;  // don't run anything else
 
