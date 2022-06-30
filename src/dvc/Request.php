@@ -362,7 +362,6 @@ class Request {
             unlink($target);
 
           if (move_uploaded_file($source, $target)) {
-            chmod($target, 0666);
             $response['description'][] = $file['name'] . ' uploaded';
             $response['files'][$key] = $file['name'];
           } else {

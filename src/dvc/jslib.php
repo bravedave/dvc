@@ -113,8 +113,6 @@ abstract class jslib {
 		if ( file_exists( application::app()->getRootPath() . '/app/public/' )) {
 			if ( !( file_exists( $outputDIR)) && is_writable( self::$rootPath)) {
 				mkdir( $outputDIR, 0777, true);
-				chmod( $outputDIR, 0777);
-
 			}
 
 			if ( is_writable( $outputDIR)) {
