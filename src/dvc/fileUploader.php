@@ -76,7 +76,6 @@ class fileUploader {
 
         if (file_exists($target)) unlink($target);
         if (move_uploaded_file($source, $target)) {
-          chmod($target, 0666);
           return true;
         } else {
           \sys::logger(sprintf('%s error moving file : %s', $file['name'], __METHOD__));
