@@ -161,6 +161,8 @@ abstract class config {
 	static $IMG_EXPIRE_TIME = 60;
 	static $CORE_IMG_EXPIRE_TIME = 60;	// set on images that come from the /image location
 
+  static $UMASK = 0000;
+
 	static public function checkDBconfigured() {
 		if ( \config::$DB_TYPE == 'mysql' || \config::$DB_TYPE == 'sqlite' || \config::$DB_TYPE == 'disabled' )
 			return true;
@@ -367,6 +369,7 @@ abstract class config {
 					'theme' => \config::$THEME,
 					'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,
 					'imap_auth_server' => \config::$IMAP_AUTH_SERVER,
+					'umask' => \config::$UMASK,
 				];
 
 				$a = (object)array_merge( $_a, (array)json_decode( file_get_contents( $path)));
@@ -389,6 +392,7 @@ abstract class config {
 				\config::$SUPPORT_EMAIL = $a->support_email;
 				\config::$EMAIL_ERRORS_TO_SUPPORT = $a->email_errors_to_support;
 				\config::$IMAP_AUTH_SERVER = $a->imap_auth_server;
+				\config::$UMASK = $a->umask;
 
 			} // if ( file_exists( $path))
 			else {
@@ -418,6 +422,7 @@ abstract class config {
 						'support_email' => \config::$SUPPORT_EMAIL,
 						'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,
             'imap_auth_server' => \config::$IMAP_AUTH_SERVER,
+            'umask' => \config::$UMASK,
 
 					];
 
@@ -476,6 +481,8 @@ abstract class config {
 			} // if ( file_exists( $path))
 
 		} // if ( !( is_null( \application::app())))
+
+    umask( self::$UMASK);
 
 	} // static function init2()
 
