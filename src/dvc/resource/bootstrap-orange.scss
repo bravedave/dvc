@@ -6,7 +6,7 @@ $enable-gradients : true;
 
 $theme-colors: (
   "primary": #FFA500,
-  "secondary":#FF72E6,
+  "secondary":#8b5a00,
 
   "warning":#CEB915,
   "danger":#E71B33,
@@ -17,6 +17,24 @@ $theme-colors: (
 );
 
 .bg-gradient-navbar {
-   background: #FFA500 linear-gradient(90deg, #966100, #FFD68A) repeat-x !important;
+  background: #FFA500 linear-gradient(90deg, #966100, #FFD68A) repeat-x !important;
 }
 
+.bg-sidebar {
+  background-size: cover;
+  background-position: center center;
+  background-image: url(/images/theme-sidebar.jpg);
+}
+
+.bg-sidebar .sidebar {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: block;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  opacity: .33;
+  background-color: orange;
+}
