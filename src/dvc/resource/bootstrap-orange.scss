@@ -20,21 +20,23 @@ $theme-colors: (
   background: #FFA500 linear-gradient(90deg, #966100, #FFD68A) repeat-x !important;
 }
 
-.bg-sidebar {
-  background-size: cover;
-  background-position: center center;
-  background-image: url(/images/theme-sidebar.jpg);
-}
+@media (min-width: 768px) {
+  .bg-sidebar {
+    background-size: cover;
+    background-position: center center;
+    background-image: url(/images/theme-sidebar.jpg);
+  }
 
-.bg-sidebar .sidebar {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  display: block;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  overflow-y: auto;
-  opacity: .7;
-  background-color: #fff1d8;
+  .bg-sidebar .sidebar {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    overflow-y: auto;
+    opacity: .7;
+    background-color: #fff1d8;
+  }
 }
