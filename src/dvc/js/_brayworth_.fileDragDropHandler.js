@@ -77,7 +77,7 @@
 
   };
 
-  let acceptable = (file, accepting) => {
+  const acceptable = (file, accepting) => {
     if (accepting.length > 0) {
       let type = file.type;
       if ('' == type && /\.heic$/i.test(file.name)) {
@@ -99,7 +99,7 @@
   };
 
   let queue = [];
-  let enqueue = params => {
+  const enqueue = params => {
     let options = {
       ...{
         postData: {},
@@ -193,14 +193,15 @@
 
   };
 
-  let sendData = function (params) {
-    let options = _.extend({
-      url: false,
-      onError: d => _.growl(d),
-      onUpload: response => true,
-      host: $('body'),
-
-    }, params);
+  const sendData = function (params) {
+    let options = {
+      ...{
+        url: false,
+        onError: _.growl,
+        onUpload: response => true,
+        host: $('body'),
+      }, ...params
+    };
 
     let formData = this;
 
@@ -233,24 +234,19 @@
                 progressBar
                   .css('width', (e.loaded / e.total * 100) + '%')
                   .attr('aria-valuenow', (e.loaded / e.total * 100));
-
               }
-
             });
 
             return xhr;
-
           }
 
         })
         .done(d => {
           if ('ack' == d.response) {
             $.each(d.data, (i, j) => _.growl(j));
-
           }
           else {
             options.onError(d);
-
           }
 
           options.onUpload(d);
@@ -267,63 +263,56 @@
 
         });
 
-    }).catch( msg => console.warn(msg));
-
-  };
-
-  let uploader = params => {
-    return new Promise((resolve, reject) => {
-      let options = {
-        ...{
-          postData: {},
-          droppedFiles: {},
-          accept: '',
-          onReject: d => _.growl(d),
-
-        }, ...params
-      };
-
-      let data = new FormData();
-      for (let o in options.postData) { data.append(o, options.postData[o]); }
-
-      let accepting = '' != options.accept ? String(options.accept).split(',') : [];
-      let fileCount = 0;
-      $.each(options.droppedFiles, (i, file) => {
-        if (acceptable(file, accepting)) {
-          fileCount++;
-          data.append('files-' + i, file);
-
-        }
-        else {
-          options.onReject({
-            response: 'nak',
-            description: 'not accepting ' + file.type,
-            file: file
-
-          });
-
-        }
-
-      });
-
-      if (fileCount > 0) sendData.call(data, options);
-      resolve();
-
     }).catch(msg => console.warn(msg));
 
   };
+
+  const uploader = params => new Promise((resolve) => {
+    let options = {
+      ...{
+        postData: {},
+        droppedFiles: {},
+        accept: '',
+        onReject: _.growl,
+      }, ...params
+    };
+
+    let data = new FormData();
+    for (let o in options.postData) { data.append(o, options.postData[o]); }
+
+    let accepting = '' != options.accept ? String(options.accept).split(',') : [];
+    let fileCount = 0;
+    $.each(options.droppedFiles, (i, file) => {
+      if (acceptable(file, accepting)) {
+        fileCount++;
+        data.append('files-' + i, file);
+      }
+      else {
+        options.onReject({
+          response: 'nak',
+          description: 'not accepting ' + file.type,
+          file: file
+        });
+      }
+    });
+
+    if (fileCount > 0) sendData.call(data, options);
+    resolve();
+
+  }).catch(msg => console.warn(msg));
 
   _.fileDragDropHandler = function (params) {
     let _el = $(this);
     let _data = _el.data();
 
-    let options = _.extend({
-      url: false,
-      queue: false,
-      host: _el,
-      accept: _data.accept
-
-    }, params);
+    let options = {
+      ...{
+        url: false,
+        queue: false,
+        host: _el,
+        accept: _data.accept
+      }, ...params
+    };
 
     if (!options.url)
       throw 'Invalid upload url';
@@ -343,9 +332,7 @@
           uploader(options).then(() => _me.val('').prop('disabled', false));
 
         }
-
       }
-
     });
 
     let isAdvancedUpload = (() => {
@@ -358,7 +345,7 @@
       //~ console.log( 'setup has-advanced-upload');
       options.host
         .addClass('has-advanced-upload')
-        .on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
+        .on('drag dragstart dragend dragover dragenter dragleave drop', e => {
           e.preventDefault(); e.stopPropagation();
         })
         .on('dragover dragenter', function () { $(this).addClass('is-dragover'); })
@@ -367,19 +354,14 @@
           e.preventDefault();
           options.droppedFiles = e.originalEvent.dataTransfer.files;
 
-
           if (options.droppedFiles) {
             if (options.queue) {
               enqueue(options);
-
             }
             else {
               uploader(options);
-
             }
-
           }
-
         });
 
     }	// if (isAdvancedUpload && !options.host.hasClass('has-advanced-upload'))
