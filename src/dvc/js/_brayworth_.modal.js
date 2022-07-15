@@ -291,6 +291,7 @@
       ...{
         size: 'xl',
         title: 'Viewer',
+        headClass: '', /* allows for theming */
         url: 'string' == typeof p ? p : ''
       },
       ...p
