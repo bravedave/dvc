@@ -30,13 +30,9 @@
       buttons : {
         Close : function(e) {
           this.modal( 'close');
-
         }
-
       }
-
     });
-
 */
 (_ => {
   _.modal = function (params) {
@@ -98,14 +94,15 @@
 
     }
 
-    t.html('.modal-title', '').append(options.title);	// jquery-ui style
+    t
+      .html('.modal-title', '')
+      .append(options.title);	// jquery-ui style
     // console.log( t.html('.modal-title'));
 
     t.append(content);		// this is the content
 
     if (Object.keys(options.buttons).length > 0) {	// jquery-ui style
-      let btnGrp = $('<div class="btn-group btn-group-sm"></div>').appendTo(t.footer());
-      $.each(options.buttons, function (i, el) {
+      $.each(options.buttons, (i, el) => {
         let j = {
           text: i,
           title: '',
@@ -115,26 +112,20 @@
         if ('function' == typeof el)
           j.click = el;
         else
-          j = _.extend(j, el);
+          j = { ...j, ...el };
 
-        let btn = $('<button />')
-          .addClass(_.templates.buttonCSS)
-          .html(j.text)
+        let btn = $(`<button class="${_.templates.buttonCSS}" type="button">${j.text}</button>`)
           .on('click', function (e) {
             j.click.call(t.get(), e, this);
 
           })
-          .appendTo(btnGrp);
+          .appendTo(t.footer());
 
         if ('object' == typeof el) el.button = btn;	// object now accessible to calling function
 
-        if (!!j.title) {
-          btn.attr('title', j.title);
-
-        }
+        if (!!j.title) btn.attr('title', j.title);
 
       });
-
     }
 
     if (Object.keys(options.headButtons).length > 0) {
@@ -232,25 +223,17 @@
         $.each(bodyElements, (i, el) => $(el).removeClass(hideClass));
 
         previousElement.focus();
-
       },
-
     });
 
     _modal.modal = _.modal;	// to be sure, bootstrap has it's own modal
 
-    _modal.load = url => {
-      /*
-       * a wrapper on the modal->body element for jQuery.load
-       */
-      return new Promise(resolve => {
-        let d = $('<div></div>');
-        t.append(d);
-        d.load(url, () => resolve(_modal));
-
-      });
-
-    };
+    // wrapper on the modal->body element for jQuery.load
+    _modal.load = url => new Promise(resolve => {
+      let d = $('<div></div>');
+      t.append(d);
+      d.load(url, () => resolve(_modal));
+    });
 
     _modal.checkHeight = function () {
       /*
@@ -259,20 +242,15 @@
       let h = $('.modal-body', this).height();
       let mh = $(window).height() * 0.9;
       let ftr = $('.modal-footer', this);
-      if (ftr.length > 0) {
-        mh -= ftr.height();
-
-      }
+      if (ftr.length > 0) mh -= ftr.height();
 
       if (h > mh) {
         $('.modal-body', this)
           .height(mh)
           .css({ 'overflow-y': 'auto', 'overflow-x': 'hidden' });
-
       }
 
       return (this);
-
     };
 
     t.data('modal', _modal);
@@ -313,8 +291,6 @@
       ...{
         size: 'xl',
         title: 'Viewer',
-        text: '',
-        headClass: '',
         url: 'string' == typeof p ? p : ''
       },
       ...p
@@ -324,6 +300,7 @@
 
     let id = _.randomString();
 
+    $('.modal-dialog', m).addClass('modal-fullscreen-sm');
     $('.modal-body', m)
       .addClass('p-2')
       .append(`<style>
@@ -345,22 +322,20 @@
     _t.append = function (p) {
       this.body.append(p);
       return (this);
-
     };
 
     _t.footer = function () {
       if (!this._footer) {
-        this._footer = $('<div class="modal-footer py-1 text-right"></div>');
-        this.get('.modal-content').append(this._footer);
-
+        this._footer = this.get('.modal-footer');
+        if (this._footer.length == 0) {
+          this._footer = $('<div class="modal-footer py-1 text-right"></div>');
+          this.get('.modal-content').append(this._footer);
+        }
       }
 
       return (this._footer);
-
     };
 
     return (_t);
-
   };
-
 })(_brayworth_);
