@@ -41,7 +41,7 @@ class fileUploader {
         $source = $file['tmp_name'];
         $target = implode(DIRECTORY_SEPARATOR, [
           $this->path,
-          \strings::safe_file_name( strtolower($fileName ?: $file['name']))
+          \strings::safe_file_name(strtolower('' == (string)$fileName ? $file['name'] : $fileName))
         ]);
 
         if (in_array($strType, ['image/jpeg', 'image/pjpeg'])) {
