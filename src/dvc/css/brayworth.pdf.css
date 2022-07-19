@@ -17,20 +17,47 @@ body {
   font-size: 12px;
 }
 
-h1 { font-size: 20px; }
-h2 { font-size: 18px; }
-h3 { font-size: 16px; }
-h4 { font-size: 14px; }
-h4 { font-size: 12px; }
-h6 { font-size: 10px; }
+h1,
+.h1 {
+  font-size: 20px;
+}
 
-table { font-size: 12px; }
+h2,
+.h2 {
+  font-size: 18px;
+}
+
+h3,
+.h3 {
+  font-size: 16px;
+}
+
+h4,
+.h4 {
+  font-size: 14px;
+}
+
+h4,
+.h5 {
+  font-size: 12px;
+}
+
+h6,
+.h6 {
+  font-size: 10px;
+}
+
+table {
+  font-size: 12px;
+}
 
 footer .page-number:after {
   content: counter(page);
 }
 
-.m-0 { margin: 0; }
+.m-0 {
+  margin: 0;
+}
 
 .w-100 {
   width: 100%;
@@ -43,8 +70,13 @@ footer .page-number:after {
   margin-bottom: 1rem;
 }
 
-table>thead>tr { vertical-align: bottom; }
-table>tbody>tr { vertical-align: top; }
+table>thead>tr {
+  vertical-align: bottom;
+}
+
+table>tbody>tr {
+  vertical-align: top;
+}
 
 table>thead.border-bottom>tr>td,
 table>tbody.border-bottom>tr>td {
@@ -63,6 +95,7 @@ table>tbody.border-bottom>tr>td {
 .table>tbody>tr>td.pt-0 {
   padding-top: 0;
 }
+
 .table>thead>tr>td.pb-0,
 .table>tbody>tr>td.pb-0 {
   padding-bottom: 0;
@@ -74,14 +107,23 @@ table>tbody.border-bottom>tr>td {
   padding-right: .3rem;
   padding-left: .3rem;
 }
+
 .table>thead>tr>td {
   padding-bottom: .15rem;
 }
+
 .table>tbody>tr>td {
   padding-bottom: .3rem;
 }
 
-.text-center { text-align: center; }
-.text-right { text-align: right; }
+.text-center {
+  text-align: center;
+}
 
-.border { border: 1px solid #e0e0e0; }
+.text-right {
+  text-align: right;
+}
+
+.border {
+  border: 1px solid #e0e0e0;
+}
