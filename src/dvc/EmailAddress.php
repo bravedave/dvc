@@ -10,37 +10,42 @@
 
 namespace dvc;
 
+use strings;
+
 class EmailAddress {
-	public $email,
-		$name;
+  public $email,
+    $name;
 
-	function __construct( $el ) {
-		if ( strpos( $el, '<' ) !== false ) {
-			$el = trim( $el, '> ' );
-			$a = explode( "<", $el );
+  public function __construct(string $el) {
+    if (strpos($el, '<') !== false) {
+      $el = trim($el, '> ');
+      $a = explode("<", $el);
 
-			/* remove quote enclosures */
-			$this->name = preg_replace(
-				[
-					'/^("|\')/',
-					'/("|\')$/'
-				],
-				'', trim( $a[0] ));
+      /* remove quote enclosures */
+      $this->name = preg_replace(
+        [
+          '/^("|\')/',
+          '/("|\')$/'
+        ],
+        '',
+        trim($a[0])
+      );
 
-			$this->email = trim( $a[1] );
+      $this->email = trim($a[1]);
+    } else {
+      $this->name = '';
+      $this->email = trim($el);
+    }
+  }
 
-		}
-		else {
-			$this->name = '';
-			$this->email = trim( $el);
+  public function check() {
+    return strings::CheckEmailAddress($this->email);
+  }
 
-		}
+  public function rfc822() {
 
-	}
+    if ($this->name) return strings::rfc822($this->email, $this->name);
 
-	function check() {
-		return ( \strings::CheckEmailAddress( $this->email));
-
-	}
-
+    return strings::rfc822($this->email);
+  }
 }

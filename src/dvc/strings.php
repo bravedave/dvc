@@ -736,6 +736,14 @@ abstract class strings {
     return preg_replace($s, $r, $str);
   }
 
+  static public function rfc822(string $email, string $name = ''): string {
+    if ($name) {
+      return sprintf('%s <%s>', $name, $email);
+    } else {
+      return $email;
+    }
+  }
+
   static public function safe_file_name(string $str): string {
     if ($ext = pathinfo($str, PATHINFO_EXTENSION)) {
       $str = trim(preg_replace('/' . preg_quote($ext, '/') . '$/', '', $str), '. ');
