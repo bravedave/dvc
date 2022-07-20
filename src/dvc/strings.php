@@ -738,7 +738,7 @@ abstract class strings {
 
   static public function rfc822(string $email, string $name = ''): string {
     if ($name) {
-      return sprintf('%s <%s>', $name, $email);
+      return sprintf('%s <%s>', htmlentities($name), $email);
     } else {
       return $email;
     }
