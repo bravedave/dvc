@@ -311,7 +311,7 @@
         <iframe title="${options.title}" id="${id}" src="${options.url}"
           width="100%" height="100%" frameborder="0"></iframe>`);
 
-    return ask; // ask is a promise
+    return ask; // ask is a modal
 
   };
 
