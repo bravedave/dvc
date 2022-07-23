@@ -66,7 +66,6 @@
     let t = _.templates.modal();
     let close = t.get('.close');
     if ($('.bi', close).length > 0) {
-      // console.log('add to .bi')
       $('.bi', close).addClass(options.closeIcon);
     } else if (close.length > 0) {
       // console.log('add to close')
@@ -297,12 +296,12 @@
       ...p
     };
 
-    let m = _.ask(options);
+    let ask = _.ask(options);
 
     let id = _.randomString();
 
-    $('.modal-dialog', m).addClass('modal-fullscreen-sm');
-    $('.modal-body', m)
+    ask.find('.modal-dialog').addClass('modal-fullscreen-sm');
+    ask.find('.modal-body')
       .addClass('p-2')
       .append(`<style>
         @media (min-width: 768px) {
@@ -311,6 +310,8 @@
         </style>
         <iframe title="${options.title}" id="${id}" src="${options.url}"
           width="100%" height="100%" frameborder="0"></iframe>`);
+
+    return ask; // ask is a promise
 
   };
 
