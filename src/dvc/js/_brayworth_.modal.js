@@ -304,8 +304,8 @@
     ask.find('.modal-body')
       .addClass('p-2')
       .append(`<style>
-        @media (min-width: 768px) {
-          #${id} { min-height: calc(100vh - 100px) !important; }
+        @media (min-width: 768px and min-height: 500px) {
+          #${id} { min-height: calc(100vh - 140px) !important; }
         }
         </style>
         <iframe title="${options.title}" id="${id}" src="${options.url}"
