@@ -304,7 +304,7 @@
     ask.find('.modal-body')
       .addClass('p-2')
       .append(`<style>
-        @media (min-width: 768px) and (min-height: 500px) {
+        @media (min-width: 768px) and (min-height: 450px) {
           #${id} { min-height: calc(100vh - 140px) !important; }
         }
         </style>
