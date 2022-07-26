@@ -305,7 +305,7 @@
       .addClass('p-2')
       .append(`<style>
         @media (min-width: 768px) and (min-height: 450px) {
-          #${id} { min-height: calc(100vh - 140px) !important; }
+          #${id} { min-height: calc(100vh - 11rem) !important; }
         }
         </style>
         <iframe title="${options.title}" id="${id}" src="${options.url}"
