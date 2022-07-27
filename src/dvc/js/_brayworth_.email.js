@@ -5,12 +5,12 @@
  *
  * MIT License
  *
- * _brayworth_.rfc922({email:'david@brayworth.com.au', name:'David Bray'});
+ * _brayworth_.rfc822({email:'david@brayworth.com.au', name:'David Bray'});
  * */
 (_ => {
   _.email = {}
 
-  _.email.rfc922 = params => {
+  _.email.rfc822 = params => {
     if ('string' == typeof params) return params;
 
     let o = {
@@ -24,4 +24,6 @@
 
     return `${o.name} <${o.email}>`;
   };
+
+  _.email.rfc922 = _.email.rfc822;  // wft, oops blunder - have used this for a while
 })(_brayworth_);
