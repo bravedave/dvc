@@ -161,7 +161,7 @@ abstract class config {
   static $IMG_EXPIRE_TIME = 60;
   static $CORE_IMG_EXPIRE_TIME = 60;  // set on images that come from the /image location
 
-  static $UMASK = 0000;
+  static $UMASK = '0022';
 
   static public function checkDBconfigured() {
     if (\config::$DB_TYPE == 'mysql' || \config::$DB_TYPE == 'sqlite' || \config::$DB_TYPE == 'disabled')
@@ -303,7 +303,7 @@ abstract class config {
 
     if (!(is_null(\application::app()))) {
 
-      umask(self::$UMASK);  // in case everything needs creating
+      umask(octdec(self::$UMASK));  // in case everything needs creating
 
       // $path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
       $path = implode(DIRECTORY_SEPARATOR, [
@@ -455,7 +455,7 @@ abstract class config {
 
     } // if ( !( is_null( \application::app())))
 
-    umask(self::$UMASK);
+    umask(octdec(self::$UMASK));
   } // static function init2()
 
   static function notification_KeyPath() {
