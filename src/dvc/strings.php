@@ -805,7 +805,7 @@ abstract class strings {
       $x = preg_split("/\n/", $inText);
       while (count($x) > ($maxrows + 1))
         array_pop($x);
-      $inText = implode("<br />", $x);
+      $inText = implode("<br>", $x);
     }
 
     $a = [
@@ -819,18 +819,18 @@ abstract class strings {
     ];
 
     $aR = array(
-      '<hr align="left" style="width: 200px; margin: 0;" />',
-      '<br />',
-      '<br />',
-      '<br />',
-      '<br />',
-      '<br />&bull;',
+      '<hr align="left" style="width: 200px; margin: 0;">',
+      '<br>',
+      '<br>',
+      '<br>',
+      '<br>',
+      '<br>&bull;',
       '&nbsp;&nbsp;'
     );
 
     if ($allAsteriskAsList) {
       $a[] = "/\*/";
-      $aR[] = "<br />&bull;";
+      $aR[] = "<br>&bull;";
       $inText = rtrim($inText, " .*");
     }
 
