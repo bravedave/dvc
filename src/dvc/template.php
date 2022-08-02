@@ -18,6 +18,9 @@ class template {
   protected $_template = '', $_css = [];
 
   public $title = '';
+  public $subject = '';
+  public $author = config::$WEBNAME;
+  public $keywords = '';
 
   function __construct($filepath, $css = null) {
     if ((bool)$css) {
@@ -70,11 +73,18 @@ class template {
         );
       } else {
 
+        $meta = [
+          sprintf('<meta name="description" content="%s">', $this->subject),
+          sprintf('<meta name="author" content="%s">', $this->author),
+          sprintf('<meta name="keywords" content="%s">', $this->keywords)
+        ];
+
         // output
         return $cssToInlineStyles->convert(
           sprintf(
-            '<!DOCTYPE html><html lang="en"><head><title>%s</title></head><body>%s</body></html>',
+            '<!DOCTYPE html><html lang="en"><head><title>%s</title>%s</head><body>%s</body></html>',
             $this->title,
+            implode('', $meta),
             $this->_template
           ),
           implode('', $this->_css)
