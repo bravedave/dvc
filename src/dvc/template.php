@@ -19,7 +19,7 @@ class template {
 
   public $title = '';
   public $subject = '';
-  public $author = config::$WEBNAME;
+  public $author = '';
   public $keywords = '';
 
   function __construct($filepath, $css = null) {
@@ -27,6 +27,7 @@ class template {
       $this->_css[] = file_get_contents($css);
     }
 
+    $this->author = config::$WEBNAME;
     $this->_template = file_get_contents($filepath);
   }
 
