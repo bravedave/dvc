@@ -44,7 +44,7 @@ class template {
    *
    * @return self // chain
    */
-  function replace( $var, string $content = '') : self {
+  function replace($var, string $content = ''): self {
     if (\is_array($var)) {
       foreach ($var as $k => $v) {
         $this->replace($k, $v);
@@ -60,16 +60,28 @@ class template {
     if (count($this->_css)) {
       // create instance
       $cssToInlineStyles = new CssToInlineStyles;
-      // output
-      return $cssToInlineStyles->convert(
-        sprintf(
-          '<!DOCTYPE html><html lang="en"><head><title>%s</title></head><body>%s</body></html>',
-          $this->title,
-          $this->_template
-        ),
-        implode('', $this->_css)
-      );
+
+      if (preg_match('@^<!DOCTYPE html>@', $this->_template)) {
+
+        // output
+        return $cssToInlineStyles->convert(
+          $this->_template,
+          implode('', $this->_css)
+        );
+      } else {
+
+        // output
+        return $cssToInlineStyles->convert(
+          sprintf(
+            '<!DOCTYPE html><html lang="en"><head><title>%s</title></head><body>%s</body></html>',
+            $this->title,
+            $this->_template
+          ),
+          implode('', $this->_css)
+        );
+      }
     } else {
+
       return ($this->_template);
     }
   }
