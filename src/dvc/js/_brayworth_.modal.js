@@ -300,6 +300,11 @@
 
     let id = _.randomString();
 
+    $('<button type="button" class="close ml-auto"><i class="bi bi-box-arrow-up-right"></i></button>').on('click', e => {
+      e.stopPropagation();
+      window.open(options.url);
+    }).insertBefore(ask.find('.modal-header > .close').addClass('ml-0'));
+
     ask.find('.modal-dialog').addClass('modal-fullscreen-sm');
     ask.find('.modal-body')
       .addClass('p-2')
