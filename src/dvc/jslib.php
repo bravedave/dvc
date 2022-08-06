@@ -348,11 +348,15 @@ abstract class jslib {
           array_unshift($input, file_get_contents($item));
         } else {
           if ($options->debug) sys::logger(sprintf('%s :: appending key %s', $options->libName, $key));
-          $input[] = file_get_contents($item);
+          if ($path = realpath($item)) {
+            $input[] = file_get_contents($path);
+          } else {
+            \sys::logger(sprintf('<cannot find %s> %s', $item, __METHOD__));
+          }
         }
       }
     } else {
-      $gi = new \GlobIterator($options->jsFiles, \FilesystemIterator::KEY_AS_FILENAME);
+      $gi = new GlobIterator($options->jsFiles, FilesystemIterator::KEY_AS_FILENAME);
       foreach ($gi as $key => $item) {
         if ($options->leadKey && $key == $options->leadKey) {
           if ($options->debug) sys::logger(sprintf('%s :: prepending leadKey %s', $options->libName, $options->leadKey));
