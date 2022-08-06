@@ -19,7 +19,7 @@
 namespace dvc;
 
 use FilesystemIterator;
-use GlobIterator;
+use GlobIterator, MatthiasMullie;
 
 abstract class jslib {
   public static $debug = false;
@@ -356,6 +356,7 @@ abstract class jslib {
         }
       }
     } else {
+
       $gi = new GlobIterator($options->jsFiles, FilesystemIterator::KEY_AS_FILENAME);
       foreach ($gi as $key => $item) {
         if ($options->leadKey && $key == $options->leadKey) {
@@ -369,7 +370,7 @@ abstract class jslib {
     }
 
     if (count($input)) {
-      $minifier = new \MatthiasMullie\Minify\JS;
+      $minifier = new MatthiasMullie\Minify\JS;
       $minifier->add($input);
 
       file_put_contents($options->libFile, $minifier->minify());
