@@ -263,6 +263,33 @@ abstract class strings {
     return substr_compare($string, $test, $strlen - $testlen, $testlen, TRUE) === 0;
   }
 
+  static function ExtendedStreetString($street) {
+    /* the opposite of GoodStreetString */
+    $find = [
+      '@\sRd$@i', '@\sRd,@i',
+      '@\sSt$@i', '@\sSt,@i',
+      '@\sAv$@i', '@\sAv,@i',
+      '@\sPd$@i', '@\sPd,@i',
+      '@\sTc$@i', '@\sTc,@i',
+      '@\sDr$@i', '@\sDr,@i',
+      '@\sPl$@i', '@\sPl,@i',
+      '@\sCt$@i', '@\sCt,@i'
+    ];
+
+    $replace = [
+      ' Road', ' Road,',
+      ' Street', ' Street,',
+      ' Avenue', ' Avenue,',
+      ' Parade', ' Parade,',
+      ' Terrace', ' Terrace,',
+      ' Drive', ' Drive,',
+      ' Place', ' Place,',
+      ' Court', ' Court,'
+    ];
+
+    return (preg_replace($find, $replace, $street));
+  }
+
   static public function FirstNames($string) {
     if (preg_match('/&/', $string)) {
       $x = explode('&', $string);
