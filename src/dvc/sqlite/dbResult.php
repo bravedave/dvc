@@ -25,19 +25,19 @@ class dbResult {
   }
 
   public function fetch() {
-    return ($this->result->fetchArray(SQLITE3_ASSOC));
+    return $this->result->fetchArray(SQLITE3_ASSOC);
   }
 
   public function dto($template = NULL) {
     if ($dto = $this->fetch()) {
       if (is_null($template)) {
-        return (new dvc\dao\dto\dto($dto));
+        return new dvc\dao\dto\dto($dto);
       }
 
-      return (new $template($dto));
+      return new $template($dto);
     }
 
-    return (FALSE);
+    return false;
   }
 
   /**
@@ -61,6 +61,6 @@ class dbResult {
       }
     }
 
-    return ($ret);
+    return $ret;
   }
 }
