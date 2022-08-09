@@ -245,7 +245,13 @@ if (!window._brayworth_) {
   });
 
   // https://blog.saviomartin.com/20-killer-javascript-one-liners
-  _.isDateValid = (...val) => !Number.isNaN(new Date(...val).valueOf());
+  // _.isDateValid = (...val) => !Number.isNaN(new Date(...val).valueOf());
+  _.isDateValid = s => {
+    let d = _.dayjs(s);
+    if (d.isValid() && d.unix() > 0) return true;
+
+    return false;
+  };
 
   _.getMeta = (mName) => {
     let metas = document.getElementsByTagName('meta');
