@@ -20,17 +20,23 @@ http://dl-cdn.alpinelinux.org/alpine/latest-stable/community
 </pre>
 
 ```
-apk apk update;apk upgrade
-apk add bash mc git rsync php php_openssl php-phar \
-  php-iconv php-curl php-ctype php-fileinfo \
-  php-posix php-session php-dom sassc unzip
-# probably you need to be specific about the version with this one
-apk add php8-pecl-apcu
+sudo apk apk update
+sudo apk upgrade
+sudo apk add bash mc git rsync sassc unzip
+
+sudo apk add php8 php8-phar php8-iconv php8-curl \
+  php8-ctype php8-fileinfo php8-posix php8-session \
+  php8-dom php8-openssl php8-sqlite3 php8-pear \
+  php8-tokenizer php8-common php8-pecl-mailparse \
+  php8-mysqlnd php8-pecl-imagick php8-mbstring php8-dev \
+  php8-xmlreader php8-exif php8-gd php8-json php8-xml \
+  php8-imap php8-pecl-apcu php8-zip php8-apache2 \
+  php8-mysqli php8-simplexml php8-xmlwriter
 ```
 
 * Install Composer : <https://getcomposer.org/>
-  * Foolow the instruction at getcomposer.org
-  * Fihish off with (from the bash prompt)
+  * Follow the instruction at getcomposer.org
+  * Finish off with (from the bash prompt)
 ```
 cd ~
 mkdir bin
