@@ -14,3 +14,4 @@ src/dvc/resource/* linguist-detectable=false
 *.sh linguist-detectable=false
 run.cmd linguist-vendored
 run.sh linguist-vendored
+httpd-minimal.conf linguist-vendored
