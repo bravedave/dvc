@@ -12,3 +12,5 @@ src/dvc/public/** linguist-vendored
 src/dvc/resource/* linguist-detectable=false
 *.cmd linguist-detectable=false
 *.sh linguist-detectable=false
+run.cmd linguist-vendored
+run.sh linguist-vendored
