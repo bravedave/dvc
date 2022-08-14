@@ -6,8 +6,8 @@
 *.js text eol=lf
 *.sh text eol=lf
 
-src/dvc/resource/** linguist-vendored
-src/dvc/public/** linguist-vendored
+src/dvc/resource/* linguist-vendored
+src/dvc/public/* linguist-vendored
 
 src/dvc/resource/* linguist-detectable=false
 *.cmd linguist-detectable=false
