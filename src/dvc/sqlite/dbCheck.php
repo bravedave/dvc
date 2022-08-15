@@ -12,139 +12,133 @@
 
 namespace dvc\sqlite;
 
-class dbCheck {	// extends _dao {
-	public $temporary = false;
+class dbCheck {  // extends _dao {
+  public $temporary = false;
 
-	protected $table;
-	protected $pk = "id";
-	protected $structure = [];
-	protected $indexs = [];
-	protected $db;
+  protected $table;
+  protected $pk = "id";
+  protected $structure = [];
+  protected $indexs = [];
+  protected $db;
 
-	function __construct( db $db = null, $table, $pk = "id" ) {
-		$this->db = $db;
-		//~ parent::__construct( $db );
+  function __construct(db $db = null, $table, $pk = "id") {
+    $this->db = $db;
+    //~ parent::__construct( $db );
 
-		$this->table = $table;
-		$this->pk = $pk;
+    $this->table = $table;
+    $this->pk = $pk;
+  }
 
-	}
-
-	/*
+  /*
 	 * INTEGER
 	 * REAL
 	 * TEXT
 	 * BLOB
+   *
+   * noting that SQLite does not use the decimal,
+   * but required for compatibility with MySQL equivalent function
 	 */
-	function defineField( $name = "", $type = "TEXT", $default = "" ) {
-		if ( $name == "" )
-			return ( false );
+  function defineField($name = "", $type = "TEXT", $dec = 0, $default = "") {
+    if ($name == "")
+      return (false);
 
-		if ( strtolower( $type) == 'bigint')
-			$type = 'INTEGER';
-		elseif ( in_array( strtolower( $type), ['int','bigint','tinyint']) !== false)
-			$type = 'INTEGER';
-		elseif ( in_array( strtolower( $type), ['blob','mediumblob','longblob']) !== false)
-			$type = 'BLOB';
-		elseif ( in_array( strtolower( $type), ['varchar','varbinary','mediumtext','longtext','date','datetime']) !== false)
-			$type = 'TEXT';
-		elseif ( in_array( strtolower( $type), ['float','double','decimal']) !== false)
-			$type = 'REAL';
+    if (strtolower($type) == 'bigint')
+      $type = 'INTEGER';
+    elseif (in_array(strtolower($type), ['int', 'bigint', 'tinyint']) !== false)
+      $type = 'INTEGER';
+    elseif (in_array(strtolower($type), ['blob', 'mediumblob', 'longblob']) !== false)
+      $type = 'BLOB';
+    elseif (in_array(strtolower($type), ['varchar', 'varbinary', 'mediumtext', 'longtext', 'date', 'datetime']) !== false)
+      $type = 'TEXT';
+    elseif (in_array(strtolower($type), ['float', 'double', 'decimal']) !== false)
+      $type = 'REAL';
 
-		$this->structure[] = [
-			'name' => $name,
-			'type' => strtoupper( $type),
-			'default' => $default
+    $this->structure[] = [
+      'name' => $name,
+      'type' => strtoupper($type),
+      'default' => $default,
+      'decimal' => $dec
+    ];
+  }
 
-		];
+  function defineIndex($key, $field) {
+    $this->indexs[] = [
+      'key' => $key,
+      'field' => $field
 
-	}
+    ];
+  }
 
-	function defineIndex( $key, $field ) {
-		$this->indexs[] = [
-			'key' => $key,
-			'field' => $field
+  function check() {
+    $fields = [$this->pk . ' INTEGER PRIMARY KEY AUTOINCREMENT'];
+    foreach ($this->structure as $fld) {
 
-		];
+      if ($fld["type"] == 'INTEGER')
+        $fields[] = sprintf('`%s` INTEGER DEFAULT %s', $fld['name'], (int)$fld['default']);
 
-	}
+      elseif ($fld["type"] == 'REAL')
+        $fields[] = sprintf('`%s` REAL DEFAULT %s', $fld['name'], (int)$fld['default']);
 
-	function check() {
-		$fields = [$this->pk . ' INTEGER PRIMARY KEY AUTOINCREMENT'];
-		foreach ( $this->structure as $fld ) {
+      elseif ($fld["type"] == 'TEXT') {
+        /**
+         * to be compatible with MySQL set collation to insensitive
+         */
+        $fields[] = sprintf('`%s` TEXT COLLATE NOCASE', $fld['name']);
+      } elseif ($fld["type"] == 'BLOB')
+        $fields[] = sprintf('`%s` BLOB', $fld['name']);
 
-			if ( $fld["type"] == 'INTEGER' )
-				$fields[] = sprintf( '`%s` INTEGER DEFAULT %s', $fld['name'], (int)$fld['default']);
+      else
+        throw new \Exception('unknown field type dbCheck => check -> ' . $fld['type']);
+    }
 
-			elseif ( $fld["type"] == 'REAL' )
-				$fields[] = sprintf( '`%s` REAL DEFAULT %s', $fld['name'], (int)$fld['default']);
+    $sql = sprintf(
+      'CREATE %s TABLE IF NOT EXISTS `%s`(%s)',
+      $this->temporary ? 'TEMPORARY' : '',
+      $this->table,
+      implode(',', $fields)
 
-			elseif ( $fld["type"] == 'TEXT' ) {
-				/**
-				 * to be compatible with MySQL set collation to insensitive
-				 */
-				$fields[] = sprintf( '`%s` TEXT COLLATE NOCASE', $fld['name']);
+    );
+    //~ print "<pre>" . print_r( $fields, TRUE ) . "</pre>";
+    //~ print $sql;
+    $this->db->Q($sql);
 
-			}
-			elseif ( $fld["type"] == 'BLOB' )
-				$fields[] = sprintf( '`%s` BLOB', $fld['name']);
+    $fieldList = $this->db->fieldList($this->table);
+    $fields = [];
+    foreach ($fieldList as $f)
+      $fields[] = $f->name;
 
-			else
-				throw new \Exception( 'unknown field type dbCheck => check -> ' . $fld['type'] );
+    foreach ($this->structure as $fld) {
+      if (!in_array($fld['name'], $fields)) {
+        if ($fld['type'] == 'INTEGER')
+          $sql = sprintf('ALTER TABLE `%s` ADD COLUMN `%s` INTEGER DEFAULT %s', $this->table, $fld['name'], (int)$fld['default']);
 
-		}
+        elseif ($fld['type'] == 'REAL')
+          $sql = sprintf('ALTER TABLE `%s` ADD COLUMN `%s` REAL DEFAULT %s', $this->table, $fld['name'], (int)$fld['default']);
 
-		$sql = sprintf(
-			'CREATE %s TABLE IF NOT EXISTS `%s`(%s)',
-			$this->temporary ? 'TEMPORARY' : '',
-			$this->table,
-			implode( ',', $fields)
+        elseif ($fld['type'] == 'TEXT')
+          $sql = sprintf('ALTER TABLE `%s` ADD COLUMN `%s` TEXT', $this->table, $fld['name']);
 
-		);
-		//~ print "<pre>" . print_r( $fields, TRUE ) . "</pre>";
-		//~ print $sql;
-		$this->db->Q( $sql );
+        elseif ($fld['type'] == 'BLOB')
+          $sql = sprintf('ALTER TABLE `%s` ADD COLUMN `%s` BLOB', $this->table, $fld['name']);
 
-		$fieldList = $this->db->fieldList( $this->table);
-		$fields = [];
-		foreach ( $fieldList as $f)
-			$fields[] = $f->name;
+        else
+          throw new \Exception('unknown field type dbCheck => check -> ' . $fld['type']);
 
-		foreach ( $this->structure as $fld ) {
-			if ( !in_array( $fld['name'], $fields )) {
-				if ( $fld['type'] == 'INTEGER' )
-					$sql = sprintf( 'ALTER TABLE `%s` ADD COLUMN `%s` INTEGER DEFAULT %s', $this->table, $fld['name'], (int)$fld['default']);
+        //~ \sys::dump( $fields, NULL, FALSE);
+        //~ \sys::dump( $sql);
 
-				elseif ( $fld['type'] == 'REAL' )
-					$sql = sprintf( 'ALTER TABLE `%s` ADD COLUMN `%s` REAL DEFAULT %s', $this->table, $fld['name'], (int)$fld['default']);
+        $this->db->Q($sql);
+      }
+    }
 
-				elseif ( $fld['type'] == 'TEXT' )
-					$sql = sprintf( 'ALTER TABLE `%s` ADD COLUMN `%s` TEXT', $this->table, $fld['name']);
-
-				elseif ( $fld['type'] == 'BLOB' )
-					$sql = sprintf( 'ALTER TABLE `%s` ADD COLUMN `%s` BLOB', $this->table, $fld['name']);
-
-				else
-					throw new \Exception( 'unknown field type dbCheck => check -> ' . $fld['type'] );
-
-				//~ \sys::dump( $fields, NULL, FALSE);
-				//~ \sys::dump( $sql);
-
-				$this->db->Q( $sql );
-
-			}
-
-		}
-
-		foreach ( $this->indexs as $index ) {
-			$sql = sprintf( 'CREATE INDEX IF NOT EXISTS `%s` ON `%s` (%s)',
-				$this->db->escape( $index['key'] ),
-				$this->db->escape( $this->table ),
-				$this->db->escape( $index['field'] ) );
-			$this->db->Q( $sql);
-
-		}
-
-	}
-
+    foreach ($this->indexs as $index) {
+      $sql = sprintf(
+        'CREATE INDEX IF NOT EXISTS `%s` ON `%s` (%s)',
+        $this->db->escape($index['key']),
+        $this->db->escape($this->table),
+        $this->db->escape($index['field'])
+      );
+      $this->db->Q($sql);
+    }
+  }
 }
