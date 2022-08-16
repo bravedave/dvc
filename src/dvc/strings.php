@@ -241,15 +241,15 @@ abstract class strings {
     return (self::CleanPhoneString($p1) == self::CleanPhoneString($p2));
   }
 
-  static public function DateDiff($date1, $date2 = null, $format = '%R%a') {
-    if ($date1 && '0000-00-00' != (string)$date1) {
-      //~ \sys::logger( sprintf( '%s : %s', $date1));
-      if (!(strtotime($date2) > 0)) $date2 = date('Y-m-d');
+  static public function DateDiff($lowdate, $highdate = null, $format = '%R%a') {
+    if ($lowdate && '0000-00-00' != (string)$lowdate) {
+      //~ \sys::logger( sprintf( '%s : %s', $lowdate));
+      if (!(strtotime($highdate) > 0)) $highdate = date('Y-m-d');
 
-      $d1 = new \datetime($date1);
-      $d2 = new \datetime($date2);
-      $interval = date_diff($d1, $d2);
-      //~ sys::logger( sprintf( '%s - %s = %s',  $date1, $date2, $interval->format('%R%a')));
+      $low = new \datetime($lowdate);
+      $high = new \datetime($highdate);
+      $interval = date_diff($low, $high);
+      //~ sys::logger( sprintf( '%s - %s = %s',  $lowdate, $highdate, $interval->format('%R%a')));
       return ($interval->format($format));
     }
 
