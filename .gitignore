@@ -1,4 +1,5 @@
 .bak
+.vscode
 autoload-local-path.php
 example/application/app/public/
 src/dvc/resource/bootstrap4
