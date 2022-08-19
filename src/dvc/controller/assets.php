@@ -62,34 +62,56 @@ class assets extends Controller {
 
       ]);
     } elseif ('dopo' == $type) {
-      ob_start();
+      $a = [
+        sprintf('_.timezone = "%s";', \config::$TIMEZONE,),
 
-      $files = [];
-      foreach (jslib::$brayworthlibDOPOFiles as $f) {
-        $path = sprintf('%s/../%s', __DIR__, $f);
-        //~ sys::logger( sprintf( '%s', $path));
-        if ($_f = realpath($path)) {
-          $key = basename($_f);
-          $files[$key] = $_f;
-        }
-      }
+        '_.urlwrite = _.url = ( _url, withProtocol) => {',
 
-      //~ $n = 0;
-      foreach ($files as $key => $path) {
-        //~ sys::logger( sprintf( "[%s] %s", $key, $path));
-        include_once $path;
-        print PHP_EOL;
-      }
+        'if ( "undefined" == typeof _url) _url = "";',
+        sprintf('if ( !!withProtocol) return `%s%s${_url}`;', \url::$PROTOCOL, \url::$URL),
+        sprintf('return `%s${_url}`;', \url::$URL),
 
-      $out = ob_get_contents();
-      ob_end_clean();
-
-      $minifier = new MatthiasMullie\Minify\JS;
-      $minifier->add($out);
-      $minified =  $minifier->minify();
+        '};'
+      ];
 
       Response::javascript_headers();
-      print $minified;
+      printf('( _ => {%s}) (_brayworth_);', implode($a));
+
+      // ob_start();
+
+      // $files = [];
+      // foreach (jslib::$brayworthlibDOPOFiles as $f) {
+      //   $path = sprintf('%s/../%s', __DIR__, $f);
+      //   //~ sys::logger( sprintf( '%s', $path));
+      //   if ($_f = realpath($path)) {
+      //     $key = basename($_f);
+      //     $files[$key] = $_f;
+      //   }
+      // }
+
+      // //~ $n = 0;
+      // foreach ($files as $key => $path) {
+      //   //~ sys::logger( sprintf( "[%s] %s", $key, $path));
+      //   include_once $path;
+      //   print PHP_EOL;
+      // }
+
+      // $out = ob_get_contents();
+      // ob_end_clean();
+
+      // $minifier = new MatthiasMullie\Minify\JS;
+      // $minifier->add($out);
+      // $minified =  $minifier->minify();
+
+      // Response::javascript_headers();
+      // print $minified;
+    } elseif ('stimulus' == $type) {
+      jslib::viewjs([
+        'debug' => false,
+        'libName' => 'brayworth_stimulus',
+        'jsFiles' => [__DIR__ . '/../js/stimulus.js'],
+        'libFile' => config::tempdir()  . '_stimulus.js'
+      ]);
     } else {
       // sys::dump( \jslib::$brayworthlibFiles);
       $files = [];
