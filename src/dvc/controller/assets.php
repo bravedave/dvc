@@ -76,7 +76,6 @@ class assets extends Controller {
 
       Response::javascript_headers();
       printf('( _ => {%s}) (_brayworth_);', implode($a));
-
     } elseif ('stimulus' == $type) {
       jslib::viewjs([
         'debug' => false,
@@ -122,6 +121,28 @@ class assets extends Controller {
     } else {
       // \sys::serve(sprintf('%s/../js/%s', __DIR__, 'jquery-3.5.1.min.js'));
       \sys::serve(sprintf('%s/../js/%s', __DIR__, 'jquery-3.6.0.min.js'));
+    }
+  }
+
+  public function tinymce($path = '') {
+    // \sys::logger(sprintf('<%s> %s', $this->Request->getUri(), __METHOD__));
+    if (preg_match('/(\.min\.css|\.css)$/', $uri = $this->Request->getUri())) {
+      $file = preg_replace('@^assets/tinymce/@','',$uri);
+      // \sys::logger( sprintf('<%s> %s', $file, __METHOD__));
+
+      $_f = sprintf(
+        '%s/%s',
+        jslib::tiny6_dir(), $file
+      );
+
+      file_exists($_f) ?
+        sys::serve($_f) :
+        sys::logger('error serving lib tinymce.css');
+
+      //~ sys::logger( sprintf( 'serving lib tinymce %s', $this->Request->getUri()));
+
+    } else {
+      jslib::tiny6serve('tinymce-dvc', 'autolink,lists,advlist,table,image,link');
     }
   }
 }

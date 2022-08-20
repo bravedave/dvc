@@ -269,6 +269,71 @@ abstract class jslib {
     ]);
   }
 
+  public static function tiny6_dir() {
+    $dir = realpath(__DIR__ . '/../../../../twbs');
+    if (!$dir) {
+      $dir = realpath(__DIR__ . '/../../vendor/tinymce/tinymce');
+    }
+
+    return $dir;
+  }
+
+  public static function tiny6serve(string $libname = 'tinymce', string $plugins = 'table,autolink,lists,advlist,editimage,link') {
+    $debug = self::$debug;
+    $debug = false;
+    // $debug = true;
+
+    // $path = implode(DIRECTORY_SEPARATOR, [
+    //   \application::app()->getInstallPath(),
+    //   'dvc',
+    //   'public',
+    //   'js',
+    //   'tinymce5'
+
+    // ]);
+
+    $path = self::tiny6_dir();
+
+    // \sys::logger(sprintf('<%s> %s', $path, __METHOD__));
+
+    $files = [
+      implode(DIRECTORY_SEPARATOR, [$path, 'tinymce.min.js']),
+      implode(DIRECTORY_SEPARATOR, [$path, 'models', 'dom', 'model.min.js']),
+      implode(DIRECTORY_SEPARATOR, [$path, 'icons', 'default', 'icons.min.js'])
+
+    ];
+
+    if (file_exists($_file = implode(DIRECTORY_SEPARATOR, [$path, 'themes', 'silver', 'theme.min.js']))) {
+      $files[] = $_file;
+    } elseif (file_exists($_file = implode(DIRECTORY_SEPARATOR, [$path, 'themes', 'modern', 'theme.min.js']))) {
+      $files[] = $_file;
+    }
+
+    foreach (explode(',', $plugins) as $plugin) {
+      $file = implode(DIRECTORY_SEPARATOR, [$path, 'plugins', trim($plugin), 'plugin.min.js']);
+      if (file_exists($file)) {
+        $files[] = $file;
+      } else {
+        \sys::logger(sprintf('<plugin not found %s> %s', $file, __METHOD__));
+      }
+    }
+
+    if ($debug) {
+      foreach ($files as $file) {
+        \sys::logger(sprintf('<%s> <%s> %s', $file, \filesize($file), __METHOD__));
+      }
+    }
+
+    jslib::viewjs([
+      'debug' => $debug,
+      'libName' => $libname,
+      'jsFiles' => $files,
+      'minify' => false,
+      'libFile' => \config::tempdir()  . '_' . $libname . '.js'
+
+    ]);
+  }
+
   public static function brayworth($lib = false, $libdir = '') {
     $debug = self::$debug;
     // $debug = true;
@@ -370,10 +435,14 @@ abstract class jslib {
     }
 
     if (count($input)) {
-      $minifier = new MatthiasMullie\Minify\JS;
-      $minifier->add($input);
+      if ($options->minify) {
+        $minifier = new MatthiasMullie\Minify\JS;
+        $minifier->add($input);
 
-      file_put_contents($options->libFile, $minifier->minify());
+        file_put_contents($options->libFile, $minifier->minify());
+      } else {
+        file_put_contents($options->libFile, implode($input));
+      }
     } else {
       file_put_contents($options->libFile, '');
     }
@@ -398,7 +467,8 @@ abstract class jslib {
       'libName' => '',
       'leadKey' => false,
       'jsFiles' => false,
-      'libFile' => false
+      'libFile' => false,
+      'minify' => true
     ], $params);
 
     if ($options->libFile) {
