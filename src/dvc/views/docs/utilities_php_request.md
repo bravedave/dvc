@@ -16,7 +16,7 @@
 
         <tr>
             <td>source</td>
-            <td>src\dvc\Request.php</td>
+            <td>src\dvc\core\Request.php</td>
 
         </tr>
 
@@ -26,7 +26,7 @@
 
 #### Usage
 ```php
-    if ( dvc\Request::get()->isPost()) {
+    if ( dvc\core\Request::get()->isPost()) {
         // everything must be post ...
 
     };

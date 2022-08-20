@@ -619,10 +619,6 @@ abstract class strings {
     return date($format, ($timestamp != false ? (int)$timestamp : $myDateTime->format('U')) + $offset);
   }
 
-  static public function isValidMd5($md5 = '') {
-    return preg_match('/^[a-f0-9]{32}$/', $md5);
-  }
-
   static public function IsEmailAddress($email) {
     return (self::CheckEmailAddress($email));
   }
@@ -691,6 +687,15 @@ abstract class strings {
     }
 
     return (false);
+  }
+
+  static public function isValidMd5($md5 = '') {
+    return preg_match('/^[a-f0-9]{32}$/', $md5);
+  }
+
+  static public function isValidJSON($str) {
+    json_decode($str);
+    return json_last_error() == JSON_ERROR_NONE;
   }
 
   static public function lorum() {

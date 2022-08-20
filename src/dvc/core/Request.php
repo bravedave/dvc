@@ -10,6 +10,8 @@
 
 namespace dvc\core;
 
+use dvc\strings;
+
 class Request {
   protected $controllerName = 'Home';
 
@@ -20,6 +22,8 @@ class Request {
   protected $_RewriteBase = '';
 
   protected $url;
+
+  protected $json;
 
   protected $post;
 
@@ -44,11 +48,14 @@ class Request {
   private function __construct() {
     $this->post = $_POST;
     $this->query = $_GET;
+    $this->json = (object)[];
 
-    //~ $this->query = array();
-    //~ $a = $_GET;
-    //~ foreach ( $a as $k => $v)
-    //~ $this->query[$k] = urldecode( $v);
+    if ($this->isPost()) {
+      $input = file_get_contents('php://input');
+      if (strings::isValidJSON($input)) {
+        $this->json = (object)json_decode($input);
+      }
+    }
 
     $this->params = array_merge($this->query, $this->post);
 
@@ -144,11 +151,10 @@ class Request {
   }
 
   public function getPost($name = '', $default = false) {
-    if (!$name)
-      return $this->post;
+    if (!$name) return $this->post;
 
-    if (isset($this->post[$name]))
-      return $this->post[$name];
+    if (isset($this->json->name)) return $this->json->name;
+    if (isset($this->post[$name])) return $this->post[$name];
 
     return ($default);
   }
@@ -198,12 +204,8 @@ class Request {
     return '0.0.0.0';
   }
 
-  public function getServer($name) {
-    if (isset($_SERVER[$name])) {
-      return $_SERVER[$name];
-    }
-
-    return '';
+  public function getServer($name): string {
+    return $_SERVER[$name] ?? '';
   }
 
   public function getServerName() {
@@ -277,11 +279,8 @@ class Request {
     return $root;
   }
 
-  public function isPost() {
-    if ($this->getServer('REQUEST_METHOD') == 'POST')
-      return true;
-
-    return false;
+  public function isPost() : bool {
+    return (bool)$this->getServer('REQUEST_METHOD') == 'POST';
   }
 
   public function isGet() {
