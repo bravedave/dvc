@@ -54,7 +54,7 @@ class Request {
 
       $input = file_get_contents('php://input');
       if (strings::isValidJSON($input)) {
-        \sys::logger( sprintf('<%s> %s', 'isPost/json', __METHOD__));
+        // \sys::logger( sprintf('<%s> %s', 'isPost/json', __METHOD__));
         $this->json = (object)json_decode($input);
       }
       else {

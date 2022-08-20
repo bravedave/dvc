@@ -700,10 +700,13 @@ abstract class strings {
       // $t = type of the resource, needed to be specified as "str" if $r is a string-content
       $finfo = new \finfo(FILEINFO_MIME_TYPE);
       $type = $finfo->buffer($str);
-      \sys::logger(sprintf('<%s> %s', $type, __METHOD__));
-      json_decode($str);
 
-      return json_last_error() == JSON_ERROR_NONE;
+      if ('application/json' == $type) {
+        // \sys::logger(sprintf('<%s> %s', $type, __METHOD__));
+        json_decode($str);
+
+        return json_last_error() == JSON_ERROR_NONE;
+      }
     }
 
     return false;
