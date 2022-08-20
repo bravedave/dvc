@@ -10,14 +10,16 @@
 
 namespace dvc\core;
 
-use dao;
-use dvc\errsys;
-use dvc\Exceptions\CannotLocateController;
-use dvc\Exceptions\MissingRootPath;
-use dvc\Exceptions\SecurityException;
-use dvc\Request;
-use dvc\timer;
-use dvc\utility;
+use dvc\{
+  errsys,
+  timer
+};
+
+use dvc\Exceptions\{
+  CannotLocateController,
+  MissingRootPath,
+  SecurityException
+};
 
 define('APPLICATION', 1);
 

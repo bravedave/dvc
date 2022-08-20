@@ -77,34 +77,6 @@ class assets extends Controller {
       Response::javascript_headers();
       printf('( _ => {%s}) (_brayworth_);', implode($a));
 
-      // ob_start();
-
-      // $files = [];
-      // foreach (jslib::$brayworthlibDOPOFiles as $f) {
-      //   $path = sprintf('%s/../%s', __DIR__, $f);
-      //   //~ sys::logger( sprintf( '%s', $path));
-      //   if ($_f = realpath($path)) {
-      //     $key = basename($_f);
-      //     $files[$key] = $_f;
-      //   }
-      // }
-
-      // //~ $n = 0;
-      // foreach ($files as $key => $path) {
-      //   //~ sys::logger( sprintf( "[%s] %s", $key, $path));
-      //   include_once $path;
-      //   print PHP_EOL;
-      // }
-
-      // $out = ob_get_contents();
-      // ob_end_clean();
-
-      // $minifier = new MatthiasMullie\Minify\JS;
-      // $minifier->add($out);
-      // $minified =  $minifier->minify();
-
-      // Response::javascript_headers();
-      // print $minified;
     } elseif ('stimulus' == $type) {
       jslib::viewjs([
         'debug' => false,
