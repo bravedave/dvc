@@ -280,7 +280,7 @@ class Request {
   }
 
   public function isPost() : bool {
-    return (bool)$this->getServer('REQUEST_METHOD') == 'POST';
+    return (bool)($this->getServer('REQUEST_METHOD') == 'POST');
   }
 
   public function isGet() {
