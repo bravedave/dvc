@@ -694,8 +694,15 @@ abstract class strings {
   }
 
   static public function isValidJSON($str) {
-    json_decode($str);
-    return json_last_error() == JSON_ERROR_NONE;
+    if ( $str) {
+      \sys::logger( sprintf('<%s> %s', mime_content_type($str), __METHOD__));
+      json_decode($str);
+
+      return json_last_error() == JSON_ERROR_NONE;
+    }
+
+    return false;
+
   }
 
   static public function lorum() {
