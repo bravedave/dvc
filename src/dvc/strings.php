@@ -694,15 +694,19 @@ abstract class strings {
   }
 
   static public function isValidJSON($str) {
-    if ( $str) {
-      \sys::logger( sprintf('<%s> %s', mime_content_type($str), __METHOD__));
+    if ($str) {
+      //Returns the Mime Type of a file or a string content - from: https://coursesweb.net/
+      // $r = the resource: Path to the file; Or the String content
+      // $t = type of the resource, needed to be specified as "str" if $r is a string-content
+      $finfo = new \finfo(FILEINFO_MIME_TYPE);
+      $type = $finfo->buffer($str);
+      \sys::logger(sprintf('<%s> %s', $type, __METHOD__));
       json_decode($str);
 
       return json_last_error() == JSON_ERROR_NONE;
     }
 
     return false;
-
   }
 
   static public function lorum() {
