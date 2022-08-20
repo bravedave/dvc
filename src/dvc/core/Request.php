@@ -51,9 +51,15 @@ class Request {
     $this->json = (object)[];
 
     if ($this->isPost()) {
+
       $input = file_get_contents('php://input');
       if (strings::isValidJSON($input)) {
+        \sys::logger( sprintf('<%s> %s', 'isPost/json', __METHOD__));
         $this->json = (object)json_decode($input);
+      }
+      else {
+        \sys::logger( sprintf('<%s> %s', 'isPost', __METHOD__));
+
       }
     }
 
@@ -153,7 +159,7 @@ class Request {
   public function getPost($name = '', $default = false) {
     if (!$name) return $this->post;
 
-    if (isset($this->json->name)) return $this->json->name;
+    if (isset($this->json->$name)) return $this->json->$name;
     if (isset($this->post[$name])) return $this->post[$name];
 
     return ($default);
