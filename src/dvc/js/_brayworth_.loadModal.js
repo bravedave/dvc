@@ -3,73 +3,62 @@
  * BrayWorth Pty Ltd
  * e. david@brayworth.com.au
  *
- * This work is licensed under a Creative Commons Attribution 4.0 International Public License.
- *      http://creativecommons.org/licenses/by/4.0/
+ * MIT License
  *
-*/
-/*jshint esversion: 6 */
-_brayworth_.loadModal = function( params) {
-	let options = _brayworth_.extend({
-		url : _brayworth_.url('modal'),
-		headerClass : '',
-		beforeOpen : function() {},
-		onClose : function() {},
-		onSuccess : function() {},
+ * */
+(_ => {
+  _.loadModal = params => {
+    let options = {
+      ...{
+        url: _.url('modal'),
+        headerClass: '',
+        beforeOpen: () => { },
+        onClose: () => { },
+        onSuccess: () => { },
+      }, ...params
+    };
 
-	}, params);
+    //~ console.log( options);
 
-	//~ console.log( options);
+    return (new Promise(resolve => {
+      _.get(options.url).then(data => {
+        let modal = $(data).appendTo('body');
 
-	return ( new Promise( function( resolve, reject) {
-		_brayworth_.get( options.url).then( function( data) {
-			let modal = $(data).appendTo('body');
+        modal
+          .on('brayworth.success', options.onSuccess)
+          .on('brayworth.modal', options.onClose)
+          .on('hidden.bs.modal', function (e) {
+            modal.remove();
+            modal.trigger('brayworth.modal');
+          });
 
-			modal.on('brayworth.success', options.onSuccess);
-			modal.on('brayworth.modal', options.onClose);
-			modal.on('hidden.bs.modal', function (e) {
-				modal.remove();
-				modal.trigger( 'brayworth.modal');
+        if ('' != options.headerClass) {
+          modal.find('.modal-header')
+            .removeClass()
+            .addClass('modal-header')
+            .addClass(options.headerClass);
+        }
 
-			});
+        if (!_.browser.isMobileDevice) {
+          let autofocus = modal.find('[autofocus]');
+          if (autofocus.length > 0) {
+            modal.on('shown.bs.modal', e => autofocus.first().focus());
 
-			if ( '' != options.headerClass) {
-				$('.modal-header', modal).removeClass()
-					.addClass('modal-header')
-					.addClass( options.headerClass);
+          }
+          else {
+            modal.find('textarea:not([type="hidden"]):not([readonly]), input:not([type="hidden"]):not([readonly]), button:not([disabled]), a:not([tabindex="0"])');
+            if (autofocus.length > 0) {
+              modal.on('shown.bs.modal', e => autofocus.first().focus());
 
-			}
+            }
+          }
+        }
 
-			if ( !_brayworth_.browser.isMobileDevice) {
-				let mbody = $('.modal-body', modal);
-				let autofocus = $('[autofocus]', mbody);
-				if ( autofocus.length > 0) {
-					modal.on('shown.bs.modal', function (e) {
-						autofocus.first().focus();
+        modal.on('show.bs.modal', options.beforeOpen);
 
-					});
-
-				}
-				else {
-					autofocus = $('textarea:not([type="hidden"]):not([readonly]), input:not([type="hidden"]):not([readonly]), button:not([disabled]), a:not([tabindex="0"])', mbody);
-					if ( autofocus.length > 0) {
-						modal.on('shown.bs.modal', function (e) {
-							autofocus.first().focus();
-
-						});
-
-					}
-
-				}
-
-			}
-
-			modal.on('show.bs.modal', options.beforeOpen);
-
-			modal.modal( 'show');
-			resolve( modal);
-
-		});
-
-	}));
-
-};
+        modal.modal('show');
+        resolve(modal);
+      });
+    }));
+  };
+})(_brayworth_);
