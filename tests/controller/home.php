@@ -12,6 +12,10 @@ class home extends Controller {
   protected $viewPath = __DIR__ . '/views/';
 
   protected function _index() {
+
+    sys::monolog()
+      ->info(config::$PAGE_TEMPLATE, [__METHOD__]);
+
     if ('4' == config::$BOOTSTRAP_VERSION) {
       $this->render([
         'secondary' => ['aside'],
@@ -19,7 +23,6 @@ class home extends Controller {
         'primary' => ['main']
       ]);
     } else {
-      \sys::logger(sprintf('<%s> %s', config::$PAGE_TEMPLATE, __METHOD__));
       $this->render([
         'secondary' => ['aside'],
         'primary' => ['main']

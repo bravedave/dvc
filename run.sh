@@ -5,7 +5,7 @@ PORT=$[RANDOM%1000+1024]
 PORT=1265
 
 apache=`command -v httpd`
-apache=""
+# apache=""
 
 if [[ "" == $apache ]]; then
   cd tests/www

@@ -10,6 +10,14 @@
 
 namespace dvc;
 
+use Monolog\Logger;
+use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\{
+  ErrorLogHandler,
+  SyslogHandler,
+  TelegramBotHandler
+};
+
 abstract class sys {
   protected static $_loglevel = 1;
   protected static $_dbi = null;
@@ -244,19 +252,17 @@ abstract class sys {
           'verify_peer' => false,
           'verify_peer_name' => false,
           'allow_self_signed' => true
-
         ]
-
       ];
     }
 
     $mailconfig = sprintf(
       '%s/mail-config.json',
       rtrim(\config::dataPath(), '/ ')
-
     );
 
     if (file_exists($mailconfig)) {
+
       $_mc = json_decode(file_get_contents($mailconfig));
 
       if (isset($_mc->Host)) {
@@ -272,12 +278,12 @@ abstract class sys {
         if (isset($_mc->SMTPOptions->ssl)) {
           $mail->SMTPOptions = [
             'ssl' => (array)$_mc->SMTPOptions->ssl
-
           ];
         }
       }
 
       if (isset($_mc->SMTPUserName) && isset($_mc->SMTPPassword)) {
+
         $mail->SMTPAuth = true;
         $mail->Username = $_mc->SMTPUserName;
         $mail->Password = $_mc->SMTPPassword;
@@ -303,6 +309,29 @@ abstract class sys {
 
     $mail->setFrom(\config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME);
     return ($mail);
+  }
+
+  protected static $_monolog = null;
+
+  public static function monolog(): Logger {
+    if (!self::$_monolog) {
+
+      // $path = sprintf('%s/application.log', \config::dataPath());
+      self::$_monolog = new Logger('dvc');
+      // self::$_monolog->pushHandler(new StreamHandler($path, Logger::WARNING));
+
+      // $syslog = new SyslogHandler(\config::$WEBNAME, LOG_USER, Logger::DEBUG, true, LOG_CONS);
+      // $formatter = new LineFormatter("%channel%.%level_name%: %message% %context% %extra%");
+
+      $syslog = new ErrorLogHandler;
+      $formatter = new LineFormatter("%channel%.%level_name%: %message% %context%");
+      $syslog->setFormatter($formatter);
+      self::$_monolog->pushHandler($syslog);
+
+      // self::$_monolog->info('My logger is now ready');
+    }
+
+    return self::$_monolog;
   }
 
   protected static $_options = [];
@@ -627,7 +656,7 @@ abstract class sys {
       } elseif ('pink' == \config::$THEME) {
         $lib = __DIR__ . '/resource/bootstrap5/bootstrap-pink.min.css';
       }
-      \sys::logger( sprintf('<%s> %s', $lib, __METHOD__));
+      \sys::logger(sprintf('<%s> %s', $lib, __METHOD__));
       self::serve($lib);
     } elseif ('polyfill' == $type) {
       $lib = sprintf('%s/resource/bootstrap4-5.polyfill.css', __DIR__);
