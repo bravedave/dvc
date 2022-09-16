@@ -13,7 +13,7 @@ class home extends Controller {
 
   protected function _index() {
 
-    sys::monolog()
+    sys::telegram()
       ->info(config::$PAGE_TEMPLATE, [__METHOD__]);
 
     if ('4' == config::$BOOTSTRAP_VERSION) {

@@ -311,9 +311,9 @@ abstract class sys {
     return ($mail);
   }
 
-  protected static $_monolog = null;
+  protected static ?Logger $_monolog = null;
 
-  public static function monolog(): Logger {
+  public static function monolog(): ?Logger {
     if (!self::$_monolog) {
 
       // $path = sprintf('%s/application.log', \config::dataPath());
@@ -709,6 +709,31 @@ abstract class sys {
 
   public static function set_error_handler() {
     errsys::initiate(false);
+  }
+
+  protected static ?Logger $_telegram = null;
+
+  public static function telegram(): ?Logger {
+    if (!self::$_telegram) {
+
+      if (\config::$TELEGRAM_API_KEY && \config::$TELEGRAM_CHAT_ID) {
+
+        self::$_telegram = new Logger('dvc');
+        $telegramHandler = new TelegramBotHandler(
+          \config::$TELEGRAM_API_KEY,
+          \config::$TELEGRAM_CHAT_ID
+        );
+
+        $formatter = new LineFormatter("%channel%.%level_name%: %message%\n%context%");
+        $telegramHandler->setFormatter($formatter);
+        self::$_telegram->pushHandler($telegramHandler);
+      } else {
+
+        return self::monolog();
+      }
+    }
+
+    return self::$_telegram;
   }
 
   public static function text2html($inText, $maxrows = -1, $allAsteriskAsList = false) {

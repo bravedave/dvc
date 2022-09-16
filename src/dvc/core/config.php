@@ -141,6 +141,9 @@ abstract class config {
   static $SITEMAPS = false;
   static $SYNTAX_HIGHLIGHT_DOCS = false;
 
+  static $TELEGRAM_API_KEY = '';
+  static $TELEGRAM_CHAT_ID = '';
+
   static $TEMPLATES_DIR = null;
   static $TEMPLATES_DIR_CSS = null;
 
@@ -338,17 +341,19 @@ abstract class config {
           'db_cache_debug_type_conflict' => \config::$DB_CACHE_DEBUG_TYPE_CONFLICT,
           'date_format' => \config::$DATE_FORMAT,
           'datetime_format' => \config::$DATETIME_FORMAT,
+          'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,
           'emaildomain' => \config::$EMAILDOMAIN,
+          'imap_auth_server' => \config::$IMAP_AUTH_SERVER,
           'page_template' => \config::$PAGE_TEMPLATE,
           'sitemaps' => \config::$SITEMAPS,
           'session_cache_expire' => \config::$SESSION_CACHE_EXPIRE,
           'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
           'support_name' => \config::$SUPPORT_NAME,
           'support_email' => \config::$SUPPORT_EMAIL,
+          'telegram_api_key' => \config::$TELEGRAM_API_KEY,
+          'telegram_chat_id' => \config::$TELEGRAM_CHAT_ID,
           'timezone' => \config::$TIMEZONE,
           'theme' => \config::$THEME,
-          'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,
-          'imap_auth_server' => \config::$IMAP_AUTH_SERVER,
           'umask' => \config::$UMASK,
         ];
 
@@ -361,17 +366,25 @@ abstract class config {
         \config::$DB_CACHE_DEBUG_TYPE_CONFLICT = $a->db_cache_debug_type_conflict;
         \config::$DATE_FORMAT = $a->date_format;
         \config::$DATETIME_FORMAT = $a->datetime_format;
+
+        \config::$EMAIL_ERRORS_TO_SUPPORT = $a->email_errors_to_support;
         \config::$EMAILDOMAIN = $a->emaildomain;
+
+        \config::$IMAP_AUTH_SERVER = $a->imap_auth_server;
+
         \config::$PAGE_TEMPLATE = $a->page_template;
+
         \config::$SITEMAPS = $a->sitemaps;
         \config::$SESSION_CACHE_EXPIRE = $a->session_cache_expire;
         \config::$SYNTAX_HIGHLIGHT_DOCS = $a->syntax_highlight_docs;
-        \config::$TIMEZONE = $a->timezone;
-        \config::$THEME = $a->theme;
         \config::$SUPPORT_NAME = $a->support_name;
         \config::$SUPPORT_EMAIL = $a->support_email;
-        \config::$EMAIL_ERRORS_TO_SUPPORT = $a->email_errors_to_support;
-        \config::$IMAP_AUTH_SERVER = $a->imap_auth_server;
+
+        \config::$TELEGRAM_API_KEY = $a->telegram_api_key;
+        \config::$TELEGRAM_CHAT_ID = $a->telegram_chat_id;
+        \config::$TIMEZONE = $a->timezone;
+        \config::$THEME = $a->theme;
+
         \config::$UMASK = $a->umask;
       } // if ( file_exists( $path))
       else {
@@ -390,17 +403,19 @@ abstract class config {
             'db_cache_debug_type_conflict' => \config::$DB_CACHE_DEBUG_TYPE_CONFLICT,
             'date_format' => 'd/m/Y',
             'datetime_format' => 'd/m/Y g:ia',
+            'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,
             'emaildomain' => \config::$EMAILDOMAIN,
+            'imap_auth_server' => \config::$IMAP_AUTH_SERVER,
             'page_template' => \config::$PAGE_TEMPLATE,
             'session_cache_expire' => \config::$SESSION_CACHE_EXPIRE,
             'sitemaps' => \config::$SITEMAPS,
             'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
+            'telegram_api_key' => \config::$TELEGRAM_API_KEY,
+            'telegram_chat_id' => \config::$TELEGRAM_CHAT_ID,
             'timezone' => \config::$TIMEZONE,
             'theme' => \config::$THEME,
             'support_name' => \config::$SUPPORT_NAME,
             'support_email' => \config::$SUPPORT_EMAIL,
-            'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,
-            'imap_auth_server' => \config::$IMAP_AUTH_SERVER,
             'umask' => \config::$UMASK,
 
           ];
