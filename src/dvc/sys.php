@@ -17,6 +17,7 @@ use Monolog\Handler\{
   SyslogHandler,
   TelegramBotHandler
 };
+use Monolog\Processor\IntrospectionProcessor;
 
 abstract class sys {
   protected static $_loglevel = 1;
@@ -712,28 +713,58 @@ abstract class sys {
   }
 
   protected static ?Logger $_telegram = null;
+  protected static ?Logger $_telegram_error = null;
 
-  public static function telegram(): ?Logger {
-    if (!self::$_telegram) {
+  public static function telegram(bool $error = false): ?Logger {
+    if ($error) {
+      if (!self::$_telegram_error) {
 
-      if (\config::$TELEGRAM_API_KEY && \config::$TELEGRAM_CHAT_ID) {
+        if (\config::$TELEGRAM_API_KEY && \config::$TELEGRAM_CHAT_ID) {
 
-        self::$_telegram = new Logger('dvc');
-        $telegramHandler = new TelegramBotHandler(
-          \config::$TELEGRAM_API_KEY,
-          \config::$TELEGRAM_CHAT_ID
-        );
+          self::$_telegram_error = new Logger('dvc');
+          $telegramHandler = new TelegramBotHandler(
+            \config::$TELEGRAM_API_KEY,
+            \config::$TELEGRAM_CHAT_ID
+          );
 
-        $formatter = new LineFormatter("%channel%.%level_name%: %message%\n%context%");
-        $telegramHandler->setFormatter($formatter);
-        self::$_telegram->pushHandler($telegramHandler);
-      } else {
+          $formatter = new LineFormatter("%channel%.%level_name%: %message%\n%extra%");
+          $telegramHandler->setFormatter($formatter);
+          $telegramHandler->pushProcessor(new IntrospectionProcessor(Logger::DEBUG, [
+            'errsys'
+          ]));
+          self::$_telegram_error->pushHandler($telegramHandler);
+        } else {
 
-        return self::monolog();
+          return self::monolog();
+        }
       }
-    }
 
-    return self::$_telegram;
+      return self::$_telegram_error;
+
+    } else {
+      if (!self::$_telegram) {
+
+        if (\config::$TELEGRAM_API_KEY && \config::$TELEGRAM_CHAT_ID) {
+
+          self::$_telegram = new Logger('dvc');
+          $telegramHandler = new TelegramBotHandler(
+            \config::$TELEGRAM_API_KEY,
+            \config::$TELEGRAM_CHAT_ID
+          );
+
+          $formatter = new LineFormatter("%channel%.%level_name%: %message%\n%context%");
+          $telegramHandler->setFormatter($formatter);
+          // $telegramHandler->pushProcessor(new IntrospectionProcessor);
+          self::$_telegram->pushHandler($telegramHandler);
+        } else {
+
+          return self::monolog();
+        }
+      }
+
+      return self::$_telegram;
+
+    }
   }
 
   public static function text2html($inText, $maxrows = -1, $allAsteriskAsList = false) {

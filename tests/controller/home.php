@@ -13,8 +13,9 @@ class home extends Controller {
 
   protected function _index() {
 
-    sys::telegram()
-      ->info(config::$PAGE_TEMPLATE, [__METHOD__]);
+    // sys::telegram()
+    //   ->info(config::$PAGE_TEMPLATE, [__METHOD__]);
+    // echo $barney;  // which is an error
 
     if ('4' == config::$BOOTSTRAP_VERSION) {
       $this->render([
