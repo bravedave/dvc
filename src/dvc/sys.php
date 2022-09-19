@@ -14,6 +14,7 @@ use Monolog\Logger;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\{
   ErrorLogHandler,
+  SymfonyMailerHandler,
   SyslogHandler,
   TelegramBotHandler
 };
@@ -313,26 +314,57 @@ abstract class sys {
   }
 
   protected static ?Logger $_monolog = null;
+  protected static ?Logger $_monologEmail = null;
 
-  public static function monolog(): ?Logger {
-    if (!self::$_monolog) {
+  public static function monolog(bool $email = false): ?Logger {
+    if ($email) {
 
-      // $path = sprintf('%s/application.log', \config::dataPath());
-      self::$_monolog = new Logger('dvc');
-      // self::$_monolog->pushHandler(new StreamHandler($path, Logger::WARNING));
+      if ($mailer = sendmail::mailer()) {
+        if (!self::$_monologEmail) {
 
-      // $syslog = new SyslogHandler(\config::$WEBNAME, LOG_USER, Logger::DEBUG, true, LOG_CONS);
-      // $formatter = new LineFormatter("%channel%.%level_name%: %message% %context% %extra%");
+          self::$_monologEmail = new Logger(\config::$WEBNAME);
 
-      $syslog = new ErrorLogHandler;
-      $formatter = new LineFormatter("%channel%.%level_name%: %message% %context%");
-      $syslog->setFormatter($formatter);
-      self::$_monolog->pushHandler($syslog);
+          $email = sendmail::email();
+          $email->to(sendmail::address(\config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME));
 
-      // self::$_monolog->info('My logger is now ready');
+          $emailHandler = new SymfonyMailerHandler($mailer, $email);
+          // $formatter = new LineFormatter("%channel%.%level_name%: %message% %context%");
+          // $emailHandler->setFormatter($formatter);
+          $emailHandler->pushProcessor(new IntrospectionProcessor(Logger::DEBUG, [
+            'errsys'
+          ]));
+          self::$_monologEmail->pushHandler($emailHandler);
+
+          // \sys::logger( sprintf('<%s> %s', 'My logger is now ready', __METHOD__));
+
+        }
+
+        return self::$_monologEmail;
+      } else {
+
+        return self::monolog(); // plain ..
+      }
+    } else {
+
+      if (!self::$_monolog) {
+
+        // $path = sprintf('%s/application.log', \config::dataPath());
+        self::$_monolog = new Logger('dvc');
+        // self::$_monolog->pushHandler(new StreamHandler($path, Logger::WARNING));
+
+        // $syslog = new SyslogHandler(\config::$WEBNAME, LOG_USER, Logger::DEBUG, true, LOG_CONS);
+        // $formatter = new LineFormatter("%channel%.%level_name%: %message% %context% %extra%");
+
+        $syslog = new ErrorLogHandler;
+        $formatter = new LineFormatter("%channel%.%level_name%: %message% %context%");
+        $syslog->setFormatter($formatter);
+        self::$_monolog->pushHandler($syslog);
+
+        // self::$_monolog->info('My logger is now ready');
+      }
+
+      return self::$_monolog;
     }
-
-    return self::$_monolog;
   }
 
   protected static $_options = [];
@@ -740,7 +772,6 @@ abstract class sys {
       }
 
       return self::$_telegram_error;
-
     } else {
       if (!self::$_telegram) {
 
@@ -763,7 +794,6 @@ abstract class sys {
       }
 
       return self::$_telegram;
-
     }
   }
 

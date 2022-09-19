@@ -31,7 +31,8 @@
     "phpmailer/phpmailer": "^6.1",
     "twbs/bootstrap-icons": "^1.7",
     "tinymce/tinymce": "^6.1",
-    "monolog/monolog": "^2.8"
+    "monolog/monolog": "^2.8",
+    "symfony/mailer": "^6.0"
   },
   "require-dev": {
     "ext-apcu": "*",
@@ -64,6 +65,6 @@
       "src/dvc/resource/get-stimulus.sh"
     ],
     "start": "bash ./run.sh",
-    "test": "tests\\tests::simple"
+    "send-testmail": "tests\\tests::testmail"
   }
 }

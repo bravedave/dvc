@@ -65,8 +65,8 @@ abstract class config {
   static $WEBURL = 'http://example.dom';
   static $FOOTER = 'Brayworth Software Design';
 
-  static $SUPPORT_NAME = 'Software Support';
-  static $SUPPORT_EMAIL = 'support@example.dom';
+  static $SUPPORT_NAME = 'IT Support';
+  static $SUPPORT_EMAIL = 'itsupport@example.dom';
   static $EMAIL_ERRORS_TO_SUPPORT = false;
 
   static $AUTHENTICATION_EXPIRES_DAYS = 1;
@@ -122,8 +122,9 @@ abstract class config {
   // static $JQUERY_VERSION = '3.4';
   static $JQUERY_VERSION = '';
 
+  static $MAILDSN = '';
   static $MAILSERVER = 'localhost';
-  static $MAILER = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
+  static $MAILER = 'BrayWorth DVC Mailer 1.0.1 (https://brayworth.com/)';
 
   static $OFFICE_PHONE = '5555555555';
   static $OFFICE_EMAIL = 'office@domain.tld';
@@ -344,6 +345,7 @@ abstract class config {
           'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,
           'emaildomain' => \config::$EMAILDOMAIN,
           'imap_auth_server' => \config::$IMAP_AUTH_SERVER,
+          'maildsn' => \config::$MAILDSN,
           'page_template' => \config::$PAGE_TEMPLATE,
           'sitemaps' => \config::$SITEMAPS,
           'session_cache_expire' => \config::$SESSION_CACHE_EXPIRE,
@@ -371,6 +373,7 @@ abstract class config {
         \config::$EMAILDOMAIN = $a->emaildomain;
 
         \config::$IMAP_AUTH_SERVER = $a->imap_auth_server;
+        \config::$MAILDSN = $a->maildsn;
 
         \config::$PAGE_TEMPLATE = $a->page_template;
 
@@ -406,6 +409,7 @@ abstract class config {
             'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,
             'emaildomain' => \config::$EMAILDOMAIN,
             'imap_auth_server' => \config::$IMAP_AUTH_SERVER,
+            'maildsn' => 'smtp://mail:25?verify_peer=0',
             'page_template' => \config::$PAGE_TEMPLATE,
             'session_cache_expire' => \config::$SESSION_CACHE_EXPIRE,
             'sitemaps' => \config::$SITEMAPS,
@@ -417,7 +421,6 @@ abstract class config {
             'support_name' => \config::$SUPPORT_NAME,
             'support_email' => \config::$SUPPORT_EMAIL,
             'umask' => \config::$UMASK,
-
           ];
 
           file_put_contents($path, json_encode($a, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
@@ -436,7 +439,6 @@ abstract class config {
       if ('\dvc\pages\bootstrap5' == \config::$PAGE_TEMPLATE) {
         bs::$VERSION = '5';
       }
-
 
       // $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
       $path = sprintf('%s%sgoogle.json', \config::dataPath(), DIRECTORY_SEPARATOR);
