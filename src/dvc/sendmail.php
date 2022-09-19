@@ -25,7 +25,7 @@ abstract class sendmail {
     return new Address($email, $name);
   }
 
-  static function email($forum = false): Email {
+  static function email(): Email {
     $email = new Email();
 
     $email->getHeaders()
