@@ -43,7 +43,6 @@ abstract class _dao {
     if ($dto = $this->getByID($id)) {
       if (method_exists($this, 'getRichData')) {
 
-        \sys::logger(sprintf('<%s> %s', 'I have rich data !', __METHOD__));
         return $this->getRichData($dto);
       }
 
