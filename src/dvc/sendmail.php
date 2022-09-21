@@ -54,13 +54,18 @@ abstract class sendmail {
     return new Address($email, $name);
   }
 
-  static function email(): Email {
+  static function email(array $params = []): Email {
+
+    $options = array_merge([
+      'from' => new Address(\config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME)
+    ], $params);
+
     $email = new Email();
 
     $email->getHeaders()
       ->addTextHeader('X-Mailer', \config::$MAILER);
 
-    $email->from(new Address(\config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME));
+    $email->from($options['from']);
 
     return $email;
   }

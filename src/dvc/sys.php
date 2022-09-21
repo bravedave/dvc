@@ -689,7 +689,7 @@ abstract class sys {
       } elseif ('pink' == \config::$THEME) {
         $lib = __DIR__ . '/resource/bootstrap5/bootstrap-pink.min.css';
       }
-      \sys::logger(sprintf('<%s> %s', $lib, __METHOD__));
+      // \sys::logger(sprintf('<%s> %s', $lib, __METHOD__));
       self::serve($lib);
     } elseif ('polyfill' == $type) {
       $lib = sprintf('%s/resource/bootstrap4-5.polyfill.css', __DIR__);
