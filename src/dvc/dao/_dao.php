@@ -38,6 +38,21 @@ abstract class _dao {
     $this->before();
   }
 
+  public function __invoke(int $id): ?dto\_dto {
+
+    if ($dto = $this->getByID($id)) {
+      if (method_exists($this, 'getRichData')) {
+
+        \sys::logger(sprintf('<%s> %s', 'I have rich data !', __METHOD__));
+        return $this->getRichData($dto);
+      }
+
+      return $dto;
+    }
+
+    return null;
+  }
+
   public static function asDTO($res, $template = null): array {
     return $res->dtoSet(null, $template);
   }
