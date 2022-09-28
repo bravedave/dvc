@@ -311,9 +311,9 @@ abstract class _dao {
     return false;
   }
 
-  public function getRichData(dto\_dto $dto): ?dto\_dto {
-    return $dto;
-  }
+  // public function getRichData(dto\_dto $dto): ?dto\_dto {
+  //   return $dto;
+  // }
 
   public function Insert($a) {
     if (is_null($this->db_name())) {
