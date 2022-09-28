@@ -165,7 +165,7 @@ abstract class _dao {
     return ($o);
   }
 
-  public function cacheDelete(int $id) : void {
+  public function cacheDelete(int $id): void {
     if (\config::$DB_CACHE == 'APC') {
       $cache = dvc\cache::instance();
       $key = $this->cacheKey_delete($id);
@@ -236,33 +236,6 @@ abstract class _dao {
     return ($this->Result(sprintf($this->_sql_getAll, $fields, $this->db_name(), $order)));
   }
 
-  public function getFieldByID($id, $fld) {
-    if (is_null($this->_db_name)) {
-      throw new dvc\Exceptions\DBNameIsNull;
-    }
-
-    if (\config::$DB_CACHE == 'APC') {
-      $cache = dvc\cache::instance();
-      $key = $this->cacheKey($id, $fld);
-      if ($v = $cache->get($key)) {
-        return ($v);
-      }
-    }
-
-    $this->db->log = $this->log;
-    if ($res = $this->Result(sprintf($this->_sql_getByID, $this->_db_name, (int)$id))) {
-      if ($dto = $res->dto($this->template)) {
-        if (\config::$DB_CACHE == 'APC') {
-          $cache->set($key, $dto->{$fld});
-        }
-
-        return ($dto->{$fld});
-      }
-    }
-
-    return (false);
-  }
-
   public function getByID($id) {
     if (is_null($this->_db_name)) {
       throw new dvc\Exceptions\DBNameIsNull;
@@ -308,7 +281,38 @@ abstract class _dao {
       return ($dto);
     }
 
-    return (false);
+    return false;
+  }
+
+  public function getFieldByID($id, $fld) {
+    if (is_null($this->_db_name)) {
+      throw new dvc\Exceptions\DBNameIsNull;
+    }
+
+    if (\config::$DB_CACHE == 'APC') {
+      $cache = dvc\cache::instance();
+      $key = $this->cacheKey($id, $fld);
+      if ($v = $cache->get($key)) {
+        return ($v);
+      }
+    }
+
+    $this->db->log = $this->log;
+    if ($res = $this->Result(sprintf($this->_sql_getByID, $this->_db_name, (int)$id))) {
+      if ($dto = $res->dto($this->template)) {
+        if (\config::$DB_CACHE == 'APC') {
+          $cache->set($key, $dto->{$fld});
+        }
+
+        return ($dto->{$fld});
+      }
+    }
+
+    return false;
+  }
+
+  public function getRichData(dto\_dto $dto): ?dto\_dto {
+    return $dto;
   }
 
   public function Insert($a) {
@@ -348,8 +352,9 @@ abstract class _dao {
   }
 
   public function Result($query) {
+
     $this->db->log = $this->log;
-    return ($this->db->Result($query));
+    return $this->db->Result($query);
   }
 
   public function Q($query) {
@@ -358,25 +363,26 @@ abstract class _dao {
   }
 
   public function quote($s) {
-    return ($this->db->quote($s));
+
+    return $this->db->quote($s);
   }
 
   protected function structure($name = null) {
-    return (false);
+
+    return false;
   }
 
   protected function TableChecks() {
-    if (!$this->db->valid()) {
-      return (false);
-    }
 
-    if (is_null($this->_db_name)) {
-      return (false);
-    }
+    if (!$this->db->valid()) return false;
+
+    if (is_null($this->_db_name)) return false;
 
     if ($this->_db_allways_check_structure) {
+
       return $this->check();
     } elseif (!($this->TableExists())) {
+
       return $this->check();
     }
 
@@ -386,49 +392,50 @@ abstract class _dao {
   protected function TableExists($table = null): bool {
 
     if (is_null($table)) $table = $this->db_name();
-    if (is_null($table)) return (false);
+    if (is_null($table)) return false;
 
     //~ \sys::logger( "checking for: $table" );
 
     if ('sqlite' == \config::$DB_TYPE) {
-      if ($res = $this->Result(
-        sprintf(
-          "SELECT name FROM `sqlite_master` WHERE type='table' AND name='%s'",
-          $this->escape($table)
-        )
 
-      )) {
+      $sql = sprintf(
+        'SELECT `name` FROM `sqlite_master` WHERE `type` = %s AND `name` = %s',
+        $this->quote('table'),
+        $this->quote($table)
+      );
+
+      if ($res = $this->Result($sql)) {
+
         return (bool)$res->dto();
       }
     } else {
-      if ($res = $this->Result(
-        sprintf(
-          'SELECT
-            CASE WHEN (
-              SELECT
-                COUNT(*)
-              FROM
-                information_schema.TABLES
-              WHERE
-                TABLE_SCHEMA = "DATABASENAME"
-                AND TABLE_NAME = "%s"
-              ) < 1 THEN 1
-            ELSE 0
-            END t',
-          $table
 
-        )
+      $sql = sprintf(
+        'SELECT
+          CASE WHEN (
+            SELECT
+              COUNT(*)
+            FROM
+              information_schema.TABLES
+            WHERE
+              TABLE_SCHEMA = %s
+              AND TABLE_NAME = %s
+            ) < 1 THEN 1
+          ELSE 0
+          END t',
+        $this->quote('DATABASENAME'),
+        $this->quote($table)
+      );
 
-      )) {
+      if ($res = $this->Result($sql)) {
 
         if ($row = $res->fetch()) {
-          if ($row['t'] == 1) {
-            return true;
-          }
+
+          if ($row['t'] == 1) return true;
         }
       }
     }
 
-    return (false);
+    return false;
   }
 }
