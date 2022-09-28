@@ -51,6 +51,10 @@ class db {
     $this->_db = false;
   }
 
+  function __invoke(string $query): ?dbResult {
+    return $this->result($query);
+  }
+
   public function dump() {
     if ($tables = $this->tables()) {
 
@@ -177,7 +181,7 @@ class db {
     return sprintf("'%s'", $this->escape($val));
   }
 
-  public function result($query) {
+  public function result(string $query): dbResult {
     $dbResult = new dbResult($this->Q($query), $this);
     return ($dbResult);
   }

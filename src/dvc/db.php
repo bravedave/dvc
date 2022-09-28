@@ -57,6 +57,11 @@ class db {
     }
   }
 
+  function __invoke( string $query) : ?dbResult {
+    return $this->result($query);
+
+  }
+
   public function affected_rows() {
     return ($this->mysqli->affected_rows);
   }
@@ -217,13 +222,17 @@ class db {
     return sprintf('"%s"', $this->escape($val));
   }
 
-  public function result($query) {
+  public function result($query) : ?dbResult {
     try {
+
       $dbResult = new dbResult($this->Q($query), $this);
       return ($dbResult);
     } catch (\Exception $e) {
+
       throw new Exceptions\SQLException;
     }
+
+    return null;
   }
 
   public function table_exists(string $table): bool {
