@@ -141,8 +141,7 @@ class application {
       // sanitize, noting that it may have / in the string, and that's ok because leading /. have been removed
       $_url = preg_replace('@[^a-zA-Z0-9\_\-\./]@', '', $_url);
 
-      if ($this->publicFile($_url))
-        return;
+      if ($this->_publicFile($_url)) return;
     }
 
     controller::application($this);
@@ -157,7 +156,7 @@ class application {
 
     $this->countVisit();
 
-    $this->splitUrl();    // create array with URL parts in $url
+    $this->_splitUrl();    // create array with URL parts in $url
 
     /*
 		 * example: if controller would be "car",
@@ -348,94 +347,95 @@ class application {
   }
 
   protected function _search_for_controller() {
-    $controllerFile = $this->rootPath . '/controller/' . $this->url_controller . '.php';
+
+    $controllerFile = sprintf('%s/controller/%s.php', $this->rootPath, $this->url_controller);
     /*---[ check for controller: does such a controller exist ? ]--- */
 
     if (!file_exists($controllerFile)) {
-      $controllerFile = __DIR__ . '/../controller/' . $this->url_controller . '.php';  // is there a default controller for this action
-      if (self::$debug) \sys::logger('checking for system default controller : ' . $controllerFile);
+
+      $controllerFile = sprintf('%s/../controller/%s.php', __DIR__, $this->url_controller);  // is there a default controller for this action
+      if (self::$debug) \sys::logger(sprintf('<checking for system default controller : %s> %s', $controllerFile));
     }
 
     if (!file_exists($controllerFile)) {
-      $controllerFile = $this->rootPath . '/controller/' . $this->defaultController . '.php';      // invalid URL, so show home/index
+
+      $controllerFile = sprintf('%s/controller/%s.php', $this->rootPath, $this->defaultController);      // invalid URL, so show home/index
       if (!file_exists($controllerFile)) {
-        $controllerFile = $this->rootPath . '/controller/' . \config::$DEFAULT_CONTROLLER . '.php';  // invalid URL, so home/index
+
+        $controllerFile = sprintf('%s/controller/%s.php', $this->rootPath, \config::$DEFAULT_CONTROLLER);  // invalid URL, so home/index
         if (!file_exists($controllerFile)) {
-          $controllerFile = __DIR__ . '/../controller/' . \config::$DEFAULT_CONTROLLER . '.php';  // invalid URL, so system home/index
-          if (self::$debug) \sys::logger('checking for system default controller (deep)');
+
+          $controllerFile = sprintf('%s/../controller/%s.php', __DIR__, \config::$DEFAULT_CONTROLLER);  // invalid URL, so system home/index
+          if (self::$debug) \sys::logger(sprintf('<checking for system default controller (deep)> %s', __METHOD__));
         } else {
-          if (self::$debug) \sys::logger('default controller');
+
+          if (self::$debug) \sys::logger(sprintf('<default controller> %s', __METHOD__));
         }
       } else {
-        if (self::$debug) \sys::logger('default controller');
+
+        if (self::$debug) \sys::logger(sprintf('<default controller> %s', __METHOD__));
       }
 
       if ($this->url_controller != '') {
-        if (self::$debug) \sys::logger('bumped controller => action');
+
+        if (self::$debug) \sys::logger(sprintf('<bumped controller => action> %s', __METHOD__));
         $this->url_parameter_3 = $this->url_parameter_2;
         $this->url_parameter_2 = $this->url_parameter_1;
         $this->url_parameter_1 = $this->url_action;
         $this->url_action = $this->url_controller;  // bump
-
       }
+
       $this->url_controller = $this->defaultController;
     }
 
-    if (!file_exists($controllerFile)) {
-      throw new CannotLocateController;
-    }
+    if (!file_exists($controllerFile)) throw new CannotLocateController;
 
     require $controllerFile;
   }
 
-  protected function checkDB() {
-    /**
-     * checkDB is called during __construct
-     *
-     * use this method to run database checks
-     *
-     */
-  }
-
-  protected function publicFile($_url) {
+  protected function _publicFile($_url) {
     if (!$_url) return false;
 
     $_file = sprintf('%s/app/public/%s', $this->rootPath, $_url);
-    if (self::$debug) \sys::logger(sprintf('looking for :: %s', $_file));
+
+    if (self::$debug) \sys::logger(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
     if (file_exists($_file)) {
+
       $this->url_served = \strings::url(self::Request()->getUrl(), $protcol = true);
-      $this->serve($_file);
+      $this->_serve($_file);
       return true;
     }
 
     $_file = sprintf('%s/public/%s', $this->rootPath, $_url);
-    if (self::$debug) \sys::logger(sprintf('looking for :: %s', $_file));
+    if (self::$debug) \sys::logger(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
     if (file_exists($_file)) {
+
       \sys::logger(sprintf('DEPRECATED FILE LOCATION :: %s', $_file));
       \sys::logger(sprintf('Please use app/public :: %s', $_file));
       $this->url_served = \strings::url(self::Request()->getUrl(), $protcol = true);
-      $this->serve($_file);
+      $this->_serve($_file);
       return true;
     }
 
     /* this is a system level document - this is the core distribution javascript */
     $_file = sprintf('%s/../public/%s', __DIR__, $_url);
-    if (self::$debug) \sys::logger(sprintf('looking for :: %s', $_file));
+    if (self::$debug) \sys::logger(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
     if (file_exists($_file)) {
+
       $this->url_served = \strings::url(self::Request()->getUrl(), $protcol = true);
-      $this->serve($_file);
+      $this->_serve($_file);
       return true;
     }
   }
 
-  protected function serve($path) {
+  protected function _serve($path) {
     if (self::$debug) \sys::$debug = true;
     \sys::serve($path);
 
     return $this;
   }
 
-  protected function splitUrl() {
+  protected function _splitUrl() {
     /**
      * Get and split the URL
      */
@@ -467,6 +467,15 @@ class application {
     }
 
     return $this;
+  }
+
+  protected function checkDB() {
+    /**
+     * checkDB is called during __construct
+     *
+     * use this method to run database checks
+     *
+     */
   }
 
   public function action() {
@@ -548,13 +557,18 @@ class application {
   }
 
   static function run($dir = null) {
+
     if (is_null($dir)) {
+
       if (method_exists('\application', 'startDir')) {
+
         $app = new \application(\application::startDir());
       } else {
+
         throw new MissingRootPath;
       }
     } else {
+
       $app = new application($dir);
     }
   }

@@ -9,9 +9,9 @@
 */
 
 class application extends dvc\application {
+
   static public function startDir() {
+
     return dirname(__DIR__);
-
   }
-
 }
