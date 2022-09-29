@@ -17,8 +17,8 @@ class home extends Controller {
     //   ->info(config::$PAGE_TEMPLATE, [__METHOD__]);
     // echo $barney;  // which is an error
 
-    sys::monolog($email = true)
-      ->error(config::$PAGE_TEMPLATE);
+    // sys::monolog($email = true)
+    //   ->error(config::$PAGE_TEMPLATE);
 
     if ('4' == config::$BOOTSTRAP_VERSION) {
       $this->render([
