@@ -50,7 +50,7 @@ class docs extends Controller {
     if (preg_match('@\.(png|jpg)$@', $view) && $_img = $this->_hasImage($view)) {
       sys::serve($_img);
     } else {
-      $contents = ['contents', 'work'];
+      $contents = ['contents'];
       if ($this->hasView($_c = sprintf('%s-contents', $view))) {
         $contents = $_c;
       } else if (strpos($view, '-') !== false) {
