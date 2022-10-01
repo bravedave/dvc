@@ -10,7 +10,10 @@
 
 namespace dvc\core;
 
-use dvc\Exceptions\DatapathNotWritable;
+use dvc\Exceptions\{
+  DatapathNotFound,
+  DatapathNotWritable
+};
 
 abstract class config {
   /**
@@ -177,16 +180,25 @@ abstract class config {
   static protected $_dataPath = null;
 
   static public function dataPath() {
+
     if (\is_null(self::$_dataPath)) {
+
       $root = sprintf('%s', \application::app()->getRootPath());
-      self::$_dataPath = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR);
 
-      if (is_writable($root) || is_writable(self::$_dataPath)) {
-        if (!is_dir(self::$_dataPath)) {
-          mkdir(self::$_dataPath);
+      $datapath = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR);
+      if (is_dir($datapath) && file_exists($_redir_file = $datapath . '/datapath')) {
+        $_redir = file_get_contents($_redir_file);
+        if (is_dir($_redir) && is_writable($_redir)) {
+          $datapath = $_redir;
         }
+      }
 
+      self::$_dataPath = $datapath;
+      if (is_writable($root) || is_writable(self::$_dataPath)) {
+
+        if (!is_dir(self::$_dataPath)) mkdir(self::$_dataPath);
         if (!file_exists($readme = self::$_dataPath . DIRECTORY_SEPARATOR . 'readme.txt')) {
+
           file_put_contents($readme, implode(PHP_EOL, [
             '-----------',
             'data Folder',
@@ -201,14 +213,10 @@ abstract class config {
           ]));
         }
 
-        if (!file_exists($ignore = self::$_dataPath . DIRECTORY_SEPARATOR . '.gitignore')) {
-          file_put_contents($ignore, '*');
-        }
+        if (!file_exists($ignore = self::$_dataPath . DIRECTORY_SEPARATOR . '.gitignore')) file_put_contents($ignore, '*');
+        if (!is_dir(self::$_dataPath)) throw new  DatapathNotFound(self::$_dataPath);
 
-        if (!is_dir(self::$_dataPath))
-          throw new \Exception('error/nodatapath');
-
-        return (self::$_dataPath);
+        return self::$_dataPath;
       }
 
       throw new DatapathNotWritable(self::$_dataPath);

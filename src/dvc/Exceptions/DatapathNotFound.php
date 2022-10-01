@@ -10,8 +10,8 @@
 
 namespace dvc\Exceptions;
 
-class DatapathNotWritable extends Exception {
-  protected $_text = 'error/datapath not writable';
+class DatapathNotFound extends Exception {
+  protected $_text = 'error/datapath not found';
 
   public function __construct($message = null, $code = 0, \Exception $previous = null) {
 
