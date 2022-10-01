@@ -149,37 +149,33 @@ class application {
     $this->checkDB();
 
     if ($this->minimum) {
+
       if (self::$debug) \sys::logger('exit: I am minimum');
       return;  // job done
-
     }
 
     $this->countVisit();
-
     $this->_splitUrl();    // create array with URL parts in $url
 
     /*
 		 * example: if controller would be "car",
 		 * then this line would translate into: $this->car = new car();
 		 */
-    if (is_null($this->defaultController)) {
-      $this->defaultController = \config::$DEFAULT_CONTROLLER;
-    }
-
-    if (trim($this->url_controller == '')) {
-      $this->url_controller = $this->defaultController;
-    }
+    if (is_null($this->defaultController)) $this->defaultController = \config::$DEFAULT_CONTROLLER;
+    if (trim($this->url_controller == '')) $this->url_controller = $this->defaultController;
 
     if ($this->service) {
+
       if (self::$debug) \sys::logger('exit: I am a service');
       return;  // job done
-
     }
 
     if ($_route = \config::route($this->url_controller)) {
+
       $this->_route = $this->url_controller;
       $this->url_controller = $_route;
     } else {
+
       $this->_search_for_controller();
       $this->_route = $this->url_controller;
     }
@@ -210,13 +206,13 @@ class application {
     ];
 
     if (in_array(strtolower($this->url_action), $_protectedActions)) {
+
       \sys::logger(sprintf('protecting action %s => %s', $this->url_action, 'index'));
       $this->url_action = 'index';
     }
 
     self::Request()->setControllerName($this->url_controller);
     self::Request()->setActionName((string)$this->url_action);
-
 
     $url_controller_name = $this->url_controller;
 
@@ -351,11 +347,12 @@ class application {
     $controllerFile = sprintf('%s/controller/%s.php', $this->rootPath, $this->url_controller);
     /*---[ check for controller: does such a controller exist ? ]--- */
 
-    if (!file_exists($controllerFile)) {
+    // this is no longer required because config::route() registers the default controllers
+    // if (!file_exists($controllerFile)) {
 
-      $controllerFile = sprintf('%s/../controller/%s.php', __DIR__, $this->url_controller);  // is there a default controller for this action
-      if (self::$debug) \sys::logger(sprintf('<checking for system default controller : %s> %s', $controllerFile));
-    }
+    //   $controllerFile = sprintf('%s/../controller/%s.php', __DIR__, $this->url_controller);  // is there a default controller for this action
+    //   if (self::$debug) \sys::logger(sprintf('<checking for system default controller : %s> %s', $controllerFile));
+    // }
 
     if (!file_exists($controllerFile)) {
 

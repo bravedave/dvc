@@ -8,12 +8,17 @@
  *
 */
 
+namespace dvc\controller;
+
+use currentUser, Controller, dvc, sys, Response, user;
+use dvc\session;
+
 class auth extends Controller {
   public $RequireValidation = false;
   //~ public $debug = true;
 
   protected function before() {
-    application::app()->exclude_from_sitemap = true;
+    self::application()::app()->exclude_from_sitemap = true;
     parent::before();
   }
 
@@ -63,9 +68,9 @@ class auth extends Controller {
           $oauth->GivenNames =  $me->name->givenName;
           $oauth->email = $me->emails[0]->value;
           currentUser::sync($oauth);
-          dvc\session::set('DisplayName', $oauth->displayName);
-          dvc\session::set('Email', $oauth->email);
-          dvc\session::set('avatar', $me->image->url);
+          session::set('DisplayName', $oauth->displayName);
+          session::set('Email', $oauth->email);
+          session::set('avatar', $me->image->url);
 
           user::setGoogleFlag();
         } else {

@@ -8,8 +8,14 @@
  *
 */
 
-use dvc\cssmin;
-use dvc\jslib;
+namespace dvc\controller;
+
+use config, Controller, Response;
+use dvc\{
+  cssmin,
+  jslib
+};
+use sys;
 
 class assets extends Controller {
   public $RequireValidation = false;
@@ -18,12 +24,12 @@ class assets extends Controller {
   }
 
   protected function before() {
-    application::app()->exclude_from_sitemap = true;
+    self::application()::app()->exclude_from_sitemap = true;
     parent::before();
   }
 
   public function bootstrap($type = 'css', $version = 4) {
-    // \sys::logger( sprintf('<%s/%s> %s', $type, $version, __METHOD__));
+    // sys::logger( sprintf('<%s/%s> %s', $type, $version, __METHOD__));
 
     if ('fonts' == $type) {
       sys::serveBootStrap($type, $version);
@@ -63,7 +69,7 @@ class assets extends Controller {
       ]);
     } elseif ('dopo' == $type) {
       $a = [
-        sprintf('_.timezone = "%s";', \config::$TIMEZONE,),
+        sprintf('_.timezone = "%s";', config::$TIMEZONE,),
 
         '_.urlwrite = _.url = ( _url, withProtocol) => {',
 
@@ -116,24 +122,27 @@ class assets extends Controller {
   }
 
   public function jquery() {
-    if ('3.4' == \config::$JQUERY_VERSION) {
-      \sys::serve(sprintf('%s/../js/%s', __DIR__, 'jquery-3.4.1.min.js'));
+    if ('3.4' == config::$JQUERY_VERSION) {
+
+      sys::serve(sprintf('%s/../js/%s', __DIR__, 'jquery-3.4.1.min.js'));
     } else {
-      // \sys::serve(sprintf('%s/../js/%s', __DIR__, 'jquery-3.5.1.min.js'));
-      // \sys::serve(sprintf('%s/../js/%s', __DIR__, 'jquery-3.6.0.min.js'));
-      \sys::serve(sprintf('%s/../js/%s', __DIR__, 'jquery-3.6.1.min.js'));
+
+      // sys::serve(sprintf('%s/../js/%s', __DIR__, 'jquery-3.5.1.min.js'));
+      // sys::serve(sprintf('%s/../js/%s', __DIR__, 'jquery-3.6.0.min.js'));
+      sys::serve(sprintf('%s/../js/%s', __DIR__, 'jquery-3.6.1.min.js'));
     }
   }
 
   public function tinymce($path = '') {
-    // \sys::logger(sprintf('<%s> %s', $this->Request->getUri(), __METHOD__));
+    // sys::logger(sprintf('<%s> %s', $this->Request->getUri(), __METHOD__));
     if (preg_match('/(\.min\.css|\.css)$/', $uri = $this->Request->getUri())) {
-      $file = preg_replace('@^assets/tinymce/@','',$uri);
-      // \sys::logger( sprintf('<%s> %s', $file, __METHOD__));
+      $file = preg_replace('@^assets/tinymce/@', '', $uri);
+      // sys::logger( sprintf('<%s> %s', $file, __METHOD__));
 
       $_f = sprintf(
         '%s/%s',
-        jslib::tiny6_dir(), $file
+        jslib::tiny6_dir(),
+        $file
       );
 
       file_exists($_f) ?

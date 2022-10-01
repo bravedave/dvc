@@ -177,15 +177,26 @@ abstract class config {
     return false;
   }
 
-  static protected $_dataPath = null;
+  static protected ?string $_dataPath = null;
 
-  static public function dataPath() {
+  /**
+   * the default location for storing data
+   *
+   * @return string
+   */
+  static public function dataPath(): string {
 
     if (\is_null(self::$_dataPath)) {
 
       $root = sprintf('%s', \application::app()->getRootPath());
 
       $datapath = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR);
+
+      /**
+       * the location of the datapath can be changed by
+       * including a 'datapath' file in the default
+       * datapath location
+       */
       if (is_dir($datapath) && file_exists($_redir_file = $datapath . '/datapath')) {
         $_redir = file_get_contents($_redir_file);
         if (is_dir($_redir) && is_writable($_redir)) {
@@ -235,6 +246,11 @@ abstract class config {
     ]);
   }
 
+  /**
+   * global available settings
+   *
+   * @return string
+   */
   static function option(string $key, string $val = null): string {
     $ret = '';
 
@@ -553,20 +569,56 @@ abstract class config {
   }
 
   static protected function _route_map(): object {
+
+    $rootPath = application::app()->getRootPath();
+
+    $defaults = array_filter(
+      [
+        'assets' => 'dvc\controller\assets',
+        'auth' => 'dvc\controller\auth',
+        'docs' => 'dvc\controller\docs',
+        'fbauth' => 'dvc\controller\fbauth',
+        'home' => 'dvc\controller\home',
+        'install' => 'dvc\controller\install',
+        'logon' => 'dvc\controller\logon',
+        'sitemap' => 'dvc\controller\sitemap',
+      ],
+      fn ($k) => !file_exists(sprintf('%s/controller/%s.php', $rootPath, $k)),
+      ARRAY_FILTER_USE_KEY
+    );
+
+    // array_walk(
+    //   $defaults,
+    //   fn ($v, $k) => \sys::logger(sprintf('<%s> %s', $k, __METHOD__))
+    // );
+
     $map = self::_route_map_path();
     if (\file_exists($map)) {
-      return (object)\json_decode(\file_get_contents($map));
+      return (object)array_merge(
+        $defaults,
+        (array)\json_decode(\file_get_contents($map))
+      );
     }
 
-    return (object)[];
+    return (object)$defaults;
   }
 
-  static public function route_register(string $path, $register = false) {
+  /**
+   * set routes for controller
+   * leave the second parameter blank to clear the setting
+   *
+   * @return void
+   */
+  static public function route_register(string $path, $register = false): void {
+
     $map = self::_route_map();
     if (!isset($map->{$path}) || $register != $map->{$path}) {
+
       if ($register) {
+
         $map->{$path} = $register;
       } else {
+
         unset($map->{$path});
       }
 
