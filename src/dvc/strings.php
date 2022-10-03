@@ -782,10 +782,18 @@ abstract class strings {
     return preg_replace($s, $r, $str);
   }
 
+  /**
+   * returns rfc822 formated email address
+   *
+   * @return string
+   */
   static public function rfc822(string $email, string $name = ''): string {
+    // 8.1.0	flags changed from ENT_COMPAT to ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401.
     if ($name) {
-      return sprintf('%s <%s>', htmlentities($name), $email);
+
+      return sprintf('%s <%s>', htmlentities($name, ENT_COMPAT), $email);
     } else {
+
       return $email;
     }
   }
