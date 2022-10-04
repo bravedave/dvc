@@ -7,8 +7,8 @@
  *
  * */
 (_ => {
-  _.context = () => {
 
+  _.context = () => {
     let cx = {
       root: $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
       items: [],
@@ -17,56 +17,48 @@
       hideClass: (_.bootstrap_version() < 4 ? 'hidden' : 'd-none'),
 
       addClose: function () {
-        let _context = this;
-        this.append();
-        this
-          .append.a()
-          .html('close')
-          .on('click', e => {
-            e.stopPropagation();
-            _context.close();
 
-          });
+        this
+          .append()
+          .append.a({ html: 'close' });
 
         return this;
-
       },
 
       create: function (item, after) {
+
         let el = $('<li></li>').append(!!item ? item : '<hr>');
-
         if (!!after) {
+
           if ('prepend' == after) {
+
             el.prependTo(this.root);
+          } else {
 
-          }
-          else {
             el.insertAfter(after);
-
           }
 
         }
         else {
-          el.appendTo(this.root);
 
+          el.appendTo(this.root);
         }
 
         this.items.push(el);
         this.length = this.items.length;
         return (el);
-
       },
 
       append: function (item) {
+
         this.create(item);
         return this;
-
       },
 
       prepend: function (item) {
+
         this.create(item, 'prepend');
         return this;
-
       },
 
       open: function (e) {
@@ -172,22 +164,21 @@
       },
 
       close: function () {
+
         if (this.detachOnHide) {
+
           this.root.remove();
+        } else {
 
-        }
-        else {
           this.root.addClass(this.hideClass);
-
         }
 
         return (this);
-
       },
 
       remove: function () {
-        return (this.close());
 
+        return (this.close());
       },
 
       attachTo: function (parent) {
@@ -299,75 +290,96 @@
       }) (_brayworth_);
     */
 
-    cx.append.a = () => {
-      let a = $('<a href="#"></a>');
+    const _new_element_ = p => {
+
+      let o = {
+        ...{
+          click: e => { },
+          html: ''
+        }, ...p
+      };
+
+      return $(`<a href="#">${o.html}</a>`)
+        .on('click', e => {
+          e.stopPropagation(); e.preventDefault();
+
+          cx.close();
+          o.click(e);
+        });
+    }
+
+    cx.append.a = p => {
+
+      let a = _new_element_(p);
+
       cx.append(a);
       return a;
-
     };
 
-    cx.prepend.a = () => {
-      let a = $('<a href="#"></a>');
+    cx.prepend.a = p => {
+
+      let a = _new_element_(p);
+
       cx.prepend(a);
       return a;
-
     };
 
     return cx;
-
   };
 
-  _.contextX = () => {
-    let _ctx = $('<div class="dropdown-menu" data-role="contextmenu"></div>');
+  // _.contextX = () => {
+  //   let _ctx = $('<div class="dropdown-menu" data-role="contextmenu"></div>');
 
-    _ctx.extend({
-      addClose: function () {
-        let _context = this;
-        this.append('<div class="dropdown-divider"></div>');
+  //   _ctx.extend({
+  //     addClose: function () {
+  //       let _context = this;
+  //       this.append('<div class="dropdown-divider"></div>');
 
-        $('<a class="dropdown-item">close</a>')
-          .appendTo(this)
-          .on('click', e => _context.close());
+  //       $('<a class="dropdown-item">close</a>')
+  //         .appendTo(this)
+  //         .on('click', e => _context.close());
 
-        return this;
+  //       return this;
 
-      },
+  //     },
 
-      close: function (e) {
-        this
-          .closest('[data-role="contextmenu"]')
-          .remove();
-      },
+  //     close: function (e) {
+  //       this
+  //         .closest('[data-role="contextmenu"]')
+  //         .remove();
+  //     },
 
-      open: function (e) {
-        $('[data-role="contextmenu"]').remove();
+  //     open: function (e) {
+  //       $('[data-role="contextmenu"]').remove();
 
-        let offsets = $(e.currentTarget).offset()
-        let dropdown = $('<div class="dropdown position-absolute"></div>')
-          .css({
-            top: (e.pageY - offsets.top) + 'px',
-            left: (e.pageX - offsets.left) + 'px'
-          });
+  //       let offsets = $(e.currentTarget).offset()
+  //       let dropdown = $('<div class="dropdown position-absolute"></div>')
+  //         .css({
+  //           top: (e.pageY - offsets.top) + 'px',
+  //           left: (e.pageX - offsets.left) + 'px'
+  //         });
 
-        $('<div class="position-relative"></div>')
-          .append(dropdown)
-          .insertBefore(e.currentTarget);
+  //       $('<div class="position-relative"></div>')
+  //         .append(dropdown)
+  //         .insertBefore(e.currentTarget);
 
-        dropdown
-          .append(this)
-          .dropdown('show');
+  //       dropdown
+  //         .append(this)
+  //         .dropdown('show');
 
-      }
+  //     }
 
-    });
+  //   });
 
-    return _ctx;
+  //   return _ctx;
 
-  };
+  // };
 
   $(document)
     .on('hide-contexts', e => {
+
       $('[data-role="contextmenu"]').each((i, el) => {
+
         let _el = $(el);
         if (!!_el.data('hide')) {
           if (_el.data('hide') == 'hide') {
@@ -376,34 +388,28 @@
           } else { _el.remove(); }
 
         } else { _el.remove(); }
-
       });
-
     })
     .on('keyup.removeContexts', e => {
-      if (27 == e.keyCode) {
-        $(document).trigger('hide-contexts');
 
-      }
-
+      if (27 == e.keyCode) $(document).trigger('hide-contexts');
     })
     .on('click.removeContexts', e => {
-      if ($(e.target).closest('[data-role="contextmenu"]').length > 0) {
-        if (/^(a)$/i.test(e.target.nodeName)) { return; }
 
+      if ($(e.target).closest('[data-role="contextmenu"]').length > 0) {
+
+        if (/^(a)$/i.test(e.target.nodeName)) { return; }
       }
 
       $(document).trigger('hide-contexts');
-
     })
     .on('contextmenu.removeContexts', e => {
-      if ($(e.target).closest('[data-role="contextmenu"]').length > 0) {
-        if (/^(a)$/i.test(e.target.nodeName)) { return; }
 
+      if ($(e.target).closest('[data-role="contextmenu"]').length > 0) {
+
+        if (/^(a)$/i.test(e.target.nodeName)) { return; }
       }
 
       $(document).trigger('hide-contexts');
-
     });
-
 })(_brayworth_);
