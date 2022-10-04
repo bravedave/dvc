@@ -194,7 +194,7 @@ abstract class strings {
       if (2 == strlen($a[2])) $a[2] = substr(date('Y'), 0, 2) . $a[2];  // prefix current epoch
 
       return sprintf(
-        '%s-%s%s',
+        '%s-%s-%s',
         $a[2],
         str_pad($a[1], 2, "0", STR_PAD_LEFT),
         str_pad($a[0], 2, "0", STR_PAD_LEFT)
