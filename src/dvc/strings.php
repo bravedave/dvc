@@ -189,7 +189,7 @@ abstract class strings {
 
     // split it, must have 3 parts, dd/mm/yyyy
     $a = explode("/", $strDate);
-    if (@checkdate($a[1], $a[0], $a[2])) {
+    if (@checkdate((int)$a[1], (int)$a[0], (int)$a[2])) {
 
       if (2 == strlen($a[2])) $a[2] = substr(date('Y'), 0, 2) . $a[2];  // prefix current epoch
 
