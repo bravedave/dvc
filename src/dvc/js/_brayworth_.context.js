@@ -265,11 +265,9 @@
       ( _ => {
         $(document)
           .on( 'contextmenu', function( e) {
-            if ( e.shiftKey)
-              return;
+            if ( e.shiftKey) return;
 
             e.stopPropagation();e.preventDefault();
-
             _.hideContexts();
 
             let ctx = _.context();
