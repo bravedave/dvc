@@ -304,7 +304,7 @@
           cx.close();
           o.click(e);
         });
-    }
+    };
 
     cx.append.a = p => _new_element_(p).appendTo(cx);
     cx.prepend.a = p => _new_element_(p).prepend(cx);
