@@ -290,15 +290,18 @@
         ...{
           click: e => { },
           html: '',
-          href: ''
-        }, ...p
+          href: '#'
+        },
+        ...p
       };
 
 
-      return $(`<a href="#">${o.html}</a>`)
+      return $(`<a href="${o.href}">${o.html}</a>`)
         .on('click', e => {
-          if ('' == o.href) {
-            e.stopPropagation(); e.preventDefault();
+
+          if ('#' == $(e.target).attr('href')) {
+            e.stopPropagation();
+            e.preventDefault();
           }
 
           cx.close();
