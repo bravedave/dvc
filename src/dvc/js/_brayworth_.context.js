@@ -306,8 +306,8 @@
         });
     };
 
-    cx.append.a = p => _new_element_(p).appendTo(cx.root);
-    cx.prepend.a = p => _new_element_(p).prepend(cx.root);
+    cx.append.a = p => { let el = _new_element_(p); cx.append(el); return el; };
+    cx.prepend.a = p => { let el = _new_element_(p); cx.prepend(el); return el; };
 
     return cx;
   };
