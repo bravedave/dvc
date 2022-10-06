@@ -273,14 +273,10 @@
             _.hideContexts();
 
             let ctx = _.context();
-            ctx.append.a()
-              .html('hello')
-              .on( 'click', function( e) {
-                e.stopPropagation();
-                _.ask({text:'hello'});
-
-                ctx.close();
-              });
+            ctx.append.a({
+              html : 'hello',
+              click: e =>  _.ask({text:'hello'})
+            })
 
             ctx
               .addClose()
@@ -295,34 +291,25 @@
       let o = {
         ...{
           click: e => { },
-          html: ''
+          html: '',
+          href: ''
         }, ...p
       };
 
+
       return $(`<a href="#">${o.html}</a>`)
         .on('click', e => {
-          e.stopPropagation(); e.preventDefault();
+          if ('' == o.href) {
+            e.stopPropagation(); e.preventDefault();
+          }
 
           cx.close();
           o.click(e);
         });
     }
 
-    cx.append.a = p => {
-
-      let a = _new_element_(p);
-
-      cx.append(a);
-      return a;
-    };
-
-    cx.prepend.a = p => {
-
-      let a = _new_element_(p);
-
-      cx.prepend(a);
-      return a;
-    };
+    cx.append.a = p => _new_element_(p).appendTo(cx);
+    cx.prepend.a = p => _new_element_(p).prepend(cx);
 
     return cx;
   };
