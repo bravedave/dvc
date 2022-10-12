@@ -59,7 +59,7 @@ class bwui extends _dao {
   public function garbageCollection() {
 
     $dt = new DateTime();
-    $dt->sub(new DateInterval('P1M'));
+    $dt->sub(new DateInterval('P7D'));
 
     $sql = sprintf(
       'DELETE FROM bwui WHERE DATE( `updated`) < %s',
