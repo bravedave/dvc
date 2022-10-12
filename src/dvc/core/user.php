@@ -10,7 +10,7 @@
 
 namespace dvc\core;
 
-use sys;
+use dvc\dao\bwui, sys;
 
 class user {
   public $id = 0;
@@ -23,36 +23,37 @@ class user {
   }
 
   public function valid() {
+
     /**
      * if this function returns true you are logged in
      */
-
-    return (true);
+    return true;
   }
 
-  public function isadmin() {
-    return ($this->valid());
+  public function isadmin() : bool {
+
+    return $this->valid();
   }
 
   public function sync(\dvc\oauth $oauth) {
+
     sys::logger('_user::sync => placeholder function - you probably want to write your own');
   }
 
-  public static function has_uid() {
-    return (isset($_COOKIE['_bwui']));
+  public static function has_uid(): bool {
+    return isset($_COOKIE['_bwui']);
   }
 
-  public static function uid() {
+  public static function uid(): string {
     if (!(isset($_COOKIE['_bwui'])))
       $uc = md5(sprintf('%s:%s', \userAgent::os(), (string)time()));
 
     else
       $uc = $_COOKIE['_bwui'];
 
-    $dao = new \dao\bwui;
-    $dao->getByUID($uc);
-
+    (new bwui)->getByUID($uc);
     if ((float)phpversion() < 7.3) {
+
       setcookie(
         '_bwui',
         $uc,
@@ -62,6 +63,7 @@ class user {
         $secure = true
       );
     } else {
+
       setcookie('_bwui', $uc, [
         'expires' => time() + (60 * 60 * 24 * \config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS),
         'path' => '/',
@@ -69,47 +71,68 @@ class user {
         'secure' => !(Request::get()->ServerIsLocal() || Request::get()->ClientIsLocal()),
         'httponly' => false,
         'samesite' => 'strict'
-
       ]);
     }
 
     //~ $u = sprintf( '%s:%s', userAgent::os(), $uc);
-    return ($uc);
+    return $uc;
   }
 
-  public static function hasGoogleFlag() {
+  public static function hasGoogleFlag(): bool {
+
     if ($uid = self::uid()) {
-      $uDao = new \dao\bwui;
-      $uDto = $uDao->getByUID($uid);
-      return ($uDto->bygoogle);
+
+      if ($uDto = (new bwui)->getByUID($uid)) {
+
+        return $uDto->bygoogle;
+      }
     }
+
+    return false;
   }
 
-  public static function setGoogleFlag($v = 1) {
+  public static function setGoogleFlag($v = 1): void {
+
     if ($uid = self::uid()) {
-      $uDao = new \dao\bwui;
-      if ($uDto = $uDao->getByUID($uid))
-        $uDao->UpdateByID([
-          'updated' => \db::dbTimeStamp(),
+
+      $dao = new bwui;
+      if ($dto = $dao->getByUID($uid))
+        $dao->UpdateByID([
           'bygoogle' => (int)$v
-
-        ], $uDto->id);
+        ], $dto->id);
     }
   }
 
-  public static function setUserName($v = '') {
+  public static function setUserID(int $id): void {
+
     if ($uid = self::uid()) {
-      $uDao = new \dao\bwui;
-      if ($uDto = $uDao->getByUID($uid))
-        $uDao->UpdateByID([
-          'updated' => \db::dbTimeStamp(),
-          'username' => $v
 
-        ], $uDto->id);
+      $dao = new bwui;
+      if ($dto = $dao->getByUID($uid)) {
+
+        $dao->UpdateByID([
+          'user_id' => $id
+        ], $dto->id);
+      }
     }
   }
 
-  public static function clearGoogleFlag() {
+  public static function setUserName($v = ''): void {
+
+    if ($uid = self::uid()) {
+
+      $dao = new bwui;
+      if ($dto = $dao->getByUID($uid)) {
+
+        $dao->UpdateByID([
+          'username' => $v
+        ], $dto->id);
+      }
+    }
+  }
+
+  public static function clearGoogleFlag(): void {
+
     self::setGoogleFlag(0);
   }
 }
