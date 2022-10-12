@@ -15,7 +15,7 @@ use DateInterval;
 use DateTime;
 
 class bwui extends _dao {
-  const version = 1.1;
+  const version = 1.2;
 
   protected $_db_name = 'bwui';
 
@@ -47,6 +47,8 @@ class bwui extends _dao {
       $dbc->defineField('user_id', 'bigint');
       $dbc->defineField('bygoogle', 'tinyint');
       $dbc->defineField('creds', 'blob');
+
+      $dbc->defineIndex('idx_bwui_key', 'key');
 
       if (\config::$DB_CACHE == 'APC') $cache->set($key, self::version);
 
