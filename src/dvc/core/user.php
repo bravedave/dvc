@@ -30,7 +30,7 @@ class user {
     return true;
   }
 
-  public function isadmin() : bool {
+  public function isadmin(): bool {
 
     return $this->valid();
   }
@@ -40,23 +40,25 @@ class user {
     sys::logger('_user::sync => placeholder function - you probably want to write your own');
   }
 
+  public static function getByUID() {
+
+    $uc = $_COOKIE['_bwui'] ?? md5(sprintf('%s:%s', \userAgent::os(), (string)time()));
+    return (new bwui)->getByUID($uc);
+  }
+
   public static function has_uid(): bool {
     return isset($_COOKIE['_bwui']);
   }
 
   public static function uid(): string {
-    if (!(isset($_COOKIE['_bwui'])))
-      $uc = md5(sprintf('%s:%s', \userAgent::os(), (string)time()));
 
-    else
-      $uc = $_COOKIE['_bwui'];
+    $bwui = self::getByUID();
 
-    (new bwui)->getByUID($uc);
     if ((float)phpversion() < 7.3) {
 
       setcookie(
         '_bwui',
-        $uc,
+        $bwui->key,
         $expires = time() + (60 * 60 * 24 * \config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS),
         $path = '/; samesite=strict',
         $domain = '',
@@ -64,7 +66,7 @@ class user {
       );
     } else {
 
-      setcookie('_bwui', $uc, [
+      setcookie('_bwui', $bwui->key, [
         'expires' => time() + (60 * 60 * 24 * \config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS),
         'path' => '/',
         'domain' => '',
@@ -74,8 +76,8 @@ class user {
       ]);
     }
 
-    //~ $u = sprintf( '%s:%s', userAgent::os(), $uc);
-    return $uc;
+    //~ $u = sprintf( '%s:%s', userAgent::os(), $bwui->key);
+    return $bwui->key;
   }
 
   public static function hasGoogleFlag(): bool {
