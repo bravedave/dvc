@@ -11,6 +11,8 @@
 namespace dvc\dao;
 
 use config, dvc, sys;
+use DateInterval;
+use DateTime;
 
 class bwui extends _dao {
   const version = 1.1;
@@ -52,6 +54,19 @@ class bwui extends _dao {
     }
 
     return false;
+  }
+
+  public function garbageCollection() {
+
+    $dt = new DateTime();
+    $dt->sub(new DateInterval('P1M'));
+
+    $sql = sprintf(
+      'DELETE FROM bwui WHERE DATE( `updated`) < %s',
+      $this->quote($dt->format('Y-m-d'))
+    );
+
+    $this->Q($sql);
   }
 
   public function getByUID($uid, $fields = '*') {
