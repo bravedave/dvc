@@ -15,7 +15,7 @@ use DateInterval;
 use DateTime;
 
 class bwui extends _dao {
-  const version = 1.2;
+  const version = 1.3;
 
   protected $_db_name = 'bwui';
 
