@@ -20,6 +20,8 @@ class home extends Controller {
     // sys::monolog($email = true)
     //   ->error(config::$PAGE_TEMPLATE);
 
+    user::uid();
+
     if ('4' == config::$BOOTSTRAP_VERSION) {
       $this->render([
         'secondary' => ['aside'],

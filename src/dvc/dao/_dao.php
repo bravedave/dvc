@@ -57,22 +57,23 @@ abstract class _dao {
   }
 
   protected function cacheKey(int $id, string $field = ''): string {
+
     if ($field) {
+
       return sprintf(
         '%s_%s_%s_%s',
         $this->cachePrefix(),
         $this->db_name(),
         $id,
         $field
-
       );
     } else {
+
       return sprintf(
         '%s_%s_%s',
         $this->cachePrefix(),
         $this->db_name(),
         $id
-
       );
     }
   }

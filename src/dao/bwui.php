@@ -10,68 +10,97 @@
 
 namespace dao;
 
-use sys;
+use config, dvc, sys;
 use dvc\dao\_dao;
+use dvc\dao\dto\_dto;
 
 class bwui extends _dao {
-	protected $_db_name = 'bwui';
+  const version = 1.1;
 
-	protected static $_db_allways_check_bwui = true;
+  protected $_db_name = 'bwui';
 
-	protected function structure( $name = null ) {
-		if ( is_null( $name))
-			$name = $this->db_name();
+  protected static $_db_allways_check_bwui = true;
 
-		//~ \sys::logger( 'bwui check');
-		if ( self::$_db_allways_check_bwui) {
-			self::$_db_allways_check_bwui = false;
-			$this->_db_allways_check_structure = false;
+  protected function structure($name = null) {
 
-			$dbc = sys::dbCheck($this->_db_name);
-			$dbc->defineField( 'created', 'datetime');
-			$dbc->defineField( 'updated', 'datetime');
-			$dbc->defineField( 'key', 'varchar', 32);
-			$dbc->defineField( 'username', 'varchar', 32);
-			$dbc->defineField( 'bygoogle', 'tinyint');
-			$dbc->defineField( 'creds', 'blob');
-			//~ \sys::logger( 'bwui checked');
+    if (config::$DB_CACHE == 'APC') {
 
-			return ( $dbc );
+      $cache = dvc\cache::instance();
+      $key = $this->cacheKey(0, $this->_db_name . '_version');
 
-		}
+      if ($version = $cache->get($key)) {
 
-		return ( false);
+        if ($version >= self::version) return false;
+      }
+    }
 
-	}
+    if (self::$_db_allways_check_bwui) {
 
-	public function getByUID( $uid, $fields = '*') {
-		if ( \strings::isValidMd5( $uid)) {
-			$key = $this->escape( $uid);
-			if ( $key == $uid) {
-				if ( $res = $this->Result( sprintf( 'SELECT %s FROM %s WHERE `key` = "%s"', $fields, $this->_db_name, $uid))) {
-					if ( $dto = $res->dto())
-						return $dto;
+      self::$_db_allways_check_bwui = false;
+      $this->_db_allways_check_structure = false;
 
-				}
+      $dbc = sys::dbCheck($this->_db_name);
+      $dbc->defineField('created', 'datetime');
+      $dbc->defineField('updated', 'datetime');
+      $dbc->defineField('key', 'varchar', 32);
+      $dbc->defineField('username', 'varchar', 32);
+      $dbc->defineField('user_id', 'bigint');
+      $dbc->defineField('bygoogle', 'tinyint');
+      $dbc->defineField('creds', 'blob');
 
-				$ts = self::dbTimeStamp();
-				if ( $id = $this->Insert( ['created' => $ts,'updated' => $ts,'key' => $uid]))
-					return ( $this->getByID( $id));
+      if (\config::$DB_CACHE == 'APC') $cache->set($key, self::version);
 
-			}
-			else {
-				throw new Exceptions\SecurityViolation;
+      return $dbc;
+    }
 
-			}
+    return false;
+  }
 
-		}
-		else {
-			throw new Exceptions\SecurityViolationMD5;
+  public function getByUID($uid, $fields = '*') {
 
-		}
+    if (\strings::isValidMd5($uid)) {
 
-		return ( false);
+      $key = $this->escape($uid);
+      if ($key == $uid) {
 
-	}
+        $sql = sprintf(
+          'SELECT %s FROM %s WHERE `key` = %s',
+          $fields,
+          $this->_db_name,
+          $this->quote($uid)
+        );
 
+        if ($res = $this->Result($sql)) {
+
+          if ($dto = $res->dto()) return $dto;
+        }
+
+        if ($id = $this->Insert(['key' => $uid])) return $this->getByID($id);
+      } else {
+
+        throw new Exceptions\SecurityViolation;
+      }
+    } else {
+
+      throw new Exceptions\SecurityViolationMD5;
+    }
+
+    return null;
+  }
+
+  public function setUserID(_dto $dto, int $id) {
+    $this->UpdateByID([
+      'user_id' => $id
+    ], $dto->id);
+  }
+
+  public function Insert($a) {
+    $a['created'] = $a['updated'] = self::dbTimeStamp();
+    return parent::Insert($a);
+  }
+
+  public function UpdateByID($a, $id) {
+    $a['updated'] = self::dbTimeStamp();
+    return parent::UpdateByID($a, $id);
+  }
 }
