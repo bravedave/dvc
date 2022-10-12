@@ -48,7 +48,7 @@ class bwui extends _dao {
       $dbc->defineField('bygoogle', 'tinyint');
       $dbc->defineField('creds', 'blob');
 
-      $dbc->defineIndex('idx_bwui_key', 'key');
+      $dbc->defineIndex('idx_bwui_key', '`key`');
 
       if (\config::$DB_CACHE == 'APC') $cache->set($key, self::version);
 
