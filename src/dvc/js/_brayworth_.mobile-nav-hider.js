@@ -1,58 +1,58 @@
-/*
-	David Bray
-	D'Arcy Estate Agents & BrayWorth Pty Ltd
-	e. david@brayworth.com.au
+/**
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+ * */
 
-	This work is licensed under a Attribution-NonCommercial-NoDerivatives 4.0 International Public License.
-		https://creativecommons.org/licenses/by-nc-nd/4.0/
+$(document).ready(() => {
+  if (!_brayworth_.browser.isMobileDevice) return;
 
-	*/
-$(document).ready( () => {
-	if ( !_brayworth_.browser.isMobileDevice) return;
+  let lastScrollTop = 0;
+  let downScroll = 0;
+  let upScroll = 0;
+  let delta = 50;
+  let hasClass = false;
 
-	let lastScrollTop = 0;
-	let downScroll = 0;
-	let upScroll = 0;
-	let delta = 50;
-	let hasClass = false;
+  const body = $('body');
 
-	window.addEventListener("scroll", (e) => {
-		let st = document.documentElement.scrollTop;
+  window.addEventListener("scroll", (e) => {
+    let st = document.documentElement.scrollTop;
 
-		//~ console.log('scroll', st, lastScrollTop);
-		if ( st > lastScrollTop) {
-			// upscroll code
-			upScroll += ( st - lastScrollTop);
-			if ( upScroll > delta) {
-				downScroll = 0;
-				//~ console.log( 'up', upScroll);
-				$('body').addClass( 'upscroll');
-				hasClass = true;
+    if (st > lastScrollTop) {
 
-			}
+      // upscroll code
+      upScroll += (st - lastScrollTop);
+      if (upScroll > delta) {
 
-		}
-		else {
-			// downscroll code
-			downScroll += ( lastScrollTop - st);
-			if ( downScroll > delta) {
-				upScroll = 0;
-				$('body').removeClass( 'upscroll');
-				hasClass = false;
+        downScroll = 0;
 
-			}
-			else if ( st == 0 && hasClass) {
-				$('body').removeClass( 'upscroll');
-				hasClass = false;
+        if (!body.find('nav > .navbar-collapse').hasClass('show')) {
 
-			}
+          body.addClass('upscroll');
+          hasClass = true;
+        }
+      }
+    }
+    else {
 
-		}
+      // downscroll code
+      downScroll += (lastScrollTop - st);
+      if (downScroll > delta) {
 
-		lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+        upScroll = 0;
+        body.removeClass('upscroll');
+        hasClass = false;
+      }
+      else if (st == 0 && hasClass) {
 
-	}, true);
+        body.removeClass('upscroll');
+        hasClass = false;
+      }
+    }
 
-	//~ console.log('scroll-set');
-
+    lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+  }, true);
 });
