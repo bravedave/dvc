@@ -16,6 +16,7 @@ if [ -x "$(command -v sassc)" ]; then
     rsync -a ../../../vendor/twbs/bootstrap/scss/./ bootstrap4/
     cd bootstrap4
     cat ../bootstrap-custom.scss bootstrap.scss >bootstrap-custom.scss
+    sassc --omit-map-comment -t expanded bootstrap-custom.scss ../bootstrap.css
     sassc --omit-map-comment -t compressed bootstrap-custom.scss ../bootstrap.min.css
     echo "$me : wrote bootstrap.min.css"
 
