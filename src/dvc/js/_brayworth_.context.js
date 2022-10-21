@@ -289,7 +289,7 @@
       let o = {
         ...{
           click: e => { },
-          html: '',
+          html: 'string' == typeof p ? p : '',
           href: '#'
         },
         ...p
