@@ -15,7 +15,7 @@ use DateInterval;
 use DateTime;
 
 class bwui extends _dao {
-  const version = 1.3;
+  const version = 1.31;
 
   protected $_db_name = 'bwui';
 
@@ -44,6 +44,7 @@ class bwui extends _dao {
       $dbc->defineField('updated', 'datetime');
       $dbc->defineField('key', 'varchar', 32);
       $dbc->defineField('username', 'varchar', 32);
+      $dbc->defineField('hash', 'varchar', 255);
       $dbc->defineField('user_id', 'bigint');
       $dbc->defineField('bygoogle', 'tinyint');
       $dbc->defineField('creds', 'blob');

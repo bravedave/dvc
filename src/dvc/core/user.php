@@ -105,6 +105,18 @@ class user {
     }
   }
 
+  public static function setUser(array $a): void {
+
+    if ($uid = self::uid()) {
+
+      $dao = new bwui;
+      if ($dto = $dao->getByUID($uid)) {
+
+        $dao->UpdateByID($a, $dto->id);
+      }
+    }
+  }
+
   public static function setUserID(int $id): void {
 
     if ($uid = self::uid()) {
