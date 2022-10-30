@@ -71,34 +71,37 @@ abstract class controller {
     $this->db = self::application()::app()->dbi();
     $this->Request = self::application()::Request();
 
-    if ($this->debug) \sys::logger(sprintf('checking authority :: %s', __METHOD__));
-    $this->authorised = \currentUser::valid();
-    if ($this->debug) \sys::logger(sprintf('checking authority :: %s :: %s', ($this->authorised ? 'private' : 'public'), __METHOD__));
-
     if ($this->RequireValidation) {
-      if (!($this->authorised)) {
-        $this->authorize();
-      }
+
+      if ($this->debug) \sys::logger(sprintf('checking authority :: %s', __METHOD__));
+      $this->authorised = \currentUser::valid();
+      if ($this->debug) \sys::logger(sprintf('checking authority :: %s :: %s', ($this->authorised ? 'private' : 'public'), __METHOD__));
+
+      if (!($this->authorised)) $this->authorize();
     } elseif ($this->isPost()) {
+
       /**
        * possibly authentication is not turned on
        * but they have a page that requires validation
        */
       $action = $this->getPost('action');
       if ('-system-logon-' == $action) {
-        if (!($this->authorised)) {
-          $this->authorize();
-        }
+
+        if ($this->debug) \sys::logger(sprintf('checking authority :: %s', __METHOD__));
+        $this->authorised = \currentUser::valid();
+        if ($this->debug) \sys::logger(sprintf('checking authority :: %s :: %s', ($this->authorised ? 'private' : 'public'), __METHOD__));
+
+        if (!($this->authorised)) $this->authorize();
       }
     }
 
     if ($this->CheckOffline) {
+
       if ($this->authorised) {
+
         if (!\currentUser::isadmin()) {
-          $state = new \dao\state;
-          if ($state->offline()) {
-            \Response::redirect(strings::url('offline'));
-          }
+
+          if ((new \dao\state)->offline()) \Response::redirect(strings::url('offline'));
         }
       }
     }
@@ -106,15 +109,17 @@ abstract class controller {
     $this->authorized = $this->authorised;  // american spelling accepted (doh)
 
     if ($this->RequireValidation) {
+
       if ($this->access_control()) {
+
         $this->before();
       } else {
-        /* The user is $authorised, but denied access by their _acl	*/
-        \Response::redirect(strings::url());
+
+        \Response::redirect(strings::url());  // The user is $authorised, but denied access by their _acl
       }
     } else {
-      // no acl required for anon access
-      $this->before();
+
+      $this->before();  // no acl required for anon access
     }
   }
 

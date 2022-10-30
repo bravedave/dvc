@@ -61,39 +61,38 @@ class application {
   protected $minimum = false;
   protected $service = false;
 
-
   const use_full_url = true;
 
   static $debug = false;
 
   static function app() {
-    return (self::$instance);
+
+    return self::$instance;
   }
 
   static function isService() {
-    if (self::$instance)
-      return (self::$instance->service);
 
+    if (self::$instance) return self::$instance->service;
     return (false);
   }
 
   static function Request() {
-    if (is_null(self::$_request))
-      self::$_request = Request::get();
 
+    if (is_null(self::$_request)) self::$_request = Request::get();
     return (self::$_request);
   }
 
   static function route() {
+
     // \sys::logger( sprintf('<%s> %s', self::$instance->_route, __METHOD__));
     return self::$instance->_route;
   }
 
   static function timer() {
+
     if (self::$instance) {
-      if (self::$instance->_timer) {
-        return (self::$instance->_timer);
-      }
+
+      if (self::$instance->_timer) return (self::$instance->_timer);
     }
 
     return (new timer);
@@ -124,6 +123,7 @@ class application {
 
     $_url = trim(self::Request()->getUrl(), '/. ');
     if (preg_match('/\.(png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml|html?)(\?.*)?$/i', $_url)) {
+
       //~ if (preg_match('/\.(?:png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml|html?)(\?.*)?$/i', $_url)) {
       /*
 			 * You are only here because
@@ -236,6 +236,7 @@ class application {
 
       // call the method and pass the arguments to it
       if (isset($this->url_parameter_3)) {
+
         // will translate to something like $this->home->method($param_1, $param_2, $param_3);
         if (self::$debug) \sys::logger(sprintf(
           '%s->{%s}(%s, %s, %s)',
@@ -278,6 +279,7 @@ class application {
         // will translate to something like $this->home->method($param_1);
         $this->url_controller->{$this->url_action}($this->url_parameter_1);
       } else {
+
         if (self::$debug) \sys::logger(sprintf(
           '%s->{%s}()',
           $this->url_controller->name,
@@ -285,13 +287,13 @@ class application {
         ));
 
         /**
-         * if no parameters given, just call the
-         * method without parameters,
+         * if no parameters given, just call the method without parameters,
          * like $this->home->method();
          */
         $this->url_controller->{$this->url_action}();
       }
     } else {
+
       $this->url_served = \strings::url(
         self::Request()->getControllerName(),
         $protcol = true
@@ -307,6 +309,7 @@ class application {
   }
 
   public function __destruct() {
+
     $debug = false;
     // $debug = true;
 
@@ -315,15 +318,17 @@ class application {
         $path = $this->return_url();
 
         try {
+
           $dao = new \dao\sitemap;
           if ($dto = $dao->getbyPath($path)) {
+
             if ($debug) \sys::logger(sprintf('found path : %s : %s', $path, __METHOD__));
             $dao->UpdateByID(
               ['visits' => $dto->visits + 1],
               (int)$dto->id
-
             );
           } else {
+
             if ($debug) \sys::logger(sprintf('not found path : %s : %s', $path, __METHOD__));
             $a = [
               'path' => $path,
@@ -334,9 +339,11 @@ class application {
             $dao->Insert($a);
           }
         } catch (\Exception $e) {
+
           error_log($e->getMessage());
         }
       } else {
+
         if ($debug) \sys::logger(sprintf('<%s> %s', 'not enabled', __METHOD__));
       }
     }
@@ -346,13 +353,6 @@ class application {
 
     $controllerFile = sprintf('%s/controller/%s.php', $this->rootPath, $this->url_controller);
     /*---[ check for controller: does such a controller exist ? ]--- */
-
-    // this is no longer required because config::route() registers the default controllers
-    // if (!file_exists($controllerFile)) {
-
-    //   $controllerFile = sprintf('%s/../controller/%s.php', __DIR__, $this->url_controller);  // is there a default controller for this action
-    //   if (self::$debug) \sys::logger(sprintf('<checking for system default controller : %s> %s', $controllerFile));
-    // }
 
     if (!file_exists($controllerFile)) {
 
@@ -426,6 +426,7 @@ class application {
   }
 
   protected function _serve($path) {
+
     if (self::$debug) \sys::$debug = true;
     \sys::serve($path);
 
@@ -433,6 +434,7 @@ class application {
   }
 
   protected function _splitUrl() {
+
     /**
      * Get and split the URL
      */
@@ -484,12 +486,9 @@ class application {
   }
 
   public function controller() {
-    if (is_string($this->url_controller))
-      return ($this->url_controller);
 
-    elseif (isset($this->url_controller))
-      return ($this->url_controller->name);
-
+    if (is_string($this->url_controller)) return $this->url_controller;
+    if (isset($this->url_controller)) return $this->url_controller->name;
     return '';
   }
 
@@ -503,25 +502,29 @@ class application {
   }
 
   public function dbi() {
+
     return \sys::dbi();
   }
 
   public function getPaths() {
+
     return $this->paths;
   }
 
   public function getRootPath() {
+
     return isset($this)  ?
       $this->rootPath :
       self::app()->getRootPath();
   }
 
   public function getInstallPath() {
-    return (realpath(__DIR__ . '/../../'));  // parent of parent
 
+    return (realpath(__DIR__ . '/../../'));  // parent of parent
   }
 
   public function return_url() {
+
     return ($this->url_served);
   }
 
