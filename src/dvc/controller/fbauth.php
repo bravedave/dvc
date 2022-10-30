@@ -13,7 +13,7 @@ namespace dvc\controller;
 use config, Controller, currentUser, dvc, HttpGet, HttpPost, Response, sys;
 
 class fbauth extends Controller {
-  public $RequireValidation = FALSE;
+  protected $RequireValidation = FALSE;
 
   static $oauth2_token_url = 'https://graph.facebook.com/oauth/access_token';
   static $oauth2_access_url = 'https://graph.facebook.com/me';

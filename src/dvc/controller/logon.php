@@ -14,7 +14,7 @@ use auth, Controller, dvc, Response;
 use strings;
 
 class logon extends Controller {
-  public $RequireValidation = false;
+  protected $RequireValidation = false;
 
   public function form() {
     $this->load('logon');

@@ -13,7 +13,7 @@ namespace dvc\controller;
 use config, Controller, sys;
 
 class docs extends Controller {
-  public $RequireValidation = config::lockdown;
+  protected $RequireValidation = config::lockdown;
 
   protected function _hasImage($img = '', $controller = null) {
 

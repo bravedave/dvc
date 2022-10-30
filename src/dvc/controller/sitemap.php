@@ -15,7 +15,7 @@ use currentUser;
 use strings;
 
 class sitemap extends Controller {
-  public $RequireValidation = config::lockdown;
+  protected $RequireValidation = config::lockdown;
 
   protected function before() {
     self::application()::app()->exclude_from_sitemap = true;

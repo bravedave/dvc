@@ -13,7 +13,7 @@ namespace dvc\controller;
 use config, Controller, dvc, Response;
 
 class install extends Controller {
-  public $RequireValidation = config::lockdown;
+  protected $RequireValidation = config::lockdown;
 
   protected function _index() {
   }

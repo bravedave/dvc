@@ -18,7 +18,7 @@ use dvc\{
 use sys;
 
 class assets extends Controller {
-  public $RequireValidation = false;
+  protected $RequireValidation = false;
 
   protected function _index() {
   }

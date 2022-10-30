@@ -14,8 +14,7 @@ use currentUser, Controller, dvc, sys, Response, user;
 use dvc\session;
 
 class auth extends Controller {
-  public $RequireValidation = false;
-  //~ public $debug = true;
+  protected $RequireValidation = false;
 
   protected function before() {
     self::application()::app()->exclude_from_sitemap = true;

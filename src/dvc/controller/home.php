@@ -13,7 +13,7 @@ namespace dvc\controller;
 use config, Controller, sys;
 
 class home extends Controller {
-  public $RequireValidation = config::lockdown;
+  protected $RequireValidation = config::lockdown;
 
   protected function postHandler() {
     $action = $this->getPost('action');

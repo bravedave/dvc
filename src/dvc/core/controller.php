@@ -23,7 +23,6 @@ use strings;
 abstract class controller {
   public $authorized = false;
   public $authorised = false;
-  public $RequireValidation = true;
   public $CheckOffline = true;
   public $db = null;
   public $name = 'home';
@@ -34,6 +33,7 @@ abstract class controller {
   public $title;
   public $debug = false;
 
+  protected $RequireValidation = true;
   protected $Redirect_OnLogon = false;
   protected $label = null;
   protected $manifest = null;
