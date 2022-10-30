@@ -14,35 +14,52 @@ use currentUser, Controller, dvc, sys, Response, user;
 use dvc\session;
 
 class auth extends Controller {
+
   protected $RequireValidation = false;
 
   protected function before() {
+
     self::application()::app()->exclude_from_sitemap = true;
     parent::before();
   }
 
   public function index() {
-    if ($this->getParam('code'))
+
+    if ($this->getParam('code')) {
+
       $this->response();
-    else
+    } else {
+
       $this->request();
+    }
   }
 
   public function request() {
+
     if ($this->debug) sys::logger('auth/request');
 
     if (dvc\auth::GoogleAuthEnabled()) {
-      $client = dvc\Google::client();
-      $url = $client->createAuthUrl();
-      Response::redirect($url);
+
+      if ($client = dvc\Google::client()) {
+        $url = $client->createAuthUrl();
+
+        Response::redirect($url);
+      } else {
+
+        throw new dvc\Exceptions\GoogleAuthNotEnabled;
+      }
     } else {
+
       throw new dvc\Exceptions\GoogleAuthNotEnabled;
     }
   }
 
   public function response() {
+
     if (dvc\auth::GoogleAuthEnabled()) {
+
       if ($client = \dvc\Google::client()) {
+
         $client->authenticate($this->getParam('code'));
 
         dvc\Google::saveSession($client);
@@ -51,6 +68,7 @@ class auth extends Controller {
         $me = $plus->people->get("me");
 
         if (isset($me->emails)) {
+
           if ((string)$me->emails[0]->value != '') {
             /*
              * So here we are saying we accept any user that
@@ -73,6 +91,7 @@ class auth extends Controller {
 
             user::setGoogleFlag();
           } else {
+
             throw new dvc\Exceptions\InvalidAuthUser;
           }
         } else {
