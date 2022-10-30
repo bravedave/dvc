@@ -50,7 +50,16 @@ class user {
     return isset($_COOKIE['_bwui']);
   }
 
+  /**
+   * provides a client uid for wider use
+   *
+   * @return string
+   */
   public static function uid(): string {
+
+    /**
+     * think we are going with lax for _bwui
+     */
 
     $bwui = self::getByUID();
 
@@ -60,7 +69,7 @@ class user {
         '_bwui',
         $bwui->key,
         $expires = time() + (60 * 60 * 24 * \config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS),
-        $path = '/; samesite=strict',
+        $path = '/; samesite=lax',
         $domain = '',
         $secure = true
       );
@@ -72,7 +81,7 @@ class user {
         'domain' => '',
         'secure' => !(Request::get()->ServerIsLocal() || Request::get()->ClientIsLocal()),
         'httponly' => false,
-        'samesite' => 'strict'
+        'samesite' => 'lax'
       ]);
     }
 
