@@ -13,6 +13,9 @@ namespace dvc\core;
 use dvc\dao\bwui, sys;
 
 class user {
+
+  static $checkBWUI = true;
+
   public $id = 0;
 
   public $name = '';
