@@ -62,11 +62,11 @@
       },
 
       open: function (e) {
+
         let css = {
           position: 'absolute',
           top: 10,
           left: $(document).width() - 140,
-
         };
 
         if (!!e.pageY) { css.top = Math.max(e.pageY + 2, 0); }
@@ -76,35 +76,31 @@
 
         let root = this.root;
         (e => {
+
           let t = $(e.target);
-          if (t.length > 0) {
-            css['z-index'] = t.zIndex() + 10;
-
-          }
-
+          if (t.length > 0) css['z-index'] = t.zIndex() + 10;
         })(e);
 
-
         if (this.detachOnHide) {
+
           root
             .css(css)
             .appendTo('body')
             .data('hide', 'detach');
-
         }
         else {
+
           //~ console.log( this.root.parent());
           if (root.parent().length < 1) {
+
             root
               .appendTo('body')
               .data('hide', 'hide');
-
           }
 
           root
             .css(css)
             .removeClass('hidden d-none');
-
         }
 
         let offset = root.offset();
@@ -114,18 +110,18 @@
 
         /* try to keep menu on screen horizontally */
         if (offset.left + root.width() > wW) {
+
           let l = wW - root.width() - 5;
           root.css('left', Math.max(l, 2));
           offset = root.offset();
-
         }
 
         /* try to keep menu on screen vertically */
         if (offset.top + this.root.height() > (wH + sT)) {
+
           let t = (wH + sT) - root.height() - 5;
           root.css('top', Math.max(t, sT + 2));
           offset = root.offset();
-
         }
 
 
@@ -134,14 +130,12 @@
          * if the window width is restrictive on the right
          */
         if (offset.left > (wW - (root.width() * 2))) {
-          root
-            .addClass('menu-contextmenu-right');
 
+          root.addClass('menu-contextmenu-right');
         }
         else {
-          root
-            .removeClass('menu-contextmenu-right');
 
+          root.removeClass('menu-contextmenu-right');
         }
 
         /**
@@ -149,14 +143,12 @@
          * if the window height is restrictive at bottom
          */
         if (offset.top + (root.height() * 1.2) > (wH + sT)) {
-          root
-            .addClass('menu-contextmenu-low');
 
+          root.addClass('menu-contextmenu-low');
         }
         else {
-          root
-            .removeClass('menu-contextmenu-low');
 
+          root.removeClass('menu-contextmenu-low');
         }
 
         return (this);
@@ -258,7 +250,6 @@
         return (_me);
 
       }
-
     };
 
     /*
