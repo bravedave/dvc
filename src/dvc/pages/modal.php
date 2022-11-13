@@ -6,110 +6,150 @@
  *
  * MIT License
  *
- * DO NOT change this file
- * Copy it to <application>/app/dvc/ and modify it there
+ * This is the Bootstrap 4 modal
  *
+ * php usage:
+ *  $m = new dvc\pages\modal;
+ *  $m->open();
+ *  // implement page
  *
- * 	php usage:
- * 		$m = new dvc\pages\modal;
- * 		$m->open();
- * 		// implement page
- *
- * 	incorporated into control
- * 		$this->modal( 'page-to-load');
- *
- * 	javascript usage:
- * 	_cms_.modal({
- * 		url : <url-to-load>,
- * 		onSuccess : function() {
- * 			// callback ..
- * 		}
- *
- * 	});
- *
- * 	_cms_.modal({
- * 		url : _cms_.url('sms/modal'),
- * 		onSuccess : function() {
- * 			// callback ..
- *
- * 		}
- *
- * 	})
- * 	.then( function() {
- * 		$('input[name="to[]"]').val('0418745334');
- *
- * 	});
  **/
 
 namespace dvc\pages;
 
+use config, strings, theme;
+
 class modal {
-	protected $title = '';
-	protected $className = '';
-	protected $classHeader = '';
-	protected $_open = false;
+  protected bool $_footer = false;
+  protected bool $_form = false;
+  protected string $_id = '';
+  protected string $_modal_id = '';
+  protected bool $_open = false;
+  protected bool $_openform = false;
 
-	function __construct( $params = []) {
-		$_options = [
-			'title' => 'modal',
-			'class' => '',
-			'header-class' => 'text-white bg-secondary',
+  protected string $className = '';
+  protected string $classHeader = '';
+  protected string $title = '';
 
-		];
+  protected function closeform() {
 
-		$options = array_merge( $_options, $params);
+    if (!$this->_openform) return $this;
+    if ($this->_form) print "</form>\n";
+    $this->_openform = false;
+  }
 
-		$this->title = $options['title'];
-		$this->className = $options['class'];
-		$this->classHeader = $options['header-class'];
+  protected function openform() {
 
-	}
+    if ($this->_openform) return $this;
+    if ($this->_form) printf("<form id=\"%s\" autocomplete=\"off\">\n", $this->_id);
+    $this->_openform = true;
+  }
 
-	function __destruct() {
-		$this->close();
+  public function __construct($params = []) {
 
-	}
+    $options = array_merge([
+      'form' => false,
+      'footer' => false,
+      'title' => config::$WEBNAME,
+      'class' => '',
+      'header-class' => theme::modalHeader(),
+    ], $params);
 
-	function open() {
-		if ( $this->_open) {
-			return;
+    $this->_id = strings::rand();
+    $this->_modal_id = sprintf('%s-modal', $this->_id);
+    $this->_footer = $options['footer'];
+    $this->_form = $options['form'];
+    $this->title = $options['title'];
+    $this->className = $options['class'];
+    $this->classHeader = $options['header-class'];
+  }
 
-		}
+  public function __destruct() {
 
-		printf( '<div class="modal" tabindex="-1" role="dialog">
-	<div class="modal-dialog %s modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-header %s">
-				<h5 class="modal-title">%s</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
+    $this->close();
+    $this->closeform();
+  }
 
-				</button>
+  public function close(): self {
 
-			</div>
+    if (!$this->_open) return $this;
 
-			<div class="modal-body">', $this->className, $this->classHeader, $this->title);
+    print "\n\t\t\t\t</div>\n";  // <!-- div class="modal-body" -->
 
-		$this->_open = true;
+    if ($this->_footer) {
 
-	}
+      print "\t\t\t\t<div class=\"modal-footer\">\n";
 
-	function close() {
-		if ( !$this->_open) {
-			return;
+      print "\t\t\t\t\t<button type=\"button\" class=\"btn btn-outline-secondary\" data-dismiss=\"modal\">close</button>\n";
 
-		}
+      if ($this->_form) print "\t\t\t\t\t<button type=\"submit\" class=\"btn btn-primary\">Save</button>\n";
 
-		printf( '%s%s			</div>%s', PHP_EOL, PHP_EOL, PHP_EOL);	//<!-- div class="modal-body" -->
+      print "\t\t\t\t</div>\n";
+    }
 
-		printf( '%s		</div>%s', PHP_EOL, PHP_EOL);	// <!-- div class="modal-content" -->
+    print "\t\t\t</div>\n";  // <!-- div class="modal-content" -->
 
-		printf( '%s	</div>%s', PHP_EOL, PHP_EOL);	// <!-- div class="modal-dialog" role="document" -->
+    print "\t\t</div>\n";  // <!-- div class="modal-dialog" role="document" -->
 
-		printf( '%s</div>%s', PHP_EOL, PHP_EOL);	//<!-- div class="body" -->
+    print "\t</div>\n";    // <!-- div class="modal" -->
 
-		$this->_open = false;
+    $this->_open = false;
 
-	}
+    return $this;
+  }
 
+  public function ID(): string {
+    return $this->_id;
+  }
+
+  public function modalID(): string {
+    return $this->_modal_id;
+  }
+
+  public function open(): self {
+
+    if ($this->_open) return $this;
+
+    $this->openform();
+
+    printf(
+      '	<div class="modal fade" tabindex="-1" role="dialog" id="%s" aria-labelledby="%s-label" aria-hidden="true">',
+      $this->_modal_id,
+      $this->_id
+    );
+
+    printf(
+      '
+		<div class="modal-dialog %s modal-dialog-centered" role="document">
+
+			<div class="modal-content">
+
+				<div class="modal-header %s">
+
+					<h5 class="modal-title text-truncate" title="%s" id="%s-label">%s</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">',
+      $this->className,
+      $this->classHeader,
+      $this->title,
+      $this->_id,
+      $this->title
+    );
+
+    $this->_open = true;
+
+    return $this;
+  }
+
+  public static function form(array $options = []): self {
+
+    return (new static(array_merge([
+      'footer' => true,
+      'form' => true,
+    ], $options)));
+  }
 }
