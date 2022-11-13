@@ -11,9 +11,9 @@
 namespace dvc\html;
 
 class div extends element {
-	function __construct( $content = null, $attributes = null) {
-		parent::__construct( 'div', $content, $attributes );
 
-	}
+  function __construct($content = null, $attributes = null) {
 
+    parent::__construct('div', $content, $attributes);
+  }
 }
