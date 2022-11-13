@@ -22,24 +22,19 @@ class HttpGet {
 	 * @param url the url to be accessed
 	 * @param _options the overrides the default setup for curl
 	 */
-	public function __construct( $_url, $_options = [] ) {
-		$this->url = $_url;
-		$this->ch = curl_init();
-		$this->params = [];
+  public function __construct($_url, $_options = []) {
+    $this->url = $_url;
+    $this->ch = curl_init();
+    $this->params = [];
 
-		$options = array_merge([
-			'CURLOPT_FOLLOWLOCATION' => 0,
-			'CURLOPT_HEADER' => 0,
-			'CURLOPT_RETURNTRANSFER' => 1
+    $options = array_merge([
+      'CURLOPT_FOLLOWLOCATION' => 0,
+      'CURLOPT_HEADER' => 0,
+      'CURLOPT_RETURNTRANSFER' => 1
+    ], $_options);
 
-		], $_options);
-
-		foreach( $options as $k => $o) {
-			curl_setopt( $this->ch, constant( $k), $o);
-
-		}
-
-	}
+    array_walk($options, fn ($o, $k) => curl_setopt($this->ch, constant($k), $o));
+  }
 
 	public function __destruct() {
 		curl_close($this->ch);	/* shut down CURL before destroying the HttpGet object */
