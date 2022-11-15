@@ -28,7 +28,7 @@ class modal {
   protected bool $_openform = false;
 
   protected string $className = '';
-  protected string $size = '';
+  protected string $headerClass = '';
   protected string $title = '';
 
   protected function closeform() {
@@ -52,10 +52,8 @@ class modal {
       'footer' => false,
       'title' => config::$WEBNAME,
       'class' => '',
-      'size' => theme::modalHeader(),
+      'header-class' => theme::modalHeader(),
     ], $params);
-
-    if (isset($options['header-class'])) $options['size'] = $options['header-class'];
 
     $this->_id = strings::rand();
     $this->_modal_id = sprintf('%s-modal', $this->_id);
@@ -63,7 +61,7 @@ class modal {
     $this->_form = $options['form'];
     $this->title = $options['title'];
     $this->className = $options['class'];
-    $this->size = $options['size'];
+    $this->headerClass = $options['header-class'];
   }
 
   public function __destruct() {
@@ -137,7 +135,7 @@ class modal {
 
 				<div class="modal-body">',
       $this->className,
-      $this->size,
+      $this->headerClass,
       $this->title,
       $this->_id,
       $this->title

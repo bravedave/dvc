@@ -426,7 +426,7 @@ abstract class controller {
 
     $options = array_merge([
       'class' => 'modal-sm',
-      'size' => 'text-white bg-danger py-2',
+      'header-class' => 'text-white bg-danger py-2',
       'text' => 'error msg',
       'title' => 'Error'
     ], $params);
@@ -447,7 +447,7 @@ abstract class controller {
     $options = array_merge([
       'title' => sprintf('%s Modal', \config::$WEBNAME),
       'class' => '',
-      'size' => 'text-white bg-secondary py-2',
+      'header-class' => 'text-white bg-secondary py-2',
       'load' => false,
       'text' => false,
     ], $params);
@@ -455,7 +455,7 @@ abstract class controller {
     $m = new \dvc\pages\modal([
       'title' => $options['title'],
       'class' => $options['class'],
-      'size' => $options['size'],
+      'header-class' => $options['header-class'],
     ]);
 
     $m->open();
