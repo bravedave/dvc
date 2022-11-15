@@ -80,6 +80,8 @@ class modal {
 
       print "\t\t\t\t<div class=\"modal-footer\">\n";
 
+      print "\t\t\t\t\t<div class=\"ml-auto\"></div>\n";
+
       print "\t\t\t\t\t<button type=\"button\" class=\"btn btn-outline-secondary\" data-dismiss=\"modal\">close</button>\n";
 
       if ($this->_form) print "\t\t\t\t\t<button type=\"submit\" class=\"btn btn-primary\">Save</button>\n";
