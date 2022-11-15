@@ -423,14 +423,13 @@ abstract class controller {
   }
 
   protected function modalError($params = []) {
-    $defaults = [
-      'class' => 'modal-sm',
-      'header-class' => 'text-white bg-danger py-2',
-      'text' => 'error msg',
-      'title' => 'Error',
 
-    ];
-    $options = array_merge($defaults, $params);
+    $options = array_merge([
+      'class' => 'modal-sm',
+      'size' => 'text-white bg-danger py-2',
+      'text' => 'error msg',
+      'title' => 'Error'
+    ], $params);
 
     if (!isset($this->data)) $this->data = (object)[];
 
@@ -442,23 +441,21 @@ abstract class controller {
   }
 
   protected function modal($params = []) {
+
     \sys::trace(sprintf('deprecated : %s', __METHOD__));
 
-    $defaults = [
+    $options = array_merge([
       'title' => sprintf('%s Modal', \config::$WEBNAME),
       'class' => '',
-      'header-class' => 'text-white bg-secondary py-2',
+      'size' => 'text-white bg-secondary py-2',
       'load' => false,
       'text' => false,
-    ];
+    ], $params);
 
-    $options = array_merge($defaults, $params);
-
-    \Response::html_headers();
     $m = new \dvc\pages\modal([
       'title' => $options['title'],
       'class' => $options['class'],
-      'header-class' => $options['header-class'],
+      'size' => $options['size'],
     ]);
 
     $m->open();
@@ -476,7 +473,6 @@ abstract class controller {
     }
 
     return ($this);  // chain
-
   }
 
   protected function page($params) {
