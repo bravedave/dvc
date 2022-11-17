@@ -25,5 +25,21 @@
     return `${o.name} <${o.email}>`;
   };
 
+  _.email.address = str => {
+
+    if ( (String(str).isEmail())) {
+
+      let r = {
+        email : str.replace(/(^[^<]*<|>$)/g, ''),
+        name : str.replace(/<[^>]*>$/g, '').trim()
+      };
+
+      if ( '' == r.name) r.name = r.email;
+      return r;
+    }
+
+    return false;
+  };
+
   _.email.rfc922 = _.email.rfc822;  // wft, oops blunder - have used this for a while
 })(_brayworth_);
