@@ -352,6 +352,10 @@ abstract class _dao {
     return ($this->Update($a, sprintf('WHERE id = %d', $id), $flushCache = false));
   }
 
+  /**
+   * runs a query and returns a dbResult object
+   * the opbject maybe a dvc\dbResult or a dvc\sqlite\dbResult
+   */
   public function Result($query) {
 
     $this->db->log = $this->log;

@@ -11,39 +11,43 @@
 namespace dvc;
 
 class dbResult {
-  var $result;
+
+  public ?\mysqli_result $result;
   protected $db = false;
 
   public function __construct(\mysqli_result  $result = null, dbi $db = null) {
-    if ($result)
-      $this->result = $result;
-    if ($db)
-      $this->db = $db;
+
+    if ($result) $this->result = $result;
+    if ($db) $this->db = $db;
   }
 
   public function __destruct() {
-    if ($this->result)
-      $this->result->free();
+
+    if ($this->result) $this->result->free();
   }
 
   public function data_seek($i = 0) {
-    if ($this->result)
-      $this->result->data_seek(0);
+
+    if ($this->result) $this->result->data_seek(0);
   }
 
   public function reset() {
+
     $this->data_seek(0);
   }
 
   public function fetch() {
-    return ($this->result->fetch_assoc());
+
+    return $this->result->fetch_assoc();
   }
 
   public function fetch_object() {
-    return ($this->result->fetch_object());
+
+    return $this->result->fetch_object();
   }
 
   public function dto($template = null) {
+
     if ($dto = $this->result->fetch_assoc()) {
       if (is_null($template))
         return (new dao\dto\dto($dto));
@@ -63,34 +67,40 @@ class dbResult {
      */
     $ret = [];
     if (is_callable($func)) {
+
       while ($dto = $this->dto($template)) {
-        if ($d = $func($dto)) {
-          $ret[] = $d;
-        }
+
+        if ($d = $func($dto)) $ret[] = $d;
       }
     } else {
+
       while ($dto = $this->dto($template)) {
+
         $ret[] = $dto;
       }
     }
 
-    return ($ret);
+    return $ret;
   }
 
   public function fetch_row() {
-    return ($this->result->fetch_row());
+
+    return $this->result->fetch_row();
   }
 
   public function num_rows() {
-    return ($this->result->num_rows);
+
+    return $this->result->num_rows;
   }
 
   public function num_fields() {
-    return ($this->result->field_count);
+
+    return $this->result->field_count;
   }
 
   public function fetch_fields() {
-    return ($this->result->fetch_fields());
+
+    return $this->result->fetch_fields();
   }
 
   public function csv($formatter = null) {
@@ -135,6 +145,7 @@ class dbResult {
   }
 
   public function report() {
+
     $tf = $this->num_fields();
 
     $tr = new html\tr;
@@ -172,6 +183,6 @@ class dbResult {
     $div->append($table);
     $div->append('span', sprintf('%d row(s)',  $i));
 
-    return ($div);
+    return $div;
   }
 }

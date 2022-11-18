@@ -226,7 +226,7 @@ class db {
     try {
 
       $dbResult = new dbResult($this->Q($query), $this);
-      return ($dbResult);
+      return $dbResult;
     } catch (\Exception $e) {
 
       throw new Exceptions\SQLException;
