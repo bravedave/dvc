@@ -45,6 +45,22 @@ class home extends Controller {
     parent::postHandler();
   }
 
+  public function accordion() {
+
+    if ('4' == config::$BOOTSTRAP_VERSION) {
+      $this->render([
+        'secondary' => ['aside'],
+        'navbar' => 'navbar-4',
+        'primary' => ['accordion-php']
+      ]);
+    } else {
+      $this->render([
+        'secondary' => ['aside'],
+        'primary' => ['accordion-php']
+      ]);
+    }
+  }
+
   public function pdo() {
 
     $pdo = new dvc\pdo\db;
