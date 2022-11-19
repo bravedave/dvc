@@ -8,50 +8,13 @@
  *
 */  ?>
 
-<ul class="nav flex-column">
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link js-<?= $_uid = strings::rand() ?>-alert" href="#">Alert</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link js-<?= $_uid ?>-toast" href="#">Toast</a>
-  </li>
-  <script>
-    (_ => {
-      $('.js-<?= $_uid ?>-alert').on('click', function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-
-        _.ask.alert({
-          text: 'how you doin ?',
-          buttons: {
-            'ok': function(e) {
-              this.modal('hide')
-            }
-          }
-        })
-      });
-
-      $('.js-<?= $_uid ?>-toast').on('click', function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-
-        _.growl( 'how you doin ?');
-        _.growl( { response:'nak',description:'how you doin ?'});
-        _.growl( { response:'ack',description:'great !!'});
-
-      });
-
-    })(_brayworth_);
-  </script>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
+<ul class="nav flex-column" id="<?= $_nav = strings::rand() ?>">
+  <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Active</a></li>
+  <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+  <li class="nav-item"><a class="nav-link js-alert" href="#">Alert</a></li>
+  <li class="nav-item"><a class="nav-link js-toast" href="#">Toast</a></li>
+  <li class="nav-item"><a class="nav-link js-toast" href="<?= strings::url($this->route . '/accordion') ?>">Accordion</a></li>
+  <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
 </ul>
 
 <h6 class="mt-2">Text Colors</h6>
@@ -77,3 +40,39 @@
   <div class="col bg-warning">&nbsp;</div>
   <div class="col bg-info">&nbsp;</div>
 </div>
+<script>
+  (_ => {
+    const nav = $('#<?= $_nav ?>');
+
+    nav.find('.js-alert').on('click', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+
+      _.ask.alert({
+        text: 'how you doin ?',
+        buttons: {
+          'ok': function(e) {
+            this.modal('hide')
+          }
+        }
+      })
+    });
+
+    nav.find('.js-toast').on('click', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+
+      _.growl('how you doin ?');
+      _.growl({
+        response: 'nak',
+        description: 'how you doin ?'
+      });
+      _.growl({
+        response: 'ack',
+        description: 'great !!'
+      });
+
+    });
+
+  })(_brayworth_);
+</script>
