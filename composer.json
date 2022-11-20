@@ -50,19 +50,19 @@
   },
   "scripts": {
     "bootstrap": [
-      "src/dvc/resource/dvc-sass-bootstrap-4.sh"
+      "bash src/dvc/resource/dvc-sass-bootstrap-4.sh"
     ],
     "bootstrap5": [
-      "src/dvc/resource/get-bootstrap-5.sh"
+      "bash src/dvc/resource/get-bootstrap-5.sh"
     ],
     "post-update-cmd": [
-      "src/dvc/resource/dvc-sass-bootstrap-4.sh",
-      "src/dvc/resource/get-bootstrap-5.sh",
-      "src/dvc/resource/get-bootstrap-icons.sh",
-      "src/dvc/resource/get-stimulus.sh"
+      "bash src/dvc/resource/dvc-sass-bootstrap-4.sh",
+      "bash src/dvc/resource/get-bootstrap-5.sh",
+      "bash src/dvc/resource/get-bootstrap-icons.sh",
+      "bash src/dvc/resource/get-stimulus.sh"
     ],
     "stimulus": [
-      "src/dvc/resource/get-stimulus.sh"
+      "bash src/dvc/resource/get-stimulus.sh"
     ],
     "start": "bash ./run.sh",
     "send-testmail": "tests\\tests::testmail"
