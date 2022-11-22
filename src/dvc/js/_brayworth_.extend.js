@@ -9,7 +9,7 @@
 /*jshint esversion: 6 */
 
 (_ => {
-  _.extend = args => {
+  _.extend = (...arguments) => {
     let ext = {};
     let deep = false;
     let i = 0;
