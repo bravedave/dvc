@@ -60,7 +60,7 @@ abstract class config {
    * to generate unique encyption for the local system
    **/
   static $CIPHER = 'aes-128-cbc';
-  static $CRYPT_IV = 'hdreWHuR'; // 8 bit IV
+  static $CRYPT_IV = 'hdreWHuRjkdftyhc'; // 8 bit IV
   static $CRYPT_KEY = 'E4Hhjgs4dfscnuyFFDDE562G'; // 24 bit Key
 
   static $VERSION = '0.0.0';
