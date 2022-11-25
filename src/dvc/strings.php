@@ -31,22 +31,31 @@ abstract class strings {
     return date($tailed ? 'h:i a' : 'h:i', strtotime($d));
   }
 
-  static public function asLocalDate($date, $time = false, $epoch = 0) {
-    if ((string)$date == '0000-00-00') {
-      return (false);
-    }
+  /**
+   * convert a ANSI type date to local format (as defined by the server)
+   *
+   * @param string $date ANSI date
+   * @param bool $time include the time
+   * @param float $epoch if specified, only consider dates > than this epoch year
+   *
+   * @return string the formated date
+   */
+  static public function asLocalDate(string $date, bool $time = false, float $epoch = 0): string {
 
-    if (($t = strtotime($date)) > (float)$epoch) {
-      // time should display if requested
-      // if ( $time && date( 'Y-m-d', $t) == date( 'Y-m-d')) {
+    if ((string)$date == '0000-00-00') return '';
+
+    if (($t = strtotime($date)) > $epoch) {
+
       if ($time) {
-        return (preg_replace('/m$/', '', date(\config::$DATETIME_FORMAT, $t)));
+
+        return preg_replace('/m$/', '', date(config::$DATETIME_FORMAT, $t));
       } else {
-        return (date(\config::$DATE_FORMAT, $t));
+
+        return date(config::$DATE_FORMAT, $t);
       }
     }
 
-    return false;
+    return '';
   }
 
   static public function asLocalPhone($_tel = '') {
