@@ -59,7 +59,6 @@ abstract class controller {
     $this->rootPath = $rootPath;
     $this->title = \config::$WEBNAME;
     $this->route = self::application()::route();
-    // $this->route = get_class( $this);
     if (is_null($this->label)) {
       $this->label = ucwords(get_class($this));
     }
