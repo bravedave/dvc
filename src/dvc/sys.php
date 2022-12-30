@@ -633,6 +633,7 @@ abstract class sys {
         ]);
       }
     } elseif ('css' == $type) {
+
       $themeFile = __DIR__ . '/resource/bootstrap.min.css';
       if ('blue' == \currentUser::option('theme')) {
         $themeFile = __DIR__ . '/resource/bootstrap-blue.min.css';
