@@ -22,7 +22,21 @@
   _.get.modal = url => new Promise(resolve => {
     if (!!url) {
       _.get(url).then(modal => {
+
+        if (_.bootstrap_version() >= 5) {
+
+          modal = modal
+            .replace(/data-dismiss/, 'data-bs-dismiss');
+        }
+
         let _modal = $(modal);
+
+        if (_.bootstrap_version() >= 5) {
+
+          _modal.find('.close')
+            .addClass('btn-close')
+            .removeClass('close').html('');
+        }
 
         if (_modal.hasClass('modal')) {
           _modal.appendTo('body');
@@ -35,12 +49,10 @@
           w.append(_modal).appendTo('body');
           _modal = $('.modal', w);
           _modal.on('hidden.bs.modal', e => w.remove());
-
         }
 
         _modal.modal('show');
         resolve(_modal);
-
       });
 
     }
@@ -52,9 +64,7 @@
       _modal.modal('show');
 
       resolve(_modal);
-
     }
-
   });
 
   _.get.script = url => new Promise(resolve => {
