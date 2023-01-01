@@ -241,7 +241,7 @@
   };
 
   $(document).ready(() => {
-    if (4 == _.bootstrap_version() && 'undefined' != typeof dayjs) {
+    if (_.bootstrap_version() >= 4 && 'undefined' != typeof dayjs) {
       $.fn.growl = _.growl = p => _.toaster(p);
     }
   });
