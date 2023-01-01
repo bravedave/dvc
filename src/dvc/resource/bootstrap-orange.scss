@@ -21,12 +21,15 @@ $theme-colors: (
 }
 
 @media (min-width: 768px) {
+
+  aside.bg-sidebar,
   div[data-role="content-secondary"].bg-sidebar {
     background-size: cover;
     background-position: center center;
     background-image: url(/images/theme-sidebar.jpg);
   }
 
+  aside.bg-sidebar,
   div[data-role="content-secondary"].bg-sidebar .sidebar {
     position: absolute;
     height: 100%;
