@@ -36,9 +36,10 @@
           _modal.find('.close')
             .addClass('btn-close')
             .removeClass('close')
+            .attr('data-bs-theme', 'dark')
             .html('');
 
-          _modal.find('.input-group-text').each( (i, el) => {
+          _modal.find('.input-group-text').each((i, el) => {
 
             let _el = $(el);
 
