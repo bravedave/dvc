@@ -65,21 +65,21 @@
 
       return new Promise(resolve => {
         let timestamp = _.dayjs();
-        let toast = $(`<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" data-delay="${options.delay}"></div>`);
+        let toast = $(`<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-${_.bootstrap_version() < 5 ? '' : 'bs-'}autohide="true" data-${_.bootstrap_version() < 5 ? '' : 'bs-'}delay="${options.delay}"></div>`);
         let header = $('<div class="toast-header"></div>').appendTo(toast);
 
         if (options.growlClass == 'error') {
-          header.append('<i class="bi bi-square-fill mr-2 text-danger"></i>');
+          header.append(`<i class="bi bi-square-fill ${_.bootstrap_version() < 5 ? 'mr' : 'me'}-2 text-danger"></i>`);
         }
         else {
-          header.append('<i class="bi bi-square-fill mr-2 text-success"></i>');
+          header.append(`<i class="bi bi-square-fill ${_.bootstrap_version() < 5 ? 'mr' : 'me'}-2 text-success"></i>`);
         }
 
-        let timer = $('<small class="text-muted ml-2">just now</small>')
+        let timer = $(`<small class="text-muted ${_.bootstrap_version() < 5 ? 'ml' : 'ms'}-2">just now</small>`)
         header
-          .append(`<strong class="mr-auto">${options.title}</strong>`)
+          .append(`<strong class="${_.bootstrap_version() < 5 ? 'mr' : 'me'}-auto">${options.title}</strong>`)
           .append(timer)
-          .append('<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+          .append(`<button type="button" class="ml-2 mb-1 close" data-${_.bootstrap_version() < 5 ? '' : 'bs -'}dismiss="toast" aria-label="Close"><span aria-hidden="true">&times;</span></button>`);
 
         toast.append(`<div class="toast-body">${options.text}</div>`);
 
