@@ -46,6 +46,14 @@
               _me.removeClass('input-group-text');
             }
           });
+
+          _modal.find('.text-left')
+            .removeClass('text-left')
+            .addClass('text-start');
+
+          _modal.find('.text-right')
+            .removeClass('text-right')
+            .addClass('text-end');
         }
 
         if (_modal.hasClass('modal')) {
