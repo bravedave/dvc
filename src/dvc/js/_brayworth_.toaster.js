@@ -78,8 +78,13 @@
         let timer = $(`<small class="text-muted ${_.bootstrap_version() < 5 ? 'ml' : 'ms'}-2">just now</small>`)
         header
           .append(`<strong class="${_.bootstrap_version() < 5 ? 'mr' : 'me'}-auto">${options.title}</strong>`)
-          .append(timer)
-          .append(`<button type="button" class="ml-2 mb-1 close" data-${_.bootstrap_version() < 5 ? '' : 'bs -'}dismiss="toast" aria-label="Close"><span aria-hidden="true">&times;</span></button>`);
+          .append(timer);
+        if (_.bootstrap_version() < 5) {
+          header.append(`<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close"><span aria-hidden="true">&times;</span></button>`);
+        }
+        else {
+          header.append(`<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>`);
+        }
 
         toast.append(`<div class="toast-body">${options.text}</div>`);
 
