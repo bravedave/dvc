@@ -40,10 +40,12 @@
 
           _modal.find('.input-group-text').each( (i, el) => {
 
-            if (_modal.parent().hasClass('input-group-append') || _modal.parent().hasClass('input-group-prepend')) {
+            let _el = $(el);
 
-              _modal.parent().removeClass('input-group-append input-group-prepend').addClass('input-group-text');
-              _modal.removeClass('input-group-text');
+            if (_el.parent().hasClass('input-group-append') || _el.parent().hasClass('input-group-prepend')) {
+
+              _el.parent().removeClass('input-group-append input-group-prepend').addClass('input-group-text');
+              _el.removeClass('input-group-text');
             }
           });
 
