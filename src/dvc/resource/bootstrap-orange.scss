@@ -29,7 +29,7 @@ $theme-colors: (
     background-image: url(/images/theme-sidebar.jpg);
   }
 
-  aside.bg-sidebar,
+  aside.bg-sidebar .sidebar,
   div[data-role="content-secondary"].bg-sidebar .sidebar {
     position: absolute;
     height: 100%;
