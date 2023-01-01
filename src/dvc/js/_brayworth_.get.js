@@ -40,10 +40,10 @@
 
           _modal.find('.input-group-text').each( (i, el) => {
 
-            if ( _me.parent().hasClass('input-group-append') || _me.parent().hasClass('input-group-prepend')) {
+            if (_modal.parent().hasClass('input-group-append') || _modal.parent().hasClass('input-group-prepend')) {
 
-              _me.parent().removeClass('input-group-append input-group-prepend').addClass('input-group-text');
-              _me.removeClass('input-group-text');
+              _modal.parent().removeClass('input-group-append input-group-prepend').addClass('input-group-text');
+              _modal.removeClass('input-group-text');
             }
           });
 
