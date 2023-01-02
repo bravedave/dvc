@@ -79,41 +79,70 @@ if (!window._brayworth_) {
     maximumFractionDigits: fractions
   });
 
-  _.bootstrap_version = () => {
-    if (undefined != window.bootstrap) {
-      if (!!bootstrap.Alert) {
-        if (/^5/.test(bootstrap.Alert.VERSION)) {
-          return 5;
+  _.bootstrap = {
 
+    v4: {
+      v5: html => {
+
+        html = String(html).replace(/data-dismiss/, 'data-bs-dismiss');
+
+        let o = $(html);
+
+        o.find('.close')
+          .addClass('btn-close')
+          .removeClass('close')
+          .html('');
+
+        o.find('.btn-close').parent().attr('data-bs-theme', 'dark')
+
+        o.find('.input-group-text').each((i, el) => {
+
+          let _el = $(el);
+          let parent = _el.parent();
+
+          _el.unwrap();
+          parent.remove();
+        });
+
+        o.find('.text-left')
+          .removeClass('text-left')
+          .addClass('text-start');
+
+        o.find('.text-right')
+          .removeClass('text-right')
+          .addClass('text-end');
+
+        let s = o[0].outerHTML;
+
+        console.log( `converted ${s.length}`);
+        return s;
+      }
+    },
+    version: () => {
+
+      if (undefined != window.bootstrap) {
+
+        if (!!bootstrap.Alert) {
+
+          if (/^5/.test(bootstrap.Alert.VERSION)) return 5;
+          if (/^4/.test(bootstrap.Alert.VERSION)) return 4;
+          if (/3/.test(bootstrap.Alert.VERSION)) return 3;
         }
-        else if (/^4/.test(bootstrap.Alert.VERSION)) {
-          return 4;
-
-        }
-        else if (/3/.test(bootstrap.Alert.VERSION)) {
-          return 3;
-
-        }
-
       }
 
+      return 0;
     }
-
-    return 0;
-
   };
 
+  _.bootstrap_version = _.bootstrap.version;
   _.bootstrap_version.extended = () => {
+
     if (undefined != window.bootstrap) {
-      if (!!bootstrap.Alert) {
-        return bootstrap.Alert.VERSION;
 
-      }
-
+      if (!!bootstrap.Alert) return bootstrap.Alert.VERSION;
     }
 
     return 0;
-
   };
 
   _.REMtoPX = i => {

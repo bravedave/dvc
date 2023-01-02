@@ -23,42 +23,44 @@
     if (!!url) {
       _.get(url).then(modal => {
 
-        if (_.bootstrap_version() >= 5) {
+        let _modal = $(_.bootstrap.version() < 5 ? modal : _.bootstrap.v4.v5(modal));
 
-          modal = modal
-            .replace(/data-dismiss/, 'data-bs-dismiss');
-        }
+        // if () {
 
-        let _modal = $(modal);
+        //   modal = modal
+        //     .replace(/data-dismiss/, 'data-bs-dismiss');
+        // }
 
-        if (_.bootstrap_version() >= 5) {
+        // let _modal = $(modal);
 
-          _modal.find('.close')
-            .addClass('btn-close')
-            .removeClass('close')
-            .html('');
+        // if (_.bootstrap_version() >= 5) {
 
-          _modal.find('.btn-close').parent().attr('data-bs-theme', 'dark')
+        //   _modal.find('.close')
+        //     .addClass('btn-close')
+        //     .removeClass('close')
+        //     .html('');
 
-          _modal.find('.input-group-text').each((i, el) => {
+        //   _modal.find('.btn-close').parent().attr('data-bs-theme', 'dark')
 
-            let _el = $(el);
+        //   _modal.find('.input-group-text').each((i, el) => {
 
-            if (_el.parent().hasClass('input-group-append') || _el.parent().hasClass('input-group-prepend')) {
+        //     let _el = $(el);
 
-              _el.parent().removeClass('input-group-append input-group-prepend').addClass('input-group-text');
-              _el.removeClass('input-group-text');
-            }
-          });
+        //     if (_el.parent().hasClass('input-group-append') || _el.parent().hasClass('input-group-prepend')) {
 
-          _modal.find('.text-left')
-            .removeClass('text-left')
-            .addClass('text-start');
+        //       _el.parent().removeClass('input-group-append input-group-prepend').addClass('input-group-text');
+        //       _el.removeClass('input-group-text');
+        //     }
+        //   });
 
-          _modal.find('.text-right')
-            .removeClass('text-right')
-            .addClass('text-end');
-        }
+        //   _modal.find('.text-left')
+        //     .removeClass('text-left')
+        //     .addClass('text-start');
+
+        //   _modal.find('.text-right')
+        //     .removeClass('text-right')
+        //     .addClass('text-end');
+        // }
 
         if (_modal.hasClass('modal')) {
           _modal.appendTo('body');
