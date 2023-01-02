@@ -43,47 +43,45 @@ abstract class sys {
     return '';
   }
 
-  public static function bootStrap_version(): \stdClass {
-    $ret = (object)[
-      'version' => 0,
-      'short' => 0,
-      'major' => 0,
+  // public static function bootStrap_version(): \stdClass {
+  //   $ret = (object)[
+  //     'version' => 0,
+  //     'short' => 0,
+  //     'major' => 0,
+  //   ];
 
-    ];
+  //   if ($root = self::_twbs_dir()) {
 
-    if ($root = self::_twbs_dir()) {
-      $path = realpath(
-        implode(
-          DIRECTORY_SEPARATOR,
-          [
-            $root,
-            'bootstrap',
-            'package.json'
+  //     $path = realpath(
+  //       implode(
+  //         DIRECTORY_SEPARATOR,
+  //         [
+  //           $root,
+  //           'bootstrap',
+  //           'package.json'
+  //         ]
+  //       )
+  //     );
 
-          ]
+  //     if (\file_exists($path)) {
 
-        )
+  //       if ($j = @json_decode(\file_get_contents($path))) {
+  //         $ret->version = $j->version;
 
-      );
+  //         $short = $j->version;
+  //         if (isset($j->version_short)) {
+  //           $ret->short = $j->version_short;
+  //         } elseif (isset($j->config->version_short)) {
+  //           $ret->short = $j->config->version_short;
+  //         };
 
-      if (\file_exists($path)) {
-        if ($j = @json_decode(\file_get_contents($path))) {
-          $ret->version = $j->version;
+  //         $ret->major = (int)$short;
+  //       }
+  //     }
+  //   }
 
-          $short = $j->version;
-          if (isset($j->version_short)) {
-            $ret->short = $j->version_short;
-          } elseif (isset($j->config->version_short)) {
-            $ret->short = $j->config->version_short;
-          };
-
-          $ret->major = (int)$short;
-        }
-      }
-    }
-
-    return $ret;
-  }
+  //   return $ret;
+  // }
 
   public static function dbi() {
     if (is_null(self::$_dbi)) {
@@ -634,41 +632,39 @@ abstract class sys {
       }
     } elseif ('css' == $type) {
 
-      $themeFile = __DIR__ . '/resource/bootstrap.min.css';
+      $themeFile = __DIR__ . '/css/bootstrap4/bootstrap.min.css';
       if ('blue' == \currentUser::option('theme')) {
-        $themeFile = __DIR__ . '/resource/bootstrap-blue.min.css';
+        $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-blue.min.css';
       } elseif ('orange' == \currentUser::option('theme')) {
-        $themeFile = __DIR__ . '/resource/bootstrap-orange.min.css';
+        $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-orange.min.css';
       } elseif ('pink' == \currentUser::option('theme')) {
-        $themeFile = __DIR__ . '/resource/bootstrap-pink.min.css';
+        $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-pink.min.css';
       } elseif ('blue' == \config::$THEME) {
-        $themeFile = __DIR__ . '/resource/bootstrap-blue.min.css';
+        $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-blue.min.css';
       } elseif ('orange' == \config::$THEME) {
-        $themeFile = __DIR__ . '/resource/bootstrap-orange.min.css';
+        $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-orange.min.css';
       } elseif ('pink' == \config::$THEME) {
-        $themeFile = __DIR__ . '/resource/bootstrap-pink.min.css';
+        $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-pink.min.css';
       }
       if ($lib = realpath($themeFile)) {
+
         self::serve($lib);
       } else {
+
         // \sys::logger(sprintf('<cannot locate bootstrap_css_file> <%s> %s', __DIR__, __METHOD__));
         \sys::logger(sprintf('<cannot locate bootstrap_css_file> <%s> %s', $themeFile, __METHOD__));
       }
     } elseif ('js' == $type) {
-      if ($lib = realpath(self::_twbs_dir() . '/bootstrap/dist/js/bootstrap.bundle.min.js')) {
-        // \sys::logger(sprintf('<%s> %s', $lib, __METHOD__));
+
+      if ($lib = realpath(__DIR__ . '/js/bootstrap5/bootstrap.bundle.min.js')) {
+
         self::serve($lib);
       } else {
-        \sys::logger(sprintf('<cannot locate bootstrap_css_file> %s', __METHOD__));
-      }
-    } elseif ('bootstrap.bundle.min.js.map' == $type) {
-      if ($lib = realpath(self::_twbs_dir() . '/bootstrap/dist/js/bootstrap.bundle.min.js.map')) {
-        // \sys::logger(sprintf('<%s> %s', $lib, __METHOD__));
-        self::serve($lib);
-      } else {
-        \sys::logger(sprintf('<cannot locate bootstrap_js_map> %s', __METHOD__));
+
+        \sys::logger(sprintf('<cannot locate bootstrap.bundle.min.js> %s', __METHOD__));
       }
     } else {
+
       \sys::logger(sprintf('<%s> %s', $type, __METHOD__));
     }
   }
@@ -676,19 +672,19 @@ abstract class sys {
   public static function serveBootStrap5($type = 'css') {
 
     if ('css' == $type) {
-      $lib = __DIR__ . '/resource/bootstrap5/bootstrap.min.css';
+      $lib = __DIR__ . '/css/bootstrap5/bootstrap.min.css';
       if ('blue' == \currentUser::option('theme')) {
-        $lib = __DIR__ . '/resource/bootstrap5/bootstrap-blue.min.css';
+        $lib = __DIR__ . '/css/bootstrap5/bootstrap-blue.min.css';
       } elseif ('orange' == \currentUser::option('theme')) {
-        $lib = __DIR__ . '/resource/bootstrap5/bootstrap-orange.min.css';
+        $lib = __DIR__ . '/css/bootstrap5/bootstrap-orange.min.css';
       } elseif ('pink' == \currentUser::option('theme')) {
-        $lib = __DIR__ . '/resource/bootstrap5/bootstrap-pink.min.css';
+        $lib = __DIR__ . '/css/bootstrap5/bootstrap-pink.min.css';
       } elseif ('blue' == \config::$THEME) {
-        $lib = __DIR__ . '/resource/bootstrap5/bootstrap-blue.min.css';
+        $lib = __DIR__ . '/css/bootstrap5/bootstrap-blue.min.css';
       } elseif ('orange' == \config::$THEME) {
-        $lib = __DIR__ . '/resource/bootstrap5/bootstrap-orange.min.css';
+        $lib = __DIR__ . '/css/bootstrap5/bootstrap-orange.min.css';
       } elseif ('pink' == \config::$THEME) {
-        $lib = __DIR__ . '/resource/bootstrap5/bootstrap-pink.min.css';
+        $lib = __DIR__ . '/css/bootstrap5/bootstrap-pink.min.css';
       }
       // \sys::logger(sprintf('<%s> %s', $lib, __METHOD__));
       self::serve($lib);
@@ -697,7 +693,7 @@ abstract class sys {
       // \sys::logger( sprintf('<%s> %s', $lib, __METHOD__));
       self::serve($lib);
     } elseif ('js' == $type) {
-      $lib = sprintf('%s/resource/bootstrap5/js/bootstrap.bundle.min.js', __DIR__);
+      $lib = sprintf('%s/js/bootstrap5/bootstrap.bundle.min.js', __DIR__);
       // \sys::logger( sprintf('<%s> %s', $lib, __METHOD__));
       self::serve($lib);
     }

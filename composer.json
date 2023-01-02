@@ -27,7 +27,6 @@
     "tijsverkoyen/css-to-inline-styles": "^2.2",
     "erusev/parsedown": "^1.7",
     "giggsey/libphonenumber-for-php": "^8.11",
-    "twbs/bootstrap": "<5",
     "phpmailer/phpmailer": "^6.1",
     "twbs/bootstrap-icons": "^1.7",
     "tinymce/tinymce": "^6.1",
@@ -49,15 +48,15 @@
     }
   },
   "scripts": {
-    "bootstrap": [
-      "bash src/dvc/resource/dvc-sass-bootstrap-4.sh"
+    "bootstrap4": [
+      "bash src/dvc/resource/dvc-bootstrap-4.sh"
     ],
     "bootstrap5": [
-      "bash src/dvc/resource/get-bootstrap-5.sh"
+      "bash src/dvc/resource/dvc-bootstrap-5.sh"
     ],
     "post-update-cmd": [
-      "bash src/dvc/resource/dvc-sass-bootstrap-4.sh",
-      "bash src/dvc/resource/get-bootstrap-5.sh",
+      "bash src/dvc/resource/dvc-bootstrap-4.sh",
+      "bash src/dvc/resource/dvc-bootstrap-5.sh",
       "bash src/dvc/resource/get-bootstrap-icons.sh",
       "bash src/dvc/resource/get-stimulus.sh"
     ],

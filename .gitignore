@@ -2,9 +2,6 @@
 .vscode
 autoload-local-path.php
 example/application/app/public/
-src/dvc/resource/bootstrap4
-src/dvc/resource/bootstrap4.bak
-src/dvc/resource/bootstrap-4.tmp
 src/dvc/resource/bootstrap5/scss
 src/dvc/resource/bootstrap-5.tmp
 src/dvc/resource/bootstrap-icons.tmp

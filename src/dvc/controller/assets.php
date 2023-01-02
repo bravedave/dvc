@@ -49,11 +49,6 @@ class assets extends Controller {
 
       $lib = 'dvc-4';
       $_files = cssmin::$dvc4Files;
-      // if ( sys::bootStrap_version()->major >= 5) {
-      //   $lib = 'dvc-5';
-      //   $_files[] = 'css/brayworth.bootstrap4.polyfill.css';
-
-      // }
 
       foreach ($_files as $f) {
         $path = sprintf('%s/../%s', __DIR__, $f);
