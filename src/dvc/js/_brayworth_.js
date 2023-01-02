@@ -100,13 +100,13 @@ if (!window._brayworth_) {
           let _el = $(el);
           let parent = _el.parent();
 
-          if (parent.hasClass('input-group-append') || parent.hasClass('input-group-prepend')) {
+          // if (parent.hasClass('input-group-append') || parent.hasClass('input-group-prepend')) {
 
-            parent.removeClass('input-group-append input-group-prepend').addClass('input-group-text');
-            _el.removeClass('input-group-text');
-          }
-          // _el.unwrap();
-          // parent.remove();
+          //   parent.removeClass('input-group-append input-group-prepend').addClass('input-group-text');
+          //   _el.removeClass('input-group-text');
+          // }
+          _el.unwrap();
+          parent.remove();
         });
 
         o.find('.text-left')
