@@ -17,14 +17,12 @@ use dvc\core\bs;
 
 class bootstrap4 extends bootstrap {
 
-	function __construct( $title = '' ) {
-		bs::$VERSION = \config::$BOOTSTRAP_VERSION = '4';
-		self::$Bootstrap_Version = '4';
+  function __construct($title = '') {
+    bs::$VERSION = \config::$BOOTSTRAP_VERSION = '4';
+    self::$Bootstrap_Version = '4';
 
-		parent::__construct( $title );
+    parent::__construct($title);
 
-		$this->topOfPage = [];
-
-	}
-
+    $this->topOfPage = [];
+  }
 }
