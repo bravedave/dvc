@@ -114,7 +114,6 @@ if (!window._brayworth_) {
 
         let s = o[0].outerHTML;
 
-        console.log( `converted ${s.length}`);
         return s;
       }
     },
