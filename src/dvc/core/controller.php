@@ -107,6 +107,7 @@ abstract class controller {
     }
 
     $this->authorized = $this->authorised;  // american spelling accepted (doh)
+    $this->data = (object)[];
 
     if ($this->RequireValidation) {
 
