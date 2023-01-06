@@ -33,6 +33,7 @@ abstract class controller {
   public $title;
   public $debug = false;
 
+  protected $data;
   protected $RequireValidation = true;
   protected $Redirect_OnLogon = false;
   protected $label = null;
