@@ -33,6 +33,7 @@ abstract class controller {
   public $title;
   public $debug = false;
 
+  protected $data;
   protected $RequireValidation = true;
   protected $Redirect_OnLogon = false;
   protected $label = null;
@@ -106,6 +107,7 @@ abstract class controller {
     }
 
     $this->authorized = $this->authorised;  // american spelling accepted (doh)
+    $this->data = (object)[];
 
     if ($this->RequireValidation) {
 

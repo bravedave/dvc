@@ -5,11 +5,21 @@
  *
  * MIT License
  *
- * sorttype: 'string' | 'numberic'
  * */
 (_ => {
   _.table = {
-    'installSorting': table => {
+
+    _line_numbers_: function (e) {
+      let table = $(this);
+      let t = 0;
+      table.find('> tbody > tr:not(.d-none) >td.js-line-number').each((i, e) => {
+        $(e).data('line', i + 1).html(i + 1);
+        t++;
+      });
+      table.find('> thead > tr > .js-line-number').data('count', t).html(t);
+    },
+
+    installSorting: table => {
       $(table).find('thead > tr > td[data-role="sort-header"]')
         .each((i, el) => $(el)
           .addClass('pointer')
@@ -17,7 +27,7 @@
           .on('click.tablesort', _.table.sort));
     },
 
-    'sortOn': (table, key, sorttype, order) => new Promise((resolve, reject) => {
+    sortOn: (table, key, sorttype, order) => new Promise((resolve, reject) => {
       // var debug = true;
       let debug = false;
       let tbody = $('tbody', table);
@@ -82,7 +92,7 @@
       resolve(table);
     }),
 
-    'sort': function (e) {
+    sort: function (e) {
       if ('undefined' != typeof e && !!e.target) e.stopPropagation();
 
       _.hideContexts();
@@ -96,5 +106,5 @@
       if (!table) return;
       return _.table.sortOn(table, _data.key, _data.sorttype);	//~ console.log( key );
     }
-  };
+  }
 })(_brayworth_);
