@@ -107,4 +107,4 @@
       return _.table.sortOn(table, _data.key, _data.sorttype);	//~ console.log( key );
     }
   }
-})(_esse_);
+})(_brayworth_);
