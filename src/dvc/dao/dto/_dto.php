@@ -11,6 +11,9 @@
 namespace dvc\dao\dto;
 
 class _dto {
+
+  public $id = 0;
+
   public function __construct($row = null) {
     $this->populate($row);
   }
