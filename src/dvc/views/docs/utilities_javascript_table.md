@@ -37,13 +37,13 @@ This utility consists of two parts
 
 ```javascript
 $(document).ready(() => {
+
 	$('thead>tr>td[data-role="sort-header"]').each( ( i, el) => {
+
 		$(el)
 		.addClass('pointer')
 		.on('click', _brayworth_.table.sort);
-
 	});
-
 });
 ```
 
