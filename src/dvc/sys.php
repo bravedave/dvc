@@ -10,7 +10,7 @@
 
 namespace dvc;
 
-use Monolog\Logger;
+use Monolog\Logger as MonoLogger;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\{
   ErrorLogHandler,
@@ -216,8 +216,11 @@ abstract class sys {
   }
 
   public static function logger($v, $level = 0) {
+
     if ((int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel) {
-      error_log($v);
+      // error_log($v);
+      // error_log($v);
+      logger::info( $v);
     }
   }
 
@@ -320,7 +323,7 @@ abstract class sys {
       if ($mailer = sendmail::mailer()) {
         if (!self::$_monologEmail) {
 
-          self::$_monologEmail = new Logger(\config::$WEBNAME);
+          self::$_monologEmail = new MonoLogger(\config::$WEBNAME);
 
           $email = sendmail::email();
           $email->to(sendmail::address(\config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME));
@@ -328,7 +331,7 @@ abstract class sys {
           $emailHandler = new SymfonyMailerHandler($mailer, $email);
           // $formatter = new LineFormatter("%channel%.%level_name%: %message% %context%");
           // $emailHandler->setFormatter($formatter);
-          $emailHandler->pushProcessor(new IntrospectionProcessor(Logger::DEBUG, [
+          $emailHandler->pushProcessor(new IntrospectionProcessor(MonoLogger::DEBUG, [
             'errsys'
           ]));
           self::$_monologEmail->pushHandler($emailHandler);
@@ -347,10 +350,10 @@ abstract class sys {
       if (!self::$_monolog) {
 
         // $path = sprintf('%s/application.log', \config::dataPath());
-        self::$_monolog = new Logger('dvc');
-        // self::$_monolog->pushHandler(new StreamHandler($path, Logger::WARNING));
+        self::$_monolog = new MonoLogger('dvc');
+        // self::$_monolog->pushHandler(new StreamHandler($path, MonoLogger::WARNING));
 
-        // $syslog = new SyslogHandler(\config::$WEBNAME, LOG_USER, Logger::DEBUG, true, LOG_CONS);
+        // $syslog = new SyslogHandler(\config::$WEBNAME, LOG_USER, MonoLogger::DEBUG, true, LOG_CONS);
         // $formatter = new LineFormatter("%channel%.%level_name%: %message% %context% %extra%");
 
         $syslog = new ErrorLogHandler;
@@ -756,7 +759,7 @@ abstract class sys {
 
         if (\config::$TELEGRAM_API_KEY && \config::$TELEGRAM_CHAT_ID) {
 
-          self::$_telegram_error = new Logger('dvc');
+          self::$_telegram_error = new MonoLogger('dvc');
           $telegramHandler = new TelegramBotHandler(
             \config::$TELEGRAM_API_KEY,
             \config::$TELEGRAM_CHAT_ID
@@ -764,7 +767,7 @@ abstract class sys {
 
           $formatter = new LineFormatter("%channel%.%level_name%: %message%\n%extra%");
           $telegramHandler->setFormatter($formatter);
-          $telegramHandler->pushProcessor(new IntrospectionProcessor(Logger::DEBUG, [
+          $telegramHandler->pushProcessor(new IntrospectionProcessor(MonoLogger::DEBUG, [
             'errsys'
           ]));
           self::$_telegram_error->pushHandler($telegramHandler);
@@ -780,7 +783,7 @@ abstract class sys {
 
         if (\config::$TELEGRAM_API_KEY && \config::$TELEGRAM_CHAT_ID) {
 
-          self::$_telegram = new Logger('dvc');
+          self::$_telegram = new MonoLogger('dvc');
           $telegramHandler = new TelegramBotHandler(
             \config::$TELEGRAM_API_KEY,
             \config::$TELEGRAM_CHAT_ID
