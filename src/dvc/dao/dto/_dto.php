@@ -8,7 +8,7 @@
  *
 */
 
-#[AllowDynamicProperties]
+// #[AllowDynamicProperties]
 namespace dvc\dao\dto;
 
 class _dto {
