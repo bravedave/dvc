@@ -84,7 +84,7 @@ if (!window._brayworth_) {
     v4: {
       v5: html => {
 
-        html = String(html).replace(/data-dismiss/, 'data-bs-dismiss');
+        html = String(html).replace(/data-dismiss/g, 'data-bs-dismiss');
 
         let o = $(html);
 
