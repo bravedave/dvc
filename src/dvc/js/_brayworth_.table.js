@@ -105,6 +105,57 @@
       let table = _me.closest('table');
       if (!table) return;
       return _.table.sortOn(table, _data.key, _data.sorttype);	//~ console.log( key );
+    },
+
+    search: (ctrl, table) => {
+
+      ctrl[0].dataset.srchIdx = 0;
+      ctrl.data('table', table);
+
+      ctrl
+        .on('blur', function (e) {
+
+          if (_.browser.isMobileDevice) return;
+          if (this.hasAttribute('accesskey')) {
+
+            this.setAttribute('placeholder', `alt + ${this.getAttribute('accesskey')} to focus`);
+          }
+        })
+        .on('focus', function (e) {
+
+          this.setAttribute('placeholder', _.browser.isMobileDevice ? 'search ..' : 'type to search ..');
+        })
+        .on('keyup', function (e) {
+
+          if (13 == e.keyCode) return;
+          ++this.dataset.srchIdx;
+          setTimeout(() => $(this).trigger('search'), 400);
+        })
+        .on('search', function (e) {
+          let idx = ++this.dataset.srchIdx;
+          let txt = this.value;
+
+          let _me = $(this);
+          let table = _me.data('table');
+
+          table.find('> tbody > tr').each((i, tr) => {
+            if (idx != this.dataset.srchIdx) return false;
+
+            let _tr = $(tr);
+            let str = _tr.text()
+            if (str.match(new RegExp(txt, 'gi'))) {
+
+              _tr.removeClass('d-none');
+            } else {
+
+              _tr.addClass('d-none');
+            }
+          });
+
+          table.trigger('update-line-numbers');
+        });
+
+      return ctrl;
     }
   }
 })(_brayworth_);
