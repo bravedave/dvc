@@ -25,47 +25,10 @@
 
         let _modal = $(_.bootstrap.version() < 5 ? modal : _.bootstrap.v4.v5(modal));
 
-        // if () {
-
-        //   modal = modal
-        //     .replace(/data-dismiss/, 'data-bs-dismiss');
-        // }
-
-        // let _modal = $(modal);
-
-        // if (_.bootstrap_version() >= 5) {
-
-        //   _modal.find('.close')
-        //     .addClass('btn-close')
-        //     .removeClass('close')
-        //     .html('');
-
-        //   _modal.find('.btn-close').parent().attr('data-bs-theme', 'dark')
-
-        //   _modal.find('.input-group-text').each((i, el) => {
-
-        //     let _el = $(el);
-
-        //     if (_el.parent().hasClass('input-group-append') || _el.parent().hasClass('input-group-prepend')) {
-
-        //       _el.parent().removeClass('input-group-append input-group-prepend').addClass('input-group-text');
-        //       _el.removeClass('input-group-text');
-        //     }
-        //   });
-
-        //   _modal.find('.text-left')
-        //     .removeClass('text-left')
-        //     .addClass('text-start');
-
-        //   _modal.find('.text-right')
-        //     .removeClass('text-right')
-        //     .addClass('text-end');
-        // }
-
         if (_modal.hasClass('modal')) {
+
           _modal.appendTo('body');
           _modal.on('hidden.bs.modal', e => _modal.remove());
-
         }
         else {
           let w = $('<div></div>');

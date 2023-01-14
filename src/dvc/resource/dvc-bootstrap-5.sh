@@ -20,7 +20,8 @@ if [ -x "$(command -v sassc)" ]; then
     [ -d bootstrap5 ] || mkdir bootstrap5
     echo \*>bootstrap5/.gitignore
 
-    composer req --working-dir=bootstrap5 twbs/bootstrap "^5"
+    # composer req --working-dir=bootstrap5 twbs/bootstrap "^5"
+    composer req --working-dir=bootstrap5 twbs/bootstrap "dev-main"
 
     php bootstrap5JS.php
     cd bootstrap5
