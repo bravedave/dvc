@@ -6,45 +6,48 @@
  * MIT License
  *
  * */
-/*jshint esversion: 6 */
-var hourglass = _brayworth_.hourglass = {
-	h : false,
+(_ => {
+  window.hourglass = _.hourglass = {
+    h: false,
 
-	on  : function( msg) {
-		let _me = this;
+    on: function (msg) {
+      let _me = this;
 
-		if ( _me.h) _me.off();
+      if (!!_me.h) _me.off();
 
-		return new Promise( resolve => {
-      let inner = $('<i class="spinner-border text-white" style="position: fixed; top: 50%; left: 48%; width: 3rem; height: 3rem;"></i>');
-			if (!!msg) {
-				inner = $('<h1 class="p-4 text-white text-center" style="position: fixed; top: 50%; width: 100%"></h1>')
-					.html( msg)
-          .append('<i class="spinner-grow text-white ml-2 mb-2"></i>');
+      return new Promise(resolve => {
+        let bv = _.bootstrap.version();
 
-			}
+        _me.h = $(`<div class="modal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <div class="d-flex text-center">
+                    ${!!msg ? `<h1 class="py-2 ${bv < 5 ? 'mr' : 'me'}-auto">${msg}</h1>` : ''}
+                    <i class="spinner-border my-2"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`)
+          .appendTo('body');
 
-			_me.h = $('<div class="modal"></div>')
-				.append( inner)
-				.appendTo( 'body')
-				.css('display', 'block');
+        _me.h.on('hidden.bs.modal', function (e) { $(this).remove(); });
+        _me.h.modal('show');
+        resolve(_me);
+      })
+    },
 
-			resolve (_me);
+    off: function () {
+      let _me = this;
 
-		})
+      return new Promise((resolve, reject) => {
 
-	},
+        if (!!_me.h) _me.h.modal('hide');
+        _me.h = false;
+        resolve(_me);
+      });
+    }
+  };
 
-	off : function() {
-		let _me = this;
-
-		return new Promise((resolve, reject) => {
-			if ( _me.h ) _me.h.remove();	// vaporised
-			_me.h = false;
-			resolve(_me);
-
-		});
-
-	}
-
-};
+})(_brayworth_);
