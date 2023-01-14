@@ -80,13 +80,7 @@ class assets extends Controller {
 
       Response::javascript_headers();
       printf('( _ => {%s}) (_brayworth_);', implode($a));
-    } elseif ('stimulus' == $type) {
-      jslib::viewjs([
-        'debug' => false,
-        'libName' => 'brayworth_stimulus',
-        'jsFiles' => [__DIR__ . '/../js/stimulus.js'],
-        'libFile' => config::tempdir()  . '_stimulus.js'
-      ]);
+
     } else {
       // sys::dump( \jslib::$brayworthlibFiles);
       $files = [];

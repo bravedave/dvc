@@ -57,11 +57,7 @@
     "post-update-cmd": [
       "bash src/dvc/resource/dvc-bootstrap-4.sh",
       "bash src/dvc/resource/dvc-bootstrap-5.sh",
-      "bash src/dvc/resource/get-bootstrap-icons.sh",
-      "bash src/dvc/resource/get-stimulus.sh"
-    ],
-    "stimulus": [
-      "bash src/dvc/resource/get-stimulus.sh"
+      "bash src/dvc/resource/get-bootstrap-icons.sh"
     ],
     "start": "bash ./run.sh",
     "send-testmail": "tests\\tests::testmail"
