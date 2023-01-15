@@ -22,9 +22,9 @@
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-body">
-                  <div class="d-flex text-center">
-                    ${!!msg ? `<h1 class="py-2 ${bv < 5 ? 'mr' : 'me'}-auto">${msg}</h1>` : ''}
-                    <i class="spinner-border my-2"></i>
+                  <div class="d-flex text-center py-2">
+                    ${!!msg ? `<h1 class="py-0 ${bv < 5 ? 'mr' : 'me'}-auto">${msg}</h1>` : ''}
+                    <i class="ml-auto spinner-border my-2" style="width: 3rem; height: 3rem;"></i>
                   </div>
                 </div>
               </div>
