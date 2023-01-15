@@ -8,7 +8,16 @@
  * */
 (_ => {
 
-  _.context = () => {
+  _.context = e => {
+
+    if (!!e) {
+
+      e.stopPropagation();
+      e.preventDefault();
+    }
+
+    _.hideContexts();
+
     let cx = {
       root: $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
       items: [],
@@ -258,10 +267,7 @@
           .on( 'contextmenu', function( e) {
             if ( e.shiftKey) return;
 
-            e.stopPropagation();e.preventDefault();
-            _.hideContexts();
-
-            let ctx = _.context();
+            let ctx = _.context(e); // hides any open contexts and stops bubbling
             ctx.append.a({
               html : 'hello',
               click: e =>  _.ask({text:'hello'})
@@ -305,54 +311,6 @@
 
     return cx;
   };
-
-  // _.contextX = () => {
-  //   let _ctx = $('<div class="dropdown-menu" data-role="contextmenu"></div>');
-
-  //   _ctx.extend({
-  //     addClose: function () {
-  //       let _context = this;
-  //       this.append('<div class="dropdown-divider"></div>');
-
-  //       $('<a class="dropdown-item">close</a>')
-  //         .appendTo(this)
-  //         .on('click', e => _context.close());
-
-  //       return this;
-
-  //     },
-
-  //     close: function (e) {
-  //       this
-  //         .closest('[data-role="contextmenu"]')
-  //         .remove();
-  //     },
-
-  //     open: function (e) {
-  //       $('[data-role="contextmenu"]').remove();
-
-  //       let offsets = $(e.currentTarget).offset()
-  //       let dropdown = $('<div class="dropdown position-absolute"></div>')
-  //         .css({
-  //           top: (e.pageY - offsets.top) + 'px',
-  //           left: (e.pageX - offsets.left) + 'px'
-  //         });
-
-  //       $('<div class="position-relative"></div>')
-  //         .append(dropdown)
-  //         .insertBefore(e.currentTarget);
-
-  //       dropdown
-  //         .append(this)
-  //         .dropdown('show');
-
-  //     }
-
-  //   });
-
-  //   return _ctx;
-
-  // };
 
   $(document)
     .on('hide-contexts', e => {
