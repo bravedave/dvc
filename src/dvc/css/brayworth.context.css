@@ -21,7 +21,7 @@ ul.menu ul.menu { z-index: 19; }
 ul.menu ul.menu ul.menu { z-index: 29; }
 
 /* 1021 is 1 better than bootstraps nav */
-ul.menu.menu-contextmenu { z-index: 1021; }
+ul.menu.menu-contextmenu { z-index: 1040; }
 
 ul.menu.menu-contextmenu > li > a,
 ul.menu.menu-contextmenu ul.menu > li > a,

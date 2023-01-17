@@ -85,9 +85,11 @@
 
         let root = this.root;
         (e => {
-
+          /**
+           * 1040 is defined in the css
+           */
           let t = $(e.target);
-          if (t.length > 0) css['z-index'] = t.zIndex() + 10;
+          if (t.length > 0) css['z-index'] = Math.max(t.zIndex() + 10, 1040);
         })(e);
 
         if (this.detachOnHide) {
