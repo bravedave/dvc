@@ -13,7 +13,7 @@
 
 namespace dvc\pages;
 
-use dvc\core\bs;
+use bravedave\dvc\bs;
 
 class bootstrap5 extends bootstrap {
 

@@ -8,7 +8,7 @@
  *
 */
 
-namespace dvc\core;
+namespace bravedave\dvc;
 
 abstract class bs {
   static $VERSION = 4;

@@ -12,4 +12,6 @@
 
 namespace dvc;
 
-class application extends core\application {}
+use bravedave;
+
+class application extends bravedave\dvc\application {}

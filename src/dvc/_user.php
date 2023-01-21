@@ -10,6 +10,8 @@
 
 namespace dvc;
 
-class _user extends core\user {}
+use bravedave;
+
+class _user extends bravedave\dvc\user {}
 
 \sys::logger( sprintf('deprecated : do not continue to use this class (dvc\_user) : %s', __METHOD__));

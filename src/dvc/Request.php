@@ -10,4 +10,6 @@
 
 namespace dvc;
 
-class Request extends core\Request {}
+use bravedave;
+
+class Request extends bravedave\dvc\Request {}

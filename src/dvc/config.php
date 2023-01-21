@@ -12,4 +12,6 @@
 
 namespace dvc;
 
-abstract class config extends core\config {}
+use bravedave;
+
+abstract class config extends bravedave\dvc\config {}

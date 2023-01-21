@@ -12,4 +12,6 @@
 
 namespace dvc;
 
-class user extends core\user {}
+use bravedave;
+
+class user extends bravedave\dvc\user {}

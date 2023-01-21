@@ -12,4 +12,6 @@
 
 namespace dvc;
 
-abstract class auth extends core\auth {}
+use bravedave;
+
+abstract class auth extends bravedave\dvc\auth {}

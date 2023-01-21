@@ -9,7 +9,7 @@
 */
 
 include_once __DIR__ . '/src/dvc/utility.php';
-dvc\core\application::load_dvc_autoloader_fallback();
+bravedave\dvc\application::load_dvc_autoloader_fallback();
 
 // spl_autoload_register( function ($class) {
 // 	if ( $lib = realpath( implode([
@@ -23,7 +23,7 @@ dvc\core\application::load_dvc_autoloader_fallback();
 // 		]))) {
 
 // 		include_once $lib;
-// 		dvc\core\load::logger( sprintf( 'lib: %s', $lib ));
+// 		bravedave\dvc\load::logger( sprintf( 'lib: %s', $lib ));
 // 		return ( true);
 
 // 	}

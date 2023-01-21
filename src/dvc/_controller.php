@@ -10,6 +10,8 @@
 
 namespace dvc;
 
-class _controller extends core\controller {}
+use bravedave;
+
+class _controller extends bravedave\dvc\controller {}
 
 \sys::logger( sprintf('deprecated : do not continue to use this class (dvc\_controller) : %s', __METHOD__));

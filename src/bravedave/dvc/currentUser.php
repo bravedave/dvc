@@ -8,7 +8,7 @@
  *
 */
 
-namespace dvc\core;
+namespace bravedave\dvc;
 
 use dvc\{
   errsys,

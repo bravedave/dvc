@@ -10,4 +10,6 @@
 
 namespace dvc;
 
-abstract class bs extends core\bs {}
+use bravedave;
+
+abstract class bs extends bravedave\dvc\bs {}

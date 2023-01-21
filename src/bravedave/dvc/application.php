@@ -8,7 +8,9 @@
  *
 */
 
-namespace dvc\core;
+namespace bravedave\dvc;
+
+use config;
 
 use dvc\{
   errsys,
@@ -111,12 +113,12 @@ class application {
 
     $this->_timer = new timer;
 
-    \config::initialize();  // this initializes config
+    config::initialize();  // this initializes config
 
     if (self::$debug) \sys::logger(sprintf('rootpath :: %s', $this->rootPath));
 
-    $tz = \config::$TIMEZONE;
-    $mailserver = \config::$MAILSERVER;
+    $tz = config::$TIMEZONE;
+    $mailserver = config::$MAILSERVER;
 
     ini_set('date.timezone', $tz);
     ini_set('SMTP', $mailserver);
@@ -161,7 +163,7 @@ class application {
 		 * example: if controller would be "car",
 		 * then this line would translate into: $this->car = new car();
 		 */
-    if (is_null($this->defaultController)) $this->defaultController = \config::$DEFAULT_CONTROLLER;
+    if (is_null($this->defaultController)) $this->defaultController = config::$DEFAULT_CONTROLLER;
     if (trim($this->url_controller == '')) $this->url_controller = $this->defaultController;
 
     if ($this->service) {
@@ -170,7 +172,7 @@ class application {
       return;  // job done
     }
 
-    if ($_route = \config::route($this->url_controller)) {
+    if ($_route = config::route($this->url_controller)) {
 
       $this->_route = $this->url_controller;
       $this->url_controller = $_route;
@@ -314,7 +316,7 @@ class application {
     // $debug = true;
 
     if ($this->app_executed()) {
-      if (\config::$SITEMAPS) {
+      if (config::$SITEMAPS) {
         $path = $this->return_url();
 
         try {
@@ -359,10 +361,10 @@ class application {
       $controllerFile = sprintf('%s/controller/%s.php', $this->rootPath, $this->defaultController);      // invalid URL, so show home/index
       if (!file_exists($controllerFile)) {
 
-        $controllerFile = sprintf('%s/controller/%s.php', $this->rootPath, \config::$DEFAULT_CONTROLLER);  // invalid URL, so home/index
+        $controllerFile = sprintf('%s/controller/%s.php', $this->rootPath, config::$DEFAULT_CONTROLLER);  // invalid URL, so home/index
         if (!file_exists($controllerFile)) {
 
-          $controllerFile = sprintf('%s/../controller/%s.php', __DIR__, \config::$DEFAULT_CONTROLLER);  // invalid URL, so system home/index
+          $controllerFile = sprintf('%s/../controller/%s.php', __DIR__, config::$DEFAULT_CONTROLLER);  // invalid URL, so system home/index
           if (self::$debug) \sys::logger(sprintf('<checking for system default controller (deep)> %s', __METHOD__));
         } else {
 
@@ -414,7 +416,7 @@ class application {
       return true;
     }
 
-    /* this is a system level document - this is the core distribution javascript */
+    /* this is a system level document */
     $_file = sprintf('%s/../public/%s', __DIR__, $_url);
     if (self::$debug) \sys::logger(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
     if (file_exists($_file)) {

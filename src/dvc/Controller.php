@@ -12,4 +12,6 @@
 
 namespace dvc;
 
-abstract class Controller extends core\controller {}
+use bravedave;
+
+abstract class Controller extends bravedave\dvc\controller {}

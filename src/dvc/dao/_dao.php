@@ -41,11 +41,8 @@ abstract class _dao {
   public function __invoke(int $id): ?dto\_dto {
 
     if ($dto = $this->getByID($id)) {
-      if (method_exists($this, 'getRichData')) {
 
-        return $this->getRichData($dto);
-      }
-
+      if (method_exists($this, 'getRichData')) return $this->getRichData($dto);
       return $dto;
     }
 
@@ -251,7 +248,7 @@ abstract class _dao {
          * particularly in CMS (private repository) which is very old code
          *
          * so, check the type matches ..
-         * debug is currently on for this => dvc\core\config::$DB_CACHE_DEBUG_TYPE_CONFLICT = true;
+         * debug is currently on for this => bravedave\dvc\config::$DB_CACHE_DEBUG_TYPE_CONFLICT = true;
          *
          */
         if ($thisType = get_class($dto)) {

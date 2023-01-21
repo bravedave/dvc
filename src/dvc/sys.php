@@ -10,6 +10,8 @@
 
 namespace dvc;
 
+use bravedave;
+
 use Monolog\Logger as MonoLogger;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\{
@@ -228,7 +230,7 @@ abstract class sys {
     error_log(sprintf('deprecated : %s', self::traceCaller()));
   }
 
-  public static function loaderCounter(core\hitter $hitter) {
+  public static function loaderCounter(bravedave\dvc\hitter $hitter) {
     error_log(sprintf('deprecated : %s', self::traceCaller()));
   }
 

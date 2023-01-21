@@ -8,7 +8,7 @@
  *
 */
 
-namespace dvc\core;
+namespace bravedave\dvc;
 
 class hitter {
 	protected $count = 0;

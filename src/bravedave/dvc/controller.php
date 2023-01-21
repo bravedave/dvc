@@ -9,7 +9,7 @@
  * This is the "base controller class". All other "real" controllers extend this class.
 */
 
-namespace dvc\core;
+namespace bravedave\dvc;
 
 use dvc\{
   jslib,
