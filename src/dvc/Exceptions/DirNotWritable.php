@@ -10,6 +10,8 @@
 
 namespace dvc\Exceptions;
 
+use bravedave\dvc\Exceptions\Exception;
+
 class DirNotWritable extends Exception {
 	protected $_text = false;
 

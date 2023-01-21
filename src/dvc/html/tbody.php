@@ -10,10 +10,7 @@
 
 namespace dvc\html;
 
-class tbody extends tableSection {
-	function __construct() {
-		parent::__construct( 'tbody' );
+use bravedave;
 
-	}
-
+class tbody extends bravedave\dvc\html\tbody {
 }

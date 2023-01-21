@@ -10,6 +10,8 @@
 
 namespace dvc\Exceptions;
 
+use bravedave\dvc\Exceptions\Exception;
+
 class InvalidAuthUser extends Exception {
   protected $_text = 'invalid user';
 }

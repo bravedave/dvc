@@ -10,6 +10,8 @@
 
 namespace dvc\Exceptions;
 
+use bravedave\dvc\Exceptions\Exception;
+
 class DatapathNotFound extends Exception {
   protected $_text = 'error/datapath not found';
 

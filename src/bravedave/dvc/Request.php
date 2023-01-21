@@ -191,7 +191,15 @@ class Request {
   public function getRemoteIP() {
     // https://stackoverflow.com/questions/1634782/what-is-the-most-accurate-way-to-retrieve-a-users-correct-ip-address-in-php
 
-    foreach (['HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR'] as $key) {
+    foreach ([
+      'HTTP_CLIENT_IP',
+      'HTTP_X_FORWARDED_FOR',
+      'HTTP_X_FORWARDED',
+      'HTTP_X_CLUSTER_CLIENT_IP',
+      'HTTP_FORWARDED_FOR',
+      'HTTP_FORWARDED',
+      'REMOTE_ADDR'
+    ] as $key) {
       if (array_key_exists($key, $_SERVER) === true) {
         foreach (explode(',', $_SERVER[$key]) as $ip) {
           $ip = trim($ip); // just to be safe
@@ -285,7 +293,7 @@ class Request {
     return $root;
   }
 
-  public function isPost() : bool {
+  public function isPost(): bool {
     return (bool)($this->getServer('REQUEST_METHOD') == 'POST');
   }
 

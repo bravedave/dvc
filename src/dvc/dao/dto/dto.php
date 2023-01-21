@@ -10,4 +10,7 @@
 
 namespace dvc\dao\dto;
 
-class dto extends _dto {}
+use bravedave;
+
+class dto extends bravedave\dvc\dto {
+}

@@ -10,4 +10,6 @@
 
 namespace dvc\Exceptions;
 
+use bravedave\dvc\Exceptions\Exception;
+
 class DBNameIsNull extends Exception {}

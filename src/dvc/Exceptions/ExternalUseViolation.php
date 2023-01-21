@@ -10,6 +10,8 @@
 
 namespace dvc\Exceptions;
 
+use bravedave\dvc\Exceptions\Exception;
+
 class ExternalUseViolation extends Exception {
 	protected $_text = 'External Use Violation';
 

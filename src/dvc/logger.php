@@ -6,30 +6,13 @@
  *
  * MIT License
  *
+ *  DO NOT change this file
+ *  Copy it to <application>/app/dvc/ and modify it there
 */
 
 namespace dvc;
 
-abstract class logger {
+use bravedave;
 
-  public static function debug(array|string $msg): void {
-
-    self::info($msg);
-  }
-
-  public static function info(array|string $msg): void {
-
-    if (is_array($msg)) {
-
-      array_walk($msg, fn ($m) => error_log($m, 0));
-    } else {
-
-      error_log($msg, 0);
-    }
-  }
-
-  public static function sql(string $msg) {
-
-    self::info(preg_replace(["@\r\n@", "@\n@", "@\t@", "@\s\s*@"], ' ', $msg));
-  }
+abstract class logger extends bravedave\dvc\logger {
 }

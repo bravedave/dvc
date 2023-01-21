@@ -8,7 +8,7 @@
  *
 */
 
-namespace dvc\Exceptions;
+namespace bravedave\dvc\Exceptions;
 
 class Exception extends \Exception {
   protected $_text = false;

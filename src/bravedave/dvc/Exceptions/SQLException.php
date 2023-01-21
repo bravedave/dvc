@@ -8,9 +8,6 @@
  *
 */
 
-namespace dvc\html;
+namespace bravedave\dvc\Exceptions;
 
-use bravedave;
-
-class input extends bravedave\dvc\html\input {
-}
+class SQLException extends Exception {}

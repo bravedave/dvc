@@ -10,10 +10,7 @@
 
 namespace dvc\html;
 
-class div extends element {
+use bravedave;
 
-  function __construct($content = null, $attributes = null) {
-
-    parent::__construct('div', $content, $attributes);
-  }
+class div extends bravedave\dvc\html\div {
 }

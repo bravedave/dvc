@@ -10,6 +10,8 @@
 
 namespace dvc\Exceptions;
 
+use bravedave\dvc\Exceptions\Exception;
+
 class MissingRootPath extends Exception {
 	protected $_text = 'you must provide a path';
 

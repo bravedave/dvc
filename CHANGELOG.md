@@ -1,3 +1,6 @@
+###### 21/01/2023
+* become more PSR-4 compliant by moving namespace to <vendor>\(\<SubNamespaceNames>)*\<ClassName> in my case that will be bravedave\dvc
+
 ###### 09/07/2020
 * Fix bug in uniqueness of cache key.
 

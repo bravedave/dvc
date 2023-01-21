@@ -10,6 +10,8 @@
 
 namespace dvc\Exceptions;
 
+use bravedave\dvc\Exceptions\Exception;
+
 class exchangeAuthIsAStub extends Exception {
 	protected $_text = 'exchange Auth Is A Stub : create a correct structure';
 

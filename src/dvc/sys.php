@@ -316,10 +316,10 @@ abstract class sys {
     return ($mail);
   }
 
-  protected static ?Logger $_monolog = null;
-  protected static ?Logger $_monologEmail = null;
+  protected static ?MonoLogger $_monolog = null;
+  protected static ?MonoLogger $_monologEmail = null;
 
-  public static function monolog(bool $email = false): ?Logger {
+  public static function monolog(bool $email = false): ?MonoLogger {
     if ($email) {
 
       if ($mailer = sendmail::mailer()) {
@@ -752,10 +752,10 @@ abstract class sys {
     errsys::initiate(false);
   }
 
-  protected static ?Logger $_telegram = null;
-  protected static ?Logger $_telegram_error = null;
+  protected static ?MonoLogger $_telegram = null;
+  protected static ?MonoLogger $_telegram_error = null;
 
-  public static function telegram(bool $error = false): ?Logger {
+  public static function telegram(bool $error = false): ?MonoLogger {
     if ($error) {
       if (!self::$_telegram_error) {
 

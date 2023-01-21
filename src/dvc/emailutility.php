@@ -128,10 +128,13 @@ class emailutility {
     // Find all the img tags
     $items = $DOM->getElementsByTagName('img');
     for ($i = 0; $i < $items->length; $i++) {
+
+      /** @var \DOMElement $item */
       $item = $items->item($i);
       $src = $item->getAttribute('src');
       // Only the ones with data: urls
       if (preg_match('/^data:/', $src)) {
+
         if (strlen($src) > 6) {
           // Deconstruct it, get all the parts
           $semicolon_place = strpos($src, ';');

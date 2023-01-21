@@ -10,6 +10,8 @@
 
 namespace dvc\Exceptions;
 
+use bravedave\dvc\Exceptions\Exception;
+
 class InvalidBootstrapVersion extends Exception {
   protected $_text = 'invalid bootstrap version';
 }
