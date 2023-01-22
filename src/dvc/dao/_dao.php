@@ -10,7 +10,7 @@
 
 namespace dvc\dao;
 
-use dvc;
+use dvc, bravedave;
 
 abstract class _dao {
   protected $_sql_getByID = 'SELECT * FROM %s WHERE id = %d';
@@ -24,7 +24,7 @@ abstract class _dao {
   public $db;
   public $log = false;
 
-  function __construct(dvc\dbi $db = null) {
+  function __construct(bravedave\dvc\db $db = null) {
 
     if (!\config::checkDBconfigured()) {
       // \sys::logger( sprintf('<Call the doctor I think I\'m gonna crash> %s', __METHOD__));
