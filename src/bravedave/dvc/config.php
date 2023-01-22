@@ -580,7 +580,6 @@ abstract class config {
         'auth' => 'bravedave\dvc\controller\auth',
         'docs' => 'bravedave\dvc\controller\docs',
         'fbauth' => 'bravedave\dvc\controller\fbauth',
-        'home' => 'bravedave\dvc\controller\home',
         'install' => 'bravedave\dvc\controller\install',
         'logon' => 'bravedave\dvc\controller\logon',
         'sitemap' => 'bravedave\dvc\controller\sitemap',
