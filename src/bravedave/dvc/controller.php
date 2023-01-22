@@ -53,7 +53,7 @@ abstract class controller {
 
   static $url;
 
-  const viewNotFound = __DIR__ . '/../views/not-found.md';
+  const viewNotFound = __DIR__ . '/../../dvc/views/not-found.md';
 
   public function __construct($rootPath) {
     if ($this->debug) \sys::logger(sprintf('__construct :: %s', __METHOD__));
