@@ -10,28 +10,9 @@
 
 namespace dvc\controller;
 
-use auth, Controller, dvc, Response;
-use strings;
-use user;
+use bravedave;
+use bravedave\dvc\logger;
 
-class logon extends Controller {
-  protected $RequireValidation = false;
-
-  public function form() {
-    user::$checkBWUI = false;
-
-    $this->load('logon');
-  }
-
-  public function index() {
-
-    if (auth::GoogleAuthEnabled()) {
-
-      Response::redirect(strings::url('auth/request'));
-    } else {
-
-
-      throw new dvc\Exceptions\NoAuthenticationMethodsAvailable;  // home page
-    }
-  }
+class logon extends bravedave\dvc\controller\logon {
 }
+logger::deprecated('do not continue to use this class (dvc\controller\logon)');
