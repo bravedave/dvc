@@ -14,6 +14,7 @@ namespace dvc\dao\dto;
 use bravedave;
 use bravedave\dvc\logger;
 
-class _dto extends bravedave\dvc\dto {}
+class _dto extends bravedave\dvc\dto {
+}
 
 logger::deprecated('do not continue to use this class (dvc\dao\dto\_dto)');

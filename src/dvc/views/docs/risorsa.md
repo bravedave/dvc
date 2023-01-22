@@ -296,9 +296,9 @@ almost done with the database, two more files will round this out
  */
 namespace risorsa\dao\dto;
 
-use dao\dto\_dto;
+use bravedave\dvc\dto;
 
-class risorsa extends _dto {
+class risorsa extends dto {
   public $id = 0;
   public $created = '';
   public $updated = '';

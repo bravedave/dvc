@@ -10,9 +10,9 @@
 
 namespace dao\dto;
 
-use dvc\dao\dto\_dto;
+use bravedave\dvc\dto;
 
-class mailmessage extends _dto {
+class mailmessage extends dto {
 	var $Flags = [];
 	var $Folder = '';
 	var $From = '';

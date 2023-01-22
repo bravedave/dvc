@@ -39,7 +39,7 @@ abstract class _dao {
     $this->before();
   }
 
-  public function __invoke(int $id): ?dto\_dto {
+  public function __invoke(int $id): ?bravedave\dvc\dto {
 
     if ($dto = $this->getByID($id)) {
 
@@ -313,7 +313,7 @@ abstract class _dao {
     return false;
   }
 
-  // public function getRichData(dto\_dto $dto): ?dto\_dto {
+  // public function getRichData(bravedave\dvc\dto $dto): ?bravedave\dvc\dto {
   //   return $dto;
   // }
 
