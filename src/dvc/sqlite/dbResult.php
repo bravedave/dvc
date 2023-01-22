@@ -10,13 +10,14 @@
 
 namespace dvc\sqlite;
 
-use dvc;
+use bravedave;
 
 class dbResult {
   protected $result = false;
   protected $db;
 
   public function __construct($result = null, $db = null) {
+
     if ($result) $this->result = $result;
     if ($db) $this->db = $db;
   }
@@ -29,11 +30,10 @@ class dbResult {
   }
 
   public function dto($template = NULL) {
-    if ($dto = $this->fetch()) {
-      if (is_null($template)) {
-        return new dvc\dao\dto\dto($dto);
-      }
 
+    if ($dto = $this->fetch()) {
+
+      if (is_null($template)) return new bravedave\dvc\dto($dto);
       return new $template($dto);
     }
 
@@ -42,21 +42,20 @@ class dbResult {
 
   /**
    *	extend like:
-   *		$dtoSet = $res->dtoSet( function( $dto) {
-   *			return $dto;
-   *
-   *		});
+   *		$dtoSet = $res->dtoSet( fn( $dto) => return $dto);
    */
   public function dtoSet($func = null, $template = null) {
     $ret = [];
     if (is_callable($func)) {
+
       while ($dto = $this->dto($template)) {
-        if ($d = $func($dto)) {
-          $ret[] = $d;
-        }
+
+        if ($d = $func($dto)) $ret[] = $d;
       }
     } else {
+
       while ($dto = $this->dto($template)) {
+
         $ret[] = $dto;
       }
     }
