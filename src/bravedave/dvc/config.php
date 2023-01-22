@@ -578,14 +578,14 @@ abstract class config {
 
     $defaults = array_filter(
       [
-        'assets' => 'dvc\controller\assets',
-        'auth' => 'dvc\controller\auth',
-        'docs' => 'dvc\controller\docs',
-        'fbauth' => 'dvc\controller\fbauth',
-        'home' => 'dvc\controller\home',
-        'install' => 'dvc\controller\install',
-        'logon' => 'dvc\controller\logon',
-        'sitemap' => 'dvc\controller\sitemap',
+        'assets' => 'bravedave\dvc\controller\assets',
+        'auth' => 'bravedave\dvc\controller\auth',
+        'docs' => 'bravedave\dvc\controller\docs',
+        'fbauth' => 'bravedave\dvc\controller\fbauth',
+        'home' => 'bravedave\dvc\controller\home',
+        'install' => 'bravedave\dvc\controller\install',
+        'logon' => 'bravedave\dvc\controller\logon',
+        'sitemap' => 'bravedave\dvc\controller\sitemap',
       ],
       fn ($k) => !file_exists(sprintf('%s/controller/%s.php', $rootPath, $k)),
       ARRAY_FILTER_USE_KEY
