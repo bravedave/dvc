@@ -10,7 +10,8 @@
 
 namespace dvc\dao;
 
-use dvc, bravedave;
+use config, dvc, bravedave;
+use RuntimeException;
 
 abstract class _dao {
   protected $_sql_getByID = 'SELECT * FROM %s WHERE id = %d';
@@ -26,7 +27,7 @@ abstract class _dao {
 
   function __construct(bravedave\dvc\db $db = null) {
 
-    if (!\config::checkDBconfigured()) {
+    if (!config::checkDBconfigured()) {
       // \sys::logger( sprintf('<Call the doctor I think I\'m gonna crash> %s', __METHOD__));
       // \sys::logger( sprintf('<The doctor say he\'s coming but you gotta create a config file buddy> %s', __METHOD__));
       throw new dvc\Exceptions\DBNotConfigured;
@@ -109,7 +110,7 @@ abstract class _dao {
   }
 
   protected function _create() {
-    if ('sqlite' == \config::$DB_TYPE) {
+    if ('sqlite' == config::$DB_TYPE) {
       $fieldList = $this->db->fieldList($this->db_name());
       $o = new dvc\dao\dto\dto;
       foreach ($fieldList as $f) {
@@ -164,7 +165,7 @@ abstract class _dao {
   }
 
   public function cacheDelete(int $id): void {
-    if (\config::$DB_CACHE == 'APC') {
+    if (config::$DB_CACHE == 'APC') {
       $cache = dvc\cache::instance();
       $key = $this->cacheKey_delete($id);
       $cache->delete($key, true);
@@ -208,7 +209,7 @@ abstract class _dao {
     $this->Q(sprintf('DELETE FROM %s WHERE id = %d', $this->_db_name, (int)$id));
 
     $this->cacheDelete($id);
-    // if (\config::$DB_CACHE == 'APC') {
+    // if (config::$DB_CACHE == 'APC') {
     //   $cache = dvc\cache::instance();
     //   $key = $this->cacheKey_delete($id);
     //   $cache->delete($key, true);
@@ -216,10 +217,13 @@ abstract class _dao {
   }
 
   public function dtoSet($res, $func = null): array {
-    if ($res instanceof dvc\dbResult || $res instanceof dvc\sqlite\dbResult) {
+
+    if ($res instanceof bravedave\dvc\dbResult || $res instanceof dvc\dbResult || $res instanceof dvc\sqlite\dbResult) {
+
       return $res->dtoSet($func, $this->template);
     } else {
-      throw new \Exception(sprintf('"Argument 1 passed to %s must be an instance of dvc\dbResult or dvc\sqlite\dbResult', __METHOD__));
+
+      throw new RuntimeException(sprintf('"Argument 1 passed to %s must be an instance of dvc\dbResult or dvc\sqlite\dbResult', __METHOD__));
     }
   }
 
@@ -239,7 +243,7 @@ abstract class _dao {
       throw new dvc\Exceptions\DBNameIsNull;
     }
 
-    if (\config::$DB_CACHE == 'APC') {
+    if (config::$DB_CACHE == 'APC') {
       $cache = dvc\cache::instance();
       $key = $this->cacheKey($id);
       if ($dto = $cache->get($key)) {
@@ -255,23 +259,23 @@ abstract class _dao {
           $thisType = $thisType; // namespace will have preceding \, get_class will come from root
           $approvedType = ltrim($this->template ? $this->template : __NAMESPACE__ . '\dto\dto', '\\');
           if ($thisType == $approvedType) {
-            if (\config::$DB_CACHE_DEBUG) \sys::logger(sprintf('<type check %s:%s> %s[\]%s', $thisType, $approvedType, get_class($this), __METHOD__));
+            if (config::$DB_CACHE_DEBUG) \sys::logger(sprintf('<type check %s:%s> %s[\]%s', $thisType, $approvedType, get_class($this), __METHOD__));
             return ($dto);
-          } elseif (\config::$DB_CACHE_DEBUG || \config::$DB_CACHE_DEBUG_TYPE_CONFLICT) {
+          } elseif (config::$DB_CACHE_DEBUG || config::$DB_CACHE_DEBUG_TYPE_CONFLICT) {
             \sys::logger(sprintf('<fails type check %s:%s> %s[\]%s', $thisType, $approvedType, get_class($this), __METHOD__));
           }
-        } elseif (\config::$DB_CACHE_DEBUG || \config::$DB_CACHE_DEBUG_TYPE_CONFLICT) {
+        } elseif (config::$DB_CACHE_DEBUG || config::$DB_CACHE_DEBUG_TYPE_CONFLICT) {
           \sys::logger(sprintf('<cached object has no type> %s[\]%s', get_class($this), __METHOD__));
         }
       }
     } else {
-      if (\config::$DB_CACHE_DEBUG) \sys::logger(sprintf('<cache not enabled> %s', __METHOD__));
+      if (config::$DB_CACHE_DEBUG) \sys::logger(sprintf('<cache not enabled> %s', __METHOD__));
     }
 
     $this->db->log = $this->log;
     if ($res = $this->Result(sprintf($this->_sql_getByID, $this->_db_name, (int)$id))) {
       if ($dto = $res->dto($this->template)) {
-        if (\config::$DB_CACHE == 'APC') {
+        if (config::$DB_CACHE == 'APC') {
           $cache->set($key, $dto);
         }
       }
@@ -287,7 +291,7 @@ abstract class _dao {
       throw new dvc\Exceptions\DBNameIsNull;
     }
 
-    if (\config::$DB_CACHE == 'APC') {
+    if (config::$DB_CACHE == 'APC') {
       $cache = dvc\cache::instance();
       $key = $this->cacheKey($id, $fld);
       if ($v = $cache->get($key)) {
@@ -298,7 +302,7 @@ abstract class _dao {
     $this->db->log = $this->log;
     if ($res = $this->Result(sprintf($this->_sql_getByID, $this->_db_name, (int)$id))) {
       if ($dto = $res->dto($this->template)) {
-        if (\config::$DB_CACHE == 'APC') {
+        if (config::$DB_CACHE == 'APC') {
           $cache->set($key, $dto->{$fld});
         }
 
@@ -340,11 +344,6 @@ abstract class _dao {
       throw new dvc\Exceptions\DBNameIsNull;
 
     $this->cacheDelete($id);
-    // if (\config::$DB_CACHE == 'APC') {
-    //   $cache = dvc\cache::instance();
-    //   $key = $this->cacheKey_delete($id);
-    //   $cache->delete($key, true);
-    // }
 
     return ($this->Update($a, sprintf('WHERE id = %d', $id), $flushCache = false));
   }
@@ -398,7 +397,7 @@ abstract class _dao {
 
     //~ \sys::logger( "checking for: $table" );
 
-    if ('sqlite' == \config::$DB_TYPE) {
+    if ('sqlite' == config::$DB_TYPE) {
 
       $sql = sprintf(
         'SELECT `name` FROM `sqlite_master` WHERE `type` = %s AND `name` = %s',

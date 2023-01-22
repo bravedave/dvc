@@ -16,4 +16,4 @@ use bravedave\dvc\logger;
 
 class _dto extends bravedave\dvc\dto {}
 
-logger::deprecated('do not continue to use this class (dvc\dao\dto\_dto) : %s');
+logger::deprecated('do not continue to use this class (dvc\dao\dto\_dto)');
