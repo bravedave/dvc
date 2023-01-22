@@ -26,7 +26,33 @@ abstract class logger {
 
   public static function deprecated(array|string $msg): void {
 
-    if (config::$LOG_DEPRECATED) self::info($msg, self::prefix_deprecated);
+    if (!config::$LOG_DEPRECATED) return;
+
+    $_trace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
+    $trace = array_values(array_filter($_trace, function ($c) {
+      $exclude = [
+        'Composer\Autoload\ClassLoader',
+        'bravedave\dvc\dbResult',
+        'bravedave\dvc\logger'
+      ];
+
+      if ($c['class'] ?? null) {
+
+        if (in_array($c['class'], $exclude)) return false;
+
+        return true;
+      }
+
+      return false;
+    }));
+
+    if ($caller = $trace[0] ?? false) {
+
+      self::info(sprintf('<%s> %s::%s', $msg, $caller['class'] ?? '', $caller['function']));
+    } else {
+
+      self::info(sprintf('<%s> %s::%s', $msg, __METHOD__));
+    }
   }
 
   public static function info(array|string $msg, string $prefix = self::prefix): void {
