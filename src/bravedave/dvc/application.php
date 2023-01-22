@@ -17,10 +17,10 @@ use dvc\{
   timer
 };
 
-use dvc\Exceptions\{
+use bravedave\dvc\Exceptions\{
+  SecurityException,
   CannotLocateController,
-  MissingRootPath,
-  SecurityException
+  MissingRootPath
 };
 
 define('APPLICATION', 1);
@@ -86,7 +86,6 @@ class application {
 
   static function route() {
 
-    // \sys::logger( sprintf('<%s> %s', self::$instance->_route, __METHOD__));
     return self::$instance->_route;
   }
 
@@ -109,13 +108,12 @@ class application {
 
     $this->rootPath = realpath($rootPath);
     errsys::initiate(false);
-    // \sys::set_error_handler();
 
     $this->_timer = new timer;
 
     config::initialize();  // this initializes config
 
-    if (self::$debug) \sys::logger(sprintf('rootpath :: %s', $this->rootPath));
+    if (self::$debug) logger::debug(sprintf('<rootpath :: %s> %s', $this->rootPath, __METHOD__));
 
     $tz = config::$TIMEZONE;
     $mailserver = config::$MAILSERVER;
@@ -152,7 +150,7 @@ class application {
 
     if ($this->minimum) {
 
-      if (self::$debug) \sys::logger('exit: I am minimum');
+      if (self::$debug) logger::debug(sprintf('<exit: I am minimum> %s', __METHOD__));
       return;  // job done
     }
 
@@ -168,7 +166,7 @@ class application {
 
     if ($this->service) {
 
-      if (self::$debug) \sys::logger('exit: I am a service');
+      if (self::$debug) logger::debug(sprintf('<exit: I am a service> %s', __METHOD__));
       return;  // job done
     }
 
@@ -209,7 +207,7 @@ class application {
 
     if (in_array(strtolower($this->url_action), $_protectedActions)) {
 
-      \sys::logger(sprintf('protecting action %s => %s', $this->url_action, 'index'));
+      logger::info(sprintf('<protecting action %s => %s> %s', $this->url_action, 'index', __METHOD__));
       $this->url_action = 'index';
     }
 
@@ -240,7 +238,7 @@ class application {
       if (isset($this->url_parameter_3)) {
 
         // will translate to something like $this->home->method($param_1, $param_2, $param_3);
-        if (self::$debug) \sys::logger(sprintf(
+        if (self::$debug) logger::debug(sprintf(
           '%s->{%s}(%s, %s, %s)',
           $this->url_controller->name,
           $this->url_action,
@@ -256,7 +254,7 @@ class application {
         );
       } elseif (isset($this->url_parameter_2)) {
 
-        if (self::$debug) \sys::logger(sprintf(
+        if (self::$debug) logger::debug(sprintf(
           '%s->{%s}(%s, %s)',
           $this->url_controller->name,
           $this->url_action,
@@ -271,7 +269,7 @@ class application {
         );
       } elseif (isset($this->url_parameter_1)) {
 
-        if (self::$debug) \sys::logger(sprintf(
+        if (self::$debug) logger::debug(sprintf(
           '%s->{%s}(%s)',
           $this->url_controller->name,
           $this->url_action,
@@ -282,7 +280,7 @@ class application {
         $this->url_controller->{$this->url_action}($this->url_parameter_1);
       } else {
 
-        if (self::$debug) \sys::logger(sprintf(
+        if (self::$debug) logger::debug(sprintf(
           '%s->{%s}()',
           $this->url_controller->name,
           $this->url_action
@@ -301,8 +299,8 @@ class application {
         $protcol = true
       );
 
-      if (self::$debug) \sys::logger('fallback');
-      if (self::$debug) \sys::logger(sprintf('%s->index(%s)', $this->url_controller->name, $this->url_action));
+      if (self::$debug) logger::debug('fallback');
+      if (self::$debug) logger::debug(sprintf('%s->index(%s)', $this->url_controller->name, $this->url_action));
 
       $this->url_controller->index($this->url_action);
     }
@@ -324,14 +322,14 @@ class application {
           $dao = new \dao\sitemap;
           if ($dto = $dao->getbyPath($path)) {
 
-            if ($debug) \sys::logger(sprintf('found path : %s : %s', $path, __METHOD__));
+            if ($debug) logger::debug(sprintf('found path : %s : %s', $path, __METHOD__));
             $dao->UpdateByID(
               ['visits' => $dto->visits + 1],
               (int)$dto->id
             );
           } else {
 
-            if ($debug) \sys::logger(sprintf('not found path : %s : %s', $path, __METHOD__));
+            if ($debug) logger::debug(sprintf('not found path : %s : %s', $path, __METHOD__));
             $a = [
               'path' => $path,
               'visits' => 1,
@@ -346,7 +344,7 @@ class application {
         }
       } else {
 
-        if ($debug) \sys::logger(sprintf('<%s> %s', 'not enabled', __METHOD__));
+        if ($debug) logger::debug(sprintf('<%s> %s', 'not enabled', __METHOD__));
       }
     }
   }
@@ -365,19 +363,19 @@ class application {
         if (!file_exists($controllerFile)) {
 
           $controllerFile = sprintf('%s/../controller/%s.php', __DIR__, config::$DEFAULT_CONTROLLER);  // invalid URL, so system home/index
-          if (self::$debug) \sys::logger(sprintf('<checking for system default controller (deep)> %s', __METHOD__));
+          if (self::$debug) logger::debug(sprintf('<checking for system default controller (deep)> %s', __METHOD__));
         } else {
 
-          if (self::$debug) \sys::logger(sprintf('<default controller> %s', __METHOD__));
+          if (self::$debug) logger::debug(sprintf('<default controller> %s', __METHOD__));
         }
       } else {
 
-        if (self::$debug) \sys::logger(sprintf('<default controller> %s', __METHOD__));
+        if (self::$debug) logger::debug(sprintf('<default controller> %s', __METHOD__));
       }
 
       if ($this->url_controller != '') {
 
-        if (self::$debug) \sys::logger(sprintf('<bumped controller => action> %s', __METHOD__));
+        if (self::$debug) logger::debug(sprintf('<bumped controller => action> %s', __METHOD__));
         $this->url_parameter_3 = $this->url_parameter_2;
         $this->url_parameter_2 = $this->url_parameter_1;
         $this->url_parameter_1 = $this->url_action;
@@ -387,7 +385,10 @@ class application {
       $this->url_controller = $this->defaultController;
     }
 
-    if (!file_exists($controllerFile)) throw new CannotLocateController;
+    if (!file_exists($controllerFile)) {
+      logger::info(sprintf('<connot locate controller %s> %s', $controllerFile, __METHOD__));
+      throw new CannotLocateController($controllerFile);
+    }
 
     require $controllerFile;
   }
@@ -397,7 +398,7 @@ class application {
 
     $_file = sprintf('%s/app/public/%s', $this->rootPath, $_url);
 
-    if (self::$debug) \sys::logger(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
+    if (self::$debug) logger::debug(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
     if (file_exists($_file)) {
 
       $this->url_served = \strings::url(self::Request()->getUrl(), $protcol = true);
@@ -406,11 +407,11 @@ class application {
     }
 
     $_file = sprintf('%s/public/%s', $this->rootPath, $_url);
-    if (self::$debug) \sys::logger(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
+    if (self::$debug) logger::debug(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
     if (file_exists($_file)) {
 
-      \sys::logger(sprintf('DEPRECATED FILE LOCATION :: %s', $_file));
-      \sys::logger(sprintf('Please use app/public :: %s', $_file));
+      logger::deprecated(sprintf('DEPRECATED FILE LOCATION :: %s', $_file));
+      logger::deprecated(sprintf('Please use app/public :: %s', $_file));
       $this->url_served = \strings::url(self::Request()->getUrl(), $protcol = true);
       $this->_serve($_file);
       return true;
@@ -418,7 +419,7 @@ class application {
 
     /* this is a system level document */
     $_file = sprintf('%s/../public/%s', __DIR__, $_url);
-    if (self::$debug) \sys::logger(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
+    if (self::$debug) logger::debug(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
     if (file_exists($_file)) {
 
       $this->url_served = \strings::url(self::Request()->getUrl(), $protcol = true);
@@ -442,12 +443,12 @@ class application {
      */
     $url = self::Request()->getUrl();
     if (self::Request()->ReWriteBase() != '' && '/' . $url == self::Request()->ReWriteBase()) {
-      if (self::$debug) \sys::logger(sprintf('ReWriteBase = %s', Request::get()->ReWriteBase()));
+      if (self::$debug) logger::debug(sprintf('ReWriteBase = %s', Request::get()->ReWriteBase()));
       $url = '';
     }
 
     if ($url != "") {
-      if (self::$debug) \sys::logger('Url: ' . $url);
+      if (self::$debug) logger::debug('Url: ' . $url);
 
       // split URL
       $url = self::Request()->getSegments();
@@ -460,11 +461,11 @@ class application {
       $this->url_parameter_3 = self::Request()->getSegment(4);
 
       // turn debug on if you have problems with the URL
-      if (self::$debug) \sys::logger('Controller: ' . $this->url_controller);
-      if (self::$debug) \sys::logger('Action: ' . $this->url_action);
-      if (self::$debug) \sys::logger('Parameter 1: ' . $this->url_parameter_1);
-      if (self::$debug) \sys::logger('Parameter 2: ' . $this->url_parameter_2);
-      if (self::$debug) \sys::logger('Parameter 3: ' . $this->url_parameter_3);
+      if (self::$debug) logger::debug('Controller: ' . $this->url_controller);
+      if (self::$debug) logger::debug('Action: ' . $this->url_action);
+      if (self::$debug) logger::debug('Parameter 1: ' . $this->url_parameter_1);
+      if (self::$debug) logger::debug('Parameter 2: ' . $this->url_parameter_2);
+      if (self::$debug) logger::debug('Parameter 3: ' . $this->url_parameter_3);
     }
 
     return $this;
