@@ -362,7 +362,7 @@ class application {
         $controllerFile = sprintf('%s/controller/%s.php', $this->rootPath, config::$DEFAULT_CONTROLLER);  // invalid URL, so home/index
         if (!file_exists($controllerFile)) {
 
-          $controllerFile = sprintf('%s/../controller/%s.php', __DIR__, config::$DEFAULT_CONTROLLER);  // invalid URL, so system home/index
+          $controllerFile = sprintf('%s/controller/%s.php', __DIR__, config::$DEFAULT_CONTROLLER);  // invalid URL, so system home/index
           if (self::$debug) logger::debug(sprintf('<checking for system default controller (deep)> %s', __METHOD__));
         } else {
 
