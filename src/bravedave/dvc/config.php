@@ -585,7 +585,7 @@ abstract class config {
         'logon' => 'bravedave\dvc\controller\logon',
         'sitemap' => 'bravedave\dvc\controller\sitemap',
       ],
-      fn ($k) => !file_exists(sprintf('%s/controller/%s.php', __DIR__, $k)),
+      fn ($k) => file_exists(sprintf('%s/controller/%s.php', __DIR__, $k)),
       ARRAY_FILTER_USE_KEY
     );
 
