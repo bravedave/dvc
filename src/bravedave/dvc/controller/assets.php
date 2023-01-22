@@ -43,6 +43,8 @@ class assets extends Controller {
     }
   }
 
+  const dvc_dir = __DIR__ . '/../../../dvc/';
+
   public function brayworth($type = 'css', $p2 = '') {
     if ('css' == $type) {
       $files = [];
@@ -51,7 +53,7 @@ class assets extends Controller {
       $_files = cssmin::$dvc4Files;
 
       foreach ($_files as $f) {
-        $path = sprintf('%s/../%s', __DIR__, $f);
+        $path = self::dvc_dir . $f;
         if ($_f = realpath($path)) {
           $key = basename($_f);
           $files[$key] = $_f;
@@ -85,7 +87,7 @@ class assets extends Controller {
       // sys::dump( \jslib::$brayworthlibFiles);
       $files = [];
       foreach (jslib::$brayworthlibFiles as $f) {
-        $path = sprintf('%s/../%s', __DIR__, $f);
+        $path = self::dvc_dir . $f;
         // printf( '%s<br />', $path);
         if ($_f = realpath($path)) {
           $key = basename($_f);
@@ -93,9 +95,7 @@ class assets extends Controller {
         }
       }
 
-      if ($type == 'bundle') {
-        array_unshift($files, sprintf('%s/../js/%s', __DIR__, 'jquery-3.3.1.min.js'));
-      }
+      if ($type == 'bundle') array_unshift($files, self::dvc_dir . 'js/jquery-3.6.3.min.js');
 
       // sys::dump( $files);
 
@@ -104,7 +104,6 @@ class assets extends Controller {
         'libName' => 'brayworth',
         'jsFiles' => $files,
         'libFile' => config::tempdir()  . '_brayworth_has_dayjs.3.js'
-
       ]);
     }
   }
@@ -116,13 +115,13 @@ class assets extends Controller {
   public function jquery() {
     if ('3.4' == config::$JQUERY_VERSION) {
 
-      sys::serve(sprintf('%s/../js/%s', __DIR__, 'jquery-3.4.1.min.js'));
+      sys::serve(self::dvc_dir . 'js/jquery-3.4.1.min.js');
     } else {
 
-      // sys::serve(sprintf('%s/../js/%s', __DIR__, 'jquery-3.5.1.min.js'));
-      // sys::serve(sprintf('%s/../js/%s', __DIR__, 'jquery-3.6.0.min.js'));
-      // sys::serve(sprintf('%s/../js/%s', __DIR__, 'jquery-3.6.1.min.js'));
-      sys::serve(sprintf('%s/../js/%s', __DIR__, 'jquery-3.6.3.min.js'));
+      // sys::serve(self::dvc_dir . 'js/jquery-3.5.1.min.js'));
+      // sys::serve(self::dvc_dir . 'js/jquery-3.6.0.min.js'));
+      // sys::serve(self::dvc_dir . 'js/jquery-3.6.1.min.js'));
+      sys::serve(self::dvc_dir . 'js/jquery-3.6.3.min.js');
     }
   }
 
