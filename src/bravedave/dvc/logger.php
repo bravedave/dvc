@@ -31,6 +31,7 @@ abstract class logger {
     $_trace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
     $trace = array_values(array_filter($_trace, function ($c) {
       $exclude = [
+        'dvc\dao\_dao',
         'bravedave\dvc\dbResult',
         'bravedave\dvc\logger',
         'Composer\Autoload\ClassLoader',
