@@ -574,8 +574,6 @@ abstract class config {
 
   static protected function _route_map(): object {
 
-    $rootPath = application::app()->getRootPath();
-
     $defaults = array_filter(
       [
         'assets' => 'bravedave\dvc\controller\assets',
@@ -587,14 +585,9 @@ abstract class config {
         'logon' => 'bravedave\dvc\controller\logon',
         'sitemap' => 'bravedave\dvc\controller\sitemap',
       ],
-      fn ($k) => !file_exists(sprintf('%s/controller/%s.php', $rootPath, $k)),
+      fn ($k) => !file_exists(sprintf('%s/controller/%s.php', __DIR__, $k)),
       ARRAY_FILTER_USE_KEY
     );
-
-    // array_walk(
-    //   $defaults,
-    //   fn ($v, $k) => \sys::logger(sprintf('<%s> %s', $k, __METHOD__))
-    // );
 
     $map = self::_route_map_path();
     if (\file_exists($map)) {
