@@ -40,7 +40,7 @@ abstract class strings {
    *
    * @return string the formated date
    */
-  static public function asLocalDate(string $date, bool $time = false, float $epoch = 0): string {
+  static public function asLocalDate(?string $date, bool $time = false, float $epoch = 0): string {
 
     if ((string)$date == '0000-00-00') return '';
 
