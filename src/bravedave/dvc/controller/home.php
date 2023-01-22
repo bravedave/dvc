@@ -31,7 +31,7 @@ class home extends Controller {
     // just points into the documentation
 
     $readme = implode(DIRECTORY_SEPARATOR, [
-      dirname(dirname(dirname(dirname(dirname(__DIR__))))),
+      dirname(dirname(dirname(dirname(__DIR__)))),
       'Readme.md'
     ]);
 
