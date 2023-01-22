@@ -12,5 +12,5 @@ namespace dvc;
 
 use bravedave;
 
-abstract class db extends bravedave\dvc\db {
+class db extends bravedave\dvc\db {
 }

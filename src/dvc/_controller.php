@@ -14,4 +14,4 @@ use bravedave;
 
 class _controller extends bravedave\dvc\controller {}
 
-\sys::logger( sprintf('deprecated : do not continue to use this class (dvc\_controller) : %s', __METHOD__));
+logger::deprecated(sprintf('do not continue to use this class (dvc\_controller) : %s', __METHOD__));

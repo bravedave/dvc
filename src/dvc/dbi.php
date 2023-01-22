@@ -12,5 +12,5 @@ namespace dvc;
 
 use bravedave;
 
-abstract class dbi extends bravedave\dvc\dbi {
+class dbi extends bravedave\dvc\dbi {
 }
