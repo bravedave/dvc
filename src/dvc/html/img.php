@@ -10,23 +10,7 @@
 
 namespace dvc\html;
 
-class img extends element {
-	function __construct( $src = '', $alt = null, $attributes = []) {
+use bravedave;
 
-		$_attributes = [ 'src' => $src ];
-
-		if ( !is_null( $alt )) {
-			$_attributes['alt'] = (string)$alt;
-
-		}
-
-		if ( (array)$attributes) {
-			$_attributes = array_merge( $_attributes, $attributes);
-
-		}
-
-		parent::__construct( 'img', null, $_attributes );
-
-	}
-
+class img extends bravedave\dvc\html\img {
 }

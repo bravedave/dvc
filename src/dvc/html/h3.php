@@ -10,8 +10,7 @@
 
 namespace dvc\html;
 
-class h3 extends element {
-  function __construct($content = null, $attributes = null) {
-    parent::__construct('h3', $content, $attributes);
-  }
+use bravedave;
+
+class h3 extends bravedave\dvc\html\h3 {
 }
