@@ -10,6 +10,8 @@
 
 namespace bravedave\dvc\html;
 
+use RuntimeException;
+
 class element {
   protected $tag, $children, $_content, $_attributes;
   protected $_rendered = false;
@@ -35,12 +37,15 @@ class element {
 
     $contentType = gettype($content);
     if ($contentType == 'object') {
-      $contentClass = get_class($content);
-      if ($contentClass = 'dvc\html\element' || is_subclass_of($content, 'dvc\html\element'))
-        $this->appendChild($content);
 
-      else
+      $contentClass = get_class($content);
+      if ($contentClass == __CLASS__ || is_subclass_of($content, __CLASS__)) {
+
+        $this->appendChild($content);
+      } else {
+
         $this->_content = $content;
+      }
     } else {
       $this->_content = $content;
     }
@@ -81,28 +86,36 @@ class element {
 
     $contentType = gettype($tag);
     if ($contentType == 'object') {
+
       $contentClass = get_class($tag);
-      if (is_subclass_of($tag, 'dvc\html\element')) {
+      if (is_subclass_of($tag, __CLASS__)) {
+
         $this->appendChild($tag);
         return $tag;
       } else {
-        throw new \Exception("Invalid Content Type");
+
+        throw new RuntimeException("Invalid Content Type");
       }
     } else {
+
       if ($tag == 'input') {
+
         $el = new input;
         $contentType = gettype($content);
-        if (preg_match('@(integer|string)@', $contentType))
+        if (preg_match('@(integer|string)@', $contentType)) {
+
           $el->attributes(array('value' => $content));
+        }
       } elseif (file_exists(__DIR__ . '/' . $tag . '.php')) {
+
         $class = __NAMESPACE__ . '\\' . $tag;
         $el = new $class($content);
       } else {
+
         $el = new element($tag, $content);
       }
 
-      if (!(is_null($attributes)))
-        $el->attributes($attributes);
+      if (!(is_null($attributes))) $el->attributes($attributes);
 
       $this->appendChild($el);
 
