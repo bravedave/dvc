@@ -349,7 +349,7 @@ class application {
     }
   }
 
-  protected function _search_for_controller() {
+  protected function _search_for_controller(): void {
 
     $controllerFile = sprintf('%s/controller/%s.php', $this->rootPath, $this->url_controller);
     /*---[ check for controller: does such a controller exist ? ]--- */
@@ -542,23 +542,21 @@ class application {
       self::$_loaded_fallback = true;
 
       spl_autoload_register(function ($class) {
+
         if ($lib = realpath(implode([
-          __DIR__,
+          dirname(__DIR__),
           DIRECTORY_SEPARATOR,
-          '..',
-          DIRECTORY_SEPARATOR,
-          '..',
+          'fallback',
           DIRECTORY_SEPARATOR,
           str_replace('\\', '/', $class),
           '.php'
-
         ]))) {
 
           include_once $lib;
           load::logger(sprintf('lib: %s', $lib));
-          return (true);
+          return true;
         }
-        return (false);
+        return false;
       });
     }
   }

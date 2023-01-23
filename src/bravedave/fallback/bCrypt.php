@@ -10,4 +10,4 @@
 
 class bCrypt extends dvc\bCrypt {}
 
-\sys::logger( sprintf('deprecated : do not continue to use this class (bCrypt) : %s', __FILE__));
+bravedave\dvc\logger::deprecated( 'do not continue to use this class (bCrypt)');
