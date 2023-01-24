@@ -10,6 +10,7 @@
 
 namespace dvc\dao;
 
+use bravedave\dvc\logger;
 use config, dvc, bravedave;
 use RuntimeException;
 
@@ -28,8 +29,9 @@ abstract class _dao {
   function __construct(bravedave\dvc\db $db = null) {
 
     if (!config::checkDBconfigured()) {
-      // \sys::logger( sprintf('<Call the doctor I think I\'m gonna crash> %s', __METHOD__));
-      // \sys::logger( sprintf('<The doctor say he\'s coming but you gotta create a config file buddy> %s', __METHOD__));
+
+      // logger::info( sprintf('<Call the doctor I think I\'m gonna crash> %s', __METHOD__));
+      // logger::info( sprintf('<The doctor say he\'s coming but you gotta create a config file buddy> %s', __METHOD__));
       throw new dvc\Exceptions\DBNotConfigured;
     }
 
@@ -239,14 +241,15 @@ abstract class _dao {
   }
 
   public function getByID($id) {
-    if (is_null($this->_db_name)) {
-      throw new dvc\Exceptions\DBNameIsNull;
-    }
+
+    if (is_null($this->_db_name)) throw new dvc\Exceptions\DBNameIsNull;
 
     if (config::$DB_CACHE == 'APC') {
+
       $cache = dvc\cache::instance();
       $key = $this->cacheKey($id);
       if ($dto = $cache->get($key)) {
+
         /**
          * The problem is there are some dirty unserializable dto's,
          * particularly in CMS (private repository) which is very old code
@@ -256,31 +259,36 @@ abstract class _dao {
          *
          */
         if ($thisType = get_class($dto)) {
+
           $thisType = $thisType; // namespace will have preceding \, get_class will come from root
           $approvedType = ltrim($this->template ? $this->template : __NAMESPACE__ . '\dto\dto', '\\');
           if ($thisType == $approvedType) {
-            if (config::$DB_CACHE_DEBUG) \sys::logger(sprintf('<type check %s:%s> %s[\]%s', $thisType, $approvedType, get_class($this), __METHOD__));
+
+            if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('<type check %s:%s> %s[\]%s', $thisType, $approvedType, get_class($this), __METHOD__));
             return ($dto);
           } elseif (config::$DB_CACHE_DEBUG || config::$DB_CACHE_DEBUG_TYPE_CONFLICT) {
-            \sys::logger(sprintf('<fails type check %s:%s> %s[\]%s', $thisType, $approvedType, get_class($this), __METHOD__));
+
+            logger::debug(sprintf('<fails type check %s:%s> %s[\]%s', $thisType, $approvedType, get_class($this), __METHOD__));
           }
         } elseif (config::$DB_CACHE_DEBUG || config::$DB_CACHE_DEBUG_TYPE_CONFLICT) {
-          \sys::logger(sprintf('<cached object has no type> %s[\]%s', get_class($this), __METHOD__));
+
+          logger::debug(sprintf('<cached object has no type> %s[\]%s', get_class($this), __METHOD__));
         }
       }
     } else {
-      if (config::$DB_CACHE_DEBUG) \sys::logger(sprintf('<cache not enabled> %s', __METHOD__));
+
+      if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('<cache not enabled> %s', __METHOD__));
     }
 
     $this->db->log = $this->log;
     if ($res = $this->Result(sprintf($this->_sql_getByID, $this->_db_name, (int)$id))) {
+
       if ($dto = $res->dto($this->template)) {
-        if (config::$DB_CACHE == 'APC') {
-          $cache->set($key, $dto);
-        }
+
+        if (config::$DB_CACHE == 'APC') $cache->set($key, $dto);
       }
 
-      return ($dto);
+      return $dto;
     }
 
     return false;
@@ -395,7 +403,7 @@ abstract class _dao {
     if (is_null($table)) $table = $this->db_name();
     if (is_null($table)) return false;
 
-    //~ \sys::logger( "checking for: $table" );
+    // logger::info( "checking for: $table" );
 
     if ('sqlite' == config::$DB_TYPE) {
 

@@ -11,9 +11,11 @@
 namespace bravedave\dvc\controller;
 
 use config, Controller, Response;
-use dvc\{
-  cssmin,
+use bravedave\dvc\{
   jslib
+};
+use dvc\{
+  cssmin
 };
 use sys;
 
@@ -82,12 +84,11 @@ class assets extends Controller {
 
       Response::javascript_headers();
       printf('( _ => {%s}) (_brayworth_);', implode($a));
-
     } else {
       // sys::dump( \jslib::$brayworthlibFiles);
       $files = [];
       foreach (jslib::$brayworthlibFiles as $f) {
-        $path = self::dvc_dir . $f;
+        $path = dirname(__DIR__) . DIRECTORY_SEPARATOR . $f;
         // printf( '%s<br />', $path);
         if ($_f = realpath($path)) {
           $key = basename($_f);
@@ -95,7 +96,7 @@ class assets extends Controller {
         }
       }
 
-      if ($type == 'bundle') array_unshift($files, self::dvc_dir . 'js/jquery-3.6.3.min.js');
+      if ($type == 'bundle') array_unshift($files, dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.3.min.js');
 
       // sys::dump( $files);
 
@@ -115,13 +116,13 @@ class assets extends Controller {
   public function jquery() {
     if ('3.4' == config::$JQUERY_VERSION) {
 
-      sys::serve(self::dvc_dir . 'js/jquery-3.4.1.min.js');
+      sys::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.4.1.min.js');
     } else {
 
-      // sys::serve(self::dvc_dir . 'js/jquery-3.5.1.min.js'));
-      // sys::serve(self::dvc_dir . 'js/jquery-3.6.0.min.js'));
-      // sys::serve(self::dvc_dir . 'js/jquery-3.6.1.min.js'));
-      sys::serve(self::dvc_dir . 'js/jquery-3.6.3.min.js');
+      // sys::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.5.1.min.js'));
+      // sys::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.0.min.js'));
+      // sys::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.1.min.js'));
+      sys::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.3.min.js');
     }
   }
 

@@ -50,8 +50,8 @@ class dbResult {
 
     if ($dto = $this->result->fetch_assoc()) {
 
-      if (is_null($template)) return (new dto($dto));
-      return (new $template($dto));
+      if (is_null($template)) return new dto($dto);
+      return new $template($dto);
     }
 
     return null;

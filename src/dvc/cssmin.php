@@ -17,11 +17,12 @@
 
 namespace dvc;
 
-use dvc\Exceptions\{
+use bravedave\dvc\Exceptions\{
   ExternalUseViolation,
   FileNotSpecified,
   LibraryFilesNotSpecified
 };
+
 use FilesystemIterator;
 use GlobIterator;
 

@@ -8,11 +8,9 @@
  *
 */
 
-namespace dvc\Exceptions;
-
-use bravedave\dvc\Exceptions\Exception;
+namespace bravedave\dvc\Exceptions;
 
 class LibraryFilesNotSpecified extends Exception {
-	protected $_text = 'The files required to create the Library were Not Specified';
 
+	protected $_text = 'The files required to create the Library were Not Specified';
 }
