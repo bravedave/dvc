@@ -1,9 +1,9 @@
 #!/bin/bash
 # this will
-# 1. install to working folder bootstrap4,
-# 2. Sync in bs4 scss
+# 1. install to working folder bootstrap5,
+# 2. Sync in bs5 scss
 # 3. compile changes
-# 4. create themed bs files in src/dvc/css/bootstrap4
+# 4. create themed bs files in src/dvc/css/bootstrap5
 
 if [ -x "$(command -v sassc)" ]; then
 
@@ -12,24 +12,25 @@ if [ -x "$(command -v sassc)" ]; then
     me=`basename "$0"`
     echo "start : $me"
 
-    [ -d src/dvc/css/bootstrap4 ] || mkdir src/dvc/css/bootstrap4
-    [ -d src/dvc/js/bootstrap4 ] || mkdir src/dvc/js/bootstrap4
+    [ -d src/bravedave/dvc/css/bootstrap5 ] || mkdir -p src/bravedave/dvc/css/bootstrap5
+    [ -d src/bravedave/dvc/js/bootstrap5 ] || mkdir -p src/bravedave/dvc/js/bootstrap5
 
     cd "$( dirname "${BASH_SOURCE[0]}" )"
 
-    [ -d bootstrap4 ] || mkdir bootstrap4
-    echo \*>bootstrap4/.gitignore
+    [ -d bootstrap5 ] || mkdir bootstrap5
+    echo \*>bootstrap5/.gitignore
 
-    composer req --working-dir=bootstrap4 twbs/bootstrap "<5"
+    # composer req --working-dir=bootstrap5 twbs/bootstrap "^5"
+    composer req --working-dir=bootstrap5 twbs/bootstrap "dev-main"
 
-    php bootstrap4JS.php
-    cd bootstrap4
+    php bootstrap5JS.php
+    cd bootstrap5
 
     rsync -a vendor/twbs/bootstrap/scss/./ scss/
 
     cd scss
 
-    targetDir="../../../css/bootstrap4/"
+    targetDir="../../../bravedave/dvc/css/bootstrap5/"
 
     cat ../../bootstrap-custom.scss bootstrap.scss >bootstrap-custom.scss
     sassc --omit-map-comment -t expanded bootstrap-custom.scss $targetDir/bootstrap.css

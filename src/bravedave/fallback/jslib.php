@@ -8,7 +8,7 @@
  *
 */
 
-abstract class jslib extends dvc\jslib {
+abstract class jslib extends bravedave\dvc\jslib {
 }
 
-bravedave\dvc\logger::deprecated('please call dvc\jslib directly');
+bravedave\dvc\logger::deprecated('please call bravedave\dvc\jslib directly');

@@ -14,7 +14,9 @@ use config;
 use dvc\cssmin;
 
 class _page {
-  protected $boolHeader = false,
+  protected
+    $boolOpen = false,
+    $boolHeader = false,
     $boolpageHeader = false,
     $headerOPEN = false,
     $contentOPEN = false,

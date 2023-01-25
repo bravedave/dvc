@@ -17,8 +17,7 @@ use dvc\{
   session,
   userAgent
 };
-use Json;
-use strings;
+use config, Json, strings;
 
 abstract class controller {
   public $authorized = false;
@@ -58,7 +57,7 @@ abstract class controller {
   public function __construct($rootPath) {
     if ($this->debug) \sys::logger(sprintf('__construct :: %s', __METHOD__));
     $this->rootPath = $rootPath;
-    $this->title = \config::$WEBNAME;
+    $this->title = config::$WEBNAME;
     $this->route = self::application()::route();
     if (is_null($this->label)) {
       $this->label = ucwords(get_class($this));
@@ -101,7 +100,7 @@ abstract class controller {
 
         if (!\currentUser::isadmin()) {
 
-          if ((new \dao\state)->offline()) \Response::redirect(strings::url('offline'));
+          if ((new \dao\state)->offline()) Response::redirect(strings::url('offline'));
         }
       }
     }
@@ -116,7 +115,7 @@ abstract class controller {
         $this->before();
       } else {
 
-        \Response::redirect(strings::url());  // The user is $authorised, but denied access by their _acl
+        Response::redirect(strings::url());  // The user is $authorised, but denied access by their _acl
       }
     } else {
 
@@ -166,7 +165,7 @@ abstract class controller {
 
       if ($_path) {
         if ($_file = realpath($_path)) {
-          \sys::serve($_file);
+          Response::serve($_file);
         } else {
           printf('%s - file not found', $_path);
           //~ \sys::dump( $_manifest);
@@ -261,7 +260,7 @@ abstract class controller {
         \user::clearGoogleFlag();
         if ($this->debug) \sys::logger(sprintf('gauth :: %s', __METHOD__));
 
-        \Response::redirect(strings::url('auth/request'));
+        Response::redirect(strings::url('auth/request'));
         return;
       }
     }
@@ -269,8 +268,8 @@ abstract class controller {
     if (\userAgent::isGoogleBot())
       exit;  // quietly
 
-    if (\config::use_inline_logon) {
-      $p = new \config::$PAGE_TEMPLATE_LOGON('Log On');
+    if (config::use_inline_logon) {
+      $p = new config::$PAGE_TEMPLATE_LOGON('Log On');
       $p->footer = false;
       $p->latescripts[] = '<script>(_ => $(document).ready( () => _.get.modal(_.url(\'logon/form\'))))( _brayworth_);</script>';
 
@@ -278,9 +277,9 @@ abstract class controller {
       $p->header()->content();
     } else {
       if ($this->Redirect_OnLogon) {
-        \Response::redirect(strings::url(sprintf('logon?referer=%s', $this->Redirect_OnLogon)));
+        Response::redirect(strings::url(sprintf('logon?referer=%s', $this->Redirect_OnLogon)));
       } else {
-        \Response::redirect(strings::url('logon'));
+        Response::redirect(strings::url('logon'));
       }
     }
     die;
@@ -446,7 +445,7 @@ abstract class controller {
     \sys::trace(sprintf('deprecated : %s', __METHOD__));
 
     $options = array_merge([
-      'title' => sprintf('%s Modal', \config::$WEBNAME),
+      'title' => sprintf('%s Modal', config::$WEBNAME),
       'class' => '',
       'header-class' => 'text-white bg-secondary py-2',
       'load' => false,
@@ -486,7 +485,7 @@ abstract class controller {
       'scripts' => [],
       'title' => $this->title,
       'bodyClass' => false,
-      'template' => \config::$PAGE_TEMPLATE,
+      'template' => config::$PAGE_TEMPLATE,
 
     ];
 
@@ -636,9 +635,9 @@ abstract class controller {
 			Tip 2: you can also add an image using data-image tag
 			*/
       $more = null;
-      if ('lightdash' == \config::$THEME) {
+      if ('lightdash' == config::$THEME) {
         $more = sprintf('data-color="orange" data-image="%s"', strings::url('theme/img/sidebar-5.jpg'));
-      } elseif ('material-dashboard' == \config::$THEME) {
+      } elseif ('material-dashboard' == config::$THEME) {
         $more = sprintf('data-color="rose" data-background-color="black" data-image="%s"', strings::url('theme/img/sidebar-1.jpg'));
       }
 
@@ -707,7 +706,7 @@ abstract class controller {
         );
 
         file_exists($_f) ?
-          \sys::serve($_f) :
+          Response::serve($_f) :
           \sys::logger('error serving lib tinymce.css');
 
         //~ sys::logger( sprintf( 'serving lib tinymce %s', $this->Request->getUri()));
@@ -724,7 +723,7 @@ abstract class controller {
 
   public function logout() {
     session::destroy(__METHOD__);
-    \Response::redirect();
+    Response::redirect();
     header('HTTP/1.1 401 Unauthorized');
   }
 

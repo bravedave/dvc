@@ -12,4 +12,5 @@ namespace dvc;
 
 use bravedave;
 
-class Request extends bravedave\dvc\Request {}
+class Request extends bravedave\dvc\Request {
+}

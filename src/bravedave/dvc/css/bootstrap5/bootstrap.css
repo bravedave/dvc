@@ -48,14 +48,14 @@
   --bs-danger-rgb: 220, 53, 69;
   --bs-light-rgb: 248, 249, 250;
   --bs-dark-rgb: 33, 37, 41;
-  --bs-primary-text: #014682;
-  --bs-secondary-text: #495057;
-  --bs-success-text: #0f5132;
-  --bs-info-text: #055160;
-  --bs-warning-text: #664d03;
-  --bs-danger-text: #842029;
-  --bs-light-text: #495057;
-  --bs-dark-text: #495057;
+  --bs-primary-text-emphasis: #014682;
+  --bs-secondary-text-emphasis: #495057;
+  --bs-success-text-emphasis: #0f5132;
+  --bs-info-text-emphasis: #055160;
+  --bs-warning-text-emphasis: #664d03;
+  --bs-danger-text-emphasis: #842029;
+  --bs-light-text-emphasis: #495057;
+  --bs-dark-text-emphasis: #495057;
   --bs-primary-bg-subtle: #cce3f7;
   --bs-secondary-bg-subtle: #f8f9fa;
   --bs-success-bg-subtle: #d1e7dd;
@@ -139,14 +139,14 @@
   --bs-tertiary-color-rgb: 173, 181, 189;
   --bs-tertiary-bg: #2b3035;
   --bs-tertiary-bg-rgb: 43, 48, 53;
-  --bs-primary-text: #67ace8;
-  --bs-secondary-text: #dee2e6;
-  --bs-success-text: #75b798;
-  --bs-info-text: #6edff6;
-  --bs-warning-text: #ffda6a;
-  --bs-danger-text: #ea868f;
-  --bs-light-text: #f8f9fa;
-  --bs-dark-text: #dee2e6;
+  --bs-primary-text-emphasis: #67ace8;
+  --bs-secondary-text-emphasis: #dee2e6;
+  --bs-success-text-emphasis: #75b798;
+  --bs-info-text-emphasis: #6edff6;
+  --bs-warning-text-emphasis: #ffda6a;
+  --bs-danger-text-emphasis: #ea868f;
+  --bs-light-text-emphasis: #f8f9fa;
+  --bs-dark-text-emphasis: #dee2e6;
   --bs-primary-bg-subtle: #00172b;
   --bs-secondary-bg-subtle: #212529;
   --bs-success-bg-subtle: #051b11;
@@ -8911,35 +8911,35 @@ textarea.form-control-lg {
 }
 
 .text-primary-emphasis {
-  color: var(--bs-primary-text) !important;
+  color: var(--bs-primary-text-emphasis) !important;
 }
 
 .text-secondary-emphasis {
-  color: var(--bs-secondary-text) !important;
+  color: var(--bs-secondary-text-emphasis) !important;
 }
 
 .text-success-emphasis {
-  color: var(--bs-success-text) !important;
+  color: var(--bs-success-text-emphasis) !important;
 }
 
 .text-info-emphasis {
-  color: var(--bs-info-text) !important;
+  color: var(--bs-info-text-emphasis) !important;
 }
 
 .text-warning-emphasis {
-  color: var(--bs-warning-text) !important;
+  color: var(--bs-warning-text-emphasis) !important;
 }
 
 .text-danger-emphasis {
-  color: var(--bs-danger-text) !important;
+  color: var(--bs-danger-text-emphasis) !important;
 }
 
 .text-light-emphasis {
-  color: var(--bs-light-text) !important;
+  color: var(--bs-light-text-emphasis) !important;
 }
 
 .text-dark-emphasis {
-  color: var(--bs-dark-text) !important;
+  color: var(--bs-dark-text-emphasis) !important;
 }
 
 .link-opacity-10 {

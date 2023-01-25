@@ -50,15 +50,18 @@
   },
   "scripts": {
     "bootstrap4": [
-      "bash src/dvc/resource/dvc-bootstrap-4.sh"
+      "bash src/resource/dvc-bootstrap-4.sh"
     ],
     "bootstrap5": [
-      "bash src/dvc/resource/dvc-bootstrap-5.sh"
+      "bash src/resource/dvc-bootstrap-5.sh"
+    ],
+    "bootstrap-icons": [
+      "bash src/resource/get-bootstrap-icons.sh"
     ],
     "post-update-cmd": [
-      "bash src/dvc/resource/dvc-bootstrap-4.sh",
-      "bash src/dvc/resource/dvc-bootstrap-5.sh",
-      "bash src/dvc/resource/get-bootstrap-icons.sh"
+      "bash src/resource/dvc-bootstrap-4.sh",
+      "bash src/resource/dvc-bootstrap-5.sh",
+      "bash src/resource/get-bootstrap-icons.sh"
     ],
     "start": "bash ./run.sh",
     "send-testmail": "tests\\tests::testmail"

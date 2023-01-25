@@ -10,7 +10,7 @@
 
 namespace dvc;
 
-use bravedave;
+use bravedave\dvc\{Response, hitter};
 
 use Monolog\Logger as MonoLogger;
 use Monolog\Formatter\LineFormatter;
@@ -29,19 +29,16 @@ abstract class sys {
   static $debug = false;
 
   protected static function _twbs_dir() {
+
     $dir = realpath(__DIR__ . '/../../../../twbs');
-    if (!$dir) {
-      $dir = realpath(__DIR__ . '/../../vendor/twbs');
-    }
+    if (!$dir) $dir = realpath(__DIR__ . '/../../vendor/twbs');
 
     return $dir;
   }
 
   public static function bootstrap_icon_dir() {
-    if ($dir = self::_twbs_dir()) {
-      return $dir . '/bootstrap-icons/icons/';
-    }
 
+    if ($dir = self::_twbs_dir()) return $dir . '/bootstrap-icons/icons/';
     return '';
   }
 
@@ -169,6 +166,7 @@ abstract class sys {
   }
 
   public static function getTemplate($template) {
+
     if ($template) {
       if ($template = preg_replace('/[^\da-z_]/i', '', $template)) {
         $template .= '.html';
@@ -183,8 +181,10 @@ abstract class sys {
         );
 
         if (file_exists($path)) {
-          \sys::serve($path);
+
+          Response::serve($path);
         } else {
+
           $path = sprintf(
             '%s%stemplates%s%s',
             __DIR__,
@@ -193,8 +193,7 @@ abstract class sys {
             $template
           );
 
-          if (file_exists($path))
-            \sys::serve($path);
+          if (file_exists($path)) Response::serve($path);
         }
       }
     }
@@ -222,7 +221,7 @@ abstract class sys {
     if ((int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel) {
       // error_log($v);
       // error_log($v);
-      logger::info( $v);
+      logger::info($v);
     }
   }
 
@@ -230,7 +229,8 @@ abstract class sys {
     error_log(sprintf('deprecated : %s', self::traceCaller()));
   }
 
-  public static function loaderCounter(bravedave\dvc\hitter $hitter) {
+  public static function loaderCounter(hitter $hitter) {
+
     error_log(sprintf('deprecated : %s', self::traceCaller()));
   }
 
@@ -430,157 +430,159 @@ abstract class sys {
     return ($ret);
   }
 
-  public static function serve($path) {
-    if (file_exists($path)) {
+  public static function serve($path): void {
 
-      $serve = [
-        'avi' => 'video/x-msvideo',
-        'doc' => 'application/msword',
-        'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'map' => 'text/plain',
-        'mp4' => 'video/mp4',
-        'mov' => 'video/quicktime',
-        'txt' => 'text/plain',
-        'xls' => 'application/vnd.ms-excel',
-        'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      ];
+    Response::serve($path);
+    //   if (file_exists($path)) {
 
-      $path_parts = pathinfo($path);
-      $mimetype = mime_content_type($path);
+    //     $serve = [
+    //       'avi' => 'video/x-msvideo',
+    //       'doc' => 'application/msword',
+    //       'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    //       'map' => 'text/plain',
+    //       'mp4' => 'video/mp4',
+    //       'mov' => 'video/quicktime',
+    //       'txt' => 'text/plain',
+    //       'xls' => 'application/vnd.ms-excel',
+    //       'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    //     ];
 
-      if (self::$debug) \sys::logger(sprintf('<%s> %s', $mimetype, __METHOD__));
+    //     $path_parts = pathinfo($path);
+    //     $mimetype = mime_content_type($path);
 
-      if ('image/jpeg' == $mimetype) {
-        if (strstr($path, url::$URL . 'images/')) {
-          Response::jpg_headers(filemtime($path), \config::$CORE_IMG_EXPIRE_TIME);
-        } else {
-          Response::jpg_headers(filemtime($path));
-        }
-        readfile($path);
-        if (self::$debug) \sys::logger("served: $path");
-      } elseif (isset($path_parts['extension'])) {
-        $ext = strtolower($path_parts['extension']);
+    //     if (self::$debug) \sys::logger(sprintf('<%s> %s', $mimetype, __METHOD__));
 
-        if ($ext == 'css') {
-          Response::css_headers(filemtime($path));
-          readfile($path);
-          if (self::$debug) \sys::logger("served: $path");
-        } elseif ($ext == 'js') {
-          $expires = 0;
-          if (strstr($path, 'jquery-'))
-            $expires = \config::$JQUERY_EXPIRE_TIME;
-          elseif (strstr($path, 'inputosaurus.js'))
-            $expires = \config::$JQUERY_EXPIRE_TIME;
-          elseif (strstr($path, 'tinylib.js'))
-            $expires = \config::$JQUERY_EXPIRE_TIME;
-          elseif (strstr($path, 'moment.min.js'))
-            $expires = \config::$JQUERY_EXPIRE_TIME;
-          elseif (strstr($path, 'bootstrap.min.js'))
-            $expires = \config::$JQUERY_EXPIRE_TIME;
-          elseif (strstr($path, 'brayworthlib.js'))
-            $expires = \config::$JQUERY_EXPIRE_TIME;
-          elseif (strings::endswith($path, '.js'))
-            $expires = \config::$JS_EXPIRE_TIME;
+    //     if ('image/jpeg' == $mimetype) {
+    //       if (strstr($path, url::$URL . 'images/')) {
+    //         Response::jpg_headers(filemtime($path), \config::$CORE_IMG_EXPIRE_TIME);
+    //       } else {
+    //         Response::jpg_headers(filemtime($path));
+    //       }
+    //       readfile($path);
+    //       if (self::$debug) \sys::logger("served: $path");
+    //     } elseif (isset($path_parts['extension'])) {
+    //       $ext = strtolower($path_parts['extension']);
 
-          Response::javascript_headers(filemtime($path), $expires);
-          readfile($path);
-          if (self::$debug) \sys::logger("served: $path");
-        } elseif ($ext == 'eml') {
-          Response::headers('application/octet-stream', filemtime($path));
-          header(sprintf('Content-Disposition: attachment; filename="%s"', $path_parts['basename']));
-          readfile($path);
-          if (self::$debug) \sys::logger("served: $path");
-        } elseif ($ext == 'eot') {
-          Response::headers('application/vnd.ms-fontobject', filemtime($path), \config::$FONT_EXPIRE_TIME);
-          readfile($path);
-          if (self::$debug) \sys::logger("served: $path");
-        } elseif ($ext == 'ico') {
-          Response::icon_headers(filemtime($path), \config::$CORE_IMG_EXPIRE_TIME);
-          readfile($path);
-          if (self::$debug) \sys::logger("served: $path");
-        } elseif ($ext == 'png') {
-          if (strstr($path, url::$URL . 'images/'))
-            Response::png_headers(filemtime($path), \config::$CORE_IMG_EXPIRE_TIME);
-          else
-            Response::png_headers(filemtime($path));
+    //       if ($ext == 'css') {
+    //         Response::css_headers(filemtime($path));
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger("served: $path");
+    //       } elseif ($ext == 'js') {
+    //         $expires = 0;
+    //         if (strstr($path, 'jquery-'))
+    //           $expires = \config::$JQUERY_EXPIRE_TIME;
+    //         elseif (strstr($path, 'inputosaurus.js'))
+    //           $expires = \config::$JQUERY_EXPIRE_TIME;
+    //         elseif (strstr($path, 'tinylib.js'))
+    //           $expires = \config::$JQUERY_EXPIRE_TIME;
+    //         elseif (strstr($path, 'moment.min.js'))
+    //           $expires = \config::$JQUERY_EXPIRE_TIME;
+    //         elseif (strstr($path, 'bootstrap.min.js'))
+    //           $expires = \config::$JQUERY_EXPIRE_TIME;
+    //         elseif (strstr($path, 'brayworthlib.js'))
+    //           $expires = \config::$JQUERY_EXPIRE_TIME;
+    //         elseif (strings::endswith($path, '.js'))
+    //           $expires = \config::$JS_EXPIRE_TIME;
 
-          readfile($path);
-          if (self::$debug) \sys::logger("served: $path");
-        } elseif ($ext == 'ttf' || $ext == 'otf') {
-          Response::headers('application/font-sfnt', filemtime($path), \config::$FONT_EXPIRE_TIME);
-          readfile($path);
-          if (self::$debug) \sys::logger("served: $path");
-        } elseif ($ext == 'woff' || $ext == 'woff2') {
-          Response::headers('application/font-woff', filemtime($path), \config::$FONT_EXPIRE_TIME);
-          readfile($path);
-          if (self::$debug) \sys::logger("served: $path");
-        } elseif ($ext == 'jpg' || $ext == 'jpeg') {
-          if (strstr($path, url::$URL . 'images/')) {
-            Response::jpg_headers(filemtime($path), \config::$CORE_IMG_EXPIRE_TIME);
-          } else {
-            Response::jpg_headers(filemtime($path));
-          }
-          readfile($path);
-          if (self::$debug) \sys::logger("served: $path");
-        } elseif ($ext == 'gif') {
-          if (strstr($path, url::$URL . 'images/')) {
-            Response::gif_headers(filemtime($path), \config::$CORE_IMG_EXPIRE_TIME);
-          } else {
-            Response::gif_headers(filemtime($path));
-          }
-          readfile($path);
-          if (self::$debug) \sys::logger("served: $path");
-        } elseif ($ext == 'svg') {
-          /*
-					* maybe the expire time is like javascript rather than images - this is conservative */
-          Response::headers('image/svg+xml', filemtime($path), \config::$JS_EXPIRE_TIME);
-          readfile($path);
-          if (self::$debug) \sys::logger("served: $path");
-        } elseif ($ext == 'json') {
-          Response::json_headers(filemtime($path));
-          readfile($path);
-          if (self::$debug) \sys::logger("served: $path");
-        } elseif ($ext == 'xml') {
-          Response::xml_headers(filemtime($path));
-          readfile($path);
-          if (self::$debug) \sys::logger("served: $path");
-        } elseif ($ext == 'csv') {
-          Response::csv_headers($path_parts['basename'], filemtime($path));
-          readfile($path);
-          if (self::$debug) \sys::logger(sprintf('served: %s', $path));
-        } elseif ($ext == 'pdf') {
-          Response::pdf_headers($path_parts['basename'], filemtime($path));
-          readfile($path);
-          if (self::$debug) \sys::logger(sprintf('served: %s', $path));
-        } elseif ($ext == 'tif' || $ext == 'tiff') {
-          Response::tiff_headers($path_parts['basename'], filemtime($path));
-          readfile($path);
-          if (self::$debug) \sys::logger(sprintf('served: %s', $path));
-        } elseif ($ext == 'zip') {
-          Response::zip_headers($path_parts['basename'], filemtime($path));
-          header("Content-Length: " . filesize($path));
-          // \sys::logger( sprintf('<nested output buffering : %s> %s', ob_get_level(), __METHOD__));
-          ob_flush();
-          ob_end_flush();
-          readfile($path);
-          if (self::$debug) \sys::logger(sprintf('served: %s', $path));
-        } elseif ($ext == 'html') {
-          Response::html_headers($path_parts['basename'], filemtime($path));
-          readfile($path);
-          if (self::$debug) \sys::logger(sprintf('served: %s', $path));
-        } elseif (isset($serve[$ext])) {
-          Response::headers($serve[$ext], filemtime($path));
-          readfile($path);
-          if (self::$debug) \sys::logger(sprintf('served %s from %s', $serve[$ext], $path));
-        } elseif (self::$debug) {
-          \sys::logger(sprintf('not serving (file type not served): %s', $path));
-        }
-      } else {
-        \sys::logger(sprintf('not serving : %s', $path));
-      }
-    } elseif (self::$debug) {
-      \sys::logger(sprintf('not serving (not found): %s', $path));
-    }
+    //         Response::javascript_headers(filemtime($path), $expires);
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger("served: $path");
+    //       } elseif ($ext == 'eml') {
+    //         Response::headers('application/octet-stream', filemtime($path));
+    //         header(sprintf('Content-Disposition: attachment; filename="%s"', $path_parts['basename']));
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger("served: $path");
+    //       } elseif ($ext == 'eot') {
+    //         Response::headers('application/vnd.ms-fontobject', filemtime($path), \config::$FONT_EXPIRE_TIME);
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger("served: $path");
+    //       } elseif ($ext == 'ico') {
+    //         Response::icon_headers(filemtime($path), \config::$CORE_IMG_EXPIRE_TIME);
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger("served: $path");
+    //       } elseif ($ext == 'png') {
+    //         if (strstr($path, url::$URL . 'images/'))
+    //           Response::png_headers(filemtime($path), \config::$CORE_IMG_EXPIRE_TIME);
+    //         else
+    //           Response::png_headers(filemtime($path));
+
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger("served: $path");
+    //       } elseif ($ext == 'ttf' || $ext == 'otf') {
+    //         Response::headers('application/font-sfnt', filemtime($path), \config::$FONT_EXPIRE_TIME);
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger("served: $path");
+    //       } elseif ($ext == 'woff' || $ext == 'woff2') {
+    //         Response::headers('application/font-woff', filemtime($path), \config::$FONT_EXPIRE_TIME);
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger("served: $path");
+    //       } elseif ($ext == 'jpg' || $ext == 'jpeg') {
+    //         if (strstr($path, url::$URL . 'images/')) {
+    //           Response::jpg_headers(filemtime($path), \config::$CORE_IMG_EXPIRE_TIME);
+    //         } else {
+    //           Response::jpg_headers(filemtime($path));
+    //         }
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger("served: $path");
+    //       } elseif ($ext == 'gif') {
+    //         if (strstr($path, url::$URL . 'images/')) {
+    //           Response::gif_headers(filemtime($path), \config::$CORE_IMG_EXPIRE_TIME);
+    //         } else {
+    //           Response::gif_headers(filemtime($path));
+    //         }
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger("served: $path");
+    //       } elseif ($ext == 'svg') {
+    //         /*
+    // 				* maybe the expire time is like javascript rather than images - this is conservative */
+    //         Response::headers('image/svg+xml', filemtime($path), \config::$JS_EXPIRE_TIME);
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger("served: $path");
+    //       } elseif ($ext == 'json') {
+    //         Response::json_headers(filemtime($path));
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger("served: $path");
+    //       } elseif ($ext == 'xml') {
+    //         Response::xml_headers(filemtime($path));
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger("served: $path");
+    //       } elseif ($ext == 'csv') {
+    //         Response::csv_headers($path_parts['basename'], filemtime($path));
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger(sprintf('served: %s', $path));
+    //       } elseif ($ext == 'pdf') {
+    //         Response::pdf_headers($path_parts['basename'], filemtime($path));
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger(sprintf('served: %s', $path));
+    //       } elseif ($ext == 'tif' || $ext == 'tiff') {
+    //         Response::tiff_headers($path_parts['basename'], filemtime($path));
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger(sprintf('served: %s', $path));
+    //       } elseif ($ext == 'zip') {
+    //         Response::zip_headers($path_parts['basename'], filemtime($path));
+    //         header("Content-Length: " . filesize($path));
+    //         // \sys::logger( sprintf('<nested output buffering : %s> %s', ob_get_level(), __METHOD__));
+    //         ob_flush();
+    //         ob_end_flush();
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger(sprintf('served: %s', $path));
+    //       } elseif ($ext == 'html') {
+    //         Response::html_headers($path_parts['basename'], filemtime($path));
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger(sprintf('served: %s', $path));
+    //       } elseif (isset($serve[$ext])) {
+    //         Response::headers($serve[$ext], filemtime($path));
+    //         readfile($path);
+    //         if (self::$debug) \sys::logger(sprintf('served %s from %s', $serve[$ext], $path));
+    //       } elseif (self::$debug) {
+    //         \sys::logger(sprintf('not serving (file type not served): %s', $path));
+    //       }
+    //     } else {
+    //       \sys::logger(sprintf('not serving : %s', $path));
+    //     }
+    //   } elseif (self::$debug) {
+    //     \sys::logger(sprintf('not serving (not found): %s', $path));
+    //   }
   }
 
   /**
@@ -593,121 +595,125 @@ abstract class sys {
    */
   public static function serveBootStrap(string $type = 'css', string $fontFile = null): void {
 
+    Response::serveBootStrap($type, $fontFile);
+
     // self::logger( sprintf('<%s> %s', $type, __METHOD__));
-    if ('icons' == $type) {
+    // if ('icons' == $type) {
 
-      if ($lib = realpath(self::_twbs_dir() . '/bootstrap-icons/font/bootstrap-icons.css')) {
+    //   if ($lib = realpath(self::_twbs_dir() . '/bootstrap-icons/font/bootstrap-icons.css')) {
 
-        self::serve($lib);
-      } else {
+    //     self::serve($lib);
+    //   } else {
 
-        \sys::logger(sprintf('<cannot locate bootstrap_font_css_file> %s', __METHOD__));
-      }
-    } elseif ('fonts' == $type) {
+    //     \sys::logger(sprintf('<cannot locate bootstrap_font_css_file> %s', __METHOD__));
+    //   }
+    // } elseif ('fonts' == $type) {
 
-      if (\in_array($fontFile, [
-        'bootstrap-icons.woff',
-        'bootstrap-icons.woff2'
-      ])) {
+    //   if (\in_array($fontFile, [
+    //     'bootstrap-icons.woff',
+    //     'bootstrap-icons.woff2'
+    //   ])) {
 
-        if ($lib = realpath(self::_twbs_dir() . '/bootstrap-icons/font/fonts/' . $fontFile)) {
-          // self::logger($lib);
-          self::serve($lib);
-        } else {
-          \sys::logger(sprintf('<cannot locate bootstrap_font_file> %s', __METHOD__));
-        }
-        // self::logger(realpath( __DIR__ . '/../../vendor/twbs/bootstrap-icons/font/'));
-      }
-    } elseif (\config::$BOOTSTRAP_REQUIRE_POPPER) {
-      \sys::logger(sprintf('deprecated : $BOOTSTRAP_REQUIRE_POPPER is deprecated : %s', __FILE__));
+    //     if ($lib = realpath(self::_twbs_dir() . '/bootstrap-icons/font/fonts/' . $fontFile)) {
+    //       // self::logger($lib);
+    //       self::serve($lib);
+    //     } else {
+    //       \sys::logger(sprintf('<cannot locate bootstrap_font_file> %s', __METHOD__));
+    //     }
+    //     // self::logger(realpath( __DIR__ . '/../../vendor/twbs/bootstrap-icons/font/'));
+    //   }
+    // } elseif (\config::$BOOTSTRAP_REQUIRE_POPPER) {
+    //   \sys::logger(sprintf('deprecated : $BOOTSTRAP_REQUIRE_POPPER is deprecated : %s', __FILE__));
 
-      if ('css' == $type) {
-        $lib = __DIR__ . '/bootstrap4/css/bootstrap.min.css';
-        self::serve($lib);
-      } elseif ('js' == $type) {
-        $files = [
-          __DIR__ . '/bootstrap4/js/bootstrap.js',
-          __DIR__ . '/bootstrap4/js/popper.js',
+    //   if ('css' == $type) {
+    //     $lib = __DIR__ . '/bootstrap4/css/bootstrap.min.css';
+    //     self::serve($lib);
+    //   } elseif ('js' == $type) {
+    //     $files = [
+    //       __DIR__ . '/bootstrap4/js/bootstrap.js',
+    //       __DIR__ . '/bootstrap4/js/popper.js',
 
-        ];
+    //     ];
 
-        jslib::viewjs([
-          'debug' => false,
-          'libName' => 'bootstrap4',
-          'jsFiles' => $files,
-          'libFile' => \config::tempdir()  . '_bootstrap4_tmp.js'
+    //     jslib::viewjs([
+    //       'debug' => false,
+    //       'libName' => 'bootstrap4',
+    //       'jsFiles' => $files,
+    //       'libFile' => \config::tempdir()  . '_bootstrap4_tmp.js'
 
-        ]);
-      }
-    } elseif ('css' == $type) {
+    //     ]);
+    //   }
+    // } elseif ('css' == $type) {
 
-      $themeFile = __DIR__ . '/css/bootstrap4/bootstrap.min.css';
-      if ('blue' == \currentUser::option('theme')) {
-        $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-blue.min.css';
-      } elseif ('orange' == \currentUser::option('theme')) {
-        $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-orange.min.css';
-      } elseif ('pink' == \currentUser::option('theme')) {
-        $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-pink.min.css';
-      } elseif ('blue' == \config::$THEME) {
-        $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-blue.min.css';
-      } elseif ('orange' == \config::$THEME) {
-        $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-orange.min.css';
-      } elseif ('pink' == \config::$THEME) {
-        $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-pink.min.css';
-      }
-      if ($lib = realpath($themeFile)) {
+    //   $themeFile = __DIR__ . '/css/bootstrap4/bootstrap.min.css';
+    //   if ('blue' == \currentUser::option('theme')) {
+    //     $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-blue.min.css';
+    //   } elseif ('orange' == \currentUser::option('theme')) {
+    //     $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-orange.min.css';
+    //   } elseif ('pink' == \currentUser::option('theme')) {
+    //     $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-pink.min.css';
+    //   } elseif ('blue' == \config::$THEME) {
+    //     $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-blue.min.css';
+    //   } elseif ('orange' == \config::$THEME) {
+    //     $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-orange.min.css';
+    //   } elseif ('pink' == \config::$THEME) {
+    //     $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-pink.min.css';
+    //   }
+    //   if ($lib = realpath($themeFile)) {
 
-        self::serve($lib);
-      } else {
+    //     self::serve($lib);
+    //   } else {
 
-        // \sys::logger(sprintf('<cannot locate bootstrap_css_file> <%s> %s', __DIR__, __METHOD__));
-        \sys::logger(sprintf('<cannot locate bootstrap_css_file> <%s> %s', $themeFile, __METHOD__));
-      }
-    } elseif ('js' == $type) {
+    //     // \sys::logger(sprintf('<cannot locate bootstrap_css_file> <%s> %s', __DIR__, __METHOD__));
+    //     \sys::logger(sprintf('<cannot locate bootstrap_css_file> <%s> %s', $themeFile, __METHOD__));
+    //   }
+    // } elseif ('js' == $type) {
 
-      if ($lib = realpath(__DIR__ . '/js/bootstrap4/bootstrap.bundle.min.js')) {
+    //   if ($lib = realpath(__DIR__ . '/js/bootstrap4/bootstrap.bundle.min.js')) {
 
-        self::serve($lib);
-      } else {
+    //     self::serve($lib);
+    //   } else {
 
-        \sys::logger(sprintf('<cannot locate bootstrap.bundle.min.js> %s', __METHOD__));
-      }
-    } else {
+    //     \sys::logger(sprintf('<cannot locate bootstrap.bundle.min.js> %s', __METHOD__));
+    //   }
+    // } else {
 
-      \sys::logger(sprintf('<%s> %s', $type, __METHOD__));
-    }
+    //   \sys::logger(sprintf('<%s> %s', $type, __METHOD__));
+    // }
   }
 
-  public static function serveBootStrap5($type = 'css') {
+  public static function serveBootStrap5($type = 'css'): void {
 
-    if ('css' == $type) {
-      $lib = __DIR__ . '/css/bootstrap5/bootstrap.min.css';
-      if ('blue' == \currentUser::option('theme')) {
-        $lib = __DIR__ . '/css/bootstrap5/bootstrap-blue.min.css';
-      } elseif ('orange' == \currentUser::option('theme')) {
-        $lib = __DIR__ . '/css/bootstrap5/bootstrap-orange.min.css';
-      } elseif ('pink' == \currentUser::option('theme')) {
-        $lib = __DIR__ . '/css/bootstrap5/bootstrap-pink.min.css';
-      } elseif ('blue' == \config::$THEME) {
-        $lib = __DIR__ . '/css/bootstrap5/bootstrap-blue.min.css';
-      } elseif ('orange' == \config::$THEME) {
-        $lib = __DIR__ . '/css/bootstrap5/bootstrap-orange.min.css';
-      } elseif ('pink' == \config::$THEME) {
-        $lib = __DIR__ . '/css/bootstrap5/bootstrap-pink.min.css';
-      }
-      // \sys::logger(sprintf('<%s> %s', $lib, __METHOD__));
-      self::serve($lib);
-    } elseif ('polyfill' == $type) {
+    Response::serveBootStrap5($type);
 
-      $lib = sprintf('%s/resource/bootstrap4-5.polyfill.css', __DIR__);
-      // \sys::logger( sprintf('<%s> %s', $lib, __METHOD__));
-      self::serve($lib);
-    } elseif ('js' == $type) {
+    // if ('css' == $type) {
+    //   $lib = __DIR__ . '/css/bootstrap5/bootstrap.min.css';
+    //   if ('blue' == \currentUser::option('theme')) {
+    //     $lib = __DIR__ . '/css/bootstrap5/bootstrap-blue.min.css';
+    //   } elseif ('orange' == \currentUser::option('theme')) {
+    //     $lib = __DIR__ . '/css/bootstrap5/bootstrap-orange.min.css';
+    //   } elseif ('pink' == \currentUser::option('theme')) {
+    //     $lib = __DIR__ . '/css/bootstrap5/bootstrap-pink.min.css';
+    //   } elseif ('blue' == \config::$THEME) {
+    //     $lib = __DIR__ . '/css/bootstrap5/bootstrap-blue.min.css';
+    //   } elseif ('orange' == \config::$THEME) {
+    //     $lib = __DIR__ . '/css/bootstrap5/bootstrap-orange.min.css';
+    //   } elseif ('pink' == \config::$THEME) {
+    //     $lib = __DIR__ . '/css/bootstrap5/bootstrap-pink.min.css';
+    //   }
+    //   // \sys::logger(sprintf('<%s> %s', $lib, __METHOD__));
+    //   self::serve($lib);
+    // } elseif ('polyfill' == $type) {
 
-      $lib = sprintf('%s/js/bootstrap5/bootstrap.bundle.min.js', __DIR__);
-      // \sys::logger( sprintf('<%s> %s', $lib, __METHOD__));
-      self::serve($lib);
-    }
+    //   $lib = sprintf('%s/resource/bootstrap4-5.polyfill.css', __DIR__);
+    //   // \sys::logger( sprintf('<%s> %s', $lib, __METHOD__));
+    //   self::serve($lib);
+    // } elseif ('js' == $type) {
+
+    //   $lib = sprintf('%s/js/bootstrap5/bootstrap.bundle.min.js', __DIR__);
+    //   // \sys::logger( sprintf('<%s> %s', $lib, __METHOD__));
+    //   self::serve($lib);
+    // }
   }
 
   public static function serveFullcalendar($type = 'css') {

@@ -10,9 +10,10 @@
 
 namespace bravedave\dvc\controller;
 
-use config, Controller, Response;
+use config, Controller;
 use bravedave\dvc\{
-  jslib
+  jslib,
+  Response
 };
 use dvc\{
   cssmin
@@ -35,13 +36,13 @@ class assets extends Controller {
 
     if ('fonts' == $type) {
 
-      sys::serveBootStrap($type, $version);
+      Response::serveBootStrap($type, $version);
     } elseif (4 == (int)$version) {
 
-      sys::serveBootStrap($type);
+      Response::serveBootStrap($type);
     } elseif (5 == (int)$version && in_array($type, ['polyfill', 'css', 'js'])) {
 
-      sys::serveBootStrap5($type);
+      Response::serveBootStrap5($type);
     }
   }
 
@@ -116,13 +117,13 @@ class assets extends Controller {
   public function jquery() {
     if ('3.4' == config::$JQUERY_VERSION) {
 
-      sys::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.4.1.min.js');
+      Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.4.1.min.js');
     } else {
 
-      // sys::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.5.1.min.js'));
-      // sys::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.0.min.js'));
-      // sys::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.1.min.js'));
-      sys::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.3.min.js');
+      // Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.5.1.min.js'));
+      // Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.0.min.js'));
+      // Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.1.min.js'));
+      Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.3.min.js');
     }
   }
 
@@ -139,7 +140,7 @@ class assets extends Controller {
       );
 
       file_exists($_f) ?
-        sys::serve($_f) :
+        Response::serve($_f) :
         sys::logger('error serving lib tinymce.css');
 
       //~ sys::logger( sprintf( 'serving lib tinymce %s', $this->Request->getUri()));

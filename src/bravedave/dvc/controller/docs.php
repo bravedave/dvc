@@ -13,6 +13,8 @@ namespace bravedave\dvc\controller;
 use config, Controller, sys;
 use strings;
 
+use bravedave\dvc\Response;
+
 class docs extends Controller {
   protected $RequireValidation = config::lockdown;
 
@@ -51,7 +53,7 @@ class docs extends Controller {
 
     if (preg_match('@\.(png|jpg)$@', $view) && $_img = $this->_hasImage($view)) {
 
-      sys::serve($_img);
+      Response::serve($_img);
     } else {
 
       $contents = ['contents'];

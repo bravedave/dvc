@@ -13,8 +13,6 @@ namespace dvc\pages;
 class page extends _page {
   public $timer = null;
 
-  protected $boolOpen = false;
-
   static public $Bootstrap_Version = '3';
 
   static public $BootStrap = false;

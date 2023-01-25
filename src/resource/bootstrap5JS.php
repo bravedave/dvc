@@ -9,15 +9,16 @@
  *
 */
 
-include __DIR__ . '/../../../vendor/autoload.php';
+include __DIR__ . '/../../vendor/autoload.php';
 
 $src = realpath(__DIR__ . '/bootstrap5/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.js');
-$minifiedPath = realpath(__DIR__ . '/../../dvc/js/bootstrap5');
+$minifiedPath = realpath(__DIR__ . '/../bravedave/dvc/js/bootstrap5');
 
 if ($src) {
 
   if ( $minifiedPath) {
 
+    print "target path : $minifiedPath\n";
     $minifier = new \MatthiasMullie\Minify\JS($src);
     $minifier->minify($minifiedPath . '/bootstrap.bundle.min.js');
   } else {
