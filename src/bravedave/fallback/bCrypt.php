@@ -8,6 +8,6 @@
  *
 */
 
-class bCrypt extends dvc\bCrypt {}
+class bCrypt extends bravedave\dvc\bCrypt {}
 
 bravedave\dvc\logger::deprecated( 'do not continue to use this class (bCrypt)');

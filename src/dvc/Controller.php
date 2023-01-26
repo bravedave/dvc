@@ -6,8 +6,6 @@
  *
  * MIT License
  *
- *  DO NOT change this file
- *  Copy it to <application>/app/dvc/ and modify it there
 */
 
 namespace dvc;
@@ -15,3 +13,5 @@ namespace dvc;
 use bravedave;
 
 abstract class Controller extends bravedave\dvc\controller {}
+
+logger::deprecated(sprintf('do not continue to use this class (dvc\Controller) : %s', __METHOD__));
