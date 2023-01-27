@@ -230,7 +230,7 @@ abstract class jslib {
 
     $path = implode(DIRECTORY_SEPARATOR, [
       \application::app()->getInstallPath(),
-      'dvc',
+      'bravedave',
       'public',
       'js',
       'tinymce5'
@@ -284,15 +284,6 @@ abstract class jslib {
     $debug = self::$debug;
     $debug = false;
     // $debug = true;
-
-    // $path = implode(DIRECTORY_SEPARATOR, [
-    //   \application::app()->getInstallPath(),
-    //   'dvc',
-    //   'public',
-    //   'js',
-    //   'tinymce5'
-
-    // ]);
 
     $path = self::tiny6_dir();
 
