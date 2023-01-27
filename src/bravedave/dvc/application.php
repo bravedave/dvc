@@ -10,7 +10,7 @@
 
 namespace bravedave\dvc;
 
-use config;
+use config, strings;
 
 use dvc\{
   errsys,
@@ -229,7 +229,7 @@ class application {
      */
     if (method_exists($this->url_controller, $this->url_action)) {
 
-      $this->url_served = \strings::url(implode('/', [
+      $this->url_served = strings::url(implode('/', [
         self::Request()->getControllerName(),
         self::Request()->getActionName()
       ]), $protcol = true);
@@ -294,7 +294,7 @@ class application {
       }
     } else {
 
-      $this->url_served = \strings::url(
+      $this->url_served = strings::url(
         self::Request()->getControllerName(),
         $protcol = true
       );
@@ -398,35 +398,43 @@ class application {
   }
 
   protected function _publicFile($_url) {
+
+    $debug = false;
+    // $debug = true;
+
     if (!$_url) return false;
 
     $_file = sprintf('%s/app/public/%s', $this->rootPath, $_url);
 
-    if (self::$debug) logger::debug(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
+    if ($debug) logger::debug(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
     if (file_exists($_file)) {
 
-      $this->url_served = \strings::url(self::Request()->getUrl(), $protcol = true);
+      $this->url_served = strings::url(self::Request()->getUrl(), $protcol = true);
       $this->_serve($_file);
       return true;
     }
 
     $_file = sprintf('%s/public/%s', $this->rootPath, $_url);
-    if (self::$debug) logger::debug(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
+    if ($debug) logger::debug(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
     if (file_exists($_file)) {
 
       logger::deprecated(sprintf('DEPRECATED FILE LOCATION :: %s', $_file));
       logger::deprecated(sprintf('Please use app/public :: %s', $_file));
-      $this->url_served = \strings::url(self::Request()->getUrl(), $protcol = true);
+      $this->url_served = strings::url(self::Request()->getUrl(), $protcol = true);
       $this->_serve($_file);
       return true;
     }
 
-    /* this is a system level document */
-    $_file = sprintf('%s/../public/%s', __DIR__, $_url);
-    if (self::$debug) logger::debug(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
+    /**
+     * system level public document
+     * e.g. vendor/bravedave/dvc/src/bravedave/public/css/font-awesome.min.css
+     */
+
+    $_file = sprintf('%s/public/%s', dirname(__DIR__), $_url);
+    if ($debug) logger::debug(sprintf('<vendor :: %s> %s', $_file, __METHOD__));
     if (file_exists($_file)) {
 
-      $this->url_served = \strings::url(self::Request()->getUrl(), $protcol = true);
+      $this->url_served = strings::url(self::Request()->getUrl(), $protcol = true);
       $this->_serve($_file);
       return true;
     }
