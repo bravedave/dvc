@@ -54,13 +54,9 @@ class Request {
 
       $input = file_get_contents('php://input');
       if (strings::isValidJSON($input)) {
-        // \sys::logger( sprintf('<%s> %s', 'isPost/json', __METHOD__));
+        // logger::info( sprintf('<%s> %s', 'isPost/json', __METHOD__));
         $this->json = (object)json_decode($input);
       }
-      // else {
-      //   \sys::logger( sprintf('<%s> %s', 'isPost', __METHOD__));
-
-      // }
     }
 
     $this->params = array_merge($this->query, $this->post);
@@ -69,41 +65,41 @@ class Request {
       $this->uri = trim($_SERVER['REQUEST_URI'], '/');
 
     if (isset($_GET['url'])) {
-      \sys::logger('DEPRECATION:');
-      \sys::logger(' .htaccess');
-      \sys::logger(' use FallbackResource instead of ReWriteEngine');
-      \sys::logger(' ---');
-      \sys::logger(' RewriteEngine Off');
-      \sys::logger('');
-      \sys::logger(' FallbackResource /_dvc.php');
-      \sys::logger('');
+      logger::info('DEPRECATION:');
+      logger::info(' .htaccess');
+      logger::info(' use FallbackResource instead of ReWriteEngine');
+      logger::info(' ---');
+      logger::info(' RewriteEngine Off');
+      logger::info('');
+      logger::info(' FallbackResource /_dvc.php');
+      logger::info('');
 
       $this->url = trim($_GET['url'], '/');
     } else {
+
       $this->url = $this->uri;
     }
 
     $url = filter_var($this->url, FILTER_SANITIZE_URL);
     $url = preg_replace('/\?(.*)$/', '', $url);
     if ($url == 'sitemap.txt') {
+
       $this->segments = ['sitemap', 'txt'];
     } else {
+
       $segs = explode('/', $url);
       $this->segments = [];
       foreach ($segs as $seg) {
+
         if ($seg) {
           if (!preg_match('/^[a-z0-9]/i', $seg)) {
-            \sys::logger(sprintf('<%s> %s', $seg, __METHOD__));
+            logger::info(sprintf('<%s> %s', $seg, __METHOD__));
             break;
           }
           $this->segments[] = $seg;
         }
       }
     }
-
-    // sys::logger( $url);
-    // $q = []; foreach( $this->query as $k => $v) $q[] = sprintf( '%s=%s', $k, $v);
-    // sys::logger( implode(';',$q));
   }
 
   public function DNT() {
@@ -125,7 +121,7 @@ class Request {
       }
     }
 
-    \sys::logger(sprintf('set ReWriteBase to :%s:', $rwb), 5);
+    logger::info(sprintf('set ReWriteBase to :%s:', $rwb), 5);
     $this->_RewriteBase = $rwb;
   }
 
@@ -178,7 +174,7 @@ class Request {
   }
 
   public function getUrl() {
-    return ($this->url);
+    return $this->url;
   }
 
   public function getReferer() {
@@ -205,7 +201,7 @@ class Request {
           $ip = trim($ip); // just to be safe
           if ($this->ServerIsLocal()) {
             if (filter_var($ip, FILTER_VALIDATE_IP) !== false) {
-              // \sys::logger( sprintf('<%s> %s', $ip, __METHOD__));
+              // logger::info( sprintf('<%s> %s', $ip, __METHOD__));
               return $ip;
             }
           } elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_RES_RANGE) !== false) {
@@ -238,7 +234,7 @@ class Request {
       $a = explode('.', $ip);
       if (4 == count($a)) {
         $subnet = sprintf('%d.%d.%d', $a[0], $a[1], $a[2]);
-        // \sys::logger( sprintf('<%s> %s', $subnet, __METHOD__));
+        // logger::info( sprintf('<%s> %s', $subnet, __METHOD__));
 
         return ($subnet);
       }
@@ -256,7 +252,7 @@ class Request {
       return (self::$_serverIsLocal = true);
     }
 
-    // \sys::logger( sprintf('<%s : %s> server is not local : %s',
+    // logger::info( sprintf('<%s : %s> server is not local : %s',
     // 	$_SERVER['SERVER_NAME'],
     // 	gethostname(),
     // 	__METHOD__));
@@ -275,7 +271,7 @@ class Request {
     $thisSubNet = $this->getSubNet($thisIP);
     $remoteSubNet = $this->getSubNet($remoteIP);
 
-    //~ \sys::logger( sprintf( '%s/%s :: %s/%s', $thisIP, $thisSubNet, $remoteIP, $remoteSubNet));
+    //~ logger::info( sprintf( '%s/%s :: %s/%s', $thisIP, $thisSubNet, $remoteIP, $remoteSubNet));
 
     return ($thisSubNet == $remoteSubNet);
   }
@@ -353,45 +349,44 @@ class Request {
     }
 
     foreach ($_FILES as $key => $file) {
-      if ($debug) \sys::logger(sprintf('/upload: %s : %s', $key, $file['name']));
+      if ($debug) logger::debug(sprintf('/upload: %s : %s', $key, $file['name']));
       if ($file['error'] == UPLOAD_ERR_INI_SIZE) {
-        if ($debug) \sys::logger(sprintf('upload: %s is too large (ini)', $file['name']));
+        if ($debug) logger::debug(sprintf('upload: %s is too large (ini)', $file['name']));
         $response['description'][] = $file['name'] . ' is too large (ini)';
         $response['response'] = 'nak';
       } elseif ($file['error'] == UPLOAD_ERR_FORM_SIZE) {
-        if ($debug) \sys::logger(sprintf('upload: %s is too large (form)', $file['name']));
+        if ($debug) logger::debug(sprintf('upload: %s is too large (form)', $file['name']));
         $response['description'][] = $file['name'] . ' is too large (form)';
         $response['response'] = 'nak';
       } elseif (is_uploaded_file($file['tmp_name'])) {
         $strType = $file['type'];
-        if ($debug) \sys::logger(sprintf('upload: %s (%s)', $file['name'], $strType));
+        if ($debug) logger::debug(sprintf('upload: %s (%s)', $file['name'], $strType));
 
         $ok = true;
         if (in_array($strType, $accept)) {
           $source = $file['tmp_name'];
           $target = sprintf('%s/%s', $path, $file['name']);
 
-          if (file_exists($target))
-            unlink($target);
+          if (file_exists($target)) unlink($target);
 
           if (move_uploaded_file($source, $target)) {
             $response['description'][] = $file['name'] . ' uploaded';
             $response['files'][$key] = $file['name'];
           } else {
-            if ($debug) \sys::logger("Possible file upload attack!  Here's some debugging info:\n" . var_export($_FILES, TRUE));
+            if ($debug) logger::debug("Possible file upload attack!  Here's some debugging info:\n" . var_export($_FILES, TRUE));
           }
         } elseif ($strType == "") {
-          if ($debug) \sys::logger(sprintf('upload: %s invalid file type', $file['name']));
+          if ($debug) logger::debug(sprintf('upload: %s invalid file type', $file['name']));
           $response['description'][] = $file['name'] . ' invalid file type ..';
           $response['response'] = 'nak';
         } else {
-          if ($debug) \sys::logger(sprintf('upload: %s file type not permitted - %s', $file['name'], $strType));
+          if ($debug) logger::debug(sprintf('upload: %s file type not permitted - %s', $file['name'], $strType));
           $response['description'][] = $file['name'] . ' file type not permitted ..: ' . $strType;
           $response['response'] = 'nak';
         }
       }  // elseif ( is_uploaded_file( $file['tmp_name'] )) {
       else {
-        if ($debug) \sys::logger(sprintf('not :: is_uploaded_file( %s)', print_r($file, true)));
+        if ($debug) logger::debug(sprintf('not :: is_uploaded_file( %s)', print_r($file, true)));
       }
     }
 
