@@ -11,7 +11,8 @@
 namespace dvc\dao;
 
 use bravedave\dvc\logger;
-use config, dvc, bravedave;
+use bravedave\dvc\Exceptions\DBNameIsNull;
+use config, bravedave, dvc;
 use RuntimeException;
 
 abstract class _dao {
@@ -32,7 +33,7 @@ abstract class _dao {
 
       // logger::info( sprintf('<Call the doctor I think I\'m gonna crash> %s', __METHOD__));
       // logger::info( sprintf('<The doctor say he\'s coming but you gotta create a config file buddy> %s', __METHOD__));
-      throw new dvc\Exceptions\DBNotConfigured;
+      throw new bravedave\dvc\Exceptions\DBNotConfigured;
     }
 
     $this->db = is_null($db) ? \sys::dbi() : $db;
@@ -112,10 +113,13 @@ abstract class _dao {
   }
 
   protected function _create() {
+
     if ('sqlite' == config::$DB_TYPE) {
+
       $fieldList = $this->db->fieldList($this->db_name());
-      $o = new dvc\dao\dto\dto;
+      $o = new bravedave\dvc\dto;
       foreach ($fieldList as $f) {
+
         $o->{$f->name} = $f->dflt_value;
       }
 
@@ -143,27 +147,32 @@ abstract class _dao {
       $type = strtoupper(preg_replace('@\(.*$@', '', $dto->Type));
 
       if ('BIGINT' == $type || 'SMALLINT' == $type || 'TINYINT' == $type || 'INT' == $type) {
+
         $dto->Len = trim(preg_replace('@^.*\(@', '', $dto->Type), ') ');
         $dto->Type = $type;
         $dto->Default = (int)$dto->Default;
       } elseif ('DATE' == $type || 'DATETIME' == $type) {
+
         $dto->Type = $type;
       } elseif ('MEDIUMTEXT' == $type || 'TEXT' == $type) {
+
         $dto->Type = $type;
       } elseif ('VARCHAR' == $type || 'VARBINARY' == $type) {
+
         $dto->Len = trim(preg_replace('@^.*\(@', '', $dto->Type), ') ');
         $dto->Type = $type;
       }
 
-      return ($dto);
+      return $dto;
     });
 
-    $o = new dvc\dao\dto\dto;
+    $o = new bravedave\dvc\dto;
     foreach ($dtoSet as $dto) {
+
       $o->{$dto->Field} = $dto->Default;
     }
 
-    return ($o);
+    return $o;
   }
 
   public function cacheDelete(int $id): void {
@@ -183,7 +192,7 @@ abstract class _dao {
   }
 
   public function count(): int {
-    if (is_null($this->_db_name)) throw new dvc\Exceptions\DBNameIsNull;
+    if (is_null($this->_db_name)) throw new DBNameIsNull;
 
     if ($res = $this->Result(sprintf('SELECT COUNT(*) as i FROM `%s`', $this->_db_name))) {
       if ($dto = $res->dto()) {
@@ -203,9 +212,8 @@ abstract class _dao {
   }
 
   public function delete($id) {
-    if (is_null($this->_db_name)) {
-      throw new dvc\Exceptions\DBNameIsNull;
-    }
+
+    if (is_null($this->_db_name)) throw new DBNameIsNull;
 
     $this->db->log = $this->log;
     $this->Q(sprintf('DELETE FROM %s WHERE id = %d', $this->_db_name, (int)$id));
@@ -234,7 +242,7 @@ abstract class _dao {
   }
 
   public function getAll($fields = '*', $order = '') {
-    if (is_null($this->_db_name)) throw new dvc\Exceptions\DBNameIsNull;
+    if (is_null($this->_db_name)) throw new DBNameIsNull;
 
     $this->db->log = $this->log;
     return ($this->Result(sprintf($this->_sql_getAll, $fields, $this->db_name(), $order)));
@@ -242,7 +250,7 @@ abstract class _dao {
 
   public function getByID($id) {
 
-    if (is_null($this->_db_name)) throw new dvc\Exceptions\DBNameIsNull;
+    if (is_null($this->_db_name)) throw new DBNameIsNull;
 
     if (config::$DB_CACHE == 'APC') {
 
@@ -295,9 +303,8 @@ abstract class _dao {
   }
 
   public function getFieldByID($id, $fld) {
-    if (is_null($this->_db_name)) {
-      throw new dvc\Exceptions\DBNameIsNull;
-    }
+
+    if (is_null($this->_db_name)) throw new DBNameIsNull;
 
     if (config::$DB_CACHE == 'APC') {
       $cache = dvc\cache::instance();
@@ -326,9 +333,8 @@ abstract class _dao {
   // }
 
   public function Insert($a) {
-    if (is_null($this->db_name())) {
-      throw new dvc\Exceptions\DBNameIsNull;
-    }
+
+    if (is_null($this->db_name())) throw new DBNameIsNull;
 
     $a = (array)$a;
     if (isset($a['id'])) {
@@ -340,19 +346,16 @@ abstract class _dao {
   }
 
   public function Update($a, $condition, $flushCache = true) {
-    if (is_null($this->db_name()))
-      throw new dvc\Exceptions\DBNameIsNull;
+    if (is_null($this->db_name())) throw new DBNameIsNull;
 
     $this->db->log = $this->log;
     return ($this->db->Update($this->db_name(), $a, $condition, $flushCache));
   }
 
   public function UpdateByID($a, $id) {
-    if (is_null($this->db_name()))
-      throw new dvc\Exceptions\DBNameIsNull;
 
+    if (is_null($this->db_name())) throw new DBNameIsNull;
     $this->cacheDelete($id);
-
     return ($this->Update($a, sprintf('WHERE id = %d', $id), $flushCache = false));
   }
 

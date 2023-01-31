@@ -11,7 +11,7 @@
 namespace dvc\pdo;
 
 use config;
-use dvc\Exceptions\DBNotConfigured;
+use bravedave\dvc\Exceptions\DBNotConfigured;
 use PDO, PDOException;
 use PDOStatement;
 
@@ -58,6 +58,7 @@ class db {
 
       \sys::logger(sprintf('<%s> %s', $this->_dsn, __METHOD__));
     } else {
+
       throw new DBNotConfigured;
     }
   }
