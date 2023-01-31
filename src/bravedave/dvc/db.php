@@ -127,7 +127,7 @@ class db {
        *	if you are here it is because Update was called casually outside
        *	of UpdateByID <=> a master flush is required
        */
-      $cache = \dvc\cache::instance();
+      $cache = cache::instance();
       $cache->flush();
       if (config::$DB_CACHE_DEBUG || config::$DB_CACHE_DEBUG_FLUSH) {
 

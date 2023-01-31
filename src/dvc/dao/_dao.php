@@ -177,7 +177,7 @@ abstract class _dao {
 
   public function cacheDelete(int $id): void {
     if (config::$DB_CACHE == 'APC') {
-      $cache = dvc\cache::instance();
+      $cache = bravedave\dvc\cache::instance();
       $key = $this->cacheKey_delete($id);
       $cache->delete($key, true);
     }
@@ -218,7 +218,7 @@ abstract class _dao {
 
     $this->cacheDelete($id);
     // if (config::$DB_CACHE == 'APC') {
-    //   $cache = dvc\cache::instance();
+    //   $cache = bravedave\dvc\cache::instance();
     //   $key = $this->cacheKey_delete($id);
     //   $cache->delete($key, true);
     // }
@@ -252,7 +252,7 @@ abstract class _dao {
 
     if (config::$DB_CACHE == 'APC') {
 
-      $cache = dvc\cache::instance();
+      $cache = bravedave\dvc\cache::instance();
       $key = $this->cacheKey($id);
       if ($dto = $cache->get($key)) {
 
@@ -305,7 +305,7 @@ abstract class _dao {
     if (is_null($this->_db_name)) throw new DBNameIsNull;
 
     if (config::$DB_CACHE == 'APC') {
-      $cache = dvc\cache::instance();
+      $cache = bravedave\dvc\cache::instance();
       $key = $this->cacheKey($id, $fld);
       if ($v = $cache->get($key)) {
         return ($v);

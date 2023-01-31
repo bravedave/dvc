@@ -10,7 +10,7 @@
 
 namespace dvc\dao;
 
-use config, dvc, sys;
+use config, bravedave, sys;
 use DateInterval;
 use DateTime;
 
@@ -25,7 +25,7 @@ class bwui extends _dao {
 
     if (config::$DB_CACHE == 'APC') {
 
-      $cache = dvc\cache::instance();
+      $cache = bravedave\dvc\cache::instance();
       $key = $this->cacheKey(0, $this->_db_name . '_version');
 
       if ($version = $cache->get($key)) {
@@ -61,7 +61,7 @@ class bwui extends _dao {
 
   public function garbageCollection() {
 
-    $dt = new DateTime();
+    $dt = new DateTime;
     $dt->sub(new DateInterval('P7D'));
 
     $sql = sprintf(

@@ -14,4 +14,5 @@ namespace dvc;
 
 use bravedave;
 
-abstract class currentUser extends bravedave\dvc\currentUser {}
+abstract class currentUser extends bravedave\dvc\currentUser {
+}

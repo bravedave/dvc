@@ -10,6 +10,9 @@
 
 namespace dvc\sqlite;
 
+use bravedave, config;
+use bravedave\dvc\logger;
+
 class db {
   public $log = false;
   protected $_db = false;
@@ -18,40 +21,39 @@ class db {
   protected static $_instance = false;
 
   static function instance() {
-    if (!self::$_instance)
-      self::$_instance = new self;
 
-    return (self::$_instance);
+    if (!self::$_instance) self::$_instance = new self;
+    return self::$_instance;
   }
 
   protected function __construct() {
-    $this->_path = sprintf('%s%ssqlite.db', \config::dataPath(), DIRECTORY_SEPARATOR);
+
+    $this->_path = sprintf('%s%ssqlite.db', config::dataPath(), DIRECTORY_SEPARATOR);
     if (file_exists($this->_path)) {
-      $this->_db = new \SQLite3($this->_path);  // throws exception on failure
 
+      $this->_db = new \SQLite3($this->_path);  // throws exception on failure
     } else {
-      // I prefer this naming convention because in windows you can associate the extension
-      $this->_path = sprintf('%s%sdb.sqlite', \config::dataPath(), DIRECTORY_SEPARATOR);
-      $this->_db = new \SQLite3($this->_path);  // throws exception on failure
 
+      // I prefer this naming convention because in windows you can associate the extension
+      $this->_path = sprintf('%s%sdb.sqlite', config::dataPath(), DIRECTORY_SEPARATOR);
+      $this->_db = new \SQLite3($this->_path);  // throws exception on failure
     }
 
     if ($this->_db) {
-      $this->_db->busyTimeout(6000);  // 6 seconds
-      // \sys::logger( 'dvc\sqlite\db :: set timeout to 6 millisecs');
 
+      $this->_db->busyTimeout(6000);  // 6 seconds
+      // logger::info( 'dvc\sqlite\db :: set timeout to 6 millisecs');
     }
   }
 
   public function __destruct() {
-    if ($this->_db) {
-      $this->_db->close();
-    }
 
+    if ($this->_db) $this->_db->close();
     $this->_db = false;
   }
 
-  function __invoke(string $query): ?dbResult {
+  public function __invoke(string $query): ?dbResult {
+
     return $this->result($query);
   }
 
@@ -85,11 +87,13 @@ class db {
   }
 
   public function escape($value) {
+
     return $this->_db->escapeString($value);
   }
 
   public function flushCache() {
-    if (\config::$DB_CACHE == 'APC') {
+
+    if (config::$DB_CACHE == 'APC') {
       /**
        * the automatic caching is controlled by:
        *	=> \dao\_dao->getByID addes to cache
@@ -99,7 +103,7 @@ class db {
        *	if you are here it is because Update was called casually outside
        *	of UpdateByID <=> a master flush is required
        */
-      $cache = \dvc\cache::instance();
+      $cache = bravedave\dvc\cache::instance();
       $cache->flush();
     }
   }
@@ -109,10 +113,11 @@ class db {
 
     $fieldList = $this->fieldList($table);
     foreach ($fieldList as $f) {
+
       if ($field === $f->name) {
+
         return true;
         break;  // never executes
-
       }
     }
 
@@ -120,17 +125,22 @@ class db {
   }
 
   public function fieldList($table) {
+
     $ret = [];
     if ($result = $this->result(sprintf('PRAGMA table_info(%s)', $table))) {
-      while ($dto = $result->dto())
+
+      while ($dto = $result->dto()) {
+
         $ret[] = $dto;
+      }
     }
 
     return ($ret);
   }
 
   public function getPath() {
-    return ($this->_path);
+
+    return $this->_path;
   }
 
   public function Insert($table, $a) {
@@ -157,7 +167,7 @@ class db {
   }
 
   public function Q(string $sql) {
-    if ($this->log) \sys::logSQL($sql);
+    if ($this->log) logger::sql($sql);
     try {
       if ($result = $this->_db->query($sql)) return ($result);
     } catch (\Throwable $th) {
@@ -169,29 +179,34 @@ class db {
         $this->_db->lastErrorMsg()
       );
 
-      \sys::logSQL($sql);
-      foreach (debug_backtrace() as $e)
-        \sys::logger(sprintf('%s(%s)', $e['file'], $e['line']));
+      logger::sql($sql);
+      foreach (debug_backtrace() as $e) {
+
+        logger::info(sprintf('%s(%s)', $e['file'], $e['line']));
+      }
 
       throw new \Exception($message);
     }
   }
 
   public function quote(string $val) {
+
     return sprintf("'%s'", $this->escape($val));
   }
 
   public function result(string $query): dbResult {
+
     $dbResult = new dbResult($this->Q($query), $this);
     return ($dbResult);
   }
 
   public function tables() {
+
     $ret = [];
     if ($result = $this->result("SELECT name FROM sqlite_master WHERE type='table'")) {
       while ($dto = $result->dto()) {
-        if (!preg_match('/^sqlite_/', $dto->name))
-          $ret[] = $dto->name;
+
+        if (!preg_match('/^sqlite_/', $dto->name)) $ret[] = $dto->name;
       }
     }
 
@@ -199,6 +214,7 @@ class db {
   }
 
   public function table_exists(string $table): bool {
+
     $sql = sprintf(
       "SELECT name FROM sqlite_master WHERE type='table' and name='%s'",
       $this->escape($table)
@@ -206,15 +222,15 @@ class db {
     );
 
     if ($result = $this->result($sql)) {
-      if ($dto = $result->dto()) {
-        return true;
-      }
+
+      if ($dto = $result->dto()) return true;
     }
 
-    return (false);
+    return false;
   }
 
   public function Update($table, $a, $scope, $flushCache = TRUE) {
+
     if ((bool)$flushCache) $this->flushCache();
 
     /**
@@ -249,25 +265,24 @@ class db {
     // $debug = TRUE;
 
     $zip = new \ZipArchive();
-    $filename = sprintf('%s%sdb.zip', \config::dataPath(), DIRECTORY_SEPARATOR);
+    $filename = sprintf('%s%sdb.zip', config::dataPath(), DIRECTORY_SEPARATOR);
 
-    if (file_exists($filename)) {
-      unlink($filename);
-    }
+    if (file_exists($filename)) unlink($filename);
 
-    if ($debug) \sys::logger(sprintf('sqlite\db->zip() : <%s>', $filename));
+    if ($debug) logger::debug(sprintf('sqlite\db->zip() : <%s>', $filename));
 
     if ($zip->open($filename, \ZipArchive::CREATE) !== TRUE) {
-      \sys::logger(sprintf('sqlite\db->zip() : cannot open <%s>', $filename));
+
+      logger::info(sprintf('sqlite\db->zip() : cannot open <%s>', $filename));
     } else {
       // $this->_db->close();
       // $this->_db = NULL;
 
-      if ($debug) \sys::logger(sprintf('sqlite\db->zip() : adding <%s>', $this->_path));
+      if ($debug) logger::debug(sprintf('sqlite\db->zip() : adding <%s>', $this->_path));
       $zip->addFile($this->_path, 'db.sqlite');
 
-      if ($debug) \sys::logger(sprintf('sqlite\db->zip() : numfiles : %s', $zip->numFiles));
-      if ($debug) \sys::logger(sprintf('sqlite\db->zip() : status : %s', $zip->status));
+      if ($debug) logger::debug(sprintf('sqlite\db->zip() : numfiles : %s', $zip->numFiles));
+      if ($debug) logger::debug(sprintf('sqlite\db->zip() : status : %s', $zip->status));
 
       $zip->close();
 
