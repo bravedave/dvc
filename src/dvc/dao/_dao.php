@@ -183,11 +183,9 @@ abstract class _dao {
     }
   }
 
-  public function create() {    /* returns a new dvc\dao\dto of the file */
-    if (is_null($this->template)) {
-      return ($this->_create());
-    }
+  public function create() {    /* returns a new bravedave\dvc\dto of the file */
 
+    if (is_null($this->template)) return ($this->_create());
     return new $this->template;
   }
 
@@ -269,7 +267,7 @@ abstract class _dao {
         if ($thisType = get_class($dto)) {
 
           $thisType = $thisType; // namespace will have preceding \, get_class will come from root
-          $approvedType = ltrim($this->template ? $this->template : __NAMESPACE__ . '\dto\dto', '\\');
+          $approvedType = ltrim($this->template ? $this->template : 'bravedave\dvc\dto', '\\');
           if ($thisType == $approvedType) {
 
             if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('<type check %s:%s> %s[\]%s', $thisType, $approvedType, get_class($this), __METHOD__));
