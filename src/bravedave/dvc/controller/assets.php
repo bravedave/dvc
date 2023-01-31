@@ -46,9 +46,10 @@ class assets extends Controller {
     }
   }
 
-  const dvc_dir = __DIR__ . '/../../../dvc/';
+  const dvc_dir = __DIR__ . '/../';
 
   public function brayworth($type = 'css', $p2 = '') {
+
     if ('css' == $type) {
       $files = [];
 
@@ -68,7 +69,6 @@ class assets extends Controller {
         'libName' => $lib,
         'cssFiles' => $files,
         'libFile' => config::tempdir()  . '_' . $lib . '.css'
-
       ]);
     } elseif ('dopo' == $type) {
       $a = [
