@@ -107,6 +107,10 @@ if (!window._brayworth_) {
           }
         });
 
+        o.find('select.custom-select')
+          .removeClass('custom-select')
+          .addClass('form-select');
+
         o.find('.text-left')
           .removeClass('text-left')
           .addClass('text-start');
