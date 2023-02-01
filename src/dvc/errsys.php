@@ -170,17 +170,14 @@ abstract class errsys {
           $message = sprintf('%s: %s %s %s %s %s', $type, $errstr, $errno, PHP_EOL, $errfile, $errline);
 
           if (Request::get()->ServerIsLocal()) {
+
             printf('<pre>%s</pre>', $message);
             error_log($message);
           } else {
+
             printf("ERROR<hr /><pre>%s</pre><hr /><a href='%s'>return to home page</a>", $message, \url::$URL);
             // error_log( $message);
-            if (\config::$TELEGRAM_API_KEY) {
-              sys::monolog()->error($message);
-              sys::telegram()->error($message);
-            } else {
-              self::_email_support($message);
-            }
+            self::_email_support($message);
           }
         }
         exit();
@@ -201,11 +198,6 @@ abstract class errsys {
           \sys::trace($errno);
           error_log(sprintf('%s: %s %s %s %s', $type, $errstr, $errno, $errfile, $errline));
           error_log('---[end probable duplicate: error is logged in the exception]---');
-        }
-
-        if (\config::$TELEGRAM_API_KEY) {
-          sys::telegram($error = true)
-            ->error($errstr);
         }
 
         throw new \Exception(sprintf('%s: %s %s %s %s %s', $type, $errstr, $errno, PHP_EOL, $errfile, $errline));

@@ -12,16 +12,6 @@ namespace dvc;
 
 use bravedave\dvc\{Response, hitter};
 
-use Monolog\Logger as MonoLogger;
-use Monolog\Formatter\LineFormatter;
-use Monolog\Handler\{
-  ErrorLogHandler,
-  SymfonyMailerHandler,
-  SyslogHandler,
-  TelegramBotHandler
-};
-use Monolog\Processor\IntrospectionProcessor;
-
 abstract class sys {
   protected static $_loglevel = 1;
   protected static $_dbi = null;
@@ -314,60 +304,6 @@ abstract class sys {
 
     $mail->setFrom(\config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME);
     return ($mail);
-  }
-
-  protected static ?MonoLogger $_monolog = null;
-  protected static ?MonoLogger $_monologEmail = null;
-
-  public static function monolog(bool $email = false): ?MonoLogger {
-    if ($email) {
-
-      if ($mailer = sendmail::mailer()) {
-        if (!self::$_monologEmail) {
-
-          self::$_monologEmail = new MonoLogger(\config::$WEBNAME);
-
-          $email = sendmail::email();
-          $email->to(sendmail::address(\config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME));
-
-          $emailHandler = new SymfonyMailerHandler($mailer, $email);
-          // $formatter = new LineFormatter("%channel%.%level_name%: %message% %context%");
-          // $emailHandler->setFormatter($formatter);
-          $emailHandler->pushProcessor(new IntrospectionProcessor(MonoLogger::DEBUG, [
-            'errsys'
-          ]));
-          self::$_monologEmail->pushHandler($emailHandler);
-
-          // \sys::logger( sprintf('<%s> %s', 'My logger is now ready', __METHOD__));
-
-        }
-
-        return self::$_monologEmail;
-      } else {
-
-        return self::monolog(); // plain ..
-      }
-    } else {
-
-      if (!self::$_monolog) {
-
-        // $path = sprintf('%s/application.log', \config::dataPath());
-        self::$_monolog = new MonoLogger('dvc');
-        // self::$_monolog->pushHandler(new StreamHandler($path, MonoLogger::WARNING));
-
-        // $syslog = new SyslogHandler(\config::$WEBNAME, LOG_USER, MonoLogger::DEBUG, true, LOG_CONS);
-        // $formatter = new LineFormatter("%channel%.%level_name%: %message% %context% %extra%");
-
-        $syslog = new ErrorLogHandler;
-        $formatter = new LineFormatter("%channel%.%level_name%: %message% %context%");
-        $syslog->setFormatter($formatter);
-        self::$_monolog->pushHandler($syslog);
-
-        // self::$_monolog->info('My logger is now ready');
-      }
-
-      return self::$_monolog;
-    }
   }
 
   protected static $_options = [];
@@ -756,59 +692,6 @@ abstract class sys {
 
   public static function set_error_handler() {
     errsys::initiate(false);
-  }
-
-  protected static ?MonoLogger $_telegram = null;
-  protected static ?MonoLogger $_telegram_error = null;
-
-  public static function telegram(bool $error = false): ?MonoLogger {
-    if ($error) {
-      if (!self::$_telegram_error) {
-
-        if (\config::$TELEGRAM_API_KEY && \config::$TELEGRAM_CHAT_ID) {
-
-          self::$_telegram_error = new MonoLogger('dvc');
-          $telegramHandler = new TelegramBotHandler(
-            \config::$TELEGRAM_API_KEY,
-            \config::$TELEGRAM_CHAT_ID
-          );
-
-          $formatter = new LineFormatter("%channel%.%level_name%: %message%\n%extra%");
-          $telegramHandler->setFormatter($formatter);
-          $telegramHandler->pushProcessor(new IntrospectionProcessor(MonoLogger::DEBUG, [
-            'errsys'
-          ]));
-          self::$_telegram_error->pushHandler($telegramHandler);
-        } else {
-
-          return self::monolog();
-        }
-      }
-
-      return self::$_telegram_error;
-    } else {
-      if (!self::$_telegram) {
-
-        if (\config::$TELEGRAM_API_KEY && \config::$TELEGRAM_CHAT_ID) {
-
-          self::$_telegram = new MonoLogger('dvc');
-          $telegramHandler = new TelegramBotHandler(
-            \config::$TELEGRAM_API_KEY,
-            \config::$TELEGRAM_CHAT_ID
-          );
-
-          $formatter = new LineFormatter("%channel%.%level_name%: %message%\n%context%");
-          $telegramHandler->setFormatter($formatter);
-          // $telegramHandler->pushProcessor(new IntrospectionProcessor);
-          self::$_telegram->pushHandler($telegramHandler);
-        } else {
-
-          return self::monolog();
-        }
-      }
-
-      return self::$_telegram;
-    }
   }
 
   public static function text2html($inText, $maxrows = -1, $allAsteriskAsList = false) {

@@ -13,22 +13,17 @@ class home extends Controller {
 
   protected function _index() {
 
-    // sys::telegram()
-    //   ->info(config::$PAGE_TEMPLATE, [__METHOD__]);
-    // echo $barney;  // which is an error
-
-    // sys::monolog($email = true)
-    //   ->error(config::$PAGE_TEMPLATE);
-
     user::uid();
 
     if ('4' == config::$BOOTSTRAP_VERSION) {
+
       $this->render([
         'secondary' => ['aside'],
         'navbar' => 'navbar-4',
         'primary' => ['main']
       ]);
     } else {
+
       $this->render([
         'secondary' => ['aside'],
         'primary' => ['main']

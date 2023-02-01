@@ -30,7 +30,6 @@
     "phpmailer/phpmailer": "^6.1",
     "twbs/bootstrap-icons": "^1.7",
     "tinymce/tinymce": "^6.1",
-    "monolog/monolog": "^2.8",
     "symfony/mailer": "^5.4"
   },
   "require-dev": {
