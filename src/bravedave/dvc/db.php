@@ -11,6 +11,7 @@
 namespace bravedave\dvc;
 
 use config;
+use Exception;
 
 class db {
   protected $mysqli, $dbname;
@@ -38,6 +39,7 @@ class db {
     $this->mysqli = @new \mysqli($host, $user, $pass, $database);
 
     if ($this->mysqli->connect_error) {
+
       logger::info(sprintf('\mysqli( %s, %s, ***, %s )',  $host, $user, $database));
       logger::info(sprintf('Connect Error (%s) %s', $this->mysqli->connect_errno, $this->mysqli->connect_error));
       throw new Exceptions\UnableToSelectDatabase;
@@ -48,20 +50,18 @@ class db {
 
   function __destruct() {
     if ($this->mysqli) {
-      if ( $a = $this->mysqli->error_list) {
-        foreach ($a as $e) {
-          \sys::logger( sprintf('<mysql-error : %s> %s', $e, __METHOD__));
-        }
+
+      if ($a = $this->mysqli->error_list) {
+
+        array_walk($a, fn ($e) => logger::info(sprintf('<mysql-error : %s> %s', $e, __METHOD__)));
       }
       $this->mysqli->close();
       $this->mysqli = null;
-
     }
   }
 
-  function __invoke( string $query) : ?dbResult {
+  function __invoke(string $query): ?dbResult {
     return $this->result($query);
-
   }
 
   public function affected_rows() {
@@ -117,6 +117,7 @@ class db {
   }
 
   public function flushCache() {
+
     if (config::$DB_CACHE == 'APC') {
       /**
        * the automatic caching is controlled by:
@@ -219,20 +220,21 @@ class db {
       logger::info(sprintf('%s(%s)', $e['file'] ?? '?file', $e['line'] ?? '?line'));
     }
 
-    throw new \Exception($message);
+    throw new Exception($message);
   }
 
   public function quote(?string $val) {
     return sprintf('"%s"', $this->escape($val));
   }
 
-  public function result($query) : ?dbResult {
+  public function result($query): ?dbResult {
     try {
 
       $dbResult = new dbResult($this->Q($query), $this);
       return $dbResult;
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
 
+      logger::info(sprintf('<%s> %s', mysqli_error($this->mysqli), __METHOD__));
       throw new Exceptions\SQLException;
     }
 

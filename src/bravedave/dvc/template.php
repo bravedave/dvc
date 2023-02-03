@@ -49,15 +49,17 @@ class template {
    * @return self // chain
    */
   function replace($var, string $content = ''): self {
+
     if (\is_array($var)) {
+
       foreach ($var as $k => $v) {
         $this->replace($k, $v);
       }
     } else {
+
       $this->_template = str_replace(sprintf('{{%s}}', $var), $content, $this->_template);
     }
     return $this;  // chain
-
   }
 
   function render() {
