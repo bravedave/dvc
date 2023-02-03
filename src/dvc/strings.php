@@ -740,11 +740,11 @@ abstract class strings {
   static public function pixel() {
     if (!self::$_pixel) {
       $image = implode(DIRECTORY_SEPARATOR, [
-        __DIR__,
+        dirname( __DIR__),
+        'bravedave',
         'public',
         'images',
         'pixel.png'
-
       ]);
       // $imageData = base64_encode( file_get_contents($image));
       // self::$_pixel = 'data:'.mime_content_type($image).';base64,'.$imageData;
