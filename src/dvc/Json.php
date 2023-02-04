@@ -16,7 +16,7 @@ use bravedave;
 class Json extends bravedave\dvc\json {
 }
 
-logger::deprecated(sprintf('do not continue to use this class (dvc\Json) : %s', __METHOD__));
+// logger::deprecated(sprintf('do not continue to use this class (dvc\Json) : %s', __METHOD__));
 
 
 // use Response;
