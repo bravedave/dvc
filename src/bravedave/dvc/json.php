@@ -61,7 +61,7 @@ class json {
    * @param array|object $data
    * @return $this
    */
-  public function add(string $key, array|object $data): self {
+  public function add(string $key, string|array|object $data): self {
 
     $this->_json[$key] = $data;
     return $this;  // chain
