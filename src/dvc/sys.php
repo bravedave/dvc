@@ -10,6 +10,7 @@
 
 namespace dvc;
 
+use bravedave;
 use bravedave\dvc\{Response, hitter};
 
 abstract class sys {
@@ -91,35 +92,38 @@ abstract class sys {
   }
 
   public static function dbCachePrefix() {
-    if (\config::$DB_CACHE_PREFIX) {
-      return \config::$DB_CACHE_PREFIX;
-    } elseif ('mysql' == \config::$DB_TYPE) {
-      return str_replace('.', '_', \config::$DB_HOST . '_' . \config::$DB_NAME);
-    } else {
-      /**
-       * it's probably sqlite, so we need a unique prefix for this database
-       *
-       * this could require further development if we are going to support
-       * multiple cached sqlite databases in the same application, otherwise
-       * this database, this appication is unique
-       * */
-      $path = implode(DIRECTORY_SEPARATOR, [
-        \config::dataPath(),
-        'dbCachePrefix.json'
 
-      ]);
+    return bravedave\dvc\db::cachePrefix();
 
-      if (\file_exists($path)) {
-        $j = \json_decode(\file_get_contents($path));
-        \config::$DB_CACHE_PREFIX = $j->prefix;
-        return \config::$DB_CACHE_PREFIX;
-      } else {
-        $a = (object)['prefix' => bin2hex(random_bytes(6))];
-        \file_put_contents($path, \json_encode($a));
-        \config::$DB_CACHE_PREFIX = $a->prefix;
-        return \config::$DB_CACHE_PREFIX;
-      }
-    }
+    // if (\config::$DB_CACHE_PREFIX) {
+    //   return \config::$DB_CACHE_PREFIX;
+    // } elseif ('mysql' == \config::$DB_TYPE) {
+    //   return str_replace('.', '_', \config::$DB_HOST . '_' . \config::$DB_NAME);
+    // } else {
+    //   /**
+    //    * it's probably sqlite, so we need a unique prefix for this database
+    //    *
+    //    * this could require further development if we are going to support
+    //    * multiple cached sqlite databases in the same application, otherwise
+    //    * this database, this appication is unique
+    //    * */
+    //   $path = implode(DIRECTORY_SEPARATOR, [
+    //     \config::dataPath(),
+    //     'dbCachePrefix.json'
+
+    //   ]);
+
+    //   if (\file_exists($path)) {
+    //     $j = \json_decode(\file_get_contents($path));
+    //     \config::$DB_CACHE_PREFIX = $j->prefix;
+    //     return \config::$DB_CACHE_PREFIX;
+    //   } else {
+    //     $a = (object)['prefix' => bin2hex(random_bytes(6))];
+    //     \file_put_contents($path, \json_encode($a));
+    //     \config::$DB_CACHE_PREFIX = $a->prefix;
+    //     return \config::$DB_CACHE_PREFIX;
+    //   }
+    // }
   }
 
   public static function diskspace() {
