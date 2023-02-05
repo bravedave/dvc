@@ -6,6 +6,7 @@
  *
  * MIT License
  *
+ * TODO: \config:: should be replace with static::
 */
 
 namespace bravedave\dvc;
@@ -244,10 +245,33 @@ abstract class config {
 
   static protected function _options_file() {
     return implode(DIRECTORY_SEPARATOR, [
-      \config::dataPath(),
+      static::dataPath(),
       '_config_.json'
 
     ]);
+  }
+
+  public static function getDBCachePrefix(): string {
+
+    if (config::$DB_CACHE_PREFIX) return config::$DB_CACHE_PREFIX;
+
+    $path = implode(DIRECTORY_SEPARATOR, [
+      static::dataPath(),
+      'dbCachePrefix.json'
+    ]);
+
+    if (file_exists($path)) {
+
+      $j = json_decode(file_get_contents($path));
+      static::$DB_CACHE_PREFIX = $j->prefix;
+      return config::$DB_CACHE_PREFIX;
+    } else {
+
+      $a = (object)['prefix' => bin2hex(random_bytes(6))];
+      file_put_contents($path, \json_encode($a));
+      static::$DB_CACHE_PREFIX = $a->prefix;
+      return static::$DB_CACHE_PREFIX;
+    }
   }
 
   /**
@@ -255,7 +279,7 @@ abstract class config {
    *
    * @return string
    */
-  static function option(string $key, string $val = null): string {
+  public static function option(string $key, string $val = null): string {
     $ret = '';
 
     if (!self::$_options_) {
@@ -291,7 +315,7 @@ abstract class config {
     return $ret;
   }
 
-  static public function defaultsPath() {
+  public static function defaultsPath() {
     return implode(DIRECTORY_SEPARATOR, [
       \config::dataPath(),
       'defaults.json'
@@ -301,7 +325,7 @@ abstract class config {
 
   static protected $_logpath = null;
 
-  static public function logPath() {
+  public static function logPath() {
     if (\is_null(self::$_logpath)) {
       self::$_logpath = implode(DIRECTORY_SEPARATOR, [
         rtrim(\config::dataPath(), '/\ '),
@@ -320,11 +344,11 @@ abstract class config {
     return (self::$_logpath);
   }
 
-  static public function imagePath() {
+  public static function imagePath() {
     return implode(DIRECTORY_SEPARATOR, [\application::app()->getRootPath(), 'app', 'public', 'images']);
   }
 
-  static public function initialize() {
+  public static function initialize() {
     /**
      * config initialize is called in _application->__construct()
      *
@@ -503,7 +527,7 @@ abstract class config {
     umask(octdec(self::$UMASK));
   } // static function init2()
 
-  static function notification_KeyPath() {
+  public static function notification_KeyPath() {
     $path = implode(DIRECTORY_SEPARATOR, [
       self::dataPath(),
       'notificationKeys'
@@ -517,7 +541,7 @@ abstract class config {
     return $path;
   }
 
-  static function notification_keys(): object {
+  public static function notification_keys(): object {
     $a = [
       'pubKey' => '',
       'privKey' => ''
@@ -568,11 +592,11 @@ abstract class config {
     return (object)$a;
   }
 
-  static protected function _route_map_path(): string {
+  protected static function _route_map_path(): string {
     return self::dataPath() . '/controllerMap.json';
   }
 
-  static protected function _route_map(): object {
+  protected static function _route_map(): object {
 
     $defaults = array_filter(
       [
@@ -605,7 +629,7 @@ abstract class config {
    *
    * @return void
    */
-  static public function route_register(string $path, $register = false): void {
+  public static function route_register(string $path, $register = false): void {
 
     $map = self::_route_map();
     if (!isset($map->{$path}) || $register != $map->{$path}) {
@@ -622,13 +646,13 @@ abstract class config {
     }
   }
 
-  static public function route(string $path): string {
+  public static function route(string $path): string {
     $map = self::_route_map();
 
     return (isset($map->{$path}) ? $map->{$path} : '');
   }
 
-  static public function tempdir() {
+  public static function tempdir() {
     /*
 		* return a writable path with a trailing slash
 		*/

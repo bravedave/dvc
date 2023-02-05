@@ -16,7 +16,31 @@ use Exception;
 class db {
   protected $mysqli, $dbname;
 
+  protected static $_cachePrefix = null;
+
   public $log = false;
+
+  public static function cachePrefix(): string {
+
+    if (config::$DB_CACHE_PREFIX) {
+
+      return config::$DB_CACHE_PREFIX;
+    } elseif ('mysql' == config::$DB_TYPE) {
+
+      return str_replace('.', '_', config::$DB_HOST . '_' . config::$DB_NAME);
+    } else {
+
+      /**
+       * it's probably sqlite, so we need a unique prefix for this database
+       *
+       * this could require further development if we are going to support
+       * multiple cached sqlite databases in the same application, otherwise
+       * this database, this appication is unique
+       * */
+
+      return config::getDBCachePrefix();
+    }
+  }
 
   public static function dbTimeStamp() {
     return (date("Y-m-d H:i:s", time()));
