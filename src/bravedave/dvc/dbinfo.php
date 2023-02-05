@@ -15,7 +15,7 @@ use config;
 class dbinfo extends dao {
   protected $_store = '';
 
-  protected function check(): void {
+  protected function check() {
 
     $this->checkDIR(__DIR__);
   }
