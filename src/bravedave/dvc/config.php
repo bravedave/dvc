@@ -7,6 +7,7 @@
  * MIT License
  *
  * TODO: \config:: should be replace with static::
+ *  => https://www.php.net/manual/en/language.oop5.late-static-bindings.php
 */
 
 namespace bravedave\dvc;
