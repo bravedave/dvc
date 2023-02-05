@@ -6,6 +6,7 @@
  *
  * MIT License
  *
+ *  TODO: this should be deprecated and inherit from bravedave\dvc\dao
 */
 
 namespace dvc\dao;

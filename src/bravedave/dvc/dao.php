@@ -55,8 +55,8 @@ abstract class dao {
 
   protected function cachePrefix() {
 
-    if ($this->_db_cache_prefix) return \sys::dbCachePrefix() . $this->_db_cache_prefix;
-    return \sys::dbCachePrefix();
+    if ($this->_db_cache_prefix) return db::cachePrefix() . $this->_db_cache_prefix;
+    return db::cachePrefix();
   }
 
   protected function before() {
