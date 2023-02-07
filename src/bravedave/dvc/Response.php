@@ -417,8 +417,12 @@ abstract class Response {
     // self::logger( sprintf('<%s> %s', $type, __METHOD__));
     if ('icons' == $type) {
 
-      if ($lib = realpath(self::_twbs_dir() . '/bootstrap-icons/font/bootstrap-icons.css')) {
+      if ($lib = realpath(__DIR__ . '/css/bootstrap-icons/bootstrap-icons.css')) {
 
+        self::serve($lib);
+      } elseif ($lib = realpath(self::_twbs_dir() . '/bootstrap-icons/font/bootstrap-icons.css')) {
+
+        logger::deprecated(sprintf('<%s> %s', $lib, __METHOD__));
         self::serve($lib);
       } else {
 
@@ -431,8 +435,12 @@ abstract class Response {
         'bootstrap-icons.woff2'
       ])) {
 
-        if ($lib = realpath(self::_twbs_dir() . '/bootstrap-icons/font/fonts/' . $fontFile)) {
-          // self::logger($lib);
+        if ($lib = realpath(__DIR__ . '/css/bootstrap-icons/fonts/' . $fontFile)) {
+
+          self::serve($lib);
+        } elseif ($lib = realpath(self::_twbs_dir() . '/bootstrap-icons/font/fonts/' . $fontFile)) {
+
+          logger::deprecated(sprintf('<%s> %s', $lib, __METHOD__));
           self::serve($lib);
         } else {
           logger::info(sprintf('<cannot locate bootstrap_font_file> %s', __METHOD__));
@@ -504,7 +512,7 @@ abstract class Response {
     }
   }
 
-  public static function serveBootStrap5($type = 'css') : void {
+  public static function serveBootStrap5($type = 'css'): void {
 
     if ('css' == $type) {
 

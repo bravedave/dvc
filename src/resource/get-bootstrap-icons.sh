@@ -4,20 +4,16 @@ me=`basename "$0"`
 cd "$( dirname "${BASH_SOURCE[0]}" )"
 
 if [ -d bootstrap-icons ]; then
-  echo "no longer included"
-  echo "should be removed .."
   rm -fR bootstrap-icons
 fi
-exit 0
 
-echo "start : $me"
+[ -d bootstrap_icons ] || mkdir bootstrap_icons
+echo \*>bootstrap_icons/.gitignore
 
-[ -d bootstrap-icons.tmp ] || git clone https://github.com/twbs/icons/ bootstrap-icons.tmp
-cd bootstrap-icons.tmp
-git pull --rebase
+composer req --working-dir=bootstrap_icons twbs/bootstrap-icons
 
-cd ..
-
-rsync -arR --delete bootstrap-icons.tmp/./icons/ bootstrap-icons.tmp/./font/ bootstrap-icons/
+# cd bootstrap_icons
+targetDir="../bravedave/dvc/css/bootstrap-icons/"
+rsync -arR --delete bootstrap_icons/vendor/twbs/bootstrap-icons/font/./ $targetDir
 
 echo "done : $me"
