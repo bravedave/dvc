@@ -14,4 +14,7 @@ namespace dvc;
 
 use bravedave;
 
-abstract class config extends bravedave\dvc\config {}
+abstract class config extends bravedave\dvc\config {
+}
+
+logger::deprecated(sprintf('do not continue to use this class (dvc\config) : %s', __METHOD__));

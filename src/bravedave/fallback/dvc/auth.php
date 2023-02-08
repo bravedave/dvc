@@ -15,3 +15,5 @@ namespace dvc;
 use bravedave;
 
 abstract class auth extends bravedave\dvc\auth {}
+
+logger::deprecated(sprintf('do not continue to use this class (dvc\auth) : %s', __METHOD__));
