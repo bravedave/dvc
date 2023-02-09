@@ -10,10 +10,10 @@
 
 namespace dao;
 
-use dvc\dao\_dao;
+use bravedave\dvc\dao;
 use sys;
 
-class notifications extends _dao {
+class notifications extends dao {
   const _version = 1;
   protected static $dbVersion = 0;
   protected $_db_name = 'notifications';

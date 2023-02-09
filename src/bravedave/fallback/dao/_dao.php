@@ -10,10 +10,12 @@
 
 namespace dao;
 
-use dvc;
+use bravedave;
 
-abstract class _dao extends dvc\dao\_dao {
-  public function __construct(dvc\dbi $db = null) {
+abstract class _dao extends bravedave\dvc\dao {
+
+  public function __construct(bravedave\dvc\db $db = null) {
+
     \sys::trace(sprintf('deprecated : please call dvc\dao\_dao directly : %s', get_class($this)), 2);
     parent::__construct($db);
   }

@@ -10,14 +10,13 @@
 
 namespace dao;
 
-use dvc\dao\_dao;
+use bravedave\dvc\dao;
 
-class state extends _dao {
-	// protected $_db_name = 'state';	// required if state is a table
+class state extends dao {
+  // protected $_db_name = 'state';	// required if state is a table
 
-	public function offline() {
-		return ( false );
+  public function offline() {
 
-	}
-
+    return false;
+  }
 }

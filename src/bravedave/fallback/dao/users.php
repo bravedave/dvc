@@ -10,12 +10,12 @@
 
 namespace dao;
 
-use dvc\dao\_dao;
+use bravedave\dvc\dao;
 
-class users extends _dao {
-  public function validate() : bool {
-    throw new \Exception( 'not implemented');
+class users extends dao {
 
+  public function validate(): bool {
+
+    throw new \Exception('not implemented');
   }
-
 }
