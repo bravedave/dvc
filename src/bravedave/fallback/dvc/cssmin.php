@@ -21,3 +21,5 @@ use bravedave;
 
 abstract class cssmin extends bravedave\dvc\cssmin {
 }
+
+logger::deprecated(sprintf('do not continue to use this class (dvc\cssmin) : %s', __METHOD__));

@@ -14,4 +14,5 @@ namespace dvc;
 
 use bravedave;
 
-class application extends bravedave\dvc\application {}
+class application extends bravedave\dvc\application {
+}

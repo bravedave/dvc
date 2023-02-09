@@ -12,10 +12,5 @@ namespace dvc;
 
 use bravedave;
 
-class service extends bravedave\dvc\application {
-  protected $service = true;
-
-  public function __construct($rootPath) {
-    parent::__construct($rootPath);
-  }
+class service extends bravedave\dvc\service {
 }

@@ -16,3 +16,5 @@ use bravedave;
 
 abstract class currentUser extends bravedave\dvc\currentUser {
 }
+
+logger::deprecated(sprintf('do not continue to use this class (dvc\currentUser) : %s', __METHOD__));

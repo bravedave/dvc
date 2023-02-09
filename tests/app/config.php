@@ -8,7 +8,7 @@
  *
 */
 
-class config extends dvc\config {
+class config extends bravedave\dvc\config {
   // static $BOOTSTRAP_VERSION = '5';
   // static $PAGE_TEMPLATE = '\dvc\pages\bootstrap5';
 }

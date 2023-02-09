@@ -8,7 +8,7 @@
  *
 */
 
-class application extends dvc\application {
+class application extends bravedave\dvc\application {
 
   static public function startDir() {
 

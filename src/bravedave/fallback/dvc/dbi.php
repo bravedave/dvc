@@ -12,5 +12,7 @@ namespace dvc;
 
 use bravedave;
 
-class dbResult extends bravedave\dvc\dbResult {
+class dbi extends bravedave\dvc\dbi {
 }
+
+logger::deprecated(sprintf('do not continue to use this class (dvc\dbi) : %s', __METHOD__));
