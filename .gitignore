@@ -1,7 +1,6 @@
 .bak
 .vscode
 autoload-local-path.php
-example/application/app/public/
 resource/bootstrap5/scss
 resource/bootstrap-5.tmp
 resource/bootstrap-icons.tmp

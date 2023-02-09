@@ -94,11 +94,11 @@ class bwui extends _dao {
         if ($id = $this->Insert(['key' => $uid])) return $this->getByID($id);
       } else {
 
-        throw new Exceptions\SecurityViolation;
+        throw new bravedave\dvc\Exceptions\SecurityViolation;
       }
     } else {
 
-      throw new Exceptions\SecurityViolationMD5;
+      throw new bravedave\dvc\Exceptions\SecurityViolationMD5;
     }
 
     return null;
