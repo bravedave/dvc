@@ -11,7 +11,7 @@
 namespace dvc;
 
 use bravedave, config;
-use bravedave\dvc\{cssmin, dbi, Response, hitter};
+use bravedave\dvc\{cssmin, dbi, logger, Response, hitter};
 
 abstract class sys {
   protected static $_loglevel = 1;
@@ -162,7 +162,8 @@ abstract class sys {
   }
 
   public static function logSQL($v, $level = 0) {
-    self::logger(preg_replace(["@\r\n@", "@\n@", "@\t@", "@\s\s*@"], ' ', $v));
+
+    logger::sql($v);
   }
 
   public static function mailer() {
