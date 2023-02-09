@@ -11,7 +11,7 @@
 namespace dvc;
 
 use bravedave, config;
-use bravedave\dvc\{Response, hitter};
+use bravedave\dvc\{dbi, Response, hitter};
 
 abstract class sys {
   protected static $_loglevel = 1;
