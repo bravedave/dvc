@@ -8,8 +8,6 @@
  *
 */
 
-namespace dvc\dao\Exceptions;
-
-use dvc\Exceptions\Exception;
+namespace bravedave\dvc\Exceptions;
 
 class SecurityViolationMD5 extends Exception {}
