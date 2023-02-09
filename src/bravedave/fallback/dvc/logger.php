@@ -17,4 +17,4 @@ use bravedave;
 abstract class logger extends bravedave\dvc\logger {
 }
 
-logger::deprecated(sprintf('<this class is deprecated> %s', __METHOD__));
+logger::deprecated('this class is deprecated (dvc\logger) %s');

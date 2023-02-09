@@ -349,7 +349,7 @@ class application {
       }
     }
 
-    if ( method_exists($this, 'deprecated')) $this->{'deprecated'}();
+    if (method_exists($this, 'deprecated')) $this->{'deprecated'}();
   }
 
   protected function _search_for_controller(): void {
