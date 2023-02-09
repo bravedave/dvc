@@ -19,4 +19,4 @@ if (file_exists($vendor = __DIR__ . '/vendor/autoload.php')) {
   require_once $vendor;
 }
 
-\sys::logger(sprintf('<deprecation - not required> %s', __FILE__));
+bravedave\dvc\logger::deprecated(__FILE__);
