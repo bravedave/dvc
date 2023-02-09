@@ -53,7 +53,6 @@ class application {
     return $this->_app_executed;
   }
 
-
   protected $_timer = null;
 
   protected $db = false;
@@ -314,7 +313,9 @@ class application {
     // $debug = true;
 
     if ($this->app_executed()) {
+
       if (config::$SITEMAPS) {
+
         $path = $this->return_url();
 
         try {
@@ -347,6 +348,8 @@ class application {
         if ($debug) logger::debug(sprintf('<%s> %s', 'not enabled', __METHOD__));
       }
     }
+
+    if ( method_exists($this, 'deprecated')) $this->{'deprecated'}();
   }
 
   protected function _search_for_controller(): void {

@@ -17,4 +17,5 @@ use bravedave;
 abstract class config extends bravedave\dvc\config {
 }
 
-logger::deprecated(sprintf('do not continue to use this class (dvc\config) : %s', __METHOD__));
+logger::deprecated('do not continue to use this class (dvc\config)');
+// sys::trace('');

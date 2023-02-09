@@ -15,4 +15,9 @@ namespace dvc;
 use bravedave;
 
 class application extends bravedave\dvc\application {
+
+  protected function deprecated() {
+
+    bravedave\dvc\logger::deprecated('this class is deprecated');
+  }
 }

@@ -11,33 +11,12 @@
 include_once __DIR__ . '/src/dvc/utility.php';
 bravedave\dvc\application::load_dvc_autoloader_fallback();
 
-// spl_autoload_register( function ($class) {
-// 	if ( $lib = realpath( implode([
-// 		__DIR__,
-// 		DIRECTORY_SEPARATOR,
-// 		'src',
-// 		DIRECTORY_SEPARATOR,
-// 		str_replace('\\', '/', $class),
-// 		'.php'
+if (file_exists($vendor = __DIR__ . '/vendor/autoload.php')) {
 
-// 		]))) {
+  require_once $vendor;
+} elseif (file_exists($vendor = __DIR__ . '/../../autoload.php')) {
 
-// 		include_once $lib;
-// 		bravedave\dvc\load::logger( sprintf( 'lib: %s', $lib ));
-// 		return ( true);
-
-// 	}
-// 	return ( false);
-
-// });
-
-if ( file_exists( $vendor = __DIR__ . '/vendor/autoload.php')) {
-	require_once $vendor;
-
-}
-elseif ( file_exists( $vendor = __DIR__ . '/../../autoload.php')) {
-	require_once $vendor;
-
+  require_once $vendor;
 }
 
-\sys::logger( sprintf('<deprecation - not required> %s', __FILE__));
+\sys::logger(sprintf('<deprecation - not required> %s', __FILE__));

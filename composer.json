@@ -38,8 +38,8 @@
   },
   "autoload": {
     "psr-4": {
-      "dvc\\": "src/dvc/",
-      "bravedave\\dvc\\": "src/bravedave/dvc/"
+      "bravedave\\dvc\\": "src/bravedave/dvc/",
+      "dvc\\": "src/dvc/"
     }
   },
   "autoload-dev": {
