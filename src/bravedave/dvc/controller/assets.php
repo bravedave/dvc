@@ -12,12 +12,11 @@ namespace bravedave\dvc\controller;
 
 use config, Controller;
 use bravedave\dvc\{
+  cssmin,
   jslib,
   Response
 };
-use dvc\{
-  cssmin
-};
+
 use sys;
 
 class assets extends Controller {

@@ -11,7 +11,7 @@
 namespace dvc\pages;
 
 use config;
-use dvc\cssmin;
+use bravedave\dvc\cssmin;
 
 class _page {
   protected
