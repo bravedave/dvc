@@ -13,7 +13,6 @@ namespace bravedave\dvc;
 use dvc\{
   errsys,
   Exceptions\exchangeAuthIsAStub,
-  oauth,
   session
 };
 use strings, sys;

@@ -11,6 +11,7 @@
 namespace bravedave\dvc\controller;
 
 use config, Controller, currentUser, dvc, HttpGet, HttpPost, Response, sys;
+use bravedave\dvc\oauth;
 
 class fbauth extends Controller {
   protected $RequireValidation = FALSE;
@@ -117,7 +118,7 @@ class fbauth extends Controller {
 						 * So here we are saying we accept any user that bothers
 						 * to identify with a valid facebook account
 						 */
-            $oauth = new dvc\oauth();
+            $oauth = new oauth;
             $oauth->displayName = $responseObj->name;
             $oauth->Surname =  $responseObj->last_name;
             $oauth->GivenNames =  $responseObj->first_name;

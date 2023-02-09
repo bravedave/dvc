@@ -10,8 +10,8 @@
 
 namespace bravedave\dvc\controller;
 
-use currentUser, Controller, dvc, sys, Response, user;
-use dvc\session;
+use currentUser, Controller, bravedave, sys, dvc, user;
+use bravedave\dvc\{session, Response};
 
 class auth extends Controller {
 
@@ -38,7 +38,7 @@ class auth extends Controller {
 
     if ($this->debug) sys::logger('auth/request');
 
-    if (dvc\auth::GoogleAuthEnabled()) {
+    if (bravedave\dvc\auth::GoogleAuthEnabled()) {
 
       if ($client = dvc\Google::client()) {
         $url = $client->createAuthUrl();
@@ -46,17 +46,17 @@ class auth extends Controller {
         Response::redirect($url);
       } else {
 
-        throw new dvc\Exceptions\GoogleAuthNotEnabled;
+        throw new bravedave\dvc\Exceptions\GoogleAuthNotEnabled;
       }
     } else {
 
-      throw new dvc\Exceptions\GoogleAuthNotEnabled;
+      throw new bravedave\dvc\Exceptions\GoogleAuthNotEnabled;
     }
   }
 
   public function response() {
 
-    if (dvc\auth::GoogleAuthEnabled()) {
+    if (bravedave\dvc\auth::GoogleAuthEnabled()) {
 
       if ($client = \dvc\Google::client()) {
 
@@ -79,7 +79,7 @@ class auth extends Controller {
              * this routing to say what the authenticated user
              * can or cannot access
              */
-            $oauth = new dvc\oauth();
+            $oauth = new bravedave\dvc\oauth();
             $oauth->displayName = $me->displayName;
             $oauth->Surname =  $me->name->familyName;
             $oauth->GivenNames =  $me->name->givenName;
@@ -92,19 +92,19 @@ class auth extends Controller {
             user::setGoogleFlag();
           } else {
 
-            throw new dvc\Exceptions\InvalidAuthUser;
+            throw new bravedave\dvc\Exceptions\InvalidAuthUser;
           }
         } else {
 
-          throw new dvc\Exceptions\InvalidAuthUser;
+          throw new bravedave\dvc\Exceptions\InvalidAuthUser;
         }
       } else {
 
-        throw new dvc\Exceptions\GoogleAuthNotEnabled;
+        throw new bravedave\dvc\Exceptions\GoogleAuthNotEnabled;
       }
     } else {
 
-      throw new dvc\Exceptions\GoogleAuthNotEnabled;
+      throw new bravedave\dvc\Exceptions\GoogleAuthNotEnabled;
     }
 
     \Response::redirect();

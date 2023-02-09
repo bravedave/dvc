@@ -38,7 +38,7 @@ class user {
     return $this->valid();
   }
 
-  public function sync(\dvc\oauth $oauth) {
+  public function sync(oauth $oauth) {
 
     sys::logger('_user::sync => placeholder function - you probably want to write your own');
   }
