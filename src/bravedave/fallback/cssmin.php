@@ -8,7 +8,7 @@
  *
 */
 
-abstract class cssmin extends dvc\cssmin {
+abstract class cssmin extends bravedave\dvc\cssmin {
 }
 
-bravedave\dvc\logger::deprecated('please call dvc\cssmin directly');
+bravedave\dvc\logger::deprecated('please call bravedave\dvc\cssmin directly');

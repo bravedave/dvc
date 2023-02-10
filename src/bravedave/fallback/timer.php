@@ -8,7 +8,7 @@
  *
 */
 
-class timer extends dvc\timer {
+class timer extends bravedave\dvc\timer {
 }
 
-bravedave\dvc\logger::deprecated('please call dvc\timer directly');
+bravedave\dvc\logger::deprecated('please call bravedave\dvc\timer directly');

@@ -15,3 +15,5 @@ namespace dvc;
 use bravedave;
 
 class user extends bravedave\dvc\user {}
+
+logger::deprecated(sprintf('do not continue to use this class (dvc\user) : %s', __METHOD__));

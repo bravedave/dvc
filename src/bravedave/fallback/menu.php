@@ -8,4 +8,5 @@
  *
 */
 
-abstract class menu extends dvc\menu {}
+abstract class menu extends dvc\menu {
+}

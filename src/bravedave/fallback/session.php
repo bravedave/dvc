@@ -8,7 +8,7 @@
  *
 */
 
-class session extends dvc\session {
+class session extends bravedave\dvc\session {
 }
 
-bravedave\dvc\logger::deprecated('please call dvc\session directly');
+bravedave\dvc\logger::deprecated('please call bravedave\dvc\session directly');

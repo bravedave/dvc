@@ -16,3 +16,4 @@ class dbResult extends bravedave\dvc\dbResult {
 }
 
 logger::deprecated(sprintf('do not continue to use this class (dvc\dbResult) : %s', __METHOD__));
+// \sys::trace('dbResult');

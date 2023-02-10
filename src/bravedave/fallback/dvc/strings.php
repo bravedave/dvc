@@ -8,5 +8,9 @@
  *
 */
 
-abstract class Response extends bravedave\dvc\Response {
+namespace dvc;
+
+use bravedave;
+
+abstract class strings extends bravedave\dvc\strings {
 }

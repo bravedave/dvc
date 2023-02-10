@@ -8,4 +8,5 @@
  *
 */
 
-class Json extends dvc\Json {}
+class Json extends bravedave\dvc\json {
+}

@@ -8,4 +8,5 @@
  *
 */
 
-class Page extends dvc\Page {}
+class Page extends dvc\Page {
+}

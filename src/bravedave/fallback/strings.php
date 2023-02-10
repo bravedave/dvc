@@ -8,4 +8,5 @@
  *
 */
 
-abstract class strings extends dvc\strings {}
+abstract class strings extends bravedave\dvc\strings {
+}

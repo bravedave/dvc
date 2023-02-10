@@ -8,4 +8,5 @@
  *
 */
 
-class PHPMailer extends PHPMailer\PHPMailer\PHPMailer {}
+class PHPMailer extends PHPMailer\PHPMailer\PHPMailer {
+}

@@ -8,7 +8,7 @@
  *
 */
 
-namespace dvc;
+namespace bravedave\dvc;
 
 abstract class url {
   static public $URL;

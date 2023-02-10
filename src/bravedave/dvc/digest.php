@@ -41,18 +41,20 @@
 
 */
 
-namespace dvc;
+namespace bravedave\dvc;
 
 class digest {
   public $digestParts = [];
   public $realm = '';
 
   protected function getDigest() {
+
     // return $this->request->getHeader('Authorization');
     return ($_SERVER['PHP_AUTH_DIGEST']);
   }
 
   protected function hasHeader() {
+
     return (!(empty($_SERVER['PHP_AUTH_DIGEST'])));
   }
 
@@ -63,6 +65,7 @@ class digest {
    * @return false|array
    */
   protected function parseDigest($digest) {
+
     // protect against missing data
     $needed_parts = ['nonce' => 1, 'nc' => 1, 'cnonce' => 1, 'qop' => 1, 'username' => 1, 'uri' => 1, 'response' => 1];
     $data = [];
@@ -78,6 +81,7 @@ class digest {
   }
 
   public function __construct($realm = 'DVC') {
+
     $this->realm = $realm;
 
     $this->hasHeader() ?
@@ -86,10 +90,12 @@ class digest {
   }
 
   public function authorized($A1) {
+
     return ($this->authorised($A1));
   }
 
   public function authorised($A1) {
+
     $A2 = md5($_SERVER['REQUEST_METHOD'] . ':' . $this->digestParts['uri']);
     $valid_response = md5(
       sprintf(
@@ -113,8 +119,8 @@ class digest {
    * @return string|null
    */
   function getDigestHash($key, $secret) {
-    return (md5(sprintf('%s:%s:%s', $key, $this->realm, $secret)));
 
+    return (md5(sprintf('%s:%s:%s', $key, $this->realm, $secret)));
     return NULL;
   }
 
@@ -124,10 +130,12 @@ class digest {
    * @return string
    */
   function getUsername() {
+
     return $this->digestParts['username'];
   }
 
   public function requireAuth() {
+
     header('HTTP/1.1 401 Unauthorized');
     header(sprintf(
       'WWW-Authenticate: Digest realm="%s",qop="auth",nonce="%s",opaque="%s"',

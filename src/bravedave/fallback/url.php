@@ -8,4 +8,4 @@
  *
 */
 
-class url extends dvc\url {}
+class url extends bravedave\dvc\url {}

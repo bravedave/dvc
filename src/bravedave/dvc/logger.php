@@ -32,15 +32,29 @@ abstract class logger {
     $trace = array_values(array_filter($_trace, function ($c) {
       $exclude = [
         'dvc\dao\_dao',
+        'bravedave\dvc\{closure}',
         'bravedave\dvc\dbResult',
         'bravedave\dvc\logger',
         'Composer\Autoload\ClassLoader',
         'MatthiasMullie\Scrapbook\Adapters\Apc'
       ];
 
+      $excludeFunctions = [
+        'bravedave\dvc\{closure}',
+        'bravedave\\dvc\\{closure}',
+        'include_once'
+      ];
+
       if ($c['class'] ?? null) {
 
         if (in_array($c['class'], $exclude)) return false;
+
+        return true;
+      }
+
+      if ($c['function'] ?? null) {
+
+        if (in_array($c['function'], $excludeFunctions)) return false;
 
         return true;
       }

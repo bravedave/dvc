@@ -17,7 +17,7 @@ use dvc\{
   session,
   userAgent
 };
-use config, Json, strings;
+use config, strings;
 
 abstract class controller {
   public $authorized = false;
@@ -55,7 +55,7 @@ abstract class controller {
   const viewNotFound = __DIR__ . '/../../dvc/views/not-found.md';
 
   public function __construct($rootPath) {
-    if ($this->debug) \sys::logger(sprintf('__construct :: %s', __METHOD__));
+    if ($this->debug) logger::debug(sprintf('__construct :: %s', __METHOD__));
     $this->rootPath = $rootPath;
     $this->title = config::$WEBNAME;
     $this->route = self::application()::route();
@@ -72,9 +72,9 @@ abstract class controller {
 
     if ($this->RequireValidation) {
 
-      if ($this->debug) \sys::logger(sprintf('checking authority :: %s', __METHOD__));
+      if ($this->debug) logger::debug(sprintf('checking authority :: %s', __METHOD__));
       $this->authorised = \currentUser::valid();
-      if ($this->debug) \sys::logger(sprintf('checking authority :: %s :: %s', ($this->authorised ? 'private' : 'public'), __METHOD__));
+      if ($this->debug) logger::debug(sprintf('checking authority :: %s :: %s', ($this->authorised ? 'private' : 'public'), __METHOD__));
 
       if (!($this->authorised)) $this->authorize();
     } elseif ($this->isPost()) {
@@ -86,9 +86,9 @@ abstract class controller {
       $action = $this->getPost('action');
       if ('-system-logon-' == $action) {
 
-        if ($this->debug) \sys::logger(sprintf('checking authority :: %s', __METHOD__));
+        if ($this->debug) logger::debug(sprintf('checking authority :: %s', __METHOD__));
         $this->authorised = \currentUser::valid();
-        if ($this->debug) \sys::logger(sprintf('checking authority :: %s :: %s', ($this->authorised ? 'private' : 'public'), __METHOD__));
+        if ($this->debug) logger::debug(sprintf('checking authority :: %s :: %s', ($this->authorised ? 'private' : 'public'), __METHOD__));
 
         if (!($this->authorised)) $this->authorize();
       }
@@ -145,45 +145,57 @@ abstract class controller {
   }
 
   protected function _index() {
+
     $this->page404();
   }
 
   protected function _offManifest($option = '') {
+
     if (!$option) $option = 'index.html';
     if ($_manifest_file = realpath(sprintf('%s/asset-manifest.json', $this->manifest))) {
+
       if ('manifest.json' == $option) {
+
         $_path = sprintf('%s/%s', $this->manifest, $option);
       } else {
+
         $_manifest = json_decode(file_get_contents($_manifest_file));
         $_path = false;
         foreach ($_manifest as $_p) {
+
           if (ltrim($_p, './') == $option) {
+
             $_path = sprintf('%s/%s', $this->manifest, ltrim($_p, './'));
           }
         }
       }
 
       if ($_path) {
+
         if ($_file = realpath($_path)) {
+
           Response::serve($_file);
         } else {
+
           printf('%s - file not found', $_path);
           //~ \sys::dump( $_manifest);
-
         }
       } else {
+
         printf('%s - not set<br />', $option);
       }
     } else {
+
       printf('%s - manifest not found', $_manifest_file);
     }
 
     // if we find a static file serve it, otherwise serve index
-
   }
 
   protected function _render($view) {
+
     foreach ((array)$view as $_) {
+
       $this->load($_);
     }
   }
@@ -191,7 +203,7 @@ abstract class controller {
   protected function _viewPath(string $path): string {
     if (preg_match('/\.(php|md)$/', $path)) {    // extension was specified
       if (\file_exists($path)) {
-        if ($this->debug) \sys::logger(sprintf('found view (specific) : %s :: %s', $path, __METHOD__));
+        if ($this->debug) logger::debug(sprintf('found view (specific) : %s :: %s', $path, __METHOD__));
         return $path;
       }
     }
@@ -200,12 +212,12 @@ abstract class controller {
      * first look for a php (.php) view, then a markdown (.md)
      */
     if (file_exists($view = sprintf('%s.php', $path))) {  // php
-      if ($this->debug) \sys::logger(sprintf('found view (php) : %s :: %s', $view, __METHOD__));
+      if ($this->debug) logger::debug(sprintf('found view (php) : %s :: %s', $view, __METHOD__));
       return $view;
     }
 
     if (file_exists($view = sprintf('%s.md', $path))) {  // md
-      if ($this->debug) \sys::logger(sprintf('found view (md) : %s :: %s', $view, __METHOD__));
+      if ($this->debug) logger::debug(sprintf('found view (md) : %s :: %s', $view, __METHOD__));
       return $view;
     }
 
@@ -225,14 +237,14 @@ abstract class controller {
       if ($p = $this->getPost('p')) {
 
         if (\auth::ImapTest($u, $p)) {
-          if ($debug) \sys::logger(sprintf('<successful logon for %s> %s', $u, __METHOD__));
+          if ($debug) logger::debug(sprintf('<successful logon for %s> %s', $u, __METHOD__));
 
           $dao = new \dao\users;
           if (method_exists($dao, 'validatedByIMAP')) {
             return $dao->{'validatedByIMAP'}($u, $p);
           }
         } else {
-          if ($debug) \sys::logger(sprintf('<unsuccessful logon for %s> %s', $u, __METHOD__));
+          if ($debug) logger::debug(sprintf('<unsuccessful logon for %s> %s', $u, __METHOD__));
         }
       }
     }
@@ -243,32 +255,38 @@ abstract class controller {
   protected function authorize() {
 
     if ($this->isPost()) {
+
       $action = $this->getPost('action');
       if ($action == '-system-logon-' && auth::ImapAuthEnabled()) {
+
         if ($this->authorizeIMAP()) {
-          Json::ack($action);
+
+          json::ack($action);
         } else {
-          Json::nak($action);
+
+          json::nak($action);
         }
         die;
       }
     }
 
     if (\auth::GoogleAuthEnabled()) {
-      if ($this->debug) \sys::logger(sprintf('gauth - test :: %s', __METHOD__));
+
+      if ($this->debug) logger::debug(sprintf('gauth - test :: %s', __METHOD__));
       if (\user::hasGoogleFlag()) {
+
         \user::clearGoogleFlag();
-        if ($this->debug) \sys::logger(sprintf('gauth :: %s', __METHOD__));
+        if ($this->debug) logger::debug(sprintf('gauth :: %s', __METHOD__));
 
         Response::redirect(strings::url('auth/request'));
         return;
       }
     }
 
-    if (\userAgent::isGoogleBot())
-      exit;  // quietly
+    if (\userAgent::isGoogleBot()) exit;  // quietly
 
     if (config::use_inline_logon) {
+
       $p = new config::$PAGE_TEMPLATE_LOGON('Log On');
       $p->footer = false;
       $p->latescripts[] = '<script>(_ => $(document).ready( () => _.get.modal(_.url(\'logon/form\'))))( _brayworth_);</script>';
@@ -304,11 +322,9 @@ abstract class controller {
 		* Escape a string for inclusing in an SQL
 		* Command using the default data adapter
 		*/
-    if (is_null($this->db)) {
-      return ($s);
-    }
 
-    return ($this->db->escape($s));
+    if (is_null($this->db)) return $s;
+    return $this->db->escape($s);
   }
 
   protected function dbResult($query) {
@@ -316,25 +332,22 @@ abstract class controller {
 		* Return a SQL Data Result using
 		* the default data adapter
 		*/
-    if (is_null($this->db)) {
-      return (false);
-    }
 
-    return ($this->db->Result($query));
+    if (is_null($this->db)) return FALSE;
+    return $this->db->Result($query);
   }
 
   protected function getParam($v = '', $default = false) {
-    if (is_null($this->Request))
-      return (FALSE);
 
-    return ($this->Request->getParam($v, $default));
+    if (is_null($this->Request)) return FALSE;
+    return $this->Request->getParam($v, $default);
   }
 
   protected function getPost($name = '', $default = false) {
     if (is_null($this->Request))
       return (false);
 
-    return ($this->Request->getPost($name, $default));
+    return $this->Request->getPost($name, $default);
   }
 
   protected function isPost() {
@@ -350,15 +363,16 @@ abstract class controller {
 
     $_paths = $this->_getViewPaths($controller);
     foreach ($_paths as $_path) {
+
       if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [$_path, $viewName]))) {
+
         return $view;
       }
     }
 
     if (class_exists('dvc\theme\view', /* autoload */ false)) {
-      if ($altView = \dvc\theme\view::getView($viewName)) {
-        return ($altView);
-      }
+
+      if ($altView = \dvc\theme\view::getView($viewName)) return ($altView);
     }
 
     $_paths = [
@@ -373,11 +387,12 @@ abstract class controller {
         'dvc',
         'views'
       ]),
-
     ];
 
     foreach ($_paths as $_path) {
+
       if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [$_path, $viewName]))) {
+
         return $view;
       }
     }
@@ -385,12 +400,12 @@ abstract class controller {
     $readme = implode(DIRECTORY_SEPARATOR, [
       dirname(dirname(dirname(__DIR__))),
       'Readme.md'
-
     ]);
 
     if ($viewName == $readme) return $readme;  // one exception
 
     if ($logMissingView && 'dvc\_controller/hasView' != \sys::traceCaller()) {
+
       /*-- --[ not found - here is some debug stuff ]-- --*/
       \sys::trace(sprintf('view not found : %s (%s) : %s', $viewName, \sys::traceCaller(), __METHOD__));
     }
@@ -399,27 +414,30 @@ abstract class controller {
   }
 
   protected function hasView($viewName = 'index', $controller = null) {
+
     return $this->getView($viewName, $controller, $logMissingView = false) != self::viewNotFound;
   }
 
   protected function load($viewName = 'index', $controller = null) {
+
     $view = $this->getView($viewName, $controller);
     if (substr_compare($view, '.md', -3) === 0) {
-      if ($this->debug) \sys::logger(sprintf('it\'s an md ! :: %s', __METHOD__));
+
+      if ($this->debug) logger::debug(sprintf('it\'s an md ! :: %s', __METHOD__));
 
       $fc = file_get_contents($view);
       printf('<div class="markdown-body">%s</div>', \Parsedown::instance()->text($fc));
     } else {
+
       require($view);
     }
 
-    return ($this);  // chain
-
+    return $this;  // chain
   }
 
   protected function loadView($name, $controller = null) {
-    return ($this->load($name, $controller));  // that's a chain
 
+    return $this->load($name, $controller);  // that's a chain
   }
 
   protected function modalError($params = []) {
@@ -436,8 +454,7 @@ abstract class controller {
     $this->data->text = $options['text'];
     $this->modal($options);
 
-    return ($this);  // chain
-
+    return $this;  // chain
   }
 
   protected function modal($params = []) {
@@ -461,21 +478,26 @@ abstract class controller {
     $m->open();
 
     if ($options['load']) {
+
       foreach ((array)$options['load'] as $_) {
+
         $this->load($_);
       }
     }
 
     if ($options['text']) {
+
       foreach ((array)$options['text'] as $_) {
+
         print $_;
       }
     }
 
-    return ($this);  // chain
+    return $this;  // chain
   }
 
   protected function page($params) {
+
     $defaults = [
       'css' => [],
       'data' => false,
@@ -486,7 +508,6 @@ abstract class controller {
       'title' => $this->title,
       'bodyClass' => false,
       'template' => config::$PAGE_TEMPLATE,
-
     ];
 
     $options = array_merge($defaults, $params);
@@ -494,33 +515,40 @@ abstract class controller {
     $p = new $options['template']($options['title']);
     $p->bodyClass = $options['bodyClass'];
     if ('string' == gettype($options['footer'])) {
+
       $p->footer = true;
       $options['template']::$footerTemplate = $options['footer'];
     } else {
+
       $p->footer = $options['footer'];
     }
 
     $p->data = (object)$options['data'];
-    if (!(isset($p->data->title))) {
-      $p->data->title = $options['title'];
-    }
+    if (!(isset($p->data->title))) $p->data->title = $options['title'];
 
     foreach ($options['css'] as $css) {
+
       if (preg_match('/^<(link|style)/', $css)) {
+
         $p->css[] = $css;
       } else {
+
         $p->css[] = sprintf('<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css);
       }
     }
 
     foreach ($options['meta'] as $meta) {
+
       $p->meta[] = $meta;
     }
 
     foreach ($options['scripts'] as $script) {
+
       if (preg_match('/^<script/', $script)) {
+
         $p->scripts[] = $script;
       } else {
+
         $p->scripts[] = sprintf('<script type="text/javascript" src="%s"></script>', $script);
       }
     }
@@ -530,9 +558,12 @@ abstract class controller {
 		* - if something like tinymce is appended after it would be slower
 		*/
     foreach ($options['latescripts'] as $script) {
+
       if (preg_match('/^<script/', $script)) {
+
         array_unshift($p->latescripts, $script);
       } else {
+
         array_unshift($p->latescripts, sprintf('<script type="text/javascript" src="%s"></script>', $script));
       }
     }
@@ -541,20 +572,27 @@ abstract class controller {
   }
 
   protected function postHandler() {
+
     $action = $this->getPost('action');
 
     if ('send-test-message' == $action) {
+
       push::test(\currentUser::id());
     } elseif ('subscription-delete' == $action) {
+
       if ($endpoint = $this->getPost('endpoint')) {
+
         $dao = new \dao\notifications;
         $dao->deleteByEndPoint($endpoint);
-        Json::ack($action);
+        json::ack($action);
       } else {
-        Json::nak($action);
+
+        json::nak($action);
       }
     } elseif ('subscription-save' == $action) {
+
       if ($json = $this->getPost('json')) {
+
         $subscription = (object)json_decode($json);
 
         if (isset($subscription->endpoint) && $subscription->endpoint) {
@@ -570,19 +608,23 @@ abstract class controller {
             ]);
           }
 
-          Json::ack($action);
+          json::ack($action);
         } else {
-          Json::nak($action);
+
+          json::nak($action);
         }
       } else {
-        Json::nak($action);
+
+        json::nak($action);
       }
     } else {
-      Json::nak($action);
+
+      json::nak($action);
     }
   }
 
   protected function render($params) {
+
     $defaults = [
       'left-interface' => false,
       'main' => false,
@@ -592,7 +634,6 @@ abstract class controller {
       'sidebar' => false,
       'content' => false,
       'navbar' => '',
-
     ];
 
     $options = array_merge($defaults, $params);
@@ -603,28 +644,35 @@ abstract class controller {
       ->title($options['navbar']);
 
     if ($options['left-interface']) {
+
       if ($options['secondary']) {
+
         $p->secondary();
         $this->_render($options['secondary']);
       }
 
       if ($options['primary']) {
+
         $p->primary();
         $this->_render($options['primary']);
       }
     } else {
+
       if ($options['primary']) {
+
         $p->primary();
         $this->_render($options['primary']);
       }
 
       if ($options['secondary']) {
+
         $p->secondary();
         $this->_render($options['secondary']);
       }
     }
 
     if ($options['content']) {
+
       $p->content();
       $this->_render($options['content']);
     }
@@ -646,34 +694,37 @@ abstract class controller {
     }
 
     if ($options['main-panel']) {
+
       $p->newSection($name = 'main-panel', $class = 'main-panel', $role = 'main-panel', $more = '');
       $this->_render($options['main-panel']);
     }
 
     if ($options['main']) {
+
       $p->newSection($name = 'main', $class = 'main', $role = 'main', $more = '');
       $this->_render($options['main']);
     }
 
-    return ($p);
+    return $p;
   }
 
   protected function SQL($query) {
-    /*
-		* Perform an SQL Command using
-		* the default data adapter
-		*/
-    if (is_null($this->db)) {
-      return (false);
-    }
 
+    /**
+     * Perform an SQL Command using
+     * the default data adapter
+     */
+    if (is_null($this->db)) return (false);
     return ($this->db->SQL($query));
   }
 
   public function index() {
+
     if ($this->isPost()) {
+
       $this->postHandler();
     } elseif ($this->manifest) {
+
       $this->_offManifest(self::application()::Request()->getUrl());
     } else {
 
@@ -688,33 +739,39 @@ abstract class controller {
           $this->_index($args[0]);
         }
       } else {
+
         $this->_index();
       }
     }
   }
 
   public function js(string $lib = '') {
+
     if (in_array($lib, ['tinymce', 'tinymce5'])) {
+
       if (preg_match('/(content\.min\.css|content\.css)$/', $uri = $this->Request->getUri())) {
+
         $_f = sprintf(
           'tinymce' == $lib ?
             '%s/dvc/public/js/%s/skins/lightgray/content.min.css' :
             '%s/dvc/public/js/%s/skins/content/default/content.min.css',
           self::application()->getInstallPath(),
           $lib
-
         );
 
         file_exists($_f) ?
           Response::serve($_f) :
-          \sys::logger('error serving lib tinymce.css');
+          logger::info('error serving lib tinymce.css');
 
-        //~ sys::logger( sprintf( 'serving lib tinymce %s', $this->Request->getUri()));
+        // logger::info( sprintf( 'serving lib tinymce %s', $this->Request->getUri()));
 
       } else {
+
         if (userAgent::isMobileDevice()) {
+
           jslib::tinyserve('tiny-imap-mobile', 'autolink,lists');
         } else {
+
           jslib::tinyserve('tiny-imap', 'autolink,paste,lists,table,image,imagetools,link,spellchecker');
         }
       }
@@ -722,34 +779,39 @@ abstract class controller {
   }
 
   public function logout() {
+
     session::destroy(__METHOD__);
     Response::redirect();
     header('HTTP/1.1 401 Unauthorized');
   }
 
   public function logoff() {
+
     $this->logout();
   }
 
   public function init($name = '') {
+
     self::$url = strings::url($name . '/');
-    if ($this->debug) \sys::logger(self::$url);
+    if ($this->debug) logger::debug(self::$url);
   }
 
   public function errorTest() {
+
     throw new \dvc\Exceptions\GeneralException;
   }
 
   public function page404() {
+
     header('HTTP/1.0 404 Not Found');
     $this->render([
       'title' => '404 Not Found',
       'content' => 'not-found'
-
     ]);
   }
 
   public function serviceWorker() {
+
     push::serviceWorker();
   }
 }

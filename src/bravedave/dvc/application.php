@@ -13,8 +13,7 @@ namespace bravedave\dvc;
 use config, strings;
 
 use dvc\{
-  errsys,
-  timer
+  errsys
 };
 
 use bravedave\dvc\Exceptions\{

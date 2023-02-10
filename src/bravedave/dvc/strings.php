@@ -8,7 +8,7 @@
  *
 */
 
-namespace dvc;
+namespace bravedave\dvc;
 
 use config;
 use libphonenumber;
