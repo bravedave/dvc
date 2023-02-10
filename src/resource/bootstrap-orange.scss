@@ -5,7 +5,7 @@ $enable-shadows : true;
 $enable-gradients : true;
 
 $theme-colors: (
-  "primary": #FFA500,
+  "primary": #ca6510,
   "secondary":#8b5a00,
 
   "warning":#CEB915,
@@ -13,7 +13,8 @@ $theme-colors: (
 
   "info":#00CDFF,
   "success":#65D03D,
-  "light":#FFFAF1
+  "light":#FFFAF1,
+  "dark":#331904
 );
 
 .bg-gradient-navbar {
