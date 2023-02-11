@@ -1,0 +1,162 @@
+/*
+  David Bray
+  BrayWorth Pty Ltd
+	e. david@brayworth.com.au
+
+  MIT License
+  */
+.pointer {
+  cursor: pointer;
+}
+
+aside {
+  font-size: .9rem;
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: darkgrey;
+	outline: 1px solid slategrey;
+}
+
+/* aside.bg-sidebar {
+  position: relative;
+  height: calc(100vh - 4.4rem);
+} */
+
+@media screen and (min-width: 768px) {
+
+  /* position: -webkit-sticky;
+  position: sticky; */
+  main[data-role="content-primary"],
+  aside[data-role="content-secondary"] {
+    position: relative;
+    height: calc(100vh - 4.4rem);
+    padding-top: .5rem;
+    padding-bottom: 1rem;
+    overflow-y: auto;
+    /* Scrollable contents if viewport is shorter than content. */
+  }
+
+  aside[data-role="content-secondary"] {
+    overflow-x: hidden;
+  }
+}
+
+a:not(:hover):not(:disabled):not(.nav-link):not(.navbar-brand) {
+  color: inherit;
+}
+
+aside a:not(:hover):not(:disabled) {
+  text-decoration: none;
+  color: inherit;
+}
+
+.email-sending-icon {
+  display: none;
+}
+
+.email-sending {
+  position: relative;
+}
+
+.email-sending .email-sending-icon {
+  display: block;
+  height: calc(100%);
+  width: calc(100%);
+  background-color: hsla(121, 33%, 35%, 0.5);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.email-sending .email-sending-icon i.spinner-border {
+  display: block;
+  margin: 200px auto;
+}
+
+@media screen and (min-width: 768px) {
+  .has-advanced-upload {
+    outline: 1px dashed #337ab7;
+    border-radius: .5rem;
+    padding: .3rem;
+    outline-offset: -.15rem;
+    background-color: white;
+  }
+
+  div:not(.email-attachment-container).has-advanced-upload::before {
+    display: inline-block;
+    width: 90%;
+    margin-left: 0.25rem;
+    vertical-align: 0.25rem;
+    content: "drag files here to upload";
+    color: #9e9e9e;
+    font-size: .75rem;
+  }
+
+  div.email-attachment-container.has-advanced-upload::after {
+    display: inline-block;
+    width: 90%;
+    margin-left: 0.25rem;
+    vertical-align: 0.25rem;
+    content: "drag files here to upload";
+    color: #9e9e9e;
+    font-size: .75rem;
+  }
+}
+
+@media screen {
+
+  /* file upload css */
+  .box__dragndrop,
+  .box__uploading,
+  .box__success,
+  .box__error {
+    display: none;
+  }
+
+  .has-advanced-upload .box__dragndrop {
+    padding: .6rem;
+    display: inline;
+  }
+
+  .is-dragover {
+    background-color: grey;
+  }
+
+  .is-uploading input[type="file"] {
+    visibility: none;
+    display: none;
+  }
+
+  .is-uploading .box__uploading {
+    display: flex;
+  }
+}
+
+@media print {
+  aside {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (min-width: 1024px) and (-moz-min-device-pixel-ratio: 1.5),
+only screen and (min-width: 1024px) and (min-resolution: 1.5dppx) {
+
+  html {
+    font-size: .8rem
+  }
+
+  /* this is intended for desktop's and not iPhones & Mobiles */
+
+}

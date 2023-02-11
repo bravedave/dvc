@@ -1,0 +1,70 @@
+/*
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
+
+	MIT License
+
+*/
+@media (min-width: 768px) {
+	.dropdown-with-submenu { position: relative; }
+	.dropdown-with-submenu::after {
+		display: block;
+		margin-left: calc(100% - .8em);
+		margin-top: -1.2em;
+		margin-bottom: .7em;
+		content: "";
+		border-top: .3em solid transparent;
+		border-right: 0;
+		border-bottom: .3em solid transparent;
+		border-left: .3em solid;
+	}
+	.dropdown-submenu {
+		display: none;
+		position: absolute;
+		left: 100.5%;
+		top: 0;
+		background-color: #fff;
+		border-radius: .25rem;
+		border: 1px solid rgba(0,0,0,.15);
+
+	}
+
+	.dropdown-with-submenu:hover .dropdown-submenu { display: block; }
+}
+
+.dropdown-menu {
+  padding: 0;
+}
+
+.dropdown-menu .dropdown-divider {
+  margin: 0;
+}
+
+.dropdown-menu .dropdown-item {
+  border-left: 2rem #f5f5f5 solid;
+  padding-left: .325rem;
+  padding-right: 1.5rem;
+}
+
+.nav.flex-column>li.nav-item>a>.fa,
+.nav.flex-column>li.nav-item>a>.cms-icon,
+.nav.flex-column>li.nav-item>a>.icon {
+  margin-left: -1.3rem;
+  margin-right: 0.25rem;
+  width: 1rem;
+}
+
+.dropdown-menu .dropdown-submenu>li .fa,
+.dropdown-menu .dropdown-submenu>li .bi {
+  margin-left: -1.8rem;
+  margin-right: 0.8rem;
+  width: 1rem;
+}
+
+ul.dropdown-menu>li>a>.bi,
+ul.dropdown-menu>li>a>.fa:not(.fa-pull-right) {
+  margin-left: -1.8rem;
+  margin-right: .8rem;
+  width: 1rem;
+}
