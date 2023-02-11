@@ -10,8 +10,8 @@
 
 namespace bravedave\dvc\controller;
 
-use config, Controller, currentUser, dvc, HttpGet, HttpPost, Response, sys;
-use bravedave\dvc\oauth;
+use config, Controller, currentUser, HttpGet, HttpPost, Response, sys;
+use bravedave, bravedave\dvc\oauth;
 
 class fbauth extends Controller {
   protected $RequireValidation = FALSE;
@@ -27,7 +27,7 @@ class fbauth extends Controller {
 
   public function request() {
 
-    if (dvc\auth::FacebookAuthEnabled()) {
+    if (bravedave\dvc\auth::FacebookAuthEnabled()) {
       /*
 				https://www.facebook.com/v2.5/dialog/oauth?
 					response_type=token
@@ -51,7 +51,7 @@ class fbauth extends Controller {
 
   public function response() {
 
-    if (dvc\auth::FacebookAuthEnabled()) {
+    if (bravedave\dvc\auth::FacebookAuthEnabled()) {
       /**
        * the OAuth server should have brought us to this page with a $_GET['code']
        */
@@ -98,7 +98,7 @@ class fbauth extends Controller {
           /* Tada: we have an access token! */
 
           $token = $responseObj->access_token;
-          dvc\session::edit();
+          bravedave\dvc\session::edit();
 
           $_SESSION['access_token'] = $token;
 

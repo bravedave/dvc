@@ -8,4 +8,4 @@
  *
 */
 
-abstract class auth extends dvc\auth {}
+abstract class auth extends bravedave\dvc\auth {}

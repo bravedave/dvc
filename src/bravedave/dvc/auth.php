@@ -10,24 +10,27 @@
 
 namespace bravedave\dvc;
 
-use dvc\html;
+use config, currentUser, strings;
 
 abstract class auth {
+
   static function button() {
+
     if (\auth::GoogleAuthEnabled()) {
-      if (\currentUser::valid()) {
+
+      if (currentUser::valid()) {
         return (sprintf(
           '<a href="%s"><img alt="logout" src="%s" /><img alt="avatar" class="user-avatar" title="%s" src="%s" /><img alt="logout" src="%s" /></a>',
-          \strings::url('auth/logout'),
-          \strings::url('images/logout-left9x50.png'),
-          \currentUser::user()->name,
-          \currentUser::avatar(),
-          \strings::url('images/logout-63x50.png')
+          strings::url('auth/logout'),
+          strings::url('images/logout-left9x50.png'),
+          currentUser::user()->name,
+          currentUser::avatar(),
+          strings::url('images/logout-63x50.png')
         ));
       } else {
         return (sprintf(
           '<a href="#dlgLogon" data-toggle="modal"><img alt="logon with google" src="%s" /></a>',
-          \strings::url('images/gfb-signin-246x54.png')
+          strings::url('images/gfb-signin-246x54.png')
         ));
       }
     }
@@ -81,66 +84,73 @@ abstract class auth {
       'id' => 'dlgLogonBody'
     ]);
 
-    $a = new html\a(\strings::url(\currentUser::valid() ? 'auth/logout' : 'auth/request'), '');
-    if (\currentUser::valid()) {
-      $a->appendChild(new html\img(\strings::url('images/logout-left9x50.png'), 'logout'));
-      $img = new html\img(\currentUser::avatar(), 'avatar');
-      $img->attributes(['title' => \currentUser::DisplayName()]);
-      $a->appendChild($img);
-      $a->appendChild(new html\img(\strings::url('images/logout-63x50.png'), 'logout'));
-    } else {
-      $a->appendChild(new html\img(\strings::url('images/g-signin-266x54.png'), 'logon with google'));
-    }
-
-    $body->appendChild($a);
-
-    $a = new html\a(\strings::url(\currentUser::valid() ? 'fbauth/logout' : 'fbauth/request'), '');
-    if (\currentUser::valid()) {
-      $a->appendChild(new html\img(\strings::url('images/logout-left9x50.png'), 'logout'));
-      $img = new html\img(\currentUser::avatar(), 'avatar');
-      $img->attributes(['title' => \currentUser::DisplayName()]);
-      $a->appendChild($img);
-      $a->appendChild(new html\img(\strings::url('images/logout-63x50.png'), 'logout'));
-    } else {
-      $a->appendChild(new html\img(\strings::url('images/fb-signin-266x54.png'), 'logon with facebook'));
-    }
-
-    $body->appendChild($a);
-
-    $a = new html\a(\strings::url(\currentUser::valid() ? 'odauth/logout' : 'odauth/request'), '');
+    $a = new html\a(strings::url(currentUser::valid() ? 'auth/logout' : 'auth/request'), '');
     if (currentUser::valid()) {
-      $a->appendChild(new html\img(\strings::url('images/logout-left9x50.png'), 'logout'));
+
+      $a->appendChild(new html\img(strings::url('images/logout-left9x50.png'), 'logout'));
+      $img = new html\img(currentUser::avatar(), 'avatar');
+      $img->attributes(['title' => currentUser::DisplayName()]);
+      $a->appendChild($img);
+      $a->appendChild(new html\img(strings::url('images/logout-63x50.png'), 'logout'));
+    } else {
+
+      $a->appendChild(new html\img(strings::url('images/g-signin-266x54.png'), 'logon with google'));
+    }
+
+    $body->appendChild($a);
+
+    $a = new html\a(strings::url(currentUser::valid() ? 'fbauth/logout' : 'fbauth/request'), '');
+    if (currentUser::valid()) {
+
+      $a->appendChild(new html\img(strings::url('images/logout-left9x50.png'), 'logout'));
+      $img = new html\img(currentUser::avatar(), 'avatar');
+      $img->attributes(['title' => currentUser::DisplayName()]);
+      $a->appendChild($img);
+      $a->appendChild(new html\img(strings::url('images/logout-63x50.png'), 'logout'));
+    } else {
+
+      $a->appendChild(new html\img(strings::url('images/fb-signin-266x54.png'), 'logon with facebook'));
+    }
+
+    $body->appendChild($a);
+
+    $a = new html\a(strings::url(currentUser::valid() ? 'odauth/logout' : 'odauth/request'), '');
+    if (currentUser::valid()) {
+
+      $a->appendChild(new html\img(strings::url('images/logout-left9x50.png'), 'logout'));
       $img = new html\img(currentUser::avatar(), 'avatar');
       $img->attributes(array('title' => currentUser::DisplayName()));
       $a->appendChild($img);
-      $a->appendChild(new html\img(\strings::url('images/logout-63x50.png'), 'logout'));
+      $a->appendChild(new html\img(strings::url('images/logout-63x50.png'), 'logout'));
     } else {
-      $a->appendChild(new html\img(\strings::url('images/ms-signin-266x54.png'), 'logon with microsoft'));
+
+      $a->appendChild(new html\img(strings::url('images/ms-signin-266x54.png'), 'logon with microsoft'));
     }
 
     $body->appendChild($a);
   }
 
   static function FacebookAuthEnabled() {
-    if (is_null(\config::$facebook_oauth2_client_id) || is_null(\config::$facebook_oauth2_secret) || is_null(\config::$facebook_oauth2_redirect))
-      return (false);
 
-    return (true);
+    if (is_null(config::$facebook_oauth2_client_id) || is_null(config::$facebook_oauth2_secret) || is_null(config::$facebook_oauth2_redirect))
+      return false;
+
+    return true;
   }
 
   static function GoogleAuthEnabled() {
-    if (is_null(\config::$oauth2_client_id) || is_null(\config::$oauth2_secret) || is_null(\config::$oauth2_redirect))
-      return (false);
+    if (is_null(config::$oauth2_client_id) || is_null(config::$oauth2_secret) || is_null(config::$oauth2_redirect))
+      return false;
 
-    return (true);
+    return true;
   }
 
   static function ImapAuthEnabled() {
-    if (is_null(\config::$IMAP_AUTH_SERVER)) {
-      return (false);
+    if (is_null(config::$IMAP_AUTH_SERVER)) {
+      return false;
     }
 
-    return (true);
+    return true;
   }
 
   static function ImapTest(string $u, string $p): bool {
@@ -150,7 +160,7 @@ abstract class auth {
     $port = '143';
     $secure = 'tls';
     $inbox = 'Inbox';
-    $server = \config::$IMAP_AUTH_SERVER;
+    $server = config::$IMAP_AUTH_SERVER;
     if (preg_match('@^ssl://@', $server)) {
       $port = '993';
       $secure = 'ssl';
