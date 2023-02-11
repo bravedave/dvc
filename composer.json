@@ -28,7 +28,6 @@
     "erusev/parsedown": "^1.7",
     "giggsey/libphonenumber-for-php": "^8.11",
     "phpmailer/phpmailer": "^6.1",
-    "twbs/bootstrap-icons": "^1.7",
     "tinymce/tinymce": "^6.1",
     "symfony/mailer": "^5.4"
   },
