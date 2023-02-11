@@ -24,18 +24,33 @@ class home extends Controller {
       ]);
     } else {
 
-      $this->render([
-        'secondary' => ['aside'],
-        'primary' => ['main']
+      $this->data = (object)[
+        'title' => $this->title = config::$WEBNAME,
+        'pageUrl' => strings::url($this->route),
+        'searchFocus' => true,
+        'aside' => ['aside']
+      ];
+
+      $this->data = (object)[
+        'title' => $this->title = config::$WEBNAME,
+        'pageUrl' => strings::url($this->route),
+        'searchFocus' => true,
+        'aside' => ['aside']
+      ];
+
+      $this->renderBS5([
+        'main' => fn () => $this->load('main')
       ]);
     }
   }
 
   protected function before() {
+
     parent::before();
   }
 
   protected function postHandler() {
+
     $action = $this->getPost('action');
     parent::postHandler();
   }
@@ -99,6 +114,7 @@ class home extends Controller {
   }
 
   public function tiny() {
+
     if ('4' == config::$BOOTSTRAP_VERSION) {
       $this->render([
         'secondary' => ['aside'],
