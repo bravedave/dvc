@@ -11,6 +11,21 @@
  ($ => {
   $.fn.autoResize = function() {
 
+    const autoResize = function (e) {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight + 2) + 'px';
+    };
+
+    this
+      .off('input.autoResize')
+      .off('resize.autoResize')
+      .on('resize.autoResize', autoResize)
+      .on('input.autoResize', autoResize);
+
+    this.trigger('resize.autoResize');
+
+    return this;
+
     let hiddenDiv = $('<div class="autosize-common autosize-hiddendiv"></div>');
 
     if ( this.hasClass('form-control-sm')) {
