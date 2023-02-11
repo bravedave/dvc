@@ -185,24 +185,21 @@
         if (!_el.hasClass(hideClass)) {
           _el.addClass(hideClass);
           bodyElements.push(_el);
-
         }
-
       });
 
       t.get('.modal').addClass('modal-fullscreen');
       t.get('.modal-dialog').addClass('m-auto').removeClass('modal-dialog-centered');
       t.get('.modal-content').removeClass('w-25 w-50 w-75').addClass('w-100');
-
     }
     else {
+
       if (!!options.height) {
+
         t.get('.modal-body')
           .height(options.height)
           .css({ 'overflow-y': 'auto', 'overflow-x': 'hidden' });
-
       }
-
     }
 
     t.appendTo('body');
@@ -272,16 +269,16 @@
   _.modal.template = () => $(
     `<div class="modal" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-truncate" title="Modal">Modal</h5>
-        <button type="button" class="close" data-${_.bootstrap_version() >= 5 ? 'bs-' : ''}dismiss="modal" aria-label="Close">
-          <i aria-hidden="true" class="bi bi-x"></i>
-        </button>
-      </div>
-      <div class="modal-body"></div>
-      <div class="modal-footer"></div>
-    </div>
+        <div class="modal-content">
+          <div class="modal-header" data-bs-theme="dark">
+            <h5 class="modal-title text-truncate" title="Modal">Modal</h5>
+            <button type="button" class="${_.bootstrap_version() >= 5 ? 'btn-close' : 'close'}" data-${_.bootstrap_version() >= 5 ? 'bs-' : ''}dismiss="modal" aria-label="Close">
+              ${_.bootstrap_version() >= 5 ? '' : '<i aria-hidden="true" class="bi bi-x"></i>'}
+            </button>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer"></div>
+        </div>
       </div>
     </div>`);
 
