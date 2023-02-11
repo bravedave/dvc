@@ -12,6 +12,7 @@ namespace dvc\pdo;
 
 use config;
 use bravedave\dvc\Exceptions\DBNotConfigured;
+use bravedave\dvc\logger;
 use PDO, PDOException;
 use PDOStatement;
 
@@ -25,12 +26,21 @@ class db {
 
     if ($this->_connection) return true;
     try {
+
+      if ( !class_exists('\PDO')) {
+
+        print 'the PDO class is not found, install it to continue';
+        die;
+
+      }
       $this->_connection = new PDO($this->_dsn, config::$DB_USER, config::$DB_PASS);
       $this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-      \sys::logger(sprintf('<%s> %s', 'opened', __METHOD__));
+      logger::info(sprintf('<%s> %s', 'opened', __METHOD__));
     } catch (PDOException $e) {
-      \sys::logger(sprintf('<PDO Error : %s> %s', $e->getMessage(), __METHOD__));
+
+      logger::info(sprintf('<Error ..> %s', __METHOD__));
+      logger::info(sprintf('<PDO Error : %s> %s', $e->getMessage(), __METHOD__));
       die();
     }
 
@@ -40,14 +50,14 @@ class db {
   public function __construct() {
 
     if ('sqlite' == config::$DB_TYPE) {
-      $_path = sprintf('%s%sdb.sqlite', \config::dataPath(), DIRECTORY_SEPARATOR);
+      $_path = sprintf('%s%sdb.sqlite', config::dataPath(), DIRECTORY_SEPARATOR);
       $this->_dsn = sprintf(
         '%s:%s',
         config::$DB_TYPE,
         $_path
       );
 
-      \sys::logger(sprintf('<%s> %s', $this->_dsn, __METHOD__));
+      logger::info(sprintf('<%s> %s', $this->_dsn, __METHOD__));
     } elseif ('mysql' == config::$DB_TYPE) {
       $this->_dsn = sprintf(
         '%s:dbname=%s;host=%s;charset=UTF8',
@@ -56,7 +66,7 @@ class db {
         config::$DB_HOST
       );
 
-      \sys::logger(sprintf('<%s> %s', $this->_dsn, __METHOD__));
+      logger::info(sprintf('<%s> %s', $this->_dsn, __METHOD__));
     } else {
 
       throw new DBNotConfigured;
@@ -66,7 +76,7 @@ class db {
   public function __destruct() {
 
     $this->_connection = null;
-    \sys::logger(sprintf('<%s> %s', 'closed', __METHOD__));
+    logger::info(sprintf('<%s> %s', 'closed', __METHOD__));
   }
 
   public function exec(string $sql): ?int {
@@ -134,7 +144,7 @@ class db {
     $data['id'] = $id;  // so you can never pass id in !, we don't support fields named id
 
     if (!($res = $b->execute($data))) {
-      \sys::logger(sprintf('<error %s> %s', $b->errorCode(), __METHOD__));
+      logger::info(sprintf('<error %s> %s', $b->errorCode(), __METHOD__));
     }
 
     return $res;

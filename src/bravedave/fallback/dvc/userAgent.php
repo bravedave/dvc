@@ -8,4 +8,9 @@
  *
 */
 
-abstract class userAgent extends bravedave\dvc\userAgent {}
+namespace dvc;
+
+use bravedave;
+
+abstract class userAgent extends bravedave\dvc\userAgent {
+}

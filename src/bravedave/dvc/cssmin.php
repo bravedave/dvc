@@ -23,7 +23,7 @@ abstract class cssmin {
 
   public static $debug = false;
   public static $dvcmin = false;
-  public static $dvcminFiles = false;
+  public static $dvcminFiles = [];
   public static $dvc4Files = [
     'css/dvc-4.css',
     'css/brayworth.animation.css',
@@ -110,6 +110,7 @@ abstract class cssmin {
       self::$dvcminFiles = self::$dvc4Files;
       if (is_null($minfile)) $minfile =  'dvc-4.min.css';
     } else {
+
       self::$dvcminFiles = [
         'css/dvc.css',
         'css/brayworth.animation.css',

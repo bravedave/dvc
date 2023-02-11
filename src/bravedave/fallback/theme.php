@@ -8,4 +8,4 @@
  *
 */
 
-class theme extends dvc\theme {}
+class theme extends bravedave\dvc\theme {}

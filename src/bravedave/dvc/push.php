@@ -9,37 +9,32 @@
  * styleguide : https://codeguide.co/
 */
 
-namespace dvc;
+namespace bravedave\dvc;
 
-use Minishlink\WebPush\WebPush;
-use Minishlink\WebPush\Subscription;
+use config;
+use Minishlink\WebPush\{WebPush, Subscription};
 
 class push {
+
   static function enabled() {
-    if ( \config::checkDBconfigured()) {
-      return class_exists( 'Minishlink\WebPush\WebPush');
 
-    }
-
+    if (config::checkDBconfigured()) return class_exists('Minishlink\WebPush\WebPush');
     return false;
-
   }
 
-  static function send( $message, $user) {
+  static function send($message, $user) {
     $dao = new \dao\notifications;
-    if ( $dtoSet = $dao->getForUserID( $user)) {
+    if ($dtoSet = $dao->getForUserID($user)) {
 
       foreach ($dtoSet as $dto) {
-        $subscription = Subscription::create( (array)json_decode( $dto->json));
-        self::webPush( $subscription, $message);
-
+        $subscription = Subscription::create((array)json_decode($dto->json));
+        self::webPush($subscription, $message);
       }
-
     }
-
   }
 
   static function serviceWorker() {
+
     Response::javascript_headers();
 
     printf(
@@ -66,26 +61,23 @@ class push {
 
       });',
 
-      \htmlentities( \config::$WEBNAME)
-
+      htmlentities(config::$WEBNAME)
     );
-
   }
 
-  static function test( int $user) {
-    self::send( "Hello! 👋", $user);
+  static function test(int $user) {
 
+    self::send("Hello! 👋", $user);
   }
 
-  static protected function WebPush( $subscription, $message) {
+  static protected function WebPush($subscription, $message) {
+
     $auth = array(
       'VAPID' => array(
         'subject' => 'https://github.com/bravedave/dvc-chat/',
         'publicKey' => config::notification_keys()->pubKey,
         'privateKey' => config::notification_keys()->privKey,
-
       ),
-
     );
 
     $defaultOptions = array(
@@ -94,9 +86,9 @@ class push {
       'topic' => 'push', // not defined by default - collapse_key
     );
 
-    $webPush = new WebPush( $auth); //, $defaultOptions);
+    $webPush = new WebPush($auth); //, $defaultOptions);
 
-    $report = $webPush->sendOneNotification( $subscription, $message);
+    $report = $webPush->sendOneNotification($subscription, $message);
 
     /**
      * handle eventual errors here,
@@ -107,50 +99,40 @@ class push {
     $endpoint = $report->getRequest()->getUri()->__toString();
 
     if ($report->isSuccess()) {
-      \sys::logger(
+
+      logger::info(
         sprintf(
           '<Message sent successfully for subscription {$%s}> %s',
           $subscription->getEndpoint(),
           __METHOD__
-
         )
-
       );
+    } else {
 
-    }
-    else {
-      if ( \preg_match( '@(401 Unauthorized|403 Forbidden)@', $report->getReason())) {
+      if (\preg_match('@(401 Unauthorized|403 Forbidden)@', $report->getReason())) {
+
         $dao = new \dao\notifications;
-        $dao->deleteByEndPoint( $subscription->getEndpoint());
+        $dao->deleteByEndPoint($subscription->getEndpoint());
 
-        \sys::logger(
+        logger::info(
           sprintf(
             '<Unregistered on failed send for subscription {$%s}> <%s> %s',
             $subscription->getEndpoint(),
             $report->getReason(),
             __METHOD__
-
           )
-
         );
+      } else {
 
-      }
-      else {
-        \sys::logger(
+        logger::info(
           sprintf(
             '<Message failed to send for subscription {$%s}> <%s> %s',
             $subscription->getEndpoint(),
             $report->getReason(),
             __METHOD__
-
           )
-
         );
-
       }
-
     }
-
   }
-
 }
