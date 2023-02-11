@@ -14,6 +14,7 @@ use config, Controller;
 use bravedave\dvc\{
   cssmin,
   jslib,
+  logger,
   Response
 };
 
@@ -31,7 +32,7 @@ class assets extends Controller {
   }
 
   public function bootstrap($type = 'css', $version = 4) {
-    // sys::logger( sprintf('<%s/%s> %s', $type, $version, __METHOD__));
+    // logger::info( sprintf('<%s/%s> %s', $type, $version, __METHOD__));
 
     if ('fonts' == $type) {
 
@@ -109,6 +110,26 @@ class assets extends Controller {
     }
   }
 
+  public function esse() {
+
+    // logger::info( sprintf('<%s> %s', sprintf('%s/esse/esse.css', dirname(__DIR__)), __METHOD__));
+    // logger::info( sprintf('<%s> %s', application::app()->getInstallPath(), __METHOD__));
+
+    cssmin::viewcss([
+      'debug' => false,
+      'libName' => 'home/css/default',
+      'cssFiles' => [
+        sprintf('%s/esse/esse.css', dirname(__DIR__)),
+        sprintf('%s/css/brayworth.context.css', dirname(__DIR__)),
+        sprintf('%s/css/brayworth.autoResize.css', dirname(__DIR__)),
+        sprintf('%s/esse/esse.menu.css', dirname(__DIR__)),
+      ],
+      'libFile' => config::tempdir()  . 'bravedave_dvc_esse.css'
+    ]);
+
+    // logger::info(sprintf('<%s> %s', sprintf('%s/bravedave/dvc/css/brayworth.autoResize.css', $vendor), __METHOD__));
+  }
+
   public function fullcalendar($type = 'css') {
     sys::serveFullcalendar($type);
   }
@@ -127,10 +148,10 @@ class assets extends Controller {
   }
 
   public function tinymce($path = '') {
-    // sys::logger(sprintf('<%s> %s', $this->Request->getUri(), __METHOD__));
+    // logger::info(sprintf('<%s> %s', $this->Request->getUri(), __METHOD__));
     if (preg_match('/(\.min\.css|\.css)$/', $uri = $this->Request->getUri())) {
       $file = preg_replace('@^assets/tinymce/@', '', $uri);
-      // sys::logger( sprintf('<%s> %s', $file, __METHOD__));
+      // logger::info( sprintf('<%s> %s', $file, __METHOD__));
 
       $_f = sprintf(
         '%s/%s',
@@ -140,9 +161,9 @@ class assets extends Controller {
 
       file_exists($_f) ?
         Response::serve($_f) :
-        sys::logger('error serving lib tinymce.css');
+        logger::info('error serving lib tinymce.css');
 
-      //~ sys::logger( sprintf( 'serving lib tinymce %s', $this->Request->getUri()));
+      //~ logger::info( sprintf( 'serving lib tinymce %s', $this->Request->getUri()));
 
     } else {
       jslib::tiny6serve('tinymce-dvc', 'autolink,lists,advlist,table,image,link');

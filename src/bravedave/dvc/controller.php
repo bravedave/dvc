@@ -11,12 +11,12 @@
 
 namespace bravedave\dvc;
 
-use dvc\{
-  jslib,
-  push,
-  session,
-  userAgent
-};
+// use dvc\{
+//   jslib,
+//   push,
+//   session,
+//   userAgent
+// };
 use config, strings;
 
 abstract class controller {
@@ -372,7 +372,7 @@ abstract class controller {
 
     if (class_exists('dvc\theme\view', /* autoload */ false)) {
 
-      if ($altView = \dvc\theme\view::getView($viewName)) return ($altView);
+      if ($altView = \dvc\theme\view::getView($viewName)) return $altView;
     }
 
     $_paths = [
@@ -568,7 +568,7 @@ abstract class controller {
       }
     }
 
-    return ($p);
+    return $p;
   }
 
   protected function postHandler() {
@@ -706,6 +706,48 @@ abstract class controller {
     }
 
     return $p;
+  }
+
+  protected function renderBS5($params): void {
+
+    $aside = config::index_set;
+    if ($data = $this->data ?? false) {
+
+      $aside = $data->aside ?? config::index_set;
+      $this->data->bootstrap = 5;
+    }
+
+    $aside = (array)$aside;
+
+    $options = array_merge([
+      'navbar' => fn () => $this->load(config::navbar_default),
+      'main' => fn () => '&nbsp;',
+      'aside' => fn () => array_walk($aside, fn ($_) => $this->load($_)),
+      'footer' => fn () => $this->load('footer'),
+      'scripts' => []
+    ], $params);
+
+    $page = (esse\page::bootstrap());
+
+    array_walk($options['scripts'], fn ($_) => $page->scripts[] = sprintf('<script src="%s"></script>', $_));
+
+    $page
+      ->head($this->title)
+      ->body()->then($options['navbar']);
+
+    if ('yes' == currentUser::option('enable-left-layout') || 'left' == config::$PAGE_LAYOUT) {
+
+      if ($options['aside']) $page->aside()->then($options['aside']);
+      $page
+        ->main()->then($options['main']);
+    } else {
+
+      $page
+        ->main()->then($options['main']);
+      if ($options['aside']) $page->aside()->then($options['aside']);
+    }
+
+    $page->footer()->then($options['footer']);
   }
 
   protected function SQL($query) {

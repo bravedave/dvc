@@ -18,6 +18,10 @@ use dvc\Exceptions\{
 };
 
 abstract class config {
+
+  const index_set = ['blank'];
+  const navbar_default = 'navbar-default';
+
   /**
    * These come from the Google Developers Portal
    * If you populate the oauth keys, Google Auth Methods will be enabled
@@ -138,6 +142,7 @@ abstract class config {
   static $OFFICE_PHONE = '5555555555';
   static $OFFICE_EMAIL = 'office@domain.tld';
 
+  static $PAGE_LAYOUT = '';
   static $PAGE_TEMPLATE = '\dvc\pages\bootstrap4';
   static $PAGE_TEMPLATE_APP = '\dvc\pages\bootstrap4_app';
   static $PAGE_TEMPLATE_LOGON = '\dvc\pages\bootstrap4';
@@ -578,6 +583,7 @@ abstract class config {
        */
 
       if (\class_exists('Minishlink\WebPush\VAPID')) {
+
         $keys = (object)\Minishlink\WebPush\VAPID::createVapidKeys();
         $a['privKey'] = $keys->privateKey;
         $a['pubKey'] = $keys->publicKey;
@@ -594,6 +600,7 @@ abstract class config {
   }
 
   protected static function _route_map_path(): string {
+
     return self::dataPath() . '/controllerMap.json';
   }
 
