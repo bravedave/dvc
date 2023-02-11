@@ -8,7 +8,7 @@
  *
 */  ?>
 
-<footer class="footer-fixed">
+<footer class="fixed-bottom small">
   <div class="container-fluid">
     <div class="row mb-0">
       <div class="col text-muted">

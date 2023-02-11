@@ -13,7 +13,7 @@
   <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
   <li class="nav-item"><a class="nav-link js-alert" href="#">Alert</a></li>
   <li class="nav-item"><a class="nav-link js-toast" href="#">Toast</a></li>
-  <li class="nav-item"><a class="nav-link js-toast" href="<?= strings::url($this->route . '/accordion') ?>">Accordion</a></li>
+  <li class="nav-item"><a class="nav-link" href="<?= strings::url($this->route . '/accordion') ?>">Accordion</a></li>
   <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
 </ul>
 
