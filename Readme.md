@@ -1,72 +1,81 @@
 # DVC - Data View Controller
 
 > PHP framework for web applications and APIs.
-Configured with Bootstrap4, but could just as easily support others.
+Configured with Bootstrap, but could just as easily support others.
 
 * <https://brayworth.com/docs/>
 
-## Development Install
+# Getting Started
 
-* Install WSL
-  * From elevate prompt : `wsl --install`
-  * My preference is Alpine Linux, get it from the Microsoft Store and follow the prompts to start it.
-  * Setup
-    * change to root
-    * modify /etc/apk/repositories to point to the latest stable repositories
+## Install
 
-<pre>
-http://dl-cdn.alpinelinux.org/alpine/latest-stable/main
-http://dl-cdn.alpinelinux.org/alpine/latest-stable/community
-</pre>
+```sh
+[ -d tdvc ] || mkdir tdvc
+composer req --working-dir=tdvc bravedave/dvc "*"
 
-```
-sudo apk apk update
-sudo apk upgrade
-sudo apk add bash mc git rsync sassc unzip
-
-sudo apk add php8 php8-phar php8-iconv php8-curl \
-  php8-ctype php8-fileinfo php8-posix php8-session \
-  php8-dom php8-openssl php8-sqlite3 php8-pear \
-  php8-tokenizer php8-common php8-pecl-mailparse \
-  php8-mysqlnd php8-pecl-imagick php8-mbstring php8-dev \
-  php8-xmlreader php8-exif php8-gd php8-json php8-xml \
-  php8-imap php8-pecl-apcu php8-zip php8-apache2 \
-  php8-mysqli php8-simplexml php8-xmlwriter
+cd tdvc
 ```
 
-* Install Composer : <https://getcomposer.org/>
-  * Follow the instruction at getcomposer.org
-  * Finish off with (from the bash prompt)
-```
-cd ~
-mkdir bin
-mv composer.phar bin/composer
-```
-* exit the distribution and re-enter, bin will be in the path so test with
-```
-composer -v # should return version
+*you might like to start working in your ide now, open the folder in VSCode*
+
+## Create an basic application
+
+### Create a application folder
+```sh
+mkdir -p application/app
 ```
 
-### Clone this Repo
+### Add an application file
+*file application/app/application*
+```php
+<?php
 
-```bash
-git clone https://github.com/bravedave/dvc.git dvc
+class application extends bravedave\dvc\application {
+
+  static public function startDir() {
+
+    return dirname(__DIR__);
+  }
+}
 ```
 
-### Install dependencies
+### add an autoload section to composer
 
-```bash
-cd dvc
-composer update
+The application relies on the composer autoload features,
+ this entry in composer.json tells the autloader where to look
+ for this application
+
+*composer now looks like*
+```json
+{
+  "require": {
+    "bravedave/dvc": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "application/app/"
+    }
+  }
+}
 ```
 
-### Run the test Environment from ./tests
+### update runtime autoloader
 
-```bash
-cd tests
-run.cmd
+```sh
+composer u
 ```
 
-... the tests are visible on <http://localhost/>
+## Create a documentroot
 
-There is a tutorial [here](src/dvc/views/docs/risorsa.md)
+*this creates a documentroot and copies in a fallback file*
+
+cp -R vendor/bravedave/dvc/tests/www application/www
+
+## System will run
+
+```sh
+php -S localhost:8080 application/www/_mvp.php
+```
+
+available at http://localhost:8080
+
