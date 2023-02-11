@@ -377,14 +377,12 @@ abstract class controller {
 
     $_paths = [
       implode(DIRECTORY_SEPARATOR, [
-        self::application()::app()->getInstallPath(),
-        'dvc',
+        __DIR__,
         'views',
         $controller
       ]),
       implode(DIRECTORY_SEPARATOR, [
-        self::application()::app()->getInstallPath(),
-        'dvc',
+        __DIR__,
         'views'
       ]),
     ];
