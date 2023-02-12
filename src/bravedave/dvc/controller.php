@@ -11,12 +11,6 @@
 
 namespace bravedave\dvc;
 
-// use dvc\{
-//   jslib,
-//   push,
-//   session,
-//   userAgent
-// };
 use config, strings;
 
 abstract class controller {
@@ -52,7 +46,7 @@ abstract class controller {
 
   static $url;
 
-  const viewNotFound = __DIR__ . '/../../dvc/views/not-found.md';
+  const viewNotFound = __DIR__ . '/views/not-found.md';
 
   public function __construct($rootPath) {
     if ($this->debug) logger::debug(sprintf('__construct :: %s', __METHOD__));
@@ -201,6 +195,7 @@ abstract class controller {
   }
 
   protected function _viewPath(string $path): string {
+
     if (preg_match('/\.(php|md)$/', $path)) {    // extension was specified
       if (\file_exists($path)) {
         if ($this->debug) logger::debug(sprintf('found view (specific) : %s :: %s', $path, __METHOD__));
@@ -372,20 +367,23 @@ abstract class controller {
 
     if (class_exists('dvc\theme\view', /* autoload */ false)) {
 
-      if ($altView = \dvc\theme\view::getView($viewName)) return $altView;
+      if ($altView = '\dvc\theme\view'::getView($viewName)) return $altView;
     }
 
-    $_paths = [
-      implode(DIRECTORY_SEPARATOR, [
+    $_paths = [];
+    if (controller\docs::class == $controller) {
+
+      $_paths[] = implode(DIRECTORY_SEPARATOR, [
         __DIR__,
         'views',
-        $controller
-      ]),
-      implode(DIRECTORY_SEPARATOR, [
-        __DIR__,
-        'views'
-      ]),
-    ];
+        'docs'
+      ]);
+    }
+
+    $_paths[] = implode(DIRECTORY_SEPARATOR, [
+      __DIR__,
+      'views'
+    ]);
 
     foreach ($_paths as $_path) {
 
