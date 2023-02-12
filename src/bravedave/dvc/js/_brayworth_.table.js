@@ -10,6 +10,8 @@
   _.table = {
 
     _line_numbers_: function (e) {
+      e.stopPropagation();
+
       let table = $(this);
       let t = 0;
       table.find('> tbody > tr:not(.d-none) >td.js-line-number').each((i, e) => {
