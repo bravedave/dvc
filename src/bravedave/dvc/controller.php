@@ -720,12 +720,14 @@ abstract class controller {
       'main' => fn () => '&nbsp;',
       'aside' => fn () => array_walk($aside, fn ($_) => $this->load($_)),
       'footer' => fn () => $this->load('footer'),
+      'css' => [],
       'scripts' => []
     ], $params);
 
     $page = (esse\page::bootstrap());
 
-    array_walk($options['scripts'], fn ($_) => $page->scripts[] = sprintf('<script src="%s"></script>', $_));
+    array_walk($options['css'], fn ($_) => $page->css[] = preg_match('/^<link/',$_) ? $_ : sprintf('<link rel="stylesheet" href="%s">', $_));
+    array_walk($options['scripts'], fn ($_) => $page->scripts[] = preg_match('/^<script/',$_) ? $_ : sprintf('<script src="%s"></script>', $_));
 
     $page
       ->head($this->title)

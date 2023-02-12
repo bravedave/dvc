@@ -1,0 +1,21 @@
+{
+  "md": {
+    "indent_size": 2,
+    "wrap_line_length": "80"
+  },
+  "js": {
+    "indent_size": 2,
+    "wrap_line_length": "90",
+    "wrap-attributes": "preserve"
+  },
+  "html": {
+    "indent_size": 2,
+    "wrap_line_length": "90",
+    "wrap-attributes": "preserve"
+  },
+  "php": {
+    "indent_size": 2,
+    "wrap_line_length": "90",
+    "wrap-attributes": "preserve"
+  }
+}

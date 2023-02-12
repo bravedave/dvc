@@ -122,12 +122,13 @@ class assets extends Controller {
         sprintf('%s/esse/esse.css', dirname(__DIR__)),
         sprintf('%s/css/brayworth.context.css', dirname(__DIR__)),
         sprintf('%s/css/brayworth.autoResize.css', dirname(__DIR__)),
+        sprintf('%s/css/brayworth.markdown.css', dirname(__DIR__)),
         sprintf('%s/esse/esse.menu.css', dirname(__DIR__)),
       ],
       'libFile' => config::tempdir()  . 'bravedave_dvc_esse.css'
     ]);
 
-    // logger::info(sprintf('<%s> %s', sprintf('%s/bravedave/dvc/css/brayworth.autoResize.css', $vendor), __METHOD__));
+    // logger::info(sprintf('<%s> %s', config::tempdir()  . 'bravedave_dvc_esse.css', __METHOD__));
   }
 
   public function fullcalendar($type = 'css') {

@@ -72,7 +72,7 @@ class theme {
   static function navbar($params = []) {
 
     $options = array_merge([
-      'color' => 'navbar-light bg-light',
+      'color' => 'navbar-dark bg-primary bg-gradient-navbar',
       'defaults' => 'navbar navbar-expand-md d-print-none',
       'sticky' => 'sticky-top',
     ], $params);

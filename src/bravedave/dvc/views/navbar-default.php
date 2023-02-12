@@ -1,46 +1,48 @@
 <?php
 /*
-  David Bray
-  BrayWorth Pty Ltd
-  e. david@brayworth.com.au
-
-  MIT License
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ *
+ * MIT License
+ *
+ * compatibility : bootstrap 5
 */
 
-use dvc\theme;
-?>
+use dvc\theme;  ?>
 
 <nav class="<?= theme::navbar() ?> navbar-expand" role="navigation">
   <div class="container-fluid">
+
     <div class="navbar-brand"><?= $this->data->title  ?></div>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#<?= $_uid = strings::rand() ?>" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <ul class="ms-auto navbar-nav">
 
-    <div class="collapse navbar-collapse" id="<?= $_uid ?>">
-      <ul class="ml-auto navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="<?= strings::url() ?>">
-            <i class="bi bi-house"></i>
-            <span class="sr-only">Home</span>
+      <li class="nav-item">
 
-          </a>
+        <a class="nav-link" href="<?= strings::url() ?>">
 
-        </li>
+          <i class="bi bi-house"></i>
+          <span class="d-none d-md-inline">Home</span>
+        </a>
+      </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="https://github.com/bravedave/">
-            <i class="bi bi-github"></i>
-            <span class="sr-only">GitHub</span>
+      <li class="nav-item">
 
-          </a>
+        <a class="nav-link" href="<?= strings::url('/docs/') ?>">
 
-        </li>
+          <i class="bi bi-file-text"></i>
+          <span class="d-none d-md-inline">docs</span>
+        </a>
+      </li>
 
-      </ul>
+      <li class="nav-item">
 
-    </div>
+        <a class="nav-link" href="https://github.com/bravedave/">
+          <i class="bi bi-github"></i>
+          <span class="d-none d-md-inline">GitHub</span>
+        </a>
+      </li>
+    </ul>
   </div>
-
 </nav>

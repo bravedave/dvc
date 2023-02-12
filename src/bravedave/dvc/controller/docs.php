@@ -74,14 +74,15 @@ class docs extends Controller {
       }
       $primary[] = 'docs-format';
 
-      $render = [
+      $this->data = (object)[
         'title' => $this->title = sprintf('Docs - %s', ucwords($view)),
-        'primary' => $primary,
-        'secondary' => $contents,
-        'data' => (object)[
-          'searchFocus' => false,
-          'pageUrl' => rtrim( strings::url($this->route), '/') . '/' . $view == 'index.md' ? '' : $view
-        ]
+        'pageUrl' => rtrim(strings::url($this->route), '/') . '/' . $view == 'index.md' ? '' : $view,
+        'searchFocus' => true,
+      ];
+
+      $render = [
+        'main' => fn () => array_walk($primary, fn ($_) => $this->load($_)),
+        'aside' => fn () => array_walk($contents, fn ($_) => $this->load($_)),
       ];
 
       if (config::$SYNTAX_HIGHLIGHT_DOCS) {
@@ -89,7 +90,6 @@ class docs extends Controller {
         // '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">'
         $render['css'] = [
           '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github-gist.min.css">'
-
         ];
 
         $render['scripts'] = [
@@ -98,7 +98,7 @@ class docs extends Controller {
         ];
       }
 
-      $this->render($render);
+      $this->renderBS5($render);
     }
   }
 
