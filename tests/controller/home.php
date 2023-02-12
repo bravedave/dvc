@@ -9,7 +9,6 @@
 */
 
 class home extends Controller {
-  protected $viewPath = __DIR__ . '/views/';
 
   protected function _index() {
 
@@ -46,6 +45,7 @@ class home extends Controller {
 
   protected function before() {
 
+    $this->viewPath[] = __DIR__ . '/views/';
     parent::before();
   }
 
