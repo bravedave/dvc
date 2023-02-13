@@ -8,6 +8,8 @@
  *
 */
 
+use bravedave\dvc\logger;
+
 class home extends Controller {
 
   protected function _index() {
@@ -122,7 +124,7 @@ class home extends Controller {
         'primary' => ['tiny']
       ]);
     } else {
-      \sys::logger(sprintf('<%s> %s', config::$PAGE_TEMPLATE, __METHOD__));
+      logger::info(sprintf('<%s> %s', config::$PAGE_TEMPLATE, __METHOD__));
       $this->render([
         'secondary' => ['aside'],
         'primary' => ['main']

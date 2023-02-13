@@ -11,7 +11,7 @@
 namespace dvc;
 
 use bravedave, config;
-use bravedave\dvc\{cssmin, dbi, logger, Response, hitter};
+use bravedave\dvc\{cssmin, dbi, errsys, logger, Response, hitter};
 
 abstract class sys extends bravedave\dvc\sys {
   protected static $_loglevel = 1;

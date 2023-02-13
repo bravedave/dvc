@@ -10,11 +10,7 @@
 
 namespace bravedave\dvc;
 
-use dvc\{
-  errsys,
-  Exceptions\exchangeAuthIsAStub,
-  session
-};
+use dvc\Exceptions\exchangeAuthIsAStub;
 use strings, sys;
 
 abstract class currentUser {

@@ -8,9 +8,9 @@
  *
 */
 
-namespace dvc\sqlite;
+namespace bravedave\dvc\mssql;
 
-use bravedave;
+use dvc;
 
 class dbResult {
   protected $result = false;
@@ -23,17 +23,23 @@ class dbResult {
   }
 
   public function __destruct() {
+    if ($this->result) {
+      sqlsrv_free_stmt($this->result);
+      //~ \sys::logger( 'free statement');
+
+    }
   }
 
   public function fetch() {
-    return $this->result->fetchArray(SQLITE3_ASSOC);
+
+    return sqlsrv_fetch_array($this->result, SQLSRV_FETCH_ASSOC);
   }
 
-  public function dto($template = NULL) {
+  public function dto($template = null) {
 
     if ($dto = $this->fetch()) {
 
-      if (is_null($template)) return new bravedave\dvc\dto($dto);
+      if (is_null($template)) return new dvc\dao\dto\dto($dto);
       return new $template($dto);
     }
 
@@ -42,9 +48,13 @@ class dbResult {
 
   /**
    *	extend like:
-   *		$dtoSet = $res->dtoSet( fn( $dto) => return $dto);
+   *		$dtoSet = $res->dtoSet( function( $dto) {
+   *			return $dto;
+   *
+   *		});
    */
-  public function dtoSet($func = null, $template = null) {
+  public function dtoSet($func = NULL, $template = NULL) {
+
     $ret = [];
     if (is_callable($func)) {
 
@@ -54,10 +64,8 @@ class dbResult {
       }
     } else {
 
-      while ($dto = $this->dto($template)) {
-
+      while ($dto = $this->dto($template))
         $ret[] = $dto;
-      }
     }
 
     return $ret;

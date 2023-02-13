@@ -12,10 +12,6 @@ namespace bravedave\dvc;
 
 use config, strings;
 
-use dvc\{
-  errsys
-};
-
 use bravedave\dvc\Exceptions\{
   SecurityException,
   CannotLocateController,

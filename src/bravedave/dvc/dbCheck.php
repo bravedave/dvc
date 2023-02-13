@@ -158,8 +158,8 @@ class dbCheck extends _dao {
                       $this->db->escape($fld["default"])
                     );
 
-                    \sys::logger(sprintf('field length %s < %s', $fieldLength, ((int)$fld["length"])));
-                    \sys::logSQL($sql);
+                    logger::info(sprintf('field length %s < %s', $fieldLength, ((int)$fld["length"])));
+                    logger::sql($sql);;
                   }
 
                   break;
@@ -245,21 +245,23 @@ class dbCheck extends _dao {
       $indexFound = FALSE;
       if ($res->num_rows() > 0) {
         if ($row = $res->fetch()) {
-          \sys::logger(sprintf("INDEX found `%s` => %s(%s)", $this->table, $index['key'], $row["Column_name"]), 2);
+
+          logger::info(sprintf("INDEX found `%s` => %s(%s)", $this->table, $index['key'], $row["Column_name"]), 2);
           $indexFound = TRUE;
         }
       }
 
       if (!$indexFound) {
+
         $sql = sprintf(
           "ALTER TABLE `%s` ADD INDEX `%s` (%s)",
           $this->escape($this->table),
           $this->escape($index['key']),
           $this->escape($index['field'])
         );
-        \sys::logger($sql, 2);
+        logger::info($sql, 2);
         $this->Q($sql);
-        \sys::logger(sprintf("INDEX created `%s` => %s(%s)", $this->table, $index['key'], $index['field']), 2);
+        logger::info(sprintf("INDEX created `%s` => %s(%s)", $this->table, $index['key'], $index['field']), 2);
       }
     }
 

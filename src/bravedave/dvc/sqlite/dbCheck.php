@@ -10,7 +10,7 @@
  *
 */
 
-namespace dvc\sqlite;
+namespace bravedave\dvc\sqlite;
 
 class dbCheck {  // extends _dao {
   public $temporary = false;

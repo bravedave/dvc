@@ -8,7 +8,7 @@
  *
 */
 
-namespace dvc\sqlite;
+namespace bravedave\dvc\sqlite;
 
 use bravedave, config;
 use bravedave\dvc\logger;

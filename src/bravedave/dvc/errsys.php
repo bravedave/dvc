@@ -8,7 +8,9 @@
  *
 */
 
-namespace dvc;
+namespace bravedave\dvc;
+
+use config;
 
 abstract class errsys {
   static protected $_shutup = false;
@@ -16,11 +18,12 @@ abstract class errsys {
 
   static protected function _email_support($mailMessage) {
 
-    if (\config::$EMAIL_ERRORS_TO_SUPPORT) {
+    if (config::$EMAIL_ERRORS_TO_SUPPORT) {
+
       $header = array(
-        sprintf('From: %s <%s>', \config::$WEBNAME, \config::$WEBEMAIL),
-        sprintf('Reply-To: %s <%s>', \config::$WEBNAME, \config::$SUPPORT_EMAIL),
-        sprintf('Return-Path: %s <%s>', \config::$WEBNAME, \config::$SUPPORT_EMAIL),
+        sprintf('From: %s <%s>', config::$WEBNAME, config::$WEBEMAIL),
+        sprintf('Reply-To: %s <%s>', config::$WEBNAME, config::$SUPPORT_EMAIL),
+        sprintf('Return-Path: %s <%s>', config::$WEBNAME, config::$SUPPORT_EMAIL),
         'Content-Type: text/plain',
         sprintf('Date: %s', date(DATE_RFC2822))
       );
@@ -35,56 +38,45 @@ abstract class errsys {
       // $scriptname = strtolower( $_SERVER[ "SCRIPT_NAME" ]);
 
       try {
+
         $mail = \sys::mailer();
         $mail->IsHTML(false);
         $mail->CharSet = 'UTF-8';
         $mail->Encoding = 'base64';
 
-        $mail->Subject  = \config::$WEBNAME . " PHP Error";
-        $mail->AddAddress(\config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME);
+        $mail->Subject  = config::$WEBNAME . " PHP Error";
+        $mail->AddAddress(config::$SUPPORT_EMAIL, config::$SUPPORT_NAME);
 
         $mail->Body = $mailMessage;
         if ($mail->send()) {
-          \sys::logger(sprintf('<error - send email> %s', __METHOD__));
+
+          logger::info(sprintf('<error - send email> %s', __METHOD__));
         } else {
-          \sys::logger(
-            sprintf(
-              '<error - send email failed - fallback to mail : %s> %s',
-              $mail->ErrorInfo,
-              __METHOD__
 
-            )
+          logger::info(sprintf(
+            '<error - send email failed - fallback to mail : %s> %s',
+            $mail->ErrorInfo,
+            __METHOD__
+          ));
 
-          );
-
-          mail(
-            \config::$SUPPORT_EMAIL,
-            \config::$WEBNAME . " PHP Error",
-            $mailMessage,
-            $headers,
-            "-f" . \config::$SUPPORT_EMAIL
-
-          );
+          mail(config::$SUPPORT_EMAIL, config::$WEBNAME . " PHP Error", $mailMessage, $headers, "-f" . config::$SUPPORT_EMAIL);
         }
       } catch (\Exception $e) {
-        mail(
-          \config::$SUPPORT_EMAIL,
-          \config::$WEBNAME . " PHP Error",
-          $mailMessage,
-          $headers,
-          "-f" . \config::$SUPPORT_EMAIL
 
-        );
+        mail(config::$SUPPORT_EMAIL, config::$WEBNAME . " PHP Error", $mailMessage, $headers, "-f" . config::$SUPPORT_EMAIL);
       } catch (\Exception $e) {
+
         print '<h1>Could not send error report</h1>';
         print $mailMessage;
       }
     } else {
+
       error_log($mailMessage);
     }
   }
 
   static protected function _msg($e) {
+
     if (method_exists($e, 'format')) {
       return $e->format() . ' format';
     } else {
@@ -208,17 +200,21 @@ abstract class errsys {
   }
 
   static public function exc_handler($e) {
+
     if (self::$_shutup) return;
 
-
     if (Request::get()->ServerIsLocal()) {
+
       $msg = self::_msg($e);
       printf('<pre>%s</pre>', $msg);
       error_log($msg);
     } else {
+
       if (method_exists($e, 'format')) {
+
         $message = sprintf('%s', $e->format());
       } else {
+
         $message = sprintf("%s(%s)\n", $e->getMessage(), $e->getCode());
       }
 
@@ -229,6 +225,7 @@ abstract class errsys {
   }
 
   static public function initiate($log = false) {
+
     set_error_handler(function ($errno, $errstr, $errfile, $errline) {
       errsys::err_handler($errno, $errstr, $errfile, $errline);
     });

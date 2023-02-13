@@ -10,19 +10,20 @@
 
 namespace tests;
 
+use bravedave\dvc\logger;
 use dvc, application;
-use dvc\Request;
-use dvc\strings;
-use Event;
+use strings;
 
 class tests extends dvc\service {
+
   public static function testmail() {
+
     $app = new self(application::startDir());
     $app->_testmail();
   }
 
   protected function _testmail() {
-    // \sys::logger(sprintf('<%s> %s', \config::$MAILDSN, __METHOD__));
+    // logger::info(sprintf('<%s> %s', \config::$MAILDSN, __METHOD__));
     $to = '';
     if (isset($_SERVER['argv'])) {
 
@@ -49,8 +50,9 @@ class tests extends dvc\service {
 
       dvc\sendmail::send($email);
     } else {
-      \sys::logger(sprintf('<specify a valid to address> %s', __METHOD__));
-      \sys::logger(sprintf('<composer send-testmail to=someone@example.com> %s', __METHOD__));
+
+      logger::info(sprintf('<specify a valid to address> %s', __METHOD__));
+      logger::info(sprintf('<composer send-testmail to=someone@example.com> %s', __METHOD__));
     }
   }
 }
