@@ -30,15 +30,22 @@ and using *bravedave/dvc*
 
 ### Recipe
 
-1. Create a new project `composer create-project bravedave/mvp risorsa`
-1. Open that folder with VS Code and start your terminal, the working directory will be *risorsa*
-1. Add dvc `composer req bravedave/dvc`
-1. clean up (we don't need these)
+1. Follow the Getting Started guide at https://github.com/bravedave/dvc
+   * the rest of this tutorial assumes
+     * the getting stated has been run successfully
+     * the namespace root is ***src***
+
+
+
+2. Create a new project `composer create-project bravedave/mvp risorsa`
+3. Open that folder with VS Code and start your terminal, the working directory will be *risorsa*
+4. Add dvc `composer req bravedave/dvc`
+5. clean up (we don't need these)
    * `rm -fr src/app/home src/app/template`
    * `rm -f src/app/slim.php src/app/launcher.php`
-1. modify www/_mvp.php to point to ***application::run***, not *launcher::run* ..
-1. Create a folder for the src `mkdir src/risorsa`
-1. tell composer where that src is
+6. modify www/_mvp.php to point to ***application::run***, not *launcher::run* ..
+7. Create a folder for the src `mkdir src/risorsa`
+8. tell composer where that src is
 
 ```json
 "autoload": {
