@@ -68,27 +68,34 @@ abstract class strings {
       try {
         $phoneUtil = libphonenumber\PhoneNumberUtil::getInstance();
         if (substr($_tel, 0, 1) == '+') {
+
           $_mNo = $phoneUtil->parse($_tel);
-          if ($debug) \sys::logger(sprintf('<%s> : 1 : %s', $_mNo, __METHOD__));
+          if ($debug) logger::debug(sprintf('<%s> : 1 : %s', $_mNo, __METHOD__));
         } else {
+
           $_mNo = $phoneUtil->parse($_tel, \config::$PHONE_REGION);
-          if ($debug) \sys::logger(sprintf('<%s> : 2 : %s', $_mNo, __METHOD__));
+          if ($debug) logger::debug(sprintf('<%s> : 2 : %s', $_mNo, __METHOD__));
         }
 
-        // if ( $debug) \sys::logger( sprintf( '<%s> %s', \config::$PHONE_REGION, __METHOD__));
+        // if ( $debug) logger::debug( sprintf( '<%s> %s', \config::$PHONE_REGION, __METHOD__));
         if ($phoneUtil->isValidNumber($_mNo, \config::$PHONE_REGION)) {
+
           if (\config::$PHONE_REGION == $phoneUtil->getRegionCodeForNumber($_mNo)) {
-            if ($debug) \sys::logger(sprintf('<%s> : National : %s', $_mNo, __METHOD__));
+
+            if ($debug) logger::debug(sprintf('<%s> : National : %s', $_mNo, __METHOD__));
             return $phoneUtil->format($_mNo, libphonenumber\PhoneNumberFormat::NATIONAL);
           } else {
-            if ($debug) \sys::logger(sprintf('<%s> : International : %s', $_mNo, __METHOD__));
+
+            if ($debug) logger::debug(sprintf('<%s> : International : %s', $_mNo, __METHOD__));
             return $phoneUtil->format($_mNo, libphonenumber\PhoneNumberFormat::INTERNATIONAL);
           }
         } else {
-          if ($debug) \sys::logger(sprintf('<%s> : Invalid : %s', $_mNo, __METHOD__));
+
+          if ($debug) logger::debug(sprintf('<%s> : Invalid : %s', $_mNo, __METHOD__));
         }
       } catch (\Exception $e) {
-        \sys::logger(sprintf('AsLocalPhoneA :: %s : %s', $_tel, $e->getMessage()));
+
+        logger::info(sprintf('AsLocalPhoneA :: %s : %s', $_tel, $e->getMessage()));
       }
     }
 
@@ -96,7 +103,7 @@ abstract class strings {
   }
 
   static public function asMobilePhone($mobile = '') {
-    //~ \sys::logger( sprintf( 'deprecated :: %s > use AsLocalPhone', __METHOD__));
+    //~ logger::info( sprintf( 'deprecated :: %s > use AsLocalPhone', __METHOD__));
     return self::AsLocalPhone($mobile);
   }
 
@@ -161,18 +168,19 @@ abstract class strings {
 
   static public function brief($text, $length = 100) {
     $debug = false;
-    //~ $debug = TRUE;
-    //~ if ( $debug) \sys::logger( sprintf( 'dao\dto\brief ( %s)', $length));
+    //~ $debug = true;
+    //~ if ( $debug) logger::debug( sprintf( 'dao\dto\brief ( %s)', $length));
 
     $text = strip_tags($text);
 
     if (strlen($text) < $length) {
-      if ($debug) \sys::logger(sprintf('strings::brief returning ( %s)', strlen($text)));
+
+      if ($debug) logger::debug(sprintf('strings::brief returning ( %s)', strlen($text)));
       return ($text);
     }
 
     $a = explode(' ', $text);
-    if ($debug) \sys::logger(sprintf('strings::brief ( %s)', count($a)));
+    if ($debug) logger::debug(sprintf('strings::brief ( %s)', count($a)));
 
     $r = [];
     $i = 0;
@@ -213,43 +221,87 @@ abstract class strings {
     return '';
   }
 
+  /**
+   * returns a clean mobile string localised for Australia
+   *
+   * @param string $to
+   * @return string
+   */
+  static public function cleanMobileString(string $to): string {
+    $debug = false;
+    // $debug = true;
+
+    if ($debug) logger::debug(sprintf('<%s> %s', $to, __METHOD__));
+
+    /**
+     * Store Telephone numbers as straight string,
+     * format after via javascript email should be lowercase
+     */
+    $to = preg_replace("/[^0-9]/", "", $to);  // to only be numbers -
+    if ($debug) logger::debug(sprintf(
+      '<%s.%s(%s)> %s',
+      $to,
+      substr($to, 4, 1),
+      ord(substr($to, 4, 1)),
+      __METHOD__
+    ));
+
+    if (substr($to, 0, 4) == "0011") $to = substr($to, 4);
+
+    if (substr($to, 0, 1) == "+") {
+
+      $to = substr($to, 1);
+    } elseif (substr($to, 0, 2) == "61") {
+
+      $to = "0" . substr($to, 2);  // aussie aussie aussie
+    }
+
+    return ($to);
+  }
+
   static public function cleanPhoneString(string $tel): string {
     //~ $debug = true;
     $debug = false;
 
     if (strlen($tel) > 8) {
+
       try {
+
         $phoneUtil = libphonenumber\PhoneNumberUtil::getInstance();
         if (substr($tel, 0, 1) == '+') {
+
           $_mNo = $phoneUtil->parse($tel);
-          if ($debug) \sys::logger(sprintf('<%s> :1:%s', $_mNo, __METHOD__));
+          if ($debug) logger::debug(sprintf('<%s> :1:%s', $_mNo, __METHOD__));
         } else {
+
           $_mNo = $phoneUtil->parse($tel, \config::$PHONE_REGION);
-          if ($debug) \sys::logger(sprintf('<%s> :2:%s', $_mNo, __METHOD__));
+          if ($debug) logger::debug(sprintf('<%s> :2:%s', $_mNo, __METHOD__));
         }
 
         if ($phoneUtil->isValidNumber($_mNo, \config::$PHONE_REGION)) {
-          if ($debug) \sys::logger(sprintf('<%s> :getRegionCodeForNumber:%s', $phoneUtil->getRegionCodeForNumber($_mNo), __METHOD__));
+
+          if ($debug) logger::debug(sprintf('<%s> :getRegionCodeForNumber:%s', $phoneUtil->getRegionCodeForNumber($_mNo), __METHOD__));
           if ('AU' == $phoneUtil->getRegionCodeForNumber($_mNo)) {
+
             $mNo = $phoneUtil->format($_mNo, libphonenumber\PhoneNumberFormat::NATIONAL);
           } else {
+
             $mNo = $phoneUtil->format($_mNo, libphonenumber\PhoneNumberFormat::INTERNATIONAL);
           }
 
-          if ($debug) \sys::logger(sprintf('<%s> :3:%s', $mNo, __METHOD__));
+          if ($debug) logger::debug(sprintf('<%s> :3:%s', $mNo, __METHOD__));
           return (string)preg_replace('@[^0-9]@', '', $mNo);  // only numbers
-
         } else {
-          return (string)preg_replace('@[^0-9]@', '', $tel);  // only numbers
 
+          return (string)preg_replace('@[^0-9]@', '', $tel);  // only numbers
         }
       } catch (libphonenumber\NumberParseException $e) {
-        return (string)preg_replace('@[^0-9]@', '', $tel);  // only numbers
 
+        return (string)preg_replace('@[^0-9]@', '', $tel);  // only numbers
       }
     } else {
-      return (string)preg_replace('@[^0-9]@', '', $tel);  // only numbers
 
+      return (string)preg_replace('@[^0-9]@', '', $tel);  // only numbers
     }
   }
 
@@ -263,13 +315,13 @@ abstract class strings {
 
   static public function DateDiff($lowdate, $highdate = null, $format = '%R%a') {
     if ($lowdate && '0000-00-00' != (string)$lowdate) {
-      //~ \sys::logger( sprintf( '%s : %s', $lowdate));
+      //~ logger::info( sprintf( '%s : %s', $lowdate));
       if (!(strtotime($highdate) > 0)) $highdate = date('Y-m-d');
 
       $low = new \datetime($lowdate);
       $high = new \datetime($highdate);
       $interval = date_diff($low, $high);
-      //~ sys::logger( sprintf( '%s - %s = %s',  $lowdate, $highdate, $interval->format('%R%a')));
+      //~ logger::info( sprintf( '%s - %s = %s',  $lowdate, $highdate, $interval->format('%R%a')));
       return ($interval->format($format));
     }
 
@@ -283,7 +335,7 @@ abstract class strings {
     return substr_compare($string, $test, $strlen - $testlen, $testlen, TRUE) === 0;
   }
 
-  static function ExtendedStreetString($street) {
+  static public function ExtendedStreetString($street) {
     /* the opposite of GoodStreetString */
     $find = [
       '@\sRd$@i', '@\sRd,@i',
@@ -526,7 +578,7 @@ abstract class strings {
     $text = self::htmlSanitize($document);
     // die( $text);
     $text = preg_replace_callback('/<li[^>]*>([^<]*)<\\/li>/i', function ($s) {
-      // \sys::logger( sprintf('<%s> %s', print_r( $s, true), __METHOD__));
+      // logger::info( sprintf('<%s> %s', print_r( $s, true), __METHOD__));
       return '- ' . $s[1];
     }, $text);
     // die( $text);
@@ -650,7 +702,7 @@ abstract class strings {
   static public function isMobilePhone(?string $_tel = ''): bool {
     try {
       $tel = preg_replace('@[^0-9\+]@', '', (string)$_tel);
-      //~ \sys::logger( sprintf( 'IsMobilePhone :: %s', $tel));
+      //~ logger::info( sprintf( 'IsMobilePhone :: %s', $tel));
 
       if ($tel && \strlen($tel) >= 10 && \strlen($tel) < 17) {
         /**
@@ -668,16 +720,19 @@ abstract class strings {
         }
       }
     } catch (\Exception $e) {
-      \sys::logger(sprintf('%s : %s : %s', $_tel, $e->getMessage(), __METHOD__));
+
+      logger::info(sprintf('%s : %s : %s', $_tel, $e->getMessage(), __METHOD__));
     }
 
     return (false);
   }
 
   static public function isPhone(?string $_tel = ''): bool {
+
     try {
+
       $tel = preg_replace('@[^0-9\+]@', '', (string)$_tel);
-      //~ \sys::logger( sprintf( 'IsMobilePhone :: %s', $tel));
+      //~ logger::info( sprintf( 'IsMobilePhone :: %s', $tel));
 
       if ($tel && \strlen($tel) >= 10 && \strlen($tel) < 17) {
         /**
@@ -691,7 +746,8 @@ abstract class strings {
         return (bool)$phoneNumberUtil->isValidNumber($phoneNumberObject, \config::$PHONE_REGION);
       }
     } catch (\Exception $e) {
-      \sys::logger(sprintf('%s : %s : %s', $_tel, $e->getMessage(), __METHOD__));
+
+      logger::info(sprintf('%s : %s : %s', $_tel, $e->getMessage(), __METHOD__));
     }
 
     return (false);
@@ -714,7 +770,9 @@ abstract class strings {
   }
 
   static public function isValidJSON($str) {
+
     if ($str) {
+
       //Returns the Mime Type of a file or a string content - from: https://coursesweb.net/
       // $r = the resource: Path to the file; Or the String content
       // $t = type of the resource, needed to be specified as "str" if $r is a string-content
@@ -722,7 +780,8 @@ abstract class strings {
       $type = $finfo->buffer($str);
 
       if ('application/json' == $type) {
-        // \sys::logger(sprintf('<%s> %s', $type, __METHOD__));
+
+        // logger::info(sprintf('<%s> %s', $type, __METHOD__));
         json_decode($str);
 
         return json_last_error() == JSON_ERROR_NONE;
@@ -740,7 +799,7 @@ abstract class strings {
   static public function pixel() {
     if (!self::$_pixel) {
       $image = implode(DIRECTORY_SEPARATOR, [
-        dirname( __DIR__),
+        dirname(__DIR__),
         'bravedave',
         'public',
         'images',
@@ -771,7 +830,7 @@ abstract class strings {
     // smart single quotes and apostrophe
     //~ $s[] = sprintf( '@(\x{2018}|\x{2019}|\x{201A})@');
     $s[] = sprintf('@(%s|%s|%s)@', "\u{2018}", "\u{2019}", "\u{201A}");
-    // sys::logger( $s[0]);
+    // logger::info( $s[0]);
 
     $r[] = "'";
 
@@ -823,14 +882,14 @@ abstract class strings {
       $str = trim(preg_replace('/' . preg_quote($ext, '/') . '$/', '', $str), '. ');
       $str = preg_replace('@\s+@', ' ', $str);
       $str = preg_replace('@\.+@', '.', $str);
-      //~ \sys::logger( sprintf( '<%s>.<%s> : %s', $str, $ext, __METHOD__));
+      //~ logger::info( sprintf( '<%s>.<%s> : %s', $str, $ext, __METHOD__));
 
       $str = sprintf('%s.%s', preg_replace('@[^0-9a-z\-\_\s\.]@i', '', $str), $ext);
 
       return $str;
     } else {
       $str = preg_replace('!\s+!', ' ', $str);
-      //~ \sys::logger( sprintf( '<<%s>> : %s', $str, __METHOD__));
+      //~ logger::info( sprintf( '<<%s>> : %s', $str, __METHOD__));
 
       return preg_replace('@[^0-9a-z\-\_\s]@i', '', $str);
     }
