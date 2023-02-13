@@ -8,7 +8,7 @@
  *
 */
 
-namespace dvc;
+namespace bravedave\dvc;
 
 class icon {
   const app = 10;
