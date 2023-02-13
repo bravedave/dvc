@@ -13,25 +13,11 @@ namespace dvc;
 use bravedave, config;
 use bravedave\dvc\{cssmin, dbi, logger, Response, hitter};
 
-abstract class sys {
+abstract class sys extends bravedave\dvc\sys {
   protected static $_loglevel = 1;
   protected static $_dbi = null;
 
   static $debug = false;
-
-  protected static function _twbs_dir() {
-
-    $dir = realpath(__DIR__ . '/../../../../twbs');
-    if (!$dir) $dir = realpath(__DIR__ . '/../../vendor/twbs');
-
-    return $dir;
-  }
-
-  public static function bootstrap_icon_dir() {
-
-    if ($dir = self::_twbs_dir()) return $dir . '/bootstrap-icons/icons/';
-    return '';
-  }
 
   public static function dbi() {
     if (is_null(self::$_dbi)) {
