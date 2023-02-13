@@ -15,5 +15,6 @@ composer req --working-dir=bootstrap_icons twbs/bootstrap-icons
 # cd bootstrap_icons
 targetDir="../bravedave/dvc/css/bootstrap-icons/"
 rsync -arR --delete bootstrap_icons/vendor/twbs/bootstrap-icons/font/./ $targetDir
+rsync -arR --delete bootstrap_icons/vendor/twbs/bootstrap-icons/icons/./ $targetDir
 
 echo "done : $me"
