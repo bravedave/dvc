@@ -294,7 +294,12 @@ abstract class dao {
 
   public function dtoSet($res, $func = null): array {
 
-    if ($res instanceof dbResult || $res instanceof dvc\dbResult || $res instanceof dvc\sqlite\dbResult) {
+    if (
+      $res instanceof dbResult
+      || $res instanceof sqlite\dbResult
+      || $res instanceof dvc\dbResult
+      || $res instanceof dvc\sqlite\dbResult
+    ) {
 
       return $res->dtoSet($func, $this->template);
     } else {

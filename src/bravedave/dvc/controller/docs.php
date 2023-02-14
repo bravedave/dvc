@@ -10,6 +10,7 @@
 
 namespace bravedave\dvc\controller;
 
+use bravedave\dvc\logger;
 use config, Controller, sys;
 use strings;
 
@@ -18,25 +19,29 @@ use bravedave\dvc\Response;
 class docs extends Controller {
   protected $RequireValidation = config::lockdown;
 
-  protected function _hasImage($img = '', $controller = null) {
+  protected function _hasImage($img = '', ?string $controller = null) {
+
+    $debug = false;
+    // $debug = true;
 
     if (is_null($controller)) $controller = $this->name;
 
     $_paths = $this->_getViewPaths($controller);
     foreach ($_paths as $_path) {
+
+      if ( $debug) logger::info( sprintf('<%s> %s', $_path, __METHOD__));
+
       if (file_exists($__f = implode(DIRECTORY_SEPARATOR, [$_path, $img]))) {
+
         return $__f;
       }
     }
 
-    $_paths = [
-      implode(DIRECTORY_SEPARATOR, [self::application()::app()->getInstallPath(), 'dvc', 'views', $controller]),
-      implode(DIRECTORY_SEPARATOR, [self::application()::app()->getInstallPath(), 'dvc', 'views']),
-
-    ];
-
+    $_paths = $this->_getSystemViewPaths($controller);
     foreach ($_paths as $_path) {
+
       if (file_exists($__f = implode(DIRECTORY_SEPARATOR, [$_path, $img]))) {
+
         return $__f;
       }
     }

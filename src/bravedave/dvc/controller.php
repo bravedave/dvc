@@ -117,6 +117,25 @@ abstract class controller {
     }
   }
 
+  protected function _getSystemViewPaths(?string $controller = null): array {
+    $a = [];
+    if (controller\docs::class == $controller) {
+
+      $a[] = implode(DIRECTORY_SEPARATOR, [
+        __DIR__,
+        'views',
+        'docs'
+      ]);
+    }
+
+    $a[] = implode(DIRECTORY_SEPARATOR, [
+      __DIR__,
+      'views'
+    ]);
+
+    return $a;
+  }
+
   protected function _getViewPaths(string $controller): array {
     if ($this->_viewPathsVerified) return $this->_viewPathsVerified;
 
@@ -299,17 +318,17 @@ abstract class controller {
   }
 
   protected function before() {
-    /*
-		* Placeholder for use by the child class.
-		* This method is called
-		* at the end of __construct()
-		*
-		* avoid replacing the default __construct method - use before instead
-		*
-		* Inspired by something I read in the fuelPHP documentation
-		* this method is called at the end of __construct and can
-		* be used to modify the _controller class
-		*/
+    /**
+     * Placeholder for use by the child class.
+     * This method is called
+     * at the end of __construct()
+     *
+     * avoid replacing the default __construct method - use before instead
+     *
+     * Inspired by something I read in the fuelPHP documentation
+     * this method is called at the end of __construct and can
+     * be used to modify the _controller class
+     */
   }
 
   protected function dbEscape($s) {
@@ -346,13 +365,12 @@ abstract class controller {
   }
 
   protected function isPost() {
-    if (is_null($this->Request))
-      return (FALSE);
 
-    return ($this->Request->isPost());
+    if (is_null($this->Request)) return false;
+    return $this->Request->isPost();
   }
 
-  protected function getView($viewName = 'index', $controller = null, $logMissingView = true) {
+  protected function getView($viewName = 'index', ?string $controller = null, $logMissingView = true): string {
 
     if (is_null($controller)) $controller = $this->name;
 
@@ -370,21 +388,7 @@ abstract class controller {
       if ($altView = '\dvc\theme\view'::getView($viewName)) return $altView;
     }
 
-    $_paths = [];
-    if (controller\docs::class == $controller) {
-
-      $_paths[] = implode(DIRECTORY_SEPARATOR, [
-        __DIR__,
-        'views',
-        'docs'
-      ]);
-    }
-
-    $_paths[] = implode(DIRECTORY_SEPARATOR, [
-      __DIR__,
-      'views'
-    ]);
-
+    $_paths = $this->_getSystemViewPaths($controller);
     foreach ($_paths as $_path) {
 
       if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [$_path, $viewName]))) {
@@ -726,8 +730,8 @@ abstract class controller {
 
     $page = (esse\page::bootstrap());
 
-    array_walk($options['css'], fn ($_) => $page->css[] = preg_match('/^<link/',$_) ? $_ : sprintf('<link rel="stylesheet" href="%s">', $_));
-    array_walk($options['scripts'], fn ($_) => $page->scripts[] = preg_match('/^<script/',$_) ? $_ : sprintf('<script src="%s"></script>', $_));
+    array_walk($options['css'], fn ($_) => $page->css[] = preg_match('/^<link/', $_) ? $_ : sprintf('<link rel="stylesheet" href="%s">', $_));
+    array_walk($options['scripts'], fn ($_) => $page->scripts[] = preg_match('/^<script/', $_) ? $_ : sprintf('<script src="%s"></script>', $_));
 
     $page
       ->head($this->title)
@@ -754,8 +758,8 @@ abstract class controller {
      * Perform an SQL Command using
      * the default data adapter
      */
-    if (is_null($this->db)) return (false);
-    return ($this->db->SQL($query));
+    if (is_null($this->db)) return false;
+    return $this->db->SQL($query);
   }
 
   public function index() {
