@@ -70,13 +70,13 @@ composer u
 *this creates a documentroot and copies in a fallback file*
 
 ```sh
-cp -R vendor/bravedave/dvc/tests/www application/www
+cp -R vendor/bravedave/dvc/tests/www src
 ```
 
 ## System will run
 
 ```sh
-php -S localhost:8080 application/www/_mvp.php
+php -S localhost:8080 src/www/_mvp.php
 ```
 
 available at http://localhost:8080
