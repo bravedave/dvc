@@ -141,12 +141,12 @@ namespace risorsa;  ?>
 
 #### Design a Table
 
->Our goal is to maintain a table of computer assets, and previously we mentioned the information required to be stored. The objective is to create a table definition and use *DVC*'s builtin table maintenance system
->When thinking database/table/records, *DVC* uses DAO and DTO.
+*Our goal is to maintain a table of computer assets, and previously we mentioned the information required to be stored. The objective is to create a table definition and use *DVC*'s builtin table maintenance system*
 
-* **DAO (Data Access Object)** is a design pattern that abstracts data access implementation.
-* **DTO (Data Transfer Object)** is a simple object that transfers data between different parts of an application, allowing them to communicate with each other, regardless of location.
-* DAO is used for data access, and DTO is used for data transfer.
+* When thinking database/table/records, *DVC* uses DAO and DTO.
+  * **DAO (Data Access Object)** is a design pattern that abstracts data access implementation.
+  * **DTO (Data Transfer Object)** is a simple object that transfers data between different parts of an application, allowing them to communicate with each other, regardless of location.
+  * DAO is used for data access, and DTO is used for data transfer.
 
 >*use field types are MySQL, and are converted to SQLite equivalents - for compatibility across database types*
 
