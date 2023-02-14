@@ -148,8 +148,6 @@ namespace risorsa;  ?>
   * **DTO (Data Transfer Object)** is a simple object that transfers data between different parts of an application, allowing them to communicate with each other, regardless of location.
   * DAO is used for data access, and DTO is used for data transfer.
 
->*use field types are MySQL, and are converted to SQLite equivalents - for compatibility across database types*
-
 * Create the folders src/risorsa/dao, and src/risorsa/dao/db
 * Create a file src/risorsa/dao/db/risorsa.php
 
@@ -159,7 +157,11 @@ namespace risorsa;  ?>
 
 $dbc =\sys::dbCheck('risorsa');
 
-// note id, autoincrement primary key is added to all tables - no need to specify
+/**
+ * note:
+ *  id, autoincrement primary key is added to all tables - no need to specify
+ *  field types are MySQL and are converted to SQLite equivalents as required
+ */
 
 $dbc->defineField('created', 'datetime');
 $dbc->defineField('updated', 'datetime');
