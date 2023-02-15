@@ -67,6 +67,7 @@ abstract class jslib {
     'js/brayworth.js',
     'js/spinner.js',
     'js/js.cookie.js',
+    'js/placeholders.js',
     'js/templation.js',
     'js/templation.js',
     'js/timedate.js',

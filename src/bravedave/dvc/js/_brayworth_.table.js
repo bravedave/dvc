@@ -21,6 +21,29 @@
       table.find('> thead > tr > .js-line-number').data('count', t).html(t);
     },
 
+    _placeholders_: (table, count) => {
+
+      let tbl = table instanceof $ ? table : $(table);
+      let cc = table.find('>thead > tr:first-child > *').length;
+      let tbody = table.find('> tbody');
+
+      if (cc > 0 && tbody.length > 0) {
+
+        if (!(Number(count) > 1)) count = 12;
+
+        tbody
+          .html('')
+          .addClass('placeholder-glow');
+
+        for (let i = 0; i < count; i++) {
+          tbody
+            .append(
+              `<tr>${'<td><span class="placeholder w-100"></span></td>'.repeat(cc)}</tr>`
+            );
+        }
+      }
+    },
+
     installSorting: table => {
       $(table).find('thead > tr > td[data-role="sort-header"]')
         .each((i, el) => $(el)
