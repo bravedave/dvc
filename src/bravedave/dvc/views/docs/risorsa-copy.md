@@ -141,7 +141,7 @@ namespace risorsa;  ?>
 
 #### Design a Table
 
-*Our goal is to maintain a table of computer assets, and previously we mentioned the information required to be stored. The objective is to create a table definition and use *DVC*'s builtin table maintenance system*
+*The goal is to maintain a table of computer assets, previously we noted the information required to be stored. The objective is to create a table definition and use DVC's builtin table maintenance system*
 
 * When thinking database/table/records, *DVC* uses DAO and DTO.
   * **DAO (Data Access Object)** is a design pattern that abstracts data access implementation.
@@ -347,9 +347,8 @@ namespace risorsa;
 
 use strings, theme;
 
-$dto = $this->data->dto;
-
-?>
+// puts $dto and $title into the environment
+extract( (array)$this->data); ?>
 <form id="<?= $_form = strings::rand() ?>" autocomplete="off">
 
   <input type="hidden" name="action" value="risorsa-save">
@@ -358,87 +357,88 @@ $dto = $this->data->dto;
   <div class="modal fade" tabindex="-1" role="dialog" id="<?= $_modal = strings::rand() ?>" aria-labelledby="<?= $_modal ?>Label" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
+
         <div class="modal-header <?= theme::modalHeader() ?>">
           <h5 class="modal-title" id="<?= $_modal ?>Label"><?= $this->title ?></h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+
         <div class="modal-body">
 
           <!-- --[computer]-- -->
-          <div class="form-row">
+          <div class="row g-2">
+
             <div class="col-md-3 col-form-label">computer</div>
             <div class="col mb-2">
+
               <input type="text" class="form-control" name="computer" value="<?= $dto->computer ?>">
-
             </div>
-
           </div>
 
           <!-- --[purchase_date]-- -->
-          <div class="form-row">
+          <div class="row g-2">
+
             <div class="col-md-3 col-form-label text-truncate">purchase date</div>
             <div class="col mb-2">
+
               <input type="date" class="form-control" name="purchase_date" value="<?= $dto->purchase_date ?>">
-
             </div>
-
           </div>
 
           <!-- --[computer_name]-- -->
-          <div class="form-row">
+          <div class="row g-2">
+
             <div class="col-md-3 col-form-label text-truncate">computer name</div>
             <div class="col mb-2">
+
               <input type="text" class="form-control" name="computer_name" value="<?= $dto->computer_name ?>">
-
             </div>
-
           </div>
 
           <!-- --[cpu]-- -->
-          <div class="form-row">
+          <div class="row g-2">
+
             <div class="col-md-3 col-form-label text-truncate">cpu</div>
             <div class="col mb-2">
+
               <input type="text" class="form-control" name="cpu" value="<?= $dto->cpu ?>">
-
             </div>
-
           </div>
 
           <!-- --[memory]-- -->
-          <div class="form-row">
+          <div class="row g-2">
+
             <div class="col-md-3 col-form-label text-truncate">memory</div>
             <div class="col mb-2">
+
               <input type="text" class="form-control" name="memory" value="<?= $dto->memory ?>">
-
             </div>
-
           </div>
 
           <!-- --[hdd]-- -->
-          <div class="form-row">
+          <div class="row g-2">
+
             <div class="col-md-3 col-form-label text-truncate">hdd</div>
             <div class="col mb-2">
+
               <input type="text" class="form-control" name="hdd" value="<?= $dto->hdd ?>">
-
             </div>
-
           </div>
 
           <!-- --[os]-- -->
-          <div class="form-row">
+          <div class="row g-2">
+
             <div class="col-md-3 col-form-label text-truncate">os</div>
             <div class="col mb-2">
+
               <input type="text" class="form-control" name="os" value="<?= $dto->os ?>">
-
             </div>
-
           </div>
-
         </div>
+
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">close</button>
+
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">close</button>
           <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </div>
@@ -454,17 +454,17 @@ $dto = $this->data->dto;
           _.post({
             url: _.url('<?= $this->route ?>'),
             data: _data,
-
           }).then(d => {
+
             if ('ack' == d.response) {
+
               $('#<?= $_modal ?>')
                 .trigger('success')
                 .modal('hide');
             } else {
+
               _.growl(d);
-
             }
-
           });
 
           // console.table( _data);
@@ -521,7 +521,7 @@ $dto = $this->data->dto;
  */
 namespace risorsa;
 
-use json; // add this line
+use bravedave\dvc\json; // add this line
 use strings;
 
 class controller extends \Controller {
@@ -613,14 +613,7 @@ Right now the form will add a record to the database, you can view it using SQL 
               action: 'get-by-id',
               id : 1
             },
-          }).then(d => {
-            if ('ack' == d.response) {
-              console.log(d.data);
-            } else {
-              _.growl(d);
-            }
-          });
-
+          }).then(d => 'ack' == d.response ? console.log(d.data) : _.growl(d));
         })(_brayworth_);
        */
       if ($id = (int)$this->getPost('id')) {
@@ -643,7 +636,6 @@ Right now the form will add a record to the database, you can view it using SQL 
               action: 'get-matrix'
             },
           }).then(d => 'ack' == d.response? console.table(d.data): _.growl(d));
-
         })(_brayworth_);
        */
       $dao = new dao\risorsa;
@@ -797,20 +789,18 @@ use strings;
 * Modify the src/risorsa/controller.php to load the matrix view
 
 ```php
-// file: src/risorsa/controller.php
-
+  // file: src/risorsa/controller.php
   protected function _index() {
 
-    $this->render([
-      'title' => $this->title = config::label,
+    $this->title = config::label;
 
-      'primary' => ['matrix'],  /* load the matrix view */
-
-      'secondary' => ['index'],
-      'data' => (object)[
-        'searchFocus' => true,
-        'pageUrl' => strings::url($this->route)
-      ]
+    /**
+     * renderBS5 wraps the page in <html><body> tags
+     * and load the bootstrap5 css/js
+     */
+    $this->renderBS5([
+      'aside' => fn () => $this->load('index'),
+      'main' => fn () => $this->load('matrix')
     ]);
   }
 ```
