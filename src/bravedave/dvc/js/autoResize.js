@@ -5,10 +5,9 @@
  *
  * MIT License
  *
- * https://learn.jquery.com/plugins/basic-plugin-creation/
- *
- * */
+ */
  ($ => {
+
   $.fn.autoResize = function() {
 
     const autoResize = function (e) {

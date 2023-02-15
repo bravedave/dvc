@@ -49,7 +49,7 @@
 
     });
 
-    if (!_brayworth_.browser.isMobileDevice) {
+    if (!_.browser.isMobileDevice) {
       modal.on('shown.bs.modal', e => { input.focus(); input.select(); });
 
     }

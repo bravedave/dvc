@@ -5,10 +5,9 @@
  *
  * MIT License
  *
- * https://learn.jquery.com/plugins/basic-plugin-creation/
- *
- * */
+ */
 ($ => {
+
   $.fn.placeholders = function () {
 
     if ('TABLE' == String(this[0].nodeName)) {
@@ -18,5 +17,7 @@
 
       console.log(`cannot placeholder : ${this[0].nodeName}`);
     }
+
+    return this;
   }
 })(jQuery);
