@@ -9,12 +9,14 @@
  * compatibility : bootstrap 5
 */
 
-use dvc\theme;  ?>
+use dvc\theme;
+
+$title = $this->data->title ?? $this->title;  ?>
 
 <nav class="<?= theme::navbar() ?> navbar-expand" role="navigation">
   <div class="container-fluid">
 
-    <div class="navbar-brand"><?= $this->data->title  ?></div>
+    <div class="navbar-brand"><?= $title  ?></div>
 
     <ul class="ms-auto navbar-nav">
 
