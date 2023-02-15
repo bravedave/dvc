@@ -246,7 +246,7 @@ class dbCheck extends _dao {
       if ($res->num_rows() > 0) {
         if ($row = $res->fetch()) {
 
-          logger::info(sprintf("INDEX found `%s` => %s(%s)", $this->table, $index['key'], $row["Column_name"]), 2);
+          // logger::info(sprintf("INDEX found `%s` => %s(%s)", $this->table, $index['key'], $row["Column_name"]), 2);
           $indexFound = TRUE;
         }
       }
