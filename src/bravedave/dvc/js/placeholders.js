@@ -13,7 +13,7 @@
 
     if ('TABLE' == String(this[0].nodeName)) {
 
-      _.table.placeholders(this);
+      _brayworth_.table.placeholders(this);
     } else {
 
       console.log(`cannot placeholder : ${this[0].nodeName}`);
