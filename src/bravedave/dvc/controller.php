@@ -708,6 +708,13 @@ abstract class controller {
     return $p;
   }
 
+  /**
+   *
+   * wraps the page in <html><body> tags and loads the bootstrap5 css/js
+   *
+   * @param mixed $params
+   * @return void
+   */
   protected function renderBS5($params): void {
 
     $aside = config::index_set;
