@@ -6,42 +6,36 @@
   in the controller:
 * The simplest controller would be:
 
-```
-    <?php
-    class hello extends Controller {
-        function index() {
-            print 'hello<br />';
-
-        }
-
+```php
+  <?php
+  class hello extends Controller {
+    function index() {
+      print 'hello<br />';
     }
+  }
 
 ```
 
 * <a href="/hello" _target="blank">hello - sample controller</a>
   * The sample controller constructs a page using bootstrap
-    * More about the pages class [here](pages.md)
 
-<pre><code>
-    &lt;?php
-        class hello extends Controller {
-            function index() {
-                $p = new dvc\pages\bootstrap;
-                    $p
-                        -&gt;header()
-                        -&gt;title();
-                        <span></span>
-                    $p->primary();
-                        print 'hello&lt;br /&gt;';
-                        <span></span>
-                    $p->secondary();
-                        print 'secondary';
-               <span></span>
-        }
-        <span></span>
+```php
+  <?php
+    class hello extends Controller {
+      function index() {
+        $this->title = config::label;
+
+        /**
+         * renderBS5 wraps the page in <html><body> tags
+         * and load the bootstrap5 css/js
+         */
+        $this->renderBS5([
+          'aside' => fn () => print 'index',
+          'main' => fn () => print 'main'
+        ]);
+      }
     }
-    <br />
-</code></pre>
+```
 
 #### TIP: Disabling Documentation
 * If you create a controller called docs - it will disable this documentation, which on

@@ -20,12 +20,12 @@ cd tdvc
 
 ## Create an basic application
 
-### Create a application folder
+### create a application folder
 ```sh
 mkdir -p src/app
 ```
 
-### Add an application file
+### add an application file
 *file src/app/application.php*
 ```php
 <?php
@@ -65,7 +65,7 @@ The application relies on the composer autoload features,
 composer u
 ```
 
-## Create a documentroot
+### create a documentroot
 
 *this creates a documentroot and copies in a fallback file*
 
@@ -73,7 +73,7 @@ composer u
 cp -R vendor/bravedave/dvc/tests/www src
 ```
 
-## System will run
+### system will run
 
 ```sh
 php -S localhost:8080 src/www/_mvp.php

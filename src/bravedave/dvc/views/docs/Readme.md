@@ -1,52 +1,83 @@
-# DVC
-
-## DVC - Data View Controller
+# DVC - Data View Controller
 
 > PHP framework for web applications and APIs.
+Configured with Bootstrap, but could just as easily support others.
 
 * <https://brayworth.com/docs/>
 
-* Configured with Bootstrap4, but could just as easily support others.
+# Getting Started
 
-### Running
+## Install
 
-* Install the template project from https://github.com/bravedave/hello, it will pull in this project as part of the install
+```sh
+[ -d tdvc ] || mkdir tdvc
+composer req --working-dir=tdvc bravedave/dvc "*"
 
-### Development Install
-
-note: _instructions for PHP Version 7.4.x_
-
-For testing and development of core features on a Windows 10 computer
-
-1. Install PreRequisits
-   * Install PHP : <http://windows.php.net/download/>
-     * Install the non threadsafe binary
-       * Test by running php -v from the command prompt
-         * If required install the VC++ runtime available from the php download page
-       * by default there is no php.ini (required)
-         * copy php.ini-production to php.ini
-         * edit and modify/add (uncomment)
-           * extension=fileinfo
-           * extension=sqlite3
-           * extension=mbstring
-           * extension=openssl
-
-   * Install Git : <https://git-scm.com/>
-     * Install the *Git Bash Here* option
-   * Install Composer : <https://getcomposer.org/>
-1. Clone this Repo
-```bash
-git clone https://github.com/bravedave/dvc.git dvc
-```
-1. Install dependencies
-```bash
-cd dvc
-composer update
-```
-1. Run the test Environment from ./tests
-```bash
-cd tests
-run.cmd
+cd tdvc
 ```
 
-... the tests are visible on <http://localhost/>
+*you might like to start working in your ide now, open the folder in VSCode*
+
+## Create an basic application
+
+### create a application folder
+```sh
+mkdir -p src/app
+```
+
+### add an application file
+*file src/app/application.php*
+```php
+<?php
+
+class application extends bravedave\dvc\application {
+
+  static public function startDir() {
+
+    return dirname(__DIR__);
+  }
+}
+```
+
+### add an autoload section to composer
+
+The application relies on the composer autoload features,
+ this entry in composer.json tells the autloader where to look
+ for this application
+
+*composer now looks like*
+```json
+{
+  "require": {
+    "bravedave/dvc": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "src/app/"
+    }
+  }
+}
+```
+
+### update runtime autoloader
+
+```sh
+composer u
+```
+
+### create a documentroot
+
+*this creates a documentroot and copies in a fallback file*
+
+```sh
+cp -R vendor/bravedave/dvc/tests/www src
+```
+
+### system will run
+
+```sh
+php -S localhost:8080 src/www/_mvp.php
+```
+
+available at http://localhost:8080
+

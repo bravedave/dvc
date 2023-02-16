@@ -16,33 +16,74 @@ Create a module to record computer assets in a business. We want to record:
 1. HDD
 1. OS
 
+<em>
+Assuming Installed and running - suggest WSL
+
+1. PHP
+   * *under Alpine Linux ...  php8, php8-zip, php8-iconv, php8-dom, php8-curl, php8-session, php8-sqlite3, php8-ctype, php8-openssl, php8-mbstring, php8-posix, php8-fileinfo*
+1. Git
+1. Composer
+1. VS Code
+
+and using *bravedave/dvc*
+</em>
+
 ### Recipe
 
 1. Follow the Getting Started guide at https://github.com/bravedave/dvc
    * the rest of this tutorial assumes
      * the getting stated has been run successfully
-     * the namespace root is ***src/app***
+     * the namespace root is ***src***
 
-**note**
 
-the Getting Started guide means you can see the app at in your browser at <http://localhost:8080/>.
+
+2. Create a new project `composer create-project bravedave/mvp risorsa`
+3. Open that folder with VS Code and start your terminal, the working directory will be *risorsa*
+4. Add dvc `composer req bravedave/dvc`
+5. clean up (we don't need these)
+   * `rm -fr src/app/home src/app/template`
+   * `rm -f src/app/slim.php src/app/launcher.php`
+6. modify www/_mvp.php to point to ***application::run***, not *launcher::run* ..
+7. Create a folder for the src `mkdir src/risorsa`
+8. tell composer where that src is
+
+```json
+"autoload": {
+  "psr-4": {
+    "risorsa\\": "src/risorsa/"
+  }
+},
+```
+
+* update autoload `composer u`
+
+by now the app should run `./run.sh`
+
+for consistency in the documentation, lets change the port to be static
+
+1. Edit the file ./run.sh
+1. Change the port to 8080
+1. Restart the `./run.sh`
+
+and you should be able to see it in your browser at <http://localhost:8080/>.
 
 ### Creating an application
 
-We are creating this code in *namespace risorsa*, we are creating a *DVC* controller to reference it directly. In *DVC* controllers are located in src/controller, and this controller is risorsa
+We are creating most of the code in *namespace risorsa*, there are other ways to reference the program, but we are going to create a *DVC* controller to reference it directly. In *DVC* controllers are located in src/app/controller, and this controller is risorsa
 
-1. Create a folder for the namespace at *src/app/risorsa*
-2. Create a folder at *src/controller*
-3. Create the referencing controller
+1. Create a folder at *src/controller*
+1. Create the referencing controller
    * Create a file *src/controller/risorsa.php*
 
 ```php
 <?php
-// file: src/controller/risorsa.php
+/**
+ * file src/controller/risorsa.php
+ */
 class risorsa extends risorsa\controller {}
 ```
 
-that wraps up the *getting ready* phase, on to coding the application..
+that about wraps up the *getting ready* phase, on to coding the application..
 
 #### Create a config
 
@@ -52,7 +93,9 @@ that wraps up the *getting ready* phase, on to coding the application..
 
 ```php
 <?php
-// file: src/risorsa/config.php
+/**
+ * file : src/risorsa/config.php
+ */
 namespace risorsa;
 
 class config extends \config {  // noting: config extends global config classes
@@ -67,7 +110,9 @@ class config extends \config {  // noting: config extends global config classes
 
 ```php
 <?php
-// file: src/risorsa/controller.php
+/**
+ * file src/risorsa/controller.php
+ */
 namespace risorsa;
 
 use strings;
@@ -118,7 +163,9 @@ so ... to the app
 
 ```php
 <?php
-// file: src/risorsa/views/index.php
+/**
+ * file : src/risorsa/views/index.php
+ * */
 namespace risorsa;  ?>
 
 <h6 class="mt-1">Risorsa</h6>
@@ -134,34 +181,29 @@ namespace risorsa;  ?>
 #### Connect to a database
 
 >Note the data folder is created with a .gitignore file, do not upload the data folder to a public repository
->To save data we will need a database, there are many... *DVC* supports SQLite, mysql and mariadb.
+>To save data we will need a database, there are many... *DVC* supports SQLite and that is simple - mysql and mariadb are supported.
+>db_type is the important line - noting it is sqlite, refresh your page and the data file *db.sqlite* is created in the data folder
 
 * rename src/data/defaults-sample.json to src/data/defaults.json
-  * db_type is the important line - noting it is sqlite, refresh your page and the data file *db.sqlite* is created in the data folder
 
 #### Design a Table
 
-*The goal is to maintain a table of computer assets, previously we noted the information required to be stored. The objective is to create a table definition and use DVC's builtin table maintenance system*
-
-* When thinking database/table/records, *DVC* uses DAO and DTO.
-  * **DAO (Data Access Object)** is a design pattern that abstracts data access implementation.
-  * **DTO (Data Transfer Object)** is a simple object that transfers data between different parts of an application, allowing them to communicate with each other, regardless of location.
-  * DAO is used for data access, and DTO is used for data transfer.
+>Our goal is to maintain a table of computer assets, and previously we mentioned the information required to be stored. Here the objective is to create a table definition and use *DVC*'s builtin table maintenance system
+>When thinking database/table/records, my preference is to reference DAO - Data Access Objects - and DTO - Data Transition Objects. DAO Objects are intelligent, DTO Objects are simple.
+>*use field types are MySQL, and are converted to SQLite equivalents - for compatibility across database types*
 
 * Create the folders src/risorsa/dao, and src/risorsa/dao/db
 * Create a file src/risorsa/dao/db/risorsa.php
 
 ```php
 <?php
-// file: src/risorsa/dao/db/risorsa.php
+/**
+ * file : src/risorsa/dao/db/risorsa.php
+ * */
 
 $dbc =\sys::dbCheck('risorsa');
 
-/**
- * note:
- *  id, autoincrement primary key is added to all tables - no need to specify
- *  field types are MySQL and are converted to SQLite equivalents as required
- */
+// note id, autoincrement primary key is added to all tables - no need to specify
 
 $dbc->defineField('created', 'datetime');
 $dbc->defineField('updated', 'datetime');
@@ -174,7 +216,7 @@ $dbc->defineField('memory', 'varchar');
 $dbc->defineField('hdd', 'varchar');
 $dbc->defineField('os', 'varchar');
 
-$dbc->check();  // actually do the work, check that table and fields exist
+$dbc->check();  // actually do the work, check that table and fields exis
 ```
 
 #### Initiate Auto Table Maintenance
@@ -188,30 +230,27 @@ cp vendor/bravedave/dvc/src/dao/dbinfo.php src/risorsa/dao/
 ```
 
 ```php
-<?php
-// file: src/risorsa/dao/dbinfo.php
+/**
+ * file : src/risorsa/dao/dbinfo.php
+ * change the namespace, add the use line
+ */
 namespace risorsa\dao;
 
-use bravedave;
+use dao\_dbinfo;
 
-class dbinfo extends bravedave\dvc\dbinfo {
-  protected $_store = '';
-
-  protected function check() {
-
-    $this->checkDIR(__DIR__);
-  }
-}
+class dbinfo extends _dbinfo {
 ```
 
->all that is required is to call the checking routine, this will create any tables from template files in the db folder. it will also maintain a file in the data folder of table versions (src/data/db_version.json)
+>all you have to do is call the checking routine, this will create any tables from template files in the db folder. it will also maintain a file in the data folder of table versions (src/data/db_version.json)
 >Do this as part of your *config*
 
 * modify file src/risorsa/config.php
 
 ```php
 <?php
-// file : src/risorsa/config.php
+/**
+ * file : src/risorsa/config.php
+ */
 namespace risorsa;
 
 class config extends \config {  // noting: config extends global config classes
@@ -227,12 +266,14 @@ class config extends \config {  // noting: config extends global config classes
 }
 ```
 
-* Add a checking routine to the controller to call the checking routine regularly
+* Add a checking routine to your controller to call the checking routine regularly
 
 > before is a routine of the controller class, it's called at the end of __construct, note we have added the location of module specific views, we use that later in edit and matrix reporting
 
 ```php
-// file : src/risorsa/controller
+/**
+ * file : src/risorsa/controller
+ */
   protected function before() {
     config::risorsa_checkdatabase();  // add this line
     parent::before();
@@ -241,7 +282,7 @@ class config extends \config {  // noting: config extends global config classes
   }
 ```
 
-refresh the browser at <http://localhost:8080/risorsa> it will create the table
+if you are running the app and refresh the browser at <http://localhost:8080/risorsa> it will create the table
 
 >Tip : <https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite> will allow you to open and view sqlite files
 ><img src="risorsa-sqlite.jpg" class="img img-fluid">
@@ -257,7 +298,9 @@ almost done with the database, two more files will round this out
 
 ```php
 <?php
-// file: src/risorsa/dao/dto/risorsa.php
+/**
+ * file : src/risorsa/dao/dto/risorsa.php
+ */
 namespace risorsa\dao\dto;
 
 use bravedave\dvc\dto;
@@ -285,12 +328,14 @@ class risorsa extends dto {
 
 ```php
 <?php
-// file : src/risorsa/dao/risorsa.php
+/**
+ * file : src/risorsa/dao/risorsa.php
+ */
 namespace risorsa\dao;
 
-use bravedave\dvc\dao;
+use dao\_dao;
 
-class risorsa extends dao {
+class risorsa extends _dao {
   protected $_db_name = 'risorsa';
   protected $template = __NAMESPACE__ . '\dto\risorsa';
 
@@ -312,10 +357,12 @@ that wraps up storage, lets create the add/edit modal, and a report matrix
 
 >Using the MVC convention, the controller will organise data and call the view
 
-* create an ***edit*** routine in the controller, add this function to src/risorsa/controller
+* create an edit routine in the controller, add this function to src/risorsa/controller
 
 ```php
-// file : src/risorsa/controller.php
+/**
+ * file : src/risorsa/controller.php
+ */
   public function edit($id = 0) {
     // tip : the structure is available in the view at $this->data->dto
     $this->data = (object)[
@@ -342,13 +389,16 @@ that wraps up storage, lets create the add/edit modal, and a report matrix
 
 ```php
 <?php
-// file : src/risorsa/views/edit.php
+/**
+ * file : src/risorsa/views/edit.php
+ */
 namespace risorsa;
 
 use strings, theme;
 
-// puts $dto and $title into the environment
-extract( (array)$this->data); ?>
+$dto = $this->data->dto;
+
+?>
 <form id="<?= $_form = strings::rand() ?>" autocomplete="off">
 
   <input type="hidden" name="action" value="risorsa-save">
@@ -357,88 +407,87 @@ extract( (array)$this->data); ?>
   <div class="modal fade" tabindex="-1" role="dialog" id="<?= $_modal = strings::rand() ?>" aria-labelledby="<?= $_modal ?>Label" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
-
         <div class="modal-header <?= theme::modalHeader() ?>">
           <h5 class="modal-title" id="<?= $_modal ?>Label"><?= $this->title ?></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-
         <div class="modal-body">
 
           <!-- --[computer]-- -->
-          <div class="row g-2">
-
+          <div class="form-row">
             <div class="col-md-3 col-form-label">computer</div>
             <div class="col mb-2">
-
               <input type="text" class="form-control" name="computer" value="<?= $dto->computer ?>">
+
             </div>
+
           </div>
 
           <!-- --[purchase_date]-- -->
-          <div class="row g-2">
-
+          <div class="form-row">
             <div class="col-md-3 col-form-label text-truncate">purchase date</div>
             <div class="col mb-2">
-
               <input type="date" class="form-control" name="purchase_date" value="<?= $dto->purchase_date ?>">
+
             </div>
+
           </div>
 
           <!-- --[computer_name]-- -->
-          <div class="row g-2">
-
+          <div class="form-row">
             <div class="col-md-3 col-form-label text-truncate">computer name</div>
             <div class="col mb-2">
-
               <input type="text" class="form-control" name="computer_name" value="<?= $dto->computer_name ?>">
+
             </div>
+
           </div>
 
           <!-- --[cpu]-- -->
-          <div class="row g-2">
-
+          <div class="form-row">
             <div class="col-md-3 col-form-label text-truncate">cpu</div>
             <div class="col mb-2">
-
               <input type="text" class="form-control" name="cpu" value="<?= $dto->cpu ?>">
+
             </div>
+
           </div>
 
           <!-- --[memory]-- -->
-          <div class="row g-2">
-
+          <div class="form-row">
             <div class="col-md-3 col-form-label text-truncate">memory</div>
             <div class="col mb-2">
-
               <input type="text" class="form-control" name="memory" value="<?= $dto->memory ?>">
+
             </div>
+
           </div>
 
           <!-- --[hdd]-- -->
-          <div class="row g-2">
-
+          <div class="form-row">
             <div class="col-md-3 col-form-label text-truncate">hdd</div>
             <div class="col mb-2">
-
               <input type="text" class="form-control" name="hdd" value="<?= $dto->hdd ?>">
+
             </div>
+
           </div>
 
           <!-- --[os]-- -->
-          <div class="row g-2">
-
+          <div class="form-row">
             <div class="col-md-3 col-form-label text-truncate">os</div>
             <div class="col mb-2">
-
               <input type="text" class="form-control" name="os" value="<?= $dto->os ?>">
+
             </div>
+
           </div>
+
         </div>
-
         <div class="modal-footer">
-
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">close</button>
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">close</button>
           <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </div>
@@ -454,17 +503,17 @@ extract( (array)$this->data); ?>
           _.post({
             url: _.url('<?= $this->route ?>'),
             data: _data,
+
           }).then(d => {
-
             if ('ack' == d.response) {
-
               $('#<?= $_modal ?>')
                 .trigger('success')
                 .modal('hide');
             } else {
-
               _.growl(d);
+
             }
+
           });
 
           // console.table( _data);
@@ -505,14 +554,14 @@ extract( (array)$this->data); ?>
       } else {
         $dao->Insert($a);
       }
-      json::ack($action); // json return { "response": "ack", "description" : "risorsa-save" }
+      Json::ack($action); // json return { "response": "ack", "description" : "risorsa-save" }
     } else {
       parent::postHandler();
     }
   }
 ```
 
->This will actually introduce an error, json of json::ack will not be found, add the reference at the top of the controller, just after the namespace declaration
+>This will actually introduce an error, Json of Json::ack will not be found, add the reference at the top of the controller, just after the namespace declaration
 
 ```php
 <?php
@@ -521,7 +570,7 @@ extract( (array)$this->data); ?>
  */
 namespace risorsa;
 
-use bravedave\dvc\json; // add this line
+use Json; // add this line
 use strings;
 
 class controller extends \Controller {
@@ -533,7 +582,9 @@ class controller extends \Controller {
 
 ```php
 <?php
-// file: src/risorsa/views/index.php
+/**
+ * file : src/risorsa/views/index.php
+ * */
 namespace risorsa;
 
 use strings;  ?>
@@ -579,11 +630,15 @@ Right now the form will add a record to the database, you can view it using SQL 
 
 ```php
 <?php
-// file: src/risorsa/dao/risorsa.php
+/**
+ * file : src/risorsa/dao/risorsa.php
+ * */
   public function getMatrix() : array {
-
     $sql = 'SELECT * FROM `risorsa`';
-    if ( $res = $this->Result($sql)) return $this->dtoSet($res);
+    if ( $res = $this->Result($sql)) {
+      return $this->dtoSet($res);
+    }
+
     return [];
   }
 ```
@@ -613,19 +668,26 @@ Right now the form will add a record to the database, you can view it using SQL 
               action: 'get-by-id',
               id : 1
             },
-          }).then(d => 'ack' == d.response ? console.log(d.data) : _.growl(d));
+          }).then(d => {
+            if ('ack' == d.response) {
+              console.log(d.data);
+            } else {
+              _.growl(d);
+            }
+          });
+
         })(_brayworth_);
        */
       if ($id = (int)$this->getPost('id')) {
         $dao = new dao\risorsa;
         if ($dto = $dao->getByID($id)) {
-          json::ack($action)
+          Json::ack($action)
             ->add('data', $dto);
         } else {
-          json::nak($action);
+          Json::nak($action);
         }
       } else {
-        json::nak($action);
+        Json::nak($action);
       }
     } elseif ('get-matrix' == $action) {
       /*
@@ -635,11 +697,18 @@ Right now the form will add a record to the database, you can view it using SQL 
             data: {
               action: 'get-matrix'
             },
-          }).then(d => 'ack' == d.response? console.table(d.data): _.growl(d));
+          }).then(d => {
+            if ('ack' == d.response) {
+              console.table(d.data);
+            } else {
+              _.growl(d);
+            }
+          });
+
         })(_brayworth_);
        */
       $dao = new dao\risorsa;
-      json::ack($action)
+      Json::ack($action)
         ->add('data', $dao->getMatrix());
     } elseif ('risorsa-save' == $action) {
     // ... note, we inserted this at the start and have changed the if/else to logically continue ...
@@ -655,7 +724,9 @@ we also inserted a test routine which can be executed from the console
 
 ```php
 <?php
-// file: src/risorsa/views/matrix.php
+/**
+ * file : src/risorsa/views/matrix.php
+ */
 namespace risorsa;
 
 use strings;
@@ -789,18 +860,21 @@ use strings;
 * Modify the src/risorsa/controller.php to load the matrix view
 
 ```php
-  // file: src/risorsa/controller.php
+/**
+ * file : src/risorsa/controller.php
+ * */
   protected function _index() {
 
-    $this->title = config::label;
+    $this->render([
+      'title' => $this->title = config::label,
 
-    /**
-     * renderBS5 wraps the page in <html><body> tags
-     * and load the bootstrap5 css/js
-     */
-    $this->renderBS5([
-      'aside' => fn () => $this->load('index'),
-      'main' => fn () => $this->load('matrix')
+      'primary' => ['matrix'],  /* load the matrix view */
+
+      'secondary' => ['index'],
+      'data' => (object)[
+        'searchFocus' => true,
+        'pageUrl' => strings::url($this->route)
+      ]
     ]);
   }
 ```
