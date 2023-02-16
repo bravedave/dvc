@@ -1,6 +1,6 @@
 # Database Connections
 
-###### [Docs](/docs/) | [Databases](/docs/database) | Connections
+###### <navbar>[Docs](/docs/) | [Databases](/docs/database) | Connections</navbar>
 
 #### SQLite
 If you only require SQlite:

@@ -1,6 +1,4 @@
-# DVC
-
-## DVC - Data View Controller
+# DVC - *Data View controller*
 
 Model View Controller (MVC) is a design pattern. It separate the parts of a software application into clear and distinct sections.
 * The ***Model*** holds the data and information of the application.
@@ -11,7 +9,7 @@ A Model-View-Controller _read more at <https://en.wikipedia.org/wiki/Model-view-
 
 DVC is an ***Application*** which uses the ***Model-View-Controller*** pattern to develop, maintain, and update a software application.
 
-**and this could look like**
+**this could look like**
 
 ```php
 <?php
@@ -20,7 +18,7 @@ class people extends Controller {
 
   function edit( $id) {
 
-    if ( $id = abs( (int)$id)) {  // simple check
+    if ( $id = (int)$id) {  // simple check
 
       // data
       $dao = new dao\people;  // dao - data access object
@@ -28,7 +26,6 @@ class people extends Controller {
 
         $this->data = (object)[
           'person' => $dto
-
         ];
 
         $this->load('edit');  // view
