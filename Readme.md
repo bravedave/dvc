@@ -81,3 +81,5 @@ php -S localhost:8080 src/www/_mvp.php
 
 available at http://localhost:8080
 
+there is a tutorial [here](src/bravedave/dvc/views/docs/risorsa.md)
+
