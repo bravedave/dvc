@@ -64,11 +64,11 @@ class docs extends Controller {
       $contents = ['contents'];
       if ($this->hasView($_c = sprintf('%s-contents', $view))) {
 
-        $contents = $_c;
+        $contents = [$_c];
       } else if (strpos($view, '-') !== false) {
 
         if ($this->hasView($_c = sprintf('%s-contents', preg_replace('/-.*/', '', $view)))) {
-          $contents = $_c;
+          $contents = [$_c];
         }
       }
 

@@ -1,8 +1,8 @@
-# Structure - Data Model (View) Controller
+# View
 
-## Structure - View
+###### <navbar>[Docs](/docs/) | [Structure](/docs/structure) | View
 
-A view is just html, ```$this``` is generally the controller (there is a view class which is portable - it's similar).
+A view is just html, ```$this``` is generally the controller.
 
 So - just write html ...
 ```html
@@ -13,10 +13,11 @@ So - just write html ...
 </html>
 ```
 
-###### Wrapped in HTML
+## Wrapped in HTML
 The constroller has a render function.
 
 Using this the html is more of a fragment:
+
 ```html
 <div class="alert alert-success">
     You can just write bootstrap fragments
@@ -41,9 +42,7 @@ because - by default it is inserted in a ```.col``` element
 --- your view inserted here ---
 
                 </div>
-
             </div>
-
         </div>
 
         <script type="text/javascript" src="-[ bootstrap js ]"></script>

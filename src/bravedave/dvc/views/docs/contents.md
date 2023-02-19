@@ -23,8 +23,6 @@
 - [Connection](/docs/database-connections)
 - [Data Retrieval](/docs/database-retrieval)
 
-## [Components](/docs/component)
-
 ## [Utilities](/docs/utilities)
 
 - [Icons](/docs/icons)
