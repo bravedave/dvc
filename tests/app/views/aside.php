@@ -8,13 +8,25 @@
  *
 */  ?>
 
+
+<h6 class="mt-2">Tutorial</h6>
+<ul class="nav flex-column">
+
+  <li class="nav-item">
+    <a class="nav-link" href="<?= strings::url('/docs/risorsa') ?>">Risorsa</a>
+  </li>
+</ul>
+
+<h6 class="mt-2">Nav</h6>
 <ul class="nav flex-column" id="<?= $_nav = strings::rand() ?>">
-  <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Active</a></li>
+  <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Active</a>
+  </li>
   <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
   <li class="nav-item"><a class="nav-link js-alert" href="#">Alert</a></li>
   <li class="nav-item"><a class="nav-link js-toast" href="#">Toast</a></li>
   <li class="nav-item"><a class="nav-link" href="<?= strings::url($this->route . '/accordion') ?>">Accordion</a></li>
-  <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>
+  <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1"
+      aria-disabled="true">Disabled</a></li>
 </ul>
 
 <h6 class="mt-2">Text Colors</h6>
@@ -27,18 +39,17 @@
   <li class="text-info">.text-info</li>
 </ul>
 
-<div class="row">
-  <div class="col bg-primary">&nbsp;</div>
-  <div class="col bg-secondary">&nbsp;</div>
-  <div class="col bg-success">&nbsp;</div>
-  <div class="col bg-lite">&nbsp;</div>
-</div>
-
-<div class="row">
-  <div class="col bg-lite">&nbsp;</div>
-  <div class="col bg-danger">&nbsp;</div>
-  <div class="col bg-warning">&nbsp;</div>
-  <div class="col bg-info">&nbsp;</div>
+<h6 class="mt-2">Background colors</h6>
+<div class="container border">
+  <div class="row">
+    <div class="col bg-primary">&nbsp;</div>
+    <div class="col bg-secondary">&nbsp;</div>
+    <div class="col bg-success">&nbsp;</div>
+    <div class="col bg-lite">&nbsp;</div>
+    <div class="col bg-danger">&nbsp;</div>
+    <div class="col bg-warning">&nbsp;</div>
+    <div class="col bg-info">&nbsp;</div>
+  </div>
 </div>
 <script>
   (_ => {

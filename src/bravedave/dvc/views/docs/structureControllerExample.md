@@ -1,10 +1,28 @@
-###### [Structure](/docs/structure) | [Controller](/docs/structureController) | Example
+# Controller Example
 
-### Templates - Controller
+###### <navbar>[Docs](/docs/) | [Structure](/docs/structure) | [Controller](/docs/structureController) | Example</navbar>
 
-# Standard Functionality
+## Template - Controller
 
-By default the controller can render a bootstrap 4 template with 4 main areas
+### Standard Functionality
+
+By default the controller can render a bootstrap 5 page template with 4 main areas
+<table border="1">
+  <tbody>
+    <tr><td colspan="2">Navbar</td></tr>
+    <tr>
+      <td style="width: 75%">
+        Main<br>
+        9 columns
+      </td>
+      <td style="width: 75%">
+        Aside<br>
+        3 columns
+      </td>
+    </tr>
+    <tr><td colspan="2">footer</td></tr>
+  </tbody>
+</table>
 <pre>
 +---------------------------------------+
 | Navbar                                |
