@@ -12,10 +12,7 @@
 
 namespace bravedave\dvc;
 
-use dvc\Exceptions\{
-  DatapathNotFound,
-  DatapathNotWritable
-};
+use bravedave\dvc\Exceptions\{DatapathNotFound, DatapathNotWritable};
 
 abstract class config {
 
@@ -236,7 +233,7 @@ abstract class config {
         }
 
         if (!file_exists($ignore = self::$_dataPath . DIRECTORY_SEPARATOR . '.gitignore')) file_put_contents($ignore, '*');
-        if (!is_dir(self::$_dataPath)) throw new  DatapathNotFound(self::$_dataPath);
+        if (!is_dir(self::$_dataPath)) throw new DatapathNotFound(self::$_dataPath);
 
         return self::$_dataPath;
       }

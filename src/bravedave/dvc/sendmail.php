@@ -9,7 +9,9 @@
  * https://symfony.com/doc/current/mailer.html
 */
 
-namespace dvc;
+namespace bravedave\dvc;
+
+use config;
 
 use Symfony\Component\Mime\{
   Address,
@@ -57,13 +59,13 @@ abstract class sendmail {
   static function email(array $params = []): Email {
 
     $options = array_merge([
-      'from' => new Address(\config::$SUPPORT_EMAIL, \config::$SUPPORT_NAME)
+      'from' => new Address(config::$SUPPORT_EMAIL, config::$SUPPORT_NAME)
     ], $params);
 
     $email = new Email();
 
     $email->getHeaders()
-      ->addTextHeader('X-Mailer', \config::$MAILER);
+      ->addTextHeader('X-Mailer', config::$MAILER);
 
     $email->from($options['from']);
 
@@ -103,7 +105,7 @@ abstract class sendmail {
     $i = 0;
     if (preg_match_all('/src="data:image\/[^"]*?"/i', $msg, $matches)) {
 
-      if (self::$debug) \sys::logger(sprintf('%d matches found : %s', count($matches[0]), __METHOD__));
+      if (self::$debug) logger::debug(sprintf('%d matches found : %s', count($matches[0]), __METHOD__));
 
       foreach ($matches[0] as $match) {
 
@@ -116,7 +118,7 @@ abstract class sendmail {
 
         if ($type && isset($types[$type])) {
 
-          if (self::$debug) \sys::logger(sprintf('%s => %s : %s', $type, substr($src, 0, $comma_place), __METHOD__));
+          if (self::$debug) logger::debug(sprintf('%s => %s : %s', $type, substr($src, 0, $comma_place), __METHOD__));
 
           $base64_data = substr($src, $comma_place + 1);
           $data = base64_decode($base64_data);
@@ -128,10 +130,10 @@ abstract class sendmail {
           $mail->embed($data, $md5 = ($i++) . '_' . md5($data), $type);
           $msg = str_replace($src, 'cid:' . $md5, $msg);
 
-          if (self::$debug) \sys::logger(sprintf('src : %s : %s', $md5, __METHOD__));
+          if (self::$debug) logger::debug(sprintf('src : %s : %s', $md5, __METHOD__));
         } else {
 
-          \sys::logger($error = sprintf('invalid type : %s( %d) : %s', $type, strlen($match), __METHOD__));
+          logger::info($error = sprintf('invalid type : %s( %d) : %s', $type, strlen($match), __METHOD__));
           throw new Exceptions\InvalidType($error);
         }
       }
@@ -140,11 +142,13 @@ abstract class sendmail {
   }
 
   static function mailer() {
-    if (\config::$MAILDSN) {
-      $transport = Transport::fromDsn(\config::$MAILDSN);
+
+    if (config::$MAILDSN) {
+      $transport = Transport::fromDsn(config::$MAILDSN);
       return new Mailer($transport);
     } else {
-      \sys::logger(sprintf('<%s> %s', 'please configure your config::$MAILDSN', __METHOD__));
+
+      logger::info(sprintf('<%s> %s', 'please configure your config::$MAILDSN', __METHOD__));
     }
   }
 

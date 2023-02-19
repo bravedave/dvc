@@ -8,13 +8,13 @@
  *
 */
 
-namespace dvc\dao;
+namespace bravedave\dvc;
 
-use config, bravedave, sys;
+use config, sys;
 use DateInterval;
 use DateTime;
 
-class bwui extends _dao {
+class bwui extends dao {
   const version = 1.31;
 
   protected $_db_name = 'bwui';
@@ -25,7 +25,7 @@ class bwui extends _dao {
 
     if (config::$DB_CACHE == 'APC') {
 
-      $cache = bravedave\dvc\cache::instance();
+      $cache = cache::instance();
       $key = $this->cacheKey(0, $this->_db_name . '_version');
 
       if ($version = $cache->get($key)) {
@@ -51,7 +51,7 @@ class bwui extends _dao {
 
       $dbc->defineIndex('idx_bwui_key', '`key`');
 
-      if (\config::$DB_CACHE == 'APC') $cache->set($key, self::version);
+      if (config::$DB_CACHE == 'APC') $cache->set($key, self::version);
 
       return $dbc;
     }
@@ -74,7 +74,7 @@ class bwui extends _dao {
 
   public function getByUID($uid, $fields = '*') {
 
-    if (\strings::isValidMd5($uid)) {
+    if (strings::isValidMd5($uid)) {
 
       $key = $this->escape($uid);
       if ($key == $uid) {
@@ -94,11 +94,11 @@ class bwui extends _dao {
         if ($id = $this->Insert(['key' => $uid])) return $this->getByID($id);
       } else {
 
-        throw new bravedave\dvc\Exceptions\SecurityViolation;
+        throw new Exceptions\SecurityViolation;
       }
     } else {
 
-      throw new bravedave\dvc\Exceptions\SecurityViolationMD5;
+      throw new Exceptions\SecurityViolationMD5;
     }
 
     return null;

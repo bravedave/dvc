@@ -10,16 +10,35 @@
 
 namespace tests;
 
-use bravedave\dvc\logger;
+use bravedave\dvc\{http, logger};
 use dvc, application;
 use strings;
 
 class tests extends dvc\service {
 
-  public static function testmail() {
+  protected function _httpGet() {
 
-    $app = new self(application::startDir());
-    $app->_testmail();
+    logger::info('for this to work you would have to be:
+      1. running the local server on 8080
+      2. in the working directory (i.e. cd before running php server
+         e.g php -S localhost:8080 _mvp.php');
+    $http = new http(
+      'http://localhost:8080/hello.txt'
+    );
+    logger::info(sprintf('<%s> %s', $http->send(), __METHOD__));
+  }
+
+  protected function _httpPost() {
+
+    logger::info('for this to work you would have to be:
+      1. running the local server on 8080
+      2. in the working directory (i.e. cd before running php server
+         e.g php -S localhost:8080 _mvp.php');
+    $http = new http(
+      'http://localhost:8080/'
+    );
+    $http->setPostData(['action' => 'hello']);
+    logger::info(sprintf('<%s> %s', $http->send(), __METHOD__));
   }
 
   protected function _testmail() {
@@ -54,5 +73,23 @@ class tests extends dvc\service {
       logger::info(sprintf('<specify a valid to address> %s', __METHOD__));
       logger::info(sprintf('<composer send-testmail to=someone@example.com> %s', __METHOD__));
     }
+  }
+
+  public static function httpGet() {
+
+    $app = new self(application::startDir());
+    $app->_httpGet();
+  }
+
+  public static function httpPost() {
+
+    $app = new self(application::startDir());
+    $app->_httpPost();
+  }
+
+  public static function testmail() {
+
+    $app = new self(application::startDir());
+    $app->_testmail();
   }
 }

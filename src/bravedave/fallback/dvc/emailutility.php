@@ -10,7 +10,7 @@
 
 namespace dvc;
 
-use DOMDocument;
+use bravedave, DOMDocument;
 
 class emailutility {
   static $debug = false;
@@ -107,7 +107,7 @@ class emailutility {
           if (self::$debug) \sys::logger(sprintf('src : %s : %s', "{$md5}.{$types[$type]}", __METHOD__));
         } else {
           \sys::logger($error = sprintf('invalid type : %s( %d) : %s', $type, strlen($match), __METHOD__));
-          throw new Exceptions\InvalidType($error);
+          throw new bravedave\dvc\Exceptions\InvalidType($error);
         }
       }
     }
@@ -163,7 +163,7 @@ class emailutility {
             //~ \sys::logger( $error = sprintf( 'invalid type : %s : %s', substr( $src, 0, 10), __METHOD__));
             //~ if ( preg_match('/^data:/', $src)) {
 
-            throw new Exceptions\InvalidType($error);
+            throw new bravedave\dvc\Exceptions\InvalidType($error);
           }
         }
         //~ else {

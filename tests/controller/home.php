@@ -8,7 +8,7 @@
  *
 */
 
-use bravedave\dvc\logger;
+use bravedave\dvc\{json, logger};
 
 class home extends Controller {
 
@@ -54,7 +54,14 @@ class home extends Controller {
   protected function postHandler() {
 
     $action = $this->getPost('action');
-    parent::postHandler();
+
+    if ('hello' == $action) {
+
+      json::ack($action);
+    } else {
+
+      parent::postHandler();
+    }
   }
 
   public function accordion() {

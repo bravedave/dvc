@@ -8,9 +8,7 @@
  *
 */
 
-namespace dvc\Exceptions;
-
-use bravedave\dvc\Exceptions\Exception;
+namespace bravedave\dvc\Exceptions;
 
 class DatapathNotWritable extends Exception {
   protected $_text = 'error/datapath not writable';

@@ -878,7 +878,9 @@ abstract class strings {
   }
 
   static public function safe_file_name(string $str): string {
+
     if ($ext = pathinfo($str, PATHINFO_EXTENSION)) {
+
       $str = trim(preg_replace('/' . preg_quote($ext, '/') . '$/', '', $str), '. ');
       $str = preg_replace('@\s+@', ' ', $str);
       $str = preg_replace('@\.+@', '.', $str);
@@ -888,6 +890,7 @@ abstract class strings {
 
       return $str;
     } else {
+
       $str = preg_replace('!\s+!', ' ', $str);
       //~ logger::info( sprintf( '<<%s>> : %s', $str, __METHOD__));
 
