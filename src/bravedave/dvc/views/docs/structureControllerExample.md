@@ -12,7 +12,7 @@ By default the controller can render a bootstrap 5 page template with 4 main are
     <tr><td colspan="2">Navbar</td></tr>
     <tr>
       <td style="width: 75%">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
         Main<br>
         9 columns
       </td>
