@@ -10,13 +10,37 @@ Configured with Bootstrap, but could just as easily support others.
 ## Install
 
 ```sh
-[ -d tdvc ] || mkdir tdvc
-composer req --working-dir=tdvc bravedave/dvc "*"
-
-cd tdvc
+mkdir newapp
+cd newapp
 ```
 
-*you might like to start working in your ide now, open the folder in VSCode*
+### create a composer.json
+
+The application relies on the composer autoload features,
+ this (very) basic composer.json file tells the autloader where to look
+ for this application and installs *bravedave/dvc*
+
+*composer.json*
+```json
+{
+  "require": {
+    "bravedave/dvc": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "src/app/"
+    }
+  }
+}
+```
+
+### install bravedave/dvc and update runtime autoloader
+
+*note: this is the same location used in the composer.json file*
+
+```sh
+composer u
+```
 
 ## Create an basic application
 
@@ -39,32 +63,6 @@ class application extends bravedave\dvc\application {
 }
 ```
 
-### add an autoload section to composer
-
-The application relies on the composer autoload features,
- this entry in composer.json tells the autloader where to look
- for this application
-
-*composer now looks like*
-```json
-{
-  "require": {
-    "bravedave/dvc": "*"
-  },
-  "autoload": {
-    "psr-4": {
-      "": "src/app/"
-    }
-  }
-}
-```
-
-### update runtime autoloader
-
-```sh
-composer u
-```
-
 ### create a documentroot
 
 *this creates a documentroot and copies in a fallback file*
@@ -82,4 +80,3 @@ php -S localhost:8080 src/www/_mvp.php
 available at http://localhost:8080
 
 there is a tutorial [here](src/bravedave/dvc/views/docs/risorsa.md)
-
