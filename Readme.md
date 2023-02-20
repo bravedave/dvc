@@ -7,6 +7,8 @@ Configured with Bootstrap, but could just as easily support others.
 
 # Getting Started
 
+* there some notes about installing wsl [here](src/bravedave/dvc/views/docs/installing-wsl.md)
+
 ## Install
 
 ```sh
