@@ -150,9 +150,10 @@
 
           this.setAttribute('placeholder', _.browser.isMobileDevice ? 'search ..' : 'type to search ..');
         })
-        .on('keyup', function (e) {
+        .on('input', function (e) {
+        // .on('keyup', function (e) {
 
-          if (13 == e.keyCode) return;
+          // if (13 == e.keyCode) return;
           ++this.dataset.srchIdx;
           setTimeout(() => $(this).trigger('search'), 400);
         })
