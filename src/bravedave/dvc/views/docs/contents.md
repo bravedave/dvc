@@ -3,7 +3,7 @@
 ## [Getting Started](/docs/getting-started)
 
 - [Installing](/docs/Readme)
-  - [php](/docs/installing-php)
+  - [wsl](/docs/installing-wsl)
   - [apache](/docs/installing-apache)
 - [First app](/docs/firstapp)
 - [Risorsa - a module](/docs/risorsa)

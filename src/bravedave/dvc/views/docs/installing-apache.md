@@ -1,4 +1,6 @@
-###### [Docs](/docs/) | [Installing](/docs/installing) | Apache
+# WSL
+
+###### <navbar>[Docs](/docs/) | [Installing](/docs/Readme) | Apache</navbar>
 
 #### .htaccess
 ```

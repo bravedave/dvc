@@ -1,8 +1,9 @@
 # Risorsa - Asset Management
 
-## How to create a PHP module
+###### <navbar>[Docs](/docs/) | Risorsa</navbar>
 
->Preamble - this guide uses Bootstrap version 5
+**How to create a PHP module**<br>
+*this guide uses Bootstrap version 5*
 
 ### Goal
 

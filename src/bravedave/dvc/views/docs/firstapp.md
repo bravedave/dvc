@@ -1,6 +1,8 @@
 # First App
 
-## Keeping it simple
+###### <navbar>[Docs](/docs/) | First App</navbar>
+
+### Keeping it simple
 * The default controller is called home
 * The default controller action is index this relates directly to a public function
   in the controller:
