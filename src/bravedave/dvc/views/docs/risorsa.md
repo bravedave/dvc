@@ -82,13 +82,11 @@ class controller extends \Controller {
     return;
     // these lines is temporary
 
-    $this->render([
-      'primary' => ['blank'],
-      'secondary' => ['blank'],
-      'data' => (object)[
-        'searchFocus' => true,
-        'pageUrl' => strings::url($this->route)
-      ]
+    $this->title = config::label;
+
+    $this->renderBS5([
+      'aside' => fn () => $this->load('index'),
+      'main' => fn () => $this->load('blank')
     ]);
   }
 
@@ -128,10 +126,10 @@ namespace risorsa;  ?>
 ```
 
 1. Modify the controllers secondary view to load 'index'
-    * at about line 22 of *src/risorsa/controller.php*
+    * at about line 16 of *src/risorsa/controller.php*
 
 ```php
-    'secondary' => ['index'],
+  'aside' => fn () => $this->load('index'),
 ```
 
 #### Connect to a database
@@ -587,6 +585,19 @@ Right now the form will add a record to the database, you can view it using SQL 
 
     return (new dtoSet)('SELECT * FROM `risorsa`'); // an array of records
   }
+```
+
+>as with the controller earlier, this will introduce an error, dtoSet will not be found, add the reference at the top of the class, just after the namespace declaration
+
+```php
+<?php
+// file : src/risorsa/dao/risorsa.php
+namespace risorsa\dao;
+
+use bravedave\dvc\dao;  // add this line
+use bravedave\dvc\dtoSet;
+
+class risorsa extends dao {
 ```
 
 * modify the controller to supply the data, add this logic into the posthandler
