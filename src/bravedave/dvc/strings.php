@@ -800,11 +800,12 @@ abstract class strings {
     if (!self::$_pixel) {
       $image = implode(DIRECTORY_SEPARATOR, [
         dirname(__DIR__),
-        'bravedave',
         'public',
         'images',
         'pixel.png'
       ]);
+
+      // logger::info(sprintf('pixel :: %s', $image));
       // $imageData = base64_encode( file_get_contents($image));
       // self::$_pixel = 'data:'.mime_content_type($image).';base64,'.$imageData;
       self::$_pixel = self::imageInline($image);
