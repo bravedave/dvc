@@ -11,6 +11,7 @@
 namespace bravedave\dvc;
 
 use config;
+use DateTime;
 use libphonenumber;
 
 abstract class strings {
@@ -614,7 +615,7 @@ abstract class strings {
     return $text;
   }
 
-  static public function htmlSanitize($html) {
+  static public function htmlSanitize($html): string {
     /*
 			'@<style[^>]*?>.*?</style>@si',  	// Strip out javascript
 			http://css-tricks.com/snippets/php/sanitize-database-inputs/
@@ -689,6 +690,24 @@ abstract class strings {
     $myDateTime = new \DateTime(($timestamp != false ? date("r", (int)$timestamp) : date("r")), $gmtTimezone);
     $offset = $userTimezone->getOffset($myDateTime);
     return date($format, ($timestamp != false ? (int)$timestamp : $myDateTime->format('U')) + $offset);
+  }
+
+  static public function isDate(string $date): bool {
+    if ($date) {
+      $d = DateTime::createFromFormat('Y-m-d', $date);
+      return $d && $d->format('Y-m-d') === $date;
+    }
+
+    return false;
+  }
+
+  static public function isDateTime(string $date): bool {
+    if ($date) {
+      $d = DateTime::createFromFormat('Y-m-d H:i:s', $date);
+      return $d && $d->format('Y-m-d H:i:s') === $date;
+    }
+
+    return false;
   }
 
   static public function IsEmailAddress($email) {
