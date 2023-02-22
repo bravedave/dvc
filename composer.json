@@ -64,6 +64,7 @@
     "start": "bash ./run.sh",
     "send-testmail": "tests\\tests::testmail",
     "http-get": "tests\\tests::httpGet",
-    "http-post": "tests\\tests::httpPost"
+    "http-post": "tests\\tests::httpPost",
+    "guid": "tests\\tests::guid"
   }
 }

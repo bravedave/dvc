@@ -439,12 +439,12 @@ abstract class strings {
     throw new \Exception('fix me:: strings::getDateAsANSI');
   }
 
-  static public function getGUID() {
-    return (sprintf('{%s}', self::getUID()));
+  static public function getGUID(?string $prefix = null) {
+    return (sprintf('{%s}', self::getUID($prefix)));
   }
 
-  static public function getUID() {
-    $charid = strtoupper(md5(self::rand()));
+  static public function getUID(?string $prefix = null) {
+    $charid = strtoupper(md5(self::rand($prefix)));
     $uuid = sprintf(
       '%s-%s-%s-%s-%s',
       substr($charid, 0, 8),
@@ -814,7 +814,7 @@ abstract class strings {
     return self::$_pixel;
   }
 
-  static public function rand($prefix = 'uid_') {
+  static public function rand(?string $prefix = 'uid_') {
     return ($prefix . bin2hex(random_bytes(11)));
   }
 

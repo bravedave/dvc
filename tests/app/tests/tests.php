@@ -16,6 +16,12 @@ use strings;
 
 class tests extends dvc\service {
 
+  protected function _guid() {
+
+    logger::info(sprintf('<%s> %s', strings::getGUID(), __METHOD__));
+    logger::info(sprintf('<%s> %s', strings::getGUID((string)time()), __METHOD__));
+  }
+
   protected function _httpGet() {
 
     logger::info('for this to work you would have to be:
@@ -73,6 +79,12 @@ class tests extends dvc\service {
       logger::info(sprintf('<specify a valid to address> %s', __METHOD__));
       logger::info(sprintf('<composer send-testmail to=someone@example.com> %s', __METHOD__));
     }
+  }
+
+  public static function guid() {
+
+    $app = new self(application::startDir());
+    $app->_guid();
   }
 
   public static function httpGet() {
