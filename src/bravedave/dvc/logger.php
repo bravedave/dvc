@@ -71,6 +71,11 @@ abstract class logger {
     }
   }
 
+  public static function dump(mixed $var, string $callee): void {
+
+    self::info(sprintf('<%s> %s', print_r($var, true), $callee));
+  }
+
   public static function info(array|string $msg, string $prefix = self::prefix): void {
 
     if (is_array($msg)) {
