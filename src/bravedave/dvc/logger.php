@@ -71,6 +71,13 @@ abstract class logger {
     }
   }
 
+  /**
+   * dumps the variable into the log
+   *
+   * @param mixed $var
+   * @param string $callee
+   * @return void
+   */
   public static function dump(mixed $var, string $callee): void {
 
     self::info(sprintf('<%s> %s', print_r($var, true), $callee));
