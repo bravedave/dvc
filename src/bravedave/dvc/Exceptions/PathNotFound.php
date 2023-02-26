@@ -8,8 +8,6 @@
  *
 */
 
-namespace dvc\Exceptions;
-
-use bravedave\dvc\Exceptions\Exception;
+namespace bravedave\dvc\Exceptions;
 
 class PathNotFound extends Exception {}
