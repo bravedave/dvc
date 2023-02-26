@@ -10,11 +10,21 @@
 
 namespace tests;
 
-use bravedave\dvc\{http, logger};
-use dvc, application;
-use strings;
+use bravedave, config, application, strings;
+use bravedave\dvc\{http, logger, sendmail, utility};
 
-class tests extends dvc\service {
+class tests extends bravedave\dvc\service {
+
+  protected function _CreateThumb() {
+
+    utility::CreateThumb(
+      __DIR__ . '/test.jpg',
+      $output = config::dataPath() . '/test_thumb.jpg',
+      200
+    );
+
+    logger::info(sprintf('<%s> %s', $output, __METHOD__));
+  }
 
   protected function _guid() {
 
@@ -63,8 +73,8 @@ class tests extends dvc\service {
 
     if (strings::isEmail($to)) {
 
-      $email = dvc\sendmail::email()
-        ->to('david@brayworth.com.au')
+      $email = sendmail::email()
+        ->to($to)
         //->cc('cc@example.com')
         //->bcc('bcc@example.com')
         //->replyTo('fabien@example.com')
@@ -73,12 +83,18 @@ class tests extends dvc\service {
         ->text('Sending emails is fun again!')
         ->html('<h1>Sending emails is fun again!</h1>');
 
-      dvc\sendmail::send($email);
+      sendmail::send($email);
     } else {
 
       logger::info(sprintf('<specify a valid to address> %s', __METHOD__));
       logger::info(sprintf('<composer send-testmail to=someone@example.com> %s', __METHOD__));
     }
+  }
+
+  public static function CreateThumb() {
+
+    $app = new self(application::startDir());
+    $app->_CreateThumb();
   }
 
   public static function guid() {

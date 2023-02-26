@@ -62,9 +62,10 @@
       "bash src/resource/get-bootstrap-icons.sh"
     ],
     "start": "bash ./run.sh",
-    "send-testmail": "tests\\tests::testmail",
+    "create-thumb": "tests\\tests::CreateThumb",
     "http-get": "tests\\tests::httpGet",
     "http-post": "tests\\tests::httpPost",
-    "guid": "tests\\tests::guid"
+    "guid": "tests\\tests::guid",
+    "send-testmail": "tests\\tests::testmail"
   }
 }
