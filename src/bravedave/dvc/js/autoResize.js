@@ -6,9 +6,9 @@
  * MIT License
  *
  */
- ($ => {
+($ => {
 
-  $.fn.autoResize = function() {
+  $.fn.autoResize = function () {
 
     const autoResize = function (e) {
       this.style.height = 'auto';
@@ -16,10 +16,12 @@
     };
 
     this
+      .off('focus.autoResize')
       .off('input.autoResize')
       .off('resize.autoResize')
-      .on('resize.autoResize', autoResize)
-      .on('input.autoResize', autoResize);
+      .on('focus.autoResize', autoResize)
+      .on('input.autoResize', autoResize)
+      .on('resize.autoResize', autoResize);
 
     this.trigger('resize.autoResize');
 
@@ -27,7 +29,7 @@
 
     let hiddenDiv = $('<div class="autosize-common autosize-hiddendiv"></div>');
 
-    if ( this.hasClass('form-control-sm')) {
+    if (this.hasClass('form-control-sm')) {
       this.addClass('autosize-common-sm');
       hiddenDiv.addClass('autosize-common-sm');
     }
@@ -40,8 +42,8 @@
       let content = this.val();
 
       hiddenDiv
-          .css('line-height', this.css('line-height'))
-          .width(this.width());
+        .css('line-height', this.css('line-height'))
+        .width(this.width());
 
       content = content.replace(/\n/g, '<br>');
       hiddenDiv.html(content + '<br class="autosize-lbr">');
