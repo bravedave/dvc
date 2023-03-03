@@ -12,7 +12,7 @@
 
     const autoResize = function (e) {
       this.style.height = 'auto';
-      this.style.height = (this.scrollHeight + 2) + 'px';
+      this.style.height = Math.max(64, this.scrollHeight + 2) + 'px';
     };
 
     this
