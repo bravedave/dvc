@@ -24,8 +24,8 @@
     _placeholders_: (table, count) => {
 
       let tbl = table instanceof $ ? table : $(table);
-      let cc = table.find('>thead > tr:first-child > *').length;
-      let tbody = table.find('> tbody');
+      let cc = tbl.find('>thead > tr:first-child > *').length;
+      let tbody = tbl.find('> tbody');
 
       if (cc > 0 && tbody.length > 0) {
 
