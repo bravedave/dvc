@@ -37,7 +37,7 @@
 
         let stuffString = [];
         hcols.each((i, td) => {
-          stuffString.push(`<td class=${td.classList.value}><span class="placeholder w-100"></span></td>`);
+          stuffString.push(`<td class="${td.classList.value}"><span class="placeholder w-100"></span></td>`);
         });
 
         for (let i = 0; i < count; i++) {
