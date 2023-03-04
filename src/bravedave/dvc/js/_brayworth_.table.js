@@ -24,10 +24,10 @@
     _placeholders_: (table, count) => {
 
       let tbl = table instanceof $ ? table : $(table);
-      let cc = tbl.find('>thead > tr:first-child > *').length;
+      let hcols = tbl.find('>thead > tr:first-child > *');
       let tbody = tbl.find('> tbody');
 
-      if (cc > 0 && tbody.length > 0) {
+      if (hcols.length > 0 && tbody.length > 0) {
 
         if (!(Number(count) > 1)) count = 12;
 
@@ -35,11 +35,13 @@
           .html('')
           .addClass('placeholder-glow');
 
+        let stuffString = [];
+        hcols.each((i, td) => {
+          stuffString.push(`<td class=${td.classList.value}><span class="placeholder w-100"></span></td>`);
+        });
+
         for (let i = 0; i < count; i++) {
-          tbody
-            .append(
-              `<tr>${'<td><span class="placeholder w-100"></span></td>'.repeat(cc)}</tr>`
-            );
+          tbody.append(`<tr>${stuffString.join('')}</tr>`);
         }
       }
     },
@@ -151,7 +153,7 @@
           this.setAttribute('placeholder', _.browser.isMobileDevice ? 'search ..' : 'type to search ..');
         })
         .on('input', function (e) {
-        // .on('keyup', function (e) {
+          // .on('keyup', function (e) {
 
           // if (13 == e.keyCode) return;
           ++this.dataset.srchIdx;
