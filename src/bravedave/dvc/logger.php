@@ -96,6 +96,17 @@ abstract class logger {
 
   public static function sql(string $msg): void {
 
-    self::info(preg_replace(["@\r\n@", "@\n@", "@\t@", "@\s\s*@"], ' ', $msg), self::prefix_sql);
+    $sql = preg_replace(["@\r\n@", "@\n@", "@\t@", "@\s\s*@"], ' ', $msg);
+    if (strlen($sql) > 950) {
+
+      $a = str_split($sql, 950);
+      foreach ($a as $s) {
+
+        self::info($s, self::prefix_sql);
+      }
+    } else {
+
+      self::info($sql, self::prefix_sql);
+    }
   }
 }
