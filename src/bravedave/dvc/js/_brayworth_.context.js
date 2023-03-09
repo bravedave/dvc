@@ -289,13 +289,12 @@
         ...{
           click: e => { },
           html: 'string' == typeof p ? p : '',
-          href: '#'
+          href: '#',
         },
         ...p
       };
 
-
-      return $(`<a href="${o.href}">${o.html}</a>`)
+      let el = $(`<a href="${o.href}">${o.html}</a>`)
         .on('click', e => {
 
           if ('#' == $(e.target).attr('href')) {
@@ -306,6 +305,9 @@
           cx.close();
           o.click(e);
         });
+
+      if (!!o.target) el.attr('target', o.target);
+      return el;
     };
 
     cx.append.a = p => { let el = _new_element_(p); cx.append(el); return el; };
