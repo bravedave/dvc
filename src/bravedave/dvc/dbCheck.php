@@ -10,9 +10,7 @@
 
 namespace bravedave\dvc;
 
-use dvc\dao\_dao;
-
-class dbCheck extends _dao {
+class dbCheck extends dao {
   public $temporary = false;
 
   protected $table;
@@ -71,55 +69,60 @@ class dbCheck extends _dao {
 
   function check() {
 
-    $fields = [$this->pk . " bigint(20) NOT NULL auto_increment"];
-    foreach ($this->structure as $fld) {
+    $debug = false;
+    // $debug = true;
 
-      if ($fld["type"] == "varchar") {
-        $fields[] = "`" . $fld["name"] . "` varchar(" . (string)$fld["length"] . ") default '" . $this->db->escape($fld["default"]) . "'";
-      } elseif ($fld["type"] == "date" || $fld["type"] == "datetime") {
-        $fields[] = "`" . $fld["name"] . "` " . $fld["type"] . " default '" . $this->db->escape($fld["default"]) . "'";
-      } elseif ($fld["type"] == "timestamp") {
-        $fields[] = "`" . $fld["name"] . "` " . $fld["type"];
-      } elseif ($fld["type"] == "text") {
-        $fields[] = "`" . $fld["name"] . "` text";
-      } elseif ($fld["type"] == "mediumtext") {
-        $fields[] = "`" . $fld["name"] . "` mediumtext";
-      } elseif ($fld["type"] == "longtext") {
-        $fields[] = "`" . $fld["name"] . "` longtext";
-      } elseif ($fld["type"] == "bigint") {
-        $fields[] = "`" . $fld["name"] . "` bigint(" . (string)$fld["length"] . ") default '" . (int)$fld["default"] . "'";
-      } elseif ($fld["type"] == "tinyint") {
-        $fields[] = "`" . $fld["name"] . "`  tinyint(1) default 0";
-      } elseif ($fld["type"] == "int") {
-        $fields[] = "`" . $fld["name"] . "`  int default '" . (int)$fld["default"] . "'";
-      } elseif ($fld["type"] == "decimal") {
-        $fields[] = sprintf(
-          '`%s` decimal(%d,%d) default %d',
-          $fld["name"],
-          $fld["length"],
-          $fld["decimal"],
-          (int)$fld["default"]
-        );
-      } elseif ($fld["type"] == "double") {
-        $fields[] = "`" . $fld["name"] . "`  double default '" . (int)$fld["default"] . "'";
-      } elseif ($fld["type"] == "float") {
-        $fields[] = "`" . $fld["name"] . "`  float default '" . (int)$fld["default"] . "'";
-      } elseif ($fld["type"] == "varbinary") {
-        $fields[] = sprintf('`%s` varbinary(%s)', $fld["name"], (string)$fld["length"]);
-      } elseif ($fld["type"] == "blob") {
-        $fields[] = "`" . $fld["name"] . "`  blob";
-      } elseif ($fld["type"] == "mediumblob") {
-        $fields[] = "`" . $fld["name"] . "`  mediumblob";
-      } elseif ($fld["type"] == "longblob") {
-        $fields[] = "`" . $fld["name"] . "`  longblob";
+    $fields = [$this->pk . " BIGINT(20) NOT NULL AUTO_INCREMENT"];
+    foreach ($this->structure as $f) {
+
+      if ($f["type"] == "varchar") {
+
+        // $fields[] = "`" . $f["name"] . "` varchar(" . (string)$f["length"] . ") default '" . $this->db->escape($f["default"]) . "'";
+        $fields[] = sprintf('`%s` VARCHAR(%d) DEFAULT ', $f['name'], (int)$f['length'], $this->quote($f['default']));
+      } elseif ($f["type"] == "date" || $f["type"] == "datetime") {
+
+        $fields[] = "`" . $f["name"] . "` " . $f["type"] . " default '" . $this->db->escape($f["default"]) . "'";
+      } elseif ($f["type"] == "timestamp") {
+        $fields[] = "`" . $f["name"] . "` " . $f["type"];
+      } elseif ($f["type"] == "text") {
+        $fields[] = "`" . $f["name"] . "` text";
+      } elseif ($f["type"] == "mediumtext") {
+        $fields[] = "`" . $f["name"] . "` mediumtext";
+      } elseif ($f["type"] == "longtext") {
+        $fields[] = "`" . $f["name"] . "` longtext";
+      } elseif ($f["type"] == "bigint") {
+        $fields[] = "`" . $f["name"] . "` bigint(" . (string)$f["length"] . ") default '" . (int)$f["default"] . "'";
+      } elseif ($f["type"] == "tinyint") {
+        $fields[] = "`" . $f["name"] . "`  tinyint(1) default 0";
+      } elseif ($f["type"] == "int") {
+        $fields[] = "`" . $f["name"] . "`  int default '" . (int)$f["default"] . "'";
+      } elseif ($f["type"] == "decimal") {
+
+        $fields[] = sprintf('`%s` DECIMAL(%d,%d) DEFAULT %d', $f["name"], $f["length"], $f["decimal"], (int)$f["default"]);
+      } elseif ($f["type"] == "double") {
+
+        $fields[] = sprintf('`$s` DOUBLE DEFAULT %d', $f["name"], (int)$f["default"]);
+      } elseif ($f["type"] == "float") {
+
+        $fields[] = sprintf('`%s` FLOAT DEFAULT %d', $f["name"], (int)$f["default"]);
+      } elseif ($f["type"] == "varbinary") {
+        $fields[] = sprintf('`%s` varbinary(%s)', $f["name"], (string)$f["length"]);
+      } elseif ($f["type"] == "blob") {
+        $fields[] = "`" . $f["name"] . "`  blob";
+      } elseif ($f["type"] == "mediumblob") {
+        $fields[] = "`" . $f["name"] . "`  mediumblob";
+      } elseif ($f["type"] == "longblob") {
+        $fields[] = "`" . $f["name"] . "`  longblob";
       } else {
-        die("unknown field type dbCheck => check -> " . $fld["type"]);
+
+        die(sprintf('unknown field type dbCheck => check -> %s', $f['type']));
       }
     }
 
-    $fields[] = "PRIMARY KEY  (`" . $this->pk . "`)";
+    $fields[] = sprintf('PRIMARY KEY  (`%s`)', $this->pk);
     foreach ($this->indexs as $key) {
-      $fields[] = " KEY `" . $key["key"] . "` (" . $key["field"] . ")";
+
+      $fields[] = sprintf(' KEY `%s` (%s)', $key['key'], $this->quote($key['field']));
     }
 
     $sql = sprintf(
@@ -127,7 +130,6 @@ class dbCheck extends _dao {
       $this->temporary ? 'TEMPORARY' : '',
       $this->table,
       implode(',', $fields)
-
     );
     //~ print "<pre>" . print_r( $fields, TRUE ) . "</pre>";
     //~ print $sql;
@@ -241,9 +243,11 @@ class dbCheck extends _dao {
     }
 
     foreach ($this->indexs as $index) {
+
       $res = $this->db->Result(sprintf("SHOW INDEX FROM `%s` WHERE Key_name = '%s'", $this->table, $index['key']));
       $indexFound = FALSE;
       if ($res->num_rows() > 0) {
+
         if ($row = $res->fetch()) {
 
           // logger::info(sprintf("INDEX found `%s` => %s(%s)", $this->table, $index['key'], $row["Column_name"]), 2);
@@ -259,9 +263,10 @@ class dbCheck extends _dao {
           $this->escape($index['key']),
           $this->escape($index['field'])
         );
-        logger::info($sql, 2);
+
+        if ($debug) logger::sql($sql);
         $this->Q($sql);
-        logger::info(sprintf("INDEX created `%s` => %s(%s)", $this->table, $index['key'], $index['field']), 2);
+        if ($debug) logger::debug(sprintf("INDEX created `%s` => %s(%s)", $this->table, $index['key'], $index['field']), 2);
       }
     }
 
