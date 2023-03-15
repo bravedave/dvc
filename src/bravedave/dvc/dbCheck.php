@@ -132,7 +132,7 @@ class dbCheck extends dao {
     $fields[] = sprintf('PRIMARY KEY  (`%s`)', $this->pk);
     foreach ($this->indexs as $key) {
 
-      $fields[] = sprintf(' KEY `%s` (`%s`)', $key['key'], $key['field']);
+      $fields[] = sprintf(' KEY `%s` (%s)', $key['key'], $key['field']);
     }
 
     $sql = sprintf(
