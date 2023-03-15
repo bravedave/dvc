@@ -22,7 +22,8 @@
 
     return (new Promise(resolve => {
       _.get(options.url).then(data => {
-        let modal = $(data).appendTo('body');
+        let _modal = $(_.bootstrap.version() < 5 ? data : _.bootstrap.v4.v5(data));
+        let modal = $(_modal).appendTo('body');
 
         modal
           .on('brayworth.success', options.onSuccess)
