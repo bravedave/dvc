@@ -77,25 +77,31 @@ class dbCheck extends dao {
 
       if ($f["type"] == "varchar") {
 
-        // $fields[] = "`" . $f["name"] . "` varchar(" . (string)$f["length"] . ") default '" . $this->db->escape($f["default"]) . "'";
         $fields[] = sprintf('`%s` VARCHAR(%d) DEFAULT %s', $f['name'], (int)$f['length'], $this->quote($f['default']));
-      } elseif ($f["type"] == "date" || $f["type"] == "datetime") {
+      } elseif ($f["type"] == "date" || $f["type"] == "") {
 
-        $fields[] = "`" . $f["name"] . "` " . $f["type"] . " default '" . $this->db->escape($f["default"]) . "'";
+        $fields[] = sprintf('`%s` DATETIME DEFAULT %s', $f["name"], $this->quote($f["default"]));
       } elseif ($f["type"] == "timestamp") {
-        $fields[] = "`" . $f["name"] . "` " . $f["type"];
+
+        $fields[] = sprintf('`%s` TIMESTAMP', $f["name"]);
       } elseif ($f["type"] == "text") {
-        $fields[] = "`" . $f["name"] . "` text";
+
+        $fields[] = sprintf('`%s` TEXT', $f["name"]);
       } elseif ($f["type"] == "mediumtext") {
-        $fields[] = "`" . $f["name"] . "` mediumtext";
+
+        $fields[] = sprintf('`%s` MEDIUMTEXT', $f["name"]);
       } elseif ($f["type"] == "longtext") {
-        $fields[] = "`" . $f["name"] . "` longtext";
+
+        $fields[] = sprintf('`%s` LONGTEXT', $f["name"]);
       } elseif ($f["type"] == "bigint") {
-        $fields[] = "`" . $f["name"] . "` bigint(" . (string)$f["length"] . ") default '" . (int)$f["default"] . "'";
+
+        $fields[] = sprintf('`%s` BIGINT(%d) DEFAULT %d', $f["name"], (int)$f["length"], (int)$f["default"]);
       } elseif ($f["type"] == "tinyint") {
-        $fields[] = "`" . $f["name"] . "`  tinyint(1) default 0";
+
+        $fields[] = sprintf('`%s` TINYINT(1) DEFAULT 0', $f["name"]);
       } elseif ($f["type"] == "int") {
-        $fields[] = "`" . $f["name"] . "`  int default '" . (int)$f["default"] . "'";
+
+        $fields[] = sprintf('`%s` INT DEFAULT %d', $f["name"], (int)$f["default"]);
       } elseif ($f["type"] == "decimal") {
 
         $fields[] = sprintf('`%s` DECIMAL(%d,%d) DEFAULT %d', $f["name"], $f["length"], $f["decimal"], (int)$f["default"]);
@@ -106,13 +112,17 @@ class dbCheck extends dao {
 
         $fields[] = sprintf('`%s` FLOAT DEFAULT %d', $f["name"], (int)$f["default"]);
       } elseif ($f["type"] == "varbinary") {
+
         $fields[] = sprintf('`%s` varbinary(%s)', $f["name"], (string)$f["length"]);
       } elseif ($f["type"] == "blob") {
-        $fields[] = "`" . $f["name"] . "`  blob";
+
+        $fields[] = sprintf('`%s` BLOB', $f["name"]);
       } elseif ($f["type"] == "mediumblob") {
-        $fields[] = "`" . $f["name"] . "`  mediumblob";
+
+        $fields[] = sprintf('`%s` MEDIUMBLOB', $f["name"]);
       } elseif ($f["type"] == "longblob") {
-        $fields[] = "`" . $f["name"] . "`  longblob";
+
+        $fields[] = sprintf('`%s` LONGBLOB', $f["name"]);
       } else {
 
         die(sprintf('unknown field type dbCheck => check -> %s', $f['type']));
@@ -122,7 +132,7 @@ class dbCheck extends dao {
     $fields[] = sprintf('PRIMARY KEY  (`%s`)', $this->pk);
     foreach ($this->indexs as $key) {
 
-      $fields[] = sprintf(' KEY `%s` (%s)', $key['key'], $this->quote($key['field']));
+      $fields[] = sprintf(' KEY `%s` (`%s`)', $key['key'], $key['field']);
     }
 
     $sql = sprintf(
@@ -140,13 +150,19 @@ class dbCheck extends dao {
     $charset = $this->db->getCharSet();
     $after = "";
     foreach ($this->structure as $fld) {
+
       if (in_array($fld["name"], $fields)) {
+
         if ($fld["type"] == "varchar") {
+
           if (\config::$DB_ALTER_FIELD_STRUCTURES) {
+
             /*---[ we want to know if we should alter the field ]---*/
             // get structure for this field
             if ($charset = 'utf8') {
+
               foreach ($fieldStructures as $fieldStructure) {
+
                 if ($fieldStructure->name == $fld["name"]) {
                   $fieldLength = ((int)$fieldStructure->length / 3);  // utf8 conversion
                   if ((int)$fieldLength < (int)$fld["length"]) {
@@ -172,6 +188,7 @@ class dbCheck extends dao {
           }
         }
       } else {
+
         if ($fld["type"] == "varchar") {
           $sql = "alter table `" . $this->table . "` add column `" . $fld["name"] .
             "` varchar(" . (string)$fld["length"] . ") default '" . $this->db->escape($fld["default"]) . "' $after";
