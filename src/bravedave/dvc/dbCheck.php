@@ -78,9 +78,9 @@ class dbCheck extends dao {
       if ($f["type"] == "varchar") {
 
         $fields[] = sprintf('`%s` VARCHAR(%d) DEFAULT %s', $f['name'], (int)$f['length'], $this->quote($f['default']));
-      } elseif ($f["type"] == "date" || $f["type"] == "") {
+      } elseif ($f["type"] == "date" || $f["type"] == "datetime") {
 
-        $fields[] = sprintf('`%s` DATETIME DEFAULT %s', $f["name"], $this->quote($f["default"]));
+        $fields[] = sprintf('`%s` %s DEFAULT %s', $f["name"], strtoupper($f["type"]), $this->quote($f["default"]));
       } elseif ($f["type"] == "timestamp") {
 
         $fields[] = sprintf('`%s` TIMESTAMP', $f["name"]);
