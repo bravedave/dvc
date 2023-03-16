@@ -94,7 +94,7 @@ abstract class logger {
     }
   }
 
-  public static function sql(string $msg): void {
+  public static function sql(string $msg, string $prefix = self::prefix_sql): void {
 
     $sql = preg_replace(["@\r\n@", "@\n@", "@\t@", "@\s\s*@"], ' ', $msg);
     if (strlen($sql) > 950) {
@@ -102,11 +102,11 @@ abstract class logger {
       $a = str_split($sql, 950);
       foreach ($a as $s) {
 
-        self::info($s, self::prefix_sql);
+        self::info($s, $prefix);
       }
     } else {
 
-      self::info($sql, self::prefix_sql);
+      self::info($sql, $prefix);
     }
   }
 }
