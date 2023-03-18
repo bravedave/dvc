@@ -8,6 +8,9 @@
 
 src/dvc/resource/* linguist-vendored
 src/bravedave/public/* linguist-vendored
+src/bravedave/dvc/js/bootstrap4/* linguist-vendored
+src/bravedave/dvc/js/bootstrap5/* linguist-vendored
+src/bravedave/dvc/js/dayjs/* linguist-vendored
 
 src/resource/* linguist-detectable=false
 *.cmd linguist-detectable=false
