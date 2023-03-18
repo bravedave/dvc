@@ -6,7 +6,7 @@
 *.js text eol=lf
 *.sh text eol=lf
 
-src/dvc/resource/* linguist-vendored
+src/resource/* linguist-vendored
 src/bravedave/public/* linguist-vendored
 src/bravedave/dvc/css/bootstrap-icons/* linguist-vendored
 src/bravedave/dvc/css/bootstrap4/* linguist-vendored
@@ -15,6 +15,7 @@ src/bravedave/dvc/js/bootstrap4/* linguist-vendored
 src/bravedave/dvc/js/bootstrap5/* linguist-vendored
 src/bravedave/dvc/js/dayjs/* linguist-vendored
 
+src/bravedave/dvc/css/bootstrap-icons/* linguist-detectable=false
 src/resource/* linguist-detectable=false
 *.cmd linguist-detectable=false
 *.sh linguist-detectable=false
