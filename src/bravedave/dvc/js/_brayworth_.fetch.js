@@ -5,6 +5,7 @@
  *
  * MIT License
  *
+ * https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
  * */
 
 (_ => {
@@ -13,9 +14,8 @@
 
       fetch(url)
         .then(response => {
-          if (!response.ok) {
-            throw new Error('Network Error');
-          }
+
+          if (!response.ok) throw new Error('Network Error');
           return response.text();
         })
         .then(data => resolve(data));
@@ -30,9 +30,8 @@
         body: JSON.stringify(data),
       })
         .then(response => {
-          if (!response.ok) {
-            throw new Error('Network Error');
-          }
+
+          if (!response.ok) throw new Error('Network Error');
           return response.json();
         })
         .then(data => resolve(data))
