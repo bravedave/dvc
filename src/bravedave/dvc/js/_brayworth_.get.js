@@ -7,17 +7,18 @@
  *
  * */
 (_ => {
-  _.get = url => new Promise(resolve => {
-    fetch(url)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network Error');
-        }
-        return response.text();
-      })
-      .then(html => resolve(html));
+  _.get = _.fetch.get;
+  // _.get = url => new Promise(resolve => {
+  //   fetch(url)
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error('Network Error');
+  //       }
+  //       return response.text();
+  //     })
+  //     .then(html => resolve(html));
 
-  });
+  // });
 
   _.get.modal = url => new Promise(resolve => {
     if (!!url) {
