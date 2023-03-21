@@ -64,7 +64,7 @@ abstract class strings {
     // $debug = true;
 
     $_tel = preg_replace('@[^0-9\+,]@', '', $_tel);
-    if ($_tel) {
+    if ($_tel && strlen($_tel) >= 8) {
 
       try {
         $phoneUtil = libphonenumber\PhoneNumberUtil::getInstance();
@@ -74,14 +74,14 @@ abstract class strings {
           if ($debug) logger::debug(sprintf('<%s> : 1 : %s', $_mNo, __METHOD__));
         } else {
 
-          $_mNo = $phoneUtil->parse($_tel, \config::$PHONE_REGION);
+          $_mNo = $phoneUtil->parse($_tel, config::$PHONE_REGION);
           if ($debug) logger::debug(sprintf('<%s> : 2 : %s', $_mNo, __METHOD__));
         }
 
-        // if ( $debug) logger::debug( sprintf( '<%s> %s', \config::$PHONE_REGION, __METHOD__));
-        if ($phoneUtil->isValidNumber($_mNo, \config::$PHONE_REGION)) {
+        // if ( $debug) logger::debug( sprintf( '<%s> %s', config::$PHONE_REGION, __METHOD__));
+        if ($phoneUtil->isValidNumber($_mNo, config::$PHONE_REGION)) {
 
-          if (\config::$PHONE_REGION == $phoneUtil->getRegionCodeForNumber($_mNo)) {
+          if (config::$PHONE_REGION == $phoneUtil->getRegionCodeForNumber($_mNo)) {
 
             if ($debug) logger::debug(sprintf('<%s> : National : %s', $_mNo, __METHOD__));
             return $phoneUtil->format($_mNo, libphonenumber\PhoneNumberFormat::NATIONAL);
@@ -96,11 +96,11 @@ abstract class strings {
         }
       } catch (\Exception $e) {
 
-        logger::info(sprintf('AsLocalPhoneA :: %s : %s', $_tel, $e->getMessage()));
+        logger::info(sprintf('<%s : %s> %s', $_tel, $e->getMessage(), __METHOD__));
       }
     }
 
-    return ($_tel);
+    return $_tel;
   }
 
   static public function asMobilePhone($mobile = '') {
@@ -119,7 +119,7 @@ abstract class strings {
       } elseif (date('Y', $t) == date('Y')) {
         return (date('d-M', $t));
       } else {
-        return (date(\config::$DATE_FORMAT, $t));
+        return (date(config::$DATE_FORMAT, $t));
       }
     }
 
@@ -136,11 +136,11 @@ abstract class strings {
         return preg_replace(
           '/m$/',
           '',
-          date(\config::$DATETIME_FORMAT_LONG, $t)
+          date(config::$DATETIME_FORMAT_LONG, $t)
 
         );
       } else {
-        return (date(\config::$DATE_FORMAT_LONG, $t));
+        return (date(config::$DATE_FORMAT_LONG, $t));
       }
     }
 
@@ -275,11 +275,11 @@ abstract class strings {
           if ($debug) logger::debug(sprintf('<%s> :1:%s', $_mNo, __METHOD__));
         } else {
 
-          $_mNo = $phoneUtil->parse($tel, \config::$PHONE_REGION);
+          $_mNo = $phoneUtil->parse($tel, config::$PHONE_REGION);
           if ($debug) logger::debug(sprintf('<%s> :2:%s', $_mNo, __METHOD__));
         }
 
-        if ($phoneUtil->isValidNumber($_mNo, \config::$PHONE_REGION)) {
+        if ($phoneUtil->isValidNumber($_mNo, config::$PHONE_REGION)) {
 
           if ($debug) logger::debug(sprintf('<%s> :getRegionCodeForNumber:%s', $phoneUtil->getRegionCodeForNumber($_mNo), __METHOD__));
           if ('AU' == $phoneUtil->getRegionCodeForNumber($_mNo)) {
@@ -762,7 +762,7 @@ abstract class strings {
 
         $phoneNumberObject = ('+' == substr($tel, 0, 1) ? $phoneNumberUtil->parse($tel) : $phoneNumberUtil->parse($tel, 'AU'));
 
-        return (bool)$phoneNumberUtil->isValidNumber($phoneNumberObject, \config::$PHONE_REGION);
+        return (bool)$phoneNumberUtil->isValidNumber($phoneNumberObject, config::$PHONE_REGION);
       }
     } catch (\Exception $e) {
 
