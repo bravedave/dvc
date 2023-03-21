@@ -141,16 +141,15 @@ class assets extends Controller {
       Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.4.1.min.js');
     } else {
 
-      // Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.5.1.min.js'));
-      // Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.0.min.js'));
-      // Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.1.min.js'));
-      Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.3.min.js');
+      Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.4.min.js');
     }
   }
 
   public function tinymce($path = '') {
+
     // logger::info(sprintf('<%s> %s', $this->Request->getUri(), __METHOD__));
     if (preg_match('/(\.min\.css|\.css)$/', $uri = $this->Request->getUri())) {
+
       $file = preg_replace('@^assets/tinymce/@', '', $uri);
       // logger::info( sprintf('<%s> %s', $file, __METHOD__));
 
@@ -167,6 +166,7 @@ class assets extends Controller {
       //~ logger::info( sprintf( 'serving lib tinymce %s', $this->Request->getUri()));
 
     } else {
+
       jslib::tiny6serve('tinymce-dvc', 'autolink,lists,advlist,table,image,link');
     }
   }

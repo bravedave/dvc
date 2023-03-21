@@ -108,16 +108,11 @@ if (!window._brayworth_) {
         });
 
         o.find('select.custom-select')
-          .removeClass('custom-select')
-          .addClass('form-select');
-
-        o.find('.text-left')
-          .removeClass('text-left')
-          .addClass('text-start');
-
-        o.find('.text-right')
-          .removeClass('text-right')
-          .addClass('text-end');
+          .removeClass('custom-select').addClass('form-select');
+        o.find('.text-left').removeClass('text-left').addClass('text-start');
+        o.find('.text-right').removeClass('text-right').addClass('text-end');
+        o.find('.ml-auto').removeClass('ml-auto').addClass('ms-auto');
+        o.find('.mr-auto').removeClass('mr-auto').addClass('me-auto');
 
         let s = o[0].outerHTML;
 
