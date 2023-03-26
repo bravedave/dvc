@@ -122,6 +122,24 @@ class home extends Controller {
     }
   }
 
+  public function squire() {
+
+    $this->data = (object)[
+      'title' => $this->title = config::$WEBNAME,
+      'pageUrl' => strings::url($this->route),
+      'searchFocus' => true,
+      'aside' => ['aside']
+    ];
+
+    $this->renderBS5([
+      'main' => fn () => $this->load('squire'),
+      'scripts' => [
+        '<script type="text/javascript" src="dist/purify.min.js"></script>',
+        '<script type="text/javascript" src="dist/squire.js"></script>'
+      ]
+    ]);
+  }
+
   public function tiny() {
 
     if ('4' == config::$BOOTSTRAP_VERSION) {
