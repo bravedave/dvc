@@ -354,7 +354,20 @@ if (!window._brayworth_) {
 
   _.tiny = () => {
     return 'undefined' == typeof tinyMCE ?
-      _.get.script(_.url("js/tinymce5/")) :
+      new Promise(resolve => {
+
+        _.get.script(_.url("js/tinymce5/"))
+          .then(() => {
+
+            $(document).on('focusin', function (e) {
+              if ($(e.target).closest(".mce-window").length) {
+                e.stopImmediatePropagation();
+              }
+            });
+
+            resolve();
+          });
+      }) :
       Promise.resolve();
 
   };
