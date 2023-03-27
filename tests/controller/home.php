@@ -140,6 +140,26 @@ class home extends Controller {
     ]);
   }
 
+  public function toast() {
+
+    $this->data = (object)[
+      'title' => $this->title = config::$WEBNAME,
+      'pageUrl' => strings::url($this->route),
+      'searchFocus' => true,
+      'aside' => ['aside']
+    ];
+
+    $this->renderBS5([
+      'main' => fn () => $this->load('toast'),
+      'css' => [
+        '<link rel="stylesheet" href="/dist/toastui-editor.min.css" />'
+      ],
+      'scripts' => [
+        '<script type="text/javascript" src="/dist/toastui-editor-all.min.js"></script>'
+      ]
+    ]);
+  }
+
   public function tiny() {
 
     if ('4' == config::$BOOTSTRAP_VERSION) {

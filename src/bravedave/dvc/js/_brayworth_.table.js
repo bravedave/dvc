@@ -134,7 +134,7 @@
       return _.table.sortOn(table, _data.key, _data.sorttype);	//~ console.log( key );
     },
 
-    search: (ctrl, table) => {
+    search: (ctrl, table, preScan) => {
 
       ctrl[0].dataset.srchIdx = 0;
       ctrl.data('table', table);
@@ -166,12 +166,18 @@
           let _me = $(this);
           let table = _me.data('table');
 
+          preScan = 'function' == typeof preScan ? preScan : () => false;
+
           table.find('> tbody > tr').each((i, tr) => {
+
             if (idx != this.dataset.srchIdx) return false;
 
             let _tr = $(tr);
             let str = _tr.text()
-            if (str.match(new RegExp(txt, 'gi'))) {
+            if (preScan(_tr)) {
+
+              _tr.removeClass('d-none');
+            } else if (str.match(new RegExp(txt, 'gi'))) {
 
               _tr.removeClass('d-none');
             } else {
