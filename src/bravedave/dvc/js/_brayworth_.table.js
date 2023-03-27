@@ -166,7 +166,7 @@
           let _me = $(this);
           let table = _me.data('table');
 
-          preScan = 'function' == typeof preScan ? preScan : () => false;
+          preScan = 'function' == typeof preScan ? preScan : () => true;
 
           table.find('> tbody > tr').each((i, tr) => {
 
@@ -174,9 +174,9 @@
 
             let _tr = $(tr);
             let str = _tr.text()
-            if (preScan(_tr)) {
+            if (!preScan(_tr)) {
 
-              _tr.removeClass('d-none');
+              _tr.addClass('d-none');
             } else if (str.match(new RegExp(txt, 'gi'))) {
 
               _tr.removeClass('d-none');
