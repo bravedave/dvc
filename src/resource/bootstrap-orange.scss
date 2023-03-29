@@ -21,6 +21,10 @@ $theme-colors: (
   background: #FFA500 linear-gradient(90deg, #966100, #FFD68A) repeat-x !important;
 }
 
+.input-group .btn-light {
+  border-color: var(--bs-dark-border-subtle) !important;
+}
+
 @media (min-width: 768px) {
 
   aside.bg-sidebar,

@@ -25,3 +25,7 @@ $theme-colors: (
 .bg-light .btn-light {
   background-color: #e3e3e3
 }
+
+.input-group .btn-light {
+  border-color: var(--bs-dark-border-subtle) !important;
+}
