@@ -8,3 +8,7 @@ $enable-gradients : true;
 .bg-gradient-navbar {
     background: #050A30 linear-gradient(90deg,#0275d8,#7ec8e3) repeat-x!important;
 }
+
+.input-group .btn-light {
+    border-color: var(--bs-dark-border-subtle) !important;
+}
