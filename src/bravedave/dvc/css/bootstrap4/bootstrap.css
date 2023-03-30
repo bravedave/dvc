@@ -3,7 +3,7 @@
 }
 
 .input-group .btn-light {
-  border-color: var(--bs-tertiary-bg) !important;
+  border-color: var(--bs-border-color) !important;
 }
 
 /*!
