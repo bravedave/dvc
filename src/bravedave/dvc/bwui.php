@@ -15,7 +15,7 @@ use DateInterval;
 use DateTime;
 
 class bwui extends dao {
-  const version = 1.31;
+  const version = 1.32;
 
   protected $_db_name = 'bwui';
 
@@ -45,6 +45,7 @@ class bwui extends dao {
       $dbc->defineField('key', 'varchar', 32);
       $dbc->defineField('username', 'varchar', 32);
       $dbc->defineField('hash', 'varchar', 255);
+      $dbc->defineField('location', 'varchar', 255);
       $dbc->defineField('user_id', 'bigint');
       $dbc->defineField('bygoogle', 'tinyint');
       $dbc->defineField('creds', 'blob');
@@ -105,11 +106,13 @@ class bwui extends dao {
   }
 
   public function Insert($a) {
+
     $a['created'] = $a['updated'] = self::dbTimeStamp();
     return parent::Insert($a);
   }
 
   public function UpdateByID($a, $id) {
+
     $a['updated'] = self::dbTimeStamp();
     return parent::UpdateByID($a, $id);
   }
