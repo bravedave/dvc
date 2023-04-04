@@ -55,66 +55,54 @@
     },
 
     sortOn: (table, key, sorttype, order) => new Promise((resolve, reject) => {
-      // var debug = true;
       let debug = false;
       let tbody = $('tbody', table);
       if (!tbody) tbody = table;
       if (tbody.length > 1) tbody = tbody.first();
 
+      // debug = true;
+
       if ('undefined' == typeof order) {
-        if (key == tbody.data('orderkey')) {
-          order = tbody.data('order') == "desc" ? "asc" : "desc";
-        }
-        else {
-          order = "desc";
+
+        if (key == tbody[0].dataset.orderkey) {
+
+          order = 'desc' == tbody[0].dataset.order ? 'asc' : 'desc';
+        } else {
+
+          order = 'desc';
         }
       }
 
-      tbody.data('order', order);
-      tbody.data('orderkey', key);
+      tbody[0].dataset.order = order;
+      tbody[0].dataset.orderkey = key;
 
       if (!sorttype) sorttype = 'string';
 
-      let warn = true;
-      let items = tbody.children('tr');
+      let items = tbody.find('> tr');
 
       if (debug) console.log(key, sorttype, order, items.length);
 
       items.sort((a, b) => {
-        let ae = $(a).data(key);
-        let be = $(b).data(key);
-        if (/undefined/.test(typeof ae) || /undefined/.test(typeof ae)) {
-          ae = $(a).data('key-' + key);
-          be = $(b).data('key-' + key);
 
-          if (warn) console.warn('table sorting is not jQuery3 compatible');
-          warn = false;
-        }
+        let ae = a.dataset[key];
+        let be = b.dataset[key];
 
         if (debug) console.log(key, ae, be, sorttype, order);
 
-        if (sorttype == "numeric") {
+        if (sorttype == 'numeric') {
 
-          if ('undefined' == typeof ae) ae = 0;
-          if ('undefined' == typeof be) be = 0;
+          if (undefined == ae) ae = 0;
+          if (undefined == be) be = 0;
           return Number(ae) - Number(be);
         }
 
-        if ('undefined' == typeof ae) ae = '';
-        if ('undefined' == typeof be) be = '';
+        if (undefined == ae) ae = '';
+        if (undefined == be) be = '';
         return String(ae).toUpperCase().localeCompare(String(be).toUpperCase());
       });
 
-      $.each(items, (i, e) => {
-        if (order == "desc") {
-          tbody.prepend(e);
-        }
-        else {
-          tbody.append(e);
-        }
-      });
+      $.each(items, (i, e) => order == 'desc' ? tbody.prepend(e) : tbody.append(e));
 
-      if (!(table instanceof jQuery)) table = $(table);
       table.trigger('update-line-numbers');
       resolve(table);
     }),
@@ -124,14 +112,11 @@
 
       _.hideContexts();
 
-      let _me = $(this);
+      if (!this.dataset.key) return;
 
-      let _data = _me.data();
-      if (!_data.key) return;
-
-      let table = _me.closest('table');
+      let table = $(this).closest('table');
       if (!table) return;
-      return _.table.sortOn(table, _data.key, _data.sorttype);	//~ console.log( key );
+      return _.table.sortOn(table, this.dataset.key, this.dataset.sorttype);	//~ console.log( key );
     },
 
     search: (ctrl, table, preScan) => {
