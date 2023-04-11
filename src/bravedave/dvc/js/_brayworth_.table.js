@@ -103,6 +103,7 @@
 
       $.each(items, (i, e) => order == 'desc' ? tbody.prepend(e) : tbody.append(e));
 
+      if (!(table instanceof jQuery)) table = $(table);
       table.trigger('update-line-numbers');
       resolve(table);
     }),
