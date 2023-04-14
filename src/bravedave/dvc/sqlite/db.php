@@ -191,6 +191,7 @@ class db {
 
   public function quote(string $val) {
 
+    if ('NULL' == $val) return $val;
     return sprintf("'%s'", $this->escape($val));
   }
 
@@ -244,7 +245,7 @@ class db {
      */
     $aX = [];
     foreach ($a as $k => $v)
-      $aX[] = "`$k` = '" . $this->escape($v) . "'";
+      $aX[] = '`$k` = ' . $this->quote($v);
 
     $sql = sprintf('UPDATE `%s` SET %s %s', $table, implode(', ', $aX), $scope);
     return ($this->Q($sql));

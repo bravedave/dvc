@@ -248,6 +248,8 @@ class db {
   }
 
   public function quote(?string $val) {
+
+    if ('NULL' == $val) return $val;
     return sprintf('"%s"', $this->escape($val));
   }
 
