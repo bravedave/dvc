@@ -244,8 +244,9 @@ class db {
      * 				scope of update : e.g. 'WHERE id = 1'
      */
     $aX = [];
-    foreach ($a as $k => $v)
-      $aX[] = '`$k` = ' . $this->quote($v);
+    foreach ($a as $k => $v) {
+      $aX[] = sprintf('`%s` = %s', $k, $this->quote($v));
+    }
 
     $sql = sprintf('UPDATE `%s` SET %s %s', $table, implode(', ', $aX), $scope);
     return ($this->Q($sql));
