@@ -16,18 +16,11 @@
 
 	};
     
-    // https://gist.github.com/braandl/f7965f62a5fecc379476d2c055838e36
+    // https://stackoverflow.com/questions/57765958/how-to-detect-ipad-and-ipad-os-version-in-ios-13-and-up/57924983#57924983
 
-    _.browser.isIPad = window.AuthenticatorAssertionResponse === undefined
-        && window.AuthenticatorAttestationResponse === undefined
-        && window.AuthenticatorResponse === undefined
-        && window.Credential === undefined
-        && window.CredentialsContainer === undefined
-        && window.DeviceMotionEvent !== undefined
-        && window.DeviceOrientationEvent !== undefined
-        && navigator.maxTouchPoints === 5
-        && navigator.plugins.length === 0
-    	&& navigator.platform !== "iPhone";
+    _.browser.isIPad = const iPad = (navigator.userAgent.match(/(iPad)/) /* iOS pre 13 */ ||
+            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints >
+            1) /* iPad OS 13 */ );
         
 	_.browser.isChromeOniOS = _.browser.isIPhone && ua.indexOf('CriOS') > -1;
 	_.browser.isMobileDevice = _.browser.isIPhone || _.browser.isIPad || _.browser.isAndroid;
