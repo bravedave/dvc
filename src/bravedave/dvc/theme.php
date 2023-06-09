@@ -17,6 +17,13 @@ class theme {
   const layout_10_2 = 2;
   const layout_swap = 3;
 
+	const primary = 0;
+	const secondary = 1;
+	const success = 2;
+	const info = 3;
+	const warning = 4;
+	const danger = 5;
+
   static $layout = self::layout_0;
 
   protected static function _primary() {
@@ -80,8 +87,10 @@ class theme {
     return implode(' ', $options);
   }
 
-  static function modalHeader() {
+  static function modalHeader(int $level = self::primary) {
 
+    if (self::warning == $level) return 'text-white bg-warning';
+    if (self::success == $level) return 'text-white bg-success';
     return 'text-white bg-primary';
   }
 
