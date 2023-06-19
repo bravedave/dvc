@@ -165,6 +165,11 @@ if (!window._brayworth_) {
 
   };
 
+  _.mobileErrorHandler = (a, b, c, d, e) => {
+    _.growlError(`message: ${a}`);
+    // return true;
+  };
+
   _.timezone = '';
 
   _.table = {};
