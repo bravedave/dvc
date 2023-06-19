@@ -167,6 +167,13 @@ if (!window._brayworth_) {
 
   _.mobileErrorHandler = (a, b, c, d, e) => {
     _.growlError(`message: ${a}`);
+
+    // console.log(`message: ${a}`);
+    // console.log(`source: ${b}`);
+    // console.log(`lineno: ${c}`);
+    // console.log(`colno: ${d}`);
+    // console.log(`error: ${e}`);
+
     // return true;
   };
 
