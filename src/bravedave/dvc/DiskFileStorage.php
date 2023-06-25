@@ -130,6 +130,18 @@ class DiskFileStorage {
     return filemtime($this->_filepath($fileName));
   }
 
+  public function rename(string $old, string $new): void {
+
+    if (!$this->isValid()) return;
+    $old = $this->_filepath($old);
+    if (file_exists($old)) {
+
+      $new = $this->_filepath($new);
+      rename($old, $new);
+      // logger::info(sprintf('<%s> %s', $new, __METHOD__));
+    }
+  }
+
   public function serve(string $filename): void {
 
     Response::serve($this->_filepath($filename));
