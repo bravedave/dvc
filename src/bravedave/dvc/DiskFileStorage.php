@@ -21,6 +21,7 @@
 
 namespace bravedave\dvc;
 
+use FilesystemIterator;
 use RuntimeException;
 
 class DiskFileStorage {
@@ -66,6 +67,11 @@ class DiskFileStorage {
     if (!$this->storagePath) throw new RuntimeException('Invalid storage path');
   }
 
+  public function delete(): void {
+
+    if ($this->isValid()) rmdir($this->storagePath);
+  }
+
   public function deleteFile($fileName): void {
 
     $filePath = $this->_filepath($fileName);
@@ -75,6 +81,12 @@ class DiskFileStorage {
       // logger::debug(sprintf('<delete %s> %s', $fileName, __METHOD__));
       unlink($filePath);
     }
+  }
+
+  public function FilesystemIterator(): ?FilesystemIterator {
+
+    if ($this->isValid()) return new FilesystemIterator($this->storagePath);
+    return null;
   }
 
   public function file_exists($fileName): bool {
