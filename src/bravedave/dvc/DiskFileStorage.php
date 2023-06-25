@@ -123,6 +123,11 @@ class DiskFileStorage {
     Response::serve($this->_filepath($filename));
   }
 
+  /**
+   * @param string $path
+   * @param bool $create
+   * @return static
+   */
   public function subFolder(string $path, bool $create = true): static {
 
     $folder = $this->_filepath($path);
