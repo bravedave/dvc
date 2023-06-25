@@ -123,11 +123,11 @@ class DiskFileStorage {
     Response::serve($this->_filepath($filename));
   }
 
-  public function subFolder(string $path, bool $create = true): self {
+  public function subFolder(string $path, bool $create = true): static {
 
     $folder = $this->_filepath($path);
     if (!is_dir($folder) && $create) mkdir($folder, 0777, true);
-    return new self($folder);
+    return new static($folder);
   }
 
   public function storeFile($file, $fileName = ''): string {
