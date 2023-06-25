@@ -108,7 +108,7 @@ class DiskFileStorage {
 
   public function getPath(string $fileName = ''): string {
 
-    if (!$fileName) return $this->_filepath($fileName);
+    if ($fileName) return $this->_filepath($fileName);
     return $this->storagePath;
   }
 
