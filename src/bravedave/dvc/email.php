@@ -64,6 +64,7 @@ class email {
     // This part could probably be better
     $tmp = sys_get_temp_dir();
     $types = [
+      'image/jpg' => 'jpg',
       'image/jpeg' => 'jpg',
       'image/png'  => 'png',
       'image/gif'  => 'gif',
