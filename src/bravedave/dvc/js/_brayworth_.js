@@ -166,7 +166,7 @@ if (!window._brayworth_) {
   };
 
   _.mobileErrorHandler = (a, b, c, d, e) => {
-    _.growlError(`message: ${a}`);
+    _.growlError(`msg(${c}): ${a}`);
 
     // console.log(`message: ${a}`);
     // console.log(`source: ${b}`);
@@ -175,6 +175,21 @@ if (!window._brayworth_) {
     // console.log(`error: ${e}`);
 
     // return true;
+  };
+
+  _.ready = fn => {
+
+    switch (document.readyState) {
+
+      case "loading":
+        // console.log('document ready state : ', document.readyState);
+        document.addEventListener('DOMContentLoaded', () => fn(_brayworth_));
+        break;
+
+      default:
+        fn(_brayworth_);
+        break
+    }
   };
 
   _.timezone = '';
@@ -187,11 +202,12 @@ if (!window._brayworth_) {
       'nav',
       'main',
       'footer'
-
     ];
 
     $.each(j, (k, v) => {
+
       if (els.indexOf(k) > -1) {
+
         fetch(v)
           .then(response => response.text())
           .then(html => {
@@ -212,20 +228,14 @@ if (!window._brayworth_) {
                 // console.log( o);
 
                 $(document).trigger('content-load', o);
-
               });
-
             });
-
           });
-
       }
-
     });
-
   });
 
-  $(document).ready(() => {
+  _.ready(() => {
     dayjs.extend(dayjs_plugin_localeData);
     dayjs.extend(dayjs_plugin_localizedFormat);
     dayjs.extend(dayjs_plugin_utc);
@@ -251,11 +261,8 @@ if (!window._brayworth_) {
             llll: "ddd, MMM D YYYY h:mm A"
           }
         });
-
       }
-
     }
-
   });
 
   _.dayjs = (a, b, c, d) => {
@@ -300,14 +307,13 @@ if (!window._brayworth_) {
 
     for (let i = 0; i < metas.length; i++) {
       if (metas[i].getAttribute('name') === mName) {
-        return metas[i].getAttribute('content');
 
+        return metas[i].getAttribute('content');
       }
 
     }
 
     return '';
-
   }
 
   _.moment = (a, b, c, d) => {
