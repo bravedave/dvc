@@ -20,6 +20,29 @@
         })
         .then(data => resolve(data));
     }),
+    json: (url, data) => new Promise(resolve => {
+
+      if (!/^http/.test(url)) url = location.protocol + url;
+
+      let _url = new URL(url);
+
+      if (!!data) {
+
+        for (let k in data) {
+          _url.searchParams.set(k, data[k]);
+        }
+      }
+
+      fetch(_url.toString())
+        .then(response => {
+
+          if (!response.ok) throw new Error('Network Error');
+
+          let contentType = response.headers.get("content-type");
+          return /application\/json/.test(String(contentType)) ? response.json() : response.text();
+        })
+        .then(data => resolve(data));
+    }),
     post: (url, data) => new Promise((resolve, reject) => {
 
       fetch(url, {
