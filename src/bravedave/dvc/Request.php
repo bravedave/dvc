@@ -35,13 +35,16 @@ class Request {
 
   protected static $instance;
 
-  public static function get($var = '', $default = false) {
+  /**
+   * @param string $var
+   * @param bool $default
+   * @return static|string
+   */
+  public static function get($var = '', $default = false): static|string {
     if (!isset(self::$instance))
       self::$instance = new Request;
 
-    if ($var == '')
-      return self::$instance;
-
+    if ($var == '') return self::$instance;
     return (self::$instance->getParam($var, $default));
   }
 
@@ -177,11 +180,9 @@ class Request {
     return $this->url;
   }
 
-  public function getReferer() {
-    if (isset($_SERVER['HTTP_REFERER']))
-      return $_SERVER['HTTP_REFERER'];
+  public function getReferer() : string {
 
-    return \url::$URL;
+    return $_SERVER['HTTP_REFERER'] ?? \url::$URL;
   }
 
   public function getRemoteIP() {
