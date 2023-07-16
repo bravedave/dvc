@@ -149,6 +149,7 @@ abstract class config {
   static $PORTAL = 'http://localhost/';
   static $PORTAL_ADMIN = 'http://localhost/';
 
+  static $SAMESITE_POLICY = 'lax';  // none, lax, strict
   static $SESSION_CACHE_EXPIRE = 180;
   static $SITEMAPS = false;
   static $SYNTAX_HIGHLIGHT_DOCS = false;

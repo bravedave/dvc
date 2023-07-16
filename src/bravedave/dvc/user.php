@@ -10,7 +10,7 @@
 
 namespace bravedave\dvc;
 
-use dvc\dao\bwui, sys;
+use dvc\dao\bwui, sys, config;
 
 class user {
 
@@ -71,20 +71,20 @@ class user {
       setcookie(
         '_bwui',
         $bwui->key,
-        $expires = time() + (60 * 60 * 24 * \config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS),
-        $path = '/; samesite=lax',
+        $expires = time() + (60 * 60 * 24 * config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS),
+        $path = '/; samesite=' . config::$SAMESITE_POLICY,
         $domain = '',
         $secure = true
       );
     } else {
 
       setcookie('_bwui', $bwui->key, [
-        'expires' => time() + (60 * 60 * 24 * \config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS),
+        'expires' => time() + (60 * 60 * 24 * config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS),
         'path' => '/',
         'domain' => '',
         'secure' => !(Request::get()->ServerIsLocal() || Request::get()->ClientIsLocal()),
         'httponly' => false,
-        'samesite' => 'lax'
+        'samesite' => config::$SAMESITE_POLICY
       ]);
     }
 

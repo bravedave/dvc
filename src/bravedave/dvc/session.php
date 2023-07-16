@@ -29,7 +29,7 @@ class session {
 
     if ((float)phpversion() < 7.3) {
 
-      $CookieParams['path'] = '/; samesite=lax';
+      $CookieParams['path'] = '/; samesite=' . config::$SAMESITE_POLICY;
 
       session_set_cookie_params(
         $CookieParams['lifetime'],
@@ -41,7 +41,7 @@ class session {
     } else {
 
       $CookieParams['path'] = '/';
-      $CookieParams['samesite'] = 'lax';
+      $CookieParams['samesite'] = config::$SAMESITE_POLICY;
 
       session_set_cookie_params($CookieParams);
     }
