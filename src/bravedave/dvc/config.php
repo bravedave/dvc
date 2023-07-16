@@ -195,7 +195,7 @@ abstract class config {
    */
   static public function dataPath(): string {
 
-    if (\is_null(self::$_dataPath)) {
+    if (\is_null(static::$_dataPath)) {
 
       $root = sprintf('%s', \application::app()->getRootPath());
 
@@ -213,11 +213,11 @@ abstract class config {
         }
       }
 
-      self::$_dataPath = $datapath;
-      if (is_writable($root) || is_writable(self::$_dataPath)) {
+      static::$_dataPath = $datapath;
+      if (is_writable($root) || is_writable(static::$_dataPath)) {
 
-        if (!is_dir(self::$_dataPath)) mkdir(self::$_dataPath);
-        if (!file_exists($readme = self::$_dataPath . DIRECTORY_SEPARATOR . 'readme.txt')) {
+        if (!is_dir(static::$_dataPath)) mkdir(static::$_dataPath);
+        if (!file_exists($readme = static::$_dataPath . DIRECTORY_SEPARATOR . 'readme.txt')) {
 
           file_put_contents($readme, implode(PHP_EOL, [
             '-----------',
@@ -233,16 +233,16 @@ abstract class config {
           ]));
         }
 
-        if (!file_exists($ignore = self::$_dataPath . DIRECTORY_SEPARATOR . '.gitignore')) file_put_contents($ignore, '*');
-        if (!is_dir(self::$_dataPath)) throw new DatapathNotFound(self::$_dataPath);
+        if (!file_exists($ignore = static::$_dataPath . DIRECTORY_SEPARATOR . '.gitignore')) file_put_contents($ignore, '*');
+        if (!is_dir(static::$_dataPath)) throw new DatapathNotFound(static::$_dataPath);
 
-        return self::$_dataPath;
+        return static::$_dataPath;
       }
 
-      throw new DatapathNotWritable(self::$_dataPath);
+      throw new DatapathNotWritable(static::$_dataPath);
     }
 
-    return self::$_dataPath;
+    return static::$_dataPath;
   }
 
   static protected $_options_ = [];
@@ -286,29 +286,29 @@ abstract class config {
   public static function option(string $key, string $val = null): string {
     $ret = '';
 
-    if (!self::$_options_) {
-      if (file_exists($path = self::_options_file())) {
-        self::$_options_ = (array)json_decode(file_get_contents($path));
+    if (!static::$_options_) {
+      if (file_exists($path = static::_options_file())) {
+        static::$_options_ = (array)json_decode(file_get_contents($path));
       }
     }
 
-    if (isset(self::$_options_[$key])) $ret = (string)self::$_options_[$key];
+    if (isset(static::$_options_[$key])) $ret = (string)static::$_options_[$key];
 
     if (!is_null($val)) {
 
       /* writer */
       if ((string)$val == '') {
-        if (isset(self::$_options_[$key])) {
-          unset(self::$_options_[$key]);
+        if (isset(static::$_options_[$key])) {
+          unset(static::$_options_[$key]);
         }
       } else {
-        self::$_options_[$key] = (string)$val;
+        static::$_options_[$key] = (string)$val;
       }
 
       file_put_contents(
-        self::_options_file(),
+        static::_options_file(),
         json_encode(
-          self::$_options_,
+          static::$_options_,
           JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
 
         )
@@ -330,22 +330,22 @@ abstract class config {
   static protected $_logpath = null;
 
   public static function logPath() {
-    if (\is_null(self::$_logpath)) {
-      self::$_logpath = implode(DIRECTORY_SEPARATOR, [
+    if (\is_null(static::$_logpath)) {
+      static::$_logpath = implode(DIRECTORY_SEPARATOR, [
         rtrim(\config::dataPath(), '/\ '),
         'logs',
 
       ]);
 
-      if (!is_dir(self::$_logpath)) {
-        mkdir(self::$_logpath);
+      if (!is_dir(static::$_logpath)) {
+        mkdir(static::$_logpath);
       }
 
-      // error_log( self::$_logpath );
+      // error_log( static::$_logpath );
 
     }
 
-    return (self::$_logpath);
+    return (static::$_logpath);
   }
 
   public static function imagePath() {
@@ -359,11 +359,11 @@ abstract class config {
      * This is a local overwrite of the db and google parameters
      */
 
-    // \sys::logger( sprintf('%s', __METHOD__));
+    // logger::info( sprintf('%s', __METHOD__));
 
     if (!(is_null(\application::app()))) {
 
-      umask(octdec(self::$UMASK));  // in case everything needs creating
+      umask(octdec(static::$UMASK));  // in case everything needs creating
 
       // $path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
       $path = implode(DIRECTORY_SEPARATOR, [
@@ -388,7 +388,7 @@ abstract class config {
         \config::$DB_PASS = $a->db_pass;
       } // if ( file_exists( $path))
 
-      $path = self::defaultsPath();
+      $path = static::defaultsPath();
       if (file_exists($path)) {
         $_a = [
           'db_type' => \config::$DB_TYPE,
@@ -403,8 +403,9 @@ abstract class config {
           'imap_auth_server' => \config::$IMAP_AUTH_SERVER,
           'maildsn' => \config::$MAILDSN,
           'page_template' => \config::$PAGE_TEMPLATE,
-          'sitemaps' => \config::$SITEMAPS,
+          'samesite_policy' => \config::$SAMESITE_POLICY,
           'session_cache_expire' => \config::$SESSION_CACHE_EXPIRE,
+          'sitemaps' => \config::$SITEMAPS,
           'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
           'support_name' => \config::$SUPPORT_NAME,
           'support_email' => \config::$SUPPORT_EMAIL,
@@ -433,8 +434,9 @@ abstract class config {
 
         \config::$PAGE_TEMPLATE = $a->page_template;
 
-        \config::$SITEMAPS = $a->sitemaps;
+        \config::$SAMESITE_POLICY = $a->samesite_policy;
         \config::$SESSION_CACHE_EXPIRE = $a->session_cache_expire;
+        \config::$SITEMAPS = $a->sitemaps;
         \config::$SYNTAX_HIGHLIGHT_DOCS = $a->syntax_highlight_docs;
         \config::$SUPPORT_NAME = $a->support_name;
         \config::$SUPPORT_EMAIL = $a->support_email;
@@ -447,10 +449,10 @@ abstract class config {
         \config::$UMASK = $a->umask;
       } // if ( file_exists( $path))
       else {
+
         $path = implode(DIRECTORY_SEPARATOR, [
           \config::dataPath(),
           'defaults-sample.json'
-
         ]);
 
         if (!file_exists($path)) {
@@ -467,6 +469,7 @@ abstract class config {
             'imap_auth_server' => \config::$IMAP_AUTH_SERVER,
             'maildsn' => 'smtp://mail:25?verify_peer=0',
             'page_template' => \config::$PAGE_TEMPLATE,
+            'samesite_policy' => \config::$SAMESITE_POLICY,
             'session_cache_expire' => \config::$SESSION_CACHE_EXPIRE,
             'sitemaps' => \config::$SITEMAPS,
             'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
@@ -485,16 +488,15 @@ abstract class config {
       }
 
       if (\config::$DB_CACHE == 'APC') {
+
         $apcuAvailabe = function_exists('apcu_enabled') && apcu_enabled();
         if (!$apcuAvailabe) {
-          \sys::logger(sprintf('<WARNING : APCu enabled but not available - disabling> %s', __METHOD__));
+          logger::info(sprintf('<WARNING : APCu enabled but not available - disabling> %s', __METHOD__));
           \config::$DB_CACHE = '';
         }
       }
 
-      if ('\dvc\pages\bootstrap5' == \config::$PAGE_TEMPLATE) {
-        bs::$VERSION = '5';
-      }
+      if ('\dvc\pages\bootstrap5' == \config::$PAGE_TEMPLATE) bs::$VERSION = '5';
 
       // $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
       $path = sprintf('%s%sgoogle.json', \config::dataPath(), DIRECTORY_SEPARATOR);
@@ -528,12 +530,12 @@ abstract class config {
 
     } // if ( !( is_null( \application::app())))
 
-    umask(octdec(self::$UMASK));
+    umask(octdec(static::$UMASK));
   } // static function init2()
 
   public static function notification_KeyPath() {
     $path = implode(DIRECTORY_SEPARATOR, [
-      self::dataPath(),
+      static::dataPath(),
       'notificationKeys'
 
     ]);
@@ -546,36 +548,34 @@ abstract class config {
   }
 
   public static function notification_keys(): object {
+
     $a = [
       'pubKey' => '',
       'privKey' => ''
-
     ];
 
     $pubPath = implode(
       DIRECTORY_SEPARATOR,
       [
-        self::notification_KeyPath(),
+        static::notification_KeyPath(),
         'public_key.txt'
-
       ]
-
     );
 
     $privPath = implode(
       DIRECTORY_SEPARATOR,
       [
-        self::notification_KeyPath(),
+        static::notification_KeyPath(),
         'private_key.txt'
-
       ]
-
     );
 
     if (file_exists($privPath) && file_exists($pubPath)) {
+
       $a['privKey'] = file_get_contents($privPath);
       $a['pubKey'] = file_get_contents($pubPath);
     } else {
+
       /**
        * they need to be created
        */
@@ -599,7 +599,7 @@ abstract class config {
 
   protected static function _route_map_path(): string {
 
-    return self::dataPath() . '/controllerMap.json';
+    return static::dataPath() . '/controllerMap.json';
   }
 
   protected static function _route_map(): object {
@@ -618,11 +618,12 @@ abstract class config {
       ARRAY_FILTER_USE_KEY
     );
 
-    $map = self::_route_map_path();
-    if (\file_exists($map)) {
+    $map = static::_route_map_path();
+    if (file_exists($map)) {
+
       return (object)array_merge(
         $defaults,
-        (array)\json_decode(\file_get_contents($map))
+        (array)json_decode(file_get_contents($map))
       );
     }
 
@@ -637,7 +638,7 @@ abstract class config {
    */
   public static function route_register(string $path, $register = false): void {
 
-    $map = self::_route_map();
+    $map = static::_route_map();
     if (!isset($map->{$path}) || $register != $map->{$path}) {
 
       if ($register) {
@@ -648,12 +649,12 @@ abstract class config {
         unset($map->{$path});
       }
 
-      \file_put_contents(self::_route_map_path(), \json_encode($map, JSON_PRETTY_PRINT));
+      file_put_contents(static::_route_map_path(), json_encode($map, JSON_PRETTY_PRINT));
     }
   }
 
   public static function route(string $path): string {
-    $map = self::_route_map();
+    $map = static::_route_map();
 
     return (isset($map->{$path}) ? $map->{$path} : '');
   }
