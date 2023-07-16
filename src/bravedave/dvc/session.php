@@ -42,6 +42,7 @@ class session {
 
       $CookieParams['path'] = '/';
       $CookieParams['samesite'] = config::$SAMESITE_POLICY;
+      $CookieParams['secure'] = 1;
 
       session_set_cookie_params($CookieParams);
     }

@@ -82,10 +82,11 @@ class user {
         'expires' => time() + (60 * 60 * 24 * config::$COOKIE_AUTHENTICATION_EXPIRES_DAYS),
         'path' => '/',
         'domain' => '',
-        'secure' => !(Request::get()->ServerIsLocal() || Request::get()->ClientIsLocal()),
+        'secure' => 1,
         'httponly' => false,
         'samesite' => config::$SAMESITE_POLICY
       ]);
+      // 'secure' => !(Request::get()->ServerIsLocal() || Request::get()->ClientIsLocal()),
     }
 
     //~ $u = sprintf( '%s:%s', userAgent::os(), $bwui->key);
