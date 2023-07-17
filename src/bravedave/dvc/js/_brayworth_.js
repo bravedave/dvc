@@ -239,7 +239,41 @@ if (!window._brayworth_) {
     });
   });
 
-  _.longClickDetector_timeout = 800;
+  /**
+   * https://stackoverflow.com/questions/6139225/how-to-detect-a-long-touch-pressure-with-javascript-for-android-and-iphone
+   */
+  _.longTouchDetector_timeout = 800;
+
+  _.longTouchDetector = (element, evt) => {
+
+    element
+      .css({
+        '-webkit-user-select': 'none'
+      })
+      .on('touchstart', function (e) {
+
+        if (!!this.dataset.pressTimer) {
+
+          // Cancel the timeout if the mouseup event fires.
+          clearTimeout(this.dataset.pressTimer);
+          delete this.dataset.pressTimer;
+        }
+
+        // Start counting when the mousedown event fires.
+        this.dataset.pressTimer =
+          setTimeout(() => evt.call(this, e), _.longClickDetector_timeout);
+        _.hideContexts();
+      })
+      .on('touchend', function (e) {
+
+        if (!!this.dataset.pressTimer) {
+
+          // Cancel the timeout if the mouseup event fires.
+          clearTimeout(this.dataset.pressTimer);
+          delete this.dataset.pressTimer;
+        }
+      });
+  };
 
   _.longClickDetector = element => {
 
@@ -255,7 +289,7 @@ if (!window._brayworth_) {
 
         // Start counting when the mousedown event fires.
         delete this.dataset.pressLong;
-        this.dataset.pressTimer = setTimeout(() => this.dataset.pressLong = 'true', _.longClickDetector_timeout);
+        this.dataset.pressTimer = setTimeout(() => this.dataset.pressLong = 'true', _.longTouchDetector_timeout);
         _.hideContexts();
       })
       .on('mouseup', function (e) {
