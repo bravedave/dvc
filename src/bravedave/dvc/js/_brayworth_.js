@@ -242,7 +242,7 @@ if (!window._brayworth_) {
   /**
    * https://stackoverflow.com/questions/6139225/how-to-detect-a-long-touch-pressure-with-javascript-for-android-and-iphone
    */
-  _.longTouchDetector_timeout = 800;
+  _.longTouchDetector_timeout = 1200;
 
   _.longTouchDetector = (element, evt) => {
 
