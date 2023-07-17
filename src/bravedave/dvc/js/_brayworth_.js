@@ -261,7 +261,7 @@ if (!window._brayworth_) {
 
         // Start counting when the mousedown event fires.
         this.dataset.pressTimer =
-          setTimeout(() => evt.call(this, e), _.longClickDetector_timeout);
+          setTimeout(() => evt.call(this, e), _.longTouchDetector_timeout);
         _.hideContexts();
       })
       .on('touchend', function (e) {
