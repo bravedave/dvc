@@ -183,7 +183,11 @@ if (!window._brayworth_) {
 
       case "loading":
         // console.log('document ready state : ', document.readyState);
-        document.addEventListener('DOMContentLoaded', () => fn(_brayworth_));
+        document.addEventListener(
+          'DOMContentLoaded',
+          () => fn(_brayworth_),
+          { once: true }
+        );
         break;
 
       default:
