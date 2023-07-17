@@ -239,6 +239,36 @@ if (!window._brayworth_) {
     });
   });
 
+  _.longClickDetector_timeout = 800;
+
+  _.longClickDetector = element => {
+
+    element
+      .on('mousedown', function (e) {
+
+        if (!!this.dataset.pressTimer) {
+
+          // Cancel the timeout if the mouseup event fires.
+          clearTimeout(this.dataset.pressTimer);
+          delete this.dataset.pressTimer;
+        }
+
+        // Start counting when the mousedown event fires.
+        delete this.dataset.pressLong;
+        this.dataset.pressTimer = setTimeout(() => this.dataset.pressLong = 'true', _.longClickDetector_timeout);
+        _.hideContexts();
+      })
+      .on('mouseup', function (e) {
+
+        if (!!this.dataset.pressTimer) {
+
+          // Cancel the timeout if the mouseup event fires.
+          clearTimeout(this.dataset.pressTimer);
+          delete this.dataset.pressTimer;
+        }
+      })
+  };
+
   _.ready(() => {
     dayjs.extend(dayjs_plugin_localeData);
     dayjs.extend(dayjs_plugin_localizedFormat);
