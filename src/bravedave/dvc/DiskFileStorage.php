@@ -40,7 +40,11 @@ class DiskFileStorage {
 
   protected function _safe_file_name(string $filename): string {
 
-    $filename = mb_ereg_replace("([^a-zA-Z0-9\s\.\-\_])", '_', $filename);
+    // $filename = mb_ereg_replace("([^a-zA-Z0-9\s\.\-\_])", '_', $filename);
+
+    // filenames can have () in them - 11/07/2023
+    $filename = mb_ereg_replace("([^a-zA-Z0-9\s\.\-\_\(\)])", '_', $filename);
+
     $filename = mb_ereg_replace("([_]{2,})", '_', $filename);
     // Remove any runs of periods (thanks falstro!)
     $filename = mb_ereg_replace("([\.]{2,})", '', $filename);
