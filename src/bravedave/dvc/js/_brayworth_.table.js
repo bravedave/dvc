@@ -125,15 +125,17 @@
       ctrl[0].dataset.srchIdx = 0;
       ctrl.data('table', table);
 
-      ctrl
-        .on('blur', function (e) {
+      const onblur = function (e) {
 
           if (_.browser.isMobileDevice) return;
           if (this.hasAttribute('accesskey')) {
 
             this.setAttribute('placeholder', `alt + ${this.getAttribute('accesskey')} to focus`);
           }
-        })
+        };
+
+      ctrl
+        .on('blur', onblur)
         .on('focus', function (e) {
 
           this.setAttribute('placeholder', _.browser.isMobileDevice ? 'search ..' : 'type to search ..');
@@ -175,10 +177,7 @@
           table.trigger('update-line-numbers');
         });
 
-      if (ctrl.hasAttribute('accesskey')) {
-
-        ctrl.setAttribute('placeholder', `alt + ${ctrl.getAttribute('accesskey')} to focus`);
-      }
+      onblur.call(ctrl[0]);
 
       return ctrl;
     }
