@@ -61,4 +61,20 @@
         .catch(error => reject(error));
     })
   };
+
+  // https://stackoverflow.com/questions/46640024/how-do-i-post-form-data-with-fetch-api
+  _.fetch.post.form = (url, form) => new Promise((resolve, reject) => {
+
+    fetch(url, {
+      method: "POST",
+      body: new URLSearchParams(new FormData(form)),
+    })
+      .then(response => {
+
+        if (!response.ok) throw new Error('Network Error');
+        return response.json();
+      })
+      .then(data => resolve(data))
+      .catch(error => reject(error));
+  });
 })(_brayworth_);
