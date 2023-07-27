@@ -154,7 +154,11 @@ class Request {
   }
 
   public function getPost($name = '', $default = false) {
-    if (!$name) return $this->post;
+    if (!$name) {
+      if ($this->post) return $this->post;
+      if ($this->json) return $this->json;
+      return '';
+    }
 
     if (isset($this->json->$name)) return $this->json->$name;
     if (isset($this->post[$name])) return $this->post[$name];
@@ -178,7 +182,7 @@ class Request {
     return $this->url;
   }
 
-  public function getReferer() : string {
+  public function getReferer(): string {
 
     return $_SERVER['HTTP_REFERER'] ?? \url::$URL;
   }
