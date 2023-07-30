@@ -35,6 +35,7 @@ abstract class jslib {
     'js/_brayworth_.browser.js',
     'js/_brayworth_.context.js',
     'js/_brayworth_.CopyToClipboard.js',
+    'js/_brayworth_.decimal.js',
     'js/_brayworth_.email.js',
     'js/_brayworth_.extend.js',
     'js/_brayworth_.fetch.js',
