@@ -31,11 +31,11 @@
     return {
 
       scale: scale,
-      _value: parseInt((!!value ? value : 0) * scale),
+      _value: parseInt((Number(!!value ? value : 0) * scale).toPrecision(15)),
 
       add: function (v) {
 
-        this._value += parseInt((Number(v) * this.scale).toPrecision(7));
+        this._value += parseInt((Number(v) * this.scale).toPrecision(15));
         return this; // chain
       },
 
@@ -46,7 +46,7 @@
 
       sub: function (v) {
 
-        this._value -= parseInt((Number(v) * this.scale).toPrecision(7));
+        this._value -= parseInt((Number(v) * this.scale).toPrecision(15));
         return this; // chain
       },
 
