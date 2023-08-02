@@ -31,12 +31,18 @@
     return {
 
       scale: scale,
-      _value: parseInt(value * scale),
+      _value: parseInt((!!value ? value : 0) * scale),
 
       add: function (v) {
 
         this._value += parseInt((Number(v) * this.scale).toPrecision(7));
         return this; // chain
+      },
+
+      asLocaleNumber: function (fractions) {
+
+        return _.asLocaleNumber(this.value(), fractions);
+
       },
 
       sub: function (v) {
