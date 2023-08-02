@@ -18,7 +18,7 @@
  * console.log(t.add(.1).add(.2).value()); // .3
  */
 (_ => {
-  _.decimal = (value, decimals) => {
+  _.decimal = (value = 0, decimals = 2) => {
     /**
      * max scale is 20 decimal places
      * the default scale is 100 (2 decimals, Math.pow(10,2) == 100)
@@ -42,7 +42,6 @@
       asLocaleNumber: function (fractions) {
 
         return _.asLocaleNumber(this.value(), fractions);
-
       },
 
       sub: function (v) {
@@ -51,7 +50,7 @@
         return this; // chain
       },
 
-      value: function (v) {
+      value: function () {
 
         return parseInt(this._value) / this.scale;
       }
