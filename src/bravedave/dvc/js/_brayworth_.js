@@ -65,13 +65,10 @@ if (!window._brayworth_) {
   };
 
   _.asLocaleDate = ansi => {
+
     let d = _.dayjs(ansi);
-    if (d.isValid() && d.unix() > 0) {
-      return d.format('L');
-
-    }
+    if (d.isValid() && d.unix() > 0) return d.format('L');
     return '';
-
   };
 
   _.asLocaleNumber = (n, fractions = 2) => Number(n).toLocaleString(undefined, {
