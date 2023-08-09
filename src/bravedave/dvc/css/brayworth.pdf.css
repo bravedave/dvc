@@ -139,6 +139,7 @@ table>tbody>tr {
 }
 
 table>thead.border-bottom>tr>td,
+table>thead.border-bottom>tr>th,
 table>tbody.border-bottom>tr>td {
   border-bottom: 1px solid silver;
 }
