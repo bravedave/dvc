@@ -140,8 +140,15 @@ table>tbody>tr {
 
 table>thead.border-bottom>tr>td,
 table>thead.border-bottom>tr>th,
-table>tbody.border-bottom>tr>td {
+table>tbody.border-bottom>tr>td,
+table>tfoot.border-bottom>tr>td {
   border-bottom: 1px solid silver;
+}
+table>thead.border-top>tr>td,
+table>thead.border-top>tr>th,
+table>tbody.border-top>tr>td,
+table>tfoot.border-top>tr>td {
+  border-top: 1px solid silver;
 }
 
 .table>thead>tr>td.p-0,
