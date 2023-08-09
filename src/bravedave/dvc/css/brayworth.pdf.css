@@ -121,6 +121,10 @@ footer .page-number:after {
   margin-bottom: 1rem;
 }
 
+.table-borderless>:not(caption)>*>* {
+  border-bottom-width: 0;
+}
+
 table>thead>tr {
   vertical-align: bottom;
 }
