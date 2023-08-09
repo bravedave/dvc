@@ -23,21 +23,17 @@ class template {
   public $keywords = '';
 
   function __construct($filepath, $css = null) {
-    if ((bool)$css) {
-      $this->_css[] = file_get_contents($css);
-    }
+
+    if ((bool)$css) $this->_css[] = file_get_contents($css);
 
     $this->author = config::$WEBNAME;
     $this->_template = file_get_contents($filepath);
   }
 
   function css(string $path = self::pdf_css): self {
-    if ((bool)$path) {
-      $this->_css[] = file_get_contents($path);
-    }
 
-    return ($this);  // chain
-
+    if ((bool)$path) $this->_css[] = file_get_contents($path);
+    return $this;  // chain
   }
 
   /**
@@ -62,8 +58,27 @@ class template {
     return $this;  // chain
   }
 
-  function render() {
+  function html() : string {
+
     if (count($this->_css)) {
+
+      // create instance
+      $cssToInlineStyles = new CssToInlineStyles;
+
+      return $cssToInlineStyles->convert(
+        $this->_template,
+        implode('', $this->_css)
+      );
+    } else {
+
+      return $this->_template;
+    }
+  }
+
+  function render() : string {
+
+    if (count($this->_css)) {
+
       // create instance
       $cssToInlineStyles = new CssToInlineStyles;
 
@@ -95,7 +110,7 @@ class template {
       }
     } else {
 
-      return ($this->_template);
+      return $this->_template;
     }
   }
 }
