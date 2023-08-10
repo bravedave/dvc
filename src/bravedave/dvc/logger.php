@@ -29,6 +29,7 @@ abstract class logger {
 
     foreach ($stack as $trace) {
 
+      if ('caller' == $trace['function'] && __CLASS__ == $trace['class'] ?? '') continue;
       if (preg_match('@{closure}$@', $trace['function'])) continue;
       if (!in_array($trace['function'], $ignore)) {
 
