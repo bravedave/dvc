@@ -75,7 +75,7 @@ if (!window._brayworth_) {
 
     if (n == 0) n = 0;  // -0 also == 0, but prints -0
 
-    Number(n).toLocaleString(undefined, {
+    return Number(n).toLocaleString(undefined, {
       minimumFractionDigits: fractions,
       maximumFractionDigits: fractions
     })
