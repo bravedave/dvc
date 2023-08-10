@@ -22,7 +22,7 @@ class template {
   public $author = '';
   public $keywords = '';
 
-  protected function _cleanup($html) {
+  protected function _cleanup($html): string {
 
     $html = preg_replace('@ class\=\"[^"]*\"@', '', $html);  // remove all class attributes
     return $html;
