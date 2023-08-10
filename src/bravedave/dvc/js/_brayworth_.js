@@ -78,7 +78,7 @@ if (!window._brayworth_) {
     return Number(n).toLocaleString(undefined, {
       minimumFractionDigits: fractions,
       maximumFractionDigits: fractions
-    })
+    });
   };
 
   _.bootstrap = {
