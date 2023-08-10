@@ -71,10 +71,15 @@ if (!window._brayworth_) {
     return '';
   };
 
-  _.asLocaleNumber = (n, fractions = 2) => Number(n).toLocaleString(undefined, {
-    minimumFractionDigits: fractions,
-    maximumFractionDigits: fractions
-  });
+  _.asLocaleNumber = (n, fractions = 2) => {
+
+    if (n == 0) n = 0;  // -0 also == 0, but prints -0
+
+    Number(n).toLocaleString(undefined, {
+      minimumFractionDigits: fractions,
+      maximumFractionDigits: fractions
+    })
+  };
 
   _.bootstrap = {
 
