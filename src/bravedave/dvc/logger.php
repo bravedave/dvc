@@ -19,6 +19,26 @@ abstract class logger {
   const prefix_deprecated = 'dvc.DEPRECATED';
   const prefix_sql = 'dvc.SQL';
 
+  public static function caller(array $_ignore = []) {
+
+    $ignore = array_merge([
+      'array_walk'
+    ], $_ignore);
+
+    $stack = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
+
+    foreach ($stack as $trace) {
+
+      if (preg_match('@{closure}$@', $trace['function'])) continue;
+      if (!in_array($trace['function'], $ignore)) {
+
+        return sprintf('%s::%s', __CLASS__, $trace['function']);
+      }
+    }
+
+    return '';
+  }
+
   public static function debug(array|string $msg): void {
 
     if (config::$LOG_DEBUG) self::info($msg, self::prefix_debug);
