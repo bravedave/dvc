@@ -22,6 +22,12 @@ class template {
   public $author = '';
   public $keywords = '';
 
+  protected function _cleanup($html) {
+
+    $html = preg_replace('@ class\=\"[^"]*\"@', '', $html);  // remove all class attributes
+    return $html;
+  }
+
   function __construct($filepath, $css = null) {
 
     if ((bool)$css) $this->_css[] = file_get_contents($css);
@@ -58,37 +64,31 @@ class template {
     return $this;  // chain
   }
 
-  function html() : string {
+  function html(): string {
 
     if (count($this->_css)) {
 
-      // create instance
-      $cssToInlineStyles = new CssToInlineStyles;
-
-      return $cssToInlineStyles->convert(
+      return $this->_cleanup((new CssToInlineStyles)->convert(
         $this->_template,
         implode('', $this->_css)
-      );
+      ));
     } else {
 
       return $this->_template;
     }
   }
 
-  function render() : string {
+  function render(): string {
 
     if (count($this->_css)) {
-
-      // create instance
-      $cssToInlineStyles = new CssToInlineStyles;
 
       if (preg_match('@^<!DOCTYPE html>@', $this->_template)) {
 
         // output
-        return $cssToInlineStyles->convert(
+        return $this->_cleanup((new CssToInlineStyles)->convert(
           $this->_template,
           implode('', $this->_css)
-        );
+        ));
       } else {
 
         $meta = [
@@ -98,15 +98,22 @@ class template {
         ];
 
         // output
-        return $cssToInlineStyles->convert(
+        return $this->_cleanup((new CssToInlineStyles)->convert(
           sprintf(
-            '<!DOCTYPE html><html lang="en"><head><title>%s</title>%s</head><body>%s</body></html>',
+            '<!DOCTYPE html>
+              <html lang="en">
+                <head>
+                  <title>%s</title>
+                  %s
+                </head>
+                <body>%s</body>
+              </html>',
             $this->title,
             implode('', $meta),
             $this->_template
           ),
           implode('', $this->_css)
-        );
+        ));
       }
     } else {
 
