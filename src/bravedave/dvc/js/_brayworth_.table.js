@@ -127,12 +127,12 @@
 
       const onblur = function (e) {
 
-          if (_.browser.isMobileDevice) return;
-          if (this.hasAttribute('accesskey')) {
+        if (_.browser.isMobileDevice) return;
+        if (this.hasAttribute('accesskey')) {
 
-            this.setAttribute('placeholder', `alt + ${this.getAttribute('accesskey')} to focus`);
-          }
-        };
+          this.setAttribute('placeholder', `alt + ${this.getAttribute('accesskey')} to focus`);
+        }
+      };
 
       ctrl
         .on('blur', onblur)
