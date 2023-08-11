@@ -141,7 +141,7 @@ class assets extends Controller {
       Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.4.1.min.js');
     } else {
 
-      Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.4.min.js');
+      Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.7.0.min.js');
     }
   }
 
