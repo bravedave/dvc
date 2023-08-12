@@ -62,7 +62,16 @@ Install Composer : https://getcomposer.org/
 Follow the instruction at getcomposer.org
 
 ```
-composer -v # should return version
+composer -V # should return version
+```
+
+update your prompt - create a .profile file
+```
+PATH="~/bin:$PATH"
+
+export COLORTERM=truecolor
+
+export PS1='\[\033[01;32m\]\u@$WSL_DISTRO_NAME\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 ```
 
 good to go !
