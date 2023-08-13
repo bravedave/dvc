@@ -341,7 +341,7 @@
                   .appendTo(list);
               }
             }
-          }); // 353
+          });
         } else {
 
           setTimeout(() => {
@@ -357,12 +357,10 @@
                 }, ..._el
               };
 
+              let touchStartTimeout = false;
               let _li = $(`<li class="list-group-item p-1" tabindex="-1">
                 <div class="text-truncate" tabindex="-1">${el.label}..</div>
-              </li>`).append(_pad);
-              let touchStartTimeout = false;
-
-              _li
+              </li>`)
                 .data('item', el)
                 .css('border', '1px solid dashed')
                 .on('mousedown', e => e.preventDefault() /* Prevent focus leaving field */)
@@ -391,11 +389,11 @@
               return _li;
             };
 
-            options.source(_data, (data) => {
+            options.source(_data, d => {
 
               keyMove.clear();
               keyMove.init();
-              $.each(data, (i, el) => list.append(render(el)));
+              $.each(d, (i, el) => list.append(render(el)));
             });
           }, options.timeout);
         }
