@@ -190,11 +190,25 @@ class dbCheck extends dao {
       } else {
 
         if ($fld["type"] == "varchar") {
-          $sql = "alter table `" . $this->table . "` add column `" . $fld["name"] .
-            "` varchar(" . (string)$fld["length"] . ") default '" . $this->db->escape($fld["default"]) . "' $after";
+
+          $sql = sprintf(
+            'ALTER TABLE `%s` ADD COLUMN `%s` varchar(%s) DEFAULT %s %s',
+            $this->table,
+            $this->escape($fld["name"]),
+            (string)$fld["length"],
+            $this->escape($fld["default"]),
+            $after
+          );
         } elseif ($fld["type"] == "date" || $fld["type"] == "datetime") {
-          $sql = "alter table `" . $this->table . "` add column `" . $fld["name"] .
-            "` " . $fld["type"] . " default '" . $this->db->escape($fld["default"]) . "' $after";
+
+          $sql = sprintf(
+            'ALTER TABLE `%s` ADD COLUMN `%s` %s DEFAULT %s %s',
+            $this->table,
+            $this->escape($fld["name"]),
+            $fld["type"],
+            $this->escape($fld["default"]),
+            $after
+          );
         } elseif ($fld["type"] == "timestamp") {
           $sql = "alter table `" . $this->table . "` add column `" . $fld["name"] . "` timestamp $after";
         } elseif ($fld["type"] == "text") {
@@ -204,12 +218,19 @@ class dbCheck extends dao {
         } elseif ($fld["type"] == "longtext") {
           $sql = "alter table `" . $this->table . "` add column `" . $fld["name"] . "` longtext $after";
         } elseif ($fld["type"] == "bigint") {
-          $sql = "alter table `" . $this->table . "` add column `" . $fld["name"] .
-            "` bigint(" . (string)$fld["length"] . ") default '" . (int)$fld["default"] . "' $after";
+
+          $sql = sprintf(
+            'ALTER TABLE `%s` ADD COLUMN `%s` bigint(%s) DEFAULT %s %s',
+            $this->table,
+            $this->escape($fld["name"]),
+            (string)$fld["length"],
+            (int)$fld["default"],
+            $after
+          );
         } elseif ($fld["type"] == "int") {
 
           $sql = sprintf(
-            'alter table `%s` add column `%s` int default %s%s',
+            'ALTER TABLE `%s` ADD COLUMN `%s` int DEFAULT %s %s',
             $this->table,
             $this->escape($fld["name"]),
             $this->quote((int)$fld["default"]),
@@ -218,7 +239,7 @@ class dbCheck extends dao {
         } elseif ($fld["type"] == "decimal") {
 
           $sql = sprintf(
-            'alter table `%s` add column `%s` decimal(%d,%d) default %d%s',
+            'ALTER TABLE `%s` ADD COLUMN `%s` decimal(%d,%d) DEFAULT %d %s',
             $this->table,
             $fld["name"],
             $fld["length"],
@@ -233,8 +254,9 @@ class dbCheck extends dao {
           $sql = "alter table `" . $this->table . "` add column `" . $fld["name"] .
             "` float default '" . (int)$fld["default"] . "' $after";
         } elseif ($fld["type"] == "varbinary") {
+
           $sql = sprintf(
-            'alter table `%s` add column `%s` varbinary(%s) %s',
+            'ALTER TABLE `%s` ADD COLUMN `%s` varbinary(%s) %s',
             $this->table,
             $fld["name"],
             (string)$fld["length"],
@@ -249,6 +271,7 @@ class dbCheck extends dao {
         } elseif ($fld["type"] == "longblob") {
           $sql = "alter table `" . $this->table . "` add column `" . $fld["name"] . "` longblob $after";
         } else {
+
           die("unknown field type dbCheck x> check -> " . $fld["type"]);
         }
 
