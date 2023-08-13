@@ -317,6 +317,8 @@
           let rex = new RegExp(lastVal);
           $.each(options.source, (i, _el) => {
 
+            console.log(_el);
+
             let el = {
               ...{
                 label: 'string' == typeof _el ? _el : '',
@@ -343,9 +345,10 @@
               }
             }
           }); // 353
-
         } else {
+
           setTimeout(() => {
+
             if (_data.iterant != iterant) return;
 
             let render = el => {
@@ -386,20 +389,19 @@
             };
 
             options.source(_data, (data) => {
+
               keyMove.clear();
               keyMove.init();
               $.each(data, (i, el) => list.append(render(el)));
-
             });
-
           }, options.timeout);
-
         }
-
       });
 
     return this; // chain
-
   };
-
 })(jQuery, _brayworth_);
+
+
+
+
