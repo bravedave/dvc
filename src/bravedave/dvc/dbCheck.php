@@ -60,10 +60,10 @@ class dbCheck extends dao {
   }
 
   function defineIndex($key, $field) {
+
     $this->indexs[] = [
       'key' => $key,
       'field' => $field
-
     ];
   }
 
@@ -107,7 +107,7 @@ class dbCheck extends dao {
         $fields[] = sprintf('`%s` DECIMAL(%d,%d) DEFAULT %d', $f["name"], $f["length"], $f["decimal"], (int)$f["default"]);
       } elseif ($f["type"] == "double") {
 
-        $fields[] = sprintf('`$s` DOUBLE DEFAULT %d', $f["name"], (int)$f["default"]);
+        $fields[] = sprintf('`%s` DOUBLE DEFAULT %d', $f["name"], (int)$f["default"]);
       } elseif ($f["type"] == "float") {
 
         $fields[] = sprintf('`%s` FLOAT DEFAULT %d', $f["name"], (int)$f["default"]);
