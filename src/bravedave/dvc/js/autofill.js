@@ -317,14 +317,12 @@
           let rex = new RegExp(lastVal);
           $.each(options.source, (i, _el) => {
 
-            console.log(_el);
-
             let el = {
               ...{
                 label: 'string' == typeof _el ? _el : '',
                 value: 'string' == typeof _el ? _el : '',
               }, ..._el
-            }
+            };
 
             if (!!el.label) {
 
@@ -341,7 +339,6 @@
                     keyMove.activate(this);
                   })
                   .appendTo(list);
-                console.log(el);
               }
             }
           }); // 353
@@ -351,12 +348,18 @@
 
             if (_data.iterant != iterant) return;
 
-            let render = el => {
+            let render = _el => {
 
-              let _pad = $('<div class="text-truncate" tabindex="-1"></div>');
-              _pad.text(!!el.label ? el.label : (!!el.value ? el.value : el));
+              let el = {
+                ...{
+                  label: 'string' == typeof _el ? _el : '',
+                  value: 'string' == typeof _el ? _el : '',
+                }, ..._el
+              };
 
-              let _li = $('<li class="list-group-item p-1" tabindex="-1"></li>').append(_pad);
+              let _li = $(`<li class="list-group-item p-1" tabindex="-1">
+                <div class="text-truncate" tabindex="-1">${el.label}..</div>
+              </li>`).append(_pad);
               let touchStartTimeout = false;
 
               _li
