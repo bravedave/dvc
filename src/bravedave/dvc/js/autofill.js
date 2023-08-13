@@ -357,6 +357,8 @@
                 }, ..._el
               };
 
+              console.log(el);
+
               let touchStartTimeout = false;
               let _li = $(`<li class="list-group-item p-1" tabindex="-1">
                 <div class="text-truncate" tabindex="-1">${el.label}..</div>
@@ -381,7 +383,7 @@
                     keyMove.selectitem.call(this, e);
                   }
                 })
-                .on('mouseover', function () {
+                .on('mouseover', function (e) {
 
                   keyMove.activate(this);
                 });
