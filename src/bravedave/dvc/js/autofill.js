@@ -357,11 +357,9 @@
                 }, ..._el
               };
 
-              console.log(el);
-
               let touchStartTimeout = false;
               let _li = $(`<li class="list-group-item p-1" tabindex="-1">
-                <div class="text-truncate" tabindex="-1">${el.label}..</div>
+                <div class="text-truncate" tabindex="-1">${el.label}</div>
               </li>`)
                 .data('item', el)
                 .css('border', '1px solid dashed')
