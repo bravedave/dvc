@@ -53,17 +53,6 @@ if (!window._brayworth_) {
   _.logon_retrieve_password = false;
   _.templates = {};
 
-  _.hideContexts = e => {
-    if (!!e) {
-      e.stopPropagation();
-      e.preventDefault();
-
-    }
-
-    $(document).trigger('hide-contexts');
-
-  };
-
   _.asLocaleDate = ansi => {
 
     let d = _.dayjs(ansi);
@@ -79,6 +68,20 @@ if (!window._brayworth_) {
       minimumFractionDigits: fractions,
       maximumFractionDigits: fractions
     });
+  };
+
+  // https://stackoverflow.com/questions/18749591/encode-html-entities-in-javascript
+  _.encodeHTMLEntities = s => s.replace(/[\u00A0-\u9999<>\&"]/g, i => '&#' + i.charCodeAt(0) + ';');
+
+  _.hideContexts = e => {
+
+    if (!!e) {
+
+      e.stopPropagation();
+      e.preventDefault();
+    }
+
+    $(document).trigger('hide-contexts');
   };
 
   _.bootstrap = {
