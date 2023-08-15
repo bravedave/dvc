@@ -34,7 +34,7 @@ abstract class logger {
       if (preg_match('@{closure}$@', $trace['function'])) continue;
       if (!in_array($trace['function'], $ignore)) {
 
-        return sprintf('%s::%s', __CLASS__, $trace['function']);
+        return sprintf('%s::%s', $trace['class'] ?? '', $trace['function']);
       }
     }
 
