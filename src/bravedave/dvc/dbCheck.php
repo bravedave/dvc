@@ -168,12 +168,12 @@ class dbCheck extends dao {
                   if ((int)$fieldLength < (int)$fld["length"]) {
                     //~ \sys::logger( sprintf( 'bingo baby :: %s : %s != %s', $fieldStructure->name, $fieldStructure->length, $fld["length"]));
                     $sql = sprintf(
-                      'ALTER TABLE `%s` CHANGE COLUMN `%s` `%s` varchar(%s) default "%s"',
+                      'ALTER TABLE `%s` CHANGE COLUMN `%s` `%s` varchar(%s) DEFAULT %s',
                       $this->table,
                       $fld["name"],
                       $fld["name"],
                       (string)$fld["length"],
-                      $this->db->escape($fld["default"])
+                      $this->quote($fld["default"])
                     );
 
                     logger::info(sprintf('field length %s < %s', $fieldLength, ((int)$fld["length"])));
@@ -196,7 +196,7 @@ class dbCheck extends dao {
             $this->table,
             $this->escape($fld["name"]),
             (string)$fld["length"],
-            $this->escape($fld["default"]),
+            $this->quote($fld["default"]),
             $after
           );
         } elseif ($fld["type"] == "date" || $fld["type"] == "datetime") {
@@ -206,7 +206,7 @@ class dbCheck extends dao {
             $this->table,
             $this->escape($fld["name"]),
             $fld["type"],
-            $this->escape($fld["default"]),
+            $this->quote($fld["default"]),
             $after
           );
         } elseif ($fld["type"] == "timestamp") {
