@@ -62,11 +62,11 @@
 
       // debug = true;
 
-      if ('undefined' == typeof order) {
+      if (!order) {
 
         if (key == tbody[0].dataset.orderkey) {
 
-          order = 'desc' == tbody[0].dataset.order ? 'asc' : 'desc';
+          order = ('desc' == tbody[0].dataset.order) ? 'asc' : 'desc';
         } else {
 
           order = 'desc';
@@ -109,14 +109,13 @@
     }),
 
     sort: function (e) {
-      if ('undefined' != typeof e && !!e.target) e.stopPropagation();
 
-      _.hideContexts();
-
+      _.hideContexts(e);
       if (!this.dataset.key) return;
 
       let table = $(this).closest('table');
       if (!table) return;
+
       return _.table.sortOn(table, this.dataset.key, this.dataset.sorttype);	//~ console.log( key );
     },
 
@@ -178,7 +177,6 @@
         });
 
       onblur.call(ctrl[0]);
-
       return ctrl;
     }
   }
