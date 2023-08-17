@@ -101,7 +101,7 @@
         return String(ae).toUpperCase().localeCompare(String(be).toUpperCase());
       });
 
-      $.each(items, (i, e) => order == 'desc' ? tbody.prepend(e) : tbody.append(e));
+      $.each(items, (i, e) => (order == 'desc') ? tbody.prepend(e) : tbody.append(e));
 
       if (!(table instanceof jQuery)) table = $(table);
       table.trigger('update-line-numbers');
@@ -153,7 +153,7 @@
           let _me = $(this);
           let table = _me.data('table');
 
-          preScan = 'function' == typeof preScan ? preScan : () => true;
+          preScan = ('function' == typeof preScan) ? preScan : () => true;
 
           table.find('> tbody > tr').each((i, tr) => {
 
