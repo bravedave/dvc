@@ -10,6 +10,8 @@
 
 namespace bravedave\dvc;
 
+use League\CommonMark\GithubFlavoredMarkdownConverter;
+
 class view {
   public $data = null;
   public $loadName = '?';
@@ -70,8 +72,12 @@ class view {
 
       if ($this->debug) \sys::logger('dvc\view->_load :: it\'s an md !');
       $fc = file_get_contents($path);
-
-      print \Parsedown::instance()->text($fc);
+      $converter = new GithubFlavoredMarkdownConverter([
+        'html_input' => 'strip',
+        'allow_unsafe_links' => false,
+      ]);
+      print $converter->convert($fc);
+      // print \Parsedown::instance()->text($fc);
     } else {
       include $path;
     }

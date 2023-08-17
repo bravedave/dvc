@@ -12,6 +12,7 @@
 namespace bravedave\dvc;
 
 use config, strings;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 abstract class controller {
   public $authorized = false;
@@ -426,7 +427,12 @@ abstract class controller {
       if ($this->debug) logger::debug(sprintf('it\'s an md ! :: %s', __METHOD__));
 
       $fc = file_get_contents($view);
-      printf('<div class="markdown-body">%s</div>', \Parsedown::instance()->text($fc));
+      $converter = new GithubFlavoredMarkdownConverter([
+        'html_input' => 'strip',
+        'allow_unsafe_links' => false,
+      ]);
+      printf('<div class="markdown-body">%s</div>', $converter->convert($fc));
+      // printf('<div class="markdown-body">%s</div>', \Parsedown::instance()->text($fc));
     } else {
 
       require($view);
