@@ -34,7 +34,7 @@ printf('<div class="container" id="%s"></div>', $_container = strings::rand()); 
         $(`<div class="row g-2 js-todo">
           <div class="col p-2">${dto.description}</div>
           <div class="col-auto">
-            <button type="button" class="btn btn-light js-delete">
+            <button type="button" class="btn bg-body-secondary js-delete">
               <i class="bi bi-trash"></i>
             </button>
           </div>
@@ -90,7 +90,8 @@ printf('<div class="container" id="%s"></div>', $_container = strings::rand()); 
                 action: 'todo-add',
                 description: this.value
               },
-            }).then(d => 'ack' == d.response ? container.trigger('refresh') : _.growl(d));
+            }).then(d => 'ack' == d.response ? container.trigger('refresh') : _
+              .growl(d));
           }
         })
         .focus();

@@ -29,7 +29,7 @@
           let bCount = 0;
           $.each(options.buttons, (key, j) => {
             bCount++;
-            $(`<button class="btn btn-outline-secondary" type="button">${key}</button>`)
+            $(`<button class="btn bg-body-secondary" type="button">${key}</button>`)
               .appendTo(footer)
               .on('click', e => {
                 e.stopPropagation();
