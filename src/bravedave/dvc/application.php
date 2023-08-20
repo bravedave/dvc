@@ -538,7 +538,16 @@ class application {
 
   public function getVendorPath() {
 
-    return (realpath(dirname($this->getInstallPath()) . '/vendor'));  // parallel to parent of parent
+    $path = dirname($this->getInstallPath());
+    if (file_exists($path . '/vendor')) return $path . '/vendor';
+
+    if (preg_match('@vendor/bravedave/dvc@', $path)) {
+
+      $path = realpath(preg_replace('@bravedave/dvc.*@', '', $path));
+      if (file_exists($path)) return $path;
+    }
+
+    return '';
   }
 
   public function return_url() {
