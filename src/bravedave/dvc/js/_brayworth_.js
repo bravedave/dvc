@@ -420,22 +420,7 @@ if (!window._brayworth_) {
       new Promise(resolve => {
 
         _.get.script(_.url("js/tinymce5/"))
-          .then(() => {
-
-            // // https://www.tiny.cloud/docs/integrations/bootstrap/
-            // $(document).on('focusin', function (e) {
-
-            //   if (e.target.closest(".mce-window, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
-
-            //     e.stopImmediatePropagation();
-            //   } else {
-
-            //     console.log('focusin : ', e.target);
-            //   }
-            // });
-
-            resolve();
-          });
+          .then(() => resolve());
       }) :
       Promise.resolve();
 

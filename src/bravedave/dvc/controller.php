@@ -824,12 +824,6 @@ abstract class controller {
         file_exists($_f) ?
           Response::serve($_f) :
           logger::info(sprintf('<error serving %s> %s', $file, __METHOD__));
-
-        // logger::info(sprintf('serving lib tinymce %s', $this->Request->getUri()));
-
-        // } else {
-
-        //   jslib::tiny6serve('tinymce-dvc', 'autolink,lists,advlist,table,image,link');
       } elseif (preg_match('/(content\.min\.css|content\.css)$/', $uri = $this->Request->getUri())) {
 
         // this loop is probably deprecated

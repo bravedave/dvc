@@ -153,91 +153,83 @@ abstract class jslib {
     return (false);
   }
 
-  public static function tinymce($lib = 'tinylib.js', $libdir = 'tinymce', $plugins = 'autolink,paste,lists,table,colorpicker,textcolor,image,imagetools,link') {
-    $debug = self::$debug;
-    //~ $debug = TRUE;
+  // public static function tinymce($lib = 'tinylib.js', $libdir = 'tinymce', $plugins = 'autolink,paste,lists,table,colorpicker,textcolor,image,imagetools,link') {
+  //   $debug = self::$debug;
+  //   //~ $debug = TRUE;
 
-    $files = [sprintf('%s/public/js/%s/tinymce.min.js', __DIR__, $libdir)];
+  //   $files = [sprintf('%s/public/js/%s/tinymce.min.js', __DIR__, $libdir)];
 
-    if (file_exists($_file = sprintf('%s/public/js/%s/icons/default/icons.min.js', __DIR__, $libdir))) {
-      $files[] = $_file;
-    }
+  //   if (file_exists($_file = sprintf('%s/public/js/%s/icons/default/icons.min.js', __DIR__, $libdir))) {
+  //     $files[] = $_file;
+  //   }
 
-    if (file_exists($_file = sprintf('%s/public/js/%s/themes/silver/theme.min.js', __DIR__, $libdir))) {
-      $files[] = $_file;
-    } elseif (file_exists($_file = sprintf('%s/public/js/%s/themes/modern/theme.min.js', __DIR__, $libdir))) {
-      $files[] = $_file;
-    }
+  //   if (file_exists($_file = sprintf('%s/public/js/%s/themes/silver/theme.min.js', __DIR__, $libdir))) {
+  //     $files[] = $_file;
+  //   } elseif (file_exists($_file = sprintf('%s/public/js/%s/themes/modern/theme.min.js', __DIR__, $libdir))) {
+  //     $files[] = $_file;
+  //   }
 
-    foreach (explode(',', $plugins) as $plugin)
-      $files[] = sprintf('%s/public/js/%s/plugins/%s/plugin.min.js', __DIR__, $libdir, trim($plugin));
+  //   foreach (explode(',', $plugins) as $plugin)
+  //     $files[] = sprintf('%s/public/js/%s/plugins/%s/plugin.min.js', __DIR__, $libdir, trim($plugin));
 
-    if ($debug) {
-      foreach ($files as $file) {
-        logger::debug(sprintf('<tinylib file: %s', $file, __METHOD__));
-      }
-    }
+  //   if ($debug) {
+  //     foreach ($files as $file) {
+  //       logger::debug(sprintf('<tinylib file: %s', $file, __METHOD__));
+  //     }
+  //   }
 
-    if (!application::app())
-      throw new Exceptions\ExternalUseViolation;
+  //   if (!application::app())
+  //     throw new Exceptions\ExternalUseViolation;
 
-    self::$tinylib = sprintf('%sjs/%s/%s?v=', \url::$URL, $libdir, $lib);
-    $jslib = sprintf('%s/app/public/js/%s/%s', application::app()->getRootPath(), $libdir, $lib);
-    if (file_exists($jslib)) {
+  //   self::$tinylib = sprintf('%sjs/%s/%s?v=', \url::$URL, $libdir, $lib);
+  //   $jslib = sprintf('%s/app/public/js/%s/%s', application::app()->getRootPath(), $libdir, $lib);
+  //   if (file_exists($jslib)) {
 
-      if ($debug) logger::debug(sprintf('<jslib::tinymce found :: %s> %s', $jslib, __METHOD__));
+  //     if ($debug) logger::debug(sprintf('<jslib::tinymce found :: %s> %s', $jslib, __METHOD__));
 
-      $modtime = 0;
-      foreach ($files as $file) {
-        if (realpath($file))
-          $modtime = max([$modtime, filemtime($file)]);
+  //     $modtime = 0;
+  //     foreach ($files as $file) {
+  //       if (realpath($file))
+  //         $modtime = max([$modtime, filemtime($file)]);
 
-        else
-          logger::info(sprintf('<cannot locate tinymce library file %s> %s', $file, __METHOD__));
-      }
+  //       else
+  //         logger::info(sprintf('<cannot locate tinymce library file %s> %s', $file, __METHOD__));
+  //     }
 
-      $libmodtime = filemtime($jslib);
-      if ($libmodtime < $modtime) {
-        if ($debug) logger::info(sprintf('<latest mod time = %s> %s', date('r', $modtime), __METHOD__));
-        if ($debug) logger::info(sprintf('<you need to update %s> %s', $jslib, __METHOD__));
+  //     $libmodtime = filemtime($jslib);
+  //     if ($libmodtime < $modtime) {
+  //       if ($debug) logger::info(sprintf('<latest mod time = %s> %s', date('r', $modtime), __METHOD__));
+  //       if ($debug) logger::info(sprintf('<you need to update %s> %s', $jslib, __METHOD__));
 
-        if (self::__createlib($libdir, $lib, $files)) {
-          $version = filemtime($jslib);
-          self::$tinylib .= $version;
+  //       if (self::__createlib($libdir, $lib, $files)) {
+  //         $version = filemtime($jslib);
+  //         self::$tinylib .= $version;
 
-          return (true);
-        }
-      } else {
-        if ($debug) logger::info(sprintf('<you have the latest version of ' . $jslib, __METHOD__));
+  //         return (true);
+  //       }
+  //     } else {
+  //       if ($debug) logger::info(sprintf('<you have the latest version of ' . $jslib, __METHOD__));
 
-        $version = filemtime($jslib);
-        self::$tinylib .= $version;
+  //       $version = filemtime($jslib);
+  //       self::$tinylib .= $version;
 
-        return (true);
-      }
-    } else {
-      if ($debug) logger::info(sprintf('<jslib::tinymce not found :: %s - creating> %s', $jslib, __METHOD__));
-      if (self::__createlib($libdir, $lib, $files)) {
-        $version = filemtime($jslib);
-        self::$tinylib .= $version;
+  //       return (true);
+  //     }
+  //   } else {
+  //     if ($debug) logger::info(sprintf('<jslib::tinymce not found :: %s - creating> %s', $jslib, __METHOD__));
+  //     if (self::__createlib($libdir, $lib, $files)) {
+  //       $version = filemtime($jslib);
+  //       self::$tinylib .= $version;
 
-        return (true);
-      }
-    }
-  }
+  //       return (true);
+  //     }
+  //   }
+  // }
 
   public static function tinyserve(string $libname = 'tinymce', string $plugins = 'autolink,paste,lists,table,colorpicker,textcolor') {
     $debug = self::$debug;
-    $debug = TRUE;
-    $debug = false;
-
-    $path = implode(DIRECTORY_SEPARATOR, [
-      \application::app()->getInstallPath(),
-      'bravedave',
-      'public',
-      'js',
-      'tinymce5'
-    ]);
+    // $debug = TRUE;
+    // $debug = false;
 
     $path = implode(DIRECTORY_SEPARATOR, [
       \application::app()->getVendorPath(),
@@ -277,62 +269,6 @@ abstract class jslib {
       'libFile' => \config::tempdir()  . '_' . $libname . '.js'
     ]);
   }
-
-  // public static function tiny6_dir() {
-  //   $dir = realpath(__DIR__ . '/../../../../twbs');
-  //   if (!$dir) {
-  //     $dir = realpath(__DIR__ . '/../../vendor/tinymce/tinymce');
-  //   }
-
-  //   return $dir;
-  // }
-
-  // public static function tiny6serve(string $libname = 'tinymce', string $plugins = 'table,autolink,lists,advlist,editimage,link') {
-  //   $debug = self::$debug;
-  //   $debug = false;
-  //   // $debug = true;
-
-  //   $path = self::tiny6_dir();
-
-  //   // logger::info(sprintf('<%s> %s', $path, __METHOD__));
-
-  //   $files = [
-  //     implode(DIRECTORY_SEPARATOR, [$path, 'tinymce.min.js']),
-  //     implode(DIRECTORY_SEPARATOR, [$path, 'models', 'dom', 'model.min.js']),
-  //     implode(DIRECTORY_SEPARATOR, [$path, 'icons', 'default', 'icons.min.js'])
-
-  //   ];
-
-  //   if (file_exists($_file = implode(DIRECTORY_SEPARATOR, [$path, 'themes', 'silver', 'theme.min.js']))) {
-  //     $files[] = $_file;
-  //   } elseif (file_exists($_file = implode(DIRECTORY_SEPARATOR, [$path, 'themes', 'modern', 'theme.min.js']))) {
-  //     $files[] = $_file;
-  //   }
-
-  //   foreach (explode(',', $plugins) as $plugin) {
-  //     $file = implode(DIRECTORY_SEPARATOR, [$path, 'plugins', trim($plugin), 'plugin.min.js']);
-  //     if (file_exists($file)) {
-  //       $files[] = $file;
-  //     } else {
-  //       logger::info(sprintf('<plugin not found %s> %s', $file, __METHOD__));
-  //     }
-  //   }
-
-  //   if ($debug) {
-  //     foreach ($files as $file) {
-  //       logger::debug(sprintf('<%s> <%s> %s', $file, \filesize($file), __METHOD__));
-  //     }
-  //   }
-
-  //   jslib::viewjs([
-  //     'debug' => $debug,
-  //     'libName' => $libname,
-  //     'jsFiles' => $files,
-  //     'minify' => false,
-  //     'libFile' => \config::tempdir()  . '_' . $libname . '.js'
-
-  //   ]);
-  // }
 
   public static function brayworth($lib = false, $libdir = '') {
     $debug = self::$debug;
