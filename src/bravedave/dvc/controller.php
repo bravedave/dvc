@@ -812,13 +812,17 @@ abstract class controller {
           'tinymce' == $lib ?
             '%s/dvc/public/js/%s/skins/lightgray/content.min.css' :
             '%s/dvc/public/js/%s/skins/content/default/content.min.css',
-          self::application()->getInstallPath(),
+          static::application()->getInstallPath(),
           $lib
         );
 
         file_exists($_f) ?
           Response::serve($_f) :
-          logger::info('error serving lib tinymce.css');
+          logger::info(sprintf(
+            '<error serving lib tinymce.css> <%s> %s',
+            dirname(static::application()->getVendorPath()),
+            logger::caller()
+          ));
 
         // logger::info( sprintf( 'serving lib tinymce %s', $this->Request->getUri()));
 

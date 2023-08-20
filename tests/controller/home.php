@@ -162,18 +162,29 @@ class home extends Controller {
 
   public function tiny() {
 
-    if ('4' == config::$BOOTSTRAP_VERSION) {
-      $this->render([
-        'secondary' => ['aside'],
-        'navbar' => 'navbar-4',
-        'primary' => ['tiny']
-      ]);
-    } else {
-      logger::info(sprintf('<%s> %s', config::$PAGE_TEMPLATE, __METHOD__));
-      $this->render([
-        'secondary' => ['aside'],
-        'primary' => ['main']
-      ]);
-    }
+    $this->data = (object)[
+      'title' => $this->title = config::$WEBNAME,
+      'pageUrl' => strings::url($this->route),
+      'searchFocus' => true,
+      'aside' => ['aside']
+    ];
+
+    $this->renderBS5([
+      'main' => fn () => $this->load('tiny')
+    ]);
+
+    // if ('4' == config::$BOOTSTRAP_VERSION) {
+    //   $this->render([
+    //     'secondary' => ['aside'],
+    //     'navbar' => 'navbar-4',
+    //     'primary' => ['tiny']
+    //   ]);
+    // } else {
+    //   logger::info(sprintf('<%s> %s', config::$PAGE_TEMPLATE, __METHOD__));
+    //   $this->render([
+    //     'secondary' => ,
+    //     'primary' => ['tiny']
+    //   ]);
+    // }
   }
 }

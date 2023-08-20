@@ -536,6 +536,11 @@ class application {
     return (realpath(__DIR__ . '/../../'));  // parent of parent
   }
 
+  public function getVendorPath() {
+
+    return (realpath(dirname($this->getInstallPath()) . '/vendor'));  // parallel to parent of parent
+  }
+
   public function return_url() {
 
     return ($this->url_served);

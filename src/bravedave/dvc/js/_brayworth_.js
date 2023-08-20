@@ -435,12 +435,12 @@ if (!window._brayworth_) {
 
   };
 
-  _.tiny6 = () => {
-    return 'undefined' == typeof tinyMCE ?
-      _.get.script(_.url("assets/tinymce/")) :
-      Promise.resolve();
+  // _.tiny6 = () => {
+  //   return 'undefined' == typeof tinyMCE ?
+  //     _.get.script(_.url("assets/tinymce/")) :
+  //     Promise.resolve();
 
-  };
+  // };
 
   _.urlwrite = _.url = (_url, withProtocol) => {
     if ('undefined' == typeof _url)

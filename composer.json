@@ -28,7 +28,7 @@
     "phpmailer/phpmailer": "^6.1",
     "symfony/mailer": "^5.4",
     "tijsverkoyen/css-to-inline-styles": "^2.2",
-    "tinymce/tinymce": "^6.1",
+    "tinymce/tinymce": "<6",
     "league/commonmark": "^2.4"
   },
   "require-dev": {
