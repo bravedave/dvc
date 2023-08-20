@@ -428,6 +428,9 @@ if (!window._brayworth_) {
               if (e.target.closest(".mce-window, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
 
                 e.stopImmediatePropagation();
+              } else {
+
+                console.log('focusin : ', e.target);
               }
             });
 
