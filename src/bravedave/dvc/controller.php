@@ -806,13 +806,37 @@ abstract class controller {
 
     if (in_array($lib, ['tinymce', 'tinymce5'])) {
 
-      if (preg_match('/(content\.min\.css|content\.css)$/', $uri = $this->Request->getUri())) {
+      $_tinyDir = sprintf(
+        '%s/tinymce/tinymce/',
+        static::application()->getVendorPath(),
+      );
+
+      if (preg_match('/(\.min\.css|\.css)$/', $uri = $this->Request->getUri())) {
+
+        $file = preg_replace('@^(js|assets)/tinymce[5?]/@', '', $uri);
+        // logger::info(sprintf('<%s> %s', $file, __METHOD__));
+
+        $_f = implode(DIRECTORY_SEPARATOR, [
+          $_tinyDir,
+          $file
+        ]);
+
+        file_exists($_f) ?
+          Response::serve($_f) :
+          logger::info(sprintf('<error serving %s> %s', $file, __METHOD__));
+
+        // logger::info(sprintf('serving lib tinymce %s', $this->Request->getUri()));
+
+        // } else {
+
+        //   jslib::tiny6serve('tinymce-dvc', 'autolink,lists,advlist,table,image,link');
+      } elseif (preg_match('/(content\.min\.css|content\.css)$/', $uri = $this->Request->getUri())) {
+
+        // this loop is probably deprecated
 
         $_f = sprintf(
-          'tinymce' == $lib ?
-            '%s/dvc/public/js/%s/skins/lightgray/content.min.css' :
-            '%s/dvc/public/js/%s/skins/content/default/content.min.css',
-          static::application()->getInstallPath(),
+          '%s/tinymce/tinymce/skins/content/default/content.min.css',
+          static::application()->getVendorPath(),
           $lib
         );
 
@@ -823,9 +847,6 @@ abstract class controller {
             dirname(static::application()->getVendorPath()),
             logger::caller()
           ));
-
-        // logger::info( sprintf( 'serving lib tinymce %s', $this->Request->getUri()));
-
       } else {
 
         if (userAgent::isMobileDevice()) {

@@ -228,7 +228,7 @@ abstract class jslib {
 
   public static function tinyserve(string $libname = 'tinymce', string $plugins = 'autolink,paste,lists,table,colorpicker,textcolor') {
     $debug = self::$debug;
-    // $debug = TRUE;
+    $debug = TRUE;
     $debug = false;
 
     $path = implode(DIRECTORY_SEPARATOR, [
@@ -237,7 +237,12 @@ abstract class jslib {
       'public',
       'js',
       'tinymce5'
+    ]);
 
+    $path = implode(DIRECTORY_SEPARATOR, [
+      \application::app()->getVendorPath(),
+      'tinymce',
+      'tinymce'
     ]);
 
     // logger::info( sprintf('<%s> %s', $path, __METHOD__));
@@ -245,7 +250,6 @@ abstract class jslib {
     $files = [
       implode(DIRECTORY_SEPARATOR, [$path, 'tinymce.min.js']),
       implode(DIRECTORY_SEPARATOR, [$path, 'icons', 'default', 'icons.min.js'])
-
     ];
 
     if (file_exists($_file = implode(DIRECTORY_SEPARATOR, [$path, 'themes', 'silver', 'theme.min.js']))) {
@@ -274,61 +278,61 @@ abstract class jslib {
     ]);
   }
 
-  public static function tiny6_dir() {
-    $dir = realpath(__DIR__ . '/../../../../twbs');
-    if (!$dir) {
-      $dir = realpath(__DIR__ . '/../../vendor/tinymce/tinymce');
-    }
+  // public static function tiny6_dir() {
+  //   $dir = realpath(__DIR__ . '/../../../../twbs');
+  //   if (!$dir) {
+  //     $dir = realpath(__DIR__ . '/../../vendor/tinymce/tinymce');
+  //   }
 
-    return $dir;
-  }
+  //   return $dir;
+  // }
 
-  public static function tiny6serve(string $libname = 'tinymce', string $plugins = 'table,autolink,lists,advlist,editimage,link') {
-    $debug = self::$debug;
-    $debug = false;
-    // $debug = true;
+  // public static function tiny6serve(string $libname = 'tinymce', string $plugins = 'table,autolink,lists,advlist,editimage,link') {
+  //   $debug = self::$debug;
+  //   $debug = false;
+  //   // $debug = true;
 
-    $path = self::tiny6_dir();
+  //   $path = self::tiny6_dir();
 
-    // logger::info(sprintf('<%s> %s', $path, __METHOD__));
+  //   // logger::info(sprintf('<%s> %s', $path, __METHOD__));
 
-    $files = [
-      implode(DIRECTORY_SEPARATOR, [$path, 'tinymce.min.js']),
-      implode(DIRECTORY_SEPARATOR, [$path, 'models', 'dom', 'model.min.js']),
-      implode(DIRECTORY_SEPARATOR, [$path, 'icons', 'default', 'icons.min.js'])
+  //   $files = [
+  //     implode(DIRECTORY_SEPARATOR, [$path, 'tinymce.min.js']),
+  //     implode(DIRECTORY_SEPARATOR, [$path, 'models', 'dom', 'model.min.js']),
+  //     implode(DIRECTORY_SEPARATOR, [$path, 'icons', 'default', 'icons.min.js'])
 
-    ];
+  //   ];
 
-    if (file_exists($_file = implode(DIRECTORY_SEPARATOR, [$path, 'themes', 'silver', 'theme.min.js']))) {
-      $files[] = $_file;
-    } elseif (file_exists($_file = implode(DIRECTORY_SEPARATOR, [$path, 'themes', 'modern', 'theme.min.js']))) {
-      $files[] = $_file;
-    }
+  //   if (file_exists($_file = implode(DIRECTORY_SEPARATOR, [$path, 'themes', 'silver', 'theme.min.js']))) {
+  //     $files[] = $_file;
+  //   } elseif (file_exists($_file = implode(DIRECTORY_SEPARATOR, [$path, 'themes', 'modern', 'theme.min.js']))) {
+  //     $files[] = $_file;
+  //   }
 
-    foreach (explode(',', $plugins) as $plugin) {
-      $file = implode(DIRECTORY_SEPARATOR, [$path, 'plugins', trim($plugin), 'plugin.min.js']);
-      if (file_exists($file)) {
-        $files[] = $file;
-      } else {
-        logger::info(sprintf('<plugin not found %s> %s', $file, __METHOD__));
-      }
-    }
+  //   foreach (explode(',', $plugins) as $plugin) {
+  //     $file = implode(DIRECTORY_SEPARATOR, [$path, 'plugins', trim($plugin), 'plugin.min.js']);
+  //     if (file_exists($file)) {
+  //       $files[] = $file;
+  //     } else {
+  //       logger::info(sprintf('<plugin not found %s> %s', $file, __METHOD__));
+  //     }
+  //   }
 
-    if ($debug) {
-      foreach ($files as $file) {
-        logger::debug(sprintf('<%s> <%s> %s', $file, \filesize($file), __METHOD__));
-      }
-    }
+  //   if ($debug) {
+  //     foreach ($files as $file) {
+  //       logger::debug(sprintf('<%s> <%s> %s', $file, \filesize($file), __METHOD__));
+  //     }
+  //   }
 
-    jslib::viewjs([
-      'debug' => $debug,
-      'libName' => $libname,
-      'jsFiles' => $files,
-      'minify' => false,
-      'libFile' => \config::tempdir()  . '_' . $libname . '.js'
+  //   jslib::viewjs([
+  //     'debug' => $debug,
+  //     'libName' => $libname,
+  //     'jsFiles' => $files,
+  //     'minify' => false,
+  //     'libFile' => \config::tempdir()  . '_' . $libname . '.js'
 
-    ]);
-  }
+  //   ]);
+  // }
 
   public static function brayworth($lib = false, $libdir = '') {
     $debug = self::$debug;

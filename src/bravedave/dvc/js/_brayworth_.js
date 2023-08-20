@@ -422,8 +422,11 @@ if (!window._brayworth_) {
         _.get.script(_.url("js/tinymce5/"))
           .then(() => {
 
+            // https://www.tiny.cloud/docs/integrations/bootstrap/
             $(document).on('focusin', function (e) {
-              if ($(e.target).closest(".mce-window").length) {
+
+              if (e.target.closest(".mce-window, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
+
                 e.stopImmediatePropagation();
               }
             });

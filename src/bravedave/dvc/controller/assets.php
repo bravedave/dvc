@@ -147,27 +147,29 @@ class assets extends Controller {
 
   public function tinymce($path = '') {
 
-    // logger::info(sprintf('<%s> %s', $this->Request->getUri(), __METHOD__));
-    if (preg_match('/(\.min\.css|\.css)$/', $uri = $this->Request->getUri())) {
+    parent::js('tinymce');
 
-      $file = preg_replace('@^assets/tinymce/@', '', $uri);
-      // logger::info( sprintf('<%s> %s', $file, __METHOD__));
+    // // logger::info(sprintf('<%s> %s', $this->Request->getUri(), __METHOD__));
+    // if (preg_match('/(\.min\.css|\.css)$/', $uri = $this->Request->getUri())) {
 
-      $_f = sprintf(
-        '%s/%s',
-        jslib::tiny6_dir(),
-        $file
-      );
+    //   $file = preg_replace('@^assets/tinymce/@', '', $uri);
+    //   // logger::info( sprintf('<%s> %s', $file, __METHOD__));
 
-      file_exists($_f) ?
-        Response::serve($_f) :
-        logger::info('error serving lib tinymce.css');
+    //   $_f = sprintf(
+    //     '%s/%s',
+    //     jslib::tiny6_dir(),
+    //     $file
+    //   );
 
-      //~ logger::info( sprintf( 'serving lib tinymce %s', $this->Request->getUri()));
+    //   file_exists($_f) ?
+    //     Response::serve($_f) :
+    //     logger::info('error serving lib tinymce.css');
 
-    } else {
+    //   //~ logger::info( sprintf( 'serving lib tinymce %s', $this->Request->getUri()));
 
-      jslib::tiny6serve('tinymce-dvc', 'autolink,lists,advlist,table,image,link');
-    }
+    // } else {
+
+    //   jslib::tiny6serve('tinymce-dvc', 'autolink,lists,advlist,table,image,link');
+    // }
   }
 }

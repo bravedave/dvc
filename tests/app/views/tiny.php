@@ -42,7 +42,7 @@
           menubar: false,
           mode: 'none',
           paste_data_images: true,
-          plugins: 'table autolink lists advlist imagetools link',
+          plugins: 'table autolink lists advlist image imagetools link',
           relative_urls: false,
           remove_script_host: false,
           statusbar: false,
