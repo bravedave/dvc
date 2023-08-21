@@ -22,7 +22,8 @@ abstract class logger {
   public static function caller(array $_ignore = []) {
 
     $ignore = array_merge([
-      'array_walk'
+      'array_walk',
+      'deprecated'
     ], $_ignore);
 
     $stack = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
@@ -49,47 +50,18 @@ abstract class logger {
 
     if (!config::$LOG_DEPRECATED) return;
 
-    $_trace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
-    $trace = array_values(array_filter($_trace, function ($c) {
-      $exclude = [
-        'dvc\dao\_dao',
+    self::info(sprintf(
+      '<deprecated : %s> ::%s',
+      $msg,
+      self::caller([
+        '__destruct',
         'bravedave\dvc\{closure}',
         'bravedave\dvc\dbResult',
         'bravedave\dvc\logger',
         'Composer\Autoload\ClassLoader',
         'MatthiasMullie\Scrapbook\Adapters\Apc'
-      ];
-
-      $excludeFunctions = [
-        'bravedave\dvc\{closure}',
-        'bravedave\\dvc\\{closure}',
-        'include_once'
-      ];
-
-      if ($c['class'] ?? null) {
-
-        if (in_array($c['class'], $exclude)) return false;
-
-        return true;
-      }
-
-      if ($c['function'] ?? null) {
-
-        if (in_array($c['function'], $excludeFunctions)) return false;
-
-        return true;
-      }
-
-      return false;
-    }));
-
-    if ($caller = $trace[0] ?? false) {
-
-      self::info(sprintf('<%s> %s::%s', $msg, $caller['class'] ?? '', $caller['function']));
-    } else {
-
-      self::info(sprintf('<%s> %s::%s', $msg, __METHOD__));
-    }
+      ])
+    ));
   }
 
   /**

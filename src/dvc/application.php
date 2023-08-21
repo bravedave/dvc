@@ -18,6 +18,6 @@ class application extends bravedave\dvc\application {
 
   protected function deprecated() {
 
-    bravedave\dvc\logger::deprecated('this class is deprecated');
+    bravedave\dvc\logger::deprecated(sprintf('%s called in %s', __CLASS__, static::class));
   }
 }
