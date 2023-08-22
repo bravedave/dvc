@@ -48,6 +48,7 @@
       } else {
 
         modal.modal('hide');
+        console.log('modal.modal(\'hide\')');
       }
 
       $('body').css('padding-right', '');	// credit bootstrap class
