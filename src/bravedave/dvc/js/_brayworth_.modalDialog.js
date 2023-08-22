@@ -13,8 +13,11 @@
 /*jshint esversion: 6 */
 (_ => {
   $.fn.modalDialog = _.modalDialog = function (_options) {
+
     if (/string/.test(typeof (_options))) {
+
       if (_options == 'close') {
+
         let modal = this.data('modal');
         modal.close();
         return modal;	// chain
@@ -36,65 +39,81 @@
     let close = $('.modal-header .close', this);	// Get the <span> element that closes the modal
 
     modal.close = () => {
+
       options.beforeClose.call(modal);
-      modal.removeClass('modal-active');
-      $('body').removeClass('modal-open').css('padding-right', '');	// credit bootstrap class
+      if (_.bootstrap.version() < 5) {
+
+        modal.removeClass('modal-active');
+        $('body').removeClass('modal-open');
+      } else {
+
+        modal.modal('hide');
+      }
+
+      $('body').css('padding-right', '');	// credit bootstrap class
       //~ $(window).off('click');
       options.afterClose.call(modal);
 
       modal = false;
-      $(document).unbind('keyup.modal');
-      $(document).unbind('keypress.modal');
+      $(document).off('keyup.modal');
+      $(document).off('keypress.modal');
     };
 
-    $('body').addClass('modal-open');	// bootstrap class
-
     if (options.mobile) {
+
       modal.addClass('modal-mobile');
+    } else {
 
-    }
-    else {
-      (() => {
-        let rect = document.body.getBoundingClientRect();
-        if (document.body.scrollHeight > window.innerHeight) {
-          $('body').css('padding-right', '17px');	// credit bootstrap
-        }
-      })();
+      // let rect = document.body.getBoundingClientRect();
+      if (document.body.scrollHeight > window.innerHeight) {
+
+        $('body').css('padding-right', '17px');	// credit bootstrap
+      }
     }
 
-    modal.addClass('modal-active').data('modal', modal);
+    if (_.bootstrap.version() < 5) {
+
+      $('body').addClass('modal-open');	// bootstrap class
+      modal.addClass('modal-active');
+    } else {
+
+      modal.modal('show');
+    }
+
+    modal.data('modal', modal);
 
     let _AF = $('[autofocus]', modal);
     if (_AF.length > 0) {
-      _AF.first().focus();
 
+      _AF.first().focus();
     }
     else {
+
       _AF = $('textarea:not([readonly]), input:not([readonly]), button:not([disabled]), a:not([tabindex="0"])', modal);
       if (_AF.length > 0) _AF.first().focus();
-
     }
 
     $(document)
       .on('keyup.modal', e => {
+
         if (e.keyCode == 27) {
+
           // escape key maps to keycode `27`
-          if (modal) {
-            options.onEscape.call(modal, e);
-          }
+          if (modal) options.onEscape.call(modal, e);
         }
       })
       .on('keypress.modal', e => {
-        if (e.keyCode == 13) {
-          options.onEnter.call(modal, e);
-        }
+
+        if (e.keyCode == 13) options.onEnter.call(modal, e);
       });
 
     // When the user clicks on <span> (x), close the modal
-    close.off('click').addClass('pointer').on('click', e => modal.close());
+    close
+      .off('click')
+      .addClass('pointer')
+      .on('click', e => modal.close());
 
     options.onOpen.call(modal);
-
     return modal;	// chain
   };
 })(_brayworth_);
