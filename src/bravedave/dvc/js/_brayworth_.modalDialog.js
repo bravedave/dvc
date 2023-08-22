@@ -44,13 +44,13 @@
       if (_.bootstrap.version() < 5) {
 
         modal.removeClass('modal-active');
-        $('body').removeClass('modal-open');
       } else {
 
         modal.modal('hide');
         console.log('modal.modal(\'hide\')');
       }
 
+      $('body').removeClass('modal-open');
       $('body').css('padding-right', '');	// credit bootstrap class
       //~ $(window).off('click');
       options.afterClose.call(modal);
