@@ -329,7 +329,7 @@
               if (rex.test(el.label)) {
 
                 $(`<li class="list-group-item p-1" tabindex="-1">
-                    <div class="text-truncate">${el.label}</div>
+                    <div class="text-truncate">${_.encodeHTMLEntities(el.label)}</div>
                   </li>`)
                   .data('item', el)
                   .on('click', function (e) {
