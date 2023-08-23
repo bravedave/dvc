@@ -23,6 +23,7 @@ abstract class logger {
 
     $ignore = array_merge([
       'array_walk',
+      'include_once',
       'deprecated'
     ], $_ignore);
 
@@ -51,7 +52,7 @@ abstract class logger {
     if (!config::$LOG_DEPRECATED) return;
 
     self::info(sprintf(
-      '<deprecated : %s> ::%s',
+      '<deprecated : %s> %s',
       $msg,
       self::caller([
         '__destruct',
