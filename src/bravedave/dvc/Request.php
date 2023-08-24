@@ -62,10 +62,10 @@ class Request {
 
     $this->params = array_merge($this->query, $this->post);
 
-    if (isset($_SERVER['REQUEST_URI']))
-      $this->uri = trim($_SERVER['REQUEST_URI'], '/');
+    if (isset($_SERVER['REQUEST_URI'])) $this->uri = trim($_SERVER['REQUEST_URI'], '/');
 
     if (isset($_GET['url'])) {
+
       logger::info('DEPRECATION:');
       logger::info(' .htaccess');
       logger::info(' use FallbackResource instead of ReWriteEngine');
@@ -93,8 +93,11 @@ class Request {
       foreach ($segs as $seg) {
 
         if ($seg) {
+
           if (!preg_match('/^[a-z0-9]/i', $seg)) {
-            logger::info(sprintf('<%s> %s', $seg, __METHOD__));
+
+            logger::info(sprintf('<url: %s> %s', $this->url, __METHOD__));
+            logger::info(sprintf('<invalid segment %s> %s', $seg, __METHOD__));
             break;
           }
           $this->segments[] = $seg;
