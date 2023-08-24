@@ -496,23 +496,23 @@ abstract class config {
         }
       }
 
-      if ('\dvc\pages\bootstrap5' == \config::$PAGE_TEMPLATE) bs::$VERSION = '5';
+      if ('\dvc\pages\bootstrap5' == static::$PAGE_TEMPLATE) bs::$VERSION = '5';
 
       // $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
-      $path = sprintf('%s%sgoogle.json', \config::dataPath(), DIRECTORY_SEPARATOR);
+      $path = sprintf('%s%sgoogle.json', static::dataPath(), DIRECTORY_SEPARATOR);
       if (file_exists($path)) {
         $a = json_decode(file_get_contents($path));
         if (isset($a->web)) {
-          \config::$oauth2_client_id = $a->web->client_id;
-          \config::$oauth2_secret = $a->web->client_secret;
-          \config::$oauth2_redirect = \url::$PROTOCOL . \url::tostring('auth/response/');
+          static::$oauth2_client_id = $a->web->client_id;
+          static::$oauth2_secret = $a->web->client_secret;
+          static::$oauth2_redirect = \url::$PROTOCOL . \url::tostring('auth/response/');
         } // if ( isset( $a->web))
 
       } // if ( file_exists( $path))
 
       // $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
       $path = implode(DIRECTORY_SEPARATOR, [
-        \config::dataPath(),
+        static::dataPath(),
         'recaptcha.json'
 
       ]);
@@ -520,7 +520,7 @@ abstract class config {
       if (file_exists($path)) {
         $a = json_decode(file_get_contents($path));
         if (isset($a->public)) {
-          \config::$captcha = (object)[
+          static::$captcha = (object)[
             'public' => $a->public,
             'private' => $a->private
           ];
@@ -534,15 +534,13 @@ abstract class config {
   } // static function init2()
 
   public static function notification_KeyPath() {
+
     $path = implode(DIRECTORY_SEPARATOR, [
       static::dataPath(),
       'notificationKeys'
-
     ]);
 
-    if (!is_dir($path)) {
-      mkdir($path);
-    }
+    if (!is_dir($path)) mkdir($path);
 
     return $path;
   }
