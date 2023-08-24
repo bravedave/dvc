@@ -98,6 +98,7 @@ class Request {
 
             logger::info(sprintf('<--- ---[invalid segment]--- ---> %s', __METHOD__));
             logger::info(sprintf('<url: %s> %s', $this->url, __METHOD__));
+            logger::info(sprintf('<uri: %s> %s', $this->uri, __METHOD__));
             if (isset($_SERVER['HTTP_REFERER'])) logger::info(sprintf('<referer: %s> %s', $_SERVER['HTTP_REFERER'], __METHOD__));
             logger::info(sprintf('<segment %s> %s', $seg, __METHOD__));
             logger::info(sprintf('<--- ---[invalid segment]--- ---> %s', __METHOD__));
