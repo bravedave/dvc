@@ -10,13 +10,7 @@
 
   _.context = e => {
 
-    if (!!e) {
-
-      e.stopPropagation();
-      e.preventDefault();
-    }
-
-    _.hideContexts();
+    _.hideContexts(e);
 
     let cx = {
       root: $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
@@ -203,63 +197,58 @@
 
           })
           .on('contextmenu', e => {
+
             /*--[ check for abandonment ]--*/
             if ($(e.target).closest('[data-role="contextmenu"]').length) {
-              return;
 
+              return;
             }
 
             $(document).trigger('hide-contexts');
 
-            if (e.shiftKey) {
-              return;
-
-            }
+            if (e.shiftKey) return;
 
             if (/^(input|textarea|img|a|select)$/i.test(e.target.nodeName) || $(e.target).closest('a').length > 0) {
-              return;
 
+              return;
             }
 
             if ($(e.target).closest('table').data('nocontextmenu') == 'yes') {
-              return;
 
+              return;
             }
 
             if ($(e.target).hasClass('modal') || $(e.target).closest('.modal').length > 0) {
-              return;
 
+              return;
             }
 
             /** stops the menu on jquery-ui dialogs */
             if ($(e.target).hasClass('ui-widget-overlay') || $(e.target).closest('.ui-dialog').length > 0) {
-              return;
 
+              return;
             }
 
             if (typeof window.getSelection != "undefined") {
+
               let sel = window.getSelection();
               if (sel.rangeCount) {
+
                 if (sel.anchorNode.parentNode == e.target) {
+
                   let frag = sel.getRangeAt(0).cloneContents();
                   let text = frag.textContent;
-                  if (text.length > 0)
-                    return;
-
+                  if (text.length > 0) return;
                 }
-
               }
-
             }
             /*--[ end: check for abandonment ]--*/
 
             e.preventDefault();
             _me.open(e);
-
           });
 
         return (_me);
-
       }
     };
 
@@ -323,11 +312,11 @@
 
         let _el = $(el);
         if (!!_el.data('hide')) {
+
           if (_el.data('hide') == 'hide') {
+
             _el.addClass(_.bootstrap_version() >= 4 ? 'd-none' : 'hidden');
-
           } else { _el.remove(); }
-
         } else { _el.remove(); }
       });
     })
