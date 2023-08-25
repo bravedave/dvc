@@ -47,7 +47,6 @@ abstract class jslib {
     'js/_brayworth_.hourglass.js',
     'js/_brayworth_.html2text.js',
     'js/_brayworth_.initDatePickers.js',
-    'js/_brayworth_.InitHRefs.js',
     'js/_brayworth_.inPrivate.js',
     'js/_brayworth_.isWindowHidden.js',
     'js/_brayworth_.lazyImageLoader.js',
