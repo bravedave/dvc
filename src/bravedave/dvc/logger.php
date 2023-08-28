@@ -23,9 +23,10 @@ abstract class logger {
 
     $ignore = array_merge([
       'array_walk',
-      'include_once',
       'deprecated',
       'dtoset',
+      'include_once',
+      'require',
     ], $_ignore);
 
     $stack = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
