@@ -24,7 +24,8 @@ abstract class logger {
     $ignore = array_merge([
       'array_walk',
       'include_once',
-      'deprecated'
+      'deprecated',
+      'dtoset',
     ], $_ignore);
 
     $stack = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
@@ -33,7 +34,7 @@ abstract class logger {
 
       if (__CLASS__ == ($trace['class'] ?? '')) continue;
       if (preg_match('@{closure}$@', $trace['function'])) continue;
-      if (!in_array($trace['function'], $ignore)) {
+      if (!in_array(strtolower($trace['function']), $ignore)) {
 
         return sprintf('%s::%s', $trace['class'] ?? '', $trace['function']);
       }
