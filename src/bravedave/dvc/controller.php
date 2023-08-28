@@ -11,7 +11,7 @@
 
 namespace bravedave\dvc;
 
-use config, strings;
+use config, currentUser, strings;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 abstract class controller {
@@ -68,7 +68,7 @@ abstract class controller {
     if ($this->RequireValidation) {
 
       if ($this->debug) logger::debug(sprintf('checking authority :: %s', __METHOD__));
-      $this->authorised = \currentUser::valid();
+      $this->authorised = currentUser::valid();
       if ($this->debug) logger::debug(sprintf('checking authority :: %s :: %s', ($this->authorised ? 'private' : 'public'), __METHOD__));
 
       if (!($this->authorised)) $this->authorize();
@@ -82,7 +82,7 @@ abstract class controller {
       if ('-system-logon-' == $action) {
 
         if ($this->debug) logger::debug(sprintf('checking authority :: %s', __METHOD__));
-        $this->authorised = \currentUser::valid();
+        $this->authorised = currentUser::valid();
         if ($this->debug) logger::debug(sprintf('checking authority :: %s :: %s', ($this->authorised ? 'private' : 'public'), __METHOD__));
 
         if (!($this->authorised)) $this->authorize();
@@ -93,7 +93,7 @@ abstract class controller {
 
       if ($this->authorised) {
 
-        if (!\currentUser::isadmin()) {
+        if (!currentUser::isadmin()) {
 
           if ((new \dao\state)->offline()) Response::redirect(strings::url('offline'));
         }
@@ -583,7 +583,7 @@ abstract class controller {
 
     if ('send-test-message' == $action) {
 
-      push::test(\currentUser::id());
+      push::test(currentUser::id());
     } elseif ('subscription-delete' == $action) {
 
       if ($endpoint = $this->getPost('endpoint')) {
@@ -609,7 +609,7 @@ abstract class controller {
             $dao->Insert([
               'json' => $json,
               'endpoint' => $subscription->endpoint,
-              'user_id' => \currentUser::id()
+              'user_id' => currentUser::id()
 
             ]);
           }
@@ -738,7 +738,8 @@ abstract class controller {
       'aside' => fn () => array_walk($aside, fn ($_) => $this->load($_)),
       'footer' => fn () => $this->load('footer'),
       'css' => [],
-      'scripts' => []
+      'scripts' => [],
+      'left-layout' => 'yes' == (currentUser::option('enable-left-layout') || 'left' == config::$PAGE_LAYOUT)
     ], $params);
 
     $page = $options['page'] ?? (esse\page::bootstrap());
@@ -750,7 +751,7 @@ abstract class controller {
       ->head($this->title)
       ->body()->then($options['navbar']);
 
-    if ('yes' == currentUser::option('enable-left-layout') || 'left' == config::$PAGE_LAYOUT) {
+    if ($options['left-layout']) {
 
       if ($options['aside']) $page->aside()->then($options['aside']);
       $page
