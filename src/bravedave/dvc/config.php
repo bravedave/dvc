@@ -90,6 +90,8 @@ abstract class config {
   static $DATE_FORMAT_LONG = 'D M d Y';
   static $DATETIME_FORMAT = 'Y-m-d g:ia';
   static $DATETIME_FORMAT_LONG = 'D M d Y g:ia';
+  static $CONTENT_ENABLE_CROSS_ORIGIN_HEADER = false;
+  static $CONTENT_ENABLE_CROSS_ORIGIN_HEADER_WITH_PROTOCOL = false;
   static $FONTAWESOME = false;
   static $TIME_FORMAT = 'g:ia';
 

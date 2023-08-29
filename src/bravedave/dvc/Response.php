@@ -106,6 +106,14 @@ abstract class Response {
     if (config::$CONTENT_SECURITY_ENABLED)
       header("Content-Security-Policy: frame-ancestors 'self'");
 
+    if (config::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER_WITH_PROTOCOL) {
+
+      header(sprintf("Access-Control-Allow-Origin: %s", strings::url('', $protocol = true)));
+    } elseif (config::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER) {
+
+      header(sprintf("Access-Control-Allow-Origin: %s", strings::url()));
+    }
+
     header(sprintf("Content-type: text/html; charset=%s", $charset));
   }
 
