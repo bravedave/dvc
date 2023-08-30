@@ -90,6 +90,7 @@ if (!window._brayworth_) {
       v5: html => {
 
         html = String(html).replace(/data-dismiss/g, 'data-bs-dismiss');
+        html = String(html).replace(/data-toggle/g, 'data-bs-toggle');
 
         let o = $(html);
 
@@ -118,6 +119,43 @@ if (!window._brayworth_) {
         o.find('.text-right').removeClass('text-right').addClass('text-end');
         o.find('.ml-auto').removeClass('ml-auto').addClass('ms-auto');
         o.find('.mr-auto').removeClass('mr-auto').addClass('me-auto');
+
+        let s = o[0].outerHTML;
+
+        return s;
+      }
+    },
+    v5: {
+      v4: html => {
+
+        html = String(html).replace(/data-bs-dismiss/g, 'data-dismiss');
+        html = String(html).replace(/data-bs-toggle/g, 'data-toggle');
+
+        let o = $(html);
+
+        o.find('.btn-close')
+          .addClass('close')
+          .removeClass('btn-close')
+          .html('');
+
+        o.find('.btn-close').parent().removeAttr('data-bs-theme')
+
+        o.find('.input-group-text').each((i, el) => {
+
+          let _el = $(el);
+
+          if (!(parent.hasClass('input-group-prepend') || parent.hasClass('input-group-append'))) {
+
+            _el.wrap('<div class="input-group-append"></div>');
+          }
+        });
+
+        o.find('select.form-select')
+          .removeClass('form-select').addClass('custom-select');
+        o.find('.text-start').removeClass('text-start').addClass('text-left');
+        o.find('.text-end').removeClass('text-end').addClass('text-right');
+        o.find('.ms-auto').removeClass('ms-auto').addClass('ml-auto');
+        o.find('.me-auto').removeClass('me-auto').addClass('mr-auto');
 
         let s = o[0].outerHTML;
 
