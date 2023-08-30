@@ -15,32 +15,8 @@ use bravedave\dvc\{cssmin, dbi, errsys, logger, Response, hitter};
 
 abstract class sys extends bravedave\dvc\sys {
   protected static $_loglevel = 1;
-  protected static $_dbi = null;
 
   static $debug = false;
-
-  public static function dbi() {
-    if (is_null(self::$_dbi)) {
-      if ('sqlite' == config::$DB_TYPE) {
-        self::$_dbi = sqlite\db::instance();
-      } else {
-        self::$_dbi = new dbi;
-      }
-    }
-
-    return (self::$_dbi);
-  }
-
-  public static function dbCheck(string $file) {
-    return 'sqlite' == config::$DB_TYPE ?
-      new sqlite\dbCheck(self::dbi(), $file) :
-      new \dao\dbCheck(self::dbi(), $file);
-  }
-
-  public static function dbCachePrefix() {
-
-    return bravedave\dvc\db::cachePrefix();
-  }
 
   public static function diskspace() {
 
@@ -108,10 +84,6 @@ abstract class sys extends bravedave\dvc\sys {
     }
   }
 
-  public static function isWindows() {
-    return ('WIN' === strtoupper(substr(PHP_OS, 0, 3)));
-  }
-
   public static function logging($level = null) {
     /**
      * Debug logging
@@ -150,80 +122,6 @@ abstract class sys extends bravedave\dvc\sys {
   public static function logSQL($v, $level = 0) {
 
     logger::sql($v);
-  }
-
-  public static function mailer() {
-    $mail = new \PHPMailer;
-    $mail->XMailer = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
-
-    if (self::isWindows()) {
-      $mail->isSMTP(); // use smtp with server set to mail
-
-      $mail->Host = 'mail';
-      $mail->Port = 25;
-      $mail->SMTPSecure = 'tls';
-      $mail->SMTPOptions = [
-        'ssl' => [
-          'verify_peer' => false,
-          'verify_peer_name' => false,
-          'allow_self_signed' => true
-        ]
-      ];
-    }
-
-    $mailconfig = sprintf(
-      '%s/mail-config.json',
-      rtrim(config::dataPath(), '/ ')
-    );
-
-    if (file_exists($mailconfig)) {
-
-      $_mc = json_decode(file_get_contents($mailconfig));
-
-      if (isset($_mc->Host)) {
-        $mail->isSMTP(); // use smtp with server set to mail
-        $mail->Host = $_mc->Host;
-      }
-
-      if (isset($_mc->Port)) $mail->Port = $_mc->Port;
-
-      if (isset($_mc->SMTPSecure)) $mail->SMTPSecure = $_mc->SMTPSecure;
-
-      if (isset($_mc->SMTPOptions)) {
-        if (isset($_mc->SMTPOptions->ssl)) {
-          $mail->SMTPOptions = [
-            'ssl' => (array)$_mc->SMTPOptions->ssl
-          ];
-        }
-      }
-
-      if (isset($_mc->SMTPUserName) && isset($_mc->SMTPPassword)) {
-
-        $mail->SMTPAuth = true;
-        $mail->Username = $_mc->SMTPUserName;
-        $mail->Password = $_mc->SMTPPassword;
-      }
-    } else {
-
-      $mailconfig = sprintf(
-        '%s/mail-config-sample.json',
-        rtrim(config::dataPath(), '/ ')
-      );
-
-      file_put_contents(
-        $mailconfig,
-        json_encode((object)[
-          'Host' => $mail->Host,
-          'Port' => $mail->Port,
-          'SMTPSecure' => $mail->SMTPSecure,
-          'SMTPOptions' => $mail->SMTPOptions
-        ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
-
-      );
-    }
-
-    $mail->setFrom(config::$SUPPORT_EMAIL, config::$SUPPORT_NAME);
-    return ($mail);
   }
 
   protected static $_options = [];
