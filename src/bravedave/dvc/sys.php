@@ -23,8 +23,8 @@ abstract class sys {
   public static function dbCheck(string $file) {
 
     return 'sqlite' == config::$DB_TYPE ?
-      new sqlite\dbCheck(self::dbi(), $file) :
-      new dbCheck(self::dbi(), $file);
+      new sqlite\dbCheck(static::dbi(), $file) :
+      new dbCheck(static::dbi(), $file);
   }
 
   public static function dbi() {
@@ -57,7 +57,7 @@ abstract class sys {
     $mail = new \PHPMailer;
     $mail->XMailer = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
 
-    if (self::isWindows()) {
+    if (static::isWindows()) {
 
       $mail->isSMTP(); // use smtp with server set to mail
 
@@ -126,5 +126,67 @@ abstract class sys {
 
     $mail->setFrom(config::$SUPPORT_EMAIL, config::$SUPPORT_NAME);
     return ($mail);
+  }
+
+  protected static $_options = [];
+
+  protected static function _options_file() {
+
+    return implode(DIRECTORY_SEPARATOR, [
+      rtrim(config::dataPath(), '/ '),
+      'sys.json'
+    ]);
+  }
+
+  public static function option($key, $val = null) {
+    $debug = false;
+    // $debug = true;
+
+    if (!static::$_options) {
+
+      if (file_exists($config = static::_options_file())) {
+
+        static::$_options = (array)json_decode(file_get_contents($config));
+      }
+    }
+
+    $ret = '';
+    if (static::$_options) {
+
+      /* return the existing value */
+      if (isset(static::$_options[$key])) {
+
+        $ret = (string)static::$_options[$key];
+        if ($debug) logger::debug(sprintf('<retrieve option value : %s = %s> %s', $key, $ret,  __METHOD__));
+      } elseif ($debug) {
+
+        logger::debug(sprintf('<retrieve option value (default - not set) : %s = %s> %s', $key, $ret, __METHOD__));
+      }
+    } elseif ($debug) {
+
+      logger::info(sprintf('<retrieve option value (null): %s = %s> %s', $key, $ret, __METHOD__));
+    }
+
+    if (!is_null($val)) {
+
+      /* writer */
+      if ((string)$val == '') {
+
+        if (isset(static::$_options[$key])) unset(static::$_options[$key]);
+      } else {
+
+        static::$_options[$key] = (string)$val;
+      }
+
+      file_put_contents(
+        static::_options_file(),
+        json_encode(
+          static::$_options,
+          JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
+        )
+      );
+    }
+
+    return ($ret);
   }
 }
