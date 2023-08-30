@@ -133,10 +133,10 @@ if (!window._brayworth_) {
 
         let o = $(html);
 
-        o.find('.btn-close')
-          .addClass('close')
-          .removeClass('btn-close')
-          .html('');
+        // o.find('.btn-close')
+        //   .addClass('close')
+        //   .removeClass('btn-close')
+        //   .html('');
 
         o.find('.btn-close').parent().removeAttr('data-bs-theme')
 
