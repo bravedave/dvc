@@ -143,6 +143,7 @@ if (!window._brayworth_) {
         o.find('.input-group-text').each((i, el) => {
 
           let _el = $(el);
+          let parent = _el.parent();
 
           if (!(parent.hasClass('input-group-prepend') || parent.hasClass('input-group-append'))) {
 
