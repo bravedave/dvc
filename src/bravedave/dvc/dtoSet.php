@@ -38,4 +38,9 @@ class dtoSet {
     if ($res = $this->db->result($sql)) return $res->dtoSet($func, $template);
     return [];
   }
+
+  public function quote($s) {
+
+    return $this->db->quote($s);
+  }
 }
