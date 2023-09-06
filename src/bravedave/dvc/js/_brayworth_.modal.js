@@ -35,7 +35,201 @@
     });
 */
 (_ => {
-  _.modal = function (params) {
+
+  _.modal = function(params) {
+
+    if ('string' == typeof params) {
+
+      /* This is a command - jquery-ui style */
+      let _m = $(this).data('modal');
+      if ('close' == params) _m.close();
+      return;
+    }
+
+    let options = {
+      ...{
+        title: '',
+        width: false,
+        height: false,
+        mobile: _.browser.isMobileDevice,
+        fullScreen: _.browser.isMobileDevice,
+        className: _.templates.modalDefaultClass,
+        autoOpen: true,
+        buttons: {},
+        headButtons: {},
+        closeIcon: 'bi-x',
+        onOpen: () => {},
+        onEnter: () => {},
+      },
+      ...params
+    };
+
+    let content = (!!options.text ? options.text : '');
+    if ('undefined' != typeof this) {
+
+      if (!this._brayworth_) {
+
+        content = (this instanceof jQuery ? this : $(this));
+        if (options.title == '' && ('string' == typeof content.attr('title')))
+          options.title = content.attr('title');
+      }
+    }
+
+    let m = _.modal.template();
+    m
+      .on('show.bs.modal', e => {
+
+      })
+      .on('shown.bs.modal', e => {
+
+        options.onOpen.call(m);
+      });
+
+    m.checkHeight = function() {
+      /*
+       * check that the dialog fits on screen
+       */
+      let h = $('.modal-body', this).height();
+      let mh = $(window).height() * 0.9;
+      let ftr = $('.modal-footer', this);
+      if (ftr.length > 0) mh -= ftr.height();
+
+      if (h > mh) {
+        $('.modal-body', this)
+          .height(mh)
+          .css({
+            'overflow-y': 'auto',
+            'overflow-x': 'hidden'
+          });
+      }
+
+      return this;
+    };
+
+    m.close = function() {
+
+      $(this).data('modal').modal('hide');
+      return this;
+    };
+
+    m.find('.modal-title').html(options.title);
+    m.find('.modal-body').append(content);
+
+    if (Object.keys(options.buttons).length > 0) { // jquery-ui style
+
+      $.each(options.buttons, (i, el) => {
+
+        let j = {
+          text: i,
+          title: '',
+          click: e => {}
+        };
+
+        if ('function' == typeof el) {
+
+          j.click = el;
+
+        } else {
+
+          j = {
+            ...j,
+            ...el
+          };
+        }
+
+        let btn = $(
+          `<button class="${_.templates.buttonCSS}" type="button">
+            ${j.text}
+            </button>`
+        ).on('click', e => j.click.call(m, e, this));
+
+        m.find('.modal-footer').append(btn);
+
+        // object now accessible to calling function
+        if ('object' == typeof el) el.button = btn;
+        if (!!j.title) btn.attr('title', j.title);
+      });
+    } else {
+
+      m.find('.modal-footer').addClass('p-0');
+    }
+
+    if (Object.keys(options.headButtons).length > 0) {
+
+      let closeBtn = m.find('.modal-header .close, .modal-header .btn-close')
+      let margin = 'ml-auto';
+      $.each(options.headButtons, (i, el) => {
+
+        let j = {
+          text: i,
+          title: false,
+          icon: false,
+          click: e => {},
+        };
+
+        if ('function' == typeof el) {
+
+          j.click = el;
+        } else {
+
+          j = {
+            ...j,
+            ...el
+          };
+        }
+
+        let b;
+        if (!!j.icon) {
+
+          b = $('<div class="pointer pt-1 px-2"></div>')
+            .append(
+              $('<i class="m-0"></i>')
+              .addClass(j.icon)
+              .addClass(/^fa/.test(j.icon) ? 'fa' : 'bi')
+            );
+
+        } else {
+
+          b = $('<button></button>')
+            .html(j.text)
+            .addClass(_.templates.buttonCSS);
+        }
+
+        if ('' != margin) b.addClass(margin);
+        margin = '';
+
+        if (!!j.title) b.attr('title', j.title);
+
+        b.on('click', e => j.click.call(m, e)); // wrap the call and call it against the modal
+        b.insertBefore(closeBtn);
+
+        if ('object' == typeof el) el.button = b; // object now accessible to calling function
+      });
+
+      closeBtn.addClass('ml-0')
+    }
+
+    if (!!options.width) {
+
+      m.find('.modal-dialog').css({
+        'width': options.width,
+        'max-width': options.width
+      });
+    }
+
+    if (options.className != '') {
+
+      m.find('.modal-dialog').addClass(options.className);
+    }
+
+    m.data('modal', m);
+    m.modal('show');
+    // console.log(options, this);
+
+    return m;
+  };
+
+  const deprecatedModal = function (params) {
     if ('string' == typeof params) {
       /* This is a command - jquery-ui style */
       let _m = $(this).data('modal');
@@ -267,7 +461,7 @@
   };
 
   _.modal.template = () => $(
-    `<div class="modal" tabindex="-1" role="dialog">
+    `<div class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header" data-bs-theme="dark">
