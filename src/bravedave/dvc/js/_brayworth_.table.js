@@ -37,7 +37,17 @@
 
         let stuffString = [];
         hcols.each((i, td) => {
-          stuffString.push(`<td class="${td.classList.value}"><span class="placeholder w-100"></span></td>`);
+
+          let colspan = td.getAttribute('colspan');
+          if (!colspan) {
+
+            stuffString
+              .push(`<td class="${td.classList.value}"><span class="placeholder w-100"></span></td>`);
+          } else {
+
+            stuffString
+              .push(`<td class="${td.classList.value}" colspan="${colspan}"><span class="placeholder w-100"></span></td>`);
+          }
         });
 
         for (let i = 0; i < count; i++) {
