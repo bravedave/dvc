@@ -380,6 +380,9 @@ if (!window._brayworth_) {
   // https://blog.saviomartin.com/20-killer-javascript-one-liners
   // _.isDateValid = (...val) => !Number.isNaN(new Date(...val).valueOf());
   _.isDateValid = s => {
+
+    if (!s) return false;
+
     let d = _.dayjs(s);
     if (d.isValid() && d.unix() > 0) return true;
 
