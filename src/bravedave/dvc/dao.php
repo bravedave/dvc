@@ -400,10 +400,10 @@ abstract class dao {
     return false;
   }
 
-  public function getRichData(dto $dto): dto {
+  // public function getRichData(dto $dto): ?dto {
 
-    return $dto;
-  }
+  //   return $dto;
+  // }
 
   public function Insert($a) {
 
