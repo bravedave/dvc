@@ -10,8 +10,7 @@
 
 namespace bravedave\dvc;
 
-use config;
-use Exception;
+use config, Exception;
 
 class db {
   protected $mysqli, $dbname;

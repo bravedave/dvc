@@ -232,8 +232,9 @@ abstract class dao {
 
     if ($dto = $this->getByID($id)) {
 
-      if (method_exists($this, 'getRichData')) return $this->getRichData($dto);
-      return $dto;
+      // if (method_exists($this, 'getRichData'))
+      return $this->getRichData($dto);
+      // return $dto;
     }
 
     return null;
@@ -400,10 +401,10 @@ abstract class dao {
     return false;
   }
 
-  // public function getRichData(dto $dto): ?dto {
+  public function getRichData(dto $dto): ?dto {
 
-  //   return $dto;
-  // }
+    return $dto;
+  }
 
   public function Insert($a) {
 
