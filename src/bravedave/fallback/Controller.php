@@ -8,4 +8,4 @@
  *
 */
 
-class Controller extends bravedave\dvc\Controller {}
+class Controller extends bravedave\dvc\controller {}

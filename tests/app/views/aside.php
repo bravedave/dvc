@@ -8,26 +8,19 @@
  *
 */  ?>
 
+<nav class="nav flex-column" id="<?= $_nav = strings::rand() ?>">
 
-<h6 class="mt-2">Tutorial</h6>
-<ul class="nav flex-column">
+  <h6 class="mt-2">Tutorial</h6>
+  <a class="nav-link" href="<?= strings::url('/docs/risorsa') ?>">Risorsa</a>
 
-  <li class="nav-item">
-    <a class="nav-link" href="<?= strings::url('/docs/risorsa') ?>">Risorsa</a>
-  </li>
-</ul>
-
-<h6 class="mt-2">Nav</h6>
-<ul class="nav flex-column" id="<?= $_nav = strings::rand() ?>">
-  <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Active</a>
-  </li>
-  <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-  <li class="nav-item"><a class="nav-link js-alert" href="#">Alert</a></li>
-  <li class="nav-item"><a class="nav-link js-toast" href="#">Toast</a></li>
-  <li class="nav-item"><a class="nav-link" href="<?= strings::url($this->route . '/accordion') ?>">Accordion</a></li>
-  <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1"
-      aria-disabled="true">Disabled</a></li>
-</ul>
+  <h6 class="mt-2">Nav</h6>
+  <a class="nav-link active" aria-current="page" href="#">Active</a>
+  <a class="nav-link" href="#">Link</a>
+  <a class="nav-link js-alert" href="#">Alert</a>
+  <a class="nav-link js-toast" href="#">Toast</a>
+  <a class="nav-link" href="<?= strings::url($this->route . '/accordion') ?>">Accordion</a>
+  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+</nav>
 
 <h6 class="mt-2">Text Colors</h6>
 <ul>
@@ -51,39 +44,43 @@
     <div class="col bg-info">&nbsp;</div>
   </div>
 </div>
+
+<p class="mt-4 fst-italic">
+  constructed using bootstrap, jquery and many other open source technologies
+</p>
+
 <script>
   (_ => {
     const nav = $('#<?= $_nav ?>');
 
-    nav.find('.js-alert').on('click', function(e) {
-      e.stopPropagation();
-      e.preventDefault();
+    nav.find('.js-alert')
+      .on('click', function(e) {
 
-      _.ask.alert({
-        text: 'how you doin ?',
-        buttons: {
-          'ok': function(e) {
-            this.modal('hide')
+        _.hideContexts(e);
+        _.ask.alert({
+          text: 'how you doin ?',
+          buttons: {
+            'ok': function(e) {
+              this.modal('hide')
+            }
           }
-        }
-      })
-    });
-
-    nav.find('.js-toast').on('click', function(e) {
-      e.stopPropagation();
-      e.preventDefault();
-
-      _.growl('how you doin ?');
-      _.growl({
-        response: 'nak',
-        description: 'how you doin ?'
-      });
-      _.growl({
-        response: 'ack',
-        description: 'great !!'
+        })
       });
 
-    });
+    nav.find('.js-toast')
+      .on('click', function(e) {
 
+        _.hideContexts(e);
+
+        _.growl('how you doin ?');
+        _.growl({
+          response: 'nak',
+          description: 'how you doin ?'
+        });
+        _.growl({
+          response: 'ack',
+          description: 'great !!'
+        });
+      });
   })(_brayworth_);
 </script>

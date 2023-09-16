@@ -33,7 +33,7 @@
 
         <div class="modal-footer">
           <?php if (\config::allow_password_recovery) { ?>
-            <button type="button" class="btn bg-body-secondary" id="<?= $_btnReset = strings::rand() ?>">reset
+            <button type="button" class="btn btn-light" id="<?= $_btnReset = strings::rand() ?>">reset
               password</button>
           <?php   } ?>
 

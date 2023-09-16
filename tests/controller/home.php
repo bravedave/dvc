@@ -8,9 +8,9 @@
  *
 */
 
-use bravedave\dvc\{json, logger};
+use bravedave\dvc\{controller, json, logger};
 
-class home extends Controller {
+class home extends controller {
 
   protected function _index() {
 
@@ -39,23 +39,60 @@ class home extends Controller {
         'aside' => ['aside']
       ];
 
+      $main = 'main';
+      $main = 'todo-matrix';
+
       $this->renderBS5([
-        'main' => fn () => $this->load('main')
+        'main' => fn () => $this->load($main)
       ]);
     }
   }
 
   protected function before() {
 
-    $this->viewPath[] = __DIR__ . '/views/';
+    config::checkdatabase();
     parent::before();
+    // $this->viewPath[] = __DIR__ . '/views/';
   }
 
   protected function postHandler() {
 
     $action = $this->getPost('action');
 
-    if ('hello' == $action) {
+    if ('get-todo-data' == $action) {
+
+      json::ack($action)
+        ->add('data', (new \dao\todo)->getMatrix());
+    } elseif ('todo-add' == $action) {
+
+      (new \dao\todo)->Insert([
+        'description' => $this->getPost('description')
+      ]);
+
+      json::ack($action);
+    } elseif ('todo-delete' == $action) {
+
+      if ($id = (int)$this->getPost('id')) {
+
+        (new \dao\todo)->delete($id);
+        json::ack($action);
+      } else {
+
+        json::nak($action);
+      }
+    } elseif ('todo-update' == $action) {
+
+      if ($id = (int)$this->getPost('id')) {
+
+        (new \dao\todo)->UpdateByID([
+          'description' => $this->getPost('description')
+        ], $id);
+        json::ack($action);
+      } else {
+
+        json::nak($action);
+      }
+    } elseif ('hello' == $action) {
 
       json::ack($action);
     } else {
@@ -172,19 +209,5 @@ class home extends Controller {
     $this->renderBS5([
       'main' => fn () => $this->load('tiny')
     ]);
-
-    // if ('4' == config::$BOOTSTRAP_VERSION) {
-    //   $this->render([
-    //     'secondary' => ['aside'],
-    //     'navbar' => 'navbar-4',
-    //     'primary' => ['tiny']
-    //   ]);
-    // } else {
-    //   logger::info(sprintf('<%s> %s', config::$PAGE_TEMPLATE, __METHOD__));
-    //   $this->render([
-    //     'secondary' => ,
-    //     'primary' => ['tiny']
-    //   ]);
-    // }
   }
 }
