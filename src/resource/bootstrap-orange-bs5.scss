@@ -4,7 +4,7 @@
 $enable-shadows : true;
 $enable-gradients : true;
 
-$primary: #ca6510;
+$primary: #CA6510;
 $secondary: #8b5a00;
 $warning: #CEB915;
 $danger: #E71B33;
@@ -13,30 +13,12 @@ $success: #65D03D;
 $light: #FFFAF1;
 $dark: #331904;
 
-
 .bg-gradient-navbar {
-  background: #FFA500 linear-gradient(90deg, #966100, #FFD68A) repeat-x !important;
+  background: #CA6510 linear-gradient(90deg, #966100, #FFD68A) repeat-x !important;
 }
 
 .input-group .btn-light {
   border-color: var(--bs-border-color) !important;
-}
-
-@media (min-width: 768px) {
-
-  aside.bg-sidebar .sidebar,
-  div[data-role="content-secondary"].bg-sidebar .sidebar {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    display: block;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    overflow-y: auto;
-    opacity: .7;
-    background-color: #fff1d8;
-  }
 }
 
 @import "./bootstrap5/scss/bootstrap";
