@@ -64,7 +64,7 @@
           .on('click.tablesort', _.table.sort));
     },
 
-    sortOn: (table, key, sorttype, order) => new Promise((resolve, reject) => {
+    sortOn: (table, key, sorttype, order) => new Promise(resolve => {
       let debug = false;
       let tbody = $('tbody', table);
       if (!tbody) tbody = table;
@@ -101,14 +101,14 @@
 
         if (sorttype == 'numeric') {
 
-          if (undefined == ae) ae = 0;
-          if (undefined == be) be = 0;
-          return Number(ae) - Number(be);
+          // if (undefined == ae) ae = 0;
+          // if (undefined == be) be = 0;
+          return Number(ae ?? '') - Number(be ?? '');
         }
 
-        if (undefined == ae) ae = '';
-        if (undefined == be) be = '';
-        return String(ae).toUpperCase().localeCompare(String(be).toUpperCase());
+        // if (undefined == ae) ae = '';
+        // if (undefined == be) be = '';
+        return String(ae ?? '').toUpperCase().localeCompare(String(be ?? '').toUpperCase());
       });
 
       $.each(items, (i, e) => (order == 'desc') ? tbody.prepend(e) : tbody.append(e));
