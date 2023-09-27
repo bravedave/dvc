@@ -229,6 +229,7 @@
       .one('destroy-autofill', () => {
 
         $(this)
+          .off('search.autofill')
           .off('keydown.autofill')
           .off('keypress.autofill')
           .off('keyup.autofill')
@@ -302,11 +303,6 @@
 
         lastVal = _me.val();
 
-        let _data = {
-          term: lastVal,
-          iterant: ++iterant,
-        };
-
         //~ console.log( typeof options.source);
         if (/^(array|object)$/.test(typeof options.source)) {
 
@@ -344,61 +340,72 @@
           });
         } else {
 
-          setTimeout(() => {
+          $(this).trigger('search.autofill');
+        }
+      })
+      .on('search.autofill', function (e, d) {
 
-            if (_data.iterant != iterant) return;
+        lastVal = _me.val();
 
-            let render = _el => {
+        let _data = {
+          term: lastVal,
+          iterant: ++iterant,
+        };
 
-              let el = {
-                ...{
-                  label: 'string' == typeof _el ? _el : '',
-                  value: 'string' == typeof _el ? _el : '',
-                }, ..._el
-              };
+        setTimeout(() => {
 
-              let label = !!el.label ? el.label : (!!el.value ? el.value : el);
+          if (_data.iterant != iterant) return;
 
-              let touchStartTimeout = false;
-              let _li = $(`<li class="list-group-item p-1" tabindex="-1">
-                <div class="text-truncate" tabindex="-1">${_.encodeHTMLEntities(label)}</div>
-              </li>`)
-                .data('item', el)
-                .css('border', '1px solid dashed')
-                .on('mousedown', e => e.preventDefault() /* Prevent focus leaving field */)
-                .on('click', function (e) {
+          let render = _el => {
 
-                  keyMove.selectitem.call(this, e);
-                })
-                .on('touchstart', function (e) {
-
-                  keyMove.activate(this);
-                  touchStartTimeout = setTimeout(() => keyMove.deactivate(this), 300);
-                })
-                .on('touchend', function (e) {
-
-                  if ($(this).hasClass('active')) {
-
-                    if (touchStartTimeout) clearTimeout(touchStartTimeout);
-                    keyMove.selectitem.call(this, e);
-                  }
-                })
-                .on('mouseover', function (e) {
-
-                  keyMove.activate(this);
-                });
-
-              return _li;
+            let el = {
+              ...{
+                label: 'string' == typeof _el ? _el : '',
+                value: 'string' == typeof _el ? _el : '',
+              }, ..._el
             };
 
-            options.source(_data, d => {
+            let label = !!el.label ? el.label : (!!el.value ? el.value : el);
 
-              keyMove.clear();
-              keyMove.init();
-              $.each(d, (i, el) => list.append(render(el)));
-            });
-          }, options.timeout);
-        }
+            let touchStartTimeout = false;
+            let _li = $(`<li class="list-group-item p-1" tabindex="-1">
+                <div class="text-truncate" tabindex="-1">${_.encodeHTMLEntities(label)}</div>
+              </li>`)
+              .data('item', el)
+              .css('border', '1px solid dashed')
+              .on('mousedown', e => e.preventDefault() /* Prevent focus leaving field */)
+              .on('click', function (e) {
+
+                keyMove.selectitem.call(this, e);
+              })
+              .on('touchstart', function (e) {
+
+                keyMove.activate(this);
+                touchStartTimeout = setTimeout(() => keyMove.deactivate(this), 300);
+              })
+              .on('touchend', function (e) {
+
+                if ($(this).hasClass('active')) {
+
+                  if (touchStartTimeout) clearTimeout(touchStartTimeout);
+                  keyMove.selectitem.call(this, e);
+                }
+              })
+              .on('mouseover', function (e) {
+
+                keyMove.activate(this);
+              });
+
+            return _li;
+          };
+
+          options.source(_data, d => {
+
+            keyMove.clear();
+            keyMove.init();
+            $.each(d, (i, el) => list.append(render(el)));
+          });
+        }, options.timeout);
       });
 
     return this; // chain
