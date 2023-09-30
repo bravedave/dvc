@@ -40,7 +40,7 @@ class user {
 
   public function sync(oauth $oauth) {
 
-    sys::logger('_user::sync => placeholder function - you probably want to write your own');
+    logger::info('_user::sync => placeholder function - you probably want to write your own');
   }
 
   public static function getByUID() {

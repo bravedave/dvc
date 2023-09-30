@@ -90,8 +90,6 @@ abstract class url {
 
           $script = preg_replace('@/application$@', '', $script);
           define('URL', sprintf('//%s%s%s/', $server, $port, $script));
-          // \sys::logger( sprintf( 'defining URL as %s - %s', $server, $script ), 3 );
-
         } else {
 
           define('URL', $script . '/');

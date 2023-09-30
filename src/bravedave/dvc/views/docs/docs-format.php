@@ -49,11 +49,8 @@
     if (h.length > 0) {
       let title = h.first().html();
 
-      $('body > nav .navbar-brand')
-        .html(`<h4 class="my-0">${title}</h4>`);
-      document.title = title;
-
+      $('body > nav .navbar-brand').html(title);
+      document.title = $('body > nav .navbar-brand').text();
     }
-
   })
 </script>

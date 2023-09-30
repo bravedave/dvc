@@ -6,12 +6,9 @@
  *
  * MIT License
  *
-*/
+*/ ?>
 
-printf(
-  '<div class="container p-4" id="%s"></div>',
-  $_container = strings::rand()
-);  ?>
+<div class="container p-4" id="<?= $_container = strings::rand() ?>"></div>
 <script>
   (_ => {
     const container = $('#<?= $_container ?>');
@@ -28,14 +25,15 @@ printf(
       container.html('<h4><?= config::label_todo ?></h4>');
       $.each(data, (i, dto) => {
 
-        let row = $(`<div class="row g-2 js-todo">
-          <div class="col p-2 border border-light js-description">${dto.description}</div>
-          <div class="col-auto">
-            <button type="button" class="btn btn-light js-delete">
-              <i class="bi bi-trash"></i>
-            </button>
-          </div>
-          </div>`)
+        let row = $(
+            `<div class="row g-2 js-todo">
+              <div class="col p-2 border border-light js-description">${dto.description}</div>
+              <div class="col-auto">
+                <button type="button" class="btn btn-light js-delete">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>`)
           .data('dto', dto)
           .on('delete', function(e) {
 
@@ -104,11 +102,12 @@ printf(
           })
       });
 
-      $(`<div class="row g-2 mt-2">
-        <div class="col">
-          <input type="text" class="form-control js-new-todo" name="description" placeholder="new todo">
-        </div>
-      </div>`).appendTo(container);
+      container.append(
+        `<div class="row g-2 mt-2">
+          <div class="col">
+            <input type="text" class="form-control js-new-todo" name="description" placeholder="new todo">
+          </div>
+        </div>`);
 
       container.find('.js-delete')
         .on('click', function(e) {

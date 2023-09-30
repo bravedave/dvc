@@ -70,7 +70,8 @@ class view {
 
     if (substr_compare($path, '.md', -3) === 0) {
 
-      if ($this->debug) \sys::logger('dvc\view->_load :: it\'s an md !');
+      if ($this->debug) logger::debug(sprintf('<it\'s an md !> %s', __METHOD__));
+
       $fc = file_get_contents($path);
       $converter = new GithubFlavoredMarkdownConverter([
         'html_input' => 'strip',
@@ -79,6 +80,7 @@ class view {
       print $converter->convert($fc);
       // print \Parsedown::instance()->text($fc);
     } else {
+
       include $path;
     }
 
@@ -101,7 +103,7 @@ class view {
             $this->loadName = $parts['filename'];
             $path = $name;
             $inPath = true;
-            if ($this->debug) \sys::logger(sprintf('<%s> : found in path : %s', $name, __METHOD__));
+            if ($this->debug) logger::debug(sprintf('<%s> : found in path : %s', $name, __METHOD__));
 
             break;
           } elseif (file_exists($name . '.php')) {
@@ -110,7 +112,7 @@ class view {
             $this->loadName = $parts['filename'];
             $path = $name;
             $inPath = true;
-            if ($this->debug) \sys::logger(sprintf('<%s> : found in path : %s', $name, __METHOD__));
+            if ($this->debug) logger::debug(sprintf('<%s> : found in path : %s', $name, __METHOD__));
 
             break;
           }
@@ -119,7 +121,8 @@ class view {
     }
 
     if (!$inPath) {
-      if ($this->debug) \sys::logger(sprintf('<%s> : NOT in path (%s) : %s', $name, implode(', ', $this->paths), __METHOD__));
+
+      if ($this->debug) logger::debug(sprintf('<%s> : NOT in path (%s) : %s', $name, implode(', ', $this->paths), __METHOD__));
       $this->loadName = $name;
       $path = sprintf('%s/app/views/%s.php', $this->rootPath, $name);
     }
@@ -133,7 +136,7 @@ class view {
       return true;
     } else {
 
-      if ($this->debug) \sys::logger(sprintf('<%s> : NOT found : %s', $name, __METHOD__));
+      if ($this->debug) logger::debug(sprintf('<%s> : NOT found : %s', $name, __METHOD__));
 
       $path = sprintf('%s/views/%s.php', __DIR__, $name);
       if (file_exists($path)) {
@@ -147,6 +150,7 @@ class view {
 
         // we are going to allow vendor/bravedave/dvc/theme
         if (class_exists('dvc\theme\view', /* autoload */ false)) {
+
           if ($themeView = '\dvc\theme\view'::getView($name)) {
             $this
               ->_wrap()

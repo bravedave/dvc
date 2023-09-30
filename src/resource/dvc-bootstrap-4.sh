@@ -31,7 +31,8 @@ if [ -x "$(command -v sassc)" ]; then
 
     targetDir="../../../bravedave/dvc/css/bootstrap4/"
 
-    cat ../../bootstrap-custom.scss bootstrap.scss ../../bootstrap4-polyfill.css >bootstrap-custom.scss
+    # cat ../../bootstrap-custom.scss bootstrap.scss ../../bootstrap4-polyfill.css >bootstrap-custom.scss
+    cat ../../bootstrap-custom.scss ../../bootstrap4-polyfill.css >bootstrap-custom.scss
     sassc --omit-map-comment -t expanded bootstrap-custom.scss $targetDir/bootstrap.css
     sassc --omit-map-comment -t compressed bootstrap-custom.scss $targetDir/bootstrap.min.css
     echo "$me : wrote bootstrap.min.css"
