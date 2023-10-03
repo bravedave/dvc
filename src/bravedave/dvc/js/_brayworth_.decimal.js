@@ -50,9 +50,10 @@
         return this; // chain
       },
 
-      value: function () {
+      value: function (decimals) {
 
-        return parseInt(this._value) / this.scale;
+        let r = parseInt(this._value) / this.scale;
+        return !!decimals ? _.decimal(r, decimals).value() : r;
       }
     };
   };
