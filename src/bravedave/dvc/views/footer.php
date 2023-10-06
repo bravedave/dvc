@@ -7,7 +7,7 @@
   MIT License
 */  ?>
 
-<footer class="footer-fixed">
+<footer class="fixed-bottom">
   <div class="container-fluid">
     <div class="row mb-0">
       <div class="col text-muted">
