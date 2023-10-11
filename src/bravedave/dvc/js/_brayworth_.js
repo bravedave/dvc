@@ -78,7 +78,7 @@ if (!window._brayworth_) {
     if (!!e) {
 
       e.stopPropagation();
-      e.preventDefault();
+      // e.preventDefault();
     }
 
     $(document).trigger('hide-contexts');

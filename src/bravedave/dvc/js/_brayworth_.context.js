@@ -11,6 +11,7 @@
   _.context = e => {
 
     _.hideContexts(e);
+    e.preventDefault(); // don't show the browser context menu
 
     let cx = {
       root: $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
