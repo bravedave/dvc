@@ -195,7 +195,7 @@ abstract class strings {
       }
     }
 
-    return (trim(implode(' ', $r), ' \t\n\r'));
+    return trim(implode(' ', $r), " \t\n\r");
   }
 
   /**
