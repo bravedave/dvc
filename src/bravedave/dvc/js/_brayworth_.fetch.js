@@ -63,7 +63,10 @@
   };
 
   // https://stackoverflow.com/questions/46640024/how-do-i-post-form-data-with-fetch-api
-  _.fetch.post.form = (url, form) => new Promise((resolve, reject) => {
+  _.fetch.post.form = (url, form, method = 'application/x-www-form-urlencoded') => new Promise((resolve, reject) => {
+
+    let data = new FormData(form);
+    console.log('method', method);
 
     fetch(url, {
       method: "POST",
