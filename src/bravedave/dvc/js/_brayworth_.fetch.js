@@ -66,11 +66,17 @@
   _.fetch.post.form = (url, form, method = 'application/x-www-form-urlencoded') => new Promise((resolve, reject) => {
 
     let data = new FormData(form);
-    console.log('method', method);
+    if ('multipart/form-data' == method) {
+
+    } else {
+
+      data = new URLSearchParams(data);
+    }
+    // console.log('method', method);
 
     fetch(url, {
       method: "POST",
-      body: new URLSearchParams(new FormData(form)),
+      body: data,
     })
       .then(response => {
 
