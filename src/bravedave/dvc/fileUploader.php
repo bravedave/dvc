@@ -33,12 +33,12 @@ class fileUploader {
     // $debug = true;
 
     /*--- ---[uploads]--- ---*/
-    if ($debug) logger::debug(sprintf('<%s> %s', $file['name'], __METHOD__));
+    if ($debug) logger::debug(sprintf('<%s> %s', $file['name'], logger::caller()));
 
     if (is_uploaded_file($file['tmp_name'])) {
 
       $strType = mime_content_type($file['tmp_name']);
-      if ($debug) logger::debug(sprintf('<%s (%s)> %s', $file['name'], $strType, __METHOD__));
+      if ($debug) logger::debug(sprintf('<%s (%s)> %s', $file['name'], $strType, logger::caller()));
 
       if (!$this->accept || in_array($strType, $this->accept)) {
 
@@ -65,7 +65,7 @@ class fileUploader {
           if (!preg_match('@\.csv$@', $target)) $target .= '.csv';
         }
 
-        if ($debug) logger::debug(sprintf('<target %s> %s', $target, __METHOD__));
+        if ($debug) logger::debug(sprintf('<target %s> %s', $target, logger::caller()));
 
         foreach ($deleteFiles as $delete) {
 
@@ -74,31 +74,31 @@ class fileUploader {
             $delete
           ]);
 
-          if ($debug) logger::debug(sprintf('<delete %s> %s', $_dtarget, __METHOD__));
+          if ($debug) logger::debug(sprintf('<delete %s> %s', $_dtarget, logger::caller()));
           if (file_exists($_dtarget)) unlink($_dtarget);
         }
 
         if (file_exists($target)) unlink($target);
         if (move_uploaded_file($source, $target)) return true;
 
-        logger::info(sprintf('<%s error moving file> %s', $file['name'], __METHOD__));
+        logger::info(sprintf('<%s error moving file> %s', $file['name'], logger::caller()));
         return false;
       } elseif (!$strType) {
 
-        logger::info(sprintf('<%s invalid file type> %s', $file['name'], __METHOD__));
+        logger::info(sprintf('<%s invalid file type> %s', $file['name'], logger::caller()));
         return false;
       } else {
 
-        logger::info(sprintf('<%s invalid file type - %s> %s', $file['name'], $strType, __METHOD__));
+        logger::info(sprintf('<%s invalid file type - %s> %s', $file['name'], $strType, logger::caller()));
         return false;
       }
     } elseif (UPLOAD_ERR_INI_SIZE == $file['error']) {
 
-      logger::info(sprintf('<%s size exceeds ini size> %s', $file['name'], __METHOD__));
+      logger::info(sprintf('<%s size exceeds ini size> %s', $file['name'], logger::caller()));
       return false;
     } else {
 
-      logger::info(sprintf('<is not an uploaded file ? : %s> %s', $file['name'], __METHOD__));
+      logger::info(sprintf('<is not an uploaded file ? : %s> %s', $file['name'], logger::caller([__METHOD__])));
       return false;
     }
   }
