@@ -19,7 +19,7 @@
 
 		let data = [];
 
-		let r = this.find('thead > tr').last();
+		let r = table.find('thead > tr').last();
 		if (r.length > 0) {
 
 			let a = [];
