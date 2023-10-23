@@ -48,7 +48,10 @@ class fileUploader {
           strings::safe_file_name(strtolower('' == (string)$fileName ? $file['name'] : $fileName))
         ]);
 
-        if (in_array($strType, ['image/jpeg', 'image/pjpeg'])) {
+        if (in_array($strType, ['image/heic', 'image/heif'])) {
+
+          if (!preg_match('@\.heic$@', $target)) $target .= '.heic';
+        } elseif (in_array($strType, ['image/jpeg', 'image/pjpeg'])) {
 
           if (!preg_match('@\.jpe?g$@', $target)) $target .= '.jpg';
         } elseif (in_array($strType, ['image/png', 'image/x-png'])) {
