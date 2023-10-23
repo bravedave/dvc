@@ -35,6 +35,7 @@ abstract class jslib {
     'js/_brayworth_.browser.js',
     'js/_brayworth_.context.js',
     'js/_brayworth_.CopyToClipboard.js',
+    'js/_brayworth_.csv.js',
     'js/_brayworth_.decimal.js',
     'js/_brayworth_.email.js',
     'js/_brayworth_.extend.js',
@@ -304,13 +305,13 @@ abstract class jslib {
           $modtime = max([$modtime, filemtime($file)]);
 
         else
-          logger::info(sprintf( '<cannot locate library file %s>', $file, __METHOD__));
+          logger::info(sprintf('<cannot locate library file %s>', $file, __METHOD__));
       }
 
       $libmodtime = filemtime($jslib);
       if ($libmodtime < $modtime) {
-        if ($debug) logger::debug(sprintf( '<latest mod time = %s> %s', date('r', $modtime), __METHOD__));
-        if ($debug) logger::debug(sprintf( '<you need to update %s> %s', $jslib, __METHOD__));
+        if ($debug) logger::debug(sprintf('<latest mod time = %s> %s', date('r', $modtime), __METHOD__));
+        if ($debug) logger::debug(sprintf('<you need to update %s> %s', $jslib, __METHOD__));
         if (self::__createlib($libdir, $lib, $files, true)) {
 
           $version = filemtime($jslib);
