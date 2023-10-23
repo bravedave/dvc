@@ -23,7 +23,11 @@
 		if (r.length > 0) {
 
 			let a = [];
-			r.find('> td').each((i, el) => a.push($(el).text()));
+			r.find('> td').each((i, el) => {
+				let s = String($(el).text()).trim()
+				if ( '' == s) s = $(el).attr('title');
+				a.push(s);
+			});
 			data.push(a);
 		}
 
