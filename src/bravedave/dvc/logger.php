@@ -25,6 +25,7 @@ abstract class logger {
       'array_walk',
       'deprecated',
       'dtoset',
+      'include',
       'include_once',
       'require',
     ], $_ignore);
