@@ -84,4 +84,8 @@
 
 		return blob.text();
 	}
+
+	$.fn.downloadCSV = function(filename) {
+		_.csv.call(this[0], filename);
+	};
 })(_brayworth_);
