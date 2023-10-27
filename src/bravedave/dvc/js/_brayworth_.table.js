@@ -21,6 +21,13 @@
       table.find('> thead > tr > .js-line-number').data('count', t).html(t);
     },
 
+    _clear_placeholders_: table => {
+
+      let tbl = table instanceof $ ? table : $(table);
+      tbl.find('>tbody').removeClass('placeholder-glow');
+      tbl.find('>tbody > tr.placeholder-row').remove();
+    },
+
     _placeholders_: (table, count) => {
 
       let tbl = table instanceof $ ? table : $(table);
@@ -51,7 +58,7 @@
         });
 
         for (let i = 0; i < count; i++) {
-          tbody.append(`<tr>${stuffString.join('')}</tr>`);
+          tbody.append(`<tr class="placeholder-row">${stuffString.join('')}</tr>`);
         }
       }
     },

@@ -6,13 +6,13 @@
  * MIT License
  *
  */
-($ => {
+(($, _) => {
 
   $.fn.placeholders = function () {
 
     if ('TABLE' == String(this[0].nodeName)) {
 
-      _brayworth_.table._placeholders_(this);
+      _.table._placeholders_(this);
     } else {
 
       console.log(`cannot placeholder : ${this[0].nodeName}`);
@@ -20,4 +20,17 @@
 
     return this;
   }
-})(jQuery);
+
+  $.fn.clearPlaceholders = function () {
+
+    if ('TABLE' == String(this[0].nodeName)) {
+
+      _.table._clear_placeholders_(this);
+    } else {
+
+      console.log(`cannot clear placeholders : ${this[0].nodeName}`);
+    }
+
+    return this;
+  }
+})(jQuery, _brayworth_);
