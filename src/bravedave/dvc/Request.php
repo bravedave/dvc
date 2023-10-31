@@ -315,15 +315,12 @@ class Request {
   }
 
   public function getParam($name = '', $default = false) {
-    if (!$name)
-      return $this->params;
 
-    if (isset($this->params[$name])) {
-      //~ error_log( "Request.php : " . $name . '=' . $this->params[$name]);
-      return $this->params[$name];
-    }
+    if (!$name) return $this->params;
+    if (isset($this->params[$name])) return $this->params[$name];
+    if (isset($this->json->$name)) return $this->json->$name;
 
-    return ($default);
+    return $default;
   }
 
   public function fileUpload($path, $accept = null) {
