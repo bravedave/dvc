@@ -23,6 +23,7 @@ abstract class logger {
 
     $ignore = array_merge([
       'array_walk',
+      'classloader',
       'deprecated',
       'dtoset',
       'include',
