@@ -82,6 +82,8 @@ abstract class config {
   static $BOOTSTRAP_REQUIRE_POPPER = false;
   static $BOOTSTRAP_VERSION = '4';
 
+  static $CSS_BOOTSTRAP5_PATH = __DIR__ . '/css/bootstrap5';
+
   static $COOKIE_AUTHENTICATION_EXPIRES_DAYS = 7;
 
   static $CONTENT_SECURITY_ENABLED = true;
