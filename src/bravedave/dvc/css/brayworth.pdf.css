@@ -196,6 +196,16 @@ table>tfoot.border-top>tr>td {
   padding-left: .6rem;
 }
 
+.table>thead>tr>td.pr-1,
+.table>tbody>tr>td.pr-1 {
+  padding-right: .3rem;
+}
+
+.table>thead>tr>td.pr-2,
+.table>tbody>tr>td.pr-2 {
+  padding-right: .6rem;
+}
+
 .table>thead>tr>td.pt-0,
 .table>tbody>tr>td.pt-0 {
   padding-top: 0;
