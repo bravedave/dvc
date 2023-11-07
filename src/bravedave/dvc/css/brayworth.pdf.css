@@ -158,6 +158,10 @@ table>tbody>tr {
   vertical-align: top;
 }
 
+table>thead>tr.border-bottom>td,
+table>thead>tr.border-bottom>th,
+table>tbody>tr.border-bottom>td,
+table>tfoot>tr.border-bottom>td,
 table>thead.border-bottom>tr>td,
 table>thead.border-bottom>tr>th,
 table>tbody.border-bottom>tr>td,
