@@ -169,6 +169,10 @@ table>tfoot.border-bottom>tr>td {
   border-bottom: 1px solid silver;
 }
 
+table>thead>tr.border-top>td,
+table>thead>tr.border-top>th,
+table>tbody>tr.border-top>td,
+table>tfoot>tr.border-top>td,
 table>thead.border-top>tr>td,
 table>thead.border-top>tr>th,
 table>tbody.border-top>tr>td,
