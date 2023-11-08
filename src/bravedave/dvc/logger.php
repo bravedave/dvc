@@ -28,6 +28,7 @@ abstract class logger {
       'dtoset',
       'include',
       'include_once',
+      'loadclass',
       'require',
     ], $_ignore);
 
@@ -61,10 +62,9 @@ abstract class logger {
       self::caller([
         '__destruct',
         'bravedave\dvc\{closure}',
-        'bravedave\dvc\dbResult',
+        'bravedave\dvc\dbresult',
         'bravedave\dvc\logger',
-        'Composer\Autoload\ClassLoader',
-        'MatthiasMullie\Scrapbook\Adapters\Apc'
+        'matthiasmullie\scrapbook\adapters\apc'
       ])
     ));
   }
