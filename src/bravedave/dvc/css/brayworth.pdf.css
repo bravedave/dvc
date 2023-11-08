@@ -268,3 +268,8 @@ td.border-top {
 .border {
   border: 1px solid #e0e0e0;
 }
+
+ul.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
