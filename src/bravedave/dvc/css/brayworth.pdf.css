@@ -125,6 +125,11 @@ table.m-4,
   margin-top: 16px;
 }
 
+.p-0,
+.pt-0 {
+  padding-top: 0 !important;
+}
+
 .p-1,
 .pt-1 {
   padding-top: .3rem !important;
@@ -143,6 +148,31 @@ table.m-4,
 .p-4,
 .pt-4 {
   padding-top: 1rem !important;
+}
+
+.p-0,
+.pb-0 {
+  padding-bottom: 0 !important;
+}
+
+.p-1,
+.pb-1 {
+  padding-bottom: .3rem !important;
+}
+
+.p-2,
+.pb-2 {
+  padding-bottom: .6rem !important;
+}
+
+.p-3,
+.pb-3 {
+  padding-bottom: .9rem !important;
+}
+
+.p-4,
+.pb-4 {
+  padding-bottom: 1rem !important;
 }
 
 .w-100 {
