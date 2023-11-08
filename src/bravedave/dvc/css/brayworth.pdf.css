@@ -165,7 +165,8 @@ table>tfoot>tr.border-bottom>td,
 table>thead.border-bottom>tr>td,
 table>thead.border-bottom>tr>th,
 table>tbody.border-bottom>tr>td,
-table>tfoot.border-bottom>tr>td {
+table>tfoot.border-bottom>tr>td,
+td.border-bottom {
   border-bottom: 1px solid silver;
 }
 
@@ -176,7 +177,8 @@ table>tfoot>tr.border-top>td,
 table>thead.border-top>tr>td,
 table>thead.border-top>tr>th,
 table>tbody.border-top>tr>td,
-table>tfoot.border-top>tr>td {
+table>tfoot.border-top>tr>td,
+td.border-top {
   border-top: 1px solid silver;
 }
 
