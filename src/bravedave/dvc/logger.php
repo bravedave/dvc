@@ -61,6 +61,7 @@ abstract class logger {
       $msg,
       self::caller([
         '__destruct',
+        '_dto',
         'bravedave\dvc\{closure}',
         'bravedave\dvc\dbresult',
         'bravedave\dvc\logger',
