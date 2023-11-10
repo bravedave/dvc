@@ -29,7 +29,7 @@ class docs extends Controller {
     $_paths = $this->_getViewPaths($controller);
     foreach ($_paths as $_path) {
 
-      if ( $debug) logger::info( sprintf('<%s> %s', $_path, __METHOD__));
+      if ($debug) logger::info(sprintf('<%s> %s', $_path, __METHOD__));
 
       if (file_exists($__f = implode(DIRECTORY_SEPARATOR, [$_path, $img]))) {
 
@@ -86,8 +86,8 @@ class docs extends Controller {
       ];
 
       $render = [
-        'main' => fn () => array_walk($primary, fn ($_) => $this->load($_)),
-        'aside' => fn () => array_walk($contents, fn ($_) => $this->load($_)),
+        'main' => fn () => array_walk($primary, fn ($_) => $this->load($_, null, ['html_input' => 'allow'])),
+        'aside' => fn () => array_walk($contents, fn ($_) => $this->load($_, null, ['html_input' => 'allow'])),
       ];
 
       if (config::$SYNTAX_HIGHLIGHT_DOCS) {
