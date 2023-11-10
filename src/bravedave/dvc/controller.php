@@ -419,7 +419,7 @@ abstract class controller {
     return $this->getView($viewName, $controller, $logMissingView = false) != self::viewNotFound;
   }
 
-  protected function load($viewName = 'index', $controller = null) {
+  protected function load($viewName = 'index', $controller = null, array $options = []) {
 
     $view = $this->getView($viewName, $controller);
     if (substr_compare($view, '.md', -3) === 0) {
@@ -427,10 +427,11 @@ abstract class controller {
       if ($this->debug) logger::debug(sprintf('it\'s an md ! :: %s', __METHOD__));
 
       $fc = file_get_contents($view);
-      $converter = new GithubFlavoredMarkdownConverter([
-        'html_input' => 'strip',
-        'allow_unsafe_links' => false,
-      ]);
+      $mdo = [
+        'html_input' => $options['html_input'] ?? 'strip',
+        'allow_unsafe_links' => $options['allow_unsafe_links'] ?? false,
+      ];
+      $converter = new GithubFlavoredMarkdownConverter($mdo);
       printf('<div class="markdown-body">%s</div>', $converter->convert($fc));
       // printf('<div class="markdown-body">%s</div>', \Parsedown::instance()->text($fc));
     } else {
