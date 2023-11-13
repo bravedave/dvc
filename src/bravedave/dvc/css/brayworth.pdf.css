@@ -222,6 +222,10 @@ td.border-top {
   border-top: 1px solid silver;
 }
 
+.table>thead.p-0>tr>td,
+.table>tbody.p-0>tr>td,
+.table>thead>tr.p-0>td,
+.table>tbody>tr.p-0>td,
 .table>thead>tr>td.p-0,
 .table>tbody>tr>td.p-0 {
   padding-top: 0;
@@ -230,6 +234,10 @@ td.border-top {
   padding-left: 0;
 }
 
+.table>thead.p-1>tr>td,
+.table>tbody.p-1>tr>td,
+.table>thead>tr.p-1>td,
+.table>tbody>tr.p-1>td,
 .table>thead>tr>td.p-1,
 .table>tbody>tr>td.p-1 {
   padding-top: .3rem;
@@ -238,6 +246,10 @@ td.border-top {
   padding-left: .3rem;
 }
 
+.table>thead.p-2>tr>td,
+.table>tbody.p-2>tr>td,
+.table>thead>tr.p-2>td,
+.table>tbody>tr.p-2>td,
 .table>thead>tr>td.p-2,
 .table>tbody>tr>td.p-2 {
   padding-top: .6rem;
