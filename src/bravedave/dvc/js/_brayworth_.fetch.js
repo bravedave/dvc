@@ -10,7 +10,7 @@
 
 (_ => {
   _.fetch = {
-    get: url => new Promise(resolve, reject => {
+    get: url => new Promise((resolve, reject) => {
 
       fetch(url)
         .then(response => {
