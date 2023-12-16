@@ -9,28 +9,28 @@
 (_ => {
   _.toaster = () => false;
 
-  $(document).ready(() => {
+  _.ready(() => {
     let adjustTop = () => false;
     let wrap = $('<div style="position: absolute; top: 50px; right: 20px; width: 300px"></div>');
     let nav = $('[data-role="growler"]');
     let mode = 'append';
 
     if (nav.length > 0) {
+
       mode = 'prepend';
       wrap = $('<div style="position: absolute; top: -4rem; left: 5px; width: 290px"></div>');
-    }
-    else {
+    } else {
+
       nav = $('body > nav.sticky-top');
     }
 
     if (nav.length > 0) {
-      wrap.appendTo(nav[0]);
 
-    }
-    else {
+      wrap.appendTo(nav[0]);
+    } else {
+
       wrap.appendTo('body');
       adjustTop = () => wrap.css({ 'top': ($(window).scrollTop() + 50) + 'px' });
-
     }
 
     _.toaster = params => {
@@ -42,10 +42,10 @@
       };
 
       if ('string' == typeof params) {
-        options.text = params;
 
-      }
-      else {
+        options.text = params;
+      } else {
+
         options = { ...options, ...params };
         if (options.title == 'Info' || options.text == '...') {
           /*
@@ -65,24 +65,25 @@
 
       return new Promise(resolve => {
         let timestamp = _.dayjs();
-        let toast = $(`<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-${_.bootstrap_version() < 5 ? '' : 'bs-'}autohide="true" data-${_.bootstrap_version() < 5 ? '' : 'bs-'}delay="${options.delay}"></div>`);
+        let toast = $(`<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-${_.bootstrap.version() < 5 ? '' : 'bs-'}autohide="true" data-${_.bootstrap.version() < 5 ? '' : 'bs-'}delay="${options.delay}"></div>`);
         let header = $('<div class="toast-header"></div>').appendTo(toast);
 
         if (options.growlClass == 'error') {
-          header.append(`<i class="bi bi-square-fill ${_.bootstrap_version() < 5 ? 'mr' : 'me'}-2 text-danger"></i>`);
+          header.append(`<i class="bi bi-square-fill ${_.bootstrap.version() < 5 ? 'mr' : 'me'}-2 text-danger"></i>`);
         }
         else {
-          header.append(`<i class="bi bi-square-fill ${_.bootstrap_version() < 5 ? 'mr' : 'me'}-2 text-success"></i>`);
+          header.append(`<i class="bi bi-square-fill ${_.bootstrap.version() < 5 ? 'mr' : 'me'}-2 text-success"></i>`);
         }
 
-        let timer = $(`<small class="text-muted ${_.bootstrap_version() < 5 ? 'ml' : 'ms'}-2">just now</small>`)
+        let timer = $(`<small class="text-muted ${_.bootstrap.version() < 5 ? 'ml' : 'ms'}-2">just now</small>`)
         header
-          .append(`<strong class="${_.bootstrap_version() < 5 ? 'mr' : 'me'}-auto">${options.title}</strong>`)
+          .append(`<strong class="${_.bootstrap.version() < 5 ? 'mr' : 'me'}-auto">${options.title}</strong>`)
           .append(timer);
-        if (_.bootstrap_version() < 5) {
+        if (_.bootstrap.version() < 5) {
+
           header.append(`<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close"><span aria-hidden="true">&times;</span></button>`);
-        }
-        else {
+        } else {
+
           header.append(`<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>`);
         }
 
@@ -95,9 +96,10 @@
         })
 
         if ('prepend' == mode) {
+
           toast.prependTo(wrap).toast('show');
-        }
-        else {
+        } else {
+
           toast.appendTo(wrap).toast('show');
         }
 
