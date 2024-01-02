@@ -10,7 +10,7 @@
 
 namespace bravedave\dvc;
 
-use config;
+use application, config;
 
 abstract class sys {
   protected static $_dbi = null;
@@ -48,9 +48,89 @@ abstract class sys {
     return db::cachePrefix();
   }
 
+  public static function diskspace() {
+
+    $ret = (object)[
+      'free' => disk_free_space(__DIR__),
+      'total' => disk_total_space(__DIR__),
+      'threshhold' => config::$FREE_DISKSPACE_THRESHHOLD
+    ];
+
+    $ret->exceeded = $ret->free < $ret->threshhold;
+    return $ret;
+  }
+
+  public static function dump($v, $title = '', $lExit = true) {
+
+    if (!$title) {
+
+      $title = gettype($v) == 'object' ? get_class($v) : gettype($v);
+    }
+
+    if ($title == 'dvc\dbResult' || $title == 'dvc\sqlite\dbResult') {
+
+      printf('<h1>%s</h1>', $title);
+      while ($r = $v->dto()) {
+
+        new html\dump($r, get_class($r));
+      }
+    } else {
+
+      new html\dump($v, $title);
+    }
+
+    if ($lExit) exit;
+  }
+
+  public static function getTemplate($template) {
+
+    if ($template) {
+
+      if ($template = preg_replace('/[^\da-z_]/i', '', $template)) {
+
+        $template .= '.html';
+
+        $path = implode(DIRECTORY_SEPARATOR, [
+          application::app()->getRootPath(),
+          'app',
+          'templates',
+          $template
+        ]);
+
+        if (file_exists($path)) {
+
+          Response::serve($path);
+        } else {
+
+          $path = implode(DIRECTORY_SEPARATOR, [
+            __DIR__,
+            'templates',
+            $template
+          ]);
+
+          if (file_exists($path)) Response::serve($path);
+        }
+      }
+    }
+  }
+
   public static function isWindows() {
 
     return ('WIN' === strtoupper(substr(PHP_OS, 0, 3)));
+  }
+
+  public static function logger($v, $level = 0) {
+
+    if ((int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel) {
+      // error_log($v);
+      // error_log($v);
+      logger::info($v);
+    }
+  }
+
+  public static function logSQL($v, $level = 0) {
+
+    logger::sql($v);
   }
 
   public static function mailer() {
@@ -188,5 +268,66 @@ abstract class sys {
     }
 
     return ($ret);
+  }
+
+  public static function serve($path): void {
+
+    Response::serve($path);
+  }
+
+  public static function serveBootStrap(string $type = 'css', string $fontFile = null): void {
+
+    Response::serveBootStrap($type, $fontFile);
+  }
+
+  public static function serveBootStrap5($type = 'css'): void {
+
+    Response::serveBootStrap5($type);
+  }
+
+  public static function text2html($inText, $maxrows = -1, $allAsteriskAsList = false) {
+    /**
+     * text2html: converts plain text to html by swaping in <br /> for \n
+     *
+     * $inText : text to be converted
+     * $maxRows : the number of rows to convert - default -1 == all
+     * $allAsteriskAsList : convert * (asterisk) to list (<ul><li>{text}</li></ul>)
+     **/
+
+    if ($maxrows > 0) {
+      $a = [
+        "/\\\\n/",
+        "/(\n)|(\\\\n)/"
+      ];
+      $x = preg_split("/\n/", $inText);
+      while (count($x) > ($maxrows + 1)) {
+        array_pop($x);
+      }
+      $inText = implode("<br>", $x);
+    }
+
+    $a = [
+      "/\r\n/",
+      "/---\\n/",
+      "/\\\\n/",
+      "/\n/",
+      "/$\*/"
+    ];
+
+    $aR = [
+      "\n",
+      '<hr align="left" style="width: 200px; margin: 0;">',
+      '<br>',
+      '<br>',
+      '<br>&bull;'
+    ];
+
+    if ($allAsteriskAsList) {
+      $a[] = "/\*/";
+      $aR[] = "<br />&bull;";
+      $inText = rtrim($inText, " .*");
+    }
+
+    return preg_replace($a, $aR, $inText);
   }
 }
