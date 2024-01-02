@@ -121,11 +121,7 @@ abstract class sys {
 
   public static function logger($v, $level = 0) {
 
-    if ((int)self::$_loglevel > 0 && $level <= (int)self::$_loglevel) {
-      // error_log($v);
-      // error_log($v);
-      logger::info($v);
-    }
+    logger::info($v);
   }
 
   public static function logSQL($v, $level = 0) {
