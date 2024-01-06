@@ -890,6 +890,9 @@ abstract class controller {
 
   public function serviceWorker() {
 
-    push::serviceWorker();
+    if (\class_exists('Minishlink\WebPush\VAPID')) {
+
+      push::serviceWorker();
+    }
   }
 }
