@@ -8,7 +8,7 @@
  *
 */
 
-use bravedave\dvc\{controller, json, logger};
+use bravedave\dvc\{controller, json, logger, Response};
 
 class home extends controller {
 
@@ -208,6 +208,32 @@ class home extends controller {
 
     $this->renderBS5([
       'main' => fn () => $this->load('tiny')
+    ]);
+  }
+
+  public function serviceWorker() {
+
+    Response::serve(config::serviceWorker());
+  }
+
+  public function webWorker() {
+
+    Response::serve(config::webWorker());
+  }
+
+  public function Worker($js = '') {
+
+    $this->data = (object)[
+      'aside' => config::index_set,
+      'pageUrl' => strings::url($this->route),
+      'searchFocus' => true,
+      'title' => $this->title = config::$WEBNAME,
+      'serviceWorker' => strings::url('serviceWorker'),
+      'webWorker' => strings::url('webWorker')
+    ];
+
+    $this->renderBS5([
+      'main' => fn () => $this->load('workers')
     ]);
   }
 }

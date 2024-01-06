@@ -25,4 +25,20 @@ class config extends bravedave\dvc\config {
     // $dao->debug = true;
     $dao->checkVersion('db', self::db_version);
   }
+
+  static function serviceWorker() {
+    return implode(DIRECTORY_SEPARATOR, [
+      __DIR__,
+      'js',
+      'service-worker.js'
+    ]);
+  }
+
+  static function webWorker() {
+    return implode(DIRECTORY_SEPARATOR, [
+      __DIR__,
+      'js',
+      'worker.js'
+    ]);
+  }
 }
