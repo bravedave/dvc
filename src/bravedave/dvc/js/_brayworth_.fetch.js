@@ -67,6 +67,18 @@
     })
   };
 
+  /**
+   * this firms up what an api call should look like
+   * _brayworth_.api( url, data)
+   *  .then( d => {}).catch(_.growl);
+   */
+  _.api = (url, data) => new Promise((resolve, reject) => {
+
+    _.fetch
+      .post(url, data)
+      .then(d => ('ack' == d.response) ? resolve(d.data) : reject(d));
+  });
+
   // https://stackoverflow.com/questions/46640024/how-do-i-post-form-data-with-fetch-api
   _.fetch.post.form = (url, form, method = 'application/x-www-form-urlencoded') => new Promise((resolve, reject) => {
 

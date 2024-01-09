@@ -88,6 +88,23 @@ class json {
     return count($this->_json);
   }
 
+  /**
+   *
+   * add data on the 'data' key to the object
+   *
+   * this firms up what an api call should look like
+   *
+   * _brayworth_.api( url, data)
+   *  .then( d => {}).catch(_.growl);
+   *
+   * @param string|array|object $data
+   * @return $this
+   */
+  public function data(string|array|object $data): self {
+
+    return $this->add('data', $data);  // chain
+  }
+
   public function dump() {
 
     $this->dumpOnDestruct = false;
