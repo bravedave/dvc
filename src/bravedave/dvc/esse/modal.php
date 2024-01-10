@@ -41,11 +41,11 @@ class modal {
     $this->_openform = false;
   }
 
-  protected function load(string $path = null, array $options = []) : self {
+  protected function load(string $path = null, array $options = []): self {
 
-    if ( $path) {
+    if ($path) {
 
-      if ( file_exists($path)) {
+      if (file_exists($path)) {
 
         if (substr_compare($path, '.md', -3) === 0) {
 
@@ -99,7 +99,7 @@ class modal {
     $this->closeform();
   }
 
-  public function __invoke($params = []) {
+  public function __invoke($params = []): self {
 
     $options = array_merge([
       'title' => sprintf('%s Modal', config::$WEBNAME),
@@ -133,6 +133,8 @@ class modal {
         print $_;
       }
     }
+
+    return $m;
   }
 
   public function close(): self {
