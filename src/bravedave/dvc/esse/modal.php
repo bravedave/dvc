@@ -18,6 +18,7 @@
 namespace bravedave\dvc\esse;
 
 use bravedave\dvc\Response;
+use Closure;
 use config, strings, theme;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 
@@ -105,7 +106,7 @@ class modal {
       'class' => '',
       'header-class' => theme::modalHeader(),
       'load' => false,
-      'text' => false,
+      'text' => false
     ], $params);
 
     Response::html_headers();
@@ -118,13 +119,17 @@ class modal {
     $m->open();
 
     if ($options['load']) {
+
       foreach ((array)$options['load'] as $_) {
+
         $this->load($_);
       }
     }
 
     if ($options['text']) {
+
       foreach ((array)$options['text'] as $_) {
+
         print $_;
       }
     }
@@ -158,6 +163,14 @@ class modal {
     $this->_open = false;
 
     return $this;
+  }
+
+  public static function form(array $options = []): self {
+
+    return (new static(array_merge([
+      'footer' => true,
+      'form' => true,
+    ], $options)));
   }
 
   public function ID(): string {
@@ -208,11 +221,9 @@ class modal {
     return $this;
   }
 
-  public static function form(array $options = []): self {
+  public function then(Closure $code): self {
 
-    return (new static(array_merge([
-      'footer' => true,
-      'form' => true,
-    ], $options)));
+    $code();
+    return $this;
   }
 }
