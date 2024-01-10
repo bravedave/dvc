@@ -15,10 +15,11 @@
  *
  **/
 
-namespace dvc\pages;
+namespace bravedave\dvc\esse;
 
 use bravedave\dvc\Response;
 use config, strings, theme;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 class modal {
   protected bool $_footer = false;
@@ -37,6 +38,32 @@ class modal {
     if (!$this->_openform) return $this;
     if ($this->_form) print "</form>\n";
     $this->_openform = false;
+  }
+
+  protected function load(string $path = null, array $options = []) : self {
+
+    if ( $path) {
+
+      if ( file_exists($path)) {
+
+        if (substr_compare($path, '.md', -3) === 0) {
+
+          $fc = file_get_contents($path);
+          $mdo = [
+            'html_input' => $options['html_input'] ?? 'strip',
+            'allow_unsafe_links' => $options['allow_unsafe_links'] ?? false,
+          ];
+          $converter = new GithubFlavoredMarkdownConverter($mdo);
+          printf('<div class="markdown-body">%s</div>', $converter->convert($fc));
+          // printf('<div class="markdown-body">%s</div>', \Parsedown::instance()->text($fc));
+        } else {
+
+          require($view);
+        }
+      }
+    }
+
+    return $this;  // chain
   }
 
   protected function openform() {
@@ -69,6 +96,38 @@ class modal {
 
     $this->close();
     $this->closeform();
+  }
+
+  public function __invoke($params = []) {
+
+    $options = array_merge([
+      'title' => sprintf('%s Modal', config::$WEBNAME),
+      'class' => '',
+      'header-class' => theme::modalHeader(),
+      'load' => false,
+      'text' => false,
+    ], $params);
+
+    Response::html_headers();
+    $m = new self([
+      'title' => $options['title'],
+      'class' => $options['class'],
+      'header-class' => $options['header-class'],
+    ]);
+
+    $m->open();
+
+    if ($options['load']) {
+      foreach ((array)$options['load'] as $_) {
+        $this->load($_);
+      }
+    }
+
+    if ($options['text']) {
+      foreach ((array)$options['text'] as $_) {
+        print $_;
+      }
+    }
   }
 
   public function close(): self {
