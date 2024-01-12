@@ -5,17 +5,19 @@
   },
   "js": {
     "indent_size": 2,
-    "wrap_line_length": "90",
+    "wrap_line_length": "105",
     "wrap-attributes": "preserve"
   },
   "html": {
     "indent_size": 2,
-    "wrap_line_length": "90",
+    "preserve_newlines": true,
+    "wrap_line_length": "105",
     "wrap-attributes": "preserve"
   },
   "php": {
     "indent_size": 2,
-    "wrap_line_length": "90",
+    "preserve_newlines": true,
+    "wrap_line_length": "105",
     "wrap-attributes": "preserve"
   }
 }

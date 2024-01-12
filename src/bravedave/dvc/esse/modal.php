@@ -34,6 +34,17 @@ class modal {
   protected string $headerClass = '';
   protected string $title = '';
 
+  static protected function _defaults(): array {
+
+    return [
+      'form' => false,
+      'footer' => false,
+      'title' => config::$WEBNAME,
+      'class' => '',
+      'header-class' => theme::modalHeader()
+    ];
+  }
+
   protected function closeform() {
 
     if (!$this->_openform) return $this;
@@ -76,13 +87,7 @@ class modal {
 
   public function __construct(array $params = []) {
 
-    $options = array_merge([
-      'form' => false,
-      'footer' => false,
-      'title' => config::$WEBNAME,
-      'class' => '',
-      'header-class' => theme::modalHeader(),
-    ], $params);
+    $options = array_merge(self::_defaults(), $params);
 
     $this->_id = strings::rand();
     $this->_modal_id = sprintf('%s-modal', $this->_id);
@@ -99,42 +104,9 @@ class modal {
     $this->closeform();
   }
 
-  public function __invoke($params = []): self {
+  public function __invoke(array $params = []): self {
 
-    $options = array_merge([
-      'title' => sprintf('%s Modal', config::$WEBNAME),
-      'class' => '',
-      'header-class' => theme::modalHeader(),
-      'load' => false,
-      'text' => false
-    ], $params);
-
-    Response::html_headers();
-    $m = new self([
-      'title' => $options['title'],
-      'class' => $options['class'],
-      'header-class' => $options['header-class'],
-    ]);
-
-    $m->open();
-
-    if ($options['load']) {
-
-      foreach ((array)$options['load'] as $_) {
-
-        $this->load($_);
-      }
-    }
-
-    if ($options['text']) {
-
-      foreach ((array)$options['text'] as $_) {
-
-        print $_;
-      }
-    }
-
-    return $m;
+    return (new self($params))->open();
   }
 
   public function close(): self {
