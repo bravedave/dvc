@@ -146,7 +146,7 @@ abstract class config {
   static $PAGE_LAYOUT = '';
   static $PAGE_TEMPLATE = '\dvc\pages\bootstrap4';
   static $PAGE_TEMPLATE_APP = '\dvc\pages\bootstrap4_app';
-  static $PAGE_TEMPLATE_LOGON = '\dvc\pages\bootstrap4';
+  static $PAGE_TEMPLATE_LOGON = 'bravedave\dvc\esse\logon';
 
   static $PHONE_REGION = 'AU';
 
