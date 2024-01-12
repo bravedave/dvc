@@ -98,6 +98,10 @@
                     form.find('.modal-body')
                       .append($('<div class="alert alert-danger">failed</div>'));
                   }
+                }).catch(e => {
+
+                  form.find('.modal-body')
+                    .append($('<div class="alert alert-danger">failed</div>'));
                 });
 
               return false;
