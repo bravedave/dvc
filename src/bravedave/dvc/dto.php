@@ -8,9 +8,9 @@
  *
 */
 
-// #[AllowDynamicProperties]
 namespace bravedave\dvc;
 
+#[AllowDynamicProperties]
 class dto {
 
   public $id = 0;
@@ -20,19 +20,25 @@ class dto {
   }
 
   protected function populate($row = null) {
+
+    // logger::info(sprintf('<allowing dynamic properties> %s', __METHOD__));
     if (!(is_null($row))) {
+
       foreach ($row as $k => $v) {
+
         $this->{$k} = $v;
       }
     }
   }
 
   public function toString() {
-    $s = array();
+
+    $s = [];
     foreach ($this as $k => $v) {
+
       $s[] = sprintf('%s = %s', $k, $v);
     }
 
-    return (implode(PHP_EOL, $s));
+    return implode(PHP_EOL, $s);
   }
 }
