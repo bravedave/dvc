@@ -10,13 +10,26 @@
 
 namespace bravedave\dvc;
 
+use Closure;
+
 #[AllowDynamicProperties]
 class dto {
 
   public $id = 0;
 
   public function __construct($row = null) {
+
     $this->populate($row);
+  }
+
+  public function __invoke(string $sql, Closure $func = null, string $template = null): ?self {
+
+    if ($dtoSet = (new dtoSet)($sql, $func, $template)) {
+
+      if ($dto = array_shift($dtoSet)) return $dto;
+    }
+
+    return null;
   }
 
   protected function populate($row = null) {
