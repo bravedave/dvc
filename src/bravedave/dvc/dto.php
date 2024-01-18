@@ -11,6 +11,7 @@
 namespace bravedave\dvc;
 
 use Closure;
+use Exception;
 
 #[AllowDynamicProperties]
 class dto {
@@ -22,6 +23,9 @@ class dto {
     $this->populate($row);
   }
 
+  /**
+   * returns the first row of a query as a dto
+   */
   public function __invoke(string $sql, Closure $func = null, string $template = null): ?self {
 
     if ($dtoSet = (new dtoSet)($sql, $func, $template)) {
