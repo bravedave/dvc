@@ -199,9 +199,14 @@ class application {
       'sql'
     ];
 
-    if (in_array(strtolower($this->url_action), $_protectedActions)) {
+    if ($this->url_action) {
+      if (in_array(strtolower($this->url_action), $_protectedActions)) {
 
-      logger::info(sprintf('<protecting action %s => %s> %s', $this->url_action, 'index', __METHOD__));
+        logger::info(sprintf('<protecting action %s => %s> %s', $this->url_action, 'index', __METHOD__));
+        $this->url_action = 'index';
+      }
+    } else {
+
       $this->url_action = 'index';
     }
 
