@@ -113,12 +113,10 @@
     <li>isMobilePhone( string $_tel = '')</li>
     <li>isPhone( string $_tel = '')</li>
     <li>isOurEmailDomain( $email)</li>
-    <li>lorum()
+    <li>lorem()
       <ul>
-        <li>prints out some lorum ispum</li>
-
+        <li>prints out some lorem ispum</li>
       </ul>
-
     </li>
     <li>pixel()</li>
     <li>rand( $prefix = 'uid_')</li>

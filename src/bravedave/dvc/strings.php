@@ -810,8 +810,12 @@ abstract class strings {
     return false;
   }
 
-  static public function lorum( int $characters = 0) {
-    return html\element::lorum($characters);
+  static public function lorem(int $characters = 0) {
+    return html\element::lorem($characters);
+  }
+
+  static public function lorum(int $characters = 0) {
+    return self::lorem($characters);
   }
 
   protected static $_pixel = false;
