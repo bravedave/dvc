@@ -41,8 +41,9 @@ class db {
     }
   }
 
-  public static function dbTimeStamp() {
-    return (date("Y-m-d H:i:s", time()));
+  public static function dbTimeStamp(): string | bool {
+
+    return date("Y-m-d H:i:s", time());
   }
 
   public static function mysqli_field_type($type_id) {
@@ -130,8 +131,8 @@ class db {
     }
   }
 
-  public function escape($s) {
-    return ($this->mysqli->real_escape_string($s));
+  public function escape($s): string {
+    return $this->mysqli->real_escape_string($s);
   }
 
   public function fetchFields($table) {
@@ -195,8 +196,9 @@ class db {
     return ($this->mysqli->character_set_name());
   }
 
-  public function getDBName() {
-    return ($this->dbname);
+  public function getDBName(): string {
+
+    return (string)$this->dbname;
   }
 
   public function Insert($table, $a) {
@@ -228,7 +230,7 @@ class db {
   public function Q($query) {
 
     if ($this->log) logger::sql($query);
-    if ($result = $this->mysqli->query($query)) return ($result);
+    if ($result = $this->mysqli->query($query)) return $result;
 
     /****************************************
      * You are here because there was an error **/
@@ -246,7 +248,7 @@ class db {
     throw new Exception($message);
   }
 
-  public function quote(?string $val) {
+  public function quote(?string $val): string {
 
     if ('NULL' == $val) return $val;
     return sprintf('"%s"', $this->escape($val));
@@ -293,6 +295,6 @@ class db {
     }
 
     $sql = sprintf('UPDATE `%s` SET %s %s', $table, implode(', ', $aX), $scope);
-    return ($this->Q($sql));
+    return $this->Q($sql);
   }
 }
