@@ -229,7 +229,7 @@
           words[i] = parts[0].toUpperCase() + "'" + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1).toLowerCase();
         } else if (words[i].length > 3 && reScot.test(words[i])) {
 
-          console.log( 'scottish' );
+          // console.log( 'scottish' );
         } else if (re.test(words[i])) {
 
           words[i] = RegExp.$1.toUpperCase() + RegExp.$2.toLowerCase();
