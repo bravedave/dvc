@@ -211,21 +211,32 @@
   };
 
   String.prototype.toCapitalCase = function () {
+
     let re = /\s/;
     let words = this.split(re);
     re = /(\S)(\S+)/;
     let reI = /^[a-zA-Z]'[a-zA-Z]+$/;
+    let reScot = /^Mc[A-Z][a-zA-Z]+$/;
+
     for (let i = words.length - 1; i >= 0; i--) {
+
       if (words[i] != "&") {
+
         if (words[i].length > 3 && reI.test(words[i])) {
+
           //~ alert( 'It\'s Irish' );
           parts = words[i].split(/'/);
           words[i] = parts[0].toUpperCase() + "'" + parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1).toLowerCase();
+        } else if (words[i].length > 3 && reScot.test(words[i])) {
+
+          console.log( 'scottish' );
         } else if (re.test(words[i])) {
+
           words[i] = RegExp.$1.toUpperCase() + RegExp.$2.toLowerCase();
         }
       }
     }
+
     return words.join(' ');
   };
 
