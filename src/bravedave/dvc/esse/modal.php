@@ -45,6 +45,36 @@ class modal {
     ];
   }
 
+  static function alert(array $params = []): self {
+
+    return (new self)(array_merge([
+      'title' => 'Warning',
+      'header-class' => 'bg-danger text-white'
+    ], $params));
+  }
+
+  static function alertSM(array $params = []): self {
+
+    return self::alert(array_merge([
+      'class' => 'modal-sm',
+    ], $params));
+  }
+
+  static function warning(array $params = []): self {
+
+    return (new self)(array_merge([
+      'title' => 'Warning',
+      'header-class' => 'bg-warning text-white'
+    ], $params));
+  }
+
+  static function warningSM(array $params = []): self {
+
+    return self::warning(array_merge([
+      'class' => 'modal-sm',
+    ], $params));
+  }
+
   protected function closeform() {
 
     if (!$this->_openform) return $this;
