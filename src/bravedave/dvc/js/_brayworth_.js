@@ -457,6 +457,17 @@ if (!window._brayworth_) {
 
   };
 
+  _.pdflib = () => {
+
+    return 'undefined' == typeof PDFLib ?
+      new Promise(resolve => {
+
+        _.get.script(_.url("assets/pdflib/"))
+          .then(() => resolve());
+      }) :
+      Promise.resolve();
+  };
+
   _.tiny = () => {
     return 'undefined' == typeof tinyMCE ?
       new Promise(resolve => {
