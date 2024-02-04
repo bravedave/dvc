@@ -138,12 +138,17 @@ class assets extends Controller {
   public function jquery() {
     if ('3.4' == config::$JQUERY_VERSION) {
 
-      Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.4.1.min.js');
+      Response::serve(dirname(__DIR__) . '/js/jquery-3.4.1.min.js');
     } else {
 
-      Response::serve(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.7.1.min.js');
+      Response::serve(dirname(__DIR__) . '/js/jquery-3.7.1.min.js');
     }
   }
+
+  public function pdflib() {
+
+		Response::serve(dirname(__DIR__) . '/js/pdf-lib.min.js');
+	}
 
   public function tinymce($path = '') {
 
