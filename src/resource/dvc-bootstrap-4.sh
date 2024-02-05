@@ -37,7 +37,7 @@ if [ -x "$(command -v sassc)" ]; then
     sassc --omit-map-comment -t compressed bootstrap-custom.scss $targetDir/bootstrap.min.css
     echo "$me : wrote bootstrap.min.css"
 
-    cat ../../bootstrap-pink.scss bootstrap.scss ../../bootstrap4-polyfill.css >bootstrap-pink.scss
+    cat ../../bootstrap-pink.scss ../../bootstrap4-polyfill.css >bootstrap-pink.scss
     sassc --omit-map-comment -t compressed bootstrap-pink.scss $targetDir/bootstrap-pink.min.css
     echo "$me : wrote bootstrap-pink.min.css"
 

@@ -1,19 +1,30 @@
+/*
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
+
+	MIT License
+
+*/
 // Colors
 
 // Start with assigning color names to specific hex values.
+
+$primary: #FA4EAB;
+
 $enable-shadows : true;
 $enable-gradients : true;
 // $gradient: linear-gradient(90deg, rgba($white, .15), rgba($white, 0)) !default;
 
-$theme-colors: (
-  "primary": #FA4EAB,
-  "secondary":#6c757d,
-  "warning":#DBCB06,
-  "danger":#FA4E55,
-  "info":#5e64f9,
-  "success":#08c45f,
-  "dark":#2b0a1a
-);
+// $theme-colors: (
+//   "primary": #FA4EAB,
+//   "secondary":#6c757d,
+//   "warning":#DBCB06,
+//   "danger":#FA4E55,
+//   "info":#5e64f9,
+//   "success":#08c45f,
+//   "dark":#2b0a1a
+// );
 
 .bg-gradient-navbar {
   background: #eb000a linear-gradient(90deg, #eb000a, #ff00c3) repeat-x !important;
@@ -26,3 +37,5 @@ $theme-colors: (
 .navbar-dark .navbar-nav .nav-link {
   color: rgba(255, 255, 255, 0.6) !important;
 }
+
+@import "./bootstrap";

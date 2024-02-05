@@ -175,6 +175,56 @@ table.m-4,
   padding-bottom: 1rem !important;
 }
 
+.p-0,
+.pl-0 {
+  padding-left: 0 !important;
+}
+
+.p-1,
+.pl-1 {
+  padding-left: .3rem !important;
+}
+
+.p-2,
+.pl-2 {
+  padding-left: .6rem !important;
+}
+
+.p-3,
+.pl-3 {
+  padding-left: .9rem !important;
+}
+
+.p-4,
+.pl-4 {
+  padding-left: 1rem !important;
+}
+
+.p-0,
+.pr-0 {
+  padding-right: 0 !important;
+}
+
+.p-1,
+.pr-1 {
+  padding-right: .3rem !important;
+}
+
+.p-2,
+.pr-2 {
+  padding-right: .6rem !important;
+}
+
+.p-3,
+.pr-3 {
+  padding-right: .9rem !important;
+}
+
+.p-4,
+.pr-4 {
+  padding-right: 1rem !important;
+}
+
 .w-100 {
   width: 100%;
 }
@@ -236,10 +286,13 @@ td.border-top {
 
 .table>thead.p-1>tr>td,
 .table>tbody.p-1>tr>td,
+.table>tfoot.p-1>tr>td,
 .table>thead>tr.p-1>td,
 .table>tbody>tr.p-1>td,
+.table>tfoot>tr.p-1>td,
 .table>thead>tr>td.p-1,
-.table>tbody>tr>td.p-1 {
+.table>tbody>tr>td.p-1,
+.table>tfoot>tr>td.p-1 {
   padding-top: .3rem;
   padding-right: .3rem;
   padding-bottom: .3rem;
