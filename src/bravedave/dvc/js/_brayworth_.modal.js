@@ -36,7 +36,7 @@
 */
 (_ => {
 
-  _.modal = function(params) {
+  _.modal = function (params) {
 
     if ('string' == typeof params) {
 
@@ -58,8 +58,8 @@
         buttons: {},
         headButtons: {},
         closeIcon: 'bi-x',
-        onOpen: () => {},
-        onEnter: () => {},
+        onOpen: () => { },
+        onEnter: () => { },
       },
       ...params
     };
@@ -85,7 +85,7 @@
         options.onOpen.call(m);
       });
 
-    m.checkHeight = function() {
+    m.checkHeight = function () {
       /*
        * check that the dialog fits on screen
        */
@@ -106,7 +106,7 @@
       return this;
     };
 
-    m.close = function() {
+    m.close = function () {
 
       $(this).data('modal').modal('hide');
       return this;
@@ -122,7 +122,7 @@
         let j = {
           text: i,
           title: '',
-          click: e => {}
+          click: e => { }
         };
 
         if ('function' == typeof el) {
@@ -164,7 +164,7 @@
           text: i,
           title: false,
           icon: false,
-          click: e => {},
+          click: e => { },
         };
 
         if ('function' == typeof el) {
@@ -184,8 +184,8 @@
           b = $('<div class="pointer pt-1 px-2"></div>')
             .append(
               $('<i class="m-0"></i>')
-              .addClass(j.icon)
-              .addClass(/^fa/.test(j.icon) ? 'fa' : 'bi')
+                .addClass(j.icon)
+                .addClass(/^fa/.test(j.icon) ? 'fa' : 'bi')
             );
 
         } else {
@@ -492,15 +492,17 @@
 
     let id = _.randomString();
 
-    if ( options.openInNewWindow) {
+    if (options.openInNewWindow) {
 
       const btnClose = ask.find('.modal-header > .close, .modal-header > .btn-close');
-      if ( btnClose.length > 0) {
+      if (btnClose.length > 0) {
+
+        btnClose.addClass(_.bootstrap.version() < 5 ? 'ml-2' : 'ms-2')
 
         $('<button type="button" class="close ml-auto js-open-in-new-window"><i class="bi bi-box-arrow-up-right"></i></button>').on('click', e => {
           e.stopPropagation();
           window.open(options.url);
-        }).insertBefore(btnClose.addClass('ml-0'));
+        }).insertBefore(btnClose);
       }
     }
 
