@@ -482,6 +482,7 @@
         size: 'xl',
         title: 'Viewer',
         headClass: '', /* allows for theming */
+        openInNewWindow: true,
         url: 'string' == typeof p ? p : ''
       },
       ...p
@@ -491,10 +492,13 @@
 
     let id = _.randomString();
 
-    $('<button type="button" class="close ml-auto"><i class="bi bi-box-arrow-up-right"></i></button>').on('click', e => {
-      e.stopPropagation();
-      window.open(options.url);
-    }).insertBefore(ask.find('.modal-header > .close').addClass('ml-0'));
+    if ( options.openInNewWindow) {
+
+      $('<button type="button" class="close ml-auto js-open-in-new-window"><i class="bi bi-box-arrow-up-right"></i></button>').on('click', e => {
+        e.stopPropagation();
+        window.open(options.url);
+      }).insertBefore(ask.find('.modal-header > .close').addClass('ml-0'));
+    }
 
     ask.find('.modal-dialog').addClass('modal-fullscreen-sm');
     ask.find('.modal-body')
