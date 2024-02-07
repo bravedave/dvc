@@ -494,10 +494,14 @@
 
     if ( options.openInNewWindow) {
 
-      $('<button type="button" class="close ml-auto js-open-in-new-window"><i class="bi bi-box-arrow-up-right"></i></button>').on('click', e => {
-        e.stopPropagation();
-        window.open(options.url);
-      }).insertBefore(ask.find('.modal-header > .close').addClass('ml-0'));
+      const btnClose = ask.find('.modal-header > .close, .modal-header > .btn-close');
+      if ( btnClose.length > 0) {
+
+        $('<button type="button" class="close ml-auto js-open-in-new-window"><i class="bi bi-box-arrow-up-right"></i></button>').on('click', e => {
+          e.stopPropagation();
+          window.open(options.url);
+        }).insertBefore(btnClose.addClass('ml-0'));
+      }
     }
 
     ask.find('.modal-dialog').addClass('modal-fullscreen-sm');
