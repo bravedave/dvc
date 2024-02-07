@@ -47,15 +47,9 @@ if [ -x "$(command -v sassc)" ]; then
     sassc --omit-map-comment -t compressed bootstrap-blue.scss $targetDir/bootstrap-blue.min.css
     echo "$me : wrote bootstrap-blue.min.css"
 
-    echo '@import "bootstrap";'>bootstrap-orange.scss
-    cat ../../bootstrap-orange-bs5.scss >>bootstrap-orange.scss
-    # cat ../../bootstrap-orange.scss bootstrap.scss >bootstrap-orange.scss
+    cat ../../bootstrap-orange.scss >>bootstrap-orange.scss
     sassc --omit-map-comment -t compressed bootstrap-orange.scss $targetDir/bootstrap-orange.min.css
-
-    # cd ../../
-    # targetDir="../bravedave/dvc/css/bootstrap5/"
-    # sassc --omit-map-comment -t compressed bootstrap-orange-bs5.scss $targetDir/bootstrap-orange.min.css
-    # echo "$me : wrote bootstrap-orange.min.css"
+    echo "$me : wrote bootstrap-orange.min.css"
   else
 
     echo "rsync command not found .."
