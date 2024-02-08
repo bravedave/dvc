@@ -497,7 +497,7 @@
       const btnClose = ask.find('.modal-header > .close, .modal-header > .btn-close');
       if (btnClose.length > 0) {
 
-        btnClose.addClass(_.bootstrap.version() < 5 ? 'ml-2' : 'ms-2')
+        btnClose.addClass(_.bootstrap.version() < 5 ? 'ml-4' : 'ms-2')
 
         $('<button type="button" class="close ml-auto js-open-in-new-window"><i class="bi bi-box-arrow-up-right"></i></button>').on('click', e => {
           e.stopPropagation();
