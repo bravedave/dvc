@@ -378,7 +378,7 @@ abstract class controller {
     $_paths = $this->_getViewPaths($controller);
     foreach ($_paths as $_path) {
 
-      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [$_path, $viewName]))) {
+      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path,'/'), $viewName]))) {
 
         return $view;
       }
@@ -392,7 +392,7 @@ abstract class controller {
     $_paths = $this->_getSystemViewPaths($controller);
     foreach ($_paths as $_path) {
 
-      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [$_path, $viewName]))) {
+      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path,'/'), $viewName]))) {
 
         return $view;
       }
