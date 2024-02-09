@@ -514,8 +514,7 @@
           #${id} { min-height: calc(100vh - 11rem) !important; }
         }
         </style>
-        <iframe title="${options.title}" id="${id}" src="${options.url}"
-          width="100%" height="100%" frameborder="0"></iframe>`);
+        <embed title="${options.title}" id="${id}" src="${options.url}" width="100%" height="100%"></embed>`);
 
     return ask; // ask is a modal
 
