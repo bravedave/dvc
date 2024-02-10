@@ -45,31 +45,35 @@ class modal {
     ];
   }
 
-  static function alert(array $params = []): self {
+  static function alert(array|string $params = []): self {
 
+    if (gettype($params) == 'string') $params = ['text' => $params];
     return (new self)(array_merge([
       'title' => 'Warning',
       'header-class' => 'bg-danger text-white'
     ], $params));
   }
 
-  static function alertSM(array $params = []): self {
+  static function alertSM(array|string $params = []): self {
 
+    if (gettype($params) == 'string') $params = ['text' => $params];
     return self::alert(array_merge([
       'class' => 'modal-sm',
     ], $params));
   }
 
-  static function warning(array $params = []): self {
+  static function warning(array|string $params = []): self {
 
+    if (gettype($params) == 'string') $params = ['text' => $params];
     return (new self)(array_merge([
       'title' => 'Warning',
       'header-class' => 'bg-warning text-white'
     ], $params));
   }
 
-  static function warningSM(array $params = []): self {
+  static function warningSM(array|string $params = []): self {
 
+    if (gettype($params) == 'string') $params = ['text' => $params];
     return self::warning(array_merge([
       'class' => 'modal-sm',
     ], $params));
