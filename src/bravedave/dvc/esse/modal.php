@@ -140,7 +140,12 @@ class modal {
 
   public function __invoke(array $params = []): self {
 
-    return (new self($params))->open();
+    $modal = (new self($params))->open();
+    if ( $params['text'] ?? null) {
+
+      print $params['text'];
+    }
+    return $modal;
   }
 
   public function close(): self {
