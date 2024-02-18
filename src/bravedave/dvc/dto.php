@@ -11,10 +11,9 @@
 namespace bravedave\dvc;
 
 use Closure;
-use Exception;
+use stdClass;
 
-#[AllowDynamicProperties]
-class dto {
+class dto extends stdClass {
 
   public $id = 0;
 
