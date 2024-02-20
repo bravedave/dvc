@@ -10,7 +10,7 @@
 
 namespace bravedave\dvc;
 
-use config;
+use config, sys;
 
 class dbi extends db {
   protected static $dbiCount = 0;
@@ -18,17 +18,17 @@ class dbi extends db {
 
   function valid() {
 
-    return ($this->_valid);
+    return $this->_valid;
   }
 
   static function getDBI() {
 
-    return (\sys::dbi());
+    return sys::dbi();
   }
 
   static function SQL($sql) {
 
-    return (\sys::dbi()->Q($sql));
+    return sys::dbi()->Q($sql);
   }
 
   public function __construct() {
@@ -38,11 +38,16 @@ class dbi extends db {
     self::$dbiCount++;
     if (self::$dbiCount  > 1) logger::info(sprintf('db initialized (%s)', self::$dbiCount), 3);
 
-    //~ sys::logger( sprintf( 'db initialized (%s,%s,%s,%s)',
-    //~ config::$DB_HOST, config::$DB_NAME, config::$DB_USER, config::$DB_PASS));
+    // logger::info(sprintf(
+    //   '<db initialized (%s,%s,%s,%s)> %s',
+    //   config::$DB_HOST,
+    //   config::$DB_NAME,
+    //   config::$DB_USER,
+    //   config::$DB_PASS,
+    //   logger::caller()
+    // ));
 
     parent::__construct(config::$DB_HOST, config::$DB_NAME, config::$DB_USER, config::$DB_PASS);
-
     $this->_valid = TRUE;
   }
 }

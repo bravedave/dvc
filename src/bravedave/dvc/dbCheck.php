@@ -257,7 +257,7 @@ class dbCheck extends dao {
         } elseif ($fld['type'] == 'int') {
 
           $sql = sprintf(
-            'ALTER TABLE `%s` ADD COLUMN `%s` int DEFAULT %s %s',
+            'ALTER TABLE `%s` ADD COLUMN `%s` INT DEFAULT %s %s',
             $this->table,
             $this->escape($fld['name']),
             $this->quote((int)$fld['default']),
@@ -295,7 +295,7 @@ class dbCheck extends dao {
         } elseif ($fld['type'] == 'varbinary') {
 
           $sql = sprintf(
-            'ALTER TABLE `%s` ADD COLUMN `%s` varbinary(%s) %s',
+            'ALTER TABLE `%s` ADD COLUMN `%s` VARBINARY(%s) %s',
             $this->table,
             $this->escape($fld['name']),
             (string)$fld['length'],
@@ -304,7 +304,7 @@ class dbCheck extends dao {
         } elseif ($fld['type'] == 'tinyint') {
 
           $sql = sprintf(
-            'ALTER TABLE `%s` ADD COLUMN `%s` TINYINT(1) DEFAULT 0',
+            'ALTER TABLE `%s` ADD COLUMN `%s` TINYINT(1) DEFAULT 0 %s',
             $this->table,
             $this->escape($fld['name']),
             $after
