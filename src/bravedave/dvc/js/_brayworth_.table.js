@@ -190,7 +190,9 @@
             }
           });
 
-          table.trigger('update-line-numbers');
+          table
+            .trigger('update-line-numbers')
+            .trigger('search-complete');
         });
 
       onblur.call(ctrl[0]);
