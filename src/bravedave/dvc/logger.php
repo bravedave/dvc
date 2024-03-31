@@ -22,6 +22,7 @@ abstract class logger {
   public static function caller(array $_ignore = []) {
 
     $ignore = array_merge([
+      '__invoke',
       'array_walk',
       'classloader',
       'deprecated',
