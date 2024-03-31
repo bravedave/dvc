@@ -26,6 +26,7 @@ abstract class logger {
       'classloader',
       'deprecated',
       'dtoset',
+      'getdtoset',
       'include',
       'include_once',
       'loadclass',
