@@ -60,6 +60,7 @@ abstract class jslib {
     'js/_brayworth_.strings.js',
     'js/_brayworth_.swipe.js',
     'js/_brayworth_.table.js',
+    'js/_brayworth_.tabs.js',
     'js/_brayworth_.textPrompt.js',
     'js/_brayworth_.toaster.js',
     'js/_brayworth_.Vue.js',
