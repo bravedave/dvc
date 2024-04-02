@@ -11,7 +11,6 @@
   _.context = e => {
 
     _.hideContexts(e);
-    if (!!e) e.preventDefault(); // don't show the browser context menu
 
     let cx = {
       root: $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
@@ -67,7 +66,7 @@
 
       open: function (e) {
 
-        let css = {
+        const css = {
           position: 'absolute',
           top: 10,
           left: $(document).width() - 140,
@@ -75,15 +74,15 @@
 
         if (!!e.pageY) { css.top = Math.max(e.pageY + 2, 0); }
         if (!!e.pageX) { css.left = Math.max(e.pageX + 2, 0); }
+        if (!!e) e.preventDefault(); // don't show the browser context menu
 
         //~ console.log( this.root.width());
 
-        let root = this.root;
+        const root = this.root;
         (e => {
-          /**
-           * 1040 is defined in the css
-           */
-          let t = $(e.target);
+
+          // 1040 is defined in the css
+          const t = $(e.target);
           if (t.length > 0) css['z-index'] = Math.max(t.zIndex() + 10, 1040);
         })(e);
 
@@ -157,8 +156,7 @@
           root.removeClass('menu-contextmenu-low');
         }
 
-        return (this);
-
+        return this;
       },
 
       close: function () {
