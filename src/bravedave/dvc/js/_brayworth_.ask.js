@@ -49,10 +49,12 @@
         buttons: {},
         headClass: 'text-white bg-dark',
         onClose: e => { },
+        hidden: e => { },
+        shown: e => { },
         removeOnClose: true,
         text: 'string' == typeof params ? params : '',
         title: 'Topic',
-        size: ''
+        size: '',
       }, ...params
     };
 
@@ -68,6 +70,8 @@
 
     dlg.appendTo('body');
     options.beforeOpen.call(dlg);
+    dlg.on('hidden.bs.modal', options.hidden);
+    dlg.on('shown.bs.modal', options.shown);
     dlg.modal('show');
 
     return dlg;	// a jQuery element
