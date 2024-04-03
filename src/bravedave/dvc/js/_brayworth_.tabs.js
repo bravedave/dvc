@@ -16,13 +16,19 @@
       nav: $('<nav class="nav nav-tabs" id="myTab" role="tablist"></nav>'),
       panes: $('<div class="tab-content"></div>'),
       items: {},
-      append: function (_item) {
+      append: function (item) {
+
+        this.newTab(item);
+        return this;
+      },
+
+      newTab: function (p) {
 
         const init = {
           ...{
             id: _.randomString()
           },
-          ..._item
+          ...p
         };
 
         const item = {
@@ -31,9 +37,9 @@
             id: `${init.id}-tab`,
             active: false,
             target: `${init.id}`,
-            label: 'Tab'
+            label: 'string' == typeof p ? p : 'Tab'
           },
-          ..._item
+          ...p
         };
 
         const tab = $(`<button class="${item.class}" id="${item.id}"
