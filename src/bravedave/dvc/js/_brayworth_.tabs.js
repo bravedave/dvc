@@ -51,15 +51,16 @@
           role="tabpanel" aria-labelledby="${item.id}" tabindex="0">...</div>`);
         if (item.active) pane.addClass('active');
 
-        this.items[item.id] = {
+        let o = {
           tab: tab,
           pane: pane
         };
+        this.items[item.id] = o;
 
         this.nav.append(tab);
         this.panes.append(pane);
 
-        return this;
+        return o;
       }
     }
 
