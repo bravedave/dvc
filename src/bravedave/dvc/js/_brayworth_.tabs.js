@@ -13,7 +13,7 @@
 
     let t = {
 
-      nav: $('<nav class="nav nav-tabs" id="myTab" role="tablist"></nav>'),
+      nav: $('<nav class="nav nav-tabs" role="tablist"></nav>'),
       panes: $('<div class="tab-content"></div>'),
       items: {},
       append: function (item) {
@@ -67,13 +67,3 @@
     return t;
   };
 })(_brayworth_);
-// <!-- Nav tabs -->
-// <ul class="nav nav-tabs" id="myTab" role="tablist">
-// </ul>
-
-// <!-- Tab panes -->
-// <div class="tab-content">
-//   <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">...</div>
-//   <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab" tabindex="0">...</div>
-//   <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab" tabindex="0">...</div>
-// </div>
