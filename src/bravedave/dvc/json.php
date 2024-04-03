@@ -15,7 +15,7 @@ class json {
   protected $_json = [];
   protected $dumpOnDestruct = true;
 
-  static public function nak(string $description): Json {
+  static public function nak(string $description): json {
 
     return new self([
       'response' => 'nak',
@@ -23,7 +23,7 @@ class json {
     ]);
   }
 
-  static public function ack(string $description): Json {
+  static public function ack(string $description): json {
     return new self([
       'response' => 'ack',
       'description' => $description
@@ -49,8 +49,8 @@ class json {
   }
 
   function __construct($a = null) {
-    if (!is_null($a))
-      $this->_json = (array)$a;
+
+    if (!is_null($a)) $this->_json = (array)$a;
   }
 
   /**
@@ -100,7 +100,7 @@ class json {
    * @param string|array|object $data
    * @return $this
    */
-  public function data(string|array|object $data): self {
+  public function data(null|string|array|object $data): self {
 
     return $this->add('data', $data);  // chain
   }
@@ -108,7 +108,7 @@ class json {
   public function dump() {
 
     $this->dumpOnDestruct = false;
-    \sys::dump($this->_json);
+    sys::dump($this->_json);
   }
 
   public function merge($data): self {
