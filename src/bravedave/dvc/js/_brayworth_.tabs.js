@@ -9,11 +9,11 @@
 
 (_ => {
 
-  _.tabs = e => {
+  _.tabs = container => {
 
     let t = {
 
-      nav: $('<nav class="nav nav-tabs" role="tablist"></nav>'),
+      nav: $('<div class="nav nav-tabs" role="tablist"></div>'),
       panes: $('<div class="tab-content"></div>'),
       items: {},
       append: function (item) {
@@ -60,7 +60,19 @@
         this.nav.append(tab);
         this.panes.append(pane);
 
+
         return o;
+      }
+    }
+
+    if (!!container) {
+
+      if (container instanceof jQuery) {
+
+        container
+          .html('')
+          .append($('<nav></nav>').append(t.nav))
+          .append(t.panes);
       }
     }
 
