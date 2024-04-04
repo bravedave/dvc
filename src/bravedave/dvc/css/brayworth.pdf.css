@@ -368,3 +368,11 @@ ul.list-unstyled {
   padding-left: 0;
   list-style: none;
 }
+
+pre {
+  display: block;
+  margin-top:0;
+  margin-bottom: 1rem;
+  overflow: auto;
+  font-size: .875em
+}
