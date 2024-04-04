@@ -74,35 +74,38 @@
    */
   _.api = (url, data) => new Promise((resolve, reject) => {
 
-    _.fetch
-      .post(url, data)
+    _.fetch.post(url, data)
       .then(d => ('ack' == d.response) ? resolve(d.data) : reject(d));
   });
 
   // https://stackoverflow.com/questions/46640024/how-do-i-post-form-data-with-fetch-api
-  _.api.form =
-    _.fetch.post.form =
-    (url, form, method = 'application/x-www-form-urlencoded') => new Promise((resolve, reject) => {
+  _.fetch.post.form = (url, form, method = 'application/x-www-form-urlencoded') => new Promise((resolve, reject) => {
 
-      let data = new FormData(form);
-      if ('multipart/form-data' == method) {
+    let data = new FormData(form);
+    if ('multipart/form-data' == method) {
 
-      } else {
+    } else {
 
-        data = new URLSearchParams(data);
-      }
-      // console.log('method', method);
+      data = new URLSearchParams(data);
+    }
+    // console.log('method', method);
 
-      fetch(url, {
-        method: "POST",
-        body: data,
+    fetch(url, {
+      method: "POST",
+      body: data,
+    })
+      .then(response => {
+
+        if (!response.ok) throw new Error('Network Error');
+        return response.json();
       })
-        .then(response => {
+      .then(data => resolve(data))
+      .catch(error => reject(error));
+  });
 
-          if (!response.ok) throw new Error('Network Error');
-          return response.json();
-        })
-        .then(data => resolve(data))
-        .catch(error => reject(error));
-    });
+  _.api.form = (url, form, method = 'application/x-www-form-urlencoded') => new Promise((resolve, reject) => {
+
+    _.fetch.post.form(url, form, method)
+      .then(d => ('ack' == d.response) ? resolve(d.data) : reject(d));
+  });
 })(_brayworth_);
