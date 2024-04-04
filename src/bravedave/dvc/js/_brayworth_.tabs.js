@@ -45,6 +45,13 @@
         const tab = $(`<button class="${item.class}" id="${item.id}"
           data-bs-toggle="tab" data-bs-target="#${item.target}" type="button"
           role="tab" aria-controls="${item.target}" aria-selected="true">${item.label}</button>`);
+
+        tab
+          .on('hide.bs.tab', e => e.stopPropagation())
+          .on('hidden.bs.tab', e => e.stopPropagation())
+          .on('show.bs.tab', e => e.stopPropagation())
+          .on('shown.bs.tab', e => e.stopPropagation());
+
         if (item.active) tab.addClass('active');
 
         const pane = $(`<div class="tab-pane" id="${item.target}"
