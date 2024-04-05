@@ -2,12 +2,11 @@
  * David Bray
  * BrayWorth Pty Ltd
  * e. david@brayworth.com.au
- * 
+ *
  * MIT License
  *
+ * version 1.0.0
  * */
-
-// postMessage("I'm working before postMessage('dingo').");
 
 const post = (url, data) => new Promise((resolve, reject) => {
 
@@ -38,7 +37,7 @@ onmessage = (event) => {
 
       post(event.data.post.url, event.data.post.data)
         .then(d => {
-          
+
           const response = {
             request : event.data.post.data,
             reference : event.data.post.reference,
