@@ -108,4 +108,42 @@
     _.fetch.post.form(url, form, method)
       .then(d => ('ack' == d.response) ? resolve(d.data) : reject(d));
   });
+
+  class pageWorker {
+    constructor(url) {
+
+      this.callbacks = [];
+      this.wrkr = new Worker(url);
+
+      this.wrkr.onmessage = event => {
+
+        if (event.data.reference) {
+
+          // console.log(event.data);
+          this.callbacks[event.data.reference](event.data);
+          delete this.callbacks[event.data.reference];
+        } else {
+
+          console.log('Worker said :', event.data);
+        }
+      };
+      this.wrkr.onerror = event => console.error('Worker error :', event);
+
+      this.register = (url, data, callback) => {
+
+        let rand = _.randomString();
+        this.callbacks[rand] = callback;
+
+        this.wrkr.postMessage({
+          post: {
+            url: url,
+            data: data,
+            reference: rand
+          }
+        });
+      }
+    }
+  };
+
+  _.fetch.worker = url => new pageWorker(url);
 })(_brayworth_);

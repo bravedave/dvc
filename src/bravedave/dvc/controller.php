@@ -888,6 +888,12 @@ abstract class controller {
     ]);
   }
 
+  public function fetchWorker() {
+
+    $worker = __DIR__ . '/js/fetchWorker.js';
+    Response::serve($worker);
+  }
+
   public function serviceWorker() {
 
     if (\class_exists('Minishlink\WebPush\VAPID')) {
