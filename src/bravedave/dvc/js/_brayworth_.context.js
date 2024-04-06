@@ -74,7 +74,7 @@
 
         if (!!e.pageY) { css.top = Math.max(e.pageY + 2, 0); }
         if (!!e.pageX) { css.left = Math.max(e.pageX + 2, 0); }
-        if (!!e) e.preventDefault(); // don't show the browser context menu
+        if (!!e.preventDefault) e.preventDefault(); // don't show the browser context menu
 
         //~ console.log( this.root.width());
 
