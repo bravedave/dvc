@@ -138,30 +138,24 @@
       if (options.title == '' && options.text == '') return;	// abandon ship
 
       if (0 == options.timeout) {
+
         /**
-         * with an optional timeout set to 0 it will become a bootstrap 4valert:
+         * with an optional timeout set to 0 it will become a bootstrap alert:
          * { response : 'ack', description : 'go you good thing', timeout : 0 }
          */
         let growler = $('<div class="alert alert-warning alert-dismissible fade show m-1" role="alert"></div>');
         if (options.growlClass == 'error') {
+
           growler.removeClass('alert-warning').addClass('alert-danger');
-
         }
 
-        if (options.title != '') {
-          $('<h3></h3>').html(options.title).appendTo(growler);
+        if (options.title != '') $('<h3></h3>').html(options.title).appendTo(growler);
 
-        }
+        growler.append('<button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>');
 
-        growler.append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
-
-        if (options.text != '') {
-          $('<div></div>').html(options.text).appendTo(growler);
-
-        }
+        if (options.text != '') $('<div></div>').html(options.text).appendTo(growler);
 
         growler.prependTo('body');
-
       }
       else {
         let growler = $('<div class="growler"></div>');
