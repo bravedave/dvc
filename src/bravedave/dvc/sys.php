@@ -326,4 +326,23 @@ abstract class sys {
 
     return preg_replace($a, $aR, $inText);
   }
+
+  public static function trace($v, $level = 0) {
+
+    self::logger($v);
+    $level = (int)$level;
+    $iLevel = 0;
+    foreach (debug_backtrace() as $e) {
+
+      if (isset($e['file'])) {
+
+        self::logger(sprintf('%s(%s)', $e['file'], $e['line']));
+      } else {
+
+        self::logger(print_r($e, true));
+      }
+
+      if ($level > 0 && ++$iLevel > $level) break;
+    }
+  }
 }
