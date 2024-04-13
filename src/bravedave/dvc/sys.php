@@ -345,4 +345,21 @@ abstract class sys {
       if ($level > 0 && ++$iLevel > $level) break;
     }
   }
+
+  public static function traceCaller() {
+
+    $trace = debug_backtrace();
+    if (isset($trace[2])) {
+
+      $caller = $trace[2];
+      if (isset($caller['class'])) {
+
+        return sprintf('%s/%s', $caller['class'], $caller['function']);
+      }
+
+      return $caller['function'];
+    }
+
+    return 'unknown caller';
+  }
 }

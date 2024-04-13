@@ -84,18 +84,4 @@ abstract class sys extends bravedave\dvc\sys {
   public static function set_error_handler() {
     errsys::initiate(false);
   }
-
-  public static function traceCaller() {
-    $trace = debug_backtrace();
-    if (isset($trace[2])) {
-      $caller = $trace[2];
-      if (isset($caller['class'])) {
-        return sprintf('%s/%s', $caller['class'], $caller['function']);
-      }
-
-      return $caller['function'];
-    }
-
-    return 'unknown caller';
-  }
 }
