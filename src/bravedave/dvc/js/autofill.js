@@ -146,7 +146,7 @@
         keyMove.clear();
         if ('function' == typeof options.select) {
 
-          options.select.call(this, e, {
+          options.select.call(_me, e, {
             item: item
           });
         }
