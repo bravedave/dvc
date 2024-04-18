@@ -72,6 +72,7 @@
     },
 
     sortOn: (table, key, sorttype, order) => new Promise(resolve => {
+
       let debug = false;
       let tbody = $('tbody', table);
       if (!tbody) tbody = table;
@@ -95,30 +96,65 @@
 
       if (!sorttype) sorttype = 'string';
 
-      let items = tbody.find('> tr');
+      // https://stackoverflow.com/questions/282670/easiest-way-to-sort-dom-nodes
+      console.log('JQuery4 compatible sorting ..');
+      const newOrder = [...tbody[0].children]
+        .sort((a, b) => {
 
-      if (debug) console.log(key, sorttype, order, items.length);
+          // return a.innerText > b.innerText ? 1 : -1;
 
-      items.sort((a, b) => {
+          let ae = a.dataset[key];
+          let be = b.dataset[key];
 
-        let ae = a.dataset[key];
-        let be = b.dataset[key];
+          if (debug) console.log(key, ae, be, sorttype, order);
 
-        if (debug) console.log(key, ae, be, sorttype, order);
+          if (sorttype == 'numeric') {
 
-        if (sorttype == 'numeric') {
+            // if (undefined == ae) ae = 0;
+            // if (undefined == be) be = 0;
+            return Number(ae ?? '') - Number(be ?? '');
+          }
 
-          // if (undefined == ae) ae = 0;
-          // if (undefined == be) be = 0;
-          return Number(ae ?? '') - Number(be ?? '');
-        }
+          // if (undefined == ae) ae = '';
+          // if (undefined == be) be = '';
+          return String(ae ?? '').toUpperCase().localeCompare(String(be ?? '').toUpperCase());
+        });
 
-        // if (undefined == ae) ae = '';
-        // if (undefined == be) be = '';
-        return String(ae ?? '').toUpperCase().localeCompare(String(be ?? '').toUpperCase());
-      });
+      if (order == 'desc') newOrder.reverse();
+      newOrder.forEach(node => tbody[0].appendChild(node));
+      console.log('JQuery4 compatible sorting complete ..');
 
-      $.each(items, (i, e) => (order == 'desc') ? tbody.prepend(e) : tbody.append(e));
+
+      /*
+       * not jQuery4 compatible
+       *
+
+        let items = tbody.find('> tr');
+
+        if (debug) console.log(key, sorttype, order, items.length);
+
+        items.sort((a, b) => {
+
+          let ae = a.dataset[key];
+          let be = b.dataset[key];
+
+          if (debug) console.log(key, ae, be, sorttype, order);
+
+          if (sorttype == 'numeric') {
+
+            // if (undefined == ae) ae = 0;
+            // if (undefined == be) be = 0;
+            return Number(ae ?? '') - Number(be ?? '');
+          }
+
+          // if (undefined == ae) ae = '';
+          // if (undefined == be) be = '';
+          return String(ae ?? '').toUpperCase().localeCompare(String(be ?? '').toUpperCase());
+        });
+
+        $.each(items, (i, e) => (order == 'desc') ? tbody.prepend(e) : tbody.append(e));
+
+       */
 
       if (!(table instanceof jQuery)) table = $(table);
       table.trigger('update-line-numbers');
