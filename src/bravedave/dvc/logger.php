@@ -16,6 +16,7 @@ abstract class logger {
 
   const prefix = 'dvc.INFO';
   const prefix_debug = 'dvc.DEBUG';
+  const prefix_error = 'dvc.ERRROR';
   const prefix_deprecated = 'dvc.DEPRECATED';
   const prefix_sql = 'dvc.SQL';
 
@@ -70,6 +71,11 @@ abstract class logger {
         'matthiasmullie\scrapbook\adapters\apc'
       ])
     ));
+  }
+
+  public static function error(array|string $msg): void {
+
+    self::info($msg, self::prefix_error);
   }
 
   /**
