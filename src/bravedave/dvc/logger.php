@@ -85,8 +85,9 @@ abstract class logger {
    * @param string $callee
    * @return void
    */
-  public static function dump(mixed $var, string $callee): void {
+  public static function dump(mixed $var, string $callee = null): void {
 
+    if (!$callee) $callee = self::caller();
     self::info(sprintf('<%s> %s', print_r($var, true), $callee));
   }
 
