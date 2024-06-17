@@ -49,13 +49,14 @@ sudo apk add git rsync sassc unzip php php-phar php-iconv php-curl \
   php-mysqlnd php-mbstring \
   php-xmlreader php-exif php-gd php-json php-xml \
   php-imap php-zip php-apache2 \
-  php-mysqli php-simplexml php-xmlwriter
+  php-mysqli php-simplexml php-xmlwriter \
+  php-pecl-apcu php-pecl-imagick
 ```
 
-depending on actual version of php (at the time of writing alpine is 8.1)
+depending on actual version of php (at the time of writing alpine is 8.3)
 
 ```sh
-sudo apk add php81-dev php81-pecl-apcu php81-pecl-imagick php81-pecl-mailparse
+sudo apk add php83-dev php83-pecl-mailparse
 ```
 
 Install Composer : https://getcomposer.org/
