@@ -85,7 +85,7 @@ class controller extends \Controller {
     $this->title = config::label;
 
     $this->renderBS5([
-      'aside' => fn () => $this->load('index'),
+      'aside' => fn () => $this->load('blank'),
       'main' => fn () => $this->load('blank')
     ]);
   }
@@ -126,7 +126,7 @@ namespace risorsa;  ?>
 ```
 
 1. Modify the controllers secondary view to load 'index'
-    * at about line 16 of *src/risorsa/controller.php*
+    * at about line 13 of *src/risorsa/controller.php*
 
 ```php
   'aside' => fn () => $this->load('index'),
@@ -185,7 +185,7 @@ $dbc->check();  // actually do the work, check that table and fields exist
 * Find and copy the maintenance file into the dao folder, adjust the namespace
 
 ```bash
-cp vendor/bravedave/dvc/src/dao/dbinfo.php src/risorsa/dao/
+cp vendor/bravedave/dvc/tests/app/dao/dbinfo.php src/app/risorsa/dao/
 ```
 
 ```php
@@ -193,14 +193,17 @@ cp vendor/bravedave/dvc/src/dao/dbinfo.php src/risorsa/dao/
 // file: src/risorsa/dao/dbinfo.php
 namespace risorsa\dao;
 
-use bravedave;
+use bravedave\dvc\dbinfo as dvcDbInfo;
 
-class dbinfo extends bravedave\dvc\dbinfo {
-  protected $_store = '';
-
+class dbinfo extends dvcDbInfo {
+  /*
+	 * it is probably sufficient to copy this file into the <application>/app/dao folder
+	 *
+	 * from there store you structure files in <application>/dao/db folder
+	 */
   protected function check() {
-
-    $this->checkDIR(__DIR__);
+    parent::check();
+    parent::checkDIR(__DIR__);
   }
 }
 ```
@@ -245,6 +248,7 @@ class config extends \config {  // noting: config extends global config classes
 refresh the browser at <http://localhost:8080/risorsa> it will create the table
 
 >Tip : <https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite> will allow you to open and view sqlite files
+> *currently has a bug : <https://github.com/AlexCovizzi/vscode-sqlite/pull/241>*
 ><img src="risorsa-sqlite.jpg" class="img img-fluid">
 
 almost done with the database, two more files will round this out
@@ -594,8 +598,8 @@ Right now the form will add a record to the database, you can view it using SQL 
 // file : src/risorsa/dao/risorsa.php
 namespace risorsa\dao;
 
-use bravedave\dvc\dao;  // add this line
-use bravedave\dvc\dtoSet;
+use bravedave\dvc\dao;
+use bravedave\dvc\dtoSet;  // add this line
 
 class risorsa extends dao {
 ```

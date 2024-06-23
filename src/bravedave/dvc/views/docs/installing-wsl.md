@@ -39,7 +39,7 @@ http://dl-cdn.alpinelinux.org/alpine/latest-stable/community
 
 
 ```sh
-sudo apk apk update
+sudo apk update
 sudo apk upgrade
 
 sudo apk add git rsync sassc unzip php php-phar php-iconv php-curl \
@@ -60,7 +60,11 @@ sudo apk add php83-dev php83-pecl-mailparse
 ```
 
 Install Composer : https://getcomposer.org/
-Follow the instruction at getcomposer.org
+Follow the instruction at getcomposer.org or install with apk
+
+```sh
+sudo apk add composer
+```
 
 ```
 composer -V # should return version
