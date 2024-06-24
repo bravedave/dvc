@@ -42,7 +42,7 @@ http://dl-cdn.alpinelinux.org/alpine/latest-stable/community
 sudo apk update
 sudo apk upgrade
 
-sudo apk add git rsync sassc unzip php php-phar php-iconv php-curl \
+sudo apk add git sqlite3 rsync sassc unzip php php-phar php-iconv php-curl \
   php-ctype php-fileinfo php-posix php-session \
   php-dom php-openssl php-sqlite3 php-pear \
   php-tokenizer php-common \

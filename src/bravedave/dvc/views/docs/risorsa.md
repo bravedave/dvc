@@ -247,9 +247,8 @@ class config extends \config {  // noting: config extends global config classes
 
 refresh the browser at <http://localhost:8080/risorsa> it will create the table
 
->Tip : <https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite> will allow you to open and view sqlite files
-> *currently has a bug : <https://github.com/AlexCovizzi/vscode-sqlite/pull/241>*
-><img src="risorsa-sqlite.jpg" class="img img-fluid">
+>Tip : To see the table directly from the command line, use the sqlite3 utility<br>
+><img src="risorsa-sqlite.png" class="img img-fluid">
 
 almost done with the database, two more files will round this out
 
