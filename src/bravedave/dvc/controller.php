@@ -118,6 +118,12 @@ abstract class controller {
     }
   }
 
+  protected function _delete($id = 0) {
+
+    // logger::info(sprintf('<DELETE %s is not implemented> %s', $id, logger::caller()));
+    json::nak('delete is not implemented');
+  }
+
   protected function _getSystemViewPaths(?string $controller = null): array {
     $a = [];
     if (controller\docs::class == $controller) {
@@ -365,7 +371,12 @@ abstract class controller {
     return $this->Request->getPost($name, $default);
   }
 
-  protected function isPost() {
+  protected function isDelete(): bool {
+
+    return $this->Request ? $this->Request->isDelete() : false;
+  }
+
+  protected function isPost(): bool {
 
     if (is_null($this->Request)) return false;
     return $this->Request->isPost();
@@ -378,7 +389,7 @@ abstract class controller {
     $_paths = $this->_getViewPaths($controller);
     foreach ($_paths as $_path) {
 
-      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path,'/'), $viewName]))) {
+      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path, '/'), $viewName]))) {
 
         return $view;
       }
@@ -392,7 +403,7 @@ abstract class controller {
     $_paths = $this->_getSystemViewPaths($controller);
     foreach ($_paths as $_path) {
 
-      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path,'/'), $viewName]))) {
+      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path, '/'), $viewName]))) {
 
         return $view;
       }
@@ -779,24 +790,36 @@ abstract class controller {
 
   public function index() {
 
+    $args = [];
+    $i = func_num_args();
+    if ($i > 0) $args = func_get_args();
+
     if ($this->isPost()) {
 
       $this->postHandler();
+    } elseif ($this->isDelete()) {
+
+      if ($i > 1) {
+
+        $this->_delete($args[0], $args[1]);
+      } elseif ($i == 1) {
+
+        $this->_delete($args[0]);
+      } else {
+
+        $this->_delete();
+      }
     } elseif ($this->manifest) {
 
       $this->_offManifest(self::application()::Request()->getUrl());
     } else {
 
-      $i = func_num_args();
-      if ($i > 0) {
+      if ($i > 1) {
 
-        $args = func_get_args();
+        $this->_index($args[0], $args[1]);
+      } elseif ($i == 1) {
 
-        if ($i > 1) {
-          $this->_index($args[0], $args[1]);
-        } else {
-          $this->_index($args[0]);
-        }
+        $this->_index($args[0]);
       } else {
 
         $this->_index();

@@ -299,8 +299,16 @@ class Request {
     return $root;
   }
 
+  public function isDelete(): bool {
+    return (bool)($this->getServer('REQUEST_METHOD') == 'DELETE');
+  }
+
   public function isPost(): bool {
     return (bool)($this->getServer('REQUEST_METHOD') == 'POST');
+  }
+
+  public function isPut(): bool {
+    return (bool)($this->getServer('REQUEST_METHOD') == 'PUT');
   }
 
   public function isGet() {

@@ -10,6 +10,23 @@
 
 (_ => {
   _.fetch = {
+    delete: (url, data) => new Promise((resolve, reject) => {
+
+      fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: !!data ? JSON.stringify(data) : null,
+      })
+        .then(response => {
+
+          if (!response.ok) throw new Error('Network Error');
+          return response.json();
+        })
+        .then(data => resolve(data))
+        .catch(error => reject(error));
+    }),
     get: url => new Promise((resolve, reject) => {
 
       fetch(url)
@@ -51,7 +68,7 @@
     post: (url, data) => new Promise((resolve, reject) => {
 
       fetch(url, {
-        method: "POST", // or 'PUT'
+        method: "POST", // or 'DELETE,PUT'
         headers: {
           "Content-Type": "application/json",
         },
