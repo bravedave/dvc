@@ -5,7 +5,8 @@
 # 3. compile changes
 # 4. create themed bs files in src/dvc/css/bootstrap5
 
-if [ -x "$(command -v sassc)" ]; then
+# if [ -x "$(command -v sassc)" ]; then
+if [ -x "$(command -v sass)" ]; then
 
 	if [ -x "$(command -v rsync)" ]; then
 
@@ -34,21 +35,29 @@ if [ -x "$(command -v sassc)" ]; then
 
     # cat ../../bootstrap-custom.scss bootstrap.scss >bootstrap-custom.scss
     cat ../../bootstrap-custom.scss >bootstrap-custom.scss
-    sassc --omit-map-comment -t expanded bootstrap-custom.scss $targetDir/bootstrap.css
-    sassc --omit-map-comment -t compressed bootstrap-custom.scss $targetDir/bootstrap.min.css
+    # sassc --omit-map-comment -t expanded bootstrap-custom.scss $targetDir/bootstrap.css
+    sass --no-source-map bootstrap-custom.scss $targetDir/bootstrap.css
+    # sassc --omit-map-comment -t compressed bootstrap-custom.scss $targetDir/bootstrap.min.css
+    sass --no-source-map --style=compressed bootstrap-custom.scss $targetDir/bootstrap.min.css
     echo "$me : wrote bootstrap.min.css"
 
     cat ../../bootstrap-pink.scss >bootstrap-pink.scss
-    sassc --omit-map-comment -t expanded bootstrap-pink.scss $targetDir/bootstrap-pink.css
-    sassc --omit-map-comment -t compressed bootstrap-pink.scss $targetDir/bootstrap-pink.min.css
+    # sassc --omit-map-comment -t expanded bootstrap-pink.scss $targetDir/bootstrap-pink.css
+    sass --no-source-map bootstrap-pink.scss $targetDir/bootstrap-pink.css
+    # sassc --omit-map-comment -t compressed bootstrap-pink.scss $targetDir/bootstrap-pink.min.css
+    sass --no-source-map --style=compressed bootstrap-pink.scss $targetDir/bootstrap-pink.min.css
     echo "$me : wrote bootstrap-pink.min.css"
 
-    cat ../../bootstrap-blue.scss bootstrap.scss >bootstrap-blue.scss
-    sassc --omit-map-comment -t compressed bootstrap-blue.scss $targetDir/bootstrap-blue.min.css
+    cat ../../bootstrap-blue.scss >bootstrap-blue.scss
+    sass --no-source-map bootstrap-blue.scss $targetDir/bootstrap-blue.css
+    # sassc --omit-map-comment -t compressed bootstrap-blue.scss $targetDir/bootstrap-blue.min.css
+    sass --no-source-map --style=compressed bootstrap-blue.scss $targetDir/bootstrap-blue.min.css
     echo "$me : wrote bootstrap-blue.min.css"
 
     cat ../../bootstrap-orange.scss >bootstrap-orange.scss
-    sassc --omit-map-comment -t compressed bootstrap-orange.scss $targetDir/bootstrap-orange.min.css
+    sass --no-source-map bootstrap-orange.scss $targetDir/bootstrap-orange.css
+    # sassc --omit-map-comment -t compressed bootstrap-orange.scss $targetDir/bootstrap-orange.min.css
+    sass --no-source-map --style=compressed bootstrap-orange.scss $targetDir/bootstrap-orange.min.css
     echo "$me : wrote bootstrap-orange.min.css"
   else
 
@@ -56,5 +65,5 @@ if [ -x "$(command -v sassc)" ]; then
   fi
 else
 
-	echo "sassc command not found .."
+	echo "sass command not found .."
 fi
