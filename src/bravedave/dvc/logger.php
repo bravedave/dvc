@@ -105,13 +105,11 @@ abstract class logger {
   public static function sql(string $msg, string $prefix = self::prefix_sql): void {
 
     $sql = preg_replace(["@\r\n@", "@\n@", "@\t@", "@\s\s*@"], ' ', $msg);
-    if (strlen($sql) > 950) {
+    $maxLength = 990 - strlen($prefix);
+    if (strlen($sql) > $maxLength) {
 
-      $a = str_split($sql, 950);
-      foreach ($a as $s) {
-
-        self::info($s, $prefix);
-      }
+      $a = str_split($sql, $maxLength);
+      array_walk($a, fn($s) => self::info($s, $prefix));
     } else {
 
       self::info($sql, $prefix);
