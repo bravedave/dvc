@@ -34,7 +34,7 @@
 
       _.get(url).then(modal => {
 
-        const _modal = $(_.bootstrap.version() < 5 ? _.bootstrap.v5.v4(modal) : _.bootstrap.v4.v5(modal));
+        let _modal = $(_.bootstrap.version() < 5 ? _.bootstrap.v5.v4(modal) : _.bootstrap.v4.v5(modal));
 
         if (_modal.hasClass('modal')) {
 
