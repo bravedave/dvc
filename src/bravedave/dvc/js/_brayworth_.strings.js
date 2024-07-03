@@ -8,7 +8,6 @@
  * test:
  *	'0418745334'.IsMobilePhone();
 */
-/*jshint esversion: 6 */
 (() => {	// strings
   String.prototype.ltrim = function () { return this.replace(/^\s+/, ""); };
   String.prototype.rtrim = function () { return this.replace(/\s+$/, ""); };

@@ -42,7 +42,6 @@ abstract class jslib {
     'js/_brayworth_.fetch.js',
     'js/_brayworth_.fileDragDropHandler.js',
     'js/_brayworth_.get.js',
-    'js/_brayworth_.get.DataUri.js',
     'js/_brayworth_.growl.js',
     'js/_brayworth_.hashScroll.js',
     'js/_brayworth_.hourglass.js',

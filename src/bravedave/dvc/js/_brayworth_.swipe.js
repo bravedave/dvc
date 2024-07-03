@@ -8,101 +8,100 @@
  * $('#el).swipeon({ left : function(e) { console.log( 'oh left we go ...')} })
  *
  * */
-/*jshint esversion: 6 */
-( _ => {
-  _.swipeOff = function() {
+(_ => {
+
+  _.swipeOff = function () {
     $(this)
       .off('mousedown touchstart')
       .off('mouseup touchend');
   };
 
-  _.swipeOn = function( params) {
-    let options = _.extend( {
-      left : () => {},
-      right : () => {},
-      up : () => {},
-      down : () => {},
-    }, params);
+  _.swipeOn = function (params) {
+
+    const options = {
+      ...{
+        left: () => { },
+        right: () => { },
+        up: () => { },
+        down: () => { },
+      }, ...params
+    };
 
     let down = false;
 
-    let touchEvent = e => {
-      let _touchEvent = (x,y) => {return {'x':x,'y':y}};
+    const touchEvent = e => {
+
+      const _touchEvent = (x, y) => { return { 'x': x, 'y': y } };
       let evt = e.originalEvent;
+
       try {
         if ('undefined' !== typeof evt.pageX) {
-          return ( _touchEvent( evt.pageX, evt.pageY));
 
+          return _touchEvent(evt.pageX, evt.pageY);
         }
         else if ('undefined' !== typeof evt.touches) {
-          if ( evt.touches.length > 0)
-            return ( _touchEvent( evt.touches[0].pageX, evt.touches[0].pageY));
+
+          if (evt.touches.length > 0)
+            return _touchEvent(evt.touches[0].pageX, evt.touches[0].pageY);
           else
-            return ( _touchEvent( evt.changedTouches[0].pageX, evt.changedTouches[0].pageY));
-
+            return _touchEvent(evt.changedTouches[0].pageX, evt.changedTouches[0].pageY);
         }
-
       }
-      catch( err) {
-        console.warn( err);
+      catch (err) {
 
+        console.warn(err);
       }
-      return ( _touchEvent(0,0));
-
+      return _touchEvent(0, 0);
     };
 
-    let swipeEvent = (down,up) => {
-      let j = {
-        'direction' : '',
-        x : up.x - down.x,
-        y : up.y - down.y };
+    const swipeEvent = (down, up) => {
 
-      if ( j.x > 70) {
+      const j = {
+        'direction': '',
+        x: up.x - down.x,
+        y: up.y - down.y
+      };
+
+      if (j.x > 70) {
+
         j.direction = 'right';
+      } else if (j.x < -70) {
 
-      }
-      else if ( j.x < -70) {
         j.direction = 'left';
-
       }
 
-      return (j);
-
+      return j;
     };
 
     let _me = $(this)
 
     _me
-    .on('mousedown touchstart', function (e) {
-      if ( /^(input|textarea|img|a|select)$/i.test( e.target.nodeName ))
-        return;
+      .on('mousedown touchstart', e => {
 
-      down = touchEvent(e);
-      if ( down) _me.addClass('swiping');
+        if (/^(input|textarea|img|a|select)$/i.test(e.target.nodeName)) return;
 
-    })
-    .on('mouseup touchend',function (e) {
-      if ( down) {
-        let sEvt = swipeEvent( down, touchEvent( e));
-        down = false;	// reset
-        if ( down) _me.removeClass('swiping');
+        down = touchEvent(e);
+        if (down) _me.addClass('swiping');
+      })
+      .on('mouseup touchend', e => {
 
-        if ( sEvt.direction == 'left') {
-          options.left.call( _me, sEvt);
+        if (down) {
 
+          const sEvt = swipeEvent(down, touchEvent(e));
+          down = false;	// reset
+          if (down) _me.removeClass('swiping');
+
+          if (sEvt.direction == 'left') {
+
+            options.left.call(_me, sEvt);
+          } else if (sEvt.direction == 'right') {
+
+            options.right.call(_me, sEvt);
+          }
         }
-        else if ( sEvt.direction == 'right') {
-          options.right.call( _me, sEvt);
-
-        }
-
-      }
-
-    });
-
+      });
   };
 
   $.fn.swipeOn = _.swipeOn;
   $.fn.swipeOff = _.swipeOff;
-
-}) (_brayworth_);
+})(_brayworth_);

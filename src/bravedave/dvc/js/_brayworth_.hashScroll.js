@@ -6,93 +6,79 @@
  * MIT License
  *
  * */
-/*jshint esversion: 6 */
-( _ => {
-  _.ScrollTo = function( el, params) {
+(_ => {
 
-    let options = _.extend( {
-      marginTop : 0,
-      duration : 800
+  _.ScrollTo = function (el, params) {
 
-    }, params);
+    const options = {
+      ...{
+        marginTop: 0,
+        duration: 800
+      }, ...params
+    };
 
-    return ( new Promise( ( resolve, reject) => {
-      let _el = ( el instanceof jQuery ? el : $(el));
-      if ( _el.length < 1) {
-        console.log( 'element not found', el);
+    return (new Promise((resolve, reject) => {
+
+      let _el = (el instanceof jQuery ? el : $(el));
+      if (_el.length < 1) {
+
+        console.log('element not found', el);
         resolve();
-
         return;
-
       }
 
       let t = _el.offset().top;
       // console.log( _el, t);
 
-      let parent = _el.closest('.modal');
-      if ( parent.length == 0) {
-        let nav = $('body>nav');
-        if ( nav.length ) {
-          t -= ( nav.outerHeight());
+      const parent = _el.closest('.modal');
+      if (parent.length == 0) {
 
+        const nav = $('body>nav');
+        if (nav.length > 0) {
+
+          t -= nav.outerHeight();
+        } else {
+
+          const hdr = $('body>header');
+          if (hdr.length > 0) t -= (hdr.outerHeight());
         }
-        else {
-          let hdr = $('body>header');
-          if ( hdr.length )
-            t -= ( hdr.outerHeight());
-
-        }
-
       }
 
       t -= options.marginTop;
-      t = Math.max( 20, t);
+      t = Math.max(20, t);
 
       if (parent.length > 0) {
-        parent.animate({ scrollTop: t}, {
-          duration : options.duration,
-          complete : resolve,
-          fail : reject,
 
+        parent.animate({ scrollTop: t }, {
+          duration: options.duration,
+          complete: resolve,
+          fail: reject,
         });
+      } else {
 
-      }
-      else {
         _el[0].scrollIntoView({ behavior: "smooth" });
         resolve();
-        // $('html,body').animate({ scrollTop: t}, {
-        //   duration : options.duration,
-        //   complete : resolve,
-        //   fail : reject,
-
-        // });
-
       }
-
     }));
-
   };
 
   _.hashScroll = () => {
+
     /** Scrolls the content into view **/
-    $('a[href*="#"]:not([href="#"] , .carousel-control, .ui-tabs-anchor)').on('click', function() {
-      if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+    $('a[href*="#"]:not([href="#"] , .carousel-control, .ui-tabs-anchor)').on('click', function () {
+
+      if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+
         let target = $(this.hash);
-        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+        target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
         if (target.length) {
-          if ( /nav/i.test( target.prop('tagName')))
-            return;
 
-          _.ScrollTo( target);
+          if (/nav/i.test(target.prop('tagName'))) return;
 
+          _.ScrollTo(target);
           return false;
-
         }
-
       }
-
     });
-
   };
-
-}) (_brayworth_);
+})(_brayworth_);
