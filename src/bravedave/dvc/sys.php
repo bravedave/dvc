@@ -11,6 +11,7 @@
 namespace bravedave\dvc;
 
 use application, config;
+use PHPMailer\PHPMailer\PHPMailer;
 
 abstract class sys {
   protected static $_dbi = null;
@@ -130,7 +131,7 @@ abstract class sys {
   }
 
   public static function mailer() {
-    $mail = new \PHPMailer;
+    $mail = new PHPMailer;
     $mail->XMailer = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
 
     if (static::isWindows()) {
