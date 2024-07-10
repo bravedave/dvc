@@ -13,7 +13,7 @@
 
     let t = {
 
-      nav: $('<nav class="nav nav-tabs" role="tablist"></nav>'),
+      nav: $('<nav class="nav nav-tabs"></nav>'),
       panes: $('<div class="tab-content"></div>'),
       items: {},
       append: function (item) {
