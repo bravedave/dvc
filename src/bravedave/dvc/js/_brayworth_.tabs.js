@@ -13,7 +13,7 @@
 
     let t = {
 
-      nav: $('<div class="nav nav-tabs" role="tablist"></div>'),
+      nav: $('<nav class="nav nav-tabs" role="tablist"></nav>'),
       panes: $('<div class="tab-content"></div>'),
       items: {},
       append: function (item) {
@@ -76,9 +76,8 @@
 
       if (container instanceof jQuery) {
 
-        container
-          .html('')
-          .append($('<nav></nav>').append(t.nav))
+        container.empty()
+          .append(t.nav)
           .append(t.panes);
       }
     }
