@@ -190,6 +190,8 @@ if (!window._brayworth_) {
     return 0;
   };
 
+  _.darkMode = () => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
   _.REMtoPX = i => {
     let rem = parseFloat(getComputedStyle($(':root')[0]).fontSize);
     return (rem * i);
