@@ -191,6 +191,7 @@ if (!window._brayworth_) {
   };
 
   _.darkMode = () => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  _.darkMode.matchTheme = () => { if (_.darkMode()) document.documentElement.dataset.bsTheme = 'dark'; };
 
   _.REMtoPX = i => {
     let rem = parseFloat(getComputedStyle($(':root')[0]).fontSize);
