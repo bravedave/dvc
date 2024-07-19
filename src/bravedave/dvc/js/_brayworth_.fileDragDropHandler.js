@@ -17,31 +17,36 @@
  */
 (_ => {
   _.fileDragDropContainer = params => {
-    let options = _.extend({
-      accept: '',
-      fileControl: false,
-      multiple: true,
-      title: 'Choose file'
 
-    }, params);
+    let options = {
+      ...{
+        accept: '',
+        fileControl: false,
+        multiple: true,
+        title: 'Choose file'
+      }, ...params
+    };
 
     //~ console.log( '_.fileDragDropContainer');
-    let c = $('<div></div>');
+    let c = $(`<div>
+        <div class="progress box__uploading">
+          <div class="progress-bar progress-bar-striped box__fill" role="progressbar"
+            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <div class="progress d-none mt-2">
+          <div class="progress-bar progress-bar-striped progress-queue text-center"
+            role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0"
+            aria-valuemax="100">queue</div>
+        </div>
+      </div>`);
     c.data('accept', options.accept);
-
-    $('<div class="progress-bar progress-bar-striped box__fill" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>')
-      .appendTo($('<div class="progress box__uploading"></div>').appendTo(c));
-
-    $('<div class="progress-bar progress-bar-striped progress-queue text-center" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">queue</div>')
-      .appendTo($('<div class="progress d-none mt-2"></div>').appendTo(c));
 
     if (options.fileControl) {
 
-      let wrapper = $('<div class="pointer btn btn-outline-secondary d-block btn-sm upload-btn-wrapper">')
+      let wrapper = $('<div class="pointer btn btn-outline-secondary d-block btn-sm upload-btn-wrapper"></div>')
         .css({
           'position': 'relative',
           'overflow': 'hidden'
-
         });
 
       $('<i class="bi"></i>')
@@ -55,47 +60,35 @@
           'left': '0',
           'top': '0',
           'opacity': '0'
-
         })
         .appendTo(wrapper);
 
-      if (!!options.multiple) {
-        fileControl.prop('multiple', true);
-
-      }
-
-      if ('' != options.accept) {
-        fileControl.attr('accept', options.accept);
-
-      }
+      if (!!options.multiple) fileControl.prop('multiple', true);
+      if ('' != options.accept) fileControl.attr('accept', options.accept);
 
       wrapper.appendTo(c);
-
     }
 
-    return (c);
-
+    return c;
   };
 
   const acceptable = (file, accepting) => {
+
     if (accepting.length > 0) {
+
       let type = file.type;
       if ('' == type && /\.heic$/i.test(file.name)) {
+
         type = 'image/heic';
+      } else if ('' == type && /\.csv$/i.test(file.name)) {
 
-      }
-      else if ('' == type && /\.csv$/i.test(file.name)) {
         type = 'text/csv';
-
       }
       return accepting.indexOf(type) > -1;
+    } else {
 
-    }
-    else {
       return true;
-
     }
-
   };
 
   let queue = [];
@@ -216,58 +209,57 @@
       // console.log( options.host);
       options.host.addClass('is-uploading');
 
-      $
-        .ajax({
-          url: options.url,
-          type: 'POST',
-          data: formData,
-          dataType: 'json',
-          cache: false,
-          contentType: false,
-          processData: false,
-          xhr: () => {
-            let xhr = new window.XMLHttpRequest();
-            xhr.upload.addEventListener("progress", e => {
-              //~ if (e.lengthComputable)
-              //~ $('.box__fill', options.host).css('width', ( e.loaded / e.total * 100) + '%');
-              if (e.lengthComputable) {
-                progressBar
-                  .css('width', (e.loaded / e.total * 100) + '%')
-                  .attr('aria-valuenow', (e.loaded / e.total * 100));
-              }
-            });
+      $.ajax({
+        url: options.url,
+        type: 'POST',
+        data: formData,
+        dataType: 'json',
+        cache: false,
+        contentType: false,
+        processData: false,
+        xhr: () => {
 
-            return xhr;
-          }
+          let xhr = new window.XMLHttpRequest();
+          xhr.upload.addEventListener("progress", e => {
+            //~ if (e.lengthComputable)
+            //~ $('.box__fill', options.host).css('width', ( e.loaded / e.total * 100) + '%');
+            if (e.lengthComputable) {
+              progressBar
+                .css('width', (e.loaded / e.total * 100) + '%')
+                .attr('aria-valuenow', (e.loaded / e.total * 100));
+            }
+          });
 
-        })
+          return xhr;
+        }
+      })
         .done(d => {
+
           if ('ack' == d.response) {
+
             $.each(d.data, (i, j) => _.growl(j));
-          }
-          else {
+          } else {
+
             options.onError(d);
           }
 
           options.onUpload(d);
           resolve();
-
         })
         .always(() => options.host.removeClass('is-uploading'))
         .fail(r => {
+
           console.warn(r);
           _.ask.alert({
             title: 'Upload Error',
             text: 'there was an error<br>consider reloading your browser'
           });
-
         });
-
     }).catch(msg => console.warn(msg));
-
   };
 
   const uploader = params => new Promise((resolve) => {
+
     let options = {
       ...{
         postData: {},
@@ -298,10 +290,10 @@
 
     if (fileCount > 0) sendData.call(data, options);
     resolve();
-
   }).catch(msg => console.warn(msg));
 
   _.fileDragDropHandler = function (params) {
+
     let _el = $(this);
     let _data = _el.data();
 
@@ -365,7 +357,5 @@
         });
 
     }	// if (isAdvancedUpload && !options.host.hasClass('has-advanced-upload'))
-
   };
-
 })(_brayworth_);
