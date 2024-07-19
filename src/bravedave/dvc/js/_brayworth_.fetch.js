@@ -98,7 +98,8 @@
   // https://stackoverflow.com/questions/46640024/how-do-i-post-form-data-with-fetch-api
   _.fetch.post.form = (url, form, method = 'application/x-www-form-urlencoded') => new Promise((resolve, reject) => {
 
-    let data = new FormData(form);
+    let isFormData = Object.getPrototypeOf(form).toString() == '[object FormData]';
+    let data = isFormData ? form : new FormData(form);
     if ('multipart/form-data' == method) {
 
     } else {
