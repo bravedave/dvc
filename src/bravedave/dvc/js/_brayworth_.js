@@ -494,9 +494,6 @@ if (!window._brayworth_) {
       _url = '';
 
     let prefix = !!withProtocol ? location.protocol + '//' : '/'
-
     return (prefix + _url);
-
   };
-
 })(_brayworth_);
