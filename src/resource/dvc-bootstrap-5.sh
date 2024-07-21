@@ -5,7 +5,8 @@
 # 3. compile changes
 # 4. create themed bs files in src/dvc/css/bootstrap5
 
-# if [ -x "$(command -v sassc)" ]; then
+# https://dl-cdn.alpinelinux.org/alpine/edge/testing
+#
 if [ -x "$(command -v sass)" ]; then
 
 	if [ -x "$(command -v rsync)" ]; then
