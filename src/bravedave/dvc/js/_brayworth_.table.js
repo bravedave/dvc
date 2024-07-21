@@ -156,11 +156,11 @@
           setTimeout(() => $(this).trigger('search'), 400);
         })
         .on('search', function (e) {
-          let idx = ++this.dataset.srchIdx;
-          let txt = this.value;
+          const idx = ++this.dataset.srchIdx;
+          const txt = this.value;
 
-          let _me = $(this);
-          let table = _me.data('table');
+          const _me = $(this);
+          const table = _me.data('table');
 
           preScan = ('function' == typeof preScan) ? preScan : () => true;
 
@@ -168,17 +168,14 @@
 
             if (idx != this.dataset.srchIdx) return false;
 
-            let _tr = $(tr);
-            let str = _tr.text()
+            const _tr = $(tr);
             if (!preScan(_tr)) {
 
               _tr.addClass('d-none');
-            } else if (str.match(new RegExp(txt, 'gi'))) {
-
-              _tr.removeClass('d-none');
             } else {
 
-              _tr.addClass('d-none');
+              const str = _tr.text();
+              _tr.toggleClass('d-none', !(str.match(new RegExp(txt, 'gi'))));
             }
           });
 
