@@ -4,8 +4,17 @@
 # 2. Sync in bs5 scss
 # 3. compile changes
 # 4. create themed bs files in src/dvc/css/bootstrap5
-
-# https://dl-cdn.alpinelinux.org/alpine/edge/testing
+#
+# This is using getbootstrap.com's recommendation for dart-sass : https://sass-lang.com/
+# * https://getbootstrap.com/docs/5.3/customize/sass/
+#
+# To install on Alpine Linux, at the time of writing the compiler
+# is only available in the edge/testing repository
+# as this is the bleeding edge repo, it is recommended to disable it after use
+#
+# add the repo : https://dl-cdn.alpinelinux.org/alpine/edge/testing
+# sudo apk update
+# sudo apk add dart-sass
 #
 if [ -x "$(command -v sass)" ]; then
 
