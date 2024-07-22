@@ -91,6 +91,7 @@ if (!window._brayworth_) {
 
         html = String(html).replace(/data-dismiss/g, 'data-bs-dismiss');
         html = String(html).replace(/data-toggle/g, 'data-bs-toggle');
+        html = String(html).replace(/data-target/g, 'data-bs-target');
 
         let o = $(html);
 
@@ -130,6 +131,7 @@ if (!window._brayworth_) {
 
         html = String(html).replace(/data-bs-dismiss/g, 'data-dismiss');
         html = String(html).replace(/data-bs-toggle/g, 'data-toggle');
+        html = String(html).replace(/data-bs-target/g, 'data-target');
 
         let o = $(html);
 
