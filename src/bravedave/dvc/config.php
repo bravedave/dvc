@@ -185,7 +185,7 @@ abstract class config {
   static $UMASK = '0022';
 
   static public function checkDBconfigured() {
-    if (\config::$DB_TYPE == 'mysql' || \config::$DB_TYPE == 'sqlite' || \config::$DB_TYPE == 'disabled')
+    if (static::$DB_TYPE == 'mysql' || static::$DB_TYPE == 'sqlite' || static::$DB_TYPE == 'disabled')
       return true;
 
     return false;
@@ -325,19 +325,18 @@ abstract class config {
   }
 
   public static function defaultsPath() {
-    return implode(DIRECTORY_SEPARATOR, [
-      \config::dataPath(),
-      'defaults.json'
 
-    ]);
+    return implode(DIRECTORY_SEPARATOR, [static::dataPath(), 'defaults.json']);
   }
 
   static protected $_logpath = null;
 
   public static function logPath() {
+
     if (\is_null(static::$_logpath)) {
+
       static::$_logpath = implode(DIRECTORY_SEPARATOR, [
-        rtrim(\config::dataPath(), '/\ '),
+        rtrim(static::dataPath(), '/\ '),
         'logs',
 
       ]);
@@ -372,7 +371,7 @@ abstract class config {
 
       // $path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
       $path = implode(DIRECTORY_SEPARATOR, [
-        \config::dataPath(),
+        static::dataPath(),
         'db.json'
 
       ]);
@@ -386,105 +385,110 @@ abstract class config {
           'db_pass' => '',
         ];
         $a = (object)array_merge($_a, (array)json_decode(file_get_contents($path)));
-        \config::$DB_TYPE = $a->db_type;
-        \config::$DB_HOST = $a->db_host;
-        \config::$DB_NAME = $a->db_name;
-        \config::$DB_USER = $a->db_user;
-        \config::$DB_PASS = $a->db_pass;
+        static::$DB_TYPE = $a->db_type;
+        static::$DB_HOST = $a->db_host;
+        static::$DB_NAME = $a->db_name;
+        static::$DB_USER = $a->db_user;
+        static::$DB_PASS = $a->db_pass;
       } // if ( file_exists( $path))
 
       $path = static::defaultsPath();
       if (file_exists($path)) {
         $_a = [
-          'db_type' => \config::$DB_TYPE,
-          'db_cache' => \config::$DB_CACHE,
-          'db_cache_debug' => \config::$DB_CACHE_DEBUG,
-          'db_cache_debug_flush' => \config::$DB_CACHE_DEBUG_FLUSH,
-          'db_cache_debug_type_conflict' => \config::$DB_CACHE_DEBUG_TYPE_CONFLICT,
-          'date_format' => \config::$DATE_FORMAT,
-          'datetime_format' => \config::$DATETIME_FORMAT,
-          'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,
-          'emaildomain' => \config::$EMAILDOMAIN,
-          'imap_auth_server' => \config::$IMAP_AUTH_SERVER,
-          'maildsn' => \config::$MAILDSN,
-          'page_template' => \config::$PAGE_TEMPLATE,
-          'samesite_policy' => \config::$SAMESITE_POLICY,
-          'session_cache_expire' => \config::$SESSION_CACHE_EXPIRE,
-          'sitemaps' => \config::$SITEMAPS,
-          'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
-          'support_name' => \config::$SUPPORT_NAME,
-          'support_email' => \config::$SUPPORT_EMAIL,
-          'telegram_api_key' => \config::$TELEGRAM_API_KEY,
-          'telegram_chat_id' => \config::$TELEGRAM_CHAT_ID,
-          'timezone' => \config::$TIMEZONE,
-          'theme' => \config::$THEME,
-          'umask' => \config::$UMASK,
+          'content_enable_cross_origin_header' => static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER,
+          'content_enable_cross_origin_header_with_protocol' => static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER_WITH_PROTOCOL,
+          'db_type' => static::$DB_TYPE,
+          'db_cache' => static::$DB_CACHE,
+          'db_cache_debug' => static::$DB_CACHE_DEBUG,
+          'db_cache_debug_flush' => static::$DB_CACHE_DEBUG_FLUSH,
+          'db_cache_debug_type_conflict' => static::$DB_CACHE_DEBUG_TYPE_CONFLICT,
+          'date_format' => static::$DATE_FORMAT,
+          'datetime_format' => static::$DATETIME_FORMAT,
+          'email_errors_to_support' => static::$EMAIL_ERRORS_TO_SUPPORT,
+          'emaildomain' => static::$EMAILDOMAIN,
+          'imap_auth_server' => static::$IMAP_AUTH_SERVER,
+          'maildsn' => static::$MAILDSN,
+          'page_template' => static::$PAGE_TEMPLATE,
+          'samesite_policy' => static::$SAMESITE_POLICY,
+          'session_cache_expire' => static::$SESSION_CACHE_EXPIRE,
+          'sitemaps' => static::$SITEMAPS,
+          'syntax_highlight_docs' => static::$SYNTAX_HIGHLIGHT_DOCS,
+          'support_name' => static::$SUPPORT_NAME,
+          'support_email' => static::$SUPPORT_EMAIL,
+          'telegram_api_key' => static::$TELEGRAM_API_KEY,
+          'telegram_chat_id' => static::$TELEGRAM_CHAT_ID,
+          'timezone' => static::$TIMEZONE,
+          'theme' => static::$THEME,
+          'umask' => static::$UMASK,
         ];
 
         $a = (object)array_merge($_a, (array)json_decode(file_get_contents($path)));
 
-        \config::$DB_TYPE = $a->db_type;
-        \config::$DB_CACHE = $a->db_cache;
-        \config::$DB_CACHE_DEBUG = $a->db_cache_debug;
-        \config::$DB_CACHE_DEBUG_FLUSH = $a->db_cache_debug_flush;
-        \config::$DB_CACHE_DEBUG_TYPE_CONFLICT = $a->db_cache_debug_type_conflict;
-        \config::$DATE_FORMAT = $a->date_format;
-        \config::$DATETIME_FORMAT = $a->datetime_format;
+        static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER = $a->content_enable_cross_origin_header;
+        static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER_WITH_PROTOCOL = $a->content_enable_cross_origin_header_with_protocol;
 
-        \config::$EMAIL_ERRORS_TO_SUPPORT = $a->email_errors_to_support;
-        \config::$EMAILDOMAIN = $a->emaildomain;
+        static::$DB_TYPE = $a->db_type;
+        static::$DB_CACHE = $a->db_cache;
+        static::$DB_CACHE_DEBUG = $a->db_cache_debug;
+        static::$DB_CACHE_DEBUG_FLUSH = $a->db_cache_debug_flush;
+        static::$DB_CACHE_DEBUG_TYPE_CONFLICT = $a->db_cache_debug_type_conflict;
+        static::$DATE_FORMAT = $a->date_format;
+        static::$DATETIME_FORMAT = $a->datetime_format;
 
-        \config::$IMAP_AUTH_SERVER = $a->imap_auth_server;
-        \config::$MAILDSN = $a->maildsn;
+        static::$EMAIL_ERRORS_TO_SUPPORT = $a->email_errors_to_support;
+        static::$EMAILDOMAIN = $a->emaildomain;
 
-        \config::$PAGE_TEMPLATE = $a->page_template;
+        static::$IMAP_AUTH_SERVER = $a->imap_auth_server;
+        static::$MAILDSN = $a->maildsn;
 
-        \config::$SAMESITE_POLICY = $a->samesite_policy;
-        \config::$SESSION_CACHE_EXPIRE = $a->session_cache_expire;
-        \config::$SITEMAPS = $a->sitemaps;
-        \config::$SYNTAX_HIGHLIGHT_DOCS = $a->syntax_highlight_docs;
-        \config::$SUPPORT_NAME = $a->support_name;
-        \config::$SUPPORT_EMAIL = $a->support_email;
+        static::$PAGE_TEMPLATE = $a->page_template;
 
-        \config::$TELEGRAM_API_KEY = $a->telegram_api_key;
-        \config::$TELEGRAM_CHAT_ID = $a->telegram_chat_id;
-        \config::$TIMEZONE = $a->timezone;
-        \config::$THEME = $a->theme;
+        static::$SAMESITE_POLICY = $a->samesite_policy;
+        static::$SESSION_CACHE_EXPIRE = $a->session_cache_expire;
+        static::$SITEMAPS = $a->sitemaps;
+        static::$SYNTAX_HIGHLIGHT_DOCS = $a->syntax_highlight_docs;
+        static::$SUPPORT_NAME = $a->support_name;
+        static::$SUPPORT_EMAIL = $a->support_email;
 
-        \config::$UMASK = $a->umask;
+        static::$TELEGRAM_API_KEY = $a->telegram_api_key;
+        static::$TELEGRAM_CHAT_ID = $a->telegram_chat_id;
+        static::$TIMEZONE = $a->timezone;
+        static::$THEME = $a->theme;
+
+        static::$UMASK = $a->umask;
       } // if ( file_exists( $path))
       else {
 
         $path = implode(DIRECTORY_SEPARATOR, [
-          \config::dataPath(),
+          static::dataPath(),
           'defaults-sample.json'
         ]);
 
         if (!file_exists($path)) {
           $a = [
             'db_type' => 'sqlite',
-            'db_cache' => \config::$DB_CACHE,
-            'db_cache_debug' => \config::$DB_CACHE_DEBUG,
-            'db_cache_debug_flush' => \config::$DB_CACHE_DEBUG_FLUSH,
-            'db_cache_debug_type_conflict' => \config::$DB_CACHE_DEBUG_TYPE_CONFLICT,
+            'db_cache' => static::$DB_CACHE,
+            'db_cache_debug' => static::$DB_CACHE_DEBUG,
+            'db_cache_debug_flush' => static::$DB_CACHE_DEBUG_FLUSH,
+            'db_cache_debug_type_conflict' => static::$DB_CACHE_DEBUG_TYPE_CONFLICT,
             'date_format' => 'd/m/Y',
             'datetime_format' => 'd/m/Y g:ia',
-            'email_errors_to_support' => \config::$EMAIL_ERRORS_TO_SUPPORT,
-            'emaildomain' => \config::$EMAILDOMAIN,
-            'imap_auth_server' => \config::$IMAP_AUTH_SERVER,
+            'email_errors_to_support' => static::$EMAIL_ERRORS_TO_SUPPORT,
+            'emaildomain' => static::$EMAILDOMAIN,
+            'imap_auth_server' => static::$IMAP_AUTH_SERVER,
             'maildsn' => 'smtp://mail:25?verify_peer=0',
-            'page_template' => \config::$PAGE_TEMPLATE,
-            'samesite_policy' => \config::$SAMESITE_POLICY,
-            'session_cache_expire' => \config::$SESSION_CACHE_EXPIRE,
-            'sitemaps' => \config::$SITEMAPS,
-            'syntax_highlight_docs' => \config::$SYNTAX_HIGHLIGHT_DOCS,
-            'telegram_api_key' => \config::$TELEGRAM_API_KEY,
-            'telegram_chat_id' => \config::$TELEGRAM_CHAT_ID,
-            'timezone' => \config::$TIMEZONE,
-            'theme' => \config::$THEME,
-            'support_name' => \config::$SUPPORT_NAME,
-            'support_email' => \config::$SUPPORT_EMAIL,
-            'umask' => \config::$UMASK,
+            'page_template' => static::$PAGE_TEMPLATE,
+            'samesite_policy' => static::$SAMESITE_POLICY,
+            'session_cache_expire' => static::$SESSION_CACHE_EXPIRE,
+            'sitemaps' => static::$SITEMAPS,
+            'syntax_highlight_docs' => static::$SYNTAX_HIGHLIGHT_DOCS,
+            'telegram_api_key' => static::$TELEGRAM_API_KEY,
+            'telegram_chat_id' => static::$TELEGRAM_CHAT_ID,
+            'timezone' => static::$TIMEZONE,
+            'theme' => static::$THEME,
+            'support_name' => static::$SUPPORT_NAME,
+            'support_email' => static::$SUPPORT_EMAIL,
+            'umask' => static::$UMASK,
           ];
 
           file_put_contents($path, json_encode($a, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
@@ -492,12 +496,13 @@ abstract class config {
 
       }
 
-      if (\config::$DB_CACHE == 'APC') {
+      if (static::$DB_CACHE == 'APC') {
 
         $apcuAvailabe = function_exists('apcu_enabled') && apcu_enabled();
         if (!$apcuAvailabe) {
+
           logger::info(sprintf('<WARNING : APCu enabled but not available - disabling> %s', __METHOD__));
-          \config::$DB_CACHE = '';
+          static::$DB_CACHE = '';
         }
       }
 
