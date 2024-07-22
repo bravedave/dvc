@@ -120,6 +120,7 @@ if (!window._brayworth_) {
         o.find('.text-right').removeClass('text-right').addClass('text-end');
         o.find('.ml-auto').removeClass('ml-auto').addClass('ms-auto');
         o.find('.mr-auto').removeClass('mr-auto').addClass('me-auto');
+        o.find('.accordion.card').removeClass('card').addClass('accordion-item');
 
         let s = o[0].outerHTML;
 
