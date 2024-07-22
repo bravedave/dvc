@@ -9,10 +9,8 @@ RewriteEngine Off
 
 FallbackResource /_mvp.php
 
-<IfModule mod_php7.c>
-	php_value post_max_size 40M
-	php_value upload_max_filesize 40M
-</IfModule>
+php_value post_max_size 40M
+php_value upload_max_filesize 40M
 
 Header unset Pragma
 Header unset Last-Modified
