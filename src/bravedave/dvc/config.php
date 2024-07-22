@@ -466,6 +466,8 @@ abstract class config {
 
         if (!file_exists($path)) {
           $a = [
+            'content_enable_cross_origin_header' => static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER,
+            'content_enable_cross_origin_header_with_protocol' => static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER_WITH_PROTOCOL,
             'db_type' => 'sqlite',
             'db_cache' => static::$DB_CACHE,
             'db_cache_debug' => static::$DB_CACHE_DEBUG,
