@@ -48,7 +48,7 @@ class application {
     return $this->_app_executed;
   }
 
-  protected $_timer = null;
+  protected timer $_timer;
 
   protected $db = false;
 
@@ -83,14 +83,19 @@ class application {
     return self::$instance->_route;
   }
 
-  static function timer() {
+  static function timer() : timer {
 
     if (self::$instance) {
 
-      if (self::$instance->_timer) return (self::$instance->_timer);
+      if (self::$instance->_timer) return self::$instance->_timer;
     }
 
-    return (new timer);
+    return new timer;
+  }
+
+  static function elapsed() : string {
+
+    return self::timer()->elapsed();
   }
 
   /**
