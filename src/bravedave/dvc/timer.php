@@ -20,13 +20,13 @@ class timer {
     $this->start = $this->getmicrotime();
   }
 
-  protected function getmicrotime() {
+  protected function getmicrotime(): float {
 
     list($usec, $sec) = explode(" ", microtime());
     return ((float)$usec + (float)$sec);
   }
 
-  public function elapsed() {
+  public function elapsed(): string {
 
     $end = $this->getmicrotime();
     $time = round($end - $this->start, 2);
