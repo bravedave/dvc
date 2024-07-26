@@ -64,9 +64,19 @@ if (!window._brayworth_) {
 
     if (n == 0) n = 0;  // -0 also == 0, but prints -0
 
-    return Number(n).toLocaleString(undefined, {
+    return Number(n).toLocaleString(navigator.language, {
       minimumFractionDigits: fractions,
       maximumFractionDigits: fractions
+    });
+  };
+
+  _.asLocaleCurrency = (n, fractions = 2) => {
+
+    if (n == 0) n = 0;  // -0 also == 0, but prints -0
+
+    return Number(n).toLocaleString(navigator.language, {
+      style: "currency",
+      currency: "AUD"
     });
   };
 
