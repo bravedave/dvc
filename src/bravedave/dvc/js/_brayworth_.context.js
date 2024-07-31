@@ -295,6 +295,7 @@
         });
 
       if (!!o.target) el.attr('target', o.target);
+      if (!!o.class) el.addClass(o.class);
       return el;
     };
 
