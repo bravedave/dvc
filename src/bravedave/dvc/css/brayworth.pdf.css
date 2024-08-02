@@ -52,6 +52,15 @@ small,
   font-size: .875em
 }
 
+div.text-truncate,
+td.text-truncate {
+  max-width: 0;
+  overflow: hidden;
+  padding: 5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 table {
   font-size: 12px;
 }
