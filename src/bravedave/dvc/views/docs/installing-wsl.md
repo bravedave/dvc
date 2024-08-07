@@ -2,6 +2,8 @@
 
 ###### <navbar>[Docs](/docs/) | [Installing](/docs/Readme) | WSL</navbar>
 
+* There is a Debian version of this document [here](installing-wsl-debian.md)
+
 WSL (Windows Subsystem for Linux) is a great development environment for PHP
 
 ## Install WSL
