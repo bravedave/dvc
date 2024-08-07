@@ -17,19 +17,21 @@ sudo apt update
 sudo apt upgrade
 ```
 
-### my prefered edit is midnight commander, so ...
+### my prefered edit is midnight commander and I like htop, so ...
 
 ```sh
-sudo apt install mc
+sudo apt install mc htop
 ```
 
 ### install php etc ...
 
 ```sh
 sudo apt install git sqlite3 rsync sassc unzip curl wget composer \
-  php php-mailparse libapache2-mod-php
-a2enmod mpm_worker
+  php php-curl php-sqlite3 php-tokenizer \
+  php-common php-mbstring php-gd php-json php-xml php-imap php-zip \
+  php-apcu php-imagick php-mailparse libapache2-mod-php
 ```
+
 
 update your prompt - create a .profile file
 ```
