@@ -21,7 +21,7 @@ abstract class sys {
     return __DIR__ . '/css/bootstrap-icons/icons/';
   }
 
-  public static function dbCheck(string $file) {
+  public static function dbCheck(string $file): dbCheck|sqlite\dbCheck {
 
     return 'sqlite' == config::$DB_TYPE ?
       new sqlite\dbCheck(static::dbi(), $file) :
