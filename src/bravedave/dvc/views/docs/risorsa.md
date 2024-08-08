@@ -296,7 +296,7 @@ use bravedave\dvc\dao;
 
 class risorsa extends dao {
   protected $_db_name = 'risorsa';
-  protected $template = __NAMESPACE__ . '\dto\risorsa';
+  protected $template = dto\risorsa::class;
 
   public function Insert($a) {
     $a['created'] = $a['updated'] = self::dbTimeStamp();
