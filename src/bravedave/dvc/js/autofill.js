@@ -43,10 +43,12 @@
     // console.log(options);
     const list = $('<ul class="list-group" style="position: absolute; left: 0; z-index: 5; width: 100%;"></ul>');
 
+    let parent = _me.parent();
+
     options.wrapper.append(list);
     if (!!options.appendTo) {
 
-      const parent = options.appendTo instanceof jQuery ? options.appendTo : (options.appendTo);
+      parent = options.appendTo instanceof jQuery ? options.appendTo : (options.appendTo);
       parent.append(options.wrapper);
     } else {
 
@@ -207,19 +209,8 @@
         this._initialized = true;
 
         /*-- --[ position exactly where ? ]-- --*/
-        const checkPosition = obj => {
-
-          if ('static' == obj.css('position')) obj.css('position', 'relative');
-        };
-
-        let parent = $(this).parent();
-        if (!!options.appendTo) {
-
-          parent = options.appendTo instanceof jQuery ? options.appendTo : (options.appendTo);
-        }
-        checkPosition(parent);
+        if ('static' == parent.css('position')) parent.css('position', 'relative');
         /*-- --[ /position exactly where ? ]-- --*/
-
 
         const _mePos = _me.offset();
         const parentPos = parent.offset();
