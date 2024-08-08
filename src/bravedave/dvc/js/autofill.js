@@ -207,14 +207,23 @@
         this._initialized = true;
 
         /*-- --[ position exactly where ? ]-- --*/
-        if ('static' == options.appendTo.css('position')) {
+        const checkPosition = obj => {
 
-          options.appendTo.css('position', 'relative');
+          if ('static' == obj.css('position')) obj.css('position', 'relative');
+        };
+
+        let parent = $(this).parent();
+        if (!!options.appendTo) {
+
+          parent = options.appendTo instanceof jQuery ? options.appendTo : (options.appendTo);
         }
+        checkPosition(parent);
+        /*-- --[ /position exactly where ? ]-- --*/
 
-        let _mePos = _me.offset();
-        let parentPos = options.appendTo.offset();
-        let childOffset = {
+
+        const _mePos = _me.offset();
+        const parentPos = parent.offset();
+        const childOffset = {
           position: 'absolute',
           top: _mePos.top - parentPos.top + _me.outerHeight(),
           left: _mePos.left - parentPos.left
