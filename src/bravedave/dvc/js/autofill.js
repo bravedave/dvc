@@ -43,7 +43,7 @@
     // console.log(options);
     const list = $('<ul class="list-group" style="position: absolute; left: 0; z-index: 5; width: 100%;"></ul>');
 
-    let parent = _me.parent();
+    let parent = $(this).parent();
 
     options.wrapper.append(list);
     if (!!options.appendTo) {
