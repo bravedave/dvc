@@ -26,10 +26,9 @@
       }
     }
 
-    let options = {
+    const options = {
       ...{
         timeout: 400,
-        appendTo: this.parent(),
         wrapper: $('<div class="autofill-wrapper"></div>'),
         autoFocus: false,
         activateOnEnter: true,
@@ -42,14 +41,20 @@
     };
 
     // console.log(options);
-    let list = $('<ul class="list-group" style="position: absolute; left: 0; z-index: 5; width: 100%;"></ul>');
+    const list = $('<ul class="list-group" style="position: absolute; left: 0; z-index: 5; width: 100%;"></ul>');
 
-    if (!(options.appendTo instanceof jQuery)) options.appendTo = $(options.appendTo);
+    options.wrapper.append(list);
+    if (!!options.appendTo) {
 
-    options.wrapper.append(list).appendTo(options.appendTo);
+      const parent = options.appendTo instanceof jQuery ? options.appendTo : (options.appendTo);
+      parent.append(options.wrapper);
+    } else {
 
-    let _me = this;
-    let keyMove = {
+      options.wrapper.insertAfter(this);
+    }
+
+    const _me = this;
+    const keyMove = {
       active: -1,
       items: () => $('>li', list),
       current: false,
