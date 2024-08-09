@@ -8,14 +8,22 @@
 # This is using getbootstrap.com's recommendation for dart-sass : https://sass-lang.com/
 # * https://getbootstrap.com/docs/5.3/customize/sass/
 #
-# To install on Alpine Linux, at the time of writing the compiler
-# is only available in the edge/testing repository
-# as this is the bleeding edge repo, it is recommended to disable it after use
+# Alpine Linux:
+# at the time of writing the compiler is only available in the
+# edge/testing repository - as this is the bleeding edge repo,
+# recommended to disable it after use
 #
 # add the repo : https://dl-cdn.alpinelinux.org/alpine/edge/testing
 # sudo apk update
 # sudo apk add dart-sass
 #
+# Debian:
+# https://github.com/sass/dart-sass
+#
+
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
 if [ -x "$(command -v sass)" ]; then
 
 	if [ -x "$(command -v rsync)" ]; then
@@ -43,37 +51,34 @@ if [ -x "$(command -v sass)" ]; then
 
     targetDir="../../../bravedave/dvc/css/bootstrap5/"
 
-    # cat ../../bootstrap-custom.scss bootstrap.scss >bootstrap-custom.scss
     cat ../../bootstrap-custom.scss >bootstrap-custom.scss
-    # sassc --omit-map-comment -t expanded bootstrap-custom.scss $targetDir/bootstrap.css
     sass --no-source-map bootstrap-custom.scss $targetDir/bootstrap.css
-    # sassc --omit-map-comment -t compressed bootstrap-custom.scss $targetDir/bootstrap.min.css
     sass --no-source-map --style=compressed bootstrap-custom.scss $targetDir/bootstrap.min.css
     echo "$me : wrote bootstrap.min.css"
 
     cat ../../bootstrap-pink.scss >bootstrap-pink.scss
-    # sassc --omit-map-comment -t expanded bootstrap-pink.scss $targetDir/bootstrap-pink.css
     sass --no-source-map bootstrap-pink.scss $targetDir/bootstrap-pink.css
-    # sassc --omit-map-comment -t compressed bootstrap-pink.scss $targetDir/bootstrap-pink.min.css
     sass --no-source-map --style=compressed bootstrap-pink.scss $targetDir/bootstrap-pink.min.css
     echo "$me : wrote bootstrap-pink.min.css"
 
     cat ../../bootstrap-blue.scss >bootstrap-blue.scss
     sass --no-source-map bootstrap-blue.scss $targetDir/bootstrap-blue.css
-    # sassc --omit-map-comment -t compressed bootstrap-blue.scss $targetDir/bootstrap-blue.min.css
     sass --no-source-map --style=compressed bootstrap-blue.scss $targetDir/bootstrap-blue.min.css
     echo "$me : wrote bootstrap-blue.min.css"
 
     cat ../../bootstrap-orange.scss >bootstrap-orange.scss
     sass --no-source-map bootstrap-orange.scss $targetDir/bootstrap-orange.css
-    # sassc --omit-map-comment -t compressed bootstrap-orange.scss $targetDir/bootstrap-orange.min.css
     sass --no-source-map --style=compressed bootstrap-orange.scss $targetDir/bootstrap-orange.min.css
     echo "$me : wrote bootstrap-orange.min.css"
   else
 
-    echo "rsync command not found .."
+    printf "${RED}---------------------------${NC}\n"
+    printf "${RED}- rsync command not found -${NC}\n"
+    printf "${RED}---------------------------${NC}\n"
   fi
 else
 
-	echo "sass command not found .."
+	printf "${RED}--------------------------${NC}\n"
+	printf "${RED}- sass command not found -${NC}\n"
+	printf "${RED}--------------------------${NC}\n"
 fi
