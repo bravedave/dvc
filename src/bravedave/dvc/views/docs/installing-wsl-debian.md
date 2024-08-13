@@ -28,7 +28,7 @@ sudo apt install mc htop
 ```sh
 sudo apt install git sqlite3 rsync sassc unzip curl wget composer \
   php php-curl php-sqlite3 php-tokenizer \
-  php-common php-mbstring php-gd php-json php-xml php-imap php-zip \
+  php-common php-mbstring php-gd php-json php-xml php-imap php-zip php-soap \
   php-apcu php-imagick php-mailparse libapache2-mod-php
 ```
 
