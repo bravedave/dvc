@@ -293,6 +293,8 @@ abstract class dao {
     $this->db->log = $this->log;
     $this->Q(sprintf('DELETE FROM %s WHERE id = %d', $this->_db_name, (int)$id));
     $this->cacheDelete($id);
+
+    $this->audit('delete', [],  $id);
   }
 
   public function dtoSet($res, $func = null): array {
