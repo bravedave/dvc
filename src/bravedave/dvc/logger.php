@@ -33,6 +33,7 @@ abstract class logger {
       'include_once',
       'loadclass',
       'require',
+      dto::class . '::dto',
     ], $_ignore);
 
     $stack = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
@@ -43,7 +44,8 @@ abstract class logger {
       if (preg_match('@{closure}$@', $trace['function'])) continue;
       if (!in_array(strtolower($trace['function']), $ignore)) {
 
-        return sprintf('%s::%s', $trace['class'] ?? '', $trace['function']);
+        $res = sprintf('%s::%s', $trace['class'] ?? '', $trace['function']);
+        if (!in_array(strtolower($res), $ignore)) return $res;
       }
     }
 
@@ -95,7 +97,7 @@ abstract class logger {
 
     if (is_array($msg)) {
 
-      array_walk($msg, fn ($m) => error_log(sprintf('%s: %s', $prefix,  $m), 0));
+      array_walk($msg, fn($m) => error_log(sprintf('%s: %s', $prefix,  $m), 0));
     } else {
 
       error_log(sprintf('%s: %s', $prefix, $msg), 0);
