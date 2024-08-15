@@ -239,6 +239,9 @@ abstract class dao {
     return null;
   }
 
+  public function audit($table, $data, $id): void {
+  }
+
   public static function asDTO($res, $template = null): array {
 
     return $res->dtoSet(null, $template);
@@ -294,13 +297,12 @@ abstract class dao {
 
   public function dtoSet($res, $func = null): array {
 
-    if (
-      $res instanceof dbResult
-      || $res instanceof sqlite\dbResult
-      || $res instanceof dvc\dbResult
-      || $res instanceof dvc\sqlite\dbResult
-    ) {
+    if ($res instanceof dbResult || $res instanceof sqlite\dbResult) {
 
+      return $res->dtoSet($func, $this->template);
+    } elseif ($res instanceof dvc\dbResult || $res instanceof dvc\sqlite\dbResult) {
+
+      logger::deprecated('calling older instances of dvc\dbResult');
       return $res->dtoSet($func, $this->template);
     } else {
 
@@ -413,7 +415,10 @@ abstract class dao {
     if (isset($a['id'])) unset($a['id']);
 
     $this->db->log = $this->log;
-    return $this->db->Insert($this->db_name(), $a);
+    $id = $this->db->Insert($this->db_name(), $a);
+
+    $this->audit('insert', $a,  $id);
+    return $id;
   }
 
   public function Update($a, $condition, $flushCache = true) {
@@ -428,7 +433,10 @@ abstract class dao {
 
     if (is_null($this->db_name())) throw new DBNameIsNull;
     $this->cacheDelete($id);
-    return $this->Update($a, sprintf('WHERE id = %d', $id), $flushCache = false);
+    $ret = $this->Update($a, sprintf('WHERE id = %d', $id), $flushCache = false);
+
+    $this->audit('update', $a,  $id);
+    return $ret;
   }
 
   /**
