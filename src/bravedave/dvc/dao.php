@@ -239,7 +239,7 @@ abstract class dao {
     return null;
   }
 
-  public function audit($table, $data, $id): void {
+  public function audit(string $event, array $data, int $id): void {
   }
 
   public static function asDTO($res, $template = null): array {
