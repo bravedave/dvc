@@ -74,12 +74,14 @@ abstract class jslib {
     'js/templation.js',
     'js/timedate.js',
     'js/dayjs/dayjs.min.js',
+    'js/dayjs/isBetween.js',
+    'js/dayjs/isSameOrAfter.js',
+    'js/dayjs/isSameOrBefore.js',
     'js/dayjs/timezone.js',
     'js/dayjs/localeData.js',
     'js/dayjs/localizedFormat.js',
     'js/dayjs/updateLocale.js',
     'js/dayjs/utc.js',
-
   ];
 
   // buggy
@@ -88,7 +90,6 @@ abstract class jslib {
 
   public static $brayworthlibDOPOFiles = [
     'js/dopo.js'
-
   ];
 
   protected static $rootPath = null;
