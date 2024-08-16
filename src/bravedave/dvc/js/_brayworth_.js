@@ -341,6 +341,9 @@ if (!window._brayworth_) {
     dayjs.extend(dayjs_plugin_utc);
     dayjs.extend(dayjs_plugin_timezone);
     dayjs.extend(dayjs_plugin_updateLocale);
+    dayjs.extend(dayjs_plugin_isBetween);
+    dayjs.extend(dayjs_plugin_isSameOrBefore);
+    dayjs.extend(dayjs_plugin_isSameOrAfter);
     // dayjs.extend(dayjs_plugin_duration);
 
     if ('' !== _.timezone) {
