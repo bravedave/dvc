@@ -19,7 +19,7 @@ Create a module to record computer assets in a business to record:
 
 ### Recipe
 
-1. Follow the Getting Started guide at https://github.com/bravedave/dvc
+1. Follow the Getting Started guide at <https://github.com/bravedave/dvc>
    * the rest of this tutorial assumes
      * the getting stated has been run successfully
      * the namespace root is ***src/app***
@@ -142,7 +142,7 @@ namespace risorsa;  ?>
 
 #### Design a Table
 
-*The goal is to maintain a table of computer assets, previously we noted the information required to be stored. The objective is to create a table definition and use DVC's builtin table maintenance system*
+>*The goal is to maintain a table of computer assets, previously we noted the information required to be stored. The objective is to create a table definition and use DVC's builtin table maintenance system*
 
 * When thinking database/table/records, *DVC* uses DAO and DTO.
   * **DAO (Data Access Object)** is a design pattern that abstracts data access implementation.
@@ -197,10 +197,10 @@ use bravedave\dvc\dbinfo as dvcDbInfo;
 
 class dbinfo extends dvcDbInfo {
   /*
-	 * it is probably sufficient to copy this file into the <application>/app/dao folder
-	 *
-	 * from there store you structure files in <application>/dao/db folder
-	 */
+  * it is probably sufficient to copy this file into the <application>/app/dao folder
+  *
+  * from there store you structure files in <application>/dao/db folder
+  */
   protected function check() {
     parent::check();
     parent::checkDIR(__DIR__);
