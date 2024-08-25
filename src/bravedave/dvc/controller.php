@@ -354,8 +354,11 @@ abstract class controller {
 		* the default data adapter
 		*/
 
-    if (is_null($this->db)) return FALSE;
-    return $this->db->Result($query);
+    logger::deprecated(sprintf('<%s is not implemented>', __METHOD__));
+    // json::nak('delete is not implemented');
+
+    // if (is_null($this->db)) return FALSE;
+    // return $this->db->Result($query);
   }
 
   protected function getParam($v = '', $default = false) {
@@ -745,10 +748,10 @@ abstract class controller {
     $aside = (array)$aside;
 
     $options = array_merge([
-      'navbar' => fn () => $this->load(config::navbar_default),
-      'main' => fn () => '&nbsp;',
-      'aside' => fn () => array_walk($aside, fn ($_) => $this->load($_)),
-      'footer' => fn () => $this->load('footer'),
+      'navbar' => fn() => $this->load(config::navbar_default),
+      'main' => fn() => '&nbsp;',
+      'aside' => fn() => array_walk($aside, fn($_) => $this->load($_)),
+      'footer' => fn() => $this->load('footer'),
       'css' => [],
       'scripts' => [],
       'left-layout' => 'yes' == (currentUser::option('enable-left-layout') || 'left' == config::$PAGE_LAYOUT)
@@ -756,8 +759,8 @@ abstract class controller {
 
     $page = $options['page'] ?? (esse\page::bootstrap());
 
-    array_walk($options['css'], fn ($_) => $page->css[] = preg_match('/^<link/', $_) ? $_ : sprintf('<link rel="stylesheet" href="%s">', $_));
-    array_walk($options['scripts'], fn ($_) => $page->scripts[] = preg_match('/^<script/', $_) ? $_ : sprintf('<script src="%s"></script>', $_));
+    array_walk($options['css'], fn($_) => $page->css[] = preg_match('/^<link/', $_) ? $_ : sprintf('<link rel="stylesheet" href="%s">', $_));
+    array_walk($options['scripts'], fn($_) => $page->scripts[] = preg_match('/^<script/', $_) ? $_ : sprintf('<script src="%s"></script>', $_));
 
     $page
       ->head($this->title)
@@ -784,8 +787,9 @@ abstract class controller {
      * Perform an SQL Command using
      * the default data adapter
      */
-    if (is_null($this->db)) return false;
-    return $this->db->SQL($query);
+    logger::deprecated(sprintf('<%s is not implemented>', __METHOD__));
+    // if (is_null($this->db)) return false;
+    // return $this->db->SQL($query);
   }
 
   public function index() {
