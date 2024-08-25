@@ -80,8 +80,14 @@ if (!window._brayworth_) {
     });
   };
 
-  // https://stackoverflow.com/questions/18749591/encode-html-entities-in-javascript
+  /**
+   * https://stackoverflow.com/questions/18749591/encode-html-entities-in-javascript
+   *
+   * is probably a better solution at
+   * => https://stackoverflow.com/questions/1354064/how-to-convert-characters-to-html-entities-using-plain-javascript/23831239#23831239
+   */
   _.encodeHTMLEntities = s => s.replace(/[\u00A0-\u9999<>\&"]/g, i => '&#' + i.charCodeAt(0) + ';');
+
 
   _.hideContexts = e => {
 
