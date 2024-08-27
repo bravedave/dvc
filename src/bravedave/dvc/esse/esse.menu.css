@@ -61,6 +61,7 @@ nav .dropdown-menu .dropdown-item {
 	width: 1rem;
 }
 
+.dropdown-menu>a>.bi,
 .dropdown-menu .dropdown-submenu>li .fa,
 .dropdown-menu .dropdown-submenu>li .bi {
 	margin-left: -1.8rem;
@@ -70,6 +71,27 @@ nav .dropdown-menu .dropdown-item {
 
 ul.dropdown-menu>li>a>.bi,
 ul.dropdown-menu>li>a>.fa:not(.fa-pull-right) {
+	margin-left: -1.8rem;
+	margin-right: .8rem;
+	width: 1rem;
+}
+
+ul.menu {
+	background-color: var(--bs-body-bg);
+	color: var(--bs-body-color);
+}
+
+ul.menu.menu-contextmenu>li>a,
+ul.menu.menu-contextmenu ul.menu>li>a,
+ul.menu.menu-contextmenu>li>div,
+ul.menu.menu-contextmenu ul.menu>li>div {
+	border-left: 2rem var(--bs-border-color-translucent) solid;
+}
+
+ul.menu.menu-contextmenu>li>*>.fa:not(.fa-pull-right),
+ul.menu.menu-contextmenu ul.menu>li>*>.fa:not(.fa-pull-right),
+ul.menu.menu-contextmenu>li>*>.bi:not(.pull-right),
+ul.menu.menu-contextmenu ul.menu>li>*>.bi:not(.pull-right) {
 	margin-left: -1.8rem;
 	margin-right: .8rem;
 	width: 1rem;
