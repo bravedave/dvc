@@ -55,6 +55,7 @@ class Request {
 
       $input = file_get_contents('php://input');
       if (strings::isValidJSON($input)) {
+
         // logger::info( sprintf('<%s> %s', 'isPost/json', __METHOD__));
         $this->json = (object)json_decode($input);
       }
@@ -96,12 +97,11 @@ class Request {
 
           if (!preg_match('/^[a-z0-9]/i', $seg)) {
 
-            logger::info(sprintf('<--- ---[invalid segment]--- ---> %s', __METHOD__));
-            logger::info(sprintf('<url: %s> %s', $this->url, __METHOD__));
-            logger::info(sprintf('<uri: %s> %s', $this->uri, __METHOD__));
+            logger::info(sprintf('<--- ---[invalid segment : %s]--- ---> %s', $this->getRemoteIP(), __METHOD__));
+            logger::info(sprintf('<url/uri: %s/%s> %s', $this->url, $this->uri, __METHOD__));
             if (isset($_SERVER['HTTP_REFERER'])) logger::info(sprintf('<referer: %s> %s', $_SERVER['HTTP_REFERER'], __METHOD__));
             logger::info(sprintf('<segment %s> %s', $seg, __METHOD__));
-            logger::info(sprintf('<--- ---[invalid segment]--- ---> %s', __METHOD__));
+            logger::info(sprintf('<--- ---[/invalid segment]--- ---> %s', __METHOD__));
             break;
           }
           $this->segments[] = $seg;
@@ -153,7 +153,7 @@ class Request {
     if (isset($this->segments[$index]))
       return $this->segments[$index];
 
-    return (null);
+    return null;
   }
 
   public function getSegments() {
@@ -161,31 +161,31 @@ class Request {
   }
 
   public function getPost($name = '', $default = false) {
+
     if (!$name) {
+
       if ($this->post) return $this->post;
       if ($this->json) return $this->json;
       return '';
     }
 
     if (isset($this->json->$name)) return $this->json->$name;
-    if (isset($this->post[$name])) return $this->post[$name];
-
-    return ($default);
+    return $this->post[$name] ?? $default;
   }
 
-  public function getQuery($name = '') {
-    if (!$name)
-      return $this->query;
+  public function getQuery($name = ''): string {
 
-    if (isset($this->query[$name]))
-      return $this->query[$name];
+    if (!$name) return $this->query;
+    return $this->query[$name] ?? '';
   }
 
-  public function getUri() {
-    return ($this->uri);
+  public function getUri(): string {
+
+    return $this->uri;
   }
 
-  public function getUrl() {
+  public function getUrl(): string {
+
     return $this->url;
   }
 
@@ -194,18 +194,20 @@ class Request {
     return $_SERVER['HTTP_REFERER'] ?? \url::$URL;
   }
 
-  public function getRemoteIP() {
-    // https://stackoverflow.com/questions/1634782/what-is-the-most-accurate-way-to-retrieve-a-users-correct-ip-address-in-php
+  public function getRemoteIP(): string {
 
-    foreach ([
-      'HTTP_CLIENT_IP',
-      'HTTP_X_FORWARDED_FOR',
-      'HTTP_X_FORWARDED',
-      'HTTP_X_CLUSTER_CLIENT_IP',
-      'HTTP_FORWARDED_FOR',
-      'HTTP_FORWARDED',
-      'REMOTE_ADDR'
-    ] as $key) {
+    // https://stackoverflow.com/questions/1634782/what-is-the-most-accurate-way-to-retrieve-a-users-correct-ip-address-in-php
+    foreach (
+      [
+        'HTTP_CLIENT_IP',
+        'HTTP_X_FORWARDED_FOR',
+        'HTTP_X_FORWARDED',
+        'HTTP_X_CLUSTER_CLIENT_IP',
+        'HTTP_FORWARDED_FOR',
+        'HTTP_FORWARDED',
+        'REMOTE_ADDR'
+      ] as $key
+    ) {
       if (array_key_exists($key, $_SERVER) === true) {
         foreach (explode(',', $_SERVER[$key]) as $ip) {
           $ip = trim($ip); // just to be safe
