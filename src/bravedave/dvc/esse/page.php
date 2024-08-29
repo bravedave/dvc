@@ -28,6 +28,8 @@ class page {
   protected bool $_mainrow = false;
   protected bool $_open = false;
 
+  public string $container = 'container-fluid';
+
   public array $scripts = [];
   public array $meta = [];
   public array $css = [];
@@ -292,7 +294,7 @@ class page {
 
     $this->body();
 
-    print "\n\t<div class=\"container-fluid\"><div class=\"row\">\n";
+    printf( "\n\t<div class=\"%s\"><div class=\"row\">\n", $this->container);
 
     $this->_mainrow = true;
     return $this;
