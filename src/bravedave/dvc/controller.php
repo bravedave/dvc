@@ -754,6 +754,7 @@ abstract class controller {
       'footer' => fn() => $this->load('footer'),
       'css' => [],
       'scripts' => [],
+      'meta' => [],
       'left-layout' => 'yes' == (currentUser::option('enable-left-layout') || 'left' == config::$PAGE_LAYOUT)
     ], $params);
 
@@ -761,6 +762,8 @@ abstract class controller {
 
     array_walk($options['css'], fn($_) => $page->css[] = preg_match('/^<link/', $_) ? $_ : sprintf('<link rel="stylesheet" href="%s">', $_));
     array_walk($options['scripts'], fn($_) => $page->scripts[] = preg_match('/^<script/', $_) ? $_ : sprintf('<script src="%s"></script>', $_));
+
+    array_walk($options['meta'], fn($_) => $page->meta[] = $_);
 
     $page
       ->head($this->title)
