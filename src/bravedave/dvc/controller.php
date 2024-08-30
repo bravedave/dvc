@@ -748,14 +748,15 @@ abstract class controller {
     $aside = (array)$aside;
 
     $options = array_merge([
-      'navbar' => fn() => $this->load(config::navbar_default),
-      'main' => fn() => '&nbsp;',
       'aside' => fn() => array_walk($aside, fn($_) => $this->load($_)),
-      'footer' => fn() => $this->load('footer'),
       'css' => [],
-      'scripts' => [],
+      'footer' => fn() => $this->load('footer'),
+      'late' => [],
+      'left-layout' => 'yes' == (currentUser::option('enable-left-layout') || 'left' == config::$PAGE_LAYOUT),
+      'main' => fn() => '&nbsp;',
       'meta' => [],
-      'left-layout' => 'yes' == (currentUser::option('enable-left-layout') || 'left' == config::$PAGE_LAYOUT)
+      'navbar' => fn() => $this->load(config::navbar_default),
+      'scripts' => [],
     ], $params);
 
     $page = $options['page'] ?? (esse\page::bootstrap());
@@ -763,6 +764,7 @@ abstract class controller {
     array_walk($options['css'], fn($_) => $page->css[] = preg_match('/^<link/', $_) ? $_ : sprintf('<link rel="stylesheet" href="%s">', $_));
     array_walk($options['scripts'], fn($_) => $page->scripts[] = preg_match('/^<script/', $_) ? $_ : sprintf('<script src="%s"></script>', $_));
 
+    array_walk($options['late'], fn($_) => $page->late[] = $_);
     array_walk($options['meta'], fn($_) => $page->meta[] = $_);
 
     $page
