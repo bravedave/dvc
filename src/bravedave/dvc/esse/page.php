@@ -219,7 +219,7 @@ class page {
     $this->open()
       ->closeHead();
 
-    if ( !$this->bodyClass ) {
+    if ( $this->bodyClass ) {
 
       printf( "<body class=\"%s\">\n", $this->bodyClass);
     }else {
