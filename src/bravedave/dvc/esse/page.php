@@ -28,6 +28,7 @@ class page {
   protected bool $_mainrow = false;
   protected bool $_open = false;
 
+  public string $bodyClass = '';
   public string $container = 'container-fluid';
 
   public array $scripts = [];
@@ -218,7 +219,13 @@ class page {
     $this->open()
       ->closeHead();
 
-    print "<body>\n";
+    if ( !$this->bodyClass ) {
+
+      printf( "<body class=\"%s\">\n", $this->bodyClass);
+    }else {
+
+      print "<body>\n";
+    }
 
     $this->_body = true;
     return $this;
