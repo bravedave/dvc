@@ -749,6 +749,7 @@ abstract class controller {
 
     $options = array_merge([
       'aside' => fn() => array_walk($aside, fn($_) => $this->load($_)),
+      'bodyClass' => '',
       'css' => [],
       'footer' => fn() => $this->load('footer'),
       'late' => [],
@@ -766,6 +767,8 @@ abstract class controller {
 
     array_walk($options['late'], fn($_) => $page->late[] = $_);
     array_walk($options['meta'], fn($_) => $page->meta[] = $_);
+
+    if ($options['bodyClass']) $page->bodyClass = $options['bodyClass'];
 
     $page
       ->head($this->title)
