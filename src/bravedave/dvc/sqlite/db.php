@@ -12,18 +12,20 @@ namespace bravedave\dvc\sqlite;
 
 use bravedave, config;
 use bravedave\dvc\logger;
+use SQLite3;
+use ZipArchive;
 
 class db {
   public $log = false;
-  protected $_db = false;
+  protected ?SQLite3 $_db = null;
   protected $_path = null;
 
-  protected static $_instance = false;
+  protected static $_instance = null;
 
-  static function instance() {
+  static function instance(): ?self {
 
-    if (!self::$_instance) self::$_instance = new self;
-    return self::$_instance;
+    if (!static::$_instance) static::$_instance = new static;
+    return static::$_instance;
   }
 
   protected function __construct() {
@@ -31,12 +33,12 @@ class db {
     $this->_path = sprintf('%s%ssqlite.db', config::dataPath(), DIRECTORY_SEPARATOR);
     if (file_exists($this->_path)) {
 
-      $this->_db = new \SQLite3($this->_path);  // throws exception on failure
+      $this->_db = new SQLite3($this->_path);  // throws exception on failure
     } else {
 
       // I prefer this naming convention because in windows you can associate the extension
       $this->_path = sprintf('%s%sdb.sqlite', config::dataPath(), DIRECTORY_SEPARATOR);
-      $this->_db = new \SQLite3($this->_path);  // throws exception on failure
+      $this->_db = new SQLite3($this->_path);  // throws exception on failure
     }
 
     if ($this->_db) {
@@ -49,7 +51,7 @@ class db {
   public function __destruct() {
 
     if ($this->_db) $this->_db->close();
-    $this->_db = false;
+    $this->_db = null;
   }
 
   public function __invoke(string $query): ?dbResult {
@@ -252,33 +254,29 @@ class db {
     return ($this->Q($sql));
   }
 
-  public function valid() {
-    if (!self::$_instance)
-      self::$_instance = new self;
+  public function valid() : bool {
 
-    if (self::$_instance)
-      return (true);
+    if (!self::$_instance) self::$_instance = new static;
+    if (self::$_instance) return true;
 
-    return (false);
+    return false;
   }
 
-  public function zip() {
+  public function zip() : string {
     $debug = false;
     // $debug = TRUE;
 
-    $zip = new \ZipArchive();
+    $zip = new ZipArchive();
     $filename = sprintf('%s%sdb.zip', config::dataPath(), DIRECTORY_SEPARATOR);
 
     if (file_exists($filename)) unlink($filename);
 
     if ($debug) logger::debug(sprintf('sqlite\db->zip() : <%s>', $filename));
 
-    if ($zip->open($filename, \ZipArchive::CREATE) !== TRUE) {
+    if ($zip->open($filename, ZipArchive::CREATE) !== TRUE) {
 
       logger::info(sprintf('sqlite\db->zip() : cannot open <%s>', $filename));
     } else {
-      // $this->_db->close();
-      // $this->_db = NULL;
 
       if ($debug) logger::debug(sprintf('sqlite\db->zip() : adding <%s>', $this->_path));
       $zip->addFile($this->_path, 'db.sqlite');
@@ -288,10 +286,9 @@ class db {
 
       $zip->close();
 
-      return ($filename);
-
-      // $this->_db = new \SQLite3( $this->_path);	// throws exception on failure
-
+      return $filename;
     }
+
+    return '';
   }
 }
