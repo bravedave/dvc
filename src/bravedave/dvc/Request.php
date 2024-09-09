@@ -95,7 +95,7 @@ class Request {
 
         if ($seg) {
 
-          if (!preg_match('/^[a-z0-9]/i', $seg)) {
+          if (!preg_match('/^[_a-z0-9]/i', $seg)) {
 
             logger::info(sprintf('<--- ---[invalid segment : %s]--- ---> %s', $this->getRemoteIP(), __METHOD__));
             logger::info(sprintf('<url/uri: %s/%s> %s', $this->url, $this->uri, __METHOD__));
