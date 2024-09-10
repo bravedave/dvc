@@ -106,7 +106,7 @@ class http {
 				list($key, $value) = explode(':', $header, 2);
 				$key = trim($key);
 				$value = trim($value);
-				$this->_headers[$key] = $value;
+				$this->_headers[$key] = $header;
 			} else {
 
 				// else just add the header
