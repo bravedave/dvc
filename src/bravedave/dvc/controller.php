@@ -20,7 +20,7 @@ abstract class controller {
   public $CheckOffline = true;
   public $db = null;
   public $name = 'home';
-  public $Request = null;
+  protected Request $Request;
   public $timer = null;
   public $rootPath  = '';
   public $defaultController = 'home';

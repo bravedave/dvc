@@ -21,7 +21,7 @@ use bravedave\dvc\Exceptions\{
 define('APPLICATION', 1);
 
 class application {
-  protected static $_request = null;
+  protected static ?Request $_request = null;
 
   protected static $instance = null;
 
