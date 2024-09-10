@@ -33,16 +33,18 @@ class Request {
 
   protected $segments;
 
-  protected static $instance;
+  protected static $instance = null;
 
   /**
    * @param string $var
    * @param bool $default
    * @return mixed
    */
-  public static function get($var = '', $default = false): self {
+  public static function get($var = '', $default = false): Request {
 
-    if (!isset(self::$instance)) self::$instance = new self;
+    if (!isset(self::$instance))
+      self::$instance = new Request;
+
     if ($var == '') return self::$instance;
     return (self::$instance->getParam($var, $default));
   }
