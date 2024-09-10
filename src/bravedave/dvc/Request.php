@@ -19,7 +19,9 @@ class Request {
 
   protected $_RewriteBase = '';
 
-  protected $url;
+  protected string $url;
+
+  protected string $method = 'GET';
 
   protected $json;
 
@@ -38,9 +40,9 @@ class Request {
    * @param bool $default
    * @return mixed
    */
-  public static function get($var = '', $default = false): static {
+  public static function get($var = '', $default = false): self {
 
-    if (!isset(self::$instance)) self::$instance = new static;
+    if (!isset(self::$instance)) self::$instance = new self;
     if ($var == '') return self::$instance;
     return (self::$instance->getParam($var, $default));
   }
@@ -49,6 +51,8 @@ class Request {
     $this->post = $_POST;
     $this->query = $_GET;
     $this->json = (object)[];
+
+    $this->method = (string)($this->getServer('REQUEST_METHOD') == 'POST');
 
     if ($this->isPost()) {
 
@@ -148,15 +152,24 @@ class Request {
     return $this->actionName;
   }
 
-  public function getSegment($index) {
-    if (isset($this->segments[$index]))
-      return $this->segments[$index];
+  /**
+   * @example
+   *  // Make sure it's a POST request with application/json content type
+   * if ($request->getMethod() === 'POST' &&
+   *  $request->getHeaderLine('Content-Type') === 'application/json') {
+   * }
+   *
+   * @param string $name the name of the header line to retrieve
+   * @return string the value of the header line, or an empty string if it is not set
+   */
+  public function getHeaderLine($name) {
 
-    return null;
+    return $_SERVER[$name] ?? '';
   }
 
-  public function getSegments() {
-    return $this->segments;
+  public function getMethod(): string {
+
+    return $this->method;
   }
 
   public function getPost($name = '', $default = false) {
@@ -176,6 +189,17 @@ class Request {
 
     if (!$name) return $this->query;
     return $this->query[$name] ?? '';
+  }
+
+  public function getSegment($index) {
+
+    if (isset($this->segments[$index])) return $this->segments[$index];
+    return null;
+  }
+
+  public function getSegments() {
+
+    return $this->segments;
   }
 
   public function getUri(): string {
@@ -226,7 +250,8 @@ class Request {
   }
 
   public function getServer($name): string {
-    return $_SERVER[$name] ?? '';
+
+    return $this->getHeaderLine($name);
   }
 
   public function getServerName() {
@@ -301,22 +326,19 @@ class Request {
   }
 
   public function isDelete(): bool {
-    return (bool)($this->getServer('REQUEST_METHOD') == 'DELETE');
+    return (bool)($this->method == 'DELETE');
   }
 
   public function isPost(): bool {
-    return (bool)($this->getServer('REQUEST_METHOD') == 'POST');
+    return (bool)($this->method == 'POST');
   }
 
   public function isPut(): bool {
-    return (bool)($this->getServer('REQUEST_METHOD') == 'PUT');
+    return (bool)($this->method == 'PUT');
   }
 
-  public function isGet() {
-    if ($this->getServer('REQUEST_METHOD') == 'GET')
-      return true;
-
-    return false;
+  public function isGet(): bool {
+    return (bool)($this->method == 'GET');
   }
 
   public function toArray() {
