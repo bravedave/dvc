@@ -36,7 +36,7 @@ class http {
 			'CURLOPT_RETURNTRANSFER' => 1
 		], $_options);
 
-		array_walk($options, fn ($o, $k) => curl_setopt($this->ch, constant($k), $o));
+		array_walk($options, fn($o, $k) => curl_setopt($this->ch, constant($k), $o));
 	}
 
 	public function __destruct() {
@@ -72,17 +72,24 @@ class http {
 				$aR[$aRes[0]] = urldecode($aRes[1]);
 			}
 		}
+
 		return $aR;
 	}
 
-	public function send() {	/* Make the GET request to the server */
+	public function post(object|array $params): string|bool {
+
+		$this->setPostData($params);
+		return $this->send();
+	}
+
+	public function send(): string|bool {	/* Make the GET request to the server */
 
 		curl_setopt($this->ch, CURLOPT_URL, $this->url_builder());
 		$this->httpResponse = curl_exec($this->ch);
 		return $this->httpResponse;
 	}
 
-	public function setHTTPHeaders($headers) {
+	public function setHTTPHeaders($headers): void {
 
 		curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);
 	}
