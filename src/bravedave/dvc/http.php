@@ -18,6 +18,8 @@ class http {
 	public $postString;
 	public $url;
 
+	protected array $_headers = [];
+
 	/**
 	 * Constructs an http suitable for a get request using curl CURL
 	 *
@@ -89,9 +91,33 @@ class http {
 		return $this->httpResponse;
 	}
 
-	public function setHTTPHeaders($headers): void {
+	public function setHTTPHeaders(array $headers): array {
 
+		foreach ($headers as $header) {
+
+			/*
+			 if the header has a colon, it will be a key/value pair
+			 check the existing headers and if you find one with the same key
+			 overwrite it with the new value
+			 */
+
+			if (strpos($header, ':') !== false) {
+
+				list($key, $value) = explode(':', $header, 2);
+				$key = trim($key);
+				$value = trim($value);
+				$this->_headers[$key] = $value;
+			} else {
+
+				// else just add the header
+				$this->_headers[] = $header;
+			}
+		}
+
+		$headers = array_map(fn($h) => (string)$h, $this->_headers);
 		curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);
+
+		return $headers;
 	}
 
 	public function setPostData(object|array $data, $useJson = true): void {
