@@ -21,6 +21,8 @@ class Request {
 
   protected $url;
 
+  protected string $method = 'GET';
+
   protected $json;
 
   protected $post;
@@ -38,7 +40,8 @@ class Request {
    * @param bool $default
    * @return mixed
    */
-  public static function get($var = '', $default = false) {
+  public static function get($var = '', $default = false): Request {
+
     if (!isset(self::$instance))
       self::$instance = new Request;
 
@@ -50,6 +53,8 @@ class Request {
     $this->post = $_POST;
     $this->query = $_GET;
     $this->json = (object)[];
+
+    $this->method = (string)($this->getServer('REQUEST_METHOD') == 'POST');
 
     if ($this->isPost()) {
 
@@ -95,7 +100,7 @@ class Request {
 
         if ($seg) {
 
-          if (!preg_match('/^[a-z0-9]/i', $seg)) {
+          if (!preg_match('/^[_a-z0-9]/i', $seg)) {
 
             logger::info(sprintf('<--- ---[invalid segment : %s]--- ---> %s', $this->getRemoteIP(), __METHOD__));
             logger::info(sprintf('<url/uri: %s/%s> %s', $this->url, $this->uri, __METHOD__));
@@ -149,15 +154,24 @@ class Request {
     return $this->actionName;
   }
 
-  public function getSegment($index) {
-    if (isset($this->segments[$index]))
-      return $this->segments[$index];
+  /**
+   * @example
+   *  // Make sure it's a POST request with application/json content type
+   * if ($request->getMethod() === 'POST' &&
+   *  $request->getHeaderLine('Content-Type') === 'application/json') {
+   * }
+   *
+   * @param string $name the name of the header line to retrieve
+   * @return string the value of the header line, or an empty string if it is not set
+   */
+  public function getHeaderLine($name) {
 
-    return null;
+    return $_SERVER[$name] ?? '';
   }
 
-  public function getSegments() {
-    return $this->segments;
+  public function getMethod(): string {
+
+    return $this->method;
   }
 
   public function getPost($name = '', $default = false) {
@@ -177,6 +191,17 @@ class Request {
 
     if (!$name) return $this->query;
     return $this->query[$name] ?? '';
+  }
+
+  public function getSegment($index) {
+
+    if (isset($this->segments[$index])) return $this->segments[$index];
+    return null;
+  }
+
+  public function getSegments() {
+
+    return $this->segments;
   }
 
   public function getUri(): string {
