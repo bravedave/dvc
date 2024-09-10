@@ -88,6 +88,24 @@ class http {
 	}
 
 	public function setPostData(object|array $params): void {
+
+		/**
+		 * 2024--09-10
+		 * http_build_query loses "+" characters
+		 * so encode the array into a JSON string
+		 * and set the content type to application/json
+		 */
+
+		$this->postString = json_encode($params);
+		$this->setHTTPHeaders(['Content-Type: application/json']);
+
+		if ($this->debug) logger::debug($this->postString);
+
+		curl_setopt($this->ch, CURLOPT_POST, true);
+		curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->postString);
+	}
+
+	public function setPostData_legacy(object|array $params): void {
 		// http_build_query encodes URLs, which breaks POST data
 		$this->postString = rawurldecode(http_build_query($params));
 
