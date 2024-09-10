@@ -38,10 +38,9 @@ class Request {
    * @param bool $default
    * @return mixed
    */
-  public static function get($var = '', $default = false) : static {
-    if (!isset(self::$instance))
-      self::$instance = new Request;
+  public static function get($var = '', $default = false): static {
 
+    if (!isset(self::$instance)) self::$instance = new static;
     if ($var == '') return self::$instance;
     return (self::$instance->getParam($var, $default));
   }
