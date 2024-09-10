@@ -76,9 +76,9 @@ class http {
 		return $aR;
 	}
 
-	public function post(object|array $params): string|bool {
+	public function post(object|array $params, $useJson = true): string|bool {
 
-		$this->setPostData($params);
+		$this->setPostData($params, $useJson);
 		return $this->send();
 	}
 
@@ -94,7 +94,7 @@ class http {
 		curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);
 	}
 
-	public function setPostData(object|array $params): void {
+	public function setPostData(object|array $data, $useJson = true): void {
 
 		/**
 		 * 2024--09-10
@@ -103,13 +103,21 @@ class http {
 		 * and set the content type to application/json
 		 */
 
-		$this->postString = json_encode($params);
-		$this->setHTTPHeaders(['Content-Type: application/json']);
-
-		if ($this->debug) logger::debug($this->postString);
-
 		curl_setopt($this->ch, CURLOPT_POST, true);
-		curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->postString);
+
+		if ($useJson) {
+
+			$this->postString = json_encode($data);
+			$this->setHTTPHeaders(['Content-Type: application/json']);
+
+			if ($this->debug) logger::debug($this->postString);
+
+			curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->postString);
+		} else {
+
+			// they are probably sending a CurlFile object
+			curl_setopt($this->ch, CURLOPT_POSTFIELDS, $data);
+		}
 	}
 
 	public function setPostData_legacy(object|array $params): void {
