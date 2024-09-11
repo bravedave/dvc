@@ -12,6 +12,7 @@ namespace bravedave\dvc;
 
 use config;
 use DateTime;
+use finfo;
 use libphonenumber;
 
 abstract class strings {
@@ -339,25 +340,41 @@ abstract class strings {
   static public function ExtendedStreetString($street) {
     /* the opposite of GoodStreetString */
     $find = [
-      '@\sRd$@i', '@\sRd,@i',
-      '@\sSt$@i', '@\sSt,@i',
-      '@\sAv$@i', '@\sAv,@i',
-      '@\sPd$@i', '@\sPd,@i',
-      '@\sTc$@i', '@\sTc,@i',
-      '@\sDr$@i', '@\sDr,@i',
-      '@\sPl$@i', '@\sPl,@i',
-      '@\sCt$@i', '@\sCt,@i'
+      '@\sRd$@i',
+      '@\sRd,@i',
+      '@\sSt$@i',
+      '@\sSt,@i',
+      '@\sAv$@i',
+      '@\sAv,@i',
+      '@\sPd$@i',
+      '@\sPd,@i',
+      '@\sTc$@i',
+      '@\sTc,@i',
+      '@\sDr$@i',
+      '@\sDr,@i',
+      '@\sPl$@i',
+      '@\sPl,@i',
+      '@\sCt$@i',
+      '@\sCt,@i'
     ];
 
     $replace = [
-      ' Road', ' Road,',
-      ' Street', ' Street,',
-      ' Avenue', ' Avenue,',
-      ' Parade', ' Parade,',
-      ' Terrace', ' Terrace,',
-      ' Drive', ' Drive,',
-      ' Place', ' Place,',
-      ' Court', ' Court,'
+      ' Road',
+      ' Road,',
+      ' Street',
+      ' Street,',
+      ' Avenue',
+      ' Avenue,',
+      ' Parade',
+      ' Parade,',
+      ' Terrace',
+      ' Terrace,',
+      ' Drive',
+      ' Drive,',
+      ' Place',
+      ' Place,',
+      ' Court',
+      ' Court,'
     ];
 
     return (preg_replace($find, $replace, $street));
@@ -465,32 +482,70 @@ abstract class strings {
     if (preg_match('/The\s?Esplanade/i', $street)) return ($street);
 
     $find = [
-      '@\savenue$@i', '@\savenue,@i', '@\save$@i', '@\save,@i',
-      '@\screscent$@i', '@\screscent,@i',
-      '@\sclose$@i', '@\sclose,@i',
-      '@\scourt$@i', '@\scourt,@i',
-      '@\sdrive$@i', '@\sdrive,@i',
-      '@\sesplanade$@i', '@\sesplanade,@i',
-      '@\slane$@i', '@\slane,@i',
-      '@\sparade$@i', '@\spde$@i', '@\sparade,@i', '@\spde,@i',
-      '@\splace$@i', '@\splace,@i',
-      '@\sroad$@i', '@\sroad,@i',
-      '@\sstreet$@i', '@\sstreet,@i', '@\sstreet\s@i',
-      '@\sterrace$@i', '@\stce$@i', '@\sterrace,@i', '@\stce,@i',
+      '@\savenue$@i',
+      '@\savenue,@i',
+      '@\save$@i',
+      '@\save,@i',
+      '@\screscent$@i',
+      '@\screscent,@i',
+      '@\sclose$@i',
+      '@\sclose,@i',
+      '@\scourt$@i',
+      '@\scourt,@i',
+      '@\sdrive$@i',
+      '@\sdrive,@i',
+      '@\sesplanade$@i',
+      '@\sesplanade,@i',
+      '@\slane$@i',
+      '@\slane,@i',
+      '@\sparade$@i',
+      '@\spde$@i',
+      '@\sparade,@i',
+      '@\spde,@i',
+      '@\splace$@i',
+      '@\splace,@i',
+      '@\sroad$@i',
+      '@\sroad,@i',
+      '@\sstreet$@i',
+      '@\sstreet,@i',
+      '@\sstreet\s@i',
+      '@\sterrace$@i',
+      '@\stce$@i',
+      '@\sterrace,@i',
+      '@\stce,@i',
     ];
     $replace = [
-      ' Av', ' Av,', ' Av', ' Av,',
-      ' Cres', ' Cres,',
-      ' Cl', ' Cl,',
-      ' Ct', ' Ct,',
-      ' Dr', ' Dr,',
-      ' Esp', ' Esp,',
-      ' Ln', ' Ln,',
-      ' Pd', ' Pd', ' Pd,', ' Pd,',
-      ' Pl', ' Pl,',
-      ' Rd', ' Rd,',
-      ' St', ' St,', ' St, ',
-      ' Tc', ' Tc', ' Tc,', ' Tc,',
+      ' Av',
+      ' Av,',
+      ' Av',
+      ' Av,',
+      ' Cres',
+      ' Cres,',
+      ' Cl',
+      ' Cl,',
+      ' Ct',
+      ' Ct,',
+      ' Dr',
+      ' Dr,',
+      ' Esp',
+      ' Esp,',
+      ' Ln',
+      ' Ln,',
+      ' Pd',
+      ' Pd',
+      ' Pd,',
+      ' Pd,',
+      ' Pl',
+      ' Pl,',
+      ' Rd',
+      ' Rd,',
+      ' St',
+      ' St,',
+      ' St, ',
+      ' Tc',
+      ' Tc',
+      ' Tc,',
+      ' Tc,',
     ];
 
 
@@ -795,7 +850,7 @@ abstract class strings {
       //Returns the Mime Type of a file or a string content - from: https://coursesweb.net/
       // $r = the resource: Path to the file; Or the String content
       // $t = type of the resource, needed to be specified as "str" if $r is a string-content
-      $finfo = new \finfo(FILEINFO_MIME_TYPE);
+      $finfo = new finfo(FILEINFO_MIME_TYPE);
       $type = $finfo->buffer($str);
 
       if ('application/json' == $type) {
@@ -804,6 +859,27 @@ abstract class strings {
         json_decode($str);
 
         return json_last_error() == JSON_ERROR_NONE;
+      }
+    }
+
+    return false;
+  }
+
+  static public function validJSON($str): mixed {
+
+    if ($str) {
+
+      //Returns the Mime Type of a file or a string content - from: https://coursesweb.net/
+      // $r = the resource: Path to the file; Or the String content
+      // $t = type of the resource, needed to be specified as "str" if $r is a string-content
+      $finfo = new finfo(FILEINFO_MIME_TYPE);
+      $type = $finfo->buffer($str);
+
+      if ('application/json' == $type) {
+
+        // logger::info(sprintf('<%s> %s', $type, __METHOD__));
+        $json = json_decode($str);
+        if (json_last_error() == JSON_ERROR_NONE) return $json;
       }
     }
 

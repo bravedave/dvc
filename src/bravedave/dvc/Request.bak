@@ -33,7 +33,7 @@ class Request {
 
   protected $segments;
 
-  protected static $instance;
+  protected static $instance = null;
 
   /**
    * @param string $var
@@ -58,22 +58,11 @@ class Request {
 
     if ($this->isPost()) {
 
-      if ($this->getHeaderLine('CONTENT_TYPE') === 'application/json') {
+      $input = file_get_contents('php://input');
+      if (strings::isValidJSON($input)) {
 
-        $input = file_get_contents('php://input');
-        if ($data = strings::validJSON($input)) {
-
-          $this->json = (object)$data;
-        }
-      } else {
-
-        // logger::info(sprintf('<%s> %s', $this->getHeaderLine('Content-Type'), logger::caller()));
-        $input = file_get_contents('php://input');
-        if (strings::isValidJSON($input)) {
-
-          logger::info(sprintf('<isPost/json - but no header set> %s', __METHOD__));
-          $this->json = (object)json_decode($input);
-        }
+        // logger::info( sprintf('<%s> %s', 'isPost/json', __METHOD__));
+        $this->json = (object)json_decode($input);
       }
     }
 
@@ -263,7 +252,8 @@ class Request {
   }
 
   public function getServer($name): string {
-    return $_SERVER[$name] ?? '';
+
+    return $this->getHeaderLine($name);
   }
 
   public function getServerName() {
@@ -338,22 +328,19 @@ class Request {
   }
 
   public function isDelete(): bool {
-    return (bool)($this->getServer('REQUEST_METHOD') == 'DELETE');
+    return (bool)($this->method == 'DELETE');
   }
 
   public function isPost(): bool {
-    return (bool)($this->getServer('REQUEST_METHOD') == 'POST');
+    return (bool)($this->method == 'POST');
   }
 
   public function isPut(): bool {
-    return (bool)($this->getServer('REQUEST_METHOD') == 'PUT');
+    return (bool)($this->method == 'PUT');
   }
 
-  public function isGet() {
-    if ($this->getServer('REQUEST_METHOD') == 'GET')
-      return true;
-
-    return false;
+  public function isGet(): bool {
+    return (bool)($this->method == 'GET');
   }
 
   public function toArray() {
