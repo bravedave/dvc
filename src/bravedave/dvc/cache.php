@@ -27,7 +27,7 @@ class cache {
     $this->_cache = new MatthiasMullie\Scrapbook\Adapters\Apc;
   }
 
-  public static function instance() {
+  public static function instance(): cache {
 
     if (!self::$_instance) self::$_instance = new cache;
     return (self::$_instance);
