@@ -58,21 +58,33 @@ class Request {
 
     if ($this->isPost()) {
 
-      if ($this->getHeaderLine('CONTENT_TYPE') === 'application/json') {
+      if ($contentType = $this->getHeaderLine('CONTENT_TYPE')) {
 
-        $input = file_get_contents('php://input');
-        if ($data = strings::validJSON($input)) {
+        if ('application/json' === $contentType) {
 
-          $this->json = (object)$data;
-        }
-      } else {
+          $input = file_get_contents('php://input');
+          if ($data = strings::validJSON($input)) {
 
-        // logger::info(sprintf('<%s> %s', $this->getHeaderLine('Content-Type'), logger::caller()));
-        $input = file_get_contents('php://input');
-        if (strings::isValidJSON($input)) {
+            $this->json = (object)$data;
+          }
+        } else {
 
-          logger::info(sprintf('<isPost/json - but no header set> %s', __METHOD__));
-          $this->json = (object)json_decode($input);
+          if (preg_match('/^(multipart\/form-data|application\/x-www-form-urlencoded);(.*)$/', $contentType)) {
+
+            // nothing
+          } else {
+
+            // are we ever here ?
+            logger::info(sprintf('<%s> %s', $contentType, logger::caller()));
+
+            // logger::info(sprintf('<%s> %s', $this->getHeaderLine('Content-Type'), logger::caller()));
+            $input = file_get_contents('php://input');
+            if (strings::isValidJSON($input)) {
+
+              logger::info(sprintf('<isPost/json - but no header set> %s', __METHOD__));
+              $this->json = (object)json_decode($input);
+            }
+          }
         }
       }
     }
