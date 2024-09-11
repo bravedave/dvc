@@ -69,7 +69,7 @@ class Request {
           }
         } else {
 
-          if (preg_match('/^(multipart\/form-data|application\/x-www-form-urlencoded);(.*)$/', $contentType)) {
+          if (preg_match('/^(multipart\/form-data|application\/x-www-form-urlencoded)(.*)$/', $contentType)) {
 
             // nothing
           } else {
