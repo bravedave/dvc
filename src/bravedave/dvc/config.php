@@ -590,9 +590,9 @@ abstract class config {
        * they need to be created
        */
 
-      if (\class_exists('Minishlink\WebPush\VAPID')) {
+      if (class_exists('Minishlink\WebPush\VAPID')) {
 
-        $keys = (object)\Minishlink\WebPush\VAPID::createVapidKeys();
+        $keys = (object)'\Minishlink\WebPush\VAPID'::createVapidKeys();
         $a['privKey'] = $keys->privateKey;
         $a['pubKey'] = $keys->publicKey;
 
