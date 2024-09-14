@@ -12,6 +12,7 @@
 namespace bravedave\dvc;
 
 use config, currentUser, strings;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 abstract class controller {
   public $authorized = false;
@@ -33,12 +34,10 @@ abstract class controller {
   protected $manifest = null;
   protected $route = '/';
 
-  // protected $viewPath = [];
-  // protected $_viewPathsVerified = [];
+  protected $viewPath = [];
+  protected $_viewPathsVerified = [];
 
   protected static $_application = null;
-
-  use render;
 
   static function application(application $app = null): application {
 
@@ -48,7 +47,7 @@ abstract class controller {
 
   static $url;
 
-  // const viewNotFound = __DIR__ . '/views/not-found.md';
+  const viewNotFound = __DIR__ . '/views/not-found.md';
 
   public function __construct($rootPath) {
     if ($this->debug) logger::debug(sprintf('__construct :: %s', __METHOD__));
@@ -125,45 +124,45 @@ abstract class controller {
     json::nak('delete is not implemented');
   }
 
-  // protected function _getSystemViewPaths(?string $controller = null): array {
-  //   $a = [];
-  //   if (controller\docs::class == $controller) {
+  protected function _getSystemViewPaths(?string $controller = null): array {
+    $a = [];
+    if (controller\docs::class == $controller) {
 
-  //     $a[] = implode(DIRECTORY_SEPARATOR, [
-  //       __DIR__,
-  //       'views',
-  //       'docs'
-  //     ]);
-  //   }
+      $a[] = implode(DIRECTORY_SEPARATOR, [
+        __DIR__,
+        'views',
+        'docs'
+      ]);
+    }
 
-  //   $a[] = implode(DIRECTORY_SEPARATOR, [
-  //     __DIR__,
-  //     'views'
-  //   ]);
+    $a[] = implode(DIRECTORY_SEPARATOR, [
+      __DIR__,
+      'views'
+    ]);
 
-  //   return $a;
-  // }
+    return $a;
+  }
 
-  // protected function _getViewPaths(string $controller): array {
-  //   if ($this->_viewPathsVerified) return $this->_viewPathsVerified;
+  protected function _getViewPaths(string $controller): array {
+    if ($this->_viewPathsVerified) return $this->_viewPathsVerified;
 
-  //   $_paths = (array)$this->viewPath;
-  //   if ($_dir = realpath(implode(DIRECTORY_SEPARATOR, [$this->rootPath, 'views', $controller]))) {
-  //     $_paths[] =  $_dir;
-  //   }
+    $_paths = (array)$this->viewPath;
+    if ($_dir = realpath(implode(DIRECTORY_SEPARATOR, [$this->rootPath, 'views', $controller]))) {
+      $_paths[] =  $_dir;
+    }
 
-  //   if ($_dir = realpath(implode(DIRECTORY_SEPARATOR, [$this->rootPath, 'app', 'views', $controller]))) {
-  //     $_paths[] =  $_dir;
-  //   }
+    if ($_dir = realpath(implode(DIRECTORY_SEPARATOR, [$this->rootPath, 'app', 'views', $controller]))) {
+      $_paths[] =  $_dir;
+    }
 
-  //   if ($_dir = realpath(implode(DIRECTORY_SEPARATOR, [$this->rootPath, 'app', 'views']))) {
-  //     $_paths[] =  $_dir;
-  //   }
+    if ($_dir = realpath(implode(DIRECTORY_SEPARATOR, [$this->rootPath, 'app', 'views']))) {
+      $_paths[] =  $_dir;
+    }
 
-  //   $this->_viewPathsVerified = $_paths;
+    $this->_viewPathsVerified = $_paths;
 
-  //   return $this->_viewPathsVerified;
-  // }
+    return $this->_viewPathsVerified;
+  }
 
   protected function _index() {
 
@@ -221,30 +220,30 @@ abstract class controller {
     }
   }
 
-  // protected function _viewPath(string $path): string {
+  protected function _viewPath(string $path): string {
 
-  //   if (preg_match('/\.(php|md)$/', $path)) {    // extension was specified
-  //     if (\file_exists($path)) {
-  //       if ($this->debug) logger::debug(sprintf('found view (specific) : %s :: %s', $path, __METHOD__));
-  //       return $path;
-  //     }
-  //   }
+    if (preg_match('/\.(php|md)$/', $path)) {    // extension was specified
+      if (\file_exists($path)) {
+        if ($this->debug) logger::debug(sprintf('found view (specific) : %s :: %s', $path, __METHOD__));
+        return $path;
+      }
+    }
 
-  //   /**
-  //    * first look for a php (.php) view, then a markdown (.md)
-  //    */
-  //   if (file_exists($view = sprintf('%s.php', $path))) {  // php
-  //     if ($this->debug) logger::debug(sprintf('found view (php) : %s :: %s', $view, __METHOD__));
-  //     return $view;
-  //   }
+    /**
+     * first look for a php (.php) view, then a markdown (.md)
+     */
+    if (file_exists($view = sprintf('%s.php', $path))) {  // php
+      if ($this->debug) logger::debug(sprintf('found view (php) : %s :: %s', $view, __METHOD__));
+      return $view;
+    }
 
-  //   if (file_exists($view = sprintf('%s.md', $path))) {  // md
-  //     if ($this->debug) logger::debug(sprintf('found view (md) : %s :: %s', $view, __METHOD__));
-  //     return $view;
-  //   }
+    if (file_exists($view = sprintf('%s.md', $path))) {  // md
+      if ($this->debug) logger::debug(sprintf('found view (md) : %s :: %s', $view, __METHOD__));
+      return $view;
+    }
 
-  //   return '';
-  // }
+    return '';
+  }
 
   protected function access_control() {
     // warning - don't impose an access_control of FALSE on the home page !
@@ -350,10 +349,10 @@ abstract class controller {
   }
 
   protected function dbResult($query) {
-    /**
-     * Return a SQL Data Result using
-     * the default data adapter
-     */
+    /*
+		* Return a SQL Data Result using
+		* the default data adapter
+		*/
 
     logger::deprecated(sprintf('<%s is not implemented>', __METHOD__));
     // json::nak('delete is not implemented');
@@ -386,76 +385,76 @@ abstract class controller {
     return $this->Request->isPost();
   }
 
-  // protected function getView($viewName = 'index', ?string $controller = null, $logMissingView = true): string {
+  protected function getView($viewName = 'index', ?string $controller = null, $logMissingView = true): string {
 
-  //   if (is_null($controller)) $controller = $this->name;
+    if (is_null($controller)) $controller = $this->name;
 
-  //   $_paths = $this->_getViewPaths($controller);
-  //   foreach ($_paths as $_path) {
+    $_paths = $this->_getViewPaths($controller);
+    foreach ($_paths as $_path) {
 
-  //     if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path, '/'), $viewName]))) {
+      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path, '/'), $viewName]))) {
 
-  //       return $view;
-  //     }
-  //   }
+        return $view;
+      }
+    }
 
-  //   if (class_exists('dvc\theme\view', /* autoload */ false)) {
+    if (class_exists('dvc\theme\view', /* autoload */ false)) {
 
-  //     if ($altView = '\dvc\theme\view'::getView($viewName)) return $altView;
-  //   }
+      if ($altView = '\dvc\theme\view'::getView($viewName)) return $altView;
+    }
 
-  //   $_paths = $this->_getSystemViewPaths($controller);
-  //   foreach ($_paths as $_path) {
+    $_paths = $this->_getSystemViewPaths($controller);
+    foreach ($_paths as $_path) {
 
-  //     if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path, '/'), $viewName]))) {
+      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path, '/'), $viewName]))) {
 
-  //       return $view;
-  //     }
-  //   }
+        return $view;
+      }
+    }
 
-  //   $readme = implode(DIRECTORY_SEPARATOR, [
-  //     dirname(dirname(dirname(__DIR__))),
-  //     'Readme.md'
-  //   ]);
+    $readme = implode(DIRECTORY_SEPARATOR, [
+      dirname(dirname(dirname(__DIR__))),
+      'Readme.md'
+    ]);
 
-  //   if ($viewName == $readme) return $readme;  // one exception
+    if ($viewName == $readme) return $readme;  // one exception
 
-  //   if ($logMissingView && 'dvc\_controller/hasView' != \sys::traceCaller()) {
+    if ($logMissingView && 'dvc\_controller/hasView' != \sys::traceCaller()) {
 
-  //     /*-- --[ not found - here is some debug stuff ]-- --*/
-  //     \sys::trace(sprintf('view not found : %s (%s) : %s', $viewName, \sys::traceCaller(), __METHOD__));
-  //   }
+      /*-- --[ not found - here is some debug stuff ]-- --*/
+      \sys::trace(sprintf('view not found : %s (%s) : %s', $viewName, \sys::traceCaller(), __METHOD__));
+    }
 
-  //   return self::viewNotFound;
-  // }
+    return self::viewNotFound;
+  }
 
-  // protected function hasView($viewName = 'index', $controller = null) {
+  protected function hasView($viewName = 'index', $controller = null) {
 
-  //   return $this->getView($viewName, $controller, $logMissingView = false) != self::viewNotFound;
-  // }
+    return $this->getView($viewName, $controller, $logMissingView = false) != self::viewNotFound;
+  }
 
-  // protected function load($viewName = 'index', $controller = null, array $options = []) {
+  protected function load($viewName = 'index', $controller = null, array $options = []) {
 
-  //   $view = $this->getView($viewName, $controller);
-  //   if (substr_compare($view, '.md', -3) === 0) {
+    $view = $this->getView($viewName, $controller);
+    if (substr_compare($view, '.md', -3) === 0) {
 
-  //     if ($this->debug) logger::debug(sprintf('it\'s an md ! :: %s', __METHOD__));
+      if ($this->debug) logger::debug(sprintf('it\'s an md ! :: %s', __METHOD__));
 
-  //     $fc = file_get_contents($view);
-  //     $mdo = [
-  //       'html_input' => $options['html_input'] ?? 'strip',
-  //       'allow_unsafe_links' => $options['allow_unsafe_links'] ?? false,
-  //     ];
-  //     $converter = new GithubFlavoredMarkdownConverter($mdo);
-  //     printf('<div class="markdown-body">%s</div>', $converter->convert($fc));
-  //     // printf('<div class="markdown-body">%s</div>', \Parsedown::instance()->text($fc));
-  //   } else {
+      $fc = file_get_contents($view);
+      $mdo = [
+        'html_input' => $options['html_input'] ?? 'strip',
+        'allow_unsafe_links' => $options['allow_unsafe_links'] ?? false,
+      ];
+      $converter = new GithubFlavoredMarkdownConverter($mdo);
+      printf('<div class="markdown-body">%s</div>', $converter->convert($fc));
+      // printf('<div class="markdown-body">%s</div>', \Parsedown::instance()->text($fc));
+    } else {
 
-  //     require($view);
-  //   }
+      require($view);
+    }
 
-  //   return $this;  // chain
-  // }
+    return $this;  // chain
+  }
 
   protected function loadView($name, $controller = null) {
 
@@ -730,65 +729,65 @@ abstract class controller {
     return $p;
   }
 
-  // /**
-  //  *
-  //  * wraps the page in <html><body> tags and loads the bootstrap5 css/js
-  //  *
-  //  * @param mixed $params
-  //  * @return void
-  //  */
-  // protected function renderBS5($params): void {
+  /**
+   *
+   * wraps the page in <html><body> tags and loads the bootstrap5 css/js
+   *
+   * @param mixed $params
+   * @return void
+   */
+  protected function renderBS5($params): void {
 
-  //   $aside = config::index_set;
-  //   if ($data = $this->data ?? false) {
+    $aside = config::index_set;
+    if ($data = $this->data ?? false) {
 
-  //     $aside = $data->aside ?? config::index_set;
-  //     $this->data->bootstrap = 5;
-  //   }
+      $aside = $data->aside ?? config::index_set;
+      $this->data->bootstrap = 5;
+    }
 
-  //   $aside = (array)$aside;
+    $aside = (array)$aside;
 
-  //   $options = array_merge([
-  //     'aside' => fn() => array_walk($aside, fn($_) => $this->load($_)),
-  //     'bodyClass' => '',
-  //     'css' => [],
-  //     'footer' => fn() => $this->load('footer'),
-  //     'late' => [],
-  //     'left-layout' => 'yes' == (currentUser::option('enable-left-layout') || 'left' == config::$PAGE_LAYOUT),
-  //     'main' => fn() => '&nbsp;',
-  //     'meta' => [],
-  //     'navbar' => fn() => $this->load(config::navbar_default),
-  //     'scripts' => [],
-  //   ], $params);
+    $options = array_merge([
+      'aside' => fn() => array_walk($aside, fn($_) => $this->load($_)),
+      'bodyClass' => '',
+      'css' => [],
+      'footer' => fn() => $this->load('footer'),
+      'late' => [],
+      'left-layout' => 'yes' == (currentUser::option('enable-left-layout') || 'left' == config::$PAGE_LAYOUT),
+      'main' => fn() => '&nbsp;',
+      'meta' => [],
+      'navbar' => fn() => $this->load(config::navbar_default),
+      'scripts' => [],
+    ], $params);
 
-  //   $page = $options['page'] ?? (esse\page::bootstrap());
+    $page = $options['page'] ?? (esse\page::bootstrap());
 
-  //   array_walk($options['css'], fn($_) => $page->css[] = preg_match('/^<link/', $_) ? $_ : sprintf('<link rel="stylesheet" href="%s">', $_));
-  //   array_walk($options['scripts'], fn($_) => $page->scripts[] = preg_match('/^<script/', $_) ? $_ : sprintf('<script src="%s"></script>', $_));
+    array_walk($options['css'], fn($_) => $page->css[] = preg_match('/^<link/', $_) ? $_ : sprintf('<link rel="stylesheet" href="%s">', $_));
+    array_walk($options['scripts'], fn($_) => $page->scripts[] = preg_match('/^<script/', $_) ? $_ : sprintf('<script src="%s"></script>', $_));
 
-  //   array_walk($options['late'], fn($_) => $page->late[] = $_);
-  //   array_walk($options['meta'], fn($_) => $page->meta[] = $_);
+    array_walk($options['late'], fn($_) => $page->late[] = $_);
+    array_walk($options['meta'], fn($_) => $page->meta[] = $_);
 
-  //   if ($options['bodyClass']) $page->bodyClass = $options['bodyClass'];
+    if ($options['bodyClass']) $page->bodyClass = $options['bodyClass'];
 
-  //   $page
-  //     ->head($this->title)
-  //     ->body()->then($options['navbar']);
+    $page
+      ->head($this->title)
+      ->body()->then($options['navbar']);
 
-  //   if ($options['left-layout']) {
+    if ($options['left-layout']) {
 
-  //     if ($options['aside']) $page->aside()->then($options['aside']);
-  //     $page
-  //       ->main()->then($options['main']);
-  //   } else {
+      if ($options['aside']) $page->aside()->then($options['aside']);
+      $page
+        ->main()->then($options['main']);
+    } else {
 
-  //     $page
-  //       ->main()->then($options['main']);
-  //     if ($options['aside']) $page->aside()->then($options['aside']);
-  //   }
+      $page
+        ->main()->then($options['main']);
+      if ($options['aside']) $page->aside()->then($options['aside']);
+    }
 
-  //   $page->footer()->then($options['footer']);
-  // }
+    $page->footer()->then($options['footer']);
+  }
 
   protected function SQL($query) {
 
