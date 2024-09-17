@@ -114,7 +114,7 @@ if (!window._brayworth_) {
         o.find('.close')
           .addClass('btn-close')
           .removeClass('close')
-          .html('');
+          .empty();
 
         o.find('.btn-close').parent().attr('data-bs-theme', 'dark')
 
@@ -142,7 +142,6 @@ if (!window._brayworth_) {
         o.find('.accordion .card').removeClass('card').addClass('accordion-item');
 
         let s = o[0].outerHTML;
-
         return s;
       }
     },
@@ -155,13 +154,7 @@ if (!window._brayworth_) {
 
         let o = $(html);
 
-        // o.find('.btn-close')
-        //   .addClass('close')
-        //   .removeClass('btn-close')
-        //   .html('');
-
         o.find('.btn-close').parent().removeAttr('data-bs-theme')
-
         o.find('.input-group-text').each((i, el) => {
 
           let _el = $(el);
@@ -181,7 +174,6 @@ if (!window._brayworth_) {
         o.find('.me-auto').removeClass('me-auto').addClass('mr-auto');
 
         let s = o[0].outerHTML;
-
         return s;
       }
     },
