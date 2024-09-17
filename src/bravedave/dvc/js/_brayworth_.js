@@ -130,6 +130,9 @@ if (!window._brayworth_) {
           }
         });
 
+        o.find('.input-group-append > *, .input-group-prepend > *')
+          .each((i, el) => $(el).unwrap());
+
         o.find('select.custom-select')
           .removeClass('custom-select').addClass('form-select');
         o.find('.text-left').removeClass('text-left').addClass('text-start');
