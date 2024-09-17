@@ -18,7 +18,7 @@ abstract class controller {
   public $authorized = false;
   public $authorised = false;
   public $CheckOffline = true;
-  public $db = null;
+  public sqlite\db|dbi|null $db = null;
   public $name = 'home';
   protected Request $Request;
   public $timer = null;

@@ -524,7 +524,7 @@ class application {
      */
   }
 
-  public function dbi() {
+  public function dbi() : sqlite\db|dbi|null {
 
     return \sys::dbi();
   }

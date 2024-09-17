@@ -28,7 +28,7 @@ abstract class sys {
       new dbCheck(static::dbi(), $file);
   }
 
-  public static function dbi() {
+  public static function dbi() : sqlite\db|dbi|null {
 
     if (is_null(static::$_dbi)) {
 
