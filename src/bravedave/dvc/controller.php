@@ -310,7 +310,7 @@ abstract class controller {
 
       $p = new config::$PAGE_TEMPLATE_LOGON('Log On');
       $p->footer = false;
-      $p->latescripts[] = '<script>(_ => $(document).ready( () => _.get.modal(_.url(\'logon/form\'))))( _brayworth_);</script>';
+      $p->latescripts[] = '<script>(_ => _.ready(() => _.get.modal(_.url(\'logon/form\'))))( _brayworth_);</script>';
 
       $p->meta[] = '<meta name="viewport" content="initial-scale=1" />';
       $p->header()->content();

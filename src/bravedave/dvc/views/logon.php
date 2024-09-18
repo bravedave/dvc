@@ -82,30 +82,36 @@
               });
           <?php   } ?>
 
-          form
-            .on('submit', function(e) {
+          form.on('submit', function(e) {
 
-              _.fetch.post.form(_.url(), this)
-                .then(d => {
-                  _.growl(d);
+            _.fetch.post.form(_.url(), this).then(d => {
+              _.growl(d);
 
-                  if ('ack' == d.response) {
+              if ('ack' == d.response) {
 
-                    modal.modal('hide');
-                    window.location.reload();
-                  } else {
+                if ('required' == d.tfa) {
 
-                    form.find('.modal-body')
-                      .append($('<div class="alert alert-danger">failed</div>'));
-                  }
-                }).catch(e => {
+                  console.log('tfa required');
+                  modal.modal('hide');
+                  setTimeout(() => window.location.reload(), 2000);
+                } else {
 
-                  form.find('.modal-body')
-                    .append($('<div class="alert alert-danger">failed</div>'));
-                });
+                  modal.modal('hide');
+                  window.location.reload();
+                }
+              } else {
 
-              return false;
+                form.find('.modal-body')
+                  .append('<div class="alert alert-danger">failed</div>');
+              }
+            }).catch(e => {
+
+              form.find('.modal-body')
+                .append('<div class="alert alert-danger">failed</div>');
             });
+
+            return false;
+          });
 
           form.find('input[name="u"]').focus();
         });
