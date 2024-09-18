@@ -34,6 +34,10 @@
             <input type="password" name="p" class="form-control" placeholder="password"
               autocomplete="current-password" required>
           </div>
+
+          <div class="mb-2 d-none">
+            <input type="text" name="tfa" class="form-control" placeholder="2fa code">
+          </div>
         </div>
 
         <div class="modal-footer">
@@ -91,9 +95,11 @@
 
                 if ('required' == d.tfa) {
 
-                  console.log('tfa required');
-                  modal.modal('hide');
-                  setTimeout(() => window.location.reload(), 2000);
+                  form.find('input[name="tfa"]').parent().removeClass('d-none');
+
+                  form.find('input[name="tfa"]')
+                    .prop('required', true)
+                    .focus();
                 } else {
 
                   modal.modal('hide');
