@@ -15,7 +15,7 @@ use mysqli_result;
 class dbResult {
 
   public ?mysqli_result $result;
-  protected dbi $db = false;
+  protected ?dbi $db = null;
 
   public function __construct(mysqli_result $result = null, dbi $db = null) {
 
