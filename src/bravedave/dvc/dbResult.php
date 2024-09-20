@@ -10,12 +10,14 @@
 
 namespace bravedave\dvc;
 
+use mysqli_result;
+
 class dbResult {
 
-  public ?\mysqli_result $result;
-  protected $db = false;
+  public ?mysqli_result $result;
+  protected dbi $db = false;
 
-  public function __construct(\mysqli_result  $result = null, dbi $db = null) {
+  public function __construct(mysqli_result $result = null, dbi $db = null) {
 
     if ($result) $this->result = $result;
     if ($db) $this->db = $db;

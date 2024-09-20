@@ -68,7 +68,7 @@ abstract class logger {
         '__destruct',
         '_dto',
         'bravedave\dvc\{closure}',
-        'bravedave\dvc\dbresult',
+        'bravedave\dvc\dbresult::dto',
         'bravedave\dvc\logger',
         'matthiasmullie\scrapbook\adapters\apc'
       ])
