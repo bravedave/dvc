@@ -163,7 +163,7 @@
           const table = _me.data('table');
 
           preScan = ('function' == typeof preScan) ? preScan : () => true;
-
+          table.trigger('search-start');
           table.find('> tbody > tr').each((i, tr) => {
 
             if (idx != this.dataset.srchIdx) return false;
