@@ -10,7 +10,7 @@
 
 namespace bravedave\dvc\esse;
 
-use bravedave\dvc\Response;
+use bravedave\dvc\{bs, Response};
 use Closure, strings;
 use config;
 use currentUser;
@@ -42,6 +42,7 @@ class page {
   public static function bootstrap(): self {
     $p = new self;
 
+    bs::$VERSION = config::$BOOTSTRAP_VERSION = '5';
     $p->meta[] = '<meta charset="utf-8">';
     $p->meta[] = '<meta name="viewport" content="width=device-width, initial-scale=1">';
 
