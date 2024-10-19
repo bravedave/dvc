@@ -8,9 +8,9 @@
  * Apply drag drop capabilities to a container
  *
  *	test:
-    let c = _brayworth_.fileDragDropContainer().appendTo('body');	// or where ever you want to append to;
+    const c = _brayworth_.fileDragDropContainer().appendTo('body');	// or where ever you want to append to;
     maybe:
-      let c = _brayworth_.fileDragDropContainer().appendTo('body');
+      const c = _brayworth_.fileDragDropContainer().appendTo('body');
       _brayworth_.fileDragDropHandler.call( c, {
         url : url
       });
@@ -18,7 +18,7 @@
 (_ => {
   _.fileDragDropContainer = params => {
 
-    let options = {
+    const options = {
       ...{
         accept: '',
         fileControl: false,
@@ -28,7 +28,7 @@
     };
 
     //~ console.log( '_.fileDragDropContainer');
-    let c = $(`<div>
+    const c = $(`<div class="d-print-none">
         <div class="progress box__uploading">
           <div class="progress-bar progress-bar-striped box__fill" role="progressbar"
             style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -43,7 +43,7 @@
 
     if (options.fileControl) {
 
-      let wrapper = $('<div class="pointer btn btn-outline-secondary d-block btn-sm upload-btn-wrapper"></div>')
+      const wrapper = $('<div class="pointer btn btn-outline-secondary d-block btn-sm upload-btn-wrapper"></div>')
         .css({
           'position': 'relative',
           'overflow': 'hidden'
@@ -53,7 +53,7 @@
         .addClass(_.browser.isMobileDevice ? 'bi-camera-fill' : 'bi-upload')
         .appendTo(wrapper);
 
-      let fileControl = $('<input type="file">')
+      const fileControl = $('<input type="file">')
         .css({
           'width': '100%',
           'position': 'absolute',
@@ -93,14 +93,14 @@
 
   let queue = [];
   const enqueue = params => {
-    let options = {
+
+    const options = {
       ...{
         postData: {},
         droppedFiles: {},
         batchSize: 10,
         accept: '',
         onReject: d => _.growl(d)
-
       }, ...params
     };
 
@@ -111,83 +111,77 @@
       * create forms with {options.batchSize} elements
       */
 
-      let data = new FormData();
+      const data = new FormData();
       for (let o in options.postData) data.append(o, options.postData[o]);
 
       // console.table(options);
-      let accepting = '' != options.accept ? String(options.accept).split(',') : [];
+      const accepting = '' != options.accept ? String(options.accept).split(',') : [];
       let fileCount = 0;
       $.each(options.droppedFiles, (i, file) => {
+
         if (acceptable(file, accepting)) {
+
           fileCount++;
           // console.log( file);
-
           if (fileCount > 0 && fileCount % options.batchSize == 0) {
-            queue.push(data);
 
+            queue.push(data);
             data = new FormData();
             for (let o in options.postData) data.append(o, options.postData[o]);
-
           }
 
           data.append('files-' + i, file);
+        } else {
 
-        }
-        else {
           options.onReject({
             response: 'nak',
             description: 'not accepting ' + file.type,
             file: file
-
           });
-
         }
-
       });
 
       if (fileCount > 0) queue.push(data);
 
-      let progressQue = $('.progress-queue', options.host);
+      const progressQue = $('.progress-queue', options.host);
       if (queue.length > 0) {
+
         progressQue
           .data('items', queue.length)
           .css('width', '0')
           .attr('aria-valuenow', '0');
 
         progressQue.parent().removeClass('d-none');
-
       }
 
       //~ console.log( queue.length)
-      let queueHandler = () => {
+      const queueHandler = () => {
+
         if (queue.length > 0) {
-          let data = queue.shift();
-          let p = (progressQue.data('items') - queue.length) / progressQue.data('items') * 100;
+
+          const data = queue.shift();
+          const p = (progressQue.data('items') - queue.length) / progressQue.data('items') * 100;
           //~ console.log( 'queue', p)
           progressQue
             .css('width', p + '%')
             .attr('aria-valuenow', p);
 
           //~ console.log( data, queue.length)
-          sendData.call(data, options).then(queueHandler);
+          sendData(data, options).then(queueHandler);
+        } else {
 
-        }
-        else {
           progressQue.parent().addClass('d-none');
           resolve();
-
         }
-
       };
 
       queueHandler();
-
     }).catch(msg => console.warn(msg));
-
   };
 
-  const sendData = function (params) {
-    let options = {
+  const sendData = (formData, params) => {
+
+    const options = {
       ...{
         url: false,
         onError: _.growl,
@@ -196,12 +190,11 @@
       }, ...params
     };
 
-    let formData = this;
-
     return new Promise((resolve, reject) => {
 
       // this is a form
-      let progressBar = $('.box__fill', options.host);
+
+      const progressBar = $('.box__fill', options.host);
       progressBar
         .css('width', '0')
         .attr('aria-valuenow', '0');
@@ -219,11 +212,11 @@
         processData: false,
         xhr: () => {
 
-          let xhr = new window.XMLHttpRequest();
+          const xhr = new window.XMLHttpRequest();
           xhr.upload.addEventListener("progress", e => {
-            //~ if (e.lengthComputable)
-            //~ $('.box__fill', options.host).css('width', ( e.loaded / e.total * 100) + '%');
+
             if (e.lengthComputable) {
+
               progressBar
                 .css('width', (e.loaded / e.total * 100) + '%')
                 .attr('aria-valuenow', (e.loaded / e.total * 100));
@@ -260,7 +253,7 @@
 
   const uploader = params => new Promise((resolve) => {
 
-    let options = {
+    const options = {
       ...{
         postData: {},
         droppedFiles: {},
@@ -269,17 +262,19 @@
       }, ...params
     };
 
-    let data = new FormData();
+    const data = new FormData();
     for (let o in options.postData) { data.append(o, options.postData[o]); }
 
-    let accepting = '' != options.accept ? String(options.accept).split(',') : [];
+    const accepting = '' != options.accept ? String(options.accept).split(',') : [];
     let fileCount = 0;
     $.each(options.droppedFiles, (i, file) => {
+
       if (acceptable(file, accepting)) {
+
         fileCount++;
         data.append('files-' + i, file);
-      }
-      else {
+      } else {
+
         options.onReject({
           response: 'nak',
           description: 'not accepting ' + file.type,
@@ -288,16 +283,16 @@
       }
     });
 
-    if (fileCount > 0) sendData.call(data, options);
+    if (fileCount > 0) sendData(data, options);
     resolve();
   }).catch(msg => console.warn(msg));
 
   _.fileDragDropHandler = function (params) {
 
-    let _el = $(this);
-    let _data = _el.data();
+    const _el = $(this);
+    const _data = _el.data();
 
-    let options = {
+    const options = {
       ...{
         url: false,
         queue: false,
@@ -310,25 +305,24 @@
       throw 'Invalid upload url';
 
     $('input[type="file"]', this).on('change', function (e) {
-      let _me = $(this);
 
+      const _me = $(this);
       options.droppedFiles = e.originalEvent.target.files;
       if (options.droppedFiles) {
+
         _me.prop('disabled', true);
         if (options.queue) {
-          enqueue(options)
-            .then(() => _me.val('').prop('disabled', false));
 
-        }
-        else {
+          enqueue(options).then(() => _me.val('').prop('disabled', false));
+        } else {
+
           uploader(options).then(() => _me.val('').prop('disabled', false));
-
         }
       }
     });
 
-    let isAdvancedUpload = (() => {
-      let div = document.createElement('div');
+    const isAdvancedUpload = (() => {
+      const div = document.createElement('div');
       return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
     })();
 
@@ -342,20 +336,15 @@
         })
         .on('dragover dragenter', function () { $(this).addClass('is-dragover'); })
         .on('dragleave dragend drop', function () { $(this).removeClass('is-dragover'); })
-        .on('drop', function (e) {
+        .on('drop', e => {
+
           e.preventDefault();
           options.droppedFiles = e.originalEvent.dataTransfer.files;
-
           if (options.droppedFiles) {
-            if (options.queue) {
-              enqueue(options);
-            }
-            else {
-              uploader(options);
-            }
+
+            options.queue ? enqueue(options) : uploader(options);
           }
         });
-
-    }	// if (isAdvancedUpload && !options.host.hasClass('has-advanced-upload'))
+    }
   };
 })(_brayworth_);
