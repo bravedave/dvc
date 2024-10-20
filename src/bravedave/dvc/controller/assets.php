@@ -124,6 +124,7 @@ class assets extends Controller {
         sprintf('%s/css/brayworth.autoResize.css', dirname(__DIR__)),
         sprintf('%s/css/brayworth.markdown.css', dirname(__DIR__)),
         sprintf('%s/esse/esse.menu.css', dirname(__DIR__)),
+        sprintf('%s/esse/esse.markdown.css', dirname(__DIR__)),
       ],
       'libFile' => config::tempdir()  . 'bravedave_dvc_esse.css'
     ]);

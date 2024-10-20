@@ -70,7 +70,6 @@ class page {
     $p->css[] = sprintf('<link rel="stylesheet" href="%s">', strings::url('assets/esse'));
     if ($_css = theme::rootFont()) $p->css[] = $_css;
 
-    $p->css['shortcut icon'] = sprintf('<link rel="shortcut icon" href="%s" />', strings::url('cms.ico'));
     if (userAgent::isIPhone() || userAgent::isIPad()) {
 
       if (static::$icon57) $p->css[] = sprintf('<link rel="apple-touch-icon" href="%s" />', strings::url(static::$icon57));
