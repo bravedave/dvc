@@ -1,0 +1,44 @@
+/*
+	David Bray
+	BrayWorth Pty Ltd
+	e. david@brayworth.com.au
+
+	MIT License
+*/
+
+.sidebar .markdown-body h1 {
+	font-size: 1.6em;
+}
+
+.sidebar .markdown-body h2 {
+	font-size: 1.4em;
+}
+
+.sidebar .markdown-body h3 {
+	font-size: 1.2em;
+}
+
+.sidebar .markdown-body h4 {
+	font-size: 1.1em;
+}
+
+.sidebar .markdown-body h5 {
+	font-size: 1em;
+}
+
+.sidebar .markdown-body h6 {
+	font-size: .9em;
+}
+
+.sidebar .markdown-body>ul {
+	padding-left: .5em;
+	list-style: none;
+}
+
+.sidebar .markdown-body li>p {
+	margin-bottom: 0;
+}
+
+.markdown-body table thead th[align="center"],.markdown-body table tbody td[align="center"] {
+	text-align: center;
+}

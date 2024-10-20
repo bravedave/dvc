@@ -5,6 +5,11 @@
 
   MIT License
   */
+
+.modal {
+  --bs-modal-header-padding: .8rem 1rem;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -14,18 +19,30 @@ aside {
 }
 
 ::-webkit-scrollbar {
-	width: 6px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: darkgrey;
-	outline: 1px solid slategrey;
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+.btn-light {
+
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bs-secondary-bg-rgb), var(--bs-bg-opacity)) !important;
+}
+
+tr.text-muted>td {
+
+  --bs-bg-opacity: 1;
+  color: var(--bs-tertiary-color) !important;
 }
 
 /* aside.bg-sidebar {
@@ -41,21 +58,26 @@ aside {
   aside[data-role="content-secondary"] {
     position: relative;
     height: calc(100vh - 4.4rem);
-    padding-top: .5rem;
-    padding-bottom: 1rem;
     overflow-y: auto;
     /* Scrollable contents if viewport is shorter than content. */
   }
 
+  main[data-role="content-primary"] {
+    padding-top: .5rem;
+  }
+
   aside[data-role="content-secondary"] {
     overflow-x: hidden;
+    padding-top: .5rem;
+    padding-bottom: 1rem;
   }
 }
 
-a:not(:hover):not(:disabled):not(.nav-link):not(.navbar-brand) {
+/* a:not(:hover):not(:disabled):not(.nav-link):not(.navbar-brand) {
   color: inherit;
-}
+} */
 
+aside button:not(:disabled).nav-link,
 aside a:not(:hover):not(:disabled) {
   text-decoration: none;
   color: inherit;
@@ -90,7 +112,7 @@ aside a:not(:hover):not(:disabled) {
     border-radius: .5rem;
     padding: .3rem;
     outline-offset: -.15rem;
-    background-color: white;
+    background-color: var(--bg-body);
   }
 
   div:not(.email-attachment-container).has-advanced-upload::before {
@@ -99,7 +121,7 @@ aside a:not(:hover):not(:disabled) {
     margin-left: 0.25rem;
     vertical-align: 0.25rem;
     content: "drag files here to upload";
-    color: #9e9e9e;
+    color: var(--bs-secondary-text-emphasis);
     font-size: .75rem;
   }
 
@@ -109,7 +131,7 @@ aside a:not(:hover):not(:disabled) {
     margin-left: 0.25rem;
     vertical-align: 0.25rem;
     content: "drag files here to upload";
-    color: #9e9e9e;
+    color:  var(--bs-secondary-text-emphasis);
     font-size: .75rem;
   }
 }
