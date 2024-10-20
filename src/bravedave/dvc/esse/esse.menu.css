@@ -28,9 +28,9 @@
 		position: absolute;
 		left: 100.5%;
 		top: 0;
-		background-color: #fff;
+		background-color: var(--bs-body-bg);
 		border-radius: .25rem;
-		border: 1px solid rgba(0, 0, 0, .15);
+		border: 1px var(--bs-border-color-translucent) solid;
 
 	}
 
@@ -48,7 +48,7 @@
 }
 
 nav .dropdown-menu .dropdown-item {
-	border-left: 2rem #f5f5f5 solid;
+	border-left: 2rem var(--bs-border-color-translucent) solid;
 	padding-left: .325rem;
 	padding-right: 1.5rem;
 }
