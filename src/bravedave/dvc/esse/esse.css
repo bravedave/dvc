@@ -131,7 +131,7 @@ aside a:not(:hover):not(:disabled) {
     margin-left: 0.25rem;
     vertical-align: 0.25rem;
     content: "drag files here to upload";
-    color:  var(--bs-secondary-text-emphasis);
+    color: var(--bs-secondary-text-emphasis);
     font-size: .75rem;
   }
 }
