@@ -11,10 +11,8 @@
 namespace bravedave\dvc\esse;
 
 use bravedave\dvc\{bs, Response};
-use Closure, strings;
-use config;
-use currentUser;
-use theme;
+use config, currentUser, strings, theme;
+use Closure;
 
 /**
  * a class to control the
@@ -46,7 +44,7 @@ class page {
     $p->meta[] = '<meta charset="utf-8">';
     $p->meta[] = '<meta name="viewport" content="width=device-width, initial-scale=1">';
 
-    $p->scripts[] = sprintf('<script src="%s"></script>', strings::url('assets/jquery'));
+    $p->scripts[] = sprintf('<script src="%s"></script>', strings::url('assets/jquery/4'));
     $p->scripts[] = sprintf('<script src="%s"></script>', strings::url('assets/brayworth/js'));
     $p->scripts[] = sprintf('<script src="%s"></script>', strings::url('assets/brayworth/dopo'));
 
@@ -60,13 +58,12 @@ class page {
     }
     $icons = strings::url('assets/bootstrap/icons');
     $js = strings::url('assets/bootstrap/js/5');
+    $p->scripts[] = sprintf('<script src="%s"></script>', $js);
 
     $p->css[] = sprintf('<link rel="stylesheet" href="%s">', $css);
     $p->css[] = sprintf('<link rel="stylesheet" href="%s">', $icons);
     $p->css[] = sprintf('<link rel="stylesheet" href="%s">', strings::url('assets/esse'));
     if ($_css = theme::rootFont()) $p->css[] = $_css;
-
-    $p->late[] = sprintf('<script src="%s"></script>', $js);
 
     return $p;
   }
@@ -84,7 +81,7 @@ class page {
    *
    * @return page a page control that can be chained
    */
-  public function close(): self {
+  public function close(): static {
 
     if (!$this->_open) return $this;
 
@@ -103,7 +100,7 @@ class page {
    *
    * @return page a page control that can be chained
    */
-  public function closeaside(): self {
+  public function closeaside(): static {
 
     if (!$this->_aside) return $this;
 
@@ -119,7 +116,7 @@ class page {
    *
    * @return page a page control that can be chained
    */
-  public function closebody(): self {
+  public function closebody(): static {
 
     if (!$this->_body) return $this;
 
@@ -138,7 +135,7 @@ class page {
    *
    * @return page a page control that can be chained
    */
-  public function closehead(): self {
+  public function closehead(): static {
 
     if (!$this->_head) return $this;
 
