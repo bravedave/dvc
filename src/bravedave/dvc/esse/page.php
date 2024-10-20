@@ -163,7 +163,7 @@ class page {
    *
    * @return page a page control that can be chained
    */
-  public function closemain(): self {
+  public function closemain(): static {
 
     if (!$this->_main) return $this;
 
@@ -178,7 +178,7 @@ class page {
    *
    * @return page a page control that can be chained
    */
-  public function closemainrow(): self {
+  public function closemainrow(): static {
 
     if (!$this->_mainrow) return $this;
 
@@ -197,7 +197,7 @@ class page {
    *
    * @return page a page control that can be chained
    */
-  public function head(string $title = ''): self {
+  public function head(string $title = ''): static {
 
     if ($this->_head) return $this;
 
@@ -223,7 +223,7 @@ class page {
    *
    * @return page a page control that can be chained
    */
-  public function body(): self {
+  public function body(): static {
 
     if ($this->_body) return $this;
 
@@ -249,7 +249,7 @@ class page {
    *
    * @return page a page control that can be chained
    */
-  public function aside(): self {
+  public function aside(): static {
 
     if ($this->_aside) return $this;
 
@@ -257,7 +257,10 @@ class page {
       ->mainrow()
       ->closemain();
 
-    printf("\t\t<aside class=\"%s\" data-role=\"content-secondary\">\n", theme::secondary());
+    printf(
+      "\t\t<aside class=\"%s\" data-role=\"content-secondary\">\n",
+      theme::secondary()
+    );
     print "\t\t\t<div class=\"sidebar pt-3 pb-5\"><!-- theme start -->\n";
 
     $this->_aside = true;
@@ -271,7 +274,7 @@ class page {
    *
    * @return page a page control that can be chained
    */
-  public function footer(): self {
+  public function footer(): static {
 
     $this->body()
       ->closemainrow();
@@ -286,7 +289,7 @@ class page {
    *
    * @return page a page control that can be chained
    */
-  public function main(): self {
+  public function main(): static {
 
     if ($this->_main) return $this;
 
@@ -306,7 +309,7 @@ class page {
    *
    * @return page a page control that can be chained
    */
-  public function mainrow(): self {
+  public function mainrow(): static {
 
     if ($this->_mainrow) return $this;
 
@@ -323,7 +326,7 @@ class page {
    *
    * @return page a page control that can be chained
    */
-  public function open(): self {
+  public function open(): static {
 
     if ($this->_open) return $this;
     $this->_open = true;
@@ -341,7 +344,7 @@ class page {
    *
    * @return bravedave\esse\page itself
    */
-  public function then(Closure $code): self {
+  public function then(Closure $code): static {
 
     $code();
     return $this;
