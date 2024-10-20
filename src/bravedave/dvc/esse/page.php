@@ -211,7 +211,7 @@ class page {
 
     $this->_head = true;
 
-    if ($title) printf("<title>%s</title>\n", $title);
+    if ($title) printf("\t<title>%s</title>\n", $title);
 
     return $this;
   }
@@ -331,8 +331,11 @@ class page {
     if ($this->_open) return $this;
     $this->_open = true;
 
+    $theme = '';
+    if ('dark' ==  currentUser::option('theme-mode')) $theme = 'data-bs-theme="dark"';
+
     Response::html_headers();
-    print "<!doctype html>\n<html lang=\"en\">\n";
+    print "<!doctype html>\n<html lang=\"en\" $theme>\n";
 
     return $this;
   }
