@@ -1,0 +1,20 @@
+// Define the mixin to create col-* classes for print
+@mixin print-cols {
+
+	@media print {
+
+		.col-print {
+			flex: 1 0 0;
+		}
+
+		@for $i from 1 through 12 {
+			.col-print-#{$i} {
+				flex: 0 0 auto;
+				width: percentage(divide($i, 12));
+			}
+		}
+	}
+}
+
+// Use the mixin
+@include print-cols;

@@ -51,22 +51,32 @@ if [ -x "$(command -v sass)" ]; then
 
     targetDir="../../../bravedave/dvc/css/bootstrap5/"
 
+    cp ../../bootstrap-print.scss .
+
     cat ../../bootstrap-custom.scss >bootstrap-custom.scss
+    echo "" >>bootstrap-custom.scss;
+    echo "@import \"./bootstrap-print\";" >>bootstrap-custom.scss;
     sass --no-source-map bootstrap-custom.scss $targetDir/bootstrap.css
     sass --no-source-map --style=compressed bootstrap-custom.scss $targetDir/bootstrap.min.css
     echo "$me : wrote bootstrap.min.css"
 
     cat ../../bootstrap-pink.scss >bootstrap-pink.scss
+    echo "" >>bootstrap-pink.scss;
+    echo "@import \"./bootstrap-print\";" >>bootstrap-pink.scss;
     sass --no-source-map bootstrap-pink.scss $targetDir/bootstrap-pink.css
     sass --no-source-map --style=compressed bootstrap-pink.scss $targetDir/bootstrap-pink.min.css
     echo "$me : wrote bootstrap-pink.min.css"
 
     cat ../../bootstrap-blue.scss >bootstrap-blue.scss
+    echo "" >>bootstrap-blue.scss;
+    echo "@import \"./bootstrap-print\";" >>bootstrap-blue.scss;
     sass --no-source-map bootstrap-blue.scss $targetDir/bootstrap-blue.css
     sass --no-source-map --style=compressed bootstrap-blue.scss $targetDir/bootstrap-blue.min.css
     echo "$me : wrote bootstrap-blue.min.css"
 
     cat ../../bootstrap-orange.scss >bootstrap-orange.scss
+    echo "" >>bootstrap-orange.scss;
+    echo "@import \"./bootstrap-print\";" >>bootstrap-orange.scss;
     sass --no-source-map bootstrap-orange.scss $targetDir/bootstrap-orange.css
     sass --no-source-map --style=compressed bootstrap-orange.scss $targetDir/bootstrap-orange.min.css
     echo "$me : wrote bootstrap-orange.min.css"

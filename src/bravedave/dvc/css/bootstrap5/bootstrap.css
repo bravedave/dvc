@@ -1,12 +1,4 @@
 @charset "UTF-8";
-/*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	MIT License
-
-*/
 .bg-gradient-navbar {
   background: #050A30 linear-gradient(90deg, #0275d8, #7ec8e3) repeat-x !important;
 }
@@ -11908,5 +11900,58 @@ textarea.form-control-lg {
   }
   .d-print-none {
     display: none !important;
+  }
+}
+@media print {
+  .col-print {
+    flex: 1 0 0;
+  }
+  .col-print-1 {
+    flex: 0 0 auto;
+    width: 8.33333333%;
+  }
+  .col-print-2 {
+    flex: 0 0 auto;
+    width: 16.66666667%;
+  }
+  .col-print-3 {
+    flex: 0 0 auto;
+    width: 25%;
+  }
+  .col-print-4 {
+    flex: 0 0 auto;
+    width: 33.33333333%;
+  }
+  .col-print-5 {
+    flex: 0 0 auto;
+    width: 41.66666667%;
+  }
+  .col-print-6 {
+    flex: 0 0 auto;
+    width: 50%;
+  }
+  .col-print-7 {
+    flex: 0 0 auto;
+    width: 58.33333333%;
+  }
+  .col-print-8 {
+    flex: 0 0 auto;
+    width: 66.66666667%;
+  }
+  .col-print-9 {
+    flex: 0 0 auto;
+    width: 75%;
+  }
+  .col-print-10 {
+    flex: 0 0 auto;
+    width: 83.33333333%;
+  }
+  .col-print-11 {
+    flex: 0 0 auto;
+    width: 91.66666667%;
+  }
+  .col-print-12 {
+    flex: 0 0 auto;
+    width: 100%;
   }
 }

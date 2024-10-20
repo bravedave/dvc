@@ -1,11 +1,3 @@
-/*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	MIT License
-
-*/
 .bg-gradient-navbar {
   background: #050A30 linear-gradient(90deg, #0275d8, #7ec8e3) repeat-x !important;
 }
