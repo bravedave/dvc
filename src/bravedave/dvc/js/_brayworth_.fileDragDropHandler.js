@@ -111,7 +111,7 @@
       * create forms with {options.batchSize} elements
       */
 
-      const data = new FormData();
+      let data = new FormData();
       for (let o in options.postData) data.append(o, options.postData[o]);
 
       // console.table(options);
