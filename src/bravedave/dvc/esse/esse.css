@@ -169,6 +169,18 @@ aside a:not(:hover):not(:disabled) {
   aside {
     display: none;
   }
+
+  @page {
+		size: A4 portrait;
+		margin: 10mm 10mm 5mm 10mm;
+	}
+
+	html,
+	body {
+		font-size: 12pt;
+		min-width: 992px !important;
+		padding-bottom: 10mm;
+	}
 }
 
 @media only screen and (min-width: 1024px) and (-webkit-min-device-pixel-ratio: 1.5),
