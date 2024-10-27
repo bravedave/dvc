@@ -253,6 +253,11 @@ abstract class Response {
         }
         readfile($path);
         if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
+      } elseif ('application/pdf' == $mimetype) {
+
+        self::pdf_headers($path_parts['basename'], filemtime($path));
+        readfile($path);
+        if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
       } elseif (isset($path_parts['extension'])) {
 
         $ext = strtolower($path_parts['extension']);
