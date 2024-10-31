@@ -138,6 +138,10 @@ if (!window._brayworth_) {
         o.find('.text-left').removeClass('text-left').addClass('text-start');
         o.find('.text-right').removeClass('text-right').addClass('text-end');
         o.find('.ml-auto').removeClass('ml-auto').addClass('ms-auto');
+        o.find('.ml-0').removeClass('ml-0').addClass('ms-0');
+        o.find('.ml-1').removeClass('ml-1').addClass('ms-1');
+        o.find('.ml-2').removeClass('ml-2').addClass('ms-2');
+        o.find('.ml-3').removeClass('ml-3').addClass('ms-3');
         o.find('.mr-auto').removeClass('mr-auto').addClass('me-auto');
         o.find('.accordion .card').removeClass('card').addClass('accordion-item');
 
@@ -171,6 +175,10 @@ if (!window._brayworth_) {
         o.find('.text-start').removeClass('text-start').addClass('text-left');
         o.find('.text-end').removeClass('text-end').addClass('text-right');
         o.find('.ms-auto').removeClass('ms-auto').addClass('ml-auto');
+        o.find('.ms-0').removeClass('ms-0').addClass('ml-0');
+        o.find('.ms-1').removeClass('ms-1').addClass('ml-1');
+        o.find('.ms-2').removeClass('ms-2').addClass('ml-2');
+        o.find('.ms-3').removeClass('ms-3').addClass('ml-3');
         o.find('.me-auto').removeClass('me-auto').addClass('mr-auto');
 
         let s = o[0].outerHTML;
