@@ -981,10 +981,11 @@ abstract class strings {
 
     if ($ext = pathinfo($str, PATHINFO_EXTENSION)) {
 
-      $str = trim(preg_replace('/' . preg_quote($ext, '/') . '$/', '', $str), '. ');
-      $str = preg_replace('@\s+@', ' ', $str);
-      $str = preg_replace('@\.+@', '.', $str);
-      //~ logger::info( sprintf( '<%s>.<%s> : %s', $str, $ext, __METHOD__));
+      // remove the extension, trim and trim again for any . characters
+      $str = trim(trim(preg_replace('/' . preg_quote($ext, '/') . '$/', '', $str)), '.');
+
+      $str = preg_replace('@\s+@', ' ', $str);  // replace multiple spaces with a single space
+      $str = preg_replace('@\.+@', '.', $str);  // replace multiple periods with a single period
 
       $str = sprintf('%s.%s', preg_replace('@[^0-9a-z\-\_\s\.]@i', '', $str), $ext);
 
