@@ -36,6 +36,7 @@ class modal extends div {
       'tabindex' => '-1',
       'role' => 'dialog',
       'aria-labelledby' => (string)$id . 'Label',
+      'aria-modal' => 'true',
       'aria-hidden' => 'true'
     ]);
 

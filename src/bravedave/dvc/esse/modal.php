@@ -202,7 +202,7 @@ class modal {
     $this->openform();
 
     printf(
-      '	<div class="modal fade" tabindex="-1" role="dialog" id="%s" aria-labelledby="%s-label">',
+      '	<div class="modal fade" tabindex="-1" role="dialog" id="%s" aria-labelledby="%s-label" aria-modal="true" aria-hidden="true">',
       $this->_modal_id,
       $this->_id
     );

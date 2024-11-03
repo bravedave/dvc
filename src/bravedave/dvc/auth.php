@@ -46,6 +46,7 @@ abstract class auth {
       'tabindex' => '-1',
       'role' => 'dialog',
       'aria-labelledby' => 'myModalLabel',
+      'aria-modal' => 'true',
       'aria-hidden' => 'true'
 
     ]);

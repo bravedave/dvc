@@ -11,7 +11,8 @@
 
   <input type="hidden" name="action" value="-system-logon-">
   <div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
-    id="<?= $_modal = strings::rand() ?>" aria-labelledby="<?= $_modal ?>Label" aria-hidden="true">
+    id="<?= $_modal = strings::rand() ?>"
+    aria-labelledby="<?= $_modal ?>Label" aria-modal="true" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
 
