@@ -202,7 +202,7 @@ class modal {
     $this->openform();
 
     printf(
-      '	<div class="modal fade" tabindex="-1" role="dialog" id="%s" aria-labelledby="%s-label" aria-hidden="true">',
+      '	<div class="modal fade" tabindex="-1" role="dialog" id="%s" aria-labelledby="%s-label">',
       $this->_modal_id,
       $this->_id
     );
@@ -216,7 +216,7 @@ class modal {
 				<div class="modal-header %s">
 
 					<h5 class="modal-title text-truncate" title="%s" id="%s-label">%s</h5>
-					<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" tabindex="-1"></button>
 				</div>
 
 				<div class="modal-body">',

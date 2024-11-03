@@ -358,7 +358,7 @@ extract( (array)$this->data); ?>
   <input type="hidden" name="action" value="risorsa-save">
   <input type="hidden" name="id" value="<?= $dto->id ?>">
 
-  <div class="modal fade" tabindex="-1" role="dialog" id="<?= $_modal = strings::rand() ?>" aria-labelledby="<?= $_modal ?>Label" aria-hidden="true">
+  <div class="modal fade" tabindex="-1" role="dialog" id="<?= $_modal = strings::rand() ?>" aria-labelledby="<?= $_modal ?>Label">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
 
