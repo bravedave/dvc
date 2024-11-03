@@ -69,7 +69,8 @@ class db {
       throw new Exceptions\UnableToSelectDatabase;
     }
 
-    $this->mysqli->set_charset('utf8');
+    // $this->mysqli->set_charset('utf8');
+    $this->mysqli->set_charset('utf8mb4');
   }
 
   function __destruct() {
