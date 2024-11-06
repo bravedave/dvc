@@ -81,7 +81,7 @@ class docs extends Controller {
 
       $this->data = (object)[
         'title' => $this->title = sprintf('Docs - %s', ucwords($view)),
-        'pageUrl' => rtrim(strings::url($this->route), '/') . '/' . $view == 'index.md' ? '' : $view,
+        'pageUrl' => strings::url(rtrim($this->route, '/') . '/' . ($view == 'index.md' ? '' : $view)),
         'searchFocus' => true,
       ];
 
