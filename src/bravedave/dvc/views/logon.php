@@ -87,6 +87,17 @@
               });
           <?php   } ?>
 
+          form.find('input[name="tfa"]'), on('input', function(e) {
+
+            // if the keydown is a number
+            //  and the length is 6
+            // submit the form
+            if (/\d/.test(e.key) && this.value.length == 6) {
+
+              form.trigger('submit');
+            }
+          });
+
           form.on('submit', function(e) {
 
             _.fetch.post.form(_.url(), this).then(d => {
