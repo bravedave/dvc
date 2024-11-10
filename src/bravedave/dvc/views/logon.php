@@ -87,7 +87,7 @@
               });
           <?php   } ?>
 
-          form.find('input[name="tfa"]').on('input', function(e) {
+          form.find('input[name="tfa"]').on('keyup', function(e) {
 
             // if the keydown is a number
             //  and the length is 6
