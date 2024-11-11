@@ -47,6 +47,7 @@
 	margin: 0;
 }
 
+nav .dropdown-menu .dropdown-header,
 nav .dropdown-menu .dropdown-item {
 	border-left: 2rem var(--bs-border-color-translucent) solid;
 	padding-left: .325rem;
