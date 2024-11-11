@@ -62,6 +62,7 @@ nav .dropdown-menu .dropdown-item {
 	width: 1rem;
 }
 
+.dropdown-item>.bi,
 .dropdown-menu>a>.bi,
 .dropdown-menu .dropdown-submenu>li .fa,
 .dropdown-menu .dropdown-submenu>li .bi {
