@@ -24,7 +24,7 @@
     m.find('.modal-dialog').removeClass('modal-sm');
     m.find('.modal-footer')
       .removeClass('d-none')
-      .append(`<button type="submit" class="btn btn-outline-primary" for="${uid}">OK</button>`);
+      .append(`<button type="submit" class="btn btn-outline-primary" form="${uid}">OK</button>`);
     m.find('.modal-title').text(options.title);
 
     const form = $(`<form id="${uid}"></form>`);
@@ -52,7 +52,6 @@
       resolve(options.text);
       m.modal('hide');
       return false;
-
     });
 
     m.find('.modal-body').append(form);

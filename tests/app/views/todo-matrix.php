@@ -22,7 +22,7 @@
 
     const matrix = data => {
 
-      container.empty.append('<h4><?= config::label_todo ?></h4>');
+      container.empty().append('<h4><?= config::label_todo ?></h4>');
 
       $.each(data, (i, dto) => {
 
