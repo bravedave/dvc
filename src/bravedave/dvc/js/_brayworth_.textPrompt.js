@@ -5,58 +5,66 @@
  *
  * MIT License
  *
- * */
-/*jshint esversion: 6 */
-(_ => _.textPrompt = params => {
-  return new Promise(resolve => {
-    let options = _.extend({
+ */
+(_ => _.textPrompt = params => new Promise(resolve => {
+
+  const options = {
+    ...{
       title: 'Enter Text',
       text: '',
-      verbatim: ''
-    }, params);
+      verbatim: '',
+      tag: 'input'
+    }, ...params
+  };
 
-    let modal = _.modal.template();
+  _.get.modal().then(m => {
 
-    $('.modal-dialog', modal).removeClass('modal-sm');
-    $('.modal-footer', modal).append('<button type="submit" class="btn btn-outline-primary">OK</button>');
-    $('.modal-title', modal).html(options.title);
+    const uid = _.randomString();
 
-    let input = $('<input type="text" name="text" class="form-control" required />');
-    input.val(options.text).attr('placeholder', options.title);
-    $('.modal-body', modal).append(input);
+    m.find('.modal-dialog').removeClass('modal-sm');
+    m.find('.modal-footer')
+      .removeClass('d-none')
+      .append(`<button type="submit" class="btn btn-outline-primary" for="${uid}">OK</button>`);
+    m.find('.modal-title').text(options.title);
 
-    if ('' != options.verbatim) {
-      $('.modal-body', modal).append(
-        $('<div class="form-text text-muted font-italic"></div>').html(options.verbatim)
+    const form = $(`<form id="${uid}"></form>`);
+    if ('textarea' == options.tag) {
 
-      );
+      form.append('<textarea name="text" class="form-control" rows="4" required></textarea>');
+    } else {
 
+      form.append('<input type="text" name="text" class="form-control" required />');
     }
 
-    let form = $('<form></form>');
-    form
-    .append(modal)
-    .appendTo('body')
-    .on('submit', function (e) {
-      let _form = $(this);
-      let _data = _form.serializeFormJSON();
+    form.find('[name="text"]').val(options.text).attr('placeholder', options.title);
 
-      options.text = _data.text;
+    if ('' != options.verbatim) {
+
+      const em = _.bootstrap.version() < 5 ? 'font-italic' : 'fst-italic';
+      $(`<div class="form-text text-muted ${em}"></div>`)
+        .text(options.verbatim)
+        .appendTo(form);
+    }
+
+    form.on('submit', function (e) {
+
+      options.text = form.find('[name="text"]').val();
       resolve(options.text);
-
-      modal.modal('hide');
+      m.modal('hide');
       return false;
 
     });
 
+    m.find('.modal-body').append(form);
+
     if (!_.browser.isMobileDevice) {
-      modal.on('shown.bs.modal', e => { input.focus(); input.select(); });
 
+      m.on('shown.bs.modal', e => {
+
+        const input = form.find('[name="text"]');
+        input.focus();
+        input.select();
+      });
     }
-
-    modal.on('hidden.bs.modal', e => form.remove());
-    modal.modal('show');
-
   });
-
-})(_brayworth_);
+}))(_brayworth_);
