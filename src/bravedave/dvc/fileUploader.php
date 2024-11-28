@@ -11,9 +11,12 @@
 namespace bravedave\dvc;
 
 use config, strings;
+use Imagick;
+use SplFileInfo;
 
 class fileUploader {
   public $path = '';  // path to save files to
+  public $convertHEICtoJPEG = false;
 
   public $accept = [];  // array of acceptable file types
 
@@ -79,7 +82,27 @@ class fileUploader {
         }
 
         if (file_exists($target)) unlink($target);
-        if (move_uploaded_file($source, $target)) return true;
+        if (move_uploaded_file($source, $target)) {
+
+          if ($this->convertHEICtoJPEG) {
+
+            if (in_array($strType, ['image/heic', 'image/heif'])) {
+
+              $spl = new SplFileInfo($target);
+              if ('heic' == strtolower($spl->getExtension())) {
+
+                if ($debug) logger::debug(sprintf('<%s> %s', 'heic file, converting', __METHOD__));
+                $imagick = new Imagick;
+                $target = preg_replace('@\.heic$@i', '.jpg', $spl->getPathname());
+                $imagick->readImage($spl->getPathname());
+                $imagick->writeImage($target);
+
+                unlink($spl->getPathname());
+              }
+            }
+          }
+          return true;
+        }
 
         logger::info(sprintf('<%s error moving file> %s', $file['name'], logger::caller()));
         return false;
