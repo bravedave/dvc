@@ -15,19 +15,26 @@ class json {
   protected $_json = [];
   protected $dumpOnDestruct = true;
 
-  static public function nak(string $description): json {
+  static public function nak(string $description, mixed $data = null): json {
 
-    return new self([
+    $a = [
       'response' => 'nak',
       'description' => $description
-    ]);
+    ];
+    if ($data) $a['data'] = $data;
+
+    return new self($a);
   }
 
-  static public function ack(string $description): json {
-    return new self([
+  static public function ack(string $description, mixed $data = null): json {
+
+    $a = [
       'response' => 'ack',
       'description' => $description
-    ]);
+    ];
+    if ($data) $a['data'] = $data;
+
+    return new self($a);
   }
 
   static public function read(string $path): object {
