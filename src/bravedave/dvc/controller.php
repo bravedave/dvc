@@ -777,7 +777,7 @@ abstract class controller {
 
         print '<nav aria-label="breadcrumb"><ol class="breadcrumb">';
 
-        array_walk($options['breadcrumb'], function ($crumb) {
+        array_walk($options['breadcrumb'], function (breadcrumb $crumb) {
 
           if ($crumb->url ?? null) {
 
