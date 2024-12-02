@@ -18,4 +18,7 @@ $enable-gradients : true;
 	border-color: var(--bs-border-color) !important;
 }
 
+$breadcrumb-font-size: .875em;
+$breadcrumb-margin-bottom: .25rem;
+
 @import "./bootstrap";

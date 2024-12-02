@@ -4777,7 +4777,8 @@ input[type="button"].btn-block {
   display: flex;
   flex-wrap: wrap;
   padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.875em;
   list-style: none;
   background-color: #e9ecef;
   border-radius: 0.25rem;
