@@ -770,6 +770,32 @@ abstract class controller {
 
     if ($options['bodyClass']) $page->bodyClass = $options['bodyClass'];
 
+    $crumbs = fn() => null;
+    if ($options['breadcrumb'] ?? null) {
+
+      $crumbs = function () use ($options) {
+
+        print '<nav aria-label="breadcrumb"><ol class="breadcrumb">';
+
+        array_walk($options['breadcrumb'], function ($crumb) {
+
+          if ($crumb->url ?? null) {
+
+            printf(
+              '<li class="breadcrumb-item"><a href="%s">%s</a></li>',
+              $crumb->url,
+              $crumb->label
+            );
+          } else {
+
+            printf('<li class="breadcrumb-item">%s</li>', $crumb->label);
+          }
+        });
+
+        print '</ol></nav>';
+      };
+    }
+
     $page
       ->head($this->title)
       ->body()->then($options['navbar']);
@@ -777,12 +803,10 @@ abstract class controller {
     if ($options['left-layout']) {
 
       if ($options['aside']) $page->aside()->then($options['aside']);
-      $page
-        ->main()->then($options['main']);
+      $page->main()->then($crumbs)->then($options['main']);
     } else {
 
-      $page
-        ->main()->then($options['main']);
+      $page->main()->then($crumbs)->then($options['main']);
       if ($options['aside']) $page->aside()->then($options['aside']);
     }
 
