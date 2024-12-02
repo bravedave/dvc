@@ -56,7 +56,7 @@ class docs extends Controller {
     if (!$view) $view = 'index.md';
     if ($this->debug) sys::logger(sprintf('<%s> %s', $view, __METHOD__));
 
-    if (preg_match('@\.(png|jpg)$@', $view) && $_img = $this->_hasImage($view)) {
+    if (preg_match('@\.(png|jpg|svg)$@', $view) && $_img = $this->_hasImage($view)) {
 
       Response::serve($_img);
     } else {
