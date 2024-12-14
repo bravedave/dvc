@@ -529,7 +529,8 @@ abstract class Response {
 
     if ('css' == $type) {
 
-      $lib = __DIR__ . '/css/bootstrap5/bootstrap.min.css';
+      // $lib = __DIR__ . '/css/bootstrap5/bootstrap.min.css';
+      $lib = resources::bootstrap5('css');
       if ('blue' == \currentUser::option('theme')) {
 
         $lib = __DIR__ . '/css/bootstrap5/bootstrap-blue.min.css';
@@ -558,8 +559,8 @@ abstract class Response {
       self::serve($lib);
     } elseif ('js' == $type) {
 
-      $lib = __DIR__ . '/js/bootstrap5/bootstrap.bundle.min.js';
-      // \sys::logger( sprintf('<%s> %s', $lib, __METHOD__));
+      // $lib = __DIR__ . '/js/bootstrap5/bootstrap.bundle.min.js';
+      $lib = resources::bootstrap5('js');
       self::serve($lib);
     }
   }
