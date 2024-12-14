@@ -202,9 +202,8 @@ abstract class config {
 
     if (\is_null(static::$_dataPath)) {
 
-      $root = sprintf('%s', \application::app()->getRootPath());
-
-      $datapath = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR);
+      $root = static::rootPath();
+      $datapath = sprintf('%s%sdata', $root, DIRECTORY_SEPARATOR);
 
       /**
        * the location of the datapath can be changed by
@@ -212,8 +211,10 @@ abstract class config {
        * datapath location
        */
       if (is_dir($datapath) && file_exists($_redir_file = $datapath . '/datapath')) {
+
         $_redir = file_get_contents($_redir_file);
         if (is_dir($_redir) && is_writable($_redir)) {
+
           $datapath = $_redir;
         }
       }
@@ -353,7 +354,13 @@ abstract class config {
   }
 
   public static function imagePath() {
-    return implode(DIRECTORY_SEPARATOR, [\application::app()->getRootPath(), 'app', 'public', 'images']);
+
+    return implode(DIRECTORY_SEPARATOR, [
+      static::rootPath(),
+      'app',
+      'public',
+      'images'
+    ]);
   }
 
   public static function initialize() {
@@ -365,18 +372,17 @@ abstract class config {
 
     // logger::info( sprintf('%s', __METHOD__));
 
-    if (!(is_null(\application::app()))) {
+    if (static::rootPath()) {
 
       umask(octdec(static::$UMASK));  // in case everything needs creating
 
-      // $path = sprintf('%s%sdata', \application::app()->getRootPath(), DIRECTORY_SEPARATOR );
       $path = implode(DIRECTORY_SEPARATOR, [
         static::dataPath(),
         'db.json'
-
       ]);
 
       if (file_exists($path)) {
+
         $_a = [
           'db_type' => '',
           'db_host' => '',
@@ -384,13 +390,14 @@ abstract class config {
           'db_user' => '',
           'db_pass' => '',
         ];
+
         $a = (object)array_merge($_a, (array)json_decode(file_get_contents($path)));
         static::$DB_TYPE = $a->db_type;
         static::$DB_HOST = $a->db_host;
         static::$DB_NAME = $a->db_name;
         static::$DB_USER = $a->db_user;
         static::$DB_PASS = $a->db_pass;
-      } // if ( file_exists( $path))
+      }
 
       $path = static::defaultsPath();
       if (file_exists($path)) {
@@ -510,7 +517,6 @@ abstract class config {
 
       if ('\dvc\pages\bootstrap5' == static::$PAGE_TEMPLATE) bs::$VERSION = '5';
 
-      // $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
       $path = sprintf('%s%sgoogle.json', static::dataPath(), DIRECTORY_SEPARATOR);
       if (file_exists($path)) {
         $a = json_decode(file_get_contents($path));
@@ -522,25 +528,23 @@ abstract class config {
 
       } // if ( file_exists( $path))
 
-      // $path = sprintf('%s%sdata%sgoogle.json',  \application::app()->getRootPath(), DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR );
       $path = implode(DIRECTORY_SEPARATOR, [
         static::dataPath(),
         'recaptcha.json'
-
       ]);
 
       if (file_exists($path)) {
+
         $a = json_decode(file_get_contents($path));
         if (isset($a->public)) {
+
           static::$captcha = (object)[
             'public' => $a->public,
             'private' => $a->private
           ];
-        } // if ( isset( $a->web))
-
-      } // if ( file_exists( $path))
-
-    } // if ( !( is_null( \application::app())))
+        }
+      }
+    }
 
     umask(octdec(static::$UMASK));
   } // static function init2()
@@ -607,6 +611,16 @@ abstract class config {
     return (object)$a;
   }
 
+  public static function rootPath(): string {
+
+    if (!(is_null(\application::app()))) {
+
+      return \application::app()->getRootPath();
+    }
+
+    return '';
+  }
+
   protected static function _route_map_path(): string {
 
     return static::dataPath() . '/controllerMap.json';
@@ -624,7 +638,7 @@ abstract class config {
         'logon' => 'bravedave\dvc\controller\logon',
         'sitemap' => 'bravedave\dvc\controller\sitemap',
       ],
-      fn ($k) => file_exists(sprintf('%s/controller/%s.php', __DIR__, $k)),
+      fn($k) => file_exists(sprintf('%s/controller/%s.php', __DIR__, $k)),
       ARRAY_FILTER_USE_KEY
     );
 
