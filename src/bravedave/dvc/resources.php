@@ -12,6 +12,22 @@ namespace bravedave\dvc;
 
 abstract class resources {
 
+  public static function bootstrapIcons(string $type = 'css', string $fontFile = null): string {
+
+    if ('fonts' == $type) {
+
+      if (in_array($fontFile, [
+        'bootstrap-icons.woff',
+        'bootstrap-icons.woff2'
+      ])) {
+
+        return __DIR__ . '/css/bootstrap-icons/fonts/' . $fontFile;
+      }
+      return '';
+    }
+    return __DIR__ . '/css/bootstrap-icons/bootstrap-icons.css';
+  }
+
   public static function bootstrap5(string $type = 'css'): string {
 
     if ('js' == $type) {

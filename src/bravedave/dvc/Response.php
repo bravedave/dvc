@@ -430,7 +430,8 @@ abstract class Response {
     // self::logger( sprintf('<%s> %s', $type, __METHOD__));
     if ('icons' == $type) {
 
-      if ($lib = realpath(__DIR__ . '/css/bootstrap-icons/bootstrap-icons.css')) {
+      // if ($lib = realpath(__DIR__ . '/css/bootstrap-icons/bootstrap-icons.css')) {
+      if ($lib = resources::bootstrapIcons('css')) {
 
         self::serve($lib);
       } elseif ($lib = realpath(self::_twbs_dir() . '/bootstrap-icons/font/bootstrap-icons.css')) {
@@ -448,7 +449,8 @@ abstract class Response {
         'bootstrap-icons.woff2'
       ])) {
 
-        if ($lib = realpath(__DIR__ . '/css/bootstrap-icons/fonts/' . $fontFile)) {
+        // if ($lib = realpath(__DIR__ . '/css/bootstrap-icons/fonts/' . $fontFile)) {
+        if ($lib = resources::bootstrapIcons('fonts', $fontFile)) {
 
           self::serve($lib);
         } elseif ($lib = realpath(self::_twbs_dir() . '/bootstrap-icons/font/fonts/' . $fontFile)) {
