@@ -154,79 +154,6 @@ abstract class jslib {
     return (false);
   }
 
-  // public static function tinymce($lib = 'tinylib.js', $libdir = 'tinymce', $plugins = 'autolink,paste,lists,table,colorpicker,textcolor,image,imagetools,link') {
-  //   $debug = self::$debug;
-  //   //~ $debug = TRUE;
-
-  //   $files = [sprintf('%s/public/js/%s/tinymce.min.js', __DIR__, $libdir)];
-
-  //   if (file_exists($_file = sprintf('%s/public/js/%s/icons/default/icons.min.js', __DIR__, $libdir))) {
-  //     $files[] = $_file;
-  //   }
-
-  //   if (file_exists($_file = sprintf('%s/public/js/%s/themes/silver/theme.min.js', __DIR__, $libdir))) {
-  //     $files[] = $_file;
-  //   } elseif (file_exists($_file = sprintf('%s/public/js/%s/themes/modern/theme.min.js', __DIR__, $libdir))) {
-  //     $files[] = $_file;
-  //   }
-
-  //   foreach (explode(',', $plugins) as $plugin)
-  //     $files[] = sprintf('%s/public/js/%s/plugins/%s/plugin.min.js', __DIR__, $libdir, trim($plugin));
-
-  //   if ($debug) {
-  //     foreach ($files as $file) {
-  //       logger::debug(sprintf('<tinylib file: %s', $file, __METHOD__));
-  //     }
-  //   }
-
-  //   if (!application::app())
-  //     throw new Exceptions\ExternalUseViolation;
-
-  //   self::$tinylib = sprintf('%sjs/%s/%s?v=', \url::$URL, $libdir, $lib);
-  //   $jslib = sprintf('%s/app/public/js/%s/%s', application::app()->getRootPath(), $libdir, $lib);
-  //   if (file_exists($jslib)) {
-
-  //     if ($debug) logger::debug(sprintf('<jslib::tinymce found :: %s> %s', $jslib, __METHOD__));
-
-  //     $modtime = 0;
-  //     foreach ($files as $file) {
-  //       if (realpath($file))
-  //         $modtime = max([$modtime, filemtime($file)]);
-
-  //       else
-  //         logger::info(sprintf('<cannot locate tinymce library file %s> %s', $file, __METHOD__));
-  //     }
-
-  //     $libmodtime = filemtime($jslib);
-  //     if ($libmodtime < $modtime) {
-  //       if ($debug) logger::info(sprintf('<latest mod time = %s> %s', date('r', $modtime), __METHOD__));
-  //       if ($debug) logger::info(sprintf('<you need to update %s> %s', $jslib, __METHOD__));
-
-  //       if (self::__createlib($libdir, $lib, $files)) {
-  //         $version = filemtime($jslib);
-  //         self::$tinylib .= $version;
-
-  //         return (true);
-  //       }
-  //     } else {
-  //       if ($debug) logger::info(sprintf('<you have the latest version of ' . $jslib, __METHOD__));
-
-  //       $version = filemtime($jslib);
-  //       self::$tinylib .= $version;
-
-  //       return (true);
-  //     }
-  //   } else {
-  //     if ($debug) logger::info(sprintf('<jslib::tinymce not found :: %s - creating> %s', $jslib, __METHOD__));
-  //     if (self::__createlib($libdir, $lib, $files)) {
-  //       $version = filemtime($jslib);
-  //       self::$tinylib .= $version;
-
-  //       return (true);
-  //     }
-  //   }
-  // }
-
   public static function tinyserve(string $libname = 'tinymce', string $plugins = 'autolink,paste,lists,table,colorpicker,textcolor') {
     $debug = self::$debug;
     // $debug = TRUE;
@@ -404,7 +331,8 @@ abstract class jslib {
     print file_get_contents($options->libFile);
   }
 
-  public static function viewjs($params) {
+  protected static function _createjs($params, bool $serve = true) {
+
     $options = (object)array_merge([
       'debug' => false,
       'libName' => '',
@@ -415,16 +343,21 @@ abstract class jslib {
     ], $params);
 
     if ($options->libFile) {
+
       if ($options->jsFiles) {
+
         if (file_exists($options->libFile)) {
+
           /* test to see if requires update */
           $modtime = 0;
 
           if (is_array($options->jsFiles)) {
+
             foreach ($options->jsFiles as $item) {
               $modtime = max([$modtime, filemtime($item)]);
             }
           } else {
+
             $gi = new GlobIterator($options->jsFiles, FilesystemIterator::KEY_AS_FILENAME);
             foreach ($gi as $key => $item) {
               $modtime = max([$modtime, filemtime($item->getRealPath())]);
@@ -433,26 +366,41 @@ abstract class jslib {
 
           $libmodtime = filemtime($options->libFile);
           if ($libmodtime < $modtime) {
+
             if ($options->debug) logger::debug(sprintf('<%s :: updating %s, latest mod time = %s> %s', $options->libName, $options->libFile, date('r', $modtime), __METHOD__));
 
             self::_js_create($options);
-            self::_js_serve($options);
+            if ($serve) self::_js_serve($options);
           } else {
+
             if ($options->debug) logger::debug(sprintf('<%s :: latest version (%s)> %s', $options->libName, $options->libFile, __METHOD__));
-            self::_js_serve($options);
+            if ($serve) self::_js_serve($options);
           }
         } else {
+
           /* create and serve */
           if ($options->debug) logger::debug(sprintf('<%s :: creating %s> %s', $options->libName, $options->libFile, __METHOD__));
 
           self::_js_create($options);
-          self::_js_serve($options);
+          if ($serve) self::_js_serve($options);
         }
       } else {
+
         throw new Exceptions\LibraryFilesNotSpecified;
       }
     } else {
+
       throw new Exceptions\FileNotSpecified;
     }
+  }
+
+  public static function viewjs($params) {
+
+    static::_createjs($params, $serve = true);
+  }
+
+  public static function createjs($params) {
+
+    static::_createjs($params, $serve = false);
   }
 }
