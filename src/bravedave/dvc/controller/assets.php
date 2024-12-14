@@ -15,6 +15,7 @@ use bravedave\dvc\{
   cssmin,
   jslib,
   logger,
+  resources,
   Response
 };
 
@@ -139,7 +140,8 @@ class assets extends Controller {
   public function jquery( $version = 3) {
     if ($version >= 4) {
 
-      Response::serve(dirname(__DIR__) . '/js/jquery-4.0.0-beta.min.js');
+      // Response::serve(dirname(__DIR__) . '/js/jquery-4.0.0-beta.min.js');
+      Response::serve(resources::jquery4());
     } elseif ('3.4' == config::$JQUERY_VERSION) {
 
       Response::serve(dirname(__DIR__) . '/js/jquery-3.4.1.min.js');
