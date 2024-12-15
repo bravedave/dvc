@@ -17,12 +17,12 @@ class theme {
   const layout_10_2 = 2;
   const layout_swap = 3;
 
-	const primary = 0;
-	const secondary = 1;
-	const success = 2;
-	const info = 3;
-	const warning = 4;
-	const danger = 5;
+  const primary = 0;
+  const secondary = 1;
+  const success = 2;
+  const info = 3;
+  const warning = 4;
+  const danger = 5;
 
   static $layout = self::layout_0;
 
@@ -90,6 +90,11 @@ class theme {
     ], $params);
 
     return implode(' ', $options);
+  }
+
+  public static function modalClose(): string {
+
+    return 'btn-close-white'; // on the modal header background
   }
 
   public static function modalHeader(int $level = self::primary) {
