@@ -76,7 +76,12 @@ class theme {
     }
   }
 
-  static function navbar($params = []) {
+  public static function aside(): string {
+
+    return 'col-md-3 py-3 pb-4 px-2 d-print-none';
+  }
+
+  public static function navbar($params = []) {
 
     $options = array_merge([
       'color' => 'navbar-dark bg-primary bg-gradient-navbar',
@@ -87,7 +92,7 @@ class theme {
     return implode(' ', $options);
   }
 
-  static function modalHeader(int $level = self::primary) {
+  public static function modalHeader(int $level = self::primary) {
 
     if (self::warning == $level) return 'text-white bg-warning';
     if (self::success == $level) return 'text-white bg-success';
