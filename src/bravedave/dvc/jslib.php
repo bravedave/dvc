@@ -403,4 +403,20 @@ abstract class jslib {
 
     static::_createjs($params, $serve = false);
   }
+
+  public static function getLibFiles(): array {
+
+    $files = [];
+    foreach (static::$brayworthlibFiles as $f) {
+
+      $path = __DIR__ . DIRECTORY_SEPARATOR . $f;
+      if ($_f = realpath($path)) {
+
+        $key = basename($_f);
+        $files[$key] = $_f;
+      }
+    }
+
+    return $files;
+  }
 }

@@ -87,17 +87,19 @@ class assets extends Controller {
       Response::javascript_headers();
       printf('( _ => {%s}) (_brayworth_);', implode($a));
     } else {
-      // sys::dump( \jslib::$brayworthlibFiles);
-      $files = [];
-      foreach (jslib::$brayworthlibFiles as $f) {
-        $path = dirname(__DIR__) . DIRECTORY_SEPARATOR . $f;
-        // printf( '%s<br />', $path);
-        if ($_f = realpath($path)) {
-          $key = basename($_f);
-          $files[$key] = $_f;
-        }
-      }
 
+      // sys::dump( \jslib::$brayworthlibFiles);
+
+      // $files = [];
+      // foreach (jslib::$brayworthlibFiles as $f) {
+      //   $path = dirname(__DIR__) . DIRECTORY_SEPARATOR . $f;
+      //   // printf( '%s<br />', $path);
+      //   if ($_f = realpath($path)) {
+      //     $key = basename($_f);
+      //     $files[$key] = $_f;
+      //   }
+      // }
+      $files = jslib::getLibFiles();
       if ($type == 'bundle') array_unshift($files, dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.3.min.js');
 
       // sys::dump( $files);
@@ -137,7 +139,7 @@ class assets extends Controller {
     sys::serveFullcalendar($type);
   }
 
-  public function jquery( $version = 3) {
+  public function jquery($version = 3) {
     if ($version >= 4) {
 
       // Response::serve(dirname(__DIR__) . '/js/jquery-4.0.0-beta.min.js');
@@ -153,8 +155,8 @@ class assets extends Controller {
 
   public function pdflib() {
 
-		Response::serve(dirname(__DIR__) . '/js/pdf-lib.min.js');
-	}
+    Response::serve(dirname(__DIR__) . '/js/pdf-lib.min.js');
+  }
 
   public function tinymce($path = '') {
 
