@@ -132,7 +132,7 @@ abstract class sys {
 
   public static function mailer() {
 
-    if ( !class_exists('PHPMailer')) {
+    if ( !class_exists('PHPMailer\PHPMailer\PHPMailer')) {
 
       logger::error('PHPMailer not found; please install; composer req phpmailer/phpmailer');
       return null;
