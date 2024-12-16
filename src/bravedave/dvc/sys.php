@@ -131,6 +131,13 @@ abstract class sys {
   }
 
   public static function mailer() {
+
+    if ( !class_exists('PHPMailer')) {
+
+      logger::error('PHPMailer not found; please install; composer req phpmailer/phpmailer');
+      return null;
+    }
+
     $mail = new PHPMailer;
     $mail->XMailer = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
 
@@ -202,7 +209,7 @@ abstract class sys {
     }
 
     $mail->setFrom(config::$SUPPORT_EMAIL, config::$SUPPORT_NAME);
-    return ($mail);
+    return $mail;
   }
 
   protected static $_options = [];
