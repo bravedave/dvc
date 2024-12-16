@@ -449,7 +449,7 @@ abstract class controller {
       printf('<div class="markdown-body">%s</div>', $converter->convert($fc));
     } else {
 
-      if (is_array($this->data)) extract((array)$this->data);
+      if ($this->data) extract((array)$this->data);
       require($view);
     }
 
