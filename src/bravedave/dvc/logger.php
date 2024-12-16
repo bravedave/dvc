@@ -19,6 +19,7 @@ abstract class logger {
   const prefix_error = 'dvc.ERRROR';
   const prefix_deprecated = 'dvc.DEPRECATED';
   const prefix_sql = 'dvc.SQL';
+  const prefix_trace = 'dvc.TRACE';
 
   public static function caller(array $_ignore = []) {
 
@@ -116,5 +117,41 @@ abstract class logger {
 
       self::info($sql, $prefix);
     }
+  }
+
+  public static function trace($v, $level = 0) : void {
+
+    self::info($v, self::prefix_trace);
+    $level = (int)$level;
+    $iLevel = 0;
+    foreach (debug_backtrace() as $e) {
+
+      if (isset($e['file'])) {
+
+        self::info(sprintf('%s(%s)', $e['file'], $e['line']), self::prefix_trace);
+      } else {
+
+        self::info(print_r($e, true), self::prefix_trace);
+      }
+
+      if ($level > 0 && ++$iLevel > $level) break;
+    }
+  }
+
+  public static function traceCaller() : string {
+
+    $trace = debug_backtrace();
+    if (isset($trace[2])) {
+
+      $caller = $trace[2];
+      if (isset($caller['class'])) {
+
+        return sprintf('%s/%s', $caller['class'], $caller['function']);
+      }
+
+      return $caller['function'];
+    }
+
+    return 'unknown caller';
   }
 }

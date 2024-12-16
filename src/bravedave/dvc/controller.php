@@ -419,10 +419,10 @@ abstract class controller {
 
     if ($viewName == $readme) return $readme;  // one exception
 
-    if ($logMissingView && 'dvc\_controller/hasView' != \sys::traceCaller()) {
+    if ($logMissingView && 'dvc\_controller/hasView' != logger::traceCaller()) {
 
       /*-- --[ not found - here is some debug stuff ]-- --*/
-      \sys::trace(sprintf('view not found : %s (%s) : %s', $viewName, \sys::traceCaller(), __METHOD__));
+      logger::trace(sprintf('view not found : %s (%s) : %s', $viewName, logger::traceCaller(), __METHOD__));
     }
 
     return self::viewNotFound;
@@ -447,9 +447,9 @@ abstract class controller {
       ];
       $converter = new GithubFlavoredMarkdownConverter($mdo);
       printf('<div class="markdown-body">%s</div>', $converter->convert($fc));
-      // printf('<div class="markdown-body">%s</div>', \Parsedown::instance()->text($fc));
     } else {
 
+      if (is_array($this->data)) extract((array)$this->data);
       require($view);
     }
 
