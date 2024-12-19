@@ -449,8 +449,9 @@ abstract class controller {
       printf('<div class="markdown-body">%s</div>', $converter->convert($fc));
     } else {
 
+      $____view = $view;
       if ($this->data) extract((array)$this->data);
-      require($view);
+      require($____view);
     }
 
     return $this;  // chain
