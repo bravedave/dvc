@@ -42,11 +42,9 @@ abstract class currentUser {
   }
 
   public static function name() {
-    if ($u = self::user()) {
-      return (int)$u->name;
-    }
 
-    return 0;
+    if ($u = self::user()) return (string)$u->name;
+    return '';
   }
 
   public static function isadmin() {
