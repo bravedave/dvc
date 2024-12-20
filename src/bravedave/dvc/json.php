@@ -55,9 +55,25 @@ class json {
     );
   }
 
-  function __construct($a = null) {
+  public function __construct($a = null) {
 
     if (!is_null($a)) $this->_json = (array)$a;
+  }
+
+  public function __destruct() {
+
+    if ($this->dumpOnDestruct) {
+
+      $response = json_encode($this->_json);
+      Response::json_headers(0, strlen($response));
+      print $response;
+    }
+  }
+
+  public function __toString(): string {
+
+    $this->dumpOnDestruct = false;
+    return json_encode($this->_json);
   }
 
   /**
@@ -78,16 +94,6 @@ class json {
 
     $this->_json[] = $data;
     return $this;  // chain
-  }
-
-  public function __destruct() {
-
-    if ($this->dumpOnDestruct) {
-
-      $response = json_encode($this->_json);
-      Response::json_headers(0, strlen($response));
-      print $response;
-    }
   }
 
   public function count() {
