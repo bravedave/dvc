@@ -28,7 +28,7 @@ abstract class sys {
       new dbCheck(static::dbi(), $file);
   }
 
-  public static function dbi() : sqlite\db|dbi|null {
+  public static function dbi(): sqlite\db|dbi|null {
 
     if (is_null(static::$_dbi)) {
 
@@ -132,7 +132,7 @@ abstract class sys {
 
   public static function mailer() {
 
-    if ( !class_exists('PHPMailer\PHPMailer\PHPMailer')) {
+    if (!class_exists('PHPMailer\PHPMailer\PHPMailer')) {
 
       logger::error('PHPMailer not found; please install; composer req phpmailer/phpmailer');
       return null;
@@ -289,50 +289,52 @@ abstract class sys {
     Response::serveBootStrap5($type);
   }
 
-  public static function text2html($inText, $maxrows = -1, $allAsteriskAsList = false) {
-    /**
-     * text2html: converts plain text to html by swaping in <br /> for \n
-     *
-     * $inText : text to be converted
-     * $maxRows : the number of rows to convert - default -1 == all
-     * $allAsteriskAsList : convert * (asterisk) to list (<ul><li>{text}</li></ul>)
-     **/
+  public static function text2html($inText, $maxrows = -1, $allAsteriskAsList = false): string {
 
-    if ($maxrows > 0) {
-      $a = [
-        "/\\\\n/",
-        "/(\n)|(\\\\n)/"
-      ];
-      $x = preg_split("/\n/", $inText);
-      while (count($x) > ($maxrows + 1)) {
-        array_pop($x);
-      }
-      $inText = implode("<br>", $x);
-    }
+    return strings::text2html($inText, $maxrows, $allAsteriskAsList);
+    // /**
+    //  * text2html: converts plain text to html by swaping in <br /> for \n
+    //  *
+    //  * $inText : text to be converted
+    //  * $maxRows : the number of rows to convert - default -1 == all
+    //  * $allAsteriskAsList : convert * (asterisk) to list (<ul><li>{text}</li></ul>)
+    //  **/
 
-    $a = [
-      "/\r\n/",
-      "/---\\n/",
-      "/\\\\n/",
-      "/\n/",
-      "/$\*/"
-    ];
+    // if ($maxrows > 0) {
+    //   $a = [
+    //     "/\\\\n/",
+    //     "/(\n)|(\\\\n)/"
+    //   ];
+    //   $x = preg_split("/\n/", $inText);
+    //   while (count($x) > ($maxrows + 1)) {
+    //     array_pop($x);
+    //   }
+    //   $inText = implode("<br>", $x);
+    // }
 
-    $aR = [
-      "\n",
-      '<hr align="left" style="width: 200px; margin: 0;">',
-      '<br>',
-      '<br>',
-      '<br>&bull;'
-    ];
+    // $a = [
+    //   "/\r\n/",
+    //   "/---\\n/",
+    //   "/\\\\n/",
+    //   "/\n/",
+    //   "/$\*/"
+    // ];
 
-    if ($allAsteriskAsList) {
-      $a[] = "/\*/";
-      $aR[] = "<br />&bull;";
-      $inText = rtrim($inText, " .*");
-    }
+    // $aR = [
+    //   "\n",
+    //   '<hr align="left" style="width: 200px; margin: 0;">',
+    //   '<br>',
+    //   '<br>',
+    //   '<br>&bull;'
+    // ];
 
-    return preg_replace($a, $aR, $inText);
+    // if ($allAsteriskAsList) {
+    //   $a[] = "/\*/";
+    //   $aR[] = "<br />&bull;";
+    //   $inText = rtrim($inText, " .*");
+    // }
+
+    // return preg_replace($a, $aR, $inText);
   }
 
   public static function trace($v, $level = 0) {
