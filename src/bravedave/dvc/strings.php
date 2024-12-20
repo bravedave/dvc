@@ -993,8 +993,7 @@ abstract class strings {
     } else {
 
       $str = preg_replace('!\s+!', ' ', $str);
-      //~ logger::info( sprintf( '<<%s>> : %s', $str, __METHOD__));
-
+      // logger::info( sprintf( '<<%s>> : %s', $str, __METHOD__));
       return preg_replace('@[^0-9a-z\-\_\s]@i', '', $str);
     }
   }
@@ -1036,7 +1035,7 @@ abstract class strings {
     return ($strStreetIndex);
   }
 
-  static public function text2html($inText, $maxrows = -1, $allAsteriskAsList = false) {
+  static public function text2html($inText, $maxrows = -1, $allAsteriskAsList = false) : string {
 
     if ($maxrows > 0) {
       $x = preg_split("/\n/", $inText);
