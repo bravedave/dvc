@@ -55,7 +55,7 @@
         if (item.active) tab.addClass('active');
 
         const pane = $(`<div class="tab-pane" id="${item.target}"
-          role="tabpanel" aria-labelledby="${item.id}" tabindex="0">...</div>`);
+          role="tabpanel" aria-labelledby="${item.id}">...</div>`);
         if (item.active) pane.addClass('active');
 
         let o = {
