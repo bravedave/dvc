@@ -118,17 +118,24 @@ class assets extends Controller {
     // logger::info( sprintf('<%s> %s', sprintf('%s/esse/esse.css', dirname(__DIR__)), __METHOD__));
     // logger::info( sprintf('<%s> %s', application::app()->getInstallPath(), __METHOD__));
 
+    // cssmin::viewcss([
+    //   'debug' => false,
+    //   'libName' => 'home/css/default',
+    //   'cssFiles' => [
+    //     sprintf('%s/esse/esse.css', dirname(__DIR__)),
+    //     sprintf('%s/css/brayworth.context.css', dirname(__DIR__)),
+    //     sprintf('%s/css/brayworth.autoResize.css', dirname(__DIR__)),
+    //     sprintf('%s/css/brayworth.markdown.css', dirname(__DIR__)),
+    //     sprintf('%s/esse/esse.menu.css', dirname(__DIR__)),
+    //     sprintf('%s/esse/esse.markdown.css', dirname(__DIR__)),
+    //   ],
+    //   'libFile' => config::tempdir()  . 'bravedave_dvc_esse.css'
+    // ]);
+
     cssmin::viewcss([
       'debug' => false,
       'libName' => 'home/css/default',
-      'cssFiles' => [
-        sprintf('%s/esse/esse.css', dirname(__DIR__)),
-        sprintf('%s/css/brayworth.context.css', dirname(__DIR__)),
-        sprintf('%s/css/brayworth.autoResize.css', dirname(__DIR__)),
-        sprintf('%s/css/brayworth.markdown.css', dirname(__DIR__)),
-        sprintf('%s/esse/esse.menu.css', dirname(__DIR__)),
-        sprintf('%s/esse/esse.markdown.css', dirname(__DIR__)),
-      ],
+      'cssFiles' => cssmin::esseFiles(),
       'libFile' => config::tempdir()  . 'bravedave_dvc_esse.css'
     ]);
 

@@ -123,7 +123,7 @@ abstract class cssmin {
       if (is_null($minfile)) $minfile =  'dvc.min.css';
     }
 
-    $files = array_map(fn ($file) => __DIR__ . '/' . $file, self::$dvcminFiles);
+    $files = array_map(fn($file) => __DIR__ . '/' . $file, self::$dvcminFiles);
 
     if (!application::app()) throw new Exceptions\ExternalUseViolation;
 
@@ -168,6 +168,18 @@ abstract class cssmin {
       if ($debug) logger::debug(sprintf('<css.min::dvc :: not found :: %s - creating> %s', $cssmin, __METHOD__));
       return self::__createmin($cssdir, $minfile, $files, true);
     }
+  }
+
+  static public function esseFiles() {
+
+    return [
+      __DIR__ . '/esse/esse.css',
+      __DIR__ . '/css/brayworth.context.css',
+      __DIR__ . '/css/brayworth.autoResize.css',
+      __DIR__ . '/css/brayworth.markdown.css',
+      __DIR__ . '/esse/esse.menu.css',
+      __DIR__ . '/esse/esse.markdown.css',
+    ];
   }
 
   protected static function _css_create($options) {
