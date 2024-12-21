@@ -16,7 +16,6 @@
       root: $('<ul class="menu menu-contextmenu" data-role="contextmenu"></ul>'),
       items: [],
       length: 0,
-      detachOnHide: true,
       hideClass: (_.bootstrap_version() < 4 ? 'hidden' : 'd-none'),
 
       addClose: function () {
@@ -40,16 +39,14 @@
 
             el.insertAfter(after);
           }
-
-        }
-        else {
+        } else {
 
           el.appendTo(this.root);
         }
 
         this.items.push(el);
         this.length = this.items.length;
-        return (el);
+        return el;
       },
 
       append: function (item) {
@@ -86,37 +83,21 @@
           if (t.length > 0) css['z-index'] = Math.max(t.zIndex() + 10, 1040);
         })(e);
 
-        if (this.detachOnHide) {
-
-          root
-            .css(css)
-            .appendTo('body')
-            .data('hide', 'detach');
-        }
-        else {
-
-          //~ console.log( this.root.parent());
-          if (root.parent().length < 1) {
-
-            root
-              .appendTo('body')
-              .data('hide', 'hide');
-          }
-
-          root
-            .css(css)
-            .removeClass('hidden d-none');
-        }
+        root
+          .css(css)
+          .appendTo('body')
+          .data('hide', 'detach');
 
         let offset = root.offset();
-        let wH = $(window).height();
-        let wW = $(window).width();
-        let sT = $(window).scrollTop();
+
+        const wH = $(window).height();
+        const wW = $(window).width();
+        const sT = $(window).scrollTop();
 
         /* try to keep menu on screen horizontally */
         if (offset.left + root.width() > wW) {
 
-          let l = wW - root.width() - 5;
+          const l = wW - root.width() - 5;
           root.css('left', Math.max(l, 2));
           offset = root.offset();
         }
@@ -124,7 +105,7 @@
         /* try to keep menu on screen vertically */
         if (offset.top + this.root.height() > (wH + sT)) {
 
-          let t = (wH + sT) - root.height() - 5;
+          const t = (wH + sT) - root.height() - 5;
           root.css('top', Math.max(t, sT + 2));
           offset = root.offset();
         }
@@ -134,52 +115,33 @@
          * add helper class to display the submenu on left
          * if the window width is restrictive on the right
          */
-        if (offset.left > (wW - (root.width() * 2))) {
-
-          root.addClass('menu-contextmenu-right');
-        }
-        else {
-
-          root.removeClass('menu-contextmenu-right');
-        }
+        const tfr = () => offset.left > (wW - (root.width() * 2));
+        root.toggleClass('menu-contextmenu-right', tfr());
 
         /**
          * add helper class to display the submenu high
          * if the window height is restrictive at bottom
          */
-        if (offset.top + (root.height() * 1.2) > (wH + sT)) {
-
-          root.addClass('menu-contextmenu-low');
-        }
-        else {
-
-          root.removeClass('menu-contextmenu-low');
-        }
+        const tfd = () => offset.top + (root.height() * 1.2) > (wH + sT);
+        root.toggleClass('menu-contextmenu-low', tfd());
 
         return this;
       },
 
       close: function () {
 
-        if (this.detachOnHide) {
-
-          this.root.remove();
-        } else {
-
-          this.root.addClass(this.hideClass);
-        }
-
-        return (this);
+        this.root.remove();
+        return this;
       },
 
       remove: function () {
 
-        return (this.close());
+        return this.close();
       },
 
       attachTo: function (parent) {
 
-        let _me = this;
+        const _me = this;
 
         $(parent)
           .off('click.removeContexts')
@@ -247,7 +209,7 @@
             _me.open(e);
           });
 
-        return (_me);
+        return _me;
       }
     };
 
