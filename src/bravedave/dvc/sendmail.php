@@ -152,10 +152,21 @@ abstract class sendmail {
     }
   }
 
-  static function send(Email $email) {
+  static function send(Email $email): bool {
+
     if ($mailer = self::mailer()) {
 
-      $mailer->send($email);
+      try {
+
+        $mailer->send($email);
+        return true;
+      } catch (\Throwable $th) {
+
+        logger::info(sprintf('<%s> %s', $th->getMessage(), logger::caller()));
+        return false;
+      }
     }
+
+    return false;
   }
 }
