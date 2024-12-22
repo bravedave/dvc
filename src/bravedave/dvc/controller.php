@@ -449,12 +449,25 @@ abstract class controller {
       printf('<div class="markdown-body">%s</div>', $converter->convert($fc));
     } else {
 
-      $____view = $view;
-      if ($this->data) extract((array)$this->data);
-      require($____view);
+      $this->protectedLoad($view, (array)$this->data);
+      // $____view = $view;
+      // if ($this->data) extract((array)$this->data);
+      // require($____view);
     }
 
     return $this;  // chain
+  }
+
+  /**
+   * @param string $template
+   * @param array<string, mixed> $data
+   *
+   * @return void
+   */
+  protected function protectedLoad(string $template, array $data): void {
+
+    extract($data);
+    include func_get_arg(0);
   }
 
   protected function loadView($name, $controller = null) {
