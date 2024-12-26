@@ -32,6 +32,7 @@
     });
 
     // editor.getMarkdown();
+    // editor.getHtml();
 
     // editor.focus();
   })(_brayworth_);
