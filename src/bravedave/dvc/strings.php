@@ -769,8 +769,30 @@ abstract class strings {
     return (self::CheckEmailAddress($email));
   }
 
-  static public function isEmail($email) {  // compatible case and naming with my javascript routine
-    return (self::CheckEmailAddress($email));
+  static public function isEmail($email, $rfc822 = false) {  // compatible case and naming with my javascript routine
+
+    if (self::CheckEmailAddress($email)) return (true);
+
+    /**
+     * Test it
+     *
+     * echo strings::isEmail('john.doe@example.com') ? 'Valid' : 'Invalid';  // Valid
+     * echo strings::isEmail('"John Doe" <john.doe@example.com>', true) ? 'Valid' : 'Invalid';  // Valid
+     * echo strings::isEmail('"John Doe" <invalid_email>') ? 'Valid' : 'Invalid';  // Invalid
+     */
+
+    $rfc822_pattern = '/^"?([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a\x3b\x3c\x3e\x40\x5b\x5d\x7f-\xff]+)"?\s*<([^>\r\n]+)>$/';
+    $email_pattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+
+    if (preg_match($rfc822_pattern, $email, $match)) {
+      $name = $match[1];
+      $addr = $match[2];
+      if (preg_match($email_pattern, $addr)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   static public function isMobilePhone(?string $_tel = ''): bool {
@@ -1035,7 +1057,7 @@ abstract class strings {
     return ($strStreetIndex);
   }
 
-  static public function text2html($inText, $maxrows = -1, $allAsteriskAsList = false) : string {
+  static public function text2html($inText, $maxrows = -1, $allAsteriskAsList = false): string {
 
     if ($maxrows > 0) {
       $x = preg_split("/\n/", $inText);
