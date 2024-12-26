@@ -773,21 +773,24 @@ abstract class strings {
 
     if (self::CheckEmailAddress($email)) return (true);
 
-    /**
-     * Test it
-     *
-     * echo strings::isEmail('john.doe@example.com') ? 'Valid' : 'Invalid';  // Valid
-     * echo strings::isEmail('"John Doe" <john.doe@example.com>', true) ? 'Valid' : 'Invalid';  // Valid
-     * echo strings::isEmail('"John Doe" <invalid_email>') ? 'Valid' : 'Invalid';  // Invalid
-     */
+    if ($rfc822) {
 
-    $rfc822_pattern = '/^"?([^"]*)"?\s*<([^>\r\n]+)>$/';
+      /**
+       * Test it
+       *
+       * echo strings::isEmail('john.doe@example.com') ? 'Valid' : 'Invalid';  // Valid
+       * echo strings::isEmail('"John Doe" <john.doe@example.com>', true) ? 'Valid' : 'Invalid';  // Valid
+       * echo strings::isEmail('"John Doe" <invalid_email>') ? 'Valid' : 'Invalid';  // Invalid
+       */
 
-    if (preg_match($rfc822_pattern, $email, $match)) {
+      $rfc822_pattern = '/^"?([^"]*)"?\s*<([^>\r\n]+)>$/';
 
-      $name = $match[1];
-      $addr = $match[2];
-      return self::CheckEmailAddress($addr);
+      if (preg_match($rfc822_pattern, $email, $match)) {
+
+        $name = $match[1];
+        $addr = $match[2];
+        return self::CheckEmailAddress($addr);
+      }
     }
 
     return false;
