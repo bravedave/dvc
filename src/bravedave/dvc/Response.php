@@ -567,6 +567,19 @@ abstract class Response {
     }
   }
 
+  public static function serveQuill($type = 'css'): void {
+
+    if ('css' == $type) {
+
+      $lib = __DIR__ . '/css/quill.snow.css';
+      self::serve($lib);
+    } elseif ('js' == $type) {
+
+      $lib = __DIR__ . '/js/quill.js';
+      self::serve($lib);
+    }
+  }
+
   public static function text_headers($modifyTime = 0, $expires = 0) {
     self::_common_headers($modifyTime, $expires);
     header("Content-type: text/plain");

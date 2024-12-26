@@ -165,6 +165,12 @@ class assets extends Controller {
     Response::serve(dirname(__DIR__) . '/js/pdf-lib.min.js');
   }
 
+  public function quill($type = 'css') {
+    // logger::info( sprintf('<%s/%s> %s', $type, $version, __METHOD__));
+
+    Response::serveQuill($type);
+  }
+
   public function tinymce($path = '') {
 
     parent::js('tinymce');
