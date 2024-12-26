@@ -507,6 +507,19 @@ if (!window._brayworth_) {
 
   };
 
+  _.quill = () => {
+
+    $('head').append('<link rel="stylesheet" href="' + _.url("assets/quill/css") + '" />');
+    return 'undefined' == typeof tinyMCE ?
+      new Promise(resolve => {
+
+        _.get.script(_.url("assets/quill/js"))
+          .then(() => resolve());
+      }) :
+      Promise.resolve();
+
+  };
+
   // _.tiny6 = () => {
   //   return 'undefined' == typeof tinyMCE ?
   //     _.get.script(_.url("assets/tinymce/")) :
