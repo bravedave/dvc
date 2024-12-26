@@ -571,11 +571,104 @@ abstract class Response {
 
     if ('css' == $type) {
 
-      $lib = __DIR__ . '/css/quill.snow.css';
+      $lib = config::tempdir() . '/_quill_.css';
+
+      /**
+       * check if the lib file exists or if any of the files in
+       * __DIR__ . '/resources/quill/*.css'
+       * are more recent than $lib and if so - create/make the lib
+       */
+      $create = true;
+      if (file_exists($lib)) {
+
+        $libtime = filemtime($lib);
+        $create = false;
+
+        // check if it is older than 30 minutes
+        if (time() - $libtime > 1800) {
+
+          $create = true;
+        } else {
+
+          foreach (glob(__DIR__ . '/resources/quill/*.css') as $f) {
+            // check the time againt the modtime for lib
+            if (filemtime($f) > $libtime) {
+              $create = true;
+              break;
+            }
+          }
+        }
+      }
+
+      // $create = true;
+      if ($create) {
+
+        // get all css files in __DIR__ . '/resources/css/'
+        $files = glob(__DIR__ . '/resources/quill/*.css');
+        // sort and ensure quill.snow.css is first
+        usort($files, function ($a, $b) {
+          if (basename($a) == 'quill.snow.css') return -1;
+          if (basename($b) == 'quill.snow.css') return 1;
+          return 0;
+        });
+
+        // logger::dump($files, logger::caller());
+        $css = array_map(fn($f) => file_get_contents($f), $files);
+
+        // bind them to gether and make a single css file $lib; unlink the file first
+        if (file_exists($lib)) unlink($lib);
+        file_put_contents($lib, implode("\n", $css));
+      }
+
       self::serve($lib);
     } elseif ('js' == $type) {
 
-      $lib = __DIR__ . '/js/quill.js';
+      $lib = config::tempdir() . '/_quill_.js';
+      /**
+       * check if the lib file exists or if any of the files in
+       * __DIR__ . '/resources/quill/*.js'
+       * are more recent than $lib and if so - create/make the lib
+       */
+
+      $create = true;
+      if (file_exists($lib)) {
+
+        $libtime = filemtime($lib);
+        $create = false;
+
+        // check if it is older than 30 minutes
+        if (time() - $libtime > 1800) {
+
+          $create = true;
+        } else {
+
+          foreach (glob(__DIR__ . '/resources/quill/*.js') as $f) {
+            // check the time againt the modtime for lib
+            if (filemtime($f) > $libtime) {
+              $create = true;
+              break;
+            }
+          }
+        }
+      }
+
+      // $create = true;
+      if ($create) {
+
+        $files = glob(__DIR__ . '/resources/quill/*.js');
+        // sort and ensure quill.js is first
+        usort($files, function ($a, $b) {
+          if (basename($a) == 'quill.js') return -1;
+          if (basename($b) == 'quill.js') return 1;
+          return 0;
+        });
+        $js = array_map(fn($f) => file_get_contents($f), $files);
+
+        // bind them to gether and make a single css file $lib; unlink the file first
+        if (file_exists($lib)) unlink($lib);
+        file_put_contents($lib, implode("\n", $js));
+      }
+
       self::serve($lib);
     }
   }

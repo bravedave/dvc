@@ -60,7 +60,10 @@
       "bash src/resource/dvc-bootstrap-5.sh",
       "bash src/resource/get-bootstrap-icons.sh"
     ],
-    "start": "bash ./run.sh",
+    "start": [
+      "Composer\\Config::disableProcessTimeout",
+      "bash ./run.sh"
+    ],
     "create-thumb": "tests\\tests::CreateThumb",
     "http-get": "tests\\tests::httpGet",
     "http-post": "tests\\tests::httpPost",
