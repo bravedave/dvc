@@ -188,12 +188,7 @@ class home extends controller {
 
     $this->renderBS5([
       'main' => fn () => $this->load('toast'),
-      'css' => [
-        '<link rel="stylesheet" href="/dist/toastui-editor.min.css" />'
-      ],
-      'scripts' => [
-        '<script type="text/javascript" src="/dist/toastui-editor-all.min.js"></script>'
-      ]
+      'toastui' => true
     ]);
   }
 

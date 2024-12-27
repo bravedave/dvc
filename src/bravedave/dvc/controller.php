@@ -772,7 +772,14 @@ abstract class controller {
       'meta' => [],
       'navbar' => fn() => $this->load(config::navbar_default),
       'scripts' => [],
+      'toastui' => false,
     ], $params);
+
+    if ( $options['toastui']) {
+
+      $options['css'][] = sprintf('<link rel="stylesheet" href="%s">', strings::url('assets/toastui/css'));
+      $options['scripts'][] = sprintf('<script src="%s"></script>', strings::url('assets/toastui/js'));
+    }
 
     $page = $options['page'] ?? (esse\page::bootstrap());
 

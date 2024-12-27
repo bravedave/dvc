@@ -172,6 +172,12 @@ class assets extends Controller {
     Response::serveQuill($type);
   }
 
+  public function toastui($type = 'css') {
+    // logger::info( sprintf('<%s/%s> %s', $type, $version, __METHOD__));
+
+    Response::serveToastUI($type);
+  }
+
   public function tinymce($path = '') {
 
     parent::js('tinymce');

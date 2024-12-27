@@ -673,6 +673,20 @@ abstract class Response {
     }
   }
 
+  public static function serveToastUI($type = 'css'): void {
+
+    if ('css' == $type) {
+
+      $lib = __DIR__ . '/resources/toastui/toastui-editor.min.css';
+
+      self::serve($lib);
+    } elseif ('js' == $type) {
+
+      $lib = __DIR__ . '/resources/toastui/toastui-editor-all.min.js';
+      self::serve($lib);
+    }
+  }
+
   public static function text_headers($modifyTime = 0, $expires = 0) {
     self::_common_headers($modifyTime, $expires);
     header("Content-type: text/plain");
