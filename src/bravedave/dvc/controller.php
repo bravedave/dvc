@@ -463,6 +463,7 @@ abstract class controller {
    */
   protected function protectedLoad(string $_do_not_ever_create_a_variable_with_this_name_lol_, array $data): void {
 
+    // https://www.php.net/manual/en/function.func-get-arg.php#124846
     extract($data);
     include func_get_arg(0);
   }
