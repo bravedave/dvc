@@ -450,9 +450,6 @@ abstract class controller {
     } else {
 
       $this->protectedLoad($view, (array)$this->data);
-      // $____view = $view;
-      // if ($this->data) extract((array)$this->data);
-      // require($____view);
     }
 
     return $this;  // chain
@@ -464,7 +461,7 @@ abstract class controller {
    *
    * @return void
    */
-  protected function protectedLoad(string $template, array $data): void {
+  protected function protectedLoad(string $_do_not_ever_create_a_variable_with_this_name_lol_, array $data): void {
 
     extract($data);
     include func_get_arg(0);
@@ -775,7 +772,7 @@ abstract class controller {
       'toastui' => false,
     ], $params);
 
-    if ( $options['toastui']) {
+    if ($options['toastui']) {
 
       $options['css'][] = sprintf('<link rel="stylesheet" href="%s">', strings::url('assets/toastui/css'));
       $options['scripts'][] = sprintf('<script src="%s"></script>', strings::url('assets/toastui/js'));
