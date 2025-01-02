@@ -86,14 +86,15 @@ abstract class config {
 
   static $COOKIE_AUTHENTICATION_EXPIRES_DAYS = 7;
 
+  static $CONTENT_ENABLE_CROSS_ORIGIN_HEADER = false;
+  static $CONTENT_ENABLE_CROSS_ORIGIN_HEADER_WITH_PROTOCOL = false;
   static $CONTENT_SECURITY_ENABLED = true;
 
   static $DATE_FORMAT = 'Y-m-d';
   static $DATE_FORMAT_LONG = 'D M d Y';
   static $DATETIME_FORMAT = 'Y-m-d g:ia';
   static $DATETIME_FORMAT_LONG = 'D M d Y g:ia';
-  static $CONTENT_ENABLE_CROSS_ORIGIN_HEADER = false;
-  static $CONTENT_ENABLE_CROSS_ORIGIN_HEADER_WITH_PROTOCOL = false;
+  static $DOCS_SYNTAX_HIGHLIGHT = false;
   static $FONTAWESOME = false;
   static $TIME_FORMAT = 'g:ia';
 
@@ -157,7 +158,6 @@ abstract class config {
   static $SAMESITE_POLICY = 'lax';  // none, lax, strict
   static $SESSION_CACHE_EXPIRE = 180;
   static $SITEMAPS = false;
-  static $SYNTAX_HIGHLIGHT_DOCS = false;
 
   static $TELEGRAM_API_KEY = '';
   static $TELEGRAM_CHAT_ID = '';
@@ -419,7 +419,7 @@ abstract class config {
           'samesite_policy' => static::$SAMESITE_POLICY,
           'session_cache_expire' => static::$SESSION_CACHE_EXPIRE,
           'sitemaps' => static::$SITEMAPS,
-          'syntax_highlight_docs' => static::$SYNTAX_HIGHLIGHT_DOCS,
+          'docs_syntax_highlight' => static::$DOCS_SYNTAX_HIGHLIGHT,
           'support_name' => static::$SUPPORT_NAME,
           'support_email' => static::$SUPPORT_EMAIL,
           'telegram_api_key' => static::$TELEGRAM_API_KEY,
@@ -453,7 +453,7 @@ abstract class config {
         static::$SAMESITE_POLICY = $a->samesite_policy;
         static::$SESSION_CACHE_EXPIRE = $a->session_cache_expire;
         static::$SITEMAPS = $a->sitemaps;
-        static::$SYNTAX_HIGHLIGHT_DOCS = $a->syntax_highlight_docs;
+        static::$DOCS_SYNTAX_HIGHLIGHT = $a->docs_syntax_highlight;
         static::$SUPPORT_NAME = $a->support_name;
         static::$SUPPORT_EMAIL = $a->support_email;
 
@@ -490,7 +490,7 @@ abstract class config {
             'samesite_policy' => static::$SAMESITE_POLICY,
             'session_cache_expire' => static::$SESSION_CACHE_EXPIRE,
             'sitemaps' => static::$SITEMAPS,
-            'syntax_highlight_docs' => static::$SYNTAX_HIGHLIGHT_DOCS,
+            'docs_syntax_highlight' => static::$DOCS_SYNTAX_HIGHLIGHT,
             'telegram_api_key' => static::$TELEGRAM_API_KEY,
             'telegram_chat_id' => static::$TELEGRAM_CHAT_ID,
             'timezone' => static::$TIMEZONE,

@@ -44,13 +44,18 @@
   }
 </style>
 <script>
-  $(document).ready(() => {
-    let h = $('[data-role="content-primary"] > .markdown-body > h1');
-    if (h.length > 0) {
-      let title = h.first().html();
+  (_ => {
 
-      $('body > nav .navbar-brand').html(title);
-      document.title = $('body > nav .navbar-brand').text();
-    }
-  })
+    _.ready(() => {
+
+      const h = $('[data-role="content-primary"] > .markdown-body > h1');
+      if (h.length > 0) {
+
+        const title = h.first().html();
+
+        $('body > nav .navbar-brand').html(title);
+        document.title = $('body > nav .navbar-brand').text();
+      }
+    })
+  })(_brayworth_);
 </script>

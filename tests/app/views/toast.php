@@ -14,7 +14,7 @@
 <form id="<?= $_form = strings::rand() ?>" class="h-100">
   <h1>Toast Editor Demo</h1>
 
-  <div id="<?= $_uidEditor = strings::rand() ?>">
+  <div id="<?= $_uidEditor = strings::rand() ?>"></div>
 </form>
 
 

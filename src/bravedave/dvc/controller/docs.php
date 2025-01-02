@@ -10,14 +10,13 @@
 
 namespace bravedave\dvc\controller;
 
-use bravedave\dvc\logger;
+use bravedave\dvc\{json, logger, Response};
 use config, Controller, sys;
 use strings;
 
-use bravedave\dvc\Response;
-
 class docs extends Controller {
   protected $RequireValidation = config::lockdown;
+  protected $enable_editing = false;
 
   protected function _hasImage($img = '', ?string $controller = null) {
 
@@ -54,7 +53,7 @@ class docs extends Controller {
     // $this->debug = true;
 
     if (!$view) $view = 'index.md';
-    if ($this->debug) sys::logger(sprintf('<%s> %s', $view, __METHOD__));
+    if ($this->debug) logger::debug(sprintf('<%s> %s', $view, __METHOD__));
 
     if (preg_match('@\.(png|jpg|svg)$@', $view) && $_img = $this->_hasImage($view)) {
 
@@ -79,27 +78,35 @@ class docs extends Controller {
       }
       $primary[] = 'docs-format';
 
+      /**
+       * editing is not enabled by default
+       * to enable editing, set $this->enable_editing = true;
+       * and provide a postHandler that can save the file
+       */
+      if ($this->enable_editing) $primary[] = 'docs-edit';
+
       $this->data = (object)[
         'title' => $this->title = sprintf('Docs - %s', ucwords($view)),
         'pageUrl' => strings::url(rtrim($this->route, '/') . '/' . ($view == 'index.md' ? '' : $view)),
         'searchFocus' => true,
+        'file' => (string)$view,
       ];
 
       $render = [
-        'main' => fn () => array_walk($primary, fn ($_) => $this->load($_, null, ['html_input' => 'allow'])),
-        'aside' => fn () => array_walk($contents, fn ($_) => $this->load($_, null, ['html_input' => 'allow'])),
+        'main' => fn() => array_walk($primary, fn($_) => $this->load($_, null, ['html_input' => 'allow'])),
+        'aside' => fn() => array_walk($contents, fn($_) => $this->load($_, null, ['html_input' => 'allow'])),
       ];
 
-      if (config::$SYNTAX_HIGHLIGHT_DOCS) {
+      if (config::$DOCS_SYNTAX_HIGHLIGHT) {
 
         // '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">'
         $render['css'] = [
-          '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github-gist.min.css">'
+          '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-gist.min.css">'
         ];
 
         $render['scripts'] = [
-          '<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>',
-          '<script>hljs.initHighlightingOnLoad();</script>'
+          '<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>',
+          '<script>hljs.highlightAll();</script>'
         ];
       }
 
@@ -107,9 +114,30 @@ class docs extends Controller {
     }
   }
 
-  public function index($view = 'index') {
-    $this->isPost() ?
-      $this->postHandler() :
-      $this->_index($view);
+  protected function getDoc() {
+
+    $action = $this->getPost('action');
+    if ($doc = $this->getPost('file')) {
+
+      if ($file = $this->getView($doc)) {
+
+        if (file_exists($file)) {
+
+          return json::ack($action)
+            ->data(file_get_contents($file));
+        }
+      }
+    }
+
+    return json::nak($action);
+  }
+
+  protected function postHandler() {
+    $action = $this->getPost('action');
+
+    match ($action) {
+      '-get-doc-' => $this->getDoc(),
+      default => parent::postHandler()
+    };
   }
 }
