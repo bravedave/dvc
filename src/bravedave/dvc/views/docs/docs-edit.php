@@ -73,7 +73,7 @@ extract((array)($this->data ?? []));  ?>
               const editor = new toastui.Editor({
                 el: document.querySelector(`#${uid}-editor`),
                 initialEditType: 'wysiwyg',
-                height: '500px',
+                height: (window.innerHeight - 90) + 'px',
                 usageStatistics: false,
                 hideModeSwitch: false,
                 toolbarItems: [
