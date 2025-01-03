@@ -43,7 +43,7 @@ extract((array)($this->data ?? []));  ?>
 
             const data = await _.fetch.post(_.url('<?= $this->route ?>'), {
               action: '-get-doc-',
-              file: '<?= $file ?>'
+              file: '<?= $new ? 'new-file' : $file ?>'
             });
 
             if ('ack' == data.response) {

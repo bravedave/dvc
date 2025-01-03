@@ -97,6 +97,9 @@ class docs extends Controller {
         'pageUrl' => strings::url(rtrim($this->route, '/') . '/' . ($view == 'index.md' ? '' : $view)),
         'searchFocus' => true,
         'file' => (string)$fileName,
+        'new' => $this->enable_editing
+          ? 'new-file' == $view
+          : false,
       ];
 
       $render = [
