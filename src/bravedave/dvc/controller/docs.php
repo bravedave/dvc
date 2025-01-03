@@ -48,7 +48,7 @@ class docs extends Controller {
     return false;
   }
 
-  protected function _index($view = 'index.md', string $fileName = null) {
+  protected function _index(string $view = 'index.md', string $fileName = null) {
 
     // $this->debug = true;
 
