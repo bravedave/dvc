@@ -88,7 +88,7 @@ class docs extends Controller {
       if ($this->enable_editing) {
 
         $primary[] = 'docs-edit';
-        $this->viewPath[] = $p = implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'views', 'docs']);
+        $this->viewPath[] = $p = implode(DIRECTORY_SEPARATOR, [config::$SYSTEM_VIEWS, 'docs']);
         $this->_viewPathsVerified = []; // reset
       }
 
@@ -128,6 +128,12 @@ class docs extends Controller {
 
     $action = $this->getPost('action');
     if ($doc = $this->getPost('file')) {
+
+      if ('new-file' == $doc) {
+
+        $this->viewPath[] = $p = implode(DIRECTORY_SEPARATOR, [config::$SYSTEM_VIEWS, 'docs']);
+        $this->_viewPathsVerified = []; // reset
+      }
 
       if ($file = $this->getView($doc)) {
 

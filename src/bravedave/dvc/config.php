@@ -158,6 +158,7 @@ abstract class config {
   static $SAMESITE_POLICY = 'lax';  // none, lax, strict
   static $SESSION_CACHE_EXPIRE = 180;
   static $SITEMAPS = false;
+  static $SYSTEM_VIEWS = __DIR__ . '/views';
 
   static $TELEGRAM_API_KEY = '';
   static $TELEGRAM_CHAT_ID = '';
