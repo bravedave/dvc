@@ -32,7 +32,7 @@ extract((array)($this->data ?? []));  ?>
       const h = $('main > .markdown-body > h1');
       if (h.length > 0) {
 
-        const btn = $(`<button type="button" class="btn btn-light btn-sm d-print-none ms-auto px-3">
+        const btn = $(`<button type="button" class="btn btn-sm d-print-none ms-auto">
           <i class="bi bi-pencil"></i></button>`);
 
         btn.on('click', function(e) {
