@@ -48,12 +48,14 @@ class docs extends Controller {
     return false;
   }
 
-  protected function _index($view = 'index.md') {
+  protected function _index($view = 'index.md', string $fileName = null) {
 
     // $this->debug = true;
 
     if (!$view) $view = 'index.md';
     if ($this->debug) logger::debug(sprintf('<%s> %s', $view, __METHOD__));
+
+    if (!$fileName) $fileName = $view;
 
     if (preg_match('@\.(png|jpg|svg)$@', $view) && $_img = $this->_hasImage($view)) {
 
@@ -89,7 +91,7 @@ class docs extends Controller {
         'title' => $this->title = sprintf('Docs - %s', ucwords($view)),
         'pageUrl' => strings::url(rtrim($this->route, '/') . '/' . ($view == 'index.md' ? '' : $view)),
         'searchFocus' => true,
-        'file' => (string)$view,
+        'file' => (string)$fileName,
       ];
 
       $render = [

@@ -51,7 +51,7 @@ extract((array)($this->data ?? []));  ?>
               const uid = _.randomString();
               const form = $(`<form id="${uid}" class="h-100" method="post">
                 <input type="hidden" name="action" value="-save-doc-">
-                <input type="hidden" name="file" value="<?= $file ?>">
+                <input type="hidden" name="file" value="<?= $fileName ?>">
                 <input type="hidden" name="contents">
                 <div id="${uid}-editor"></div>
               </form>`);
