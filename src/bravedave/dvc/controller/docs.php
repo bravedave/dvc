@@ -85,7 +85,12 @@ class docs extends Controller {
        * to enable editing, set $this->enable_editing = true;
        * and provide a postHandler that can save the file
        */
-      if ($this->enable_editing) $primary[] = 'docs-edit';
+      if ($this->enable_editing) {
+
+        $primary[] = 'docs-edit';
+        $this->viewPath[] = $p = implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'views', 'docs']);
+        $this->_viewPathsVerified = []; // reset
+      }
 
       $this->data = (object)[
         'title' => $this->title = sprintf('Docs - %s', ucwords($view)),
