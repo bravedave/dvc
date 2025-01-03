@@ -42,6 +42,10 @@
   .h6 {
     font-size: 1rem
   }
+
+  .toastui-editor-contents table {
+    width: 100%;
+  }
 </style>
 <script>
   (_ => {
