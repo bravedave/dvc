@@ -65,7 +65,10 @@ extract((array)($this->data ?? []));  ?>
               btnSave.style.margin = '0';
               btnSave.innerHTML = `Save`;
 
-              $('main').empty().append(form);
+              $('main > .markdown-body')
+                .empty()
+                .removeClass('markdown-body')
+                .append(form);
 
               const editor = new toastui.Editor({
                 el: document.querySelector(`#${uid}-editor`),
