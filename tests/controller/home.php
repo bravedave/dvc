@@ -43,7 +43,7 @@ class home extends controller {
       $main = 'todo-matrix';
 
       $this->renderBS5([
-        'main' => fn () => $this->load($main)
+        'main' => fn() => $this->load($main)
       ]);
     }
   }
@@ -59,46 +59,53 @@ class home extends controller {
 
     $action = $this->getPost('action');
 
-    if ('get-todo-data' == $action) {
+    match ($action) {
+      'get-todo-data' => $this->getTodoData($action),
+      'todo-add' => $this->todoAdd($action),
+      'todo-delete' => $this->todoDelete($action),
+      'todo-update' => $this->todoUpdate($action),
+      'hello' => json::ack($action),
+      default => parent::postHandler()
+    };
+  }
 
-      json::ack($action)
-        ->add('data', (new \dao\todo)->getMatrix());
-    } elseif ('todo-add' == $action) {
+  protected function getTodoData(string $action): json {
 
-      (new \dao\todo)->Insert([
-        'description' => $this->getPost('description')
-      ]);
+    return json::ack($action)
+      ->data((new dao\todo)->getMatrix());
+  }
 
-      json::ack($action);
-    } elseif ('todo-delete' == $action) {
+  protected function todoAdd(string $action): json {
 
-      if ($id = (int)$this->getPost('id')) {
+    (new dao\todo)->Insert([
+      'description' => $this->getPost('description')
+    ]);
 
-        (new \dao\todo)->delete($id);
-        json::ack($action);
-      } else {
+    return json::ack($action);
+  }
 
-        json::nak($action);
-      }
-    } elseif ('todo-update' == $action) {
+  protected function todoDelete(string $action): json {
 
-      if ($id = (int)$this->getPost('id')) {
+    if ($id = (int)$this->getPost('id')) {
 
-        (new \dao\todo)->UpdateByID([
-          'description' => $this->getPost('description')
-        ], $id);
-        json::ack($action);
-      } else {
-
-        json::nak($action);
-      }
-    } elseif ('hello' == $action) {
-
-      json::ack($action);
-    } else {
-
-      parent::postHandler();
+      (new dao\todo)->delete($id);
+      return json::ack($action);
     }
+
+    return json::nak($action);
+  }
+
+  protected function todoUpdate(string $action): json {
+
+    if ($id = (int)$this->getPost('id')) {
+
+      (new dao\todo)->UpdateByID([
+        'description' => $this->getPost('description')
+      ], $id);
+      return json::ack($action);
+    }
+
+    return json::nak($action);
   }
 
   public function accordion() {
@@ -169,7 +176,7 @@ class home extends controller {
     ];
 
     $this->renderBS5([
-      'main' => fn () => $this->load('squire'),
+      'main' => fn() => $this->load('squire'),
       'scripts' => [
         '<script type="text/javascript" src="dist/purify.min.js"></script>',
         '<script type="text/javascript" src="dist/squire.js"></script>'
@@ -187,7 +194,7 @@ class home extends controller {
     ];
 
     $this->renderBS5([
-      'main' => fn () => $this->load('toast'),
+      'main' => fn() => $this->load('toast'),
       'toastui' => true
     ]);
   }
@@ -202,7 +209,7 @@ class home extends controller {
     ];
 
     $this->renderBS5([
-      'main' => fn () => $this->load('tiny')
+      'main' => fn() => $this->load('tiny')
     ]);
   }
 
@@ -228,7 +235,7 @@ class home extends controller {
     ];
 
     $this->renderBS5([
-      'main' => fn () => $this->load('workers')
+      'main' => fn() => $this->load('workers')
     ]);
   }
 }

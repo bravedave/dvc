@@ -608,52 +608,13 @@ abstract class controller {
 
     $action = $this->getPost('action');
 
-    if ('send-test-message' == $action) {
+    return match ($action) {
 
-      push::test(currentUser::id());
-    } elseif ('subscription-delete' == $action) {
-
-      if ($endpoint = $this->getPost('endpoint')) {
-
-        $dao = new \dao\notifications;
-        $dao->deleteByEndPoint($endpoint);
-        json::ack($action);
-      } else {
-
-        json::nak($action);
-      }
-    } elseif ('subscription-save' == $action) {
-
-      if ($json = $this->getPost('json')) {
-
-        $subscription = (object)json_decode($json);
-
-        if (isset($subscription->endpoint) && $subscription->endpoint) {
-          $dao = new \dao\notifications;
-          if ($dto = $dao->getByEndPoint($subscription->endpoint)) {
-            $dao->UpdateByID(['json' => $json], $dto->id);
-          } else {
-            $dao->Insert([
-              'json' => $json,
-              'endpoint' => $subscription->endpoint,
-              'user_id' => currentUser::id()
-
-            ]);
-          }
-
-          json::ack($action);
-        } else {
-
-          json::nak($action);
-        }
-      } else {
-
-        json::nak($action);
-      }
-    } else {
-
-      json::nak($action);
-    }
+      'send-test-message' => push::test(currentUser::id()) ? json::ack($action) : json::nak($action),
+      'subscription-delete' => $this->subscriptionDelete($action),
+      'subscription-save' => $this->subscriptionSave($action),
+      default => json::nak($action)
+    };
   }
 
   protected function render($params) {
@@ -841,6 +802,45 @@ abstract class controller {
     logger::deprecated(sprintf('<%s is not implemented>', __METHOD__));
     // if (is_null($this->db)) return false;
     // return $this->db->SQL($query);
+  }
+
+  protected function subscriptionDelete(string $action): json {
+
+    if ($endpoint = $this->getPost('endpoint')) {
+
+      $dao = new \dao\notifications;
+      $dao->deleteByEndPoint($endpoint);
+      return json::ack($action);
+    }
+
+    return json::nak($action);
+  }
+
+  protected function subscriptionSave(string $action): json {
+
+    if ($json = $this->getPost('json')) {
+
+      $subscription = (object)json_decode($json);
+      if (isset($subscription->endpoint) && $subscription->endpoint) {
+
+        $dao = new \dao\notifications;
+        if ($dto = $dao->getByEndPoint($subscription->endpoint)) {
+
+          $dao->UpdateByID(['json' => $json], $dto->id);
+        } else {
+
+          $dao->Insert([
+            'json' => $json,
+            'endpoint' => $subscription->endpoint,
+            'user_id' => currentUser::id()
+          ]);
+        }
+
+        return json::ack($action);
+      }
+    }
+
+    return json::nak($action);
   }
 
   public function index() {

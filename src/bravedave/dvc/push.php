@@ -65,9 +65,10 @@ class push {
     );
   }
 
-  static function test(int $user) {
+  static function test(int $user): bool {
 
     self::send("Hello! 👋", $user);
+    return true;
   }
 
   static protected function WebPush($subscription, $message) {
