@@ -16,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class ServerRequest {
 
-  public function __invoke() {
+  public function __invoke() : ServerRequestInterface {
 
     $psr17Factory = new Psr17Factory;
 
