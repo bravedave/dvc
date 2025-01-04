@@ -12,8 +12,9 @@ namespace bravedave\dvc;
 
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
+use Psr\Http\Message\ServerRequestInterface;
 
-abstract class ServerRequest {
+class ServerRequest {
 
   public function __invoke() {
 
