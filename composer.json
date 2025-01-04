@@ -25,6 +25,8 @@
     "ext-session": "*",
     "giggsey/libphonenumber-for-php": "^8.11",
     "matthiasmullie/minify": "^1.3.61",
+    "nyholm/psr7-server": "^1.1",
+    "nyholm/psr7": "^1.8",
     "symfony/mailer": "^5.4",
     "tijsverkoyen/css-to-inline-styles": "^2.2",
     "tinymce/tinymce": "<6",
