@@ -83,7 +83,7 @@ class application {
     return self::$instance->_route;
   }
 
-  static function timer() : timer {
+  static function timer(): timer {
 
     if (self::$instance) {
 
@@ -93,7 +93,7 @@ class application {
     return new timer;
   }
 
-  static function elapsed() : string {
+  static function elapsed(): string {
 
     return self::timer()->elapsed();
   }
@@ -233,68 +233,84 @@ class application {
      */
     if (method_exists($this->url_controller, $this->url_action)) {
 
-      $this->url_served = strings::url(implode('/', [
-        self::Request()->getControllerName(),
-        self::Request()->getActionName()
-      ]), $protcol = true);
+      // check if the method is public
+      $reflection = new \ReflectionMethod($this->url_controller, $this->url_action);
+      if ($reflection->isPublic()) {
 
-      // call the method and pass the arguments to it
-      if (isset($this->url_parameter_3)) {
+        $this->url_served = strings::url(implode('/', [
+          self::Request()->getControllerName(),
+          self::Request()->getActionName()
+        ]), $protcol = true);
 
-        // will translate to something like $this->home->method($param_1, $param_2, $param_3);
-        if (self::$debug) logger::debug(sprintf(
-          '%s->{%s}(%s, %s, %s)',
-          $this->url_controller->name,
-          $this->url_action,
-          $this->url_parameter_1,
-          $this->url_parameter_2,
-          $this->url_parameter_3
-        ));
+        // call the method and pass the arguments to it
+        if (isset($this->url_parameter_3)) {
 
-        $this->url_controller->{$this->url_action}(
-          $this->url_parameter_1,
-          $this->url_parameter_2,
-          $this->url_parameter_3
-        );
-      } elseif (isset($this->url_parameter_2)) {
+          // will translate to something like $this->home->method($param_1, $param_2, $param_3);
+          if (self::$debug) logger::debug(sprintf(
+            '%s->{%s}(%s, %s, %s)',
+            $this->url_controller->name,
+            $this->url_action,
+            $this->url_parameter_1,
+            $this->url_parameter_2,
+            $this->url_parameter_3
+          ));
 
-        if (self::$debug) logger::debug(sprintf(
-          '%s->{%s}(%s, %s)',
-          $this->url_controller->name,
-          $this->url_action,
-          $this->url_parameter_1,
-          $this->url_parameter_2
-        ));
+          $this->url_controller->{$this->url_action}(
+            $this->url_parameter_1,
+            $this->url_parameter_2,
+            $this->url_parameter_3
+          );
+        } elseif (isset($this->url_parameter_2)) {
 
-        // will translate to something like $this->home->method($param_1, $param_2);
-        $this->url_controller->{$this->url_action}(
-          $this->url_parameter_1,
-          $this->url_parameter_2
-        );
-      } elseif (isset($this->url_parameter_1)) {
+          if (self::$debug) logger::debug(sprintf(
+            '%s->{%s}(%s, %s)',
+            $this->url_controller->name,
+            $this->url_action,
+            $this->url_parameter_1,
+            $this->url_parameter_2
+          ));
 
-        if (self::$debug) logger::debug(sprintf(
-          '%s->{%s}(%s)',
-          $this->url_controller->name,
-          $this->url_action,
-          $this->url_parameter_1
-        ));
+          // will translate to something like $this->home->method($param_1, $param_2);
+          $this->url_controller->{$this->url_action}(
+            $this->url_parameter_1,
+            $this->url_parameter_2
+          );
+        } elseif (isset($this->url_parameter_1)) {
 
-        // will translate to something like $this->home->method($param_1);
-        $this->url_controller->{$this->url_action}($this->url_parameter_1);
+          if (self::$debug) logger::debug(sprintf(
+            '%s->{%s}(%s)',
+            $this->url_controller->name,
+            $this->url_action,
+            $this->url_parameter_1
+          ));
+
+          // will translate to something like $this->home->method($param_1);
+          $this->url_controller->{$this->url_action}($this->url_parameter_1);
+        } else {
+
+          if (self::$debug) logger::debug(sprintf(
+            '%s->{%s}()',
+            $this->url_controller->name,
+            $this->url_action
+          ));
+
+          /**
+           * if no parameters given, just call the method without parameters,
+           * like $this->home->method();
+           */
+          $this->url_controller->{$this->url_action}();
+        }
       } else {
 
-        if (self::$debug) logger::debug(sprintf(
-          '%s->{%s}()',
-          $this->url_controller->name,
-          $this->url_action
-        ));
+        $this->url_served = strings::url(
+          self::Request()->getControllerName(),
+          $protcol = true
+        );
 
-        /**
-         * if no parameters given, just call the method without parameters,
-         * like $this->home->method();
-         */
-        $this->url_controller->{$this->url_action}();
+        if (self::$debug) logger::debug('fallback on protected method');
+        if (self::$debug) logger::debug(sprintf('%s->index(%s)', $this->url_controller->name, $this->url_action));
+
+        $this->url_controller->index($this->url_action);
       }
     } else {
 
@@ -524,7 +540,7 @@ class application {
      */
   }
 
-  public function dbi() : sqlite\db|dbi|null {
+  public function dbi(): sqlite\db|dbi|null {
 
     return \sys::dbi();
   }
