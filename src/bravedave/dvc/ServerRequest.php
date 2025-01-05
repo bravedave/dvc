@@ -27,6 +27,21 @@ class ServerRequest {
       $psr17Factory  // StreamFactory
     );
 
-    return $creator->fromGlobals();
+    $request = $creator->fromGlobals();
+    if ($request->getHeaderLine('Content-Type') === 'application/json') {
+
+      $rawBody = (string) $request->getBody(); // Get the raw body as a string
+      $parsedBody = json_decode($rawBody, true); // Decode JSON into an associative array
+      if (json_last_error() === JSON_ERROR_NONE) {
+
+        return $request->withParsedBody($parsedBody);
+        // $request = $request->withParsedBody(json_decode(file_get_contents('php://input'), true));
+      } else {
+
+        $request = $request->withParsedBody(['Invalid JSON payload']);
+      }
+    }
+
+    return $request;
   }
 }
