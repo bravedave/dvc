@@ -16,7 +16,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class ServerRequest {
 
-  public function __invoke() : ServerRequestInterface {
+  static protected ServerRequestInterface $_request;
+
+  static protected function _create_(): ServerRequestInterface {
 
     $psr17Factory = new Psr17Factory;
 
@@ -43,5 +45,21 @@ class ServerRequest {
     }
 
     return $request;
+  }
+
+  public function __construct() {
+
+    if (!isset(self::$_request)) self::$_request = self::_create_();
+  }
+
+  public function __invoke(string $var = null): mixed {
+
+    if ($var) {
+
+      return self::$_request->getParsedBody()[$var] ?? null;
+    } else {
+
+      return self::$_request;
+    }
   }
 }
