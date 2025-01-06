@@ -62,4 +62,9 @@ class ServerRequest {
       return self::$_request;
     }
   }
+
+  public function getUploadedFiles(): array {
+
+    return self::$_request->getUploadedFiles();
+  }
 }
