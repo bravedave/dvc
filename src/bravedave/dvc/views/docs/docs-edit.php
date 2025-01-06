@@ -8,9 +8,7 @@
  *
 */
 
-namespace bravedave\dvc\views\docs;
-
-extract((array)($this->data ?? []));  ?>
+namespace bravedave\dvc\views\docs;  ?>
 <script>
   (_ => {
 
@@ -32,10 +30,10 @@ extract((array)($this->data ?? []));  ?>
       const h = $('main > .markdown-body > h1');
       if (h.length > 0) {
 
-        const btn = $(`<button type="button" class="btn btn-sm d-print-none ms-auto">
+        const btn = $(`<button type="button" class="btn btn-sm d-print-none float-end">
           <i class="bi bi-pencil"></i></button>`);
 
-        btn.on('click', function(e) {
+        btn.on('click', e => {
 
           _.hideContexts(e); // stopPropagation and hide all contexts
 
@@ -112,7 +110,7 @@ extract((array)($this->data ?? []));  ?>
           });
         });
 
-        h.addClass('d-flex').append(btn);
+        btn.insertAfter(h);
       }
     });
   })(_brayworth_);
