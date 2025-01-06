@@ -178,42 +178,38 @@ class fileUploader {
       try {
 
         if (file_exists($target)) unlink($target);
-        if ($file->moveTo($target)) {
+        $file->moveTo($target);
 
-          if ($this->convertHEICtoJPEG) {
+        if ($this->convertHEICtoJPEG) {
 
-            if (in_array($mimeType, ['image/heic', 'image/heif'])) {
+          if (in_array($mimeType, ['image/heic', 'image/heif'])) {
 
-              $spl = new SplFileInfo($target);
-              if ('heic' == strtolower($spl->getExtension())) {
+            $spl = new SplFileInfo($target);
+            if ('heic' == strtolower($spl->getExtension())) {
 
-                if ($debug) logger::debug(sprintf('<%s> %s', 'heic file, converting', __METHOD__));
-                $imagick = new Imagick;
-                $target = preg_replace('@\.heic$@i', '.jpg', $spl->getPathname());
-                $imagick->readImage($spl->getPathname());
-                $imagick->writeImage($target);
+              if ($debug) logger::debug(sprintf('<%s> %s', 'heic file, converting', __METHOD__));
+              $imagick = new Imagick;
+              $target = preg_replace('@\.heic$@i', '.jpg', $spl->getPathname());
+              $imagick->readImage($spl->getPathname());
+              $imagick->writeImage($target);
 
-                unlink($spl->getPathname());
-              }
+              unlink($spl->getPathname());
             }
           }
-          return true;
         }
-
-        logger::info(sprintf('<%s error moving file ..> %s', $file->getClientFilename(), logger::caller()));
-        return false;
+        return true;
       } catch (\Exception $e) {
 
         logger::info(sprintf('<%s error moving file> %s', $file->getClientFilename(), logger::caller()));
-        return false;
       }
     } elseif (!$mimeType) {
 
       logger::info(sprintf('<%s invalid file type> %s', $file->getClientFilename(), logger::caller()));
-      return false;
+    } else {
+
+      logger::info(sprintf('<%s invalid file type - %s> %s', $file->getClientFilename(), $mimeType, logger::caller()));
     }
 
-    logger::info(sprintf('<%s invalid file type - %s> %s', $file->getClientFilename(), $mimeType, logger::caller()));
     return false;
   }
 
