@@ -199,6 +199,9 @@ class fileUploader {
           }
           return true;
         }
+
+        logger::info(sprintf('<%s error moving file ..> %s', $file->getClientFilename(), logger::caller()));
+        return false;
       } catch (\Exception $e) {
 
         logger::info(sprintf('<%s error moving file> %s', $file->getClientFilename(), logger::caller()));
@@ -208,11 +211,10 @@ class fileUploader {
 
       logger::info(sprintf('<%s invalid file type> %s', $file->getClientFilename(), logger::caller()));
       return false;
-    } else {
-
-      logger::info(sprintf('<%s invalid file type - %s> %s', $file->getClientFilename(), $mimeType, logger::caller()));
-      return false;
     }
+
+    logger::info(sprintf('<%s invalid file type - %s> %s', $file->getClientFilename(), $mimeType, logger::caller()));
+    return false;
   }
 
   public function save(array|UploadedFile $file, string $fileName = '', array $deleteFiles = []): bool {
