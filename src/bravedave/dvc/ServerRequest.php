@@ -67,4 +67,9 @@ class ServerRequest {
 
     return self::$_request->getUploadedFiles();
   }
+
+  public function getQueryParams(): array {
+
+    return self::$_request->getQueryParams();
+  }
 }
