@@ -68,6 +68,12 @@ class ServerRequest {
     return self::$_request->getUploadedFiles();
   }
 
+  public function getQueryParam(string $k): mixed {
+
+    $queryParams = $this->getQueryParams();
+    return $queryParams[$k] ?? null;
+  }
+
   public function getQueryParams(): array {
 
     return self::$_request->getQueryParams();
