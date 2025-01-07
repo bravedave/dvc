@@ -73,6 +73,7 @@ class config extends \config {  // noting: config extends global config classes
 // file: src/risorsa/controller.php
 namespace risorsa;
 
+use bravedave\dvc\ServerRequest;
 use strings;
 
 class controller extends \Controller {
@@ -97,11 +98,15 @@ class controller extends \Controller {
   }
 
   protected function postHandler() {
-    $action = $this->getPost('action');
+
+    $request = new ServerRequest;
+    $action = $request('action');
+
     parent::postHandler();
   }
 }
 ```
+>Ensure ServerRequest is referenced at the top of the controller just after the namespace declaration
 
 >the app now runs at <http://localhost:8080/risorsa> and says *hello from risorsa ..*<br>
 **special note : the url is /risorsa**
@@ -491,22 +496,24 @@ use strings, theme;
 
 ```php
   protected function postHandler() {
-    $action = $this->getPost('action');
+
+    $request = new ServerRequest;
+    $action = $request('action');
 
     if ('risorsa-save' == $action) {
       $a = [
-        'computer' => $this->getPost('computer'),
-        'purchase_date' => $this->getPost('purchase_date'),
-        'computer_name' => $this->getPost('computer_name'),
-        'cpu' => $this->getPost('cpu'),
-        'memory' => $this->getPost('memory'),
-        'hdd' => $this->getPost('hdd'),
-        'os' => $this->getPost('os')
+        'computer' => $request('computer'),
+        'purchase_date' => $request('purchase_date'),
+        'computer_name' => $request('computer_name'),
+        'cpu' => $request('cpu'),
+        'memory' => $request('memory'),
+        'hdd' => $request('hdd'),
+        'os' => $request('os')
 
       ];
 
       $dao = new dao\risorsa;
-      if ($id = (int)$this->getPost('id')) {
+      if ($id = (int)$request('id')) {
 
         $dao->UpdateByID($a, $id);
       } else {
@@ -519,7 +526,7 @@ use strings, theme;
   }
 ```
 
->This will actually introduce an error, json of json::ack will not be found, add the reference at the top of the controller, just after the namespace declaration
+>This will actually introduce an error, ServerRequest and json of json::ack will not be found, add the reference at the top of the controller, just after the namespace declaration
 
 ```php
 <?php
@@ -528,7 +535,7 @@ use strings, theme;
  */
 namespace risorsa;
 
-use bravedave\dvc\json; // add this line
+use bravedave\dvc\{json, ServerRequest}; // add this line
 use strings;
 
 class controller extends \Controller {
@@ -620,7 +627,9 @@ class risorsa extends dao {
  * file : src/risorsa/controller.php
  * */
   protected function postHandler() {
-    $action = $this->getPost('action');
+
+    $request = new ServerRequest;
+    $action = $request('action');
 
     if ('get-by-id' == $action) {
       /*
@@ -634,7 +643,7 @@ class risorsa extends dao {
           }).then(d => 'ack' == d.response ? console.log(d.data) : _.growl(d));
         })(_brayworth_);
        */
-      if ($id = (int)$this->getPost('id')) {
+      if ($id = (int)$request('id')) {
         $dao = new dao\risorsa;
         if ($dto = $dao->getByID($id)) {
           json::ack($action)
