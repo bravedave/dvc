@@ -351,8 +351,7 @@ namespace risorsa;
 
 use strings, theme;
 
-// puts $dto and $title into the environment
-extract( (array)$this->data); ?>
+// note: $dto and $title into the environment ?>
 <form id="<?= $_form = strings::rand() ?>" autocomplete="off">
 
   <input type="hidden" name="action" value="risorsa-save">
@@ -449,9 +448,13 @@ extract( (array)$this->data); ?>
     </div>
   </div>
   <script>
-    (_ => $('#<?= $_modal ?>').on('shown.bs.modal', () => {
-      $('#<?= $_form ?>')
-        .on('submit', function(e) {
+    (_ => {
+      const form = $('#<?= $_form ?>');
+      const modal = $('#<?= $_modal ?>');
+      
+      modal.on('shown.bs.modal', () => {
+
+        form.on('submit', function(e) {
           let _form = $(this);
           let _data = _form.serializeFormJSON();
 
@@ -462,9 +465,8 @@ extract( (array)$this->data); ?>
 
             if ('ack' == d.response) {
 
-              $('#<?= $_modal ?>')
-                .trigger('success')
-                .modal('hide');
+              modal.trigger('success');
+              modal.modal('hide');
             } else {
 
               _.growl(d);
@@ -475,7 +477,8 @@ extract( (array)$this->data); ?>
 
           return false;
         });
-    }))(_brayworth_);
+      });
+    })(_brayworth_);
   </script>
 </form>
 ```
