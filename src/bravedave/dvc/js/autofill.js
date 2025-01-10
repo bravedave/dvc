@@ -48,7 +48,7 @@
     options.wrapper.append(list);
     if (!!options.appendTo) {
 
-      parent = options.appendTo instanceof jQuery ? options.appendTo : (options.appendTo);
+      parent = options.appendTo instanceof jQuery ? options.appendTo : $(options.appendTo);
       parent.append(options.wrapper);
     } else {
 
