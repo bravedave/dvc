@@ -268,7 +268,7 @@ abstract class dao {
     if (is_null($this->_db_name)) throw new DBNameIsNull;
 
     $sql = sprintf('SELECT COUNT(*) as i FROM `%s`', $this->_db_name);
-    if ($dto = (new dto)($sql)) $dto->i ?? 0;
+    if ($dto = (new dto)($sql)) return ($dto->i ?? 0);
     return 0;
   }
 
