@@ -27,6 +27,7 @@ class dto extends stdClass {
    */
   public function __invoke(string $sql, Closure $func = null, string $template = null): ?self {
 
+    if (is_null($template)) $template = $this::class;
     if ($dtoSet = (new dtoSet)($sql, $func, $template)) {
 
       if ($dto = array_shift($dtoSet)) return $dto;
