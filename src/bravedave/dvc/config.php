@@ -30,7 +30,7 @@ abstract class config {
   static $oauth2_secret = null;      // Client Secret
   static $oauth2_redirect = null;     // Redirect URI
   static $oauth2_scope = 0;       // Permission to read email
-  static $captcha = false;       // Permission to read email
+  static ?object $captcha = null;       // Permission to read email
 
   const lockdown = false;      // affects the home page and docs page set this and they will require auth
 
