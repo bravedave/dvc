@@ -1,11 +1,11 @@
 # Risorsa - Asset Management
 
-###### <navbar>[Docs](/docs/) | Risorsa</navbar>
+[Docs](/docs/) | **Risorsa**
 
 **How to create a PHP module**<br>
 *this guide uses Bootstrap version 5*
 
-### Goal
+## Goal
 
 Create a module to record computer assets in a business to record:
 
@@ -17,18 +17,17 @@ Create a module to record computer assets in a business to record:
 1. HDD
 1. OS
 
-### Recipe
+## Recipe
 
 1. Follow the Getting Started guide at <https://github.com/bravedave/dvc>
    * the rest of this tutorial assumes
      * the getting stated has been run successfully
      * the namespace root is ***src/app***
 
-**note**
+>**note**
+> the Getting Started guide means you can see the app at in your browser at <http://localhost:8080/>.
 
-the Getting Started guide means you can see the app at in your browser at <http://localhost:8080/>.
-
-### Creating an application
+## Creating an application
 
 The code is being created within the *"risorsa"* namespace, and a *DVC* Controller is being created to directly reference it.
 
@@ -47,7 +46,7 @@ class risorsa extends risorsa\controller {}
 
 this points us into our namespace and we are ready to code out application...
 
-#### Create a config
+### Create a config
 
 >a central config file is useful for specifying constants
 
@@ -64,7 +63,7 @@ class config extends \config {  // noting: config extends global config classes
 }
 ```
 
-#### Create the controller
+### Create the controller
 
 * create a file *src/risorsa/controller.php*
 
@@ -106,8 +105,8 @@ class controller extends \Controller {
   }
 }
 ```
->Ensure ServerRequest is referenced at the top of the controller just after the namespace declaration
 
+>Ensure ServerRequest is referenced at the top of the controller just after the namespace declaration<br>
 >the app now runs at <http://localhost:8080/risorsa> and says *hello from risorsa ..*<br>
 **special note : the url is /risorsa**
 
@@ -117,7 +116,7 @@ class controller extends \Controller {
 
 so ... to the app
 
-#### Create an Index page
+### Create an Index page
 
 * Create a folder at *src/risorsa/views*
 * Add a file *src/risorsa/views/index.php*
@@ -137,15 +136,15 @@ namespace risorsa;  ?>
   'aside' => fn () => $this->load('index'),
 ```
 
-#### Connect to a database
+### Connect to a database
 
->Note the data folder is created with a .gitignore file, do not upload the data folder to a public repository
+>Note the data folder is created with a .gitignore file, do not upload the data folder to a public repository<br>
 >To save data we will need a database, there are many... *DVC* supports SQLite, mysql and mariadb.
 
 * rename src/data/defaults-sample.json to src/data/defaults.json
   * db_type is the important line - noting it is sqlite, refresh your page and the data file *db.sqlite* is created in the data folder
 
-#### Design a Table
+### Design a Table
 
 >*The goal is to maintain a table of computer assets, previously we noted the information required to be stored. The objective is to create a table definition and use DVC's builtin table maintenance system*
 
@@ -183,7 +182,7 @@ $dbc->defineField('os', 'varchar');
 $dbc->check();  // actually do the work, check that table and fields exist
 ```
 
-#### Initiate Auto Table Maintenance
+### Initiate Auto Table Maintenance
 
 >*DVC*'s table maintenance is simple, it can add fields that are missing. It maintains a version, of if you increment the version, it checks that table. It can maintain indexes also.
 
@@ -213,7 +212,7 @@ class dbinfo extends dvcDbInfo {
 }
 ```
 
->all that is required is to call the checking routine, this will create any tables from template files in the db folder. it will also maintain a file in the data folder of table versions (src/data/db_version.json)
+>all that is required is to call the checking routine, this will create any tables from template files in the db folder. it will also maintain a file in the data folder of table versions (src/data/db_version.json)<br>
 >Do this as part of your *config*
 
 * modify file src/risorsa/config.php
@@ -456,7 +455,7 @@ use strings, theme;
     (_ => {
       const form = $('#<?= $_form ?>');
       const modal = $('#<?= $_modal ?>');
-      
+
       modal.on('shown.bs.modal', () => {
 
         form.on('submit', function(e) {

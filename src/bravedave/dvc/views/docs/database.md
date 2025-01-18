@@ -1,6 +1,6 @@
 # Databases
 
-###### <navbar>[Docs](/docs/) | Databases</navbar>
+[Docs](/docs/) | **Databases**
 
 MySQL and SQLite data connections.
 
@@ -14,7 +14,8 @@ create and maintenance. All fully encapsulated including escaping of values.
 
 _Data Access Objects manipulate Data Tranition Objects_
 
-###### DAO - Data Access Object
+## DAO - Data Access Object
+
 _A Data Access Object is an Intelligent Interface to a Data Layer_
 
 | Element    | Description      |
@@ -23,19 +24,20 @@ _A Data Access Object is an Intelligent Interface to a Data Layer_
 | Root Class | _dao             |
 | src        | src/dao/_dao.php |
 
+## DAO - example
 
-###### DAO - example
 ```php
 namespace dao;
 
 class users extends _dao {
-	protected $_db_name = 'users';
+  protected $_db_name = 'users';
 
 }
 ```
 
-###### DTO - Data Transition Object
-_A Data Transition Object is an unIntelligent Data Structure, it must be serializable and transportable. It is not desirable to subclasses, as that will threaten the portability of the element_
+## DTO - Data Transition Object
+
+>_A Data Transition Object is an unIntelligent Data Structure, it must be serializable and transportable. It is not desirable to subclasses, as that will threaten the portability of the element_
 
 | Element    | Description          |
 | :--        | :--                  |
@@ -43,15 +45,15 @@ _A Data Transition Object is an unIntelligent Data Structure, it must be seriali
 | Root Class | _dao                 |
 | src        | src/dao/dto/_dto.php |
 
+## DTO - Example of Use
 
-###### DTO - Example of Use
 ```php
 $dao = new dao\users;
 if ( $res = $dao->getAll()) {
-	while ( $dto = $res->dto()) {
-		printf( '%s<br />', $dto->name);
 
-	}
+ while ( $dto = $res->dto()) {
 
+  printf( '%s<br />', $dto->name);
+ }
 }
 ```

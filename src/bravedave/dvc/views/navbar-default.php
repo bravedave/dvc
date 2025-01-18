@@ -11,7 +11,7 @@
 
 use dvc\theme;
 
-$title = $this->data->title ?? $this->title;  ?>
+$title = $title ?? $this->title;  ?>
 
 <nav class="<?= theme::navbar() ?> navbar-expand" role="navigation">
   <div class="container-fluid">
@@ -31,7 +31,7 @@ $title = $this->data->title ?? $this->title;  ?>
 
       <li class="nav-item">
 
-        <a class="nav-link" href="<?= strings::url('/docs/') ?>">
+        <a class="nav-link" href="<?= strings::url('docs') ?>">
 
           <i class="bi bi-file-text"></i>
           <span class="d-none d-md-inline">docs</span>

@@ -1,8 +1,9 @@
 # First App
 
-###### <navbar>[Docs](/docs/) | First App</navbar>
+[Docs](/docs/) | **First App**
 
 ### Keeping it simple
+
 * The default controller is called home
 * The default controller action is index this relates directly to a public function
   in the controller:
@@ -40,8 +41,8 @@
 ```
 
 #### TIP: Disabling Documentation
-* If you create a controller called docs - it will disable this documentation, which on
-  a production application may be what you want
+
+* If you create a controller called docs - it will disable this documentation, which on a production application may be what you want
 * Alternatively : Create a folder in your application/views folder - docs
   * ie: application/views/docs
   and create content there, start with contents.md which will disable the docs folder
