@@ -8,4 +8,7 @@
  *
 */
 
-class view extends dvc\view {}
+class view extends bravedave\dvc\view {
+}
+
+bravedave\dvc\logger::deprecated('please call bravedave\dvc\view directly');
