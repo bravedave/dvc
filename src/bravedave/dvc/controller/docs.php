@@ -151,7 +151,7 @@ class docs extends Controller {
   protected function postHandler() {
     $action = $this->getPost('action');
 
-    match ($action) {
+    return match ($action) {
       '-get-doc-' => $this->getDoc(),
       default => parent::postHandler()
     };
