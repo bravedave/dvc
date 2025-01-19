@@ -63,6 +63,12 @@ class ServerRequest {
     }
   }
 
+  public function getPath(): string {
+
+    $uri = self::$_request->getUri();
+    return $uri->getPath();
+  }
+
   public function getSegments(): array {
 
     $uri = self::$_request->getUri();
@@ -72,36 +78,39 @@ class ServerRequest {
 
     /**
      * verify each segment is valid, do not allow
-     *  - empty segments or segments with . or spaces
+     *  - segments that are empty or start with . or spaces
      *  - only allow segments with a-z, A-Z, 0-9 and _
+     *  - a period is allowed in the segment (e.g. image.png)
      */
-    $ret = [];
-    foreach ($a as $segment) {
+    $a = array_filter($a, function ($segment) use ($path) {
 
-      if (preg_match('/^[a-zA-Z0-9_]+$/', $segment)) {
+      if (empty($segment)) return false;
+      if (preg_match('/^(?![.\s])[\w\d][\w\d.-]*$/', $segment)) {
 
-        $ret[] = $segment;
-      } else {
-
-        // get the remote ip and referer from self::$_request
-        $remoteIP = self::$_request->getServerParams()['REMOTE_ADDR'] ?? 'unknown';
-        $referer = self::$_request->getServerParams()['HTTP_REFERER'] ?? null;
-
-        logger::info(sprintf('<--- ---[invalid segment : %s]--- ---> %s', $remoteIP, __METHOD__));
-        logger::info(sprintf('<uri: %s> %s', $path, __METHOD__));
-        if ($referer) logger::info(sprintf('<referer: %s> %s', $referer, __METHOD__));
-        logger::info(sprintf('<segment %s> %s', $segment, __METHOD__));
-        logger::info(sprintf('<--- ---[/invalid segment]--- ---> %s', __METHOD__));
-        break;
+        return true;
       }
-    }
 
-    return $ret;
+      $remoteIP = self::$_request->getServerParams()['REMOTE_ADDR'] ?? 'unknown';
+      $referer = self::$_request->getServerParams()['HTTP_REFERER'] ?? null;
+      logger::info(sprintf('<--- ---[invalid segment : %s]--- ---> %s', $remoteIP, __METHOD__));
+      logger::info(sprintf('<uri: %s> %s', $path, __METHOD__));
+      if ($referer) logger::info(sprintf('<referer: %s> %s', $referer, __METHOD__));
+      logger::info(sprintf('<segment %s> %s', $segment, __METHOD__));
+      logger::info(sprintf('<--- ---[/invalid segment]--- ---> %s', __METHOD__));
+      return false;
+    });
+    return $a;
   }
 
   public function getUploadedFiles(): array {
 
     return self::$_request->getUploadedFiles();
+  }
+
+  public function getUrl(): string {
+
+    $uri = self::$_request->getUri();
+    return (string) $uri;
   }
 
   public function getQueryParam(string $k): mixed {

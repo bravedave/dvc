@@ -386,25 +386,52 @@ class application {
 
   protected function _isPublicFile(): bool {
 
-    $_url = trim(self::Request()->getUrl(), '/. ');
-    if (preg_match('/\.(png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml|html?)(\?.*)?$/i', $_url)) {
+    $request = new ServerRequest;
+    $_url = trim($request->getPath(), '/. ');
 
-      /*
-     * You are only here because
-     *	the file was NOT found in the <webroot>
-     *	this may be a public document
-     */
+    // $_url = trim(self::Request()->getUrl(), '/. ');
+    $extensions = [
+      'png',
+      'ico',
+      'jpg',
+      'jpeg',
+      'gif',
+      'css',
+      'js',
+      'orf',
+      'eot',
+      'svg',
+      'ttf',
+      'woff',
+      'woff2',
+      'map',
+      'json',
+      'txt',
+      'xml',
+      'html'
+    ];
+    if (preg_match('/\.(' . implode('|', $extensions) . '?)(\?.*)?$/i', $_url)) {
+      // if (preg_match('/\.(png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml|html?)(\?.*)?$/i', $_url)) {
+
+      /**
+       * You are only here because
+       *	the file was NOT found in the <webroot>
+       *	this may be a public document
+       */
 
       // remove the tail after ?
-      $_url = preg_replace('@(\?.*)?$@', '', $_url);
+      // not required - because $_url is derived from a psr7 request
+      // $_url = preg_replace('@(\?.*)?$@', '', $_url);
 
       // check for any .. in the string, which could lead to a parent folder
       if (strpos($_url, '..') !== false)
         throw new SecurityException;
 
-      // sanitize, noting that it may have / in the string, and that's ok because leading /. have been removed
+      /**
+       * sanitize, noting that it may have / in the string,
+       * and that's ok because leading /. have been removed
+       */
       $_url = preg_replace('@[^a-zA-Z0-9\_\-\./]@', '', $_url);
-
       if ($this->_publicFile($_url)) return true;
     }
 
@@ -419,11 +446,12 @@ class application {
     if (!$_url) return false;
 
     $_file = sprintf('%s/app/public/%s', $this->rootPath, $_url);
+    $request = new ServerRequest;
 
     if ($debug) logger::debug(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
     if (file_exists($_file)) {
 
-      $this->url_served = strings::url(self::Request()->getUrl(), $protcol = true);
+      $this->url_served = strings::url($request->getUrl(), $protcol = true);
       $this->_serve($_file);
       return true;
     }
@@ -434,7 +462,7 @@ class application {
 
       logger::deprecated(sprintf('DEPRECATED FILE LOCATION :: %s', $_file));
       logger::deprecated(sprintf('Please use app/public :: %s', $_file));
-      $this->url_served = strings::url(self::Request()->getUrl(), $protcol = true);
+      $this->url_served = strings::url($request->getUrl(), $protcol = true);
       $this->_serve($_file);
       return true;
     }
@@ -448,7 +476,7 @@ class application {
     if ($debug) logger::debug(sprintf('<vendor :: %s> %s', $_file, __METHOD__));
     if (file_exists($_file)) {
 
-      $this->url_served = strings::url(self::Request()->getUrl(), $protcol = true);
+      $this->url_served = strings::url($request->getUrl(), $protcol = true);
       $this->_serve($_file);
       return true;
     }
@@ -466,40 +494,49 @@ class application {
 
   protected function _splitUrl() {
 
-    // $request = new ServerRequest;
-    // $segments = $request->getSegments();
+    $request = new ServerRequest;
+    $segments = $request->getSegments();
+    // logger::dump($segments);
 
-    /**
-     * Get and split the URL
-     */
-    $url = self::Request()->getUrl();
-    if (self::Request()->ReWriteBase() != '' && '/' . $url == self::Request()->ReWriteBase()) {
-      if (self::$debug) logger::debug(sprintf('ReWriteBase = %s', Request::get()->ReWriteBase()));
-      $url = '';
-    }
-
-    if ($url != "") {
-      if (self::$debug) logger::debug('Url: ' . $url);
-
-      // split URL
-      $url = self::Request()->getSegments();
-
-      // Put URL parts into according properties
-      $this->url_controller = self::Request()->getSegment(0);
-      $this->url_action = self::Request()->getSegment(1);
-      $this->url_parameter_1 = self::Request()->getSegment(2);
-      $this->url_parameter_2 = self::Request()->getSegment(3);
-      $this->url_parameter_3 = self::Request()->getSegment(4);
-
-      // turn debug on if you have problems with the URL
-      if (self::$debug) logger::debug('Controller: ' . $this->url_controller);
-      if (self::$debug) logger::debug('Action: ' . $this->url_action);
-      if (self::$debug) logger::debug('Parameter 1: ' . $this->url_parameter_1);
-      if (self::$debug) logger::debug('Parameter 2: ' . $this->url_parameter_2);
-      if (self::$debug) logger::debug('Parameter 3: ' . $this->url_parameter_3);
-    }
+    if ($segments) $this->url_controller = array_shift($segments);
+    if ($segments) $this->url_action = array_shift($segments);
+    if ($segments) $this->url_parameter_1 = array_shift($segments);
+    if ($segments) $this->url_parameter_2 = array_shift($segments);
+    if ($segments) $this->url_parameter_3 = array_shift($segments);
 
     return $this;
+
+    // /**
+    //  * Get and split the URL
+    //  */
+    // $url = self::Request()->getUrl();
+    // if (self::Request()->ReWriteBase() != '' && '/' . $url == self::Request()->ReWriteBase()) {
+    //   if (self::$debug) logger::debug(sprintf('ReWriteBase = %s', Request::get()->ReWriteBase()));
+    //   $url = '';
+    // }
+
+    // if ($url != "") {
+    //   if (self::$debug) logger::debug('Url: ' . $url);
+
+    //   // split URL
+    //   $url = self::Request()->getSegments();
+
+    //   // Put URL parts into according properties
+    //   $this->url_controller = self::Request()->getSegment(0);
+    //   $this->url_action = self::Request()->getSegment(1);
+    //   $this->url_parameter_1 = self::Request()->getSegment(2);
+    //   $this->url_parameter_2 = self::Request()->getSegment(3);
+    //   $this->url_parameter_3 = self::Request()->getSegment(4);
+
+    //   // turn debug on if you have problems with the URL
+    //   if (self::$debug) logger::debug('Controller: ' . $this->url_controller);
+    //   if (self::$debug) logger::debug('Action: ' . $this->url_action);
+    //   if (self::$debug) logger::debug('Parameter 1: ' . $this->url_parameter_1);
+    //   if (self::$debug) logger::debug('Parameter 2: ' . $this->url_parameter_2);
+    //   if (self::$debug) logger::debug('Parameter 3: ' . $this->url_parameter_3);
+    // }
+
+    // return $this;
   }
 
   protected function checkDB() {
