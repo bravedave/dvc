@@ -63,6 +63,42 @@ class ServerRequest {
     }
   }
 
+  public function getSegments(): array {
+
+    $uri = self::$_request->getUri();
+    $path = $uri->getPath();
+    $path = trim($path, '/');
+    $a = explode('/', $path);
+
+    /**
+     * verify each segment is valid, do not allow
+     *  - empty segments or segments with . or spaces
+     *  - only allow segments with a-z, A-Z, 0-9 and _
+     */
+    $ret = [];
+    foreach ($a as $segment) {
+
+      if (preg_match('/^[a-zA-Z0-9_]+$/', $segment)) {
+
+        $ret[] = $segment;
+      } else {
+
+        // get the remote ip and referer from self::$_request
+        $remoteIP = self::$_request->getServerParams()['REMOTE_ADDR'] ?? 'unknown';
+        $referer = self::$_request->getServerParams()['HTTP_REFERER'] ?? null;
+
+        logger::info(sprintf('<--- ---[invalid segment : %s]--- ---> %s', $remoteIP, __METHOD__));
+        logger::info(sprintf('<uri: %s> %s', $path, __METHOD__));
+        if ($referer) logger::info(sprintf('<referer: %s> %s', $referer, __METHOD__));
+        logger::info(sprintf('<segment %s> %s', $segment, __METHOD__));
+        logger::info(sprintf('<--- ---[/invalid segment]--- ---> %s', __METHOD__));
+        break;
+      }
+    }
+
+    return $ret;
+  }
+
   public function getUploadedFiles(): array {
 
     return self::$_request->getUploadedFiles();

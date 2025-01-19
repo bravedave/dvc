@@ -466,6 +466,9 @@ class application {
 
   protected function _splitUrl() {
 
+    // $request = new ServerRequest;
+    // $segments = $request->getSegments();
+
     /**
      * Get and split the URL
      */
