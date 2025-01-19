@@ -93,14 +93,6 @@ class application {
     config::initialize();  // this initializes config
     $this->setConfiguration();
 
-    // if (self::$debug) logger::debug(sprintf('<rootpath :: %s> %s', $this->rootPath, __METHOD__));
-
-    // $tz = config::$TIMEZONE;
-    // $mailserver = config::$MAILSERVER;
-
-    // ini_set('date.timezone', $tz);
-    // ini_set('SMTP', $mailserver);
-
     if ($this->_isPublicFile()) return;
 
     controller::application($this);
