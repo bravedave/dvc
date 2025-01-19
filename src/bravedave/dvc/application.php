@@ -22,126 +22,86 @@ define('APPLICATION', 1);
 
 class application {
   protected static ?Request $_request = null;
-
   protected static $instance = null;
-
   protected $_app_executed = false;
-
   public $exclude_from_sitemap = false;
-
   protected $rootPath = null;
-
   protected $_route = null;
-
   protected $paths = [];
-
   protected $url_action = null;
-
   protected $url_controller = null;
   protected $url_parameter_1 = null;
   protected $url_parameter_2 = null;
   protected $url_parameter_3 = null;
-
   protected $url_served = '';
-
-  public function app_executed() {
-    return $this->_app_executed;
-  }
-
   protected timer $_timer;
-
   protected $db = false;
-
   public $defaultController = null;
-
   protected $minimum = false;
   protected $service = false;
-
   const use_full_url = true;
-
   static $debug = false;
 
-  static function app() {
+  public function __construct($rootPath) {
+    self::$instance = $this;
+    $this->rootPath = realpath($rootPath);
+    $this->initialize();
+  }
 
+  public static function app() {
     return self::$instance;
   }
 
-  static function isService() {
+  public static function isService() {
+    return self::$instance ? self::$instance->service : false;
 
-    if (self::$instance) return self::$instance->service;
-    return (false);
+    //   if (self::$instance) return self::$instance->service;
+    //   return (false);
   }
 
-  static function Request() {
+  public static function Request() {
 
-    if (is_null(self::$_request)) self::$_request = Request::get();
+    if (is_null(self::$_request)) {
+      self::$_request = Request::get();
+    }
     return self::$_request;
   }
 
-  static function route() {
-
+  public static function route() {
     return self::$instance->_route;
   }
 
-  static function timer(): timer {
+  public static function timer(): timer {
+    return self::$instance->_timer ?? new timer;
 
-    if (self::$instance) {
+    // if (self::$instance) {
 
-      if (self::$instance->_timer) return self::$instance->_timer;
-    }
+    //   if (self::$instance->_timer) return self::$instance->_timer;
+    // }
 
-    return new timer;
+    // return new timer;
   }
 
-  static function elapsed(): string {
-
+  public static function elapsed(): string {
     return self::timer()->elapsed();
   }
 
-  /**
-   * "Start" the application:
-   * Analyze the URL elements and calls the according controller/method or the fallback
-   */
-  public function __construct($rootPath) {
-    self::$instance = $this;
+  private function initialize() {
 
-    $this->rootPath = realpath($rootPath);
     errsys::initiate(false);
-
     $this->_timer = new timer;
-
     config::initialize();  // this initializes config
+    $this->setConfiguration();
 
-    if (self::$debug) logger::debug(sprintf('<rootpath :: %s> %s', $this->rootPath, __METHOD__));
+    // if (self::$debug) logger::debug(sprintf('<rootpath :: %s> %s', $this->rootPath, __METHOD__));
 
-    $tz = config::$TIMEZONE;
-    $mailserver = config::$MAILSERVER;
+    // $tz = config::$TIMEZONE;
+    // $mailserver = config::$MAILSERVER;
 
-    ini_set('date.timezone', $tz);
-    ini_set('SMTP', $mailserver);
+    // ini_set('date.timezone', $tz);
+    // ini_set('SMTP', $mailserver);
 
-    $_url = trim(self::Request()->getUrl(), '/. ');
-    if (preg_match('/\.(png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml|html?)(\?.*)?$/i', $_url)) {
-
-      //~ if (preg_match('/\.(?:png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml|html?)(\?.*)?$/i', $_url)) {
-      /*
-			 * You are only here because
-			 *	the file was not found in the <webroot>
-			 *	this may be a public document
-			 */
-
-      // remove the tail after ?
-      $_url = preg_replace('@(\?.*)?$@', '', $_url);
-
-      // check for any .. in the string, which could lead to a parent folder
-      if (strpos($_url, '..') !== false)
-        throw new SecurityException;
-
-      // sanitize, noting that it may have / in the string, and that's ok because leading /. have been removed
-      $_url = preg_replace('@[^a-zA-Z0-9\_\-\./]@', '', $_url);
-
-      if ($this->_publicFile($_url)) return;
-    }
+    if ($this->_isPublicFile()) return;
 
     controller::application($this);
 
@@ -154,6 +114,11 @@ class application {
     }
 
     $this->countVisit();
+    $this->processRequest();
+  }
+
+  private function processRequest() {
+
     $this->_splitUrl();    // create array with URL parts in $url
 
     /*
@@ -328,6 +293,12 @@ class application {
     $this->_app_executed = true;
   }
 
+  private function setConfiguration() {
+    if (self::$debug) logger::debug(sprintf('<rootpath :: %s> %s', $this->rootPath, __METHOD__));
+    ini_set('date.timezone', config::$TIMEZONE);
+    ini_set('SMTP', config::$MAILSERVER);
+  }
+
   public function __destruct() {
 
     $debug = false;
@@ -421,7 +392,34 @@ class application {
     require $controllerFile;
   }
 
-  protected function _publicFile($_url) {
+  protected function _isPublicFile(): bool {
+
+    $_url = trim(self::Request()->getUrl(), '/. ');
+    if (preg_match('/\.(png|ico|jpg|jpeg|gif|css|js|orf|eot|svg|ttf|woff|woff2|map|json|txt|xml|html?)(\?.*)?$/i', $_url)) {
+
+      /*
+     * You are only here because
+     *	the file was NOT found in the <webroot>
+     *	this may be a public document
+     */
+
+      // remove the tail after ?
+      $_url = preg_replace('@(\?.*)?$@', '', $_url);
+
+      // check for any .. in the string, which could lead to a parent folder
+      if (strpos($_url, '..') !== false)
+        throw new SecurityException;
+
+      // sanitize, noting that it may have / in the string, and that's ok because leading /. have been removed
+      $_url = preg_replace('@[^a-zA-Z0-9\_\-\./]@', '', $_url);
+
+      if ($this->_publicFile($_url)) return true;
+    }
+
+    return false;
+  }
+
+  protected function _publicFile($_url): bool {
 
     $debug = false;
     // $debug = true;
@@ -462,6 +460,8 @@ class application {
       $this->_serve($_file);
       return true;
     }
+
+    return false;
   }
 
   protected function _serve($path) {
@@ -514,6 +514,10 @@ class application {
      * use this method to run database checks
      *
      */
+  }
+
+  public function app_executed() {
+    return $this->_app_executed;
   }
 
   public function action() {
