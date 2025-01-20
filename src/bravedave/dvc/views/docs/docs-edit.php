@@ -79,7 +79,6 @@ namespace bravedave\dvc\views\docs;  ?>
                   ['hr', 'quote'],
                   ['ul', 'ol', 'task', 'indent', 'outdent'],
                   ['table', 'image', 'link'],
-                  ['code', 'codeblock'],
                   [{
                     el: btnSave,
                     command: 'save',
