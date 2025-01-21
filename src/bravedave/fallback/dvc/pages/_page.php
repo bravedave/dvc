@@ -11,7 +11,7 @@
 namespace dvc\pages;
 
 use config, strings;
-use bravedave\dvc\cssmin;
+use bravedave\dvc\{cssmin, logger, view};
 
 class _page {
   protected
@@ -27,7 +27,7 @@ class _page {
     $dvc = '3';
 
   public $title = '';
-  public $data = false;
+  public $data = null;
   public $charset = false;
 
   public $meta = [],
@@ -48,8 +48,8 @@ class _page {
   static $footerTemplate = '';
 
   function __construct($title = '') {
-    $this->data = (object)['title' => ''];
 
+    $this->data = (object)['title' => ''];
     $this->data->title = $this->title = ($title == '' ? config::$WEBNAME : $title);
 
     // $this->meta[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />';
@@ -320,10 +320,10 @@ class _page {
       ->header()
       ->pageHeader();
 
-    if ($this->debug) \sys::logger(sprintf('<%s> %s', $navbar, __METHOD__));
+    if ($this->debug) logger::debug(sprintf('<%s> %s', $navbar, __METHOD__));
 
     if ($navbar) {
-      $v = new \view($this->data);
+      $v = new view($this->data);
       $v->title = $this->title;
       foreach ((array)$navbar as $_) {
         $v->load($_);
