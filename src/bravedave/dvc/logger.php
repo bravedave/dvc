@@ -33,6 +33,7 @@ abstract class logger {
       'include',
       'include_once',
       'loadclass',
+      'protectedLoad',
       'require',
       dto::class . '::dto',
     ], $_ignore);
