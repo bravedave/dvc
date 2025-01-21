@@ -85,7 +85,7 @@ class ServerRequest {
     $a = array_filter($a, function ($segment) use ($path) {
 
       if (empty($segment)) return false;
-      if (preg_match('/^(?![.\s])[\w\d][\w\d.-]*$/', $segment)) {
+      if (preg_match('/^(?![.\s])[\w\d][\w\d.-@]*$/', $segment)) {
 
         return true;
       }
