@@ -79,7 +79,7 @@ class ServerRequest {
     /**
      * verify each segment is valid, do not allow
      *  - segments that are empty or start with . or spaces
-     *  - only allow segments with a-z, A-Z, 0-9 and _
+     *  - only allow segments with a-z, A-Z, 0-9, _, @, - and %
      *  - a period is allowed in the segment (e.g. image.png)
      *
      * would https://cmss.darcy.com.au/rapp/document/16538/employer-letter
@@ -94,7 +94,7 @@ class ServerRequest {
        * not the - hyphen is at the end of the character class,
        * if it is not it has to be escaped
        */
-      if (preg_match('/^(?![.\s])[\w\d][\w\d.@-]*$/', $segment)) {
+      if (preg_match('/^(?![.\s])[\w\d][\w\d.%@-]*$/', $segment)) {
 
         return true;
       }
