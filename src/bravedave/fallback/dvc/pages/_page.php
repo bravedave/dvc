@@ -291,7 +291,7 @@ class _page {
   public function pagefooter() {
     $this->_pagefooter();
 
-    $v = new \view;
+    $v = new view;
     $v->load(self::$footerTemplate ? self::$footerTemplate : 'footer');
 
     return ($this);  // chain
