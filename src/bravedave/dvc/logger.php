@@ -71,6 +71,7 @@ abstract class logger {
         'bravedave\dvc\{closure}',
         'bravedave\dvc\dbresult::dto',
         'bravedave\dvc\logger',
+        'dvc\pages\_page',
         'matthiasmullie\scrapbook\adapters\apc'
       ])
     ));
