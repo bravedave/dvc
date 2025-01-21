@@ -23,6 +23,7 @@ abstract class logger {
 
   public static function caller(array $_ignore = []) {
 
+    // note: this array is lowercase
     $ignore = array_merge([
       '__invoke',
       'array_walk',
@@ -33,7 +34,10 @@ abstract class logger {
       'include',
       'include_once',
       'loadclass',
-      'protectedLoad',
+      'protectedload',
+      'load',
+      '_render',
+      'render',
       'require',
       dto::class . '::dto',
     ], $_ignore);
