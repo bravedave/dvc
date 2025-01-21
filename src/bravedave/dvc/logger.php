@@ -45,8 +45,11 @@ abstract class logger {
       if (preg_match('@{closure}$@', $trace['function'])) continue;
       if (!in_array(strtolower($trace['function']), $ignore)) {
 
-        $res = sprintf('%s::%s', $trace['class'] ?? '', $trace['function']);
-        if (!in_array(strtolower($res), $ignore)) return $res;
+        if (!in_array(strtolower(($trace['class'] ?? '') . '::' . $trace['function']), $ignore)) {
+
+          $res = sprintf('%s::%s', $trace['class'] ?? '', $trace['function']);
+          if (!in_array(strtolower($res), $ignore)) return $res;
+        }
       }
     }
 
@@ -120,7 +123,7 @@ abstract class logger {
     }
   }
 
-  public static function trace($v, $level = 0) : void {
+  public static function trace($v, $level = 0): void {
 
     self::info($v, self::prefix_trace);
     $level = (int)$level;
@@ -139,7 +142,7 @@ abstract class logger {
     }
   }
 
-  public static function traceCaller() : string {
+  public static function traceCaller(): string {
 
     $trace = debug_backtrace();
     if (isset($trace[2])) {
