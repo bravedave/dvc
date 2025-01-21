@@ -494,17 +494,17 @@ class application {
 
   protected function _splitUrl() {
 
-    $request = new ServerRequest;
-    $segments = $request->getSegments();
-    // logger::dump($segments);
+    // $request = new ServerRequest;
+    // $segments = $request->getSegments();
+    // // logger::dump($segments);
 
-    if ($segments) $this->url_controller = array_shift($segments);
-    if ($segments) $this->url_action = array_shift($segments);
-    if ($segments) $this->url_parameter_1 = array_shift($segments);
-    if ($segments) $this->url_parameter_2 = array_shift($segments);
-    if ($segments) $this->url_parameter_3 = array_shift($segments);
+    // if ($segments) $this->url_controller = array_shift($segments);
+    // if ($segments) $this->url_action = array_shift($segments);
+    // if ($segments) $this->url_parameter_1 = array_shift($segments);
+    // if ($segments) $this->url_parameter_2 = array_shift($segments);
+    // if ($segments) $this->url_parameter_3 = array_shift($segments);
 
-    return $this;
+    // return $this;
 
     /**
      * Get and split the URL
