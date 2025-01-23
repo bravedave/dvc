@@ -60,14 +60,23 @@ abstract class strings {
     return '';
   }
 
-  static public function asLocalPhone($_tel = '') {
+  static public function asLocalPhone($_tel = '') : string {
     $debug = false;
     // $debug = true;
+
+		if ($debug) logger::debug(sprintf('<original %s> %s', $_tel, logger::caller()));
 
     $_tel = preg_replace('@[^0-9\+,]@', '', $_tel);
     if ($_tel && strlen($_tel) >= 8) {
 
+			if (substr($_tel, 0, 3) == '+01') {
+
+				$_tel = '+' . substr($_tel, 2); // remove the leading 0
+				if ($debug) logger::debug(sprintf('<converted to %s> %s', $_tel, logger::caller()));
+			}
+
       try {
+
         $phoneUtil = libphonenumber\PhoneNumberUtil::getInstance();
         if (substr($_tel, 0, 1) == '+') {
 
@@ -266,6 +275,12 @@ abstract class strings {
     $debug = false;
 
     if (strlen($tel) > 8) {
+
+      if (substr($tel, 0, 3) == '+01') {
+
+				$tel = '+' . substr($tel, 2); // remove the leading 0
+				if ($debug) logger::debug(sprintf('<converted to %s> %s', $tel, logger::caller()));
+			}
 
       try {
 
