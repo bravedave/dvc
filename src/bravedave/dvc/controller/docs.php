@@ -156,4 +156,12 @@ class docs extends Controller {
       default => parent::postHandler()
     };
   }
+
+  protected function load($viewName = 'index', $controller = null, array $options = []) {
+
+    if (!isset($options['renderer'])) $options['renderer'] = [];
+    if ( !isset($options['renderer']['soft_break'])) $options['renderer']['soft_break'] = '<br>';
+
+    return parent::load($viewName, $controller, $options);
+  }
 }

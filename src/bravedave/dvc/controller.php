@@ -443,8 +443,11 @@ abstract class controller {
       $fc = file_get_contents($view);
       $mdo = [
         'html_input' => $options['html_input'] ?? 'strip',
-        'allow_unsafe_links' => $options['allow_unsafe_links'] ?? false,
+        'allow_unsafe_links' => $options['allow_unsafe_links'] ?? false
       ];
+
+      if ($options['renderer'] ?? false) $mdo['renderer'] = $options['renderer'];
+
       $converter = new GithubFlavoredMarkdownConverter($mdo);
       printf('<div class="markdown-body">%s</div>', $converter->convert($fc));
     } else {
