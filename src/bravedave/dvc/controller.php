@@ -12,7 +12,6 @@
 namespace bravedave\dvc;
 
 use config, currentUser, strings;
-use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 abstract class controller {
   public $authorized = false;
@@ -442,13 +441,23 @@ abstract class controller {
 
       $fc = file_get_contents($view);
       $mdo = [
+        'allow_unsafe_links' => $options['allow_unsafe_links'] ?? false,
         'html_input' => $options['html_input'] ?? 'strip',
-        'allow_unsafe_links' => $options['allow_unsafe_links'] ?? false
+        'footnote' => [
+          'backref_class'      => 'footnote-backref',
+          'backref_symbol'     => '↩',
+          'container_add_hr'   => true,
+          'container_class'    => 'footnotes',
+          'ref_class'          => 'footnote-ref',
+          'ref_id_prefix'      => 'fnref:',
+          'footnote_class'     => 'footnote',
+          'footnote_id_prefix' => 'fn:',
+        ],
       ];
 
       if ($options['renderer'] ?? false) $mdo['renderer'] = $options['renderer'];
 
-      $converter = new GithubFlavoredMarkdownConverter($mdo);
+      $converter = new MarkdownConverter($mdo);
       printf('<div class="markdown-body">%s</div>', $converter->convert($fc));
     } else {
 

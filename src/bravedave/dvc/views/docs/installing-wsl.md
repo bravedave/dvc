@@ -1,14 +1,15 @@
 # WSL
 
-###### <navbar>[Docs](/docs/) | [Installing](/docs/Readme) | WSL</navbar>
+[Docs](/docs/) | [Installing](/docs/Readme) | WSL
 
 * There is a Debian version of this document [here](installing-wsl-debian.md)
 
 WSL (Windows Subsystem for Linux) is a great development environment for PHP
 
 ## Install WSL
-  * From elevate prompt : `wsl --install`
-  * My preference is Alpine Linux, get it from the Microsoft Store and follow the prompts to start it.
+
+* From elevate prompt : `wsl --install`
+* My preference is Alpine Linux, get it from the Microsoft Store and follow the prompts to start it.
 
 ## Setup Alpine Dev environment
 

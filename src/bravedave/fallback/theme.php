@@ -8,6 +8,5 @@
  *
 */
 
-class theme extends bravedave\dvc\theme {}
-
-bravedave\dvc\logger::deprecated('please call bravedave\dvc\theme directly');
+class theme extends bravedave\dvc\theme {
+}
