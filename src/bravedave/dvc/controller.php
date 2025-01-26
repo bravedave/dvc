@@ -12,6 +12,7 @@
 namespace bravedave\dvc;
 
 use config, currentUser, strings;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 abstract class controller {
   public $authorized = false;
@@ -457,7 +458,7 @@ abstract class controller {
 
       if ($options['renderer'] ?? false) $mdo['renderer'] = $options['renderer'];
 
-      $converter = new MarkdownConverter($mdo);
+      $converter = new GithubFlavoredMarkdownConverter($mdo);
       printf('<div class="markdown-body">%s</div>', $converter->convert($fc));
     } else {
 

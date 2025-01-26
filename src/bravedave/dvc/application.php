@@ -511,34 +511,34 @@ class application {
     /**
      * Get and split the URL
      */
-    $url = self::Request()->getUrl();
-    if (self::Request()->ReWriteBase() != '' && '/' . $url == self::Request()->ReWriteBase()) {
-      if (self::$debug) logger::debug(sprintf('ReWriteBase = %s', Request::get()->ReWriteBase()));
-      $url = '';
-    }
+    // $url = self::Request()->getUrl();
+    // if (self::Request()->ReWriteBase() != '' && '/' . $url == self::Request()->ReWriteBase()) {
+    //   if (self::$debug) logger::debug(sprintf('ReWriteBase = %s', Request::get()->ReWriteBase()));
+    //   $url = '';
+    // }
 
-    if ($url != "") {
-      if (self::$debug) logger::debug('Url: ' . $url);
+    // if ($url != "") {
+    //   if (self::$debug) logger::debug('Url: ' . $url);
 
-      // split URL
-      $url = self::Request()->getSegments();
+    //   // split URL
+    //   $url = self::Request()->getSegments();
 
-      // Put URL parts into according properties
-      $this->url_controller = self::Request()->getSegment(0);
-      $this->url_action = self::Request()->getSegment(1);
-      $this->url_parameter_1 = self::Request()->getSegment(2);
-      $this->url_parameter_2 = self::Request()->getSegment(3);
-      $this->url_parameter_3 = self::Request()->getSegment(4);
+    //   // Put URL parts into according properties
+    //   $this->url_controller = self::Request()->getSegment(0);
+    //   $this->url_action = self::Request()->getSegment(1);
+    //   $this->url_parameter_1 = self::Request()->getSegment(2);
+    //   $this->url_parameter_2 = self::Request()->getSegment(3);
+    //   $this->url_parameter_3 = self::Request()->getSegment(4);
 
-      // turn debug on if you have problems with the URL
-      if (self::$debug) logger::debug('Controller: ' . $this->url_controller);
-      if (self::$debug) logger::debug('Action: ' . $this->url_action);
-      if (self::$debug) logger::debug('Parameter 1: ' . $this->url_parameter_1);
-      if (self::$debug) logger::debug('Parameter 2: ' . $this->url_parameter_2);
-      if (self::$debug) logger::debug('Parameter 3: ' . $this->url_parameter_3);
-    }
+    //   // turn debug on if you have problems with the URL
+    //   if (self::$debug) logger::debug('Controller: ' . $this->url_controller);
+    //   if (self::$debug) logger::debug('Action: ' . $this->url_action);
+    //   if (self::$debug) logger::debug('Parameter 1: ' . $this->url_parameter_1);
+    //   if (self::$debug) logger::debug('Parameter 2: ' . $this->url_parameter_2);
+    //   if (self::$debug) logger::debug('Parameter 3: ' . $this->url_parameter_3);
+    // }
 
-    return $this;
+    // return $this;
   }
 
   protected function checkDB() {
