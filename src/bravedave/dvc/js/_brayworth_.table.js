@@ -132,6 +132,7 @@
 
       ctrl[0].dataset.srchIdx = 0;
       ctrl.data('table', table);
+      ctrl.attr('autocomplete', 'off');
 
       const onblur = function (e) {
 
