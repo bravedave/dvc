@@ -365,9 +365,9 @@ abstract class controller {
 
   protected function getParam($name = '', $default = false) {
 
-    // if (is_null($this->Request)) return FALSE;
-    // return $this->Request->getParam($name, $default);
-    return $this->ServerRequest->getQueryParam($name, $default);
+    if (is_null($this->Request)) return FALSE;
+    return $this->Request->getParam($name, $default);
+    // return $this->ServerRequest->getQueryParam($name, $default);
   }
 
   protected function getPost($name = '', $default = false) {
