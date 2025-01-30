@@ -21,6 +21,7 @@ abstract class controller {
   public sqlite\db|dbi|null $db = null;
   public $name = 'home';
   protected Request $Request;
+  protected ServerRequest $ServerRequest;
   public $timer = null;
   public $rootPath  = '';
   public $defaultController = 'home';
@@ -64,6 +65,7 @@ abstract class controller {
      */
     $this->db = self::application()::app()->dbi();
     $this->Request = self::application()::Request();
+    $this->ServerRequest = new ServerRequest;
 
     if ($this->RequireValidation) {
 
@@ -361,17 +363,19 @@ abstract class controller {
     // return $this->db->Result($query);
   }
 
-  protected function getParam($v = '', $default = false) {
+  protected function getParam($name = '', $default = false) {
 
-    if (is_null($this->Request)) return FALSE;
-    return $this->Request->getParam($v, $default);
+    // if (is_null($this->Request)) return FALSE;
+    // return $this->Request->getParam($name, $default);
+    return $this->ServerRequest->getQueryParam($name, $default);
   }
 
   protected function getPost($name = '', $default = false) {
-    if (is_null($this->Request))
-      return (false);
+    // if (is_null($this->Request))
+    //   return (false);
 
-    return $this->Request->getPost($name, $default);
+    // return $this->Request->getPost($name, $default);
+    return ($this->ServerRequest)($name, $default);
   }
 
   protected function isDelete(): bool {
