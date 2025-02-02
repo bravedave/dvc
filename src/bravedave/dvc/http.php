@@ -88,6 +88,13 @@ class http {
 
 		curl_setopt($this->ch, CURLOPT_URL, $this->url_builder());
 		$this->httpResponse = curl_exec($this->ch);
+
+		if (curl_errno($this->ch)) {
+
+			$response = 'cURL error: ' . curl_error($this->ch);
+			logger::info(sprintf('<%s> %s', $response, logger::caller()));
+		}
+
 		return $this->httpResponse;
 	}
 
