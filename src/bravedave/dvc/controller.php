@@ -944,7 +944,7 @@ abstract class controller {
           jslib::tinyserve('tiny-imap-mobile', 'autolink,lists');
         } else {
 
-          jslib::tinyserve('tiny-imap', 'autolink,paste,lists,table,image,imagetools,link,spellchecker');
+          jslib::tinyserve('tiny-imapx', 'autolink,contextmenu,paste,lists,table,image,imagetools,link,spellchecker');
         }
       }
     }
