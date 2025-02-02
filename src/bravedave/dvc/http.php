@@ -91,7 +91,7 @@ class http {
 
 		if (curl_errno($this->ch)) {
 
-			$response = 'cURL error: ' . curl_error($this->ch);
+			$response = 'cURL error : ' . curl_error($this->ch);
 			logger::info(sprintf('<%s> %s', $response, logger::caller()));
 		}
 
