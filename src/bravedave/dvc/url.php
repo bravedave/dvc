@@ -37,6 +37,7 @@ abstract class url {
   }
 
   static function init() {
+
     if (isset(self::$URL)) return;
 
     if (!(defined('URL'))) {
@@ -47,12 +48,20 @@ abstract class url {
 
           if (application::use_full_url) {
 
-            if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80)
+            if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80) {
 
-              define('URL', sprintf('//localhost:%s/', $_SERVER['SERVER_PORT']));
-            else
+              if ($proxy = getenv('VSCODE_PROXY_URI')) {
+
+                $proxy = str_replace('{{port}}', $_SERVER['SERVER_PORT'], $proxy);
+                define('URL', $proxy);
+              } else {
+
+                define('URL', sprintf('//localhost:%s/', $_SERVER['SERVER_PORT']));
+              }
+            } else {
 
               define('URL', '//localhost/');
+            }
           } else {
 
             define('URL', '/');
