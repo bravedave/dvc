@@ -405,6 +405,9 @@ abstract class config {
         $_a = [
           'content_enable_cross_origin_header' => static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER,
           'content_enable_cross_origin_header_with_protocol' => static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER_WITH_PROTOCOL,
+          'cipher' => static::$CIPHER,
+          'crypt_iv' => static::$CRYPT_IV,
+          'crypt_key' => static::$CRYPT_KEY,
           'db_type' => static::$DB_TYPE,
           'db_cache' => static::$DB_CACHE,
           'db_cache_debug' => static::$DB_CACHE_DEBUG,
@@ -434,6 +437,10 @@ abstract class config {
 
         static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER = $a->content_enable_cross_origin_header;
         static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER_WITH_PROTOCOL = $a->content_enable_cross_origin_header_with_protocol;
+
+        static::$CIPHER = $a->cipher;
+        static::$CRYPT_IV = $a->crypt_iv;
+        static::$CRYPT_KEY = $a->crypt_key;
 
         static::$DB_TYPE = $a->db_type;
         static::$DB_CACHE = $a->db_cache;
