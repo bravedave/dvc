@@ -60,20 +60,20 @@ abstract class strings {
     return '';
   }
 
-  static public function asLocalPhone($_tel = '') : string {
+  static public function asLocalPhone($_tel = ''): string {
     $debug = false;
     // $debug = true;
 
-		if ($debug) logger::debug(sprintf('<original %s> %s', $_tel, logger::caller()));
+    if ($debug) logger::debug(sprintf('<original %s> %s', $_tel, logger::caller()));
 
     $_tel = preg_replace('@[^0-9\+,]@', '', $_tel);
     if ($_tel && strlen($_tel) >= 8) {
 
-			if (substr($_tel, 0, 3) == '+01') {
+      if (substr($_tel, 0, 3) == '+01' || substr($_tel, 0, 3) == '+00') {
 
-				$_tel = '+' . substr($_tel, 2); // remove the leading 0
-				if ($debug) logger::debug(sprintf('<converted to %s> %s', $_tel, logger::caller()));
-			}
+        $_tel = '+' . substr($_tel, 2); // remove the leading 0
+        if ($debug) logger::debug(sprintf('<converted to %s> %s', $_tel, logger::caller()));
+      }
 
       try {
 
@@ -276,11 +276,11 @@ abstract class strings {
 
     if (strlen($tel) > 8) {
 
-      if (substr($tel, 0, 3) == '+01') {
+      if (substr($tel, 0, 3) == '+01' || substr($tel, 0, 3) == '+00') {
 
-				$tel = '+' . substr($tel, 2); // remove the leading 0
-				if ($debug) logger::debug(sprintf('<converted to %s> %s', $tel, logger::caller()));
-			}
+        $tel = '+' . substr($tel, 2); // remove the leading 0
+        if ($debug) logger::debug(sprintf('<converted to %s> %s', $tel, logger::caller()));
+      }
 
       try {
 
@@ -836,7 +836,7 @@ abstract class strings {
       logger::info(sprintf('%s : %s : %s', $_tel, $e->getMessage(), __METHOD__));
     }
 
-    return (false);
+    return false;
   }
 
   static public function isPhone(?string $_tel = ''): bool {
