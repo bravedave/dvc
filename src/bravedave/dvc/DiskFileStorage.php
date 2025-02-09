@@ -23,19 +23,17 @@ namespace bravedave\dvc;
 
 use FilesystemIterator;
 use RuntimeException;
+use SplFileInfo;
 
 class DiskFileStorage {
   protected string $storagePath;
 
   protected function _filepath(string $filename): string {
 
-    return implode(
-      DIRECTORY_SEPARATOR,
-      [
-        $this->storagePath,
-        $this->_safe_file_name($filename)
-      ]
-    );
+    return implode(DIRECTORY_SEPARATOR, [
+      $this->storagePath,
+      $this->_safe_file_name($filename)
+    ]);
   }
 
   protected function _safe_file_name(string $filename): string {
@@ -101,13 +99,15 @@ class DiskFileStorage {
   public function getFile(string $fileName): ?string {
 
     $filePath = $this->_filepath($fileName);
-    if (file_exists($filePath)) {
+    if (file_exists($filePath)) return file_get_contents($filePath);
+    return null;
+  }
 
-      return file_get_contents($filePath);
-    } else {
+  public function getFileInfo(string $fileName): ?SplFileInfo {
 
-      return null;
-    }
+    $filePath = $this->_filepath($fileName);
+    if (file_exists($filePath)) return new SplFileInfo($filePath);
+    return null;
   }
 
   public function getPath(string $fileName = ''): string {
