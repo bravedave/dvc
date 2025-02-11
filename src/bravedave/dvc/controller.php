@@ -12,6 +12,7 @@
 namespace bravedave\dvc;
 
 use config, currentUser, strings;
+use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 abstract class controller {
@@ -447,6 +448,11 @@ abstract class controller {
       $mdo = [
         'allow_unsafe_links' => $options['allow_unsafe_links'] ?? false,
         'html_input' => $options['html_input'] ?? 'strip',
+        'heading_permalink' => [
+          'html_class' => 'heading-permalink',  // Optional: Add a CSS class
+          'id_prefix' => 'content-',            // Optional: Add a prefix to IDs
+          'insert' => 'before',                 // Optional: Insert the permalink before or after the heading
+        ],
         'footnote' => [
           'backref_class'      => 'footnote-backref',
           'backref_symbol'     => '↩',
@@ -462,6 +468,8 @@ abstract class controller {
       if ($options['renderer'] ?? false) $mdo['renderer'] = $options['renderer'];
 
       $converter = new GithubFlavoredMarkdownConverter($mdo);
+      $environment = $converter->getEnvironment();
+      $environment->addExtension(new HeadingPermalinkExtension);
       printf('<div class="markdown-body">%s</div>', $converter->convert($fc));
     } else {
 
