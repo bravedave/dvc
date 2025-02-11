@@ -63,12 +63,12 @@ class docs extends Controller {
     } else {
 
       $contents = ['contents'];
-      if ($this->hasView($_c = sprintf('%s-contents', $view))) {
+      if ($this->hasView($_c = sprintf('%s-contents', $fileName))) {
 
         $contents = [$_c];
-      } else if (strpos($view, '-') !== false) {
+      } else if (strpos($fileName, '-') !== false) {
 
-        if ($this->hasView($_c = sprintf('%s-contents', preg_replace('/-.*/', '', $view)))) {
+        if ($this->hasView($_c = sprintf('%s-contents', preg_replace('/-.*/', '', $fileName)))) {
           $contents = [$_c];
         }
       }
