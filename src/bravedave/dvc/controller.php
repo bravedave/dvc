@@ -450,8 +450,9 @@ abstract class controller {
         'html_input' => $options['html_input'] ?? 'strip',
         'heading_permalink' => [
           'html_class' => 'heading-permalink',  // Optional: Add a CSS class
-          'id_prefix' => 'content-',            // Optional: Add a prefix to IDs
+          'id_prefix' => 'content',            // Optional: Add a prefix to IDs
           'insert' => 'before',                 // Optional: Insert the permalink before or after the heading
+          'symbol' => '',                 // Optional: Insert the permalink before or after the heading
         ],
         'footnote' => [
           'backref_class'      => 'footnote-backref',
