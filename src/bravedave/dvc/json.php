@@ -21,7 +21,7 @@ class json {
       'response' => 'nak',
       'description' => $description
     ];
-    if ($data) $a['data'] = $data;
+    if (!is_null($data)) $a['data'] = $data;
 
     return new self($a);
   }
@@ -32,7 +32,7 @@ class json {
       'response' => 'ack',
       'description' => $description
     ];
-    if ($data) $a['data'] = $data;
+    if (!is_null($data)) $a['data'] = $data;
 
     return new self($a);
   }
