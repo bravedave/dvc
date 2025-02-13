@@ -25,12 +25,15 @@ class dto extends stdClass {
   /**
    * returns the first row of a query as a dto
    */
-  public function __invoke(string $sql, Closure $func = null, string $template = null): ?self {
+  public function __invoke(int|string $sql, Closure $func = null, string $template = null): ?self {
 
-    if (is_null($template)) $template = $this::class;
-    if ($dtoSet = (new dtoSet)($sql, $func, $template)) {
+    if (is_string($sql)) {
 
-      if ($dto = array_shift($dtoSet)) return $dto;
+      if (is_null($template)) $template = $this::class;
+      if ($dtoSet = (new dtoSet)($sql, $func, $template)) {
+
+        if ($dto = array_shift($dtoSet)) return $dto;
+      }
     }
 
     return null;
