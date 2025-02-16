@@ -24,6 +24,7 @@ namespace bravedave\dvc;
 use FilesystemIterator;
 use RuntimeException;
 use SplFileInfo;
+use Nyholm\Psr7\UploadedFile;
 
 class DiskFileStorage {
   protected string $storagePath;
@@ -163,7 +164,7 @@ class DiskFileStorage {
     return new static($folder);
   }
 
-  public function storeFile($file, $fileName = ''): string {
+  public function storeFile(array|UploadedFile $file, $fileName = ''): string {
 
     if (!$fileName) $fileName = $file['name'] ?? '';
 
