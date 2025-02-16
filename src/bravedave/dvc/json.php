@@ -15,6 +15,8 @@ class json {
   protected $_json = [];
   protected $dumpOnDestruct = true;
 
+  public bool $escapeSlashes = true;
+
   static public function nak(string $description, mixed $data = null): json {
 
     $a = [
@@ -64,9 +66,17 @@ class json {
 
     if ($this->dumpOnDestruct) {
 
-      $response = json_encode($this->_json);
-      Response::json_headers(0, strlen($response));
-      print $response;
+      if ($this->escapeSlashes) {
+
+        $response = json_encode($this->_json);
+        Response::json_headers(0, strlen($response));
+        print $response;
+      } else {
+
+        $response = json_encode($this->_json, JSON_UNESCAPED_SLASHES);
+        Response::json_headers(0, strlen($response));
+        print $response;
+      }
     }
   }
 
