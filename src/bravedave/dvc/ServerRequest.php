@@ -133,7 +133,7 @@ class ServerRequest {
     return self::$_request->getQueryParams();
   }
 
-  public function getServerParam( string $var): array {
+  public function getServerParam( string $var): string|array {
 
     return self::$_request->getServerParams()[ $var] ?? [];
   }
