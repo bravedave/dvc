@@ -166,20 +166,37 @@ class DiskFileStorage {
 
   public function storeFile(array|UploadedFile $file, $fileName = ''): string {
 
-    if (!$fileName) $fileName = $file['name'] ?? '';
+    if (is_array($file)) {
 
-    if ($fileName) {
+      if (!$fileName) $fileName = $file['name'] ?? '';
 
-      if (is_uploaded_file($file['tmp_name'])) {
+      if ($fileName) {
+
+        if (is_uploaded_file($file['tmp_name'])) {
+
+          $targetPath = $this->_filepath($fileName);
+          if (file_exists($targetPath)) unlink($targetPath);
+          if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+
+            return $targetPath;
+          }
+        }
+      }
+    } else {
+
+      /** @var UploadedFile $file */
+
+      if (!$fileName) $fileName = $file->getClientFilename();
+      if ($fileName) {
 
         $targetPath = $this->_filepath($fileName);
         if (file_exists($targetPath)) unlink($targetPath);
-        if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+        $file->moveTo($targetPath);
 
-          return $targetPath;
-        }
+        if (file_exists($targetPath)) return $targetPath;
       }
     }
+
     return '';
   }
 
