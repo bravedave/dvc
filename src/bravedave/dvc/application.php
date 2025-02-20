@@ -27,6 +27,7 @@ class application {
   public $exclude_from_sitemap = false;
   protected $rootPath = null;
   protected $_route = null;
+  protected $banned = [];
   protected $paths = [];
   protected $url_action = null;
   protected $url_controller = null;
@@ -106,6 +107,16 @@ class application {
     }
 
     $this->countVisit();
+    if ($ip = self::Request()->getRemoteIP()) {
+
+      if (in_array($ip, $this->banned)) {
+
+        header("HTTP/1.1 400 Bad Request");
+        print "Bad Request";
+        logger::info(sprintf('<banned %s> %s', $ip, logger::caller()));
+        die;
+      }
+    }
     $this->processRequest();
   }
 
