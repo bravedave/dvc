@@ -181,28 +181,5 @@ class assets extends Controller {
   public function tinymce($path = '') {
 
     parent::js('tinymce');
-
-    // // logger::info(sprintf('<%s> %s', $this->Request->getUri(), __METHOD__));
-    // if (preg_match('/(\.min\.css|\.css)$/', $uri = $this->Request->getUri())) {
-
-    //   $file = preg_replace('@^assets/tinymce/@', '', $uri);
-    //   // logger::info( sprintf('<%s> %s', $file, __METHOD__));
-
-    //   $_f = sprintf(
-    //     '%s/%s',
-    //     jslib::tiny6_dir(),
-    //     $file
-    //   );
-
-    //   file_exists($_f) ?
-    //     Response::serve($_f) :
-    //     logger::info('error serving lib tinymce.css');
-
-    //   //~ logger::info( sprintf( 'serving lib tinymce %s', $this->Request->getUri()));
-
-    // } else {
-
-    //   jslib::tiny6serve('tinymce-dvc', 'autolink,lists,advlist,table,image,link');
-    // }
   }
 }
