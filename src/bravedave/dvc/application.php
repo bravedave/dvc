@@ -50,40 +50,33 @@ class application {
   }
 
   public static function app() {
+
     return self::$instance;
   }
 
   public static function isService() {
-    return self::$instance ? self::$instance->service : false;
 
-    //   if (self::$instance) return self::$instance->service;
-    //   return (false);
+    return self::$instance ? self::$instance->service : false;
   }
 
   public static function Request() {
 
-    if (is_null(self::$_request)) {
-      self::$_request = Request::get();
-    }
+    if (is_null(self::$_request)) self::$_request = Request::get();
     return self::$_request;
   }
 
   public static function route() {
+
     return self::$instance->_route;
   }
 
   public static function timer(): timer {
+
     return self::$instance->_timer ?? new timer;
-
-    // if (self::$instance) {
-
-    //   if (self::$instance->_timer) return self::$instance->_timer;
-    // }
-
-    // return new timer;
   }
 
   public static function elapsed(): string {
+
     return self::timer()->elapsed();
   }
 
@@ -297,6 +290,7 @@ class application {
   }
 
   private function setConfiguration() {
+
     if (self::$debug) logger::debug(sprintf('<rootpath :: %s> %s', $this->rootPath, __METHOD__));
     ini_set('date.timezone', config::$TIMEZONE);
     ini_set('SMTP', config::$MAILSERVER);
@@ -498,8 +492,8 @@ class application {
   protected function _serve($path) {
 
     if (self::$debug) \sys::$debug = true;
-    Response::serve($path);
 
+    Response::serve($path);
     return $this;
   }
 
@@ -555,9 +549,7 @@ class application {
   protected function checkDB() {
     /**
      * checkDB is called during __construct
-     *
      * use this method to run database checks
-     *
      */
   }
 
