@@ -41,7 +41,7 @@ abstract class controller {
 
   protected static $_application = null;
 
-  static function application(application $app = null): application {
+  static function application(?application $app = null): application {
 
     if ($app) self::$_application = $app;
     return self::$_application;

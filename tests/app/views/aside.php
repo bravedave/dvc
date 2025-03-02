@@ -11,7 +11,7 @@
 <nav class="nav flex-column" id="<?= $_nav = strings::rand() ?>">
 
   <h6 class="mt-2">Tutorial</h6>
-  <a class="nav-link" href="<?= strings::url('/docs/risorsa') ?>">Risorsa</a>
+  <a class="nav-link" href="<?= strings::url('docs/risorsa') ?>">Risorsa</a>
 
   <h6 class="mt-2">Nav</h6>
   <a class="nav-link active" aria-current="page" href="#">Active</a>

@@ -13,38 +13,100 @@ use dvc\theme;
 
 $title = $title ?? $this->title;  ?>
 
-<nav class="<?= theme::navbar() ?> navbar-expand" role="navigation">
+<nav class="<?= theme::navbar() ?> navbar-md-expand" id="<?= $_nav = strings::rand() ?>" role="navigation">
+
   <div class="container-fluid">
 
-    <div class="navbar-brand"><?= $title  ?></div>
+    <button type="button" class="navbar-toggler js-show-aside">
+      <i class="bi bi-three-dots-vertical"></i>
+    </button>
 
-    <ul class="ms-auto navbar-nav">
+    <div class="navbar-brand"><?= $title ?></div>
 
-      <li class="nav-item">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#<?= $_uid = strings::rand() ?>" aria-controls="<?= $_uid ?>"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <a class="nav-link" href="<?= strings::url() ?>">
+    <div class="collapse navbar-collapse" id="<?= $_uid ?>">
 
-          <i class="bi bi-house"></i>
-          <span class="d-none d-md-inline">Home</span>
-        </a>
-      </li>
+      <ul class="ms-auto navbar-nav">
 
-      <li class="nav-item">
+        <li class="nav-item">
 
-        <a class="nav-link" href="<?= strings::url('docs') ?>">
+          <a class="nav-link" href="<?= strings::url() ?>">
 
-          <i class="bi bi-file-text"></i>
-          <span class="d-none d-md-inline">docs</span>
-        </a>
-      </li>
+            <i class="bi bi-house"></i>
+            Home
+          </a>
+        </li>
 
-      <li class="nav-item">
+        <li class="nav-item">
 
-        <a class="nav-link" href="https://github.com/bravedave/">
-          <i class="bi bi-github"></i>
-          <span class="d-none d-md-inline">GitHub</span>
-        </a>
-      </li>
-    </ul>
+          <a class="nav-link" href="<?= strings::url('docs') ?>">
+
+            <i class="bi bi-file-text"></i>
+            docs
+          </a>
+        </li>
+
+        <li class="nav-item">
+
+          <a class="nav-link" href="https://github.com/bravedave/">
+            <i class="bi bi-github"></i>
+            GitHub
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
+  <style>
+    @media (max-width: 767px) {
+
+      body:not(.show-aside) aside {
+        display: none !important
+      }
+
+      body.show-aside main {
+        display: none !important
+      }
+    }
+  </style>
+  <script>
+    (_ => {
+      const nav = $('#<?= $_nav ?>');
+
+      nav.find('.js-show-aside')
+        .on('click', function(e) {
+
+          _.hideContexts(e);
+          $(this).trigger('show');
+        })
+        .on('hide', function(e) {
+
+          e.stopPropagation();
+          document.body.classList.remove('show-aside');
+
+          $('.bi', this)
+            .removeClass('bi-three-dots')
+            .addClass('bi-three-dots-vertical');
+        })
+        .on('show', function(e) {
+          e.stopPropagation();
+
+          if (document.body.classList.toggle('show-aside')) {
+
+            $('.bi', this)
+              .removeClass('bi-three-dots-vertical')
+              .addClass('bi-three-dots');
+          } else {
+
+            $('.bi', this)
+              .removeClass('bi-three-dots')
+              .addClass('bi-three-dots-vertical');
+          }
+        });
+    })(_brayworth_);
+  </script>
 </nav>
