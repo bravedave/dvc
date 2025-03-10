@@ -135,6 +135,25 @@ class fileUploader {
     if ($debug) logger::debug(sprintf('<%s> %s', $file->getClientFilename(), logger::caller()));
 
     $mimeType = $file->getClientMediaType();
+    if ('application/octet-stream' == $mimeType) {
+
+      /**
+       * If getClientMediaType() returns application/octet-stream,
+       * it means the MIME type detection is unreliable or the client
+       * did not properly send the Content-Type header for the file.
+       *
+       * This often happens with HEIC files because not all systems
+       * correctly assign their media type.
+       *
+       *
+       */
+      if ('application/octet-stream' == $mimeType) {
+
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $mimeType = $finfo->file($file->getStream()->getMetadata('uri'));
+      }
+    }
+
     if ($debug) logger::debug(sprintf('<%s (%s)> %s', $file->getClientFilename(), $mimeType, logger::caller()));
 
     if (!$this->accept || in_array($mimeType, $this->accept)) {

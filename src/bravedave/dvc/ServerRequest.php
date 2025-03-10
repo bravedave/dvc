@@ -52,7 +52,7 @@ class ServerRequest {
     if (!isset(self::$_request)) self::$_request = self::_create_();
   }
 
-  public function __invoke(string $var = null, string $default = null): mixed {
+  public function __invoke(?string $var = null, ?string $default = null): mixed {
 
     if ($var) {
 
@@ -122,7 +122,7 @@ class ServerRequest {
     return (string) $uri;
   }
 
-  public function getQueryParam(string $k, string $default = null): mixed {
+  public function getQueryParam(string $k, ?string $default = null): mixed {
 
     $queryParams = $this->getQueryParams();
     return $queryParams[$k] ?? $default;
