@@ -64,9 +64,9 @@
       }
 
       return new Promise(resolve => {
-        let timestamp = _.dayjs();
-        let toast = $(`<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-${_.bootstrap.version() < 5 ? '' : 'bs-'}autohide="true" data-${_.bootstrap.version() < 5 ? '' : 'bs-'}delay="${options.delay}"></div>`);
-        let header = $('<div class="toast-header"></div>').appendTo(toast);
+        const timestamp = _.dayjs();
+        const toast = $(`<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-${_.bootstrap.version() < 5 ? '' : 'bs-'}autohide="true" data-${_.bootstrap.version() < 5 ? '' : 'bs-'}delay="${options.delay}"></div>`);
+        const header = $('<div class="toast-header"></div>').appendTo(toast);
 
         if (options.growlClass == 'error') {
           header.append(`<i class="bi bi-square-fill ${_.bootstrap.version() < 5 ? 'mr' : 'me'}-2 text-danger"></i>`);
@@ -75,7 +75,7 @@
           header.append(`<i class="bi bi-square-fill ${_.bootstrap.version() < 5 ? 'mr' : 'me'}-2 text-success"></i>`);
         }
 
-        let timer = $(`<small class="text-muted ${_.bootstrap.version() < 5 ? 'ml' : 'ms'}-2">just now</small>`)
+        const timer = $(`<small class="text-muted ${_.bootstrap.version() < 5 ? 'ml' : 'ms'}-2">just now</small>`)
         header
           .append(`<strong class="${_.bootstrap.version() < 5 ? 'mr' : 'me'}-auto">${options.title}</strong>`)
           .append(timer);
@@ -103,8 +103,8 @@
           toast.appendTo(wrap).toast('show');
         }
 
-        let utime = (toast, timer, timestamp, utime) => {
-          let secs = _.dayjs().unix() - timestamp.unix();
+        const utime = (toast, timer, timestamp, utime) => {
+          const secs = _.dayjs().unix() - timestamp.unix();
           timer.html(secs + ' second(s) ago');
 
           if (toast.hasClass('show')) setTimeout(utime, 1000, toast, timer, timestamp, utime);
