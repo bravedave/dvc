@@ -210,7 +210,7 @@ class Request {
     return $this->post[$name] ?? $default;
   }
 
-  public function getQuery($name = ''): string {
+  public function getQuery($name = ''): array|string {
 
     if (!$name) return $this->query;
     return $this->query[$name] ?? '';

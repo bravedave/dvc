@@ -63,10 +63,68 @@ class ServerRequest {
     }
   }
 
+  public function clientIsLocal(): bool {
+
+    if ($this->serverIsLocal()) return true;
+
+    $thisIP = $this->getServerIP();
+    $remoteIP = $this->getRemoteIP();
+
+    $thisSubNet = $this->getSubNet($thisIP);
+    $remoteSubNet = $this->getSubNet($remoteIP);
+
+    //~ logger::info( sprintf( '%s/%s :: %s/%s', $thisIP, $thisSubNet, $remoteIP, $remoteSubNet));
+
+    return ($thisSubNet == $remoteSubNet);
+  }
+
   public function getPath(): string {
 
     $uri = self::$_request->getUri();
     return $uri->getPath();
+  }
+
+  public function getRemoteIP(): string {
+
+    // https://stackoverflow.com/questions/1634782/what-is-the-most-accurate-way-to-retrieve-a-users-correct-ip-address-in-php
+    foreach (
+      [
+        'HTTP_CLIENT_IP',
+        'HTTP_X_FORWARDED_FOR',
+        'HTTP_X_FORWARDED',
+        'HTTP_X_CLUSTER_CLIENT_IP',
+        'HTTP_FORWARDED_FOR',
+        'HTTP_FORWARDED',
+        'REMOTE_ADDR'
+      ] as $key
+    ) {
+      if ($ip = $this->getServerParam($key)) {
+
+        foreach (explode(',', $_SERVER[$key]) as $ip) {
+
+          $ip = trim($ip); // just to be safe
+          if ($this->serverIsLocal()) {
+
+            if (filter_var($ip, FILTER_VALIDATE_IP) !== false) {
+              // logger::info( sprintf('<%s> %s', $ip, __METHOD__));
+              return $ip;
+            }
+          } elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_RES_RANGE) !== false) {
+
+            return $ip;
+          }
+        }
+      }
+    }
+
+    return '0.0.0.0';
+  }
+
+  public function getSubNet(string $ip): string {
+
+    $a = explode('.', $ip);
+    if (count($a) == 4) return sprintf('%s.%s.%s', $a[0], $a[1], $a[2]);
+    return '';
   }
 
   public function getSegments(): array {
@@ -111,6 +169,12 @@ class ServerRequest {
     return $a;
   }
 
+  public function getServerIP(): string {
+
+    if ($ip = $this->getServerParam('SERVER_ADDR')) return $ip;
+    return '0.0.0.0';
+  }
+
   public function getUploadedFiles(): array {
 
     return self::$_request->getUploadedFiles();
@@ -133,13 +197,18 @@ class ServerRequest {
     return self::$_request->getQueryParams();
   }
 
-  public function getServerParam( string $var): string|array {
+  public function getServerParam(string $var): string {
 
-    return self::$_request->getServerParams()[ $var] ?? [];
+    return self::$_request->getServerParams()[$var] ?? '';
   }
 
   public function getServerParams(): array {
 
     return self::$_request->getServerParams();
+  }
+
+  public function serverIsLocal(): bool {
+
+    return ($this->getServerParam('SERVER_NAME') == 'localhost');
   }
 }
