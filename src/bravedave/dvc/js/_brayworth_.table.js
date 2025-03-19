@@ -176,7 +176,13 @@
             } else {
 
               const str = _tr.text();
-              _tr.toggleClass('d-none', !(str.match(new RegExp(txt, 'gi'))));
+              /**
+               * if the user types an & character,
+               * and the row has an encoded string ensure the text is matched
+               * may need expanasion for more than just &amp;
+               */
+              const decodedStr = str.replace(/&amp;/g, '&');
+              _tr.toggleClass('d-none', !(decodedStr.match(new RegExp(txt, 'gi'))));
             }
           });
 
