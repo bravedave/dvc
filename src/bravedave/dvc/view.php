@@ -43,6 +43,40 @@ class view {
     return new static;
   }
 
+  protected function _load($path) {
+
+    if (substr_compare($path, '.md', -3) === 0) {
+
+      if ($this->debug) logger::debug(sprintf('<it\'s an md !> %s', __METHOD__));
+
+      $fc = file_get_contents($path);
+      $converter = new GithubFlavoredMarkdownConverter([
+        'html_input' => 'strip',
+        'allow_unsafe_links' => false,
+      ]);
+      print $converter->convert($fc);
+      // print \Parsedown::instance()->text($fc);
+    } else {
+
+      $this->_protectedLoad($path, (array)$this->data);
+    }
+
+    return $this;  // chain
+  }
+
+  /**
+   * @param string $template
+   * @param array<string, mixed> $data
+   *
+   * @return void
+   */
+  protected function _protectedLoad(string $_do_not_ever_create_a_variable_with_this_name_lol_, array $data): void {
+
+    // https://www.php.net/manual/en/function.func-get-arg.php#124846
+    extract($data);
+    include func_get_arg(0);
+  }
+
   protected function _wrap() {
 
     if (count((array)$this->wrap)) {
@@ -61,27 +95,6 @@ class view {
       foreach ((array)$this->wrap as $wrap) {
         if ($wrap) printf('</div><!-- wrap:div class="%s" -->', $wrap);
       }
-    }
-
-    return $this;  // chain
-  }
-
-  protected function _load($path) {
-
-    if (substr_compare($path, '.md', -3) === 0) {
-
-      if ($this->debug) logger::debug(sprintf('<it\'s an md !> %s', __METHOD__));
-
-      $fc = file_get_contents($path);
-      $converter = new GithubFlavoredMarkdownConverter([
-        'html_input' => 'strip',
-        'allow_unsafe_links' => false,
-      ]);
-      print $converter->convert($fc);
-      // print \Parsedown::instance()->text($fc);
-    } else {
-
-      include $path;
     }
 
     return $this;  // chain
