@@ -137,11 +137,11 @@
           };
         }
 
-        let btn = $(
+        const btn = $(
           `<button class="${_.templates.buttonCSS}" type="button">
             ${j.text}
             </button>`
-        ).on('click', e => j.click.call(m, e, this));
+        ).on('click', function (e) { j.click.call(m, e, this); });
 
         m.find('.modal-footer').append(btn);
 
