@@ -84,6 +84,11 @@ class ServerRequest {
     return $uri->getPath();
   }
 
+  public function getParsedBody(): null|array|object {
+
+    return self::$_request->getParsedBody();
+  }
+
   public function getRemoteIP(): string {
 
     // https://stackoverflow.com/questions/1634782/what-is-the-most-accurate-way-to-retrieve-a-users-correct-ip-address-in-php
