@@ -279,7 +279,7 @@ abstract class sys {
     Response::serve($path);
   }
 
-  public static function serveBootStrap(string $type = 'css', string $fontFile = null): void {
+  public static function serveBootStrap(string $type = 'css', ?string $fontFile = null): void {
 
     Response::serveBootStrap($type, $fontFile);
   }

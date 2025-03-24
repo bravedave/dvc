@@ -34,7 +34,8 @@
   },
   "require-dev": {
     "ext-apcu": "*",
-    "matthiasmullie/scrapbook": "*"
+    "matthiasmullie/scrapbook": "*",
+    "phpmailer/phpmailer": "^6.1"
   },
   "autoload": {
     "psr-4": {
