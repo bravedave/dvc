@@ -10,11 +10,11 @@
 
 <div class="markdown-body">
   <h6>
-    <a href="/docs/">Docs</a>
+    <a href=".">Docs</a>
     |
-    <a href="/docs/utilities">Utilities</a>
+    <a href="utilities">Utilities</a>
     |
-    <a href="/docs/utilities_javascript">Javascript</a>
+    <a href="utilities_javascript">Javascript</a>
     |
     Autofill
 

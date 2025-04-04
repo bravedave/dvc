@@ -12,7 +12,7 @@
 }
 
 /*!
- * Bootstrap  v5.3.3 (https://getbootstrap.com/)
+ * Bootstrap  v5.3.4 (https://getbootstrap.com/)
  * Copyright 2011-2025 The Bootstrap Authors
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
@@ -4918,7 +4918,7 @@ textarea.form-control-lg {
 
 @keyframes progress-bar-stripes {
   0% {
-    background-position-x: 1rem;
+    background-position-x: var(--bs-progress-height);
   }
 }
 .progress,
@@ -5013,22 +5013,6 @@ textarea.form-control-lg {
   counter-increment: section;
 }
 
-.list-group-item-action {
-  width: 100%;
-  color: var(--bs-list-group-action-color);
-  text-align: inherit;
-}
-.list-group-item-action:hover, .list-group-item-action:focus {
-  z-index: 1;
-  color: var(--bs-list-group-action-hover-color);
-  text-decoration: none;
-  background-color: var(--bs-list-group-action-hover-bg);
-}
-.list-group-item-action:active {
-  color: var(--bs-list-group-action-active-color);
-  background-color: var(--bs-list-group-action-active-bg);
-}
-
 .list-group-item {
   position: relative;
   display: block;
@@ -5063,6 +5047,22 @@ textarea.form-control-lg {
 .list-group-item + .list-group-item.active {
   margin-top: calc(-1 * var(--bs-list-group-border-width));
   border-top-width: var(--bs-list-group-border-width);
+}
+
+.list-group-item-action {
+  width: 100%;
+  color: var(--bs-list-group-action-color);
+  text-align: inherit;
+}
+.list-group-item-action:not(.active):hover, .list-group-item-action:not(.active):focus {
+  z-index: 1;
+  color: var(--bs-list-group-action-hover-color);
+  text-decoration: none;
+  background-color: var(--bs-list-group-action-hover-bg);
+}
+.list-group-item-action:not(.active):active {
+  color: var(--bs-list-group-action-active-color);
+  background-color: var(--bs-list-group-action-active-bg);
 }
 
 .list-group-horizontal {
@@ -5442,7 +5442,7 @@ textarea.form-control-lg {
   --bs-modal-width: 500px;
   --bs-modal-padding: 1rem;
   --bs-modal-margin: 0.5rem;
-  --bs-modal-color: ;
+  --bs-modal-color: var(--bs-body-color);
   --bs-modal-bg: var(--bs-body-bg);
   --bs-modal-border-color: var(--bs-border-color-translucent);
   --bs-modal-border-width: var(--bs-border-width);
@@ -5555,7 +5555,10 @@ textarea.form-control-lg {
 }
 .modal-header .btn-close {
   padding: calc(var(--bs-modal-header-padding-y) * 0.5) calc(var(--bs-modal-header-padding-x) * 0.5);
-  margin: calc(-0.5 * var(--bs-modal-header-padding-y)) calc(-0.5 * var(--bs-modal-header-padding-x)) calc(-0.5 * var(--bs-modal-header-padding-y)) auto;
+  margin-top: calc(-0.5 * var(--bs-modal-header-padding-y));
+  margin-right: calc(-0.5 * var(--bs-modal-header-padding-x));
+  margin-bottom: calc(-0.5 * var(--bs-modal-header-padding-y));
+  margin-left: auto;
 }
 
 .modal-title {
@@ -6747,7 +6750,10 @@ textarea.form-control-lg {
 }
 .offcanvas-header .btn-close {
   padding: calc(var(--bs-offcanvas-padding-y) * 0.5) calc(var(--bs-offcanvas-padding-x) * 0.5);
-  margin: calc(-0.5 * var(--bs-offcanvas-padding-y)) calc(-0.5 * var(--bs-offcanvas-padding-x)) calc(-0.5 * var(--bs-offcanvas-padding-y)) auto;
+  margin-top: calc(-0.5 * var(--bs-offcanvas-padding-y));
+  margin-right: calc(-0.5 * var(--bs-offcanvas-padding-x));
+  margin-bottom: calc(-0.5 * var(--bs-offcanvas-padding-y));
+  margin-left: auto;
 }
 
 .offcanvas-title {

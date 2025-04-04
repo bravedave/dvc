@@ -103,6 +103,9 @@ class docs extends Controller {
       ];
 
       $render = [
+        'meta' => [
+          sprintf('<base href="%s" />', strings::url('docs/'))
+        ],
         'main' => fn() => array_walk($primary, fn($_) => $this->load($_, null, ['html_input' => 'allow'])),
         'aside' => fn() => array_walk($contents, fn($_) => $this->load($_, null, ['html_input' => 'allow'])),
       ];
@@ -160,7 +163,7 @@ class docs extends Controller {
   protected function load($viewName = 'index', $controller = null, array $options = []) {
 
     if (!isset($options['renderer'])) $options['renderer'] = [];
-    if ( !isset($options['renderer']['soft_break'])) $options['renderer']['soft_break'] = '<br>';
+    if (!isset($options['renderer']['soft_break'])) $options['renderer']['soft_break'] = '<br>';
 
     return parent::load($viewName, $controller, $options);
   }

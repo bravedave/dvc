@@ -1,6 +1,6 @@
 # Pass Data from Controller to view
 
-###### <navbar>[Docs](/docs/) | [Structure](/docs/structure) | [Controller](/docs/structureController) | Pass Data from Controller to view</navbar>
+[Docs](.) | [Structure](structure) | [Controller](structureController) | **Pass Data from Controller to view**
 
 Sooner or later you are going to want to pass data from the controller to the view - that is what Model-View-Controller wants to do.
 
@@ -29,24 +29,24 @@ The *view* will sees the *controller* as ```$this```, so to pass the data, assig
 <?php
 class example extends Controller {
 
-	function hello( $p1, $p2) {
+  function hello( $p1, $p2) {
 
-        $this->data = (object)[
+    $this->data = (object)[
+      'title' => 'My First Report',
+      'res' => [
+        (object)['name' => 'John'],
+        (object)['name' => 'Frank'],
+        (object)['name' => 'Barney'],
+      ]
+    ];
 
-            'title' => 'My First Report',
-            'res' => [
-                (object)['name' => 'John'],
-                (object)['name' => 'Frank'],
-                (object)['name' => 'Barney'],
-            ]
-        ];
-
-        $this->load('report');
-	}
+    $this->load('report');
+  }
 }
 ```
 
 then the report.php can retrieve the data ...
+
 ```php
 <html>
     <body>

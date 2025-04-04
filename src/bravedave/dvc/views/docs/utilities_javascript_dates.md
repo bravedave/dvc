@@ -1,10 +1,11 @@
 # Extend
 
-###### [Docs](/docs/) | [Utilities](/docs/utilities) | [Javascript](/docs/utilities_javascript) | Dates
+[Docs](.) | [Utilities](utilities) | [Javascript](utilities_javascript) | **Dates**
 
 <p>Previously MomentJS was used, but is being deprecated, dayjs seems a viable alternative - <a class="h4" href="https://day.js.org/">https://day.js.org/</a></p>
 
 <p>Being Loaded as (not seeing it documented like this):</p>
+
 ```javascript
 $(document).ready( () => {
   dayjs.extend(dayjs_plugin_localeData);
@@ -33,6 +34,7 @@ $(document).ready( () => {
 
 });
 ```
+
 Result: <span id="date_example_1" class="font-weight-bold"></span>
 <script>
 $(document).ready( () => {
@@ -53,6 +55,7 @@ $(document).ready( () => {
 
 });
 ```
+
 Result: <span id="date_example_2" class="font-weight-bold"></span>
 <script>
 $(document).ready( () => {
@@ -73,6 +76,7 @@ $(document).ready( () => {
 
 });
 ```
+
 Result: <span id="date_example_3" class="font-weight-bold"></span>
 <script>
 $(document).ready( () => {
@@ -83,4 +87,3 @@ $(document).ready( () => {
 
 });
 </script>
-

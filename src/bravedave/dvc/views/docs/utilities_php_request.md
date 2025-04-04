@@ -1,57 +1,54 @@
-###### [Docs](/docs/) | [Utilities](/docs/utilities) | [PHP](/docs/utilities_php) | Request
+# Request
+
+[Docs](.) | [Utilities](utilities) | [PHP](utilities_php) | **Request**
 
 <table class="table">
-    <tbody>
-        <tr>
-            <td>description</td>
-            <td>Request Class to intepret a request to the server</td>
-
-        </tr>
-
-        <tr>
-            <td>type</td>
-            <td>php</td>
-
-        </tr>
-
-        <tr>
-            <td>source</td>
-            <td>src\bravedave\dvc\Request.php</td>
-
-        </tr>
-
-    </tbody>
-
+  <tbody>
+    <tr>
+      <td>description</td>
+      <td>Request Class to intepret a request to the server</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>php</td>
+    </tr>
+    <tr>
+      <td>source</td>
+      <td>src\bravedave\dvc\Request.php</td>
+    </tr>
+  </tbody>
 </table>
 
-#### Usage
-```php
-    if ( bravedave\dvc\Request::get()->isPost()) {
-        // everything must be post ...
+## Usage
 
-    };
+```php
+  if ( bravedave\dvc\Request::get()->isPost()) {
+    // everything must be post ...
+
+  };
 ```
 
-#### Comments
+## Comments
+
 This class is largely wrapped into the Controller class, and utilized heavily by the Application class, as such normally you use this within the controller as:
+
 ```php
 class property extends \Controller {
-    function view() {
-        if ( $id = (int)$this->getParam( 'id')) {
-            printf( 'cool, so you want to view property #%d', $id);
+  function view() {
+    if ( $id = (int)$this->getParam( 'id')) {
 
-        }
-        else {
-            printf 'say, what are you doing here ?';
-
-        }
-
+      printf( 'cool, so you want to view property #%d', $id);
     }
+    else {
 
+      printf 'say, what are you doing here ?';
+    }
+  }
 }
 ```
 
-#### Functions (public)
+## Functions (public)
+
 * DNT()
 * ReWriteBase()
 * setReWriteBase( $htaccess)

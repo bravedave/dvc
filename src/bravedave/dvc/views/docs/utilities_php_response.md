@@ -1,41 +1,35 @@
-###### [Docs](/docs/) | [Utilities](/docs/utilities) | [PHP](/docs/utilities_php) | Response
+# Response
+
+[Docs](.) | [Utilities](utilities) | [PHP](utilities_php) | **Response**
 
 <table class="table">
-    <tbody>
-        <tr>
-            <td>description</td>
-            <td>PHP Abstract Response Class to handle initiating a response from the server</td>
-
-        </tr>
-
-        <tr>
-            <td>type</td>
-            <td>php</td>
-
-        </tr>
-
-        <tr>
-            <td>source</td>
-            <td>src\dvc\Response.php</td>
-
-        </tr>
-
-    </tbody>
-
+  <tbody>
+    <tr>
+      <td>description</td>
+      <td>PHP Abstract Response Class to handle initiating a response from the server</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>php</td>
+    </tr>
+    <tr>
+      <td>source</td>
+      <td>src\dvc\Response.php</td>
+    </tr>
+  </tbody>
 </table>
 
-#### Example
+## Example
 
 ```php
-    dvc\Response::json_headers();
-    print json_encode([
-        'response' => 'ack',
-        'description' => 'Good thing to do'
-
-    ])
+  dvc\Response::json_headers();
+  print json_encode([
+    'response' => 'ack',
+    'description' => 'Good thing to do'
+  ])
 ```
 
-#### Functions (public)
+## Functions (public)
 
 * css_headers( $modifyTime = 0, $expires = nul
 * csv_headers( $filename = "download.csv", $modifyTime = 0, $expires = 0)
