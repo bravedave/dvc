@@ -1,6 +1,6 @@
 # WSL
 
-###### <navbar>[Docs](/docs/) | [Installing](/docs/Readme) | WSL</navbar>
+[Docs](.) | [Installing](Readme) | WSL
 
 WSL (Windows Subsystem for Linux) is a great development environment for PHP
 

@@ -42,4 +42,4 @@ class people extends Controller {
 }
 ```
 
-[^note1]: Model-View-Controller *read more at <https://en.wikipedia.org/wiki/Model-view-controller>*
+Model-View-Controller *read more at <https://en.wikipedia.org/wiki/Model-view-controller>*

@@ -1,28 +1,28 @@
-# [Docs](/docs/)
+# [Docs](.)
 
-## [Getting Started](/docs/getting-started)
+## [Getting Started](getting-started)
 
-- [Installing](/docs/Readme)
-  - [wsl](/docs/installing-wsl)
-  - [apache](/docs/installing-apache)
-- [First app](/docs/firstapp)
-- [Risorsa - a module](/docs/risorsa)
-- [How does it work](/docs/how-does-it-work)
+- [Installing](installing)
+  - [wsl](installing-wsl)
+  - [apache](installing-apache)
+- [First app](firstapp)
+- [Risorsa - a module](risorsa)
+- [How does it work](how-does-it-work)
 
-## [Structure](/docs/structure)
+## [Structure](structure)
 
-- [Data](/docs/database)
-- [View](/docs/structureView)
-- [Controller](/docs/structureController)
-  - [Example](/docs/structureControllerExample)
+- [Data](database)
+- [View](structureView)
+- [Controller](structureController)
+  - [Example](structureControllerExample)
 
-## [Namespaces](/docs/namespaces)
+## [Namespaces](namespaces)
 
-## [Database](/docs/database)
+## [Database](database)
 
-- [Connection](/docs/database-connections)
-- [Data Retrieval](/docs/database-retrieval)
+- [Connection](database-connections)
+- [Data Retrieval](database-retrieval)
 
-## [Utilities](/docs/utilities)
+## [Utilities](utilities)
 
-- [Icons](/docs/icons)
+- [Icons](icons)

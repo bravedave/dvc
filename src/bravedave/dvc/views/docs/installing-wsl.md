@@ -1,6 +1,6 @@
 # WSL
 
-[Docs](/docs/) | [Installing](/docs/Readme) | WSL
+[Docs](.) | [Installing](installing) | WSL
 
 * There is a Debian version of this document [here](installing-wsl-debian.md)
 

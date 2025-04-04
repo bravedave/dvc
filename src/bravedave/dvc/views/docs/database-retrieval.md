@@ -1,6 +1,6 @@
 # Data Retrieval - Queries
 
-[Docs](/docs/) | [Databases](/docs/database) | **Data Retrieval - Queries**
+[Docs](.) | [Databases](database) | **Data Retrieval - Queries**
 
 Normally work is carried out in a controller or in a DAO - data access object.
 From both points there are a number of methods of retrieving data.

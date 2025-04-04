@@ -1,6 +1,6 @@
 # Controller Example
 
-###### <navbar>[Docs](/docs/) | [Structure](/docs/structure) | [Controller](/docs/structureController) | Example</navbar>
+[Docs]() | [Structure](structure) | [Controller](structureController) | **Example**
 
 ## Template - Controller
 

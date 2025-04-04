@@ -1,6 +1,6 @@
 # Getting Started
-- [installing](/docs/Readme)
-  - [apache](/docs/installing-apache)
-  - [vps](/docs/installing-vps)
-- [first app](/docs/firstapp)
+- [installing](Readme)
+  - [apache](installing-apache)
+  - [vps](installing-vps)
+- [first app](firstapp)
 

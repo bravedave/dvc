@@ -1,5 +1,5 @@
 # New File
 
-[Docs](/docs) | **New File**
+[Docs](.) | **New File**
 
 Write some content ..

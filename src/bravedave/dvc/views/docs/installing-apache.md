@@ -1,6 +1,6 @@
 # WSL
 
-###### <navbar>[Docs](/docs/) | [Installing](/docs/Readme) | Apache</navbar>
+[Docs](.) | [Installing](Readme) | Apache
 
 #### .htaccess
 ```

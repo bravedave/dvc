@@ -1,6 +1,6 @@
 # DAO/DTO
 
-###### [Docs](/docs/) | [Databases](/docs/database) | DAO/DTO
+[Docs](.) | [Databases](/docs/database) | DAO/DTO
 
 DAO/DTO is a traditional abstract method which uses Data Access Objects to
 create Data Transition Objects.

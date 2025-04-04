@@ -44,7 +44,7 @@ $title = $title ?? $this->title;  ?>
 
         <li class="nav-item">
 
-          <a class="nav-link" href="<?= strings::url('docs') ?>">
+          <a class="nav-link" href="<?= strings::url('docs/') ?>">
 
             <i class="bi bi-file-text"></i>
             docs

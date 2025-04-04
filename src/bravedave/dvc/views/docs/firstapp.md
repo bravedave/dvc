@@ -1,6 +1,6 @@
 # First App
 
-[Docs](/docs/) | **First App**
+[Docs](.) | **First App**
 
 ### Keeping it simple
 

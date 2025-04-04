@@ -14,7 +14,7 @@ if [[ "" == $apache ]]; then
   if [[ -x /usr/bin/php8 ]]; then php=php8; fi
 
   echo "this application is available at http://localhost:$PORT"
-  $php -S localhost:$PORT _mvp.php
+  $php -S 0.0.0.0:$PORT _mvp.php
 
   cd $WD
 

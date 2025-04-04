@@ -1,6 +1,6 @@
 # Caching
 
-[Docs](/docs/) | [Databases](/docs/database) | **Caching**
+[Docs](.) | [Databases](database) | **Caching**
 
 Considerable speed advantages are offered by enabling caching, but to enable this means all updates need to be done through the DAO methods - particularly Update
 

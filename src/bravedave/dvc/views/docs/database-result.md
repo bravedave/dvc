@@ -1,6 +1,6 @@
 # dbResult - the Database Result Class
 
-###### [Docs](/docs/) | [Databases](/docs/database) | dbResult
+[Docs](.) | [Databases](/docs/database) | dbResult
 
 The most common use of the dbResult class is from within the DAO objects where it is avaliable by direct reference to the ```$this``` object
 

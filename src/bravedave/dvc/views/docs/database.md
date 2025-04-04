@@ -1,6 +1,6 @@
 # Databases
 
-[Docs](/docs/) | **Databases**
+[Docs](.) | **Databases**
 
 MySQL and SQLite data connections.
 

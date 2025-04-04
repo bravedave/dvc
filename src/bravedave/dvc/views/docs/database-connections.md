@@ -1,6 +1,6 @@
 # Database Connections
 
-[Docs](/docs/) | [Databases](/docs/database) | **Connections**
+[Docs](.) | [Databases](database) | **Connections**
 
 ## SQLite
 

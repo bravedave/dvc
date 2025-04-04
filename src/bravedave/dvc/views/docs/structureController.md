@@ -1,6 +1,6 @@
 # Structure
 
-###### <navbar>[Docs](/docs/) | [Structure](/docs/structure) | Controller</navbar>
+[Docs](.) | [Structure](structure) | **Controller**
 
 Controllers accept control of a request (from the browser) from the application.
 The Application operates at the root of the web structure and interprets the request and calls a controller to execute the request
@@ -41,8 +41,8 @@ class example extends Controller {
 ```
 
 #### See Also
-- [Pass data from controller to view](/docs/structureControllerPassData)
-- [Example Controller](/docs/structureControllerExample)
+- [Pass data from controller to view](structureControllerPassData)
+- [Example Controller](structureControllerExample)
 
 
 ## Limitations

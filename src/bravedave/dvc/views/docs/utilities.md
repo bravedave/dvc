@@ -1,4 +1,6 @@
-###### [Docs](/docs/) | Utilities
+# Utilities
 
-- [PHP](/docs/utilities_php)
-- [Javascript](/docs/utilities_javascript)
+[Docs](.) | **Utilities**
+
+- [PHP](utilities_php)
+- [Javascript](utilities_javascript)

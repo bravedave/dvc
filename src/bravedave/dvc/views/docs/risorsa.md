@@ -1,6 +1,6 @@
 # Risorsa - Asset Management
 
-[Docs](/docs/) | **Risorsa**
+[Docs](.) | **Risorsa**
 
 **How to create a PHP module**<br>
 *this guide uses Bootstrap version 5*

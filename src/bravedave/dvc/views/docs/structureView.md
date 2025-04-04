@@ -1,6 +1,6 @@
 # View
 
-###### <navbar>[Docs](/docs/) | [Structure](/docs/structure) | View
+[Docs](.) | [Structure](structure) | **View**
 
 A view is just html, ```$this``` is generally the controller.
 

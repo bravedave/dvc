@@ -1,6 +1,6 @@
 # Structure
 
-###### <navbar>[Docs](/docs/) | Structure</navbar>
+[Docs](.) | Structure
 
 ## Data (Model) View Controller
 
@@ -35,5 +35,5 @@
 </div>
 
 see
-- [Controller](/docs/structureController)
-- [Example](/docs/structureControllerExample)
+- [Controller](structureController)
+- [Example](structureControllerExample)
