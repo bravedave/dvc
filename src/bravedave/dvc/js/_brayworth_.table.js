@@ -78,7 +78,7 @@
       if (!(table instanceof jQuery)) table = $(table); // to be sure
 
       const tbody = (b => {
-        if (!b) b = table;
+        if (!b) b = table[0];
         return b[0];
       })(table.find('> tbody').first());
 
