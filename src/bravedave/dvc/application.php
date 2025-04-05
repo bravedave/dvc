@@ -443,58 +443,38 @@ class application {
     return false;
   }
 
-  protected function _publicFile($_url): bool {
+  /**
+   * serves a public document
+   *
+   * @param string $_url the URL of the document (excluding the domain)
+   * @return bool true if the document was found and served, false otherwise
+   */
+  protected function _publicFile(string $_url): bool {
 
     $debug = false;
     // $debug = true;
 
     if (!$_url) return false;
 
-    $_file = sprintf('%s/app/public/%s', $this->rootPath, $_url);
     $request = new ServerRequest;
+    $file_paths = [
+      sprintf('%s/app/public/%s', $this->rootPath, $_url),
+      // sprintf('%s/public/%s', $this->rootPath, $_url),
+      sprintf('%s/public/%s', dirname(__DIR__), $_url),
+    ];
 
-    if ($debug) logger::debug(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
-    if (file_exists($_file)) {
+    foreach ($file_paths as $file) {
 
-      $this->url_served = strings::url($request->getUrl(), $protcol = true);
-      $this->_serve($_file);
-      return true;
-    }
+      if ($debug) logger::debug(sprintf('<public file %s> %s', $file, logger::caller()));
+      if (file_exists($file)) {
 
-    $_file = sprintf('%s/public/%s', $this->rootPath, $_url);
-    if ($debug) logger::debug(sprintf('<looking for :: %s> %s', $_file, __METHOD__));
-    if (file_exists($_file)) {
-
-      logger::deprecated(sprintf('DEPRECATED FILE LOCATION :: %s', $_file));
-      logger::deprecated(sprintf('Please use app/public :: %s', $_file));
-      $this->url_served = strings::url($request->getUrl(), $protcol = true);
-      $this->_serve($_file);
-      return true;
-    }
-
-    /**
-     * system level public document
-     * e.g. vendor/bravedave/dvc/src/bravedave/public/css/font-awesome.min.css
-     */
-
-    $_file = sprintf('%s/public/%s', dirname(__DIR__), $_url);
-    if ($debug) logger::debug(sprintf('<vendor :: %s> %s', $_file, __METHOD__));
-    if (file_exists($_file)) {
-
-      $this->url_served = strings::url($request->getUrl(), $protcol = true);
-      $this->_serve($_file);
-      return true;
+        $this->url_served = strings::url($request->getUrl(), $protcol = true);
+        Response::serve($file);
+        return true;
+      }
     }
 
     return false;
-  }
-
-  protected function _serve($path) {
-
-    if (self::$debug) \sys::$debug = true;
-
-    Response::serve($path);
-    return $this;
   }
 
   protected function _splitUrl() {
@@ -510,40 +490,6 @@ class application {
     if ($segments) $this->url_parameter_3 = array_shift($segments);
 
     return $this;
-
-    /*---- ----[deprecate below]---- ---- */
-
-    /**
-     * Get and split the URL
-     */
-    // $url = self::Request()->getUrl();
-    // if (self::Request()->ReWriteBase() != '' && '/' . $url == self::Request()->ReWriteBase()) {
-    //   if (self::$debug) logger::debug(sprintf('ReWriteBase = %s', Request::get()->ReWriteBase()));
-    //   $url = '';
-    // }
-
-    // if ($url != "") {
-    //   if (self::$debug) logger::debug('Url: ' . $url);
-
-    //   // split URL
-    //   $url = self::Request()->getSegments();
-
-    //   // Put URL parts into according properties
-    //   $this->url_controller = self::Request()->getSegment(0);
-    //   $this->url_action = self::Request()->getSegment(1);
-    //   $this->url_parameter_1 = self::Request()->getSegment(2);
-    //   $this->url_parameter_2 = self::Request()->getSegment(3);
-    //   $this->url_parameter_3 = self::Request()->getSegment(4);
-
-    //   // turn debug on if you have problems with the URL
-    //   if (self::$debug) logger::debug('Controller: ' . $this->url_controller);
-    //   if (self::$debug) logger::debug('Action: ' . $this->url_action);
-    //   if (self::$debug) logger::debug('Parameter 1: ' . $this->url_parameter_1);
-    //   if (self::$debug) logger::debug('Parameter 2: ' . $this->url_parameter_2);
-    //   if (self::$debug) logger::debug('Parameter 3: ' . $this->url_parameter_3);
-    // }
-
-    // return $this;
   }
 
   protected function checkDB() {
@@ -575,9 +521,7 @@ class application {
   public function countVisit() {
     /**
      * countVisit is called during __construct
-     *
      * use this method to gather statistics
-     *
      */
   }
 
@@ -587,15 +531,11 @@ class application {
   }
 
   public function getPaths() {
-
     return $this->paths;
   }
 
   public function getRootPath() {
-
-    return isset($this)  ?
-      $this->rootPath :
-      self::app()->getRootPath();
+    return $this->rootPath ?? self::app()->getRootPath();
   }
 
   public function getInstallPath() {
@@ -617,9 +557,8 @@ class application {
     return '';
   }
 
-  public function return_url() {
-
-    return ($this->url_served);
+  public function return_url(): string {
+    return $this->url_served;
   }
 
   protected static $_loaded_fallback = false;
