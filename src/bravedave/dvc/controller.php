@@ -515,6 +515,7 @@ abstract class controller {
     return $this;  // chain
   }
 
+  #[\Deprecated] 
   protected function modal($params = []) {
 
     \sys::trace(sprintf('deprecated : %s', __METHOD__));
@@ -818,6 +819,7 @@ abstract class controller {
     $page->footer()->then($options['footer']);
   }
 
+  #[\Deprecated]
   protected function SQL($query) {
 
     /**
