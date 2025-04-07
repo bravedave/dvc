@@ -26,6 +26,8 @@ class page {
   protected bool $_mainrow = false;
   protected bool $_open = false;
 
+  public string $asideClass = '';
+  public string $mainClass = '';
   public string $bodyClass = '';
   public string $container = 'container-fluid';
 
@@ -81,6 +83,8 @@ class page {
   }
 
   public function __construct() {
+
+    $this->asideClass = theme::secondary();
   }
 
   public function __destruct() {
@@ -258,7 +262,7 @@ class page {
 
     printf(
       "\t\t<aside class=\"%s\" data-role=\"content-secondary\">\n",
-      theme::secondary()
+      $this->asideClass
     );
     print "\t\t\t<div class=\"sidebar pt-3 pb-5\"><!-- theme start -->\n";
 
@@ -296,7 +300,7 @@ class page {
       ->mainrow()
       ->closeaside();
 
-    print "\t\t<main class=\"col\" data-role=\"content-primary\">\n";
+    printf("\t\t<main class=\"col %s\" data-role=\"content-primary\">\n", $this->mainClass);
 
     $this->_main = true;
     return $this;
