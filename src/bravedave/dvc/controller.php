@@ -32,7 +32,10 @@ abstract class controller {
   protected $data;
   protected $RequireValidation = true;
   protected $Redirect_OnLogon = false;
+
+  #[\Deprecated]
   protected $label = null;
+
   protected $manifest = null;
   protected $route = '/';
 
