@@ -11,6 +11,7 @@
 
 namespace bravedave\dvc;
 
+use bravedave\dvc\esse\modal;
 use config, currentUser, strings;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
@@ -509,10 +510,15 @@ abstract class controller {
       'title' => 'Error'
     ], $params);
 
-    if (!isset($this->data)) $this->data = (object)[];
+    // if (!isset($this->data)) $this->data = (object)[];
 
-    $this->data->text = $options['text'];
-    $this->modal($options);
+    // $this->data->text = $options['text'];
+    // $this->modal($options);
+
+    modal::alertSM([
+      'title' => $options['title'],
+      'text' => $options['text']
+    ]);
 
     return $this;  // chain
   }
