@@ -33,7 +33,6 @@ abstract class controller {
   protected $RequireValidation = true;
   protected $Redirect_OnLogon = false;
 
-  #[\Deprecated]
   protected $label = null;
 
   protected $manifest = null;

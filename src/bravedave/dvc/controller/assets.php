@@ -16,7 +16,8 @@ use bravedave\dvc\{
   jslib,
   logger,
   resources,
-  Response
+  Response,
+  ServerRequest
 };
 
 use sys;
@@ -41,9 +42,16 @@ class assets extends Controller {
     } elseif (4 == (int)$version) {
 
       Response::serveBootStrap($type);
-    } elseif (5 == (int)$version && in_array($type, ['polyfill', 'css', 'js'])) {
+    } elseif (5 == (int)$version) {
 
-      Response::serveBootStrap5($type);
+      $request = new ServerRequest;
+      if ('css' == $type) {
+
+        Response::serveBootStrap5($type, $request->getQueryParam('t') ?: null);
+      } elseif (in_array($type, ['polyfill', 'js'])) {
+
+        Response::serveBootStrap5($type);
+      }
     }
   }
 

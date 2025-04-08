@@ -425,7 +425,7 @@ abstract class Response {
    *
    * @return void
    */
-  public static function serveBootStrap(string $type = 'css', string $fontFile = null): void {
+  public static function serveBootStrap(string $type = 'css', string|null $fontFile = null): void {
 
     // self::logger( sprintf('<%s> %s', $type, __METHOD__));
     if ('icons' == $type) {
@@ -490,7 +490,7 @@ abstract class Response {
       } elseif ('orange' == currentUser::option('theme')) {
 
         $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-orange.min.css';
-      } elseif ('pink' == \currentUser::option('theme')) {
+      } elseif ('pink' == currentUser::option('theme')) {
 
         $themeFile = __DIR__ . '/css/bootstrap4/bootstrap-pink.min.css';
       } elseif ('blue' == \config::$THEME) {
@@ -527,31 +527,20 @@ abstract class Response {
     }
   }
 
-  public static function serveBootStrap5($type = 'css'): void {
+  public static function serveBootStrap5($type = 'css', string|null $theme = null): void {
 
     if ('css' == $type) {
 
-      // $lib = __DIR__ . '/css/bootstrap5/bootstrap.min.css';
-      $lib = resources::bootstrap5('css');
-      if ('blue' == \currentUser::option('theme')) {
+      if (!$theme) $theme = currentUser::option('theme');
+      if (!$theme) $theme = config::$THEME;
 
-        $lib = __DIR__ . '/css/bootstrap5/bootstrap-blue.min.css';
-      } elseif ('orange' == \currentUser::option('theme')) {
+      $lib = match ($theme) {
+        'blue' => __DIR__ . '/css/bootstrap5/bootstrap-blue.min.css',
+        'orange' => __DIR__ . '/css/bootstrap5/bootstrap-orange.min.css',
+        'pink' => __DIR__ . '/css/bootstrap5/bootstrap-pink.min.css',
+        default => resources::bootstrap5('css')
+      };
 
-        $lib = __DIR__ . '/css/bootstrap5/bootstrap-orange.min.css';
-      } elseif ('pink' == \currentUser::option('theme')) {
-
-        $lib = __DIR__ . '/css/bootstrap5/bootstrap-pink.min.css';
-      } elseif ('blue' == \config::$THEME) {
-
-        $lib = __DIR__ . '/css/bootstrap5/bootstrap-blue.min.css';
-      } elseif ('orange' == \config::$THEME) {
-
-        $lib = __DIR__ . '/css/bootstrap5/bootstrap-orange.min.css';
-      } elseif ('pink' == \config::$THEME) {
-
-        $lib = __DIR__ . '/css/bootstrap5/bootstrap-pink.min.css';
-      }
       // logger::info(sprintf('<%s> %s', $lib, __METHOD__));
       self::serve($lib);
     } elseif ('polyfill' == $type) {
