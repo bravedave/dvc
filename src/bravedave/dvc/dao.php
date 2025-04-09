@@ -213,7 +213,7 @@ abstract class dao {
     return false;
   }
 
-  function __construct(db $db = null) {
+  function __construct(db|null $db = null) {
 
     if (!config::checkDBconfigured()) {
 
