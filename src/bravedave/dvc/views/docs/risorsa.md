@@ -359,7 +359,7 @@ that wraps up storage, lets create the add/edit modal, and a report matrix
 // file : src/app/risorsa/views/edit.php
 namespace risorsa;
 
-use strings, theme;
+use bravedave\dvc\{strings, theme};
 
 // note: $dto and $title into the environment ?>
 <form id="<?= $_form = strings::rand() ?>" autocomplete="off">
@@ -540,8 +540,7 @@ use strings, theme;
  */
 namespace risorsa;
 
-use bravedave\dvc\{json, ServerRequest}; // add this line
-use strings;
+use bravedave\dvc\{json, ServerRequest, strings}; // add this line
 
 class controller extends \Controller {
 ```
