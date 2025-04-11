@@ -130,7 +130,9 @@ namespace risorsa;  ?>
 ```
 
 1. Modify the controllers secondary view to load 'index'
-    * at about line 13 of *src/app/risorsa/controller.php*
+   * at about line 13 of *src/app/risorsa/controller.php*
+     * remove the temporary lines
+     * and aside needs to load the index
 
 ```php
   'aside' => fn () => $this->load('index'),
@@ -138,8 +140,12 @@ namespace risorsa;  ?>
 
 ### Connect to a database
 
->Note the data folder is created with a .gitignore file, do not upload the data folder to a public repository<br>
->To save data we will need a database, there are many... *DVC* supports SQLite, mysql and mariadb.
+#### Data Folder
+
+The Data folder has been created in the parent directory of the application - the application is *application.php* and it caused the application to be invoked in the app folder
+
+>* Note the data folder is created with a .gitignore file, do not upload the data folder to a public repository<br>
+>* To save data we will need a database, there are many... *DVC* supports SQLite, mysql and mariadb.
 
 * rename src/data/defaults-sample.json to src/data/defaults.json
   * db_type is the important line - noting it is sqlite, refresh your page and the data file *db.sqlite* is created in the data folder
