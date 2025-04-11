@@ -252,11 +252,11 @@ class config extends \config {  // noting: config extends global config classes
 refresh the browser at <http://localhost:8080/risorsa> it will create the table
 
 >Tip : To see the table directly from the command line, use the sqlite3 utility<br>
-><img src="risorsa-sqlite.png" class="img img-fluid">
+><img src="risorsa-sqlite.png" alt="risorsa-sqlite.png" class="img img-fluid">
 
 almost done with the database, two more files will round this out
 
-##### DTO - Data Transition Object
+#### DTO - Data Transition Object
 
 >The DTO will allow us to have a blank record - it contains default values - we will use this to create new records
 
@@ -285,7 +285,7 @@ class risorsa extends dto {
 }
 ```
 
-##### DAO - Data Access Object
+#### DAO - Data Access Object
 
 >the dao has a few default action *getByID( $id)* for instance returns a dto of the given id
 
@@ -487,7 +487,7 @@ use strings, theme;
 </form>
 ```
 
-##### Handle the save
+#### Handle the save
 
 >modify the controller's postHandler to handle the save
 
@@ -540,7 +540,7 @@ use strings;
 class controller extends \Controller {
 ```
 
-##### Allow the add control to trigger the modal/form to add a new record
+#### Allow the add control to trigger the modal/form to add a new record
 
 * modify the click event of the add control
 
