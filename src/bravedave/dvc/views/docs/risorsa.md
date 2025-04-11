@@ -50,11 +50,11 @@ this points us into our namespace and we are ready to code out application...
 
 >a central config file is useful for specifying constants
 
-* Create a file src/risorsa/config.php
+* Create a file src/app/risorsa/config.php
 
 ```php
 <?php
-// file: src/risorsa/config.php
+// file: src/app/risorsa/config.php
 namespace risorsa;
 
 class config extends \config {  // noting: config extends global config classes
@@ -65,11 +65,11 @@ class config extends \config {  // noting: config extends global config classes
 
 ### Create the controller
 
-* create a file *src/risorsa/controller.php*
+* create a file *src/app/risorsa/controller.php*
 
 ```php
 <?php
-// file: src/risorsa/controller.php
+// file: src/app/risorsa/controller.php
 namespace risorsa;
 
 use bravedave\dvc\ServerRequest;
@@ -118,19 +118,19 @@ so ... to the app
 
 ### Create an Index page
 
-* Create a folder at *src/risorsa/views*
-* Add a file *src/risorsa/views/index.php*
+* Create a folder at *src/app/risorsa/views*
+* Add a file *src/app/risorsa/views/index.php*
 
 ```php
 <?php
-// file: src/risorsa/views/index.php
+// file: src/app/risorsa/views/index.php
 namespace risorsa;  ?>
 
 <h6 class="mt-1">Risorsa</h6>
 ```
 
 1. Modify the controllers secondary view to load 'index'
-    * at about line 13 of *src/risorsa/controller.php*
+    * at about line 13 of *src/app/risorsa/controller.php*
 
 ```php
   'aside' => fn () => $this->load('index'),
@@ -153,12 +153,12 @@ namespace risorsa;  ?>
   * **DTO (Data Transfer Object)** is a simple object that transfers data between different parts of an application, allowing them to communicate with each other, regardless of location.
   * DAO is used for data access, and DTO is used for data transfer.
 
-* Create the folders src/risorsa/dao, and src/risorsa/dao/db
-* Create a file src/risorsa/dao/db/risorsa.php
+* Create the folders src/app/risorsa/dao, and src/app/risorsa/dao/db
+* Create a file src/app/risorsa/dao/db/risorsa.php
 
 ```php
 <?php
-// file: src/risorsa/dao/db/risorsa.php
+// file: src/app/risorsa/dao/db/risorsa.php
 
 $dbc = \sys::dbCheck('risorsa');
 
@@ -194,7 +194,7 @@ cp vendor/bravedave/dvc/tests/app/dao/dbinfo.php src/app/risorsa/dao/
 
 ```php
 <?php
-// file: src/risorsa/dao/dbinfo.php
+// file: src/app/risorsa/dao/dbinfo.php
 namespace risorsa\dao;
 
 use bravedave\dvc\dbinfo as dvcDbInfo;
@@ -215,11 +215,11 @@ class dbinfo extends dvcDbInfo {
 >all that is required is to call the checking routine, this will create any tables from template files in the db folder. it will also maintain a file in the data folder of table versions (src/data/db_version.json)<br>
 >Do this as part of your *config*
 
-* modify file src/risorsa/config.php
+* modify file src/app/risorsa/config.php
 
 ```php
 <?php
-// file : src/risorsa/config.php
+// file : src/app/risorsa/config.php
 namespace risorsa;
 
 class config extends \config {  // noting: config extends global config classes
@@ -240,7 +240,7 @@ class config extends \config {  // noting: config extends global config classes
 > before is a routine of the controller class, it's called at the end of __construct, note we have added the location of module specific views, we use that later in edit and matrix reporting
 
 ```php
-// file : src/risorsa/controller
+// file : src/app/risorsa/controller
   protected function before() {
     config::risorsa_checkdatabase();  // add this line
     parent::before();
@@ -260,12 +260,12 @@ almost done with the database, two more files will round this out
 
 >The DTO will allow us to have a blank record - it contains default values - we will use this to create new records
 
-* create a folder src/risorsa/dao/dto
-* create a file src/risorsa/dao/dto/risorsa.php
+* create a folder src/app/risorsa/dao/dto
+* create a file src/app/risorsa/dao/dto/risorsa.php
 
 ```php
 <?php
-// file: src/risorsa/dao/dto/risorsa.php
+// file: src/app/risorsa/dao/dto/risorsa.php
 namespace risorsa\dao\dto;
 
 use bravedave\dvc\dto;
@@ -289,11 +289,11 @@ class risorsa extends dto {
 
 >the dao has a few default action *getByID( $id)* for instance returns a dto of the given id
 
-* create a file src/risorsa/dao/risorsa.php
+* create a file src/app/risorsa/dao/risorsa.php
 
 ```php
 <?php
-// file : src/risorsa/dao/risorsa.php
+// file : src/app/risorsa/dao/risorsa.php
 namespace risorsa\dao;
 
 use bravedave\dvc\dao;
@@ -320,10 +320,10 @@ that wraps up storage, lets create the add/edit modal, and a report matrix
 
 >Using the MVC convention, the controller will organise data and call the view
 
-* create an ***edit*** routine in the controller, add this function to src/risorsa/controller
+* create an ***edit*** routine in the controller, add this function to src/app/risorsa/controller
 
 ```php
-// file : src/risorsa/controller.php
+// file : src/app/risorsa/controller.php
   public function edit($id = 0) {
     // tip : the structure is available in the view at $this->data->dto
     $this->data = (object)[
@@ -346,11 +346,11 @@ that wraps up storage, lets create the add/edit modal, and a report matrix
 >In this section we create a Bootstrap Modal dialog to add/edit a record, the structure of the data is defined earlier in the dto section, and the dto will be provided to the view
 >*Note : we will be using javascript/ajax to post the data, the merit is more apparent when contructing the matrix..*
 
-* create a file src/risorsa/views/edit.php
+* create a file src/app/risorsa/views/edit.php
 
 ```php
 <?php
-// file : src/risorsa/views/edit.php
+// file : src/app/risorsa/views/edit.php
 namespace risorsa;
 
 use strings, theme;
@@ -491,7 +491,7 @@ use strings, theme;
 
 >modify the controller's postHandler to handle the save
 
-* Modify src/risorsa/controller.php
+* Modify src/app/risorsa/controller.php
 
 ```php
   protected function postHandler() {
@@ -530,7 +530,7 @@ use strings, theme;
 ```php
 <?php
 /**
- * file src/risorsa/controller.php
+ * file src/app/risorsa/controller.php
  */
 namespace risorsa;
 
@@ -546,7 +546,7 @@ class controller extends \Controller {
 
 ```php
 <?php
-// file: src/risorsa/views/index.php
+// file: src/app/risorsa/views/index.php
 namespace risorsa;
 
 use strings;  ?>
@@ -588,11 +588,11 @@ Right now the form will add a record to the database, you can view it using SQL 
 
 ##### Request some Modelled Data
 
-* modify the file src/risorsa/dao/risorsa.php to include the getMatrix function
+* modify the file src/app/risorsa/dao/risorsa.php to include the getMatrix function
 
 ```php
 <?php
-// file: src/risorsa/dao/risorsa.php
+// file: src/app/risorsa/dao/risorsa.php
   public function getMatrix() : array {
 
     return (new dtoSet)('SELECT * FROM `risorsa`'); // an array of records
@@ -603,7 +603,7 @@ Right now the form will add a record to the database, you can view it using SQL 
 
 ```php
 <?php
-// file : src/risorsa/dao/risorsa.php
+// file : src/app/risorsa/dao/risorsa.php
 namespace risorsa\dao;
 
 use bravedave\dvc\dao;
@@ -623,7 +623,7 @@ class risorsa extends dao {
 ```php
 <?php
 /**
- * file : src/risorsa/controller.php
+ * file : src/app/risorsa/controller.php
  * */
   protected function postHandler() {
 
@@ -677,11 +677,11 @@ we also inserted a test routine which can be executed from the console
 
 ##### Create the View
 
-* create the file src/risorsa/views/matrix.php
+* create the file src/app/risorsa/views/matrix.php
 
 ```php
 <?php
-// file: src/risorsa/views/matrix.php
+// file: src/app/risorsa/views/matrix.php
 namespace risorsa;
 
 use strings;
@@ -812,10 +812,10 @@ use strings;
 
 ##### Load the View
 
-* Modify the src/risorsa/controller.php to load the matrix view
+* Modify the src/app/risorsa/controller.php to load the matrix view
 
 ```php
-  // file: src/risorsa/controller.php
+  // file: src/app/risorsa/controller.php
   protected function _index() {
 
     $this->title = config::label;
