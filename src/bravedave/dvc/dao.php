@@ -232,7 +232,11 @@ abstract class dao {
 
     if ($dto = $this->getByID($id)) {
 
-      if (method_exists($this, 'getRichData')) return $this->getRichData($dto);
+      if (method_exists($this, 'getRichData')) {
+
+        /** @disregard P1013 Undefined method */
+        return $this->getRichData($dto);
+      }
       return $dto;
     }
 
@@ -363,15 +367,23 @@ abstract class dao {
     }
 
     $this->db->log = $this->log;
-    if ($res = $this->Result(sprintf($this->_sql_getByID, $this->_db_name, (int)$id))) {
 
-      if ($dto = $res->dto($this->template)) {
+    $sql = sprintf($this->_sql_getByID, $this->_db_name, (int)$id);
+    if ($dto = (new dto)($sql, null, $this->template)) {
 
-        if (config::$DB_CACHE == 'APC') $cache->set($key, $dto);
-      }
-
+      if (config::$DB_CACHE == 'APC') $cache->set($key, $dto);
       return $dto;
     }
+
+    // if ($res = $this->Result(sprintf($this->_sql_getByID, $this->_db_name, (int)$id))) {
+
+    //   if ($dto = $res->dto($this->template)) {
+
+    //     if (config::$DB_CACHE == 'APC') $cache->set($key, $dto);
+    //   }
+
+    //   return $dto;
+    // }
 
     return false;
   }

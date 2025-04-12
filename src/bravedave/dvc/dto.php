@@ -25,7 +25,7 @@ class dto extends stdClass {
   /**
    * returns the first row of a query as a dto
    */
-  public function __invoke(int|string $sql, Closure $func = null, string $template = null): ?self {
+  public function __invoke(int|string $sql, Closure|null $func = null, string|null $template = null): ?self {
 
     if (is_string($sql)) {
 
