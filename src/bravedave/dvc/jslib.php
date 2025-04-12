@@ -66,6 +66,7 @@ abstract class jslib {
     'js/_brayworth_.Vue.block.js',
     'js/autofill.js',
     'js/autoResize.js',
+    'js/formDataToJson.js',
     'js/brayworth.js',
     'js/spinner.js',
     'js/js.cookie.js',
