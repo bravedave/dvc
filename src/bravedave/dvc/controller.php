@@ -16,19 +16,66 @@ use config, currentUser, strings;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 
+/**
+ * Base Controller Class
+ *
+ * This abstract class serves as the foundation for all controllers in the application.
+ * It provides common functionality such as database access, request handling,
+ * view rendering, and authorization mechanisms.
+ *
+ * @package bravedave\dvc
+ * @property bool $authorized Indicates if the user is authorized (American spelling).
+ * @property bool $authorised Indicates if the user is authorized (British spelling).
+ * @property bool $CheckOffline Determines if offline checks should be performed.
+ * @property sqlite\db|dbi|null $db Database connection instance.
+ * @property string $name The name of the controller, defaults to 'home'.
+ * @property Request $Request The current HTTP request object.
+ * @property ServerRequest $ServerRequest The server-side request object.
+ * @property string $rootPath The root path of the application.
+ * @property string $defaultController The default controller name, defaults to 'home'.
+ * @property string $title The title of the current page.
+ * @property bool $debug Enables or disables debug mode.
+ * @property object $data Arbitrary data object for use in views.
+ * @property bool $RequireValidation Determines if validation is required for the controller.
+ * @property bool $Redirect_OnLogon Determines if a redirect should occur after logon.
+ * @property string|null $label A label for the controller, defaults to the class name.
+ * @property string|null $manifest Path to the manifest file, if any.
+ * @property string $route The current route being handled.
+ * @property array $viewPath Additional paths to search for views.
+ * @property array $_viewPathsVerified Cached verified view paths.
+ * @property static|null $_application The application instance.
+ * @property string $url The base URL for the controller.
+ * @property const string viewNotFound Path to the default "view not found" file.
+ *
+ * @method static application application(?application $app = null) Get or set the application instance.
+ * @method void index() Default method for handling requests.
+ * @method void logout() Logs out the current user and redirects.
+ * @method void logoff() Alias for logout().
+ * @method void page404() Renders a 404 Not Found page.
+ * @method void render(array $params) Renders a page with the given parameters.
+ * @method void load(string $viewName, ?string $controller = null, array $options = []) Loads a view.
+ * @method bool hasView(string $viewName, ?string $controller = null) Checks if a view exists.
+ * @method void authorize() Handles user authorization.
+ * @method void before() Placeholder for child classes to execute logic before handling requests.
+ * @method void serviceWorker() Serves the service worker script.
+ * @method void fetchWorker() Serves the fetch worker script.
+ */
 abstract class controller {
   public $authorized = false;
   public $authorised = false;
   public $CheckOffline = true;
+
   public sqlite\db|dbi|null $db = null;
+
   public $name = 'home';
-  protected Request $Request;
-  protected ServerRequest $ServerRequest;
   public $timer = null;
   public $rootPath  = '';
   public $defaultController = 'home';
   public $title;
   public $debug = false;
+
+  protected Request $Request;
+  protected ServerRequest $ServerRequest;
 
   protected $data;
   protected $RequireValidation = true;
@@ -44,7 +91,7 @@ abstract class controller {
 
   protected static $_application = null;
 
-  static function application(?application $app = null): application {
+  static function application(application|null $app = null): application|null {
 
     if ($app) self::$_application = $app;
     return self::$_application;
@@ -125,9 +172,16 @@ abstract class controller {
   }
 
   protected function _delete($id = 0) {
+    /**
+     * respond to a delete request
+     * @param int $id
+     * @return void
+     *
+     * not sure I will ever use this, just a placeholder
+     */
 
     // logger::info(sprintf('<DELETE %s is not implemented> %s', $id, logger::caller()));
-    json::nak('delete is not implemented');
+    json::nak('delete is not implemented'); // default response
   }
 
   protected function _getSystemViewPaths(?string $controller = null): array {
@@ -354,6 +408,7 @@ abstract class controller {
     return $this->db->escape($s);
   }
 
+  #[\Deprecated]
   protected function dbResult($query) {
     /*
 		* Return a SQL Data Result using
@@ -523,7 +578,7 @@ abstract class controller {
     return $this;  // chain
   }
 
-  #[\Deprecated] 
+  #[\Deprecated]
   protected function modal($params = []) {
 
     \sys::trace(sprintf('deprecated : %s', __METHOD__));

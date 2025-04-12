@@ -290,7 +290,7 @@ abstract class config {
    *
    * @return string
    */
-  public static function option(string $key, string $val = null): string {
+  public static function option(string $key, string|null $val = null): string {
     $ret = '';
 
     if (!static::$_options_) {
@@ -494,7 +494,6 @@ abstract class config {
             'emaildomain' => static::$EMAILDOMAIN,
             'imap_auth_server' => static::$IMAP_AUTH_SERVER,
             'maildsn' => 'smtp://mail:25?verify_peer=0',
-            'page_template' => static::$PAGE_TEMPLATE,
             'samesite_policy' => static::$SAMESITE_POLICY,
             'session_cache_expire' => static::$SESSION_CACHE_EXPIRE,
             'sitemaps' => static::$SITEMAPS,
