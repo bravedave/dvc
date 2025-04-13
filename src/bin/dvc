@@ -83,14 +83,14 @@ switch ($command) {
     if (is_dir('public')) {
 
       printf("Starting local dev server at http://localhost:%s...\n", $port);
-      chdir(__DIR__ . '/public');
+      chdir( 'public');
       passthru(sprintf('php -S 0.0.0.0:%s _mvp.php', $port));
-    } elseif (file_exists(__DIR__ . '/tests/www/_mvp.php')) {
+    } elseif (file_exists('tests/www/_mvp.php')) {
 
       printf("Starting local dev server at http://localhost:%s...\n", $port);
-      chdir(__DIR__ . '/tests/www');
+      chdir('tests/www');
       passthru(sprintf('php -S 0.0.0.0:%s _mvp.php', $port));
-    } elseif (file_exists(__DIR__ . '/vendor/bravedave/dvc/tests/www/_mvp.php')) {
+    } elseif (file_exists('vendor/bravedave/dvc/tests/www/_mvp.php')) {
 
       echo "\n\napplication not found \n";
       printf("to setup the default application type php %s make:application\n", __FILE__);
@@ -170,7 +170,7 @@ switch ($command) {
   default:
     echo "Available commands:\n";
     echo "  serve                Start the dev server\n";
-    if (!file_exists(__DIR__ . '/tests/www/_mvp.php')) {
+    if (!file_exists('public/_mvp.php')) {
 
       echo "  make::application     Create the default application\n";
     }
