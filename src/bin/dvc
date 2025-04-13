@@ -121,17 +121,17 @@ switch ($command) {
     printf("to run the application type php %s server\n", __FILE__);
     break;
 
-  case 'make::controller':
+  case 'make::module':
 
     $name = $args[1] ?? null;
     if (!$name) {
-      printf("\n\nUsage: php %s make:controller <Name>\n\n\n", __FILE__);
+      printf("\n\nUsage: php %s make:module <Name>\n\n\n", __FILE__);
       exit(1);
     }
 
     // ensure name is valid
     if (!preg_match('/^[a-zA-Z0-9_]+$/', $name)) {
-      printf("Invalid controller name: %s\n", $name);
+      printf("Invalid module name: %s\n", $name);
       exit(1);
     }
 
@@ -164,7 +164,8 @@ switch ($command) {
 
       echo "Controller already exists: $file\n";
     }
-
+    
+    echo "finished creating module: $file\n";
     break;
 
   default:
@@ -174,7 +175,7 @@ switch ($command) {
 
       echo "  make::application     Create the default application\n";
     }
-    echo "  make::controller Name Generate a controller\n";
+    echo "  make::module Name Generate a module\n";
     echo "  version              Show version\n";
     break;
 }
