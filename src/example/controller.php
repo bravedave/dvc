@@ -18,6 +18,15 @@ use bravedave\dvc\{
 class controller extends dvcController {
 
     protected function _index() {
+
+        $this->data = (object)[
+            'title' => $this->title = config::label,
+        ];
+
+        $this->renderBS5([
+            'aside' => fn() => $this->load('blank'),
+            'main' => fn() => $this->load('blank')
+        ]);
     }
 
     protected function before() {
