@@ -69,6 +69,7 @@
       "bash ./run.sh"
     ],
     "create-thumb": "tests\\tests::CreateThumb",
+    "dvc": "php vendor/bin/dvc",
     "http-get": "tests\\tests::httpGet",
     "http-post": "tests\\tests::httpPost",
     "guid": "tests\\tests::guid",
