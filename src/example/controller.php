@@ -8,7 +8,7 @@
  *
 */
 
-namespace example\controller;
+namespace example;
 
 use bravedave\dvc\{
     controller as dvcController,
