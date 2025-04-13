@@ -25,7 +25,7 @@ class controller extends dvcController {
 
         $this->renderBS5([
             'aside' => fn() => $this->load('blank'),
-            'main' => fn() => $this->load('blank')
+            'main' => fn() => $this->load('index')
         ]);
     }
 
