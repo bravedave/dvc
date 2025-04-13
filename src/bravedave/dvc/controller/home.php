@@ -49,13 +49,13 @@ class home extends Controller {
     //   'primary' => $primary,
     //   'secondary' => $secondary
     // ]);
-    
+
     $this->data = (object)[
       'title' => $this->title = config::$WEBNAME,
     ];
 
     $this->renderBS5([
-      'aside' => fn() => array_walk($secondary, fn($_) => $this->load($_)),
+      'aside' => false,
       'main' => fn() => array_walk($primary, fn($_) => $this->load($_))
     ]);
   }
