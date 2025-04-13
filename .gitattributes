@@ -1,11 +1,13 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
+# Normalize line endings for specific file types
 *.php text eol=lf
 *.json text eol=lf
 *.js text eol=lf
 *.sh text eol=lf
 
+# Exclude third-party or generated files from GitHub language stats
 src/resource/* linguist-vendored=true
 src/bravedave/public/* linguist-vendored=true
 src/bravedave/dvc/css/bootstrap-icons/* linguist-vendored=true
@@ -15,10 +17,9 @@ src/bravedave/dvc/js/bootstrap4/* linguist-vendored=true
 src/bravedave/dvc/js/bootstrap5/* linguist-vendored=true
 src/bravedave/dvc/js/dayjs/* linguist-vendored=true
 
-src/bravedave/dvc/css/bootstrap-icons/* linguist-detectable=false
-src/resource/* linguist-detectable=false
-*.cmd linguist-detectable=false
-*.sh linguist-detectable=false
+# Exclude specific files from language stats
+*.cmd linguist-detectable=true
+*.sh linguist-detectable=true
 run.cmd linguist-vendored=true
 run.sh linguist-vendored=true
 httpd-minimal.conf linguist-vendored=true
