@@ -112,6 +112,7 @@ switch ($command) {
       'public/.htaccess' => 'vendor/bravedave/dvc/tests/www/.htaccess',
       'public/_mvp.php' => 'vendor/bravedave/dvc/tests/www/_mvp.php',
       'src/app/application.php' => 'vendor/bravedave/dvc/tests/app/application.php',
+      'README.md' => 'vendor/bravedave/dvc/src/example/README.md',
     ];
 
     utility::checkDirectories($directories);  // Create directories if they don't exist
