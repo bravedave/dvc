@@ -48,6 +48,9 @@
       "": "tests/app/"
     }
   },
+  "bin": [
+    "src/bin/dvc"
+  ],
   "scripts": {
     "bootstrap4": [
       "bash src/resource/dvc-bootstrap-4.sh"
