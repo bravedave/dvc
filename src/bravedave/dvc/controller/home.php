@@ -10,6 +10,7 @@
 
 namespace bravedave\dvc\controller;
 
+use bravedave\dvc\html\a;
 use config, Controller, sys;
 
 class home extends Controller {
@@ -43,11 +44,19 @@ class home extends Controller {
       $secondary[] = 'docs/sample-index';
     }
 
-    $this->render([
-      'title' => $this->title,
-      'primary' => $primary,
-      'secondary' => $secondary
+    // $this->render([
+    //   'title' => $this->title,
+    //   'primary' => $primary,
+    //   'secondary' => $secondary
+    // ]);
+    
+    $this->data = (object)[
+      'title' => $this->title = config::$WEBNAME,
+    ];
 
+    $this->renderBS5([
+      'aside' => fn() => array_walk($secondary, fn($_) => $this->load($_)),
+      'main' => fn() => array_walk($primary, fn($_) => $this->load($_))
     ]);
   }
 
