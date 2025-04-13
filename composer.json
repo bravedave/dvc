@@ -60,8 +60,7 @@
     "bootstrap-icons": [
       "bash src/resource/get-bootstrap-icons.sh"
     ],
-    "post-update-cmd": [
-      "bash src/resource/dvc-bootstrap-4.sh",
+    "post-update-cmd1": [
       "bash src/resource/dvc-bootstrap-5.sh",
       "bash src/resource/get-bootstrap-icons.sh"
     ],

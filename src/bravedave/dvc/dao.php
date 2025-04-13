@@ -14,6 +14,42 @@ use bravedave\dvc\Exceptions\{DBNameIsNull, DBNotConfigured};
 use config, dvc;
 use RuntimeException;
 
+/**
+ * Class dao
+ *
+ * An abstract Data Access Object (DAO) class that provides a base implementation for interacting with a database.
+ * This class is designed to be extended by specific DAO implementations for various database tables.
+ *
+ * Features:
+ * - Provides methods for CRUD operations (Create, Read, Update, Delete).
+ * - Supports caching mechanisms for database queries.
+ * - Includes utility methods for table structure validation and dynamic data handling.
+ * - Abstracts database-specific operations to simplify interaction with different database types.
+ *
+ * Key Methods:
+ * - `create()`: Creates a new Data Transfer Object (DTO) for the table.
+ * - `getByID($id)`: Retrieves a record by its ID.
+ * - `getAll($fields, $order)`: Retrieves all records with optional field selection and ordering.
+ * - `Insert($data)`: Inserts a new record into the database.
+ * - `Update($data, $condition)`: Updates records based on a condition.
+ * - `delete($id)`: Deletes a record by its ID.
+ * - `Result($query)`: Executes a query and returns a database result object.
+ * - `TableExists($table)`: Checks if a table exists in the database.
+ *
+ * Caching:
+ * - Supports caching of query results using APC or other caching mechanisms.
+ * - Provides methods for generating and deleting cache keys.
+ *
+ * Database Structure:
+ * - Includes methods for checking and validating table structures.
+ * - Dynamically creates DTOs based on table column definitions.
+ *
+ * Usage:
+ * - Extend this class to implement specific DAO functionality for a database table.
+ * - Override methods like `before()` or `structure()` to customize behavior.
+ *
+ * @package bravedave\dvc
+ */
 abstract class dao {
   protected $_sql_getByID = 'SELECT * FROM %s WHERE id = %d';
   protected $_sql_getAll = 'SELECT %s FROM %s %s';
