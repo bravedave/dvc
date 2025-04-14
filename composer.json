@@ -60,13 +60,15 @@
     "bootstrap-icons": [
       "bash src/resource/get-bootstrap-icons.sh"
     ],
-    "post-update-cmd1": [
+    "post-update-cmd": [
+      "bash src/resource/dvc-bootstrap-4.sh",
       "bash src/resource/dvc-bootstrap-5.sh",
       "bash src/resource/get-bootstrap-icons.sh"
     ],
     "start": [
       "Composer\\Config::disableProcessTimeout",
-      "bash ./run.sh"
+      "echo \"this application is available at http://localhost:8080\"",
+      "php -S 0.0.0.0:8080 tests/www/_mvp.php"
     ],
     "create-thumb": "tests\\tests::CreateThumb",
     "dvc": "php vendor/bin/dvc",
