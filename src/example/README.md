@@ -42,9 +42,9 @@ vendor/               # Composer dependencies
 ## Development
 ### Using the `vendor/bin/dvc` CLI
 The `vendor/bin/dvc` CLI provides a set of commands to streamline development. Some common commands include:
-- `make:application`: Sets up the default application structure.
-- `make:module <module-name>`: Creates a new module with the specified name.
-- `clear:cache`: Clears the application cache.
+- `make::application`: Sets up the default application structure.
+- `make::module <module-name>`: Creates a new module with the specified name.
+- `serve`: Serves the application using the dev server.
 
 Run the following command to see all available options:
 ```bash
@@ -54,17 +54,10 @@ vendor/bin/dvc --help
 ### Adding a New Module
 1. Use the `make:module` command to generate the module structure:
    ```bash
-   vendor/bin/dvc make:module <module-name>
+   vendor/bin/dvc make::module <module-name>
    ```
 2. Add necessary files such as controllers, DAOs, DTOs, and views.
 3. Update the autoloader if required.
-
-### Running Tests
-- Place your test files in the `vendor/bravedave/dvc/tests/` directory.
-- Run tests using the appropriate testing framework.
-
-## Contributing
-Contributions are welcome! Please follow the coding standards and submit a pull request.
 
 ## License
 This project is licensed under the MIT License. See the `LICENSE` file for details.
