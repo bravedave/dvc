@@ -1,9 +1,9 @@
 # Your PHP Application
 
-## Overview
+## 📚 Overview
 Your PHP Application is a modular and structured PHP-based application designed for ease of development and maintainability. It leverages Composer for dependency management and provides a command-line interface (CLI) for common development tasks.
 
-## Directory Structure
+## 📁 Folder Structure
 ```
 composer.json         # Composer configuration file
 composer.lock         # Composer lock file
