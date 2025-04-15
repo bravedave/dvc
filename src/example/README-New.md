@@ -1,7 +1,5 @@
 # DVC – Data View Controller
 
-Work in Progress - not accurate
-
 **DVC** is a lightweight, PSR-4-compliant PHP framework for building modern web applications and APIs. It comes pre-configured with Bootstrap but is flexible enough to work with any front-end you prefer.
 
 📚 **Documentation:** [https://brayworth.com/docs](https://brayworth.com/docs)
@@ -26,19 +24,33 @@ Work in Progress - not accurate
 
 ### Installation
 
-```bash
-mkdir myapp && cd myapp
-git clone https://github.com/bravedave/dvc .
-composer install
+#### 1. create a composer.json
+
+The application relies on the composer autoload features, this (very) basic composer.json file tells the autloader where to look for this application and installs *bravedave/dvc*
+
+*composer.json*
+```json
+{
+  "require": {
+    "bravedave/dvc": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "src/app/"
+    }
+  }
+}
 ```
 
-### Run the Dev Server
+#### 2. install the dependencies, create application and run the Dev server
 
 ```bash
-composer start
+composer u
+vendor/bin/dvc make::application
+vendor/bin/dvc serve
 ```
 
-Then open [http://localhost:8080](http://localhost:8080) in your browser.
+Then open [http://localhost:1265](http://localhost:1265) in your browser.
 
 ---
 
@@ -58,13 +70,10 @@ php vendor/bin/dvc [command] [options]
   Start a local PHP development server
 
 - `make::application`
-  Generate a controller stub in `app/Controllers`
+  Creates basic application structures including `public` folder and `src/app/application.php` file
 
 - `make::module <Name>`
-  Generate a module framework in `app/<Name>` and a controller stub in `controllers`
-
-- `version`
-  Display the current framework version
+  Generate a module framework in `src/app/<Name>` and a controller stub in `controllers`
 
 ### Example
 
@@ -72,7 +81,8 @@ php vendor/bin/dvc [command] [options]
 vendor/bin/dvc make::module blog
 ```
 
-Creates `app\blog\controller.php` and `controllers/blog.php` with a boilerplate structures.
+- Creates `src/app/blog/controller.php` and `src/controller/blog.php` with a boilerplate structures.
+- Which is available to view at [http://localhost:1265/blog](http://localhost:1265/blog) in your browser.
 
 ---
 
