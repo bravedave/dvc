@@ -22,7 +22,7 @@
 - PHP 8.0 or higher
 - Composer
 
-### Installation
+### ↓ Installation
 
 #### 1. create a composer.json
 
