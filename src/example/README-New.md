@@ -52,7 +52,7 @@ vendor/bin/dvc serve
 
 Then open [http://localhost:1265](http://localhost:1265) in your browser.
 
-### Tutorial
+### 🎓 Tutorial
 
 - there is a tutorial [here](src/bravedave/dvc/views/docs/risorsa.md)
 
