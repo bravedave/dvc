@@ -1,45 +1,102 @@
-# DVC - *Data View controller*
+# DVC - Dave's View Controller Framework
 
-Model View Controller (MVC) is a design pattern. It separate the parts of a software application into clear and distinct sections.
+DVC is a lightweight PHP framework designed for rapid web development with sensible defaults and minimal configuration.
 
-* The ***Model*** holds the data and information of the application.
-* The ***View*** is what the user sees and interacts with - the user interface.
-* The ***Controller*** is the part that coordinates between the Model and View making decisions on what should be shown and how it should be displayed.
+## Quick Start
 
-DVC is an ***Application*** which uses the ***Model-View-Controller***[^note1] pattern to develop, maintain, and update a software application.
+1. **Create your ```composer.json```**
 
-*it would look like:*
+   The application relies on the composer autoload features,
+   this (very) basic composer.json file tells the autloader where to look
+   for this application and installs *bravedave/dvc*
 
+   *composer.json*
+   ```json
+   {
+     "require": {
+       "bravedave/dvc": "*"
+     },
+     "autoload": {
+       "psr-4": {
+         "": "src/app/"
+       }
+     }
+   }
+   ```
+
+2. **Installation**:
+
+   ```bash
+   composer u
+   ```
+
+3. **Create Application Structure**:
+
+   ```bash
+   vendor/bin/dvc make::application
+   ```
+   This creates:
+   - `src/app/application.php` (main application file)
+   - Default folder structure structure
+
+4. **Run Your Application**:
+
+   ```bash
+   vendor/bin/dvc serve
+   ```
+
+## Default Structure
+
+```
+src/
+├── app/
+│   └── application.php  # Main application file
+└── controller/
+    ├── home.php    # Default controller
+    └── ...         # Additional controllers
+```
+
+## Key Concepts
+
+### 1. Controller Routing
+DVC uses a simple, convention-based routing system:
+
+- URL Path: `/products`
+- Maps to: `src/controller/products.php`
+
+Example controller (`src/controller/products.php`):
 ```php
 <?php
+class products extends bravedave\dvc\controller {
 
-class people extends Controller {
-
-  function edit( $id) {
-
-    if ( $id = (int)$id) {  // simple check
-
-      // data
-      $dao = new dao\people;  // dao - data access object
-      if ( $dto = $dao->getByID( $id)) {  // data transition object
+    // _index is the default view
+    protected function _index() {
 
         $this->data = (object)[
-          'person' => $dto
+            'title' => $this->title = config::label,
         ];
 
-        $this->load('edit');  // view
-      }
-      else {
-
-        print 'error .. not found';
-      }
+        $this->renderBS5([
+            'aside' => fn() => $this->load('blank'),
+            'main' => fn() => printf('i am %s', __CLASSNAME__ )
+        ]);
     }
-    else {
-
-      print 'error .. invalid';
-    }
-  }
 }
 ```
 
-Model-View-Controller *read more at <https://en.wikipedia.org/wiki/Model-view-controller>*
+### 2. Database Connectivity (SQLite First)
+
+   Look for the folder src/data and rename src/data/defaults-example.json to defaults.json
+   * feel free to modify, but note: 
+
+```json
+{
+  "db_type": "sqlite"
+}
+```
+
+## Next Steps
+- [Creating Your First Controller](controllers.md)
+- [SQLite Database Operations](database.md)
+- [Customizing Application Structure](application.md)
+- [View Templating Options](views.md)
