@@ -1,26 +1,32 @@
-# DVC - Data View Controller
+# DVC – Data View Controller
 
-> PHP framework for web applications and APIs.
-Configured with Bootstrap, but could just as easily support others.
+**DVC** is a lightweight, PSR-4-compliant PHP framework for building modern web applications and APIs. It comes pre-configured with Bootstrap but is flexible enough to work with any front-end you prefer.
 
-* <https://brayworth.com/docs/>
+📚 **Documentation:** [https://brayworth.com/docs](https://brayworth.com/docs)
 
-# Getting Started
+---
 
-* WSL (Windows Subsystem for Linux) is a great development environment for PHP, there some notes about installing wsl [here](src/bravedave/dvc/views/docs/installing-wsl.md)
+## 🚀 Features
 
-## Install
+- **MVC Architecture** – Clean separation of concerns (Models, Views, Controllers)
+- **Built-in CLI Tool** – Generate controllers, serve your app, and more
+- **Bootstrap-Ready** – Ships with Bootstrap, easily replaceable
+- **Simple & Modern** – No heavy abstractions, just solid structure
 
-```sh
-mkdir newapp
-cd newapp
-```
+---
 
-### create a composer.json
+## 🛠️ Getting Started
 
-The application relies on the composer autoload features,
- this (very) basic composer.json file tells the autloader where to look
- for this application and installs *bravedave/dvc*
+### Requirements
+
+- PHP 8.0 or higher
+- Composer
+
+### ↓ Installation
+
+#### 1. create a composer.json
+
+The application relies on the composer autoload features, this (very) basic composer.json file tells the autloader where to look for this application and installs *bravedave/dvc*
 
 *composer.json*
 ```json
@@ -36,49 +42,72 @@ The application relies on the composer autoload features,
 }
 ```
 
-### install bravedave/dvc and update runtime autoloader
+#### 2. install the dependencies, create application and run the Dev server
 
-*note: this is the same location used in the composer.json file*
-
-```sh
+```bash
 composer u
+vendor/bin/dvc make::application
+vendor/bin/dvc serve
 ```
 
-## Create an basic application
+Then open [http://localhost:1265](http://localhost:1265) in your browser.
 
-### create a application folder
-```sh
-mkdir -p src/app
+### 🎓 Tutorial
+
+- there is a tutorial [here](src/bravedave/dvc/views/docs/risorsa.md)
+
+---
+
+## 🧰 Command-Line Interface (CLI)
+
+DVC includes a CLI tool to help you scaffold components and run useful commands.
+
+### Usage
+
+```bash
+php vendor/bin/dvc [command] [options]
 ```
 
-### add an application file
-*file src/app/application.php*
-```php
-<?php
+### Available Commands
 
-class application extends bravedave\dvc\application {
+- `serve`
+  Start a local PHP development server
 
-  static public function startDir() {
+- `make::application`
+  Creates basic application structures including `public` folder and `src/app/application.php` file
 
-    return dirname(__DIR__);
-  }
-}
+- `make::module <Name>`
+  Generate a module framework in `src/app/<Name>` and a controller stub in `controllers`
+
+### Example
+
+```bash
+vendor/bin/dvc make::module blog
 ```
 
-### create a documentroot
+- Creates `src/app/blog/controller.php` and `src/controller/blog.php` with a boilerplate structures.
+- Which is available to view at [http://localhost:1265/blog](http://localhost:1265/blog) in your browser.
 
-*this creates a documentroot and copies in a fallback file*
+---
 
-```sh
-cp -R vendor/bravedave/dvc/tests/www src
+## 📁 Folder Structure
+
+```
+src/
+├── app/
+│   ├── <module>/controller.php
+│   └── <module>/views/..
+├── controllers/
+├── public/
+│   └── _mvp.php
+├── vendor/
+│   └── bin/dvc
+├── composer.json
+└── README.md
 ```
 
-### system will run
+---
 
-```sh
-php -S localhost:8000 src/www/_mvp.php
-```
+## 📄 License
 
-available at http://localhost:8000
-
-there is a tutorial [here](src/bravedave/dvc/views/docs/risorsa.md)
+Licensed under the MIT License.
