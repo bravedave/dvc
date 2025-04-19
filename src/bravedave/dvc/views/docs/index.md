@@ -11,6 +11,7 @@ DVC is a lightweight PHP framework designed for rapid web development with sensi
    for this application and installs *bravedave/dvc*
 
    *composer.json*
+
    ```json
    {
      "require": {
@@ -35,7 +36,9 @@ DVC is a lightweight PHP framework designed for rapid web development with sensi
    ```bash
    vendor/bin/dvc make::application
    ```
+
    This creates:
+
    - `src/app/application.php` (main application file)
    - Default folder structure structure
 
@@ -47,7 +50,7 @@ DVC is a lightweight PHP framework designed for rapid web development with sensi
 
 ## Default Structure
 
-```
+```code
 src/
 ├── app/
 │   └── application.php  # Main application file
@@ -59,12 +62,14 @@ src/
 ## Key Concept
 
 ### Controller Routing
+
 DVC uses a simple, convention-based routing system:
 
 - URL Path: `/products`
 - Maps to: `src/controller/products.php`
 
 Example controller (`src/controller/products.php`):
+
 ```php
 <?php
 class products extends bravedave\dvc\controller {
@@ -85,8 +90,9 @@ class products extends bravedave\dvc\controller {
 ```
 
 ## Next Steps
+
 1. [Modules & Controllers](modules-and-controllers.md) - Deep dive into creating and organizing modules
-2. [Database Strategy](database.md)
-3. [View Templating](views.md) - Advanced rendering with `renderBS5()` and layouts
-4. [Request Handling](requests.md) - POST/GET separation and API responses
-5. [Tutorial](risorsa.md) - a simple tutorial
+1. [Database Strategy](database.md) - Database Access with DAO & DTO
+1. [View System](views.md) - PHP/Markdown
+1. [Tutorial](risorsa.md) - a simple tutorial
+1. [Request Handling](requests.md) - POST/GET separation and API responses

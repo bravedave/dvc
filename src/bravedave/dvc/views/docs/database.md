@@ -128,12 +128,10 @@ class users extends bravedave\dvc\dto {
 
 1. **DAO/DTO Relationship**:
 
-<pre class="mermaid">
+```mermaid
 classDiagram
   class DAO {
     +getByID()
-    +updateByID()
-    +delete()
   }
   class DTO {
     +__construct(rowData)
@@ -142,23 +140,7 @@ classDiagram
   }
   class DTOSet {
     +__invoke(SQL)
-    +each()
   }
-  DAO --> DTOSet: Returns
+  DAO --> DTO: Returns
   DTOSet --> DTO: Contains
-</pre>
-
-2. **CRUD Flow**:
-
-<pre class="mermaid">
-sequenceDiagram
-  participant Controller
-  participant DAO
-  participant Database
-  
-  Controller->>DAO: updateByID(data, 3)
-  DAO->>Database: UPDATE users SET...WHERE id=3
-  Database-->>DAO: Rows affected
-  DAO-->>Controller: Success bool
-</pre>
-
+```

@@ -5,12 +5,14 @@ Controllers handle your application logic and connect routes to views. DVC provi
 ## Creating a Module
 
 1. **Generate module structure**:
+
    ```bash
    vendor/bin/dvc make::module example
    ```
-   
+
    This creates:
-   ```
+
+   ```code
    src/
    ├── app/
    │   └── example/          # Module directory
@@ -20,6 +22,7 @@ Controllers handle your application logic and connect routes to views. DVC provi
    ```
 
 2. **Resulting Controller Structure** (`src/controller/example.php`):
+
    ```php
    <?php
    namespace example;
@@ -60,6 +63,7 @@ Controllers handle your application logic and connect routes to views. DVC provi
 ## Key Features
 
 ### 1. Request Handling
+
 - **GET Requests**: Automatically routed to `_index()` method
 - **POST Requests**: Handled by `postHandler()`
 
@@ -100,13 +104,14 @@ namespace app\example;
 
 2. **Visit in browser**:
 
-   ```
+   ```code
    http://localhost:8000/example
    ```
 
 ## Advanced Usage
 
 ### Handling POST Requests
+
 ```php
 protected function postHandler() {
     $request = (new ServerRequest);
@@ -134,5 +139,5 @@ public function detail($id) : void {
     $this->load('detail');
 }
 ```
-Access via: `/example/detail/123`
 
+Access via: `/example/detail/123`

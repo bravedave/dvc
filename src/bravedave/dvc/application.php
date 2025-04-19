@@ -468,7 +468,7 @@ class application {
       if ($debug) logger::debug(sprintf('<public file %s> %s', $file, logger::caller()));
       if (file_exists($file)) {
 
-        $this->url_served = strings::url($request->getUrl(), $protcol = true);
+        $this->url_served = strings::url($request->getUri(), $protcol = true);
         Response::serve($file);
         return true;
       }

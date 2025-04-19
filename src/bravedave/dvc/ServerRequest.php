@@ -185,6 +185,13 @@ class ServerRequest {
     return self::$_request->getUploadedFiles();
   }
 
+  public function getUri(): string {
+
+    $uri = self::$_request->getUri();
+    return (string) $uri;
+  }
+
+  #[\Deprecated] //Use getUri() instead
   public function getUrl(): string {
 
     $uri = self::$_request->getUri();
