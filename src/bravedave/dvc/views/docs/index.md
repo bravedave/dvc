@@ -89,4 +89,4 @@ class products extends bravedave\dvc\controller {
 2. [Database Strategy](database.md)
 3. [View Templating](views.md) - Advanced rendering with `renderBS5()` and layouts
 4. [Request Handling](requests.md) - POST/GET separation and API responses
-5. [Tutorial][risorsa.md] - a simple tutorial
+5. [Tutorial](risorsa.md) - a simple tutorial
