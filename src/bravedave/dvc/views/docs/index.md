@@ -56,9 +56,9 @@ src/
     └── ...         # Additional controllers
 ```
 
-## Key Concepts
+## Key Concept
 
-### 1. Controller Routing
+### Controller Routing
 DVC uses a simple, convention-based routing system:
 
 - URL Path: `/products`
@@ -84,19 +84,9 @@ class products extends bravedave\dvc\controller {
 }
 ```
 
-### 2. Database Connectivity (SQLite First)
-
-   Look for the folder src/data and rename src/data/defaults-example.json to defaults.json
-   * feel free to modify, but note: 
-
-```json
-{
-  "db_type": "sqlite"
-}
-```
-
 ## Next Steps
 1. [Modules & Controllers](modules-and-controllers.md) - Deep dive into creating and organizing modules
 2. [Database Strategy](database.md)
 3. [View Templating](views.md) - Advanced rendering with `renderBS5()` and layouts
 4. [Request Handling](requests.md) - POST/GET separation and API responses
+5. [Tutorial][risorsa.md] - a simple tutorial

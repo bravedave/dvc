@@ -126,8 +126,6 @@ class users extends bravedave\dvc\dto {
 
 ---
 
-### Suggested Diagrams
-
 1. **DAO/DTO Relationship**:
 
 <pre class="mermaid">
