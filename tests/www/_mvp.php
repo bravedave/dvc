@@ -8,7 +8,7 @@
  *
 
 	You can use php's built in server
-	php -S localhost:8080 -c  c:\php\php.ini-development _mvp.php
+	php -S localhost:8000 -c  c:\php\php.ini-development _mvp.php
 
 	if you do, check first and exit if it's a public resource - Serve that instead
 	 */

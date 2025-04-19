@@ -78,9 +78,9 @@ cp -R vendor/bravedave/dvc/tests/www src
 #### system will run
 
 ```sh
-php -S localhost:8080 src/www/_mvp.php
+php -S localhost:8000 src/www/_mvp.php
 ```
 
-available at <http://localhost:8080>
+available at <http://localhost:8000>
 
 there is a tutorial [here](src/bravedave/dvc/views/docs/risorsa.md)

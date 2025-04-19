@@ -25,7 +25,7 @@ Create a module to record computer assets in a business to record:
      * the namespace root is ***src/app***
 
 >**note**
-> the Getting Started guide means you can see the app at in your browser at <http://localhost:8080/>.
+> the Getting Started guide means you can see the app at in your browser at <http://localhost:8000/>.
 
 ## Creating an application
 
@@ -107,7 +107,7 @@ class controller extends \Controller {
 ```
 
 >Ensure ServerRequest is referenced at the top of the controller just after the namespace declaration<br>
->the app now runs at <http://localhost:8080/risorsa> and says *hello from risorsa ..*<br>
+>the app now runs at <http://localhost:8000/risorsa> and says *hello from risorsa ..*<br>
 **special note : the url is /risorsa**
 
 * remove the lines between *"these lines is temporary"* inclusive of those lines, the app will still run, you have a navbar, footer and blank views .. a clean start
@@ -255,7 +255,7 @@ class config extends \config {  // noting: config extends global config classes
   }
 ```
 
-refresh the browser at <http://localhost:8080/risorsa> it will create the table
+refresh the browser at <http://localhost:8000/risorsa> it will create the table
 
 >Tip : To see the table directly from the command line, use the sqlite3 utility<br>
 ><img src="risorsa-sqlite.png" alt="risorsa-sqlite.png" class="img img-fluid">
@@ -836,4 +836,4 @@ use strings;
   }
 ```
 
->the app now runs at <http://localhost:8080/risorsa> ... yay !
+>the app now runs at <http://localhost:8000/risorsa> ... yay !

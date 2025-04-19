@@ -35,11 +35,11 @@ class tests extends bravedave\dvc\service {
   protected function _httpGet() {
 
     logger::info('for this to work you would have to be:
-      1. running the local server on 8080
+      1. running the local server on 8000
       2. in the working directory (i.e. cd before running php server
-         e.g php -S localhost:8080 _mvp.php');
+         e.g php -S localhost:8000 _mvp.php');
     $http = new http(
-      'http://localhost:8080/hello.txt'
+      'http://localhost:8000/hello.txt'
     );
     logger::info(sprintf('<%s> %s', $http->send(), __METHOD__));
   }
@@ -47,11 +47,11 @@ class tests extends bravedave\dvc\service {
   protected function _httpPost() {
 
     logger::info('for this to work you would have to be:
-      1. running the local server on 8080
+      1. running the local server on 8000
       2. in the working directory (i.e. cd before running php server
-         e.g php -S localhost:8080 _mvp.php');
+         e.g php -S localhost:8000 _mvp.php');
     $http = new http(
-      'http://localhost:8080/'
+      'http://localhost:8000/'
     );
     $http->setPostData(['action' => 'hello']);
     logger::info(sprintf('<%s> %s', $http->send(), __METHOD__));
