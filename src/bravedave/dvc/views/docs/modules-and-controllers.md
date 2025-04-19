@@ -136,4 +136,3 @@ public function detail($id) : void {
 ```
 Access via: `/example/detail/123`
 
-![modules and controllers](modules-and-controllers.png "modules and controllers")

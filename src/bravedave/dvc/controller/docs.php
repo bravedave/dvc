@@ -102,6 +102,8 @@ class docs extends Controller {
           : false,
       ];
 
+      $primary[] = 'mermaid';
+
       $render = [
         'meta' => [
           sprintf('<base href="%s" />', strings::url('docs/'))

@@ -97,6 +97,6 @@ class products extends bravedave\dvc\controller {
 
 ## Next Steps
 1. [Modules & Controllers](modules-and-controllers.md) - Deep dive into creating and organizing modules
-2. [Database Operations](database.md) - SQLite integration and model examples
+2. [Database Strategy](database.md)
 3. [View Templating](views.md) - Advanced rendering with `renderBS5()` and layouts
 4. [Request Handling](requests.md) - POST/GET separation and API responses

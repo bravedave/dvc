@@ -1,28 +1,13 @@
 # [Docs](.)
 
-## [Getting Started](getting-started)
+- [Modules & Controllers](modules-and-controllers.md)
+- [Database Strategy](database.md)
 
-- [Installing](installing)
-  - [wsl](installing-wsl)
-  - [apache](installing-apache)
-- [First app](firstapp)
-- [Risorsa - a module](risorsa)
-- [How does it work](how-does-it-work)
 
-## [Structure](structure)
+<pre class="mermaid">
+graph TD
+    A[Module Creation] --> B[Controller]
+    B --> C[Views]
+    B --> D[Database]
+</pre>
 
-- [Data](database)
-- [View](structureView)
-- [Controller](structureController)
-  - [Example](structureControllerExample)
-
-## [Namespaces](namespaces)
-
-## [Database](database)
-
-- [Connection](database-connections)
-- [Data Retrieval](database-retrieval)
-
-## [Utilities](utilities)
-
-- [Icons](icons)

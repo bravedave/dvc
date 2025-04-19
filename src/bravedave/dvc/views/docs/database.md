@@ -1,59 +1,166 @@
-# Databases
+# Database Access with DAO & DTO
 
-[Docs](.) | **Databases**
+DVC provides a clean database abstraction through:
+- **DTO** (Data Transfer Objects) - Single records
+- **DTO Set** - Collections of DTOs
+- **DAO** (Data Access Objects) - CRUD operations
 
-MySQL and SQLite data connections.
+## Quick Start with SQLite
 
-There are a range if support structures which including query, insert, update,
-create and maintenance. All fully encapsulated including escaping of values.
+1. **Initialize Configuration**:
 
-- [Connect the Database](database-connections)
-- [Retrieve Data](database-retrieval)
-- [DAO/DTO](database-dao-dto)
-- [Caching](database-caching)
+   ```bash
+   mkdir -p src/data
+   cp src/data/defaults-example.json src/data/defaults.json
+   ```
 
-_Data Access Objects manipulate Data Tranition Objects_
+2. **Configure SQLite** (`src/data/defaults.json`):
 
-## DAO - Data Access Object
+   ```json
+   {
+     "db_type": "sqlite",
+     "sqlite": {
+       "fileName": "storage/database.db"
+     }
+   }
+   ```
 
-_A Data Access Object is an Intelligent Interface to a Data Layer_
+## Core Concepts
 
-| Element    | Description      |
-| :--        | :--              |
-| NameSpace  | dao              |
-| Root Class | _dao             |
-| src        | src/dao/_dao.php |
-
-## DAO - example
+### 1. DTO (Single Record)
 
 ```php
-namespace dao;
+// Auto-hydrated from database rows
+$user = (new bravedave\dvc\dto)('SELECT * FROM users WHERE id = 1');
+echo $user->name; // Access fields as properties
+```
 
-class users extends _dao {
-  protected $_db_name = 'users';
+### 2. DTO Set (Record Collections)
 
+```php
+$users = (new bravedave\dvc\dtoSet)('SELECT id, name FROM users');
+
+foreach ($users as $user) {
+    echo $user->name; // Each item is a DTO
 }
 ```
 
-## DTO - Data Transition Object
-
->_A Data Transition Object is an unIntelligent Data Structure, it must be serializable and transportable. It is not desirable to subclasses, as that will threaten the portability of the element_
-
-| Element    | Description          |
-| :--        | :--                  |
-| NameSpace  | dao                  |
-| Root Class | _dao                 |
-| src        | src/dao/dto/_dto.php |
-
-## DTO - Example of Use
+### 3. DAO (Table Gateway)
 
 ```php
-$dao = new dao\users;
-if ( $res = $dao->getAll()) {
+class users extends bravedave\dvc\dao {
+    protected $_db_name = 'users';
+    protected $template = dto\users::class;
+}
 
- while ( $dto = $res->dto()) {
+// Usage
+$usersDao = new users();
+```
 
-  printf( '%s<br />', $dto->name);
- }
+## CRUD Operations
+
+### Create
+
+```php
+$newId = $usersDao->insert([
+    'name' => 'Dave',
+    'email' => 'dave@example.com'
+]);
+```
+
+### Read
+```php
+// Get single record
+$user = $usersDao->getByID(3);
+
+// Get all records
+$allUsers = $usersDao->getAll();
+```
+
+### Update
+```php
+// Update by ID
+$usersDao->updateByID(
+    ['name' => 'Dingo'], // Fields to update
+    3                   // Record ID
+);
+```
+
+### Delete
+```php
+$usersDao->delete(3); // By ID
+```
+
+## Advanced Usage
+
+### Custom DTO Classes
+```php
+namespace dto;
+
+class users extends bravedave\dvc\dto {
+    public function displayName() {
+        return "User: {$this->name}";
+    }
 }
 ```
+
+## Why This Architecture?
+
+1. **DTO Benefits**:
+
+   - Type-safe record access
+   - Custom business logic methods
+   - Prevents "array soup" in code
+
+2. **DAO Advantages**:
+
+   - Single point of table access
+   - Built-in CRUD operations
+   - Easy to mock for testing
+
+3. **SQLite First**:
+
+   - Zero-config for development
+   - File-based simplicity
+   - Scales to MariaDB when needed
+
+---
+
+### Suggested Diagrams
+
+1. **DAO/DTO Relationship**:
+
+<pre class="mermaid">
+classDiagram
+  class DAO {
+    +getByID()
+    +updateByID()
+    +delete()
+  }
+  class DTO {
+    +__construct(rowData)
+    +__invoke(SQL)
+    +propertyAccess
+  }
+  class DTOSet {
+    +__invoke(SQL)
+    +each()
+  }
+  DAO --> DTOSet: Returns
+  DTOSet --> DTO: Contains
+</pre>
+
+2. **CRUD Flow**:
+
+<pre class="mermaid">
+sequenceDiagram
+  participant Controller
+  participant DAO
+  participant Database
+  
+  Controller->>DAO: updateByID(data, 3)
+  DAO->>Database: UPDATE users SET...WHERE id=3
+  Database-->>DAO: Rows affected
+  DAO-->>Controller: Success bool
+</pre>
+
