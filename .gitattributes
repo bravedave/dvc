@@ -10,6 +10,7 @@
 # Exclude third-party or generated files from GitHub language stats
 src/resource/* linguist-vendored=true
 src/bravedave/public/* linguist-vendored
+**/src/bravedave/public/* linguist-vendored
 src/bravedave/dvc/css/bootstrap-icons/* linguist-vendored
 src/bravedave/dvc/css/bootstrap4/* linguist-vendored=true
 src/bravedave/dvc/css/bootstrap5/* linguist-vendored=true
