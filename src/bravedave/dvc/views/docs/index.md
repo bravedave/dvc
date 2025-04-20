@@ -1,98 +1,120 @@
-# DVC - Dave's View Controller Framework
+# **Introducing DVC: A Lightweight PHP Framework for Modern Web Development**
 
-DVC is a lightweight PHP framework designed for rapid web development with sensible defaults and minimal configuration.
+If you're a PHP developer looking for a **simple, fast, and intuitive** way to build web applications without the bloat of massive frameworks, meet **DVC** (Dave’s View Controller).
 
-## Quick Start
+DVC is a **lightweight PHP framework** designed for developers who want:
+✅ **Minimal setup** – No complex configurations
+✅ **Clear MVC structure** – Without unnecessary abstractions
+✅ **SQLite-first** – Perfect for rapid development
+✅ **PSR-compliant** – Where it matters (PSR-4, PSR-7-inspired)
 
-1. **Create your ```composer.json```**
+Let’s dive into what makes DVC special.
 
-   The application relies on the composer autoload features,
-   this (very) basic composer.json file tells the autloader where to look
-   for this application and installs *bravedave/dvc*
+---
 
-   *composer.json*
+## **Why DVC?**
 
-   ```json
-   {
-     "require": {
-       "bravedave/dvc": "*"
-     },
-     "autoload": {
-       "psr-4": {
-         "": "src/app/"
-       }
-     }
-   }
-   ```
+### **1. Built for Speed (and Simplicity)**
 
-2. **Installation**:
+Unlike monolithic frameworks, DVC strips away the excess and focuses on:
 
-   ```bash
-   composer u
-   ```
+- **Convention over configuration** – Sensible defaults, no endless YAML files
+- **Zero bloat** –minimal dependencies slowing you down
+- **Pure PHP** – No complex templating languages, just PHP & Markdown
 
-3. **Create Application Structure**:
+### **2. SQLite as a First-Class Citizen**
 
-   ```bash
-   vendor/bin/dvc make::application
-   ```
+DVC embraces SQLite for **lightning-fast development**:
 
-   This creates:
-
-   - `src/app/application.php` (main application file)
-   - Default folder structure structure
-
-4. **Run Your Application**:
-
-   ```bash
-   vendor/bin/dvc serve
-   ```
-
-## Default Structure
-
-```code
-src/
-├── app/
-│   └── application.php  # Main application file
-└── controller/
-    ├── home.php    # Default controller
-    └── ...         # Additional controllers
-```
-
-## Key Concept
-
-### Controller Routing
-
-DVC uses a simple, convention-based routing system:
-
-- URL Path: `/products`
-- Maps to: `src/controller/products.php`
-
-Example controller (`src/controller/products.php`):
+1. Set the db_type to sqlite
+2. Run the query
 
 ```php
-<?php
-class products extends bravedave\dvc\controller {
+$users = (new bravedave\dvc\dtoSet)("SELECT * FROM users");
+```
 
-    // _index is the default view
-    protected function _index() {
+No need for MySQL/MariaDB unless you scale—perfect for prototypes, APIs, and small-to-medium apps.
 
-        $this->data = (object)[
-            'title' => $this->title = config::label,
-        ];
+### **3. Clean MVC Without the Overhead**
 
-        $this->renderBS5([
-            'aside' => fn() => $this->load('blank'),
-            'main' => fn() => printf('i am %s', __CLASSNAME__ )
-        ]);
-    }
+- **Controllers** handle logic
+- **Views** are plain PHP or Markdown
+- **Models** via lightweight DAO/DTO patterns
+
+Example controller:
+
+```php
+class products extends \bravedave\dvc\controller {
+  protected function _index() {
+    $this->data = ['products' => (new ProductDAO)->getDtoSet()];
+    $this->load('products.php');
+  }
 }
 ```
 
-## Next Steps
+### **4. Modern HTTP Handling (PSR-7 Inspired)**
 
-1. [Modules & Controllers](modules-and-controllers.md) - Deep dive into creating and organizing modules
-1. [Database Strategy](database.md) - Database Access with DAO & DTO
-1. [View System](views.md) - PHP/Markdown
-1. [Tutorial](risorsa.md) - a simple tutorial
-1. [Request Handling](requests.md) - POST/GET separation and API responses
+DVC’s `ServerRequest` simplifies HTTP interactions:
+
+```php
+$request = new \bravedave\dvc\ServerRequest();
+$id = $request->getQueryParam('id'); // GET param
+$name = $request('name'); // POST param
+```
+
+---
+
+## **Getting Started in 60 Seconds**
+
+### **1. Install via Composer**
+
+```bash
+composer require bravedave/dvc
+vendor/bin/dvc make::application
+```
+
+### **2. Create Your First Module**
+
+```bash
+vendor/bin/dvc make::module blog
+```
+
+This generates:
+
+- `src/controller/blog.php` (Controller)
+- `src/app/blog/views/` (Templates)
+
+### **3. Run the Dev Server**
+
+```bash
+php src/app/application.php
+```
+
+Visit `http://localhost:8000/blog` – you’re live!
+
+---
+
+## **Who Is DVC For?**
+
+✔ **PHP devs who miss classic ASP’s simplicity**
+✔ **Developers tired of framework bloat**
+✔ **Startups/prototypes needing SQLite speed**
+✔ **Anyone who prefers PHP over templating engines**
+
+---
+
+## **What’s Next?**
+
+- **Explore the Docs**: [GitHub Repository](https://github.com/bravedave/dvc)
+- **Try the Tutorial**: Build a blog in 10 minutes
+- **Contribute**: DVC is open-source!
+
+---
+
+### **Final Thought**
+
+DVC isn’t trying to be Laravel or Symfony—it’s **a lightweight alternative for developers who want control without complexity**.
+
+Give it a spin and let me know what you think! 🚀
+
+**🔗 GitHub**: [github.com/bravedave/dvc](https://github.com/bravedave/dvc)
