@@ -9,6 +9,15 @@
 */ ?>
 
 <div class="container p-4" id="<?= $_container = strings::rand() ?>"></div>
+<script type="module">
+  // import { Toast } from '<?= strings::url('assets/module/toast') ?>';
+
+  // console.log( 'ready to toast' );
+  // Toast('Hello World!', 'success');
+
+  // console.log( _brayworth_);
+</script>
+
 <script>
   (_ => {
     const container = $('#<?= $_container ?>');
