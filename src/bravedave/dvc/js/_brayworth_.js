@@ -6,7 +6,9 @@
  * MIT License
  *
  * */
+
 if (!window._brayworth_) {
+
   window._brayworth_ = srch => {
     let _ = _brayworth_;
     /**
@@ -41,12 +43,11 @@ if (!window._brayworth_) {
     }
 
     return (_);
-
   };
 }
 
 (_ => {
-  _.version = 0.2;
+  _.version = 1.0;
   _._brayworth_ = true;
   _.currentUser = false;
   _.debug = false;
@@ -521,10 +522,9 @@ if (!window._brayworth_) {
   };
 
   _.urlwrite = _.url = (_url, withProtocol) => {
-    if ('undefined' == typeof _url)
-      _url = '';
 
-    let prefix = !!withProtocol ? location.protocol + '//' : '/'
+    if ('undefined' == typeof _url) _url = '';
+    const prefix = !!withProtocol ? location.protocol + '//' : '/'
     return (prefix + _url);
   };
 })(_brayworth_);

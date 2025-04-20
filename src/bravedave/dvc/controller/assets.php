@@ -169,6 +169,16 @@ class assets extends Controller {
     }
   }
 
+  public function module($file) {
+    // logger::info( sprintf('<%s> %s', $file, __METHOD__));
+
+    if ($file = preg_replace( '/[^a-zA-Z0-9\_\-]/', '', $file)) {
+
+      $path = resources::module($file);
+      Response::serve($path);
+    }
+  }
+
   public function pdflib() {
 
     Response::serve(dirname(__DIR__) . '/js/pdf-lib.min.js');

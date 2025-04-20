@@ -12,7 +12,7 @@ namespace bravedave\dvc;
 
 abstract class resources {
 
-  public static function bootstrapIcons(string $type = 'css', string $fontFile = null): string {
+  public static function bootstrapIcons(string $type = 'css', string|null $fontFile = null): string {
 
     if ('fonts' == $type) {
 
@@ -41,5 +41,16 @@ abstract class resources {
   public static function jquery4(): string {
 
     return __DIR__ . '/js/jquery-4.0.0-beta.min.js';
+  }
+
+  public static function module(string $file): string {
+
+    $path = __DIR__ . '/js/modules/' . $file . '.js';
+    if (file_exists($path)) {
+
+      return $path;
+    }
+
+    return '';
   }
 }
