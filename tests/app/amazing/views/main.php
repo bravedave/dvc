@@ -3,7 +3,7 @@
  * David Bray
  * BrayWorth Pty Ltd
  * e. david@brayworth.com.au
- * 
+ *
  * MIT License
  *
 */
@@ -13,33 +13,46 @@ namespace amazing;
 use bravedave\dvc\strings;
 
 ?>
-
-I'm amazed !
+<div class="container" id="<?= $_container = strings::rand() ?>">
+  <h1>Bootstrap 5 Modal</h1>
+  <p>Bootstrap 5 modal with form</p>
+  <button type="button" class="btn btn-primary js-demo">
+    Launch demo modal
+  </button>
+</div>
 
 <script type="module">
   const _ = _brayworth_;
-  import {
-    modal
-  } from '<?= strings::url($this->route . '/js/modal') ?>';
+  const container = $('#<?= $_container ?>');
 
-  const id = _.randomString();
-  const m = $(modal('Amazing modal !'));
+  container.find('.js-demo').on('click', async e => {
 
-  m.on('shown.bs.modal', () => console.log('shown'));
+    _.hideContexts(e);
 
-  const form = $(`<form id="${id}">
-    <input type="text" name="name" class="form-control" placeholder="Name">
-    </form>`);
+    const {
+      modal
+    } = await import('<?= strings::url($this->route . '/js/modal') ?>');
 
-  form.on('submit', e => {
+    const id = _.randomString();
+    const m = $(modal('Amazing modal !'));
 
-    e.preventDefault();
-    m.modal('hide');
+    m.on('shown.bs.modal', () => form.find('input[name="name"]').focus());
+
+    const form = $(`<form id="${id}">
+        <input type="text" name="name" class="form-control" placeholder="Name">
+      </form>`);
+
+    form.on('submit', e => {
+
+      e.preventDefault();
+      m.modal('hide');
+    });
+
+    m.find('.modal-body').empty()
+      .append(form);
+    m.find('.modal-footer')
+      .append(`<button type="submit" class="btn btn-primary" form="${id}">Submit</button>`);
   });
 
-  m.find('.modal-body').empty().append(form);
-  m.find('.modal-footer')
-    .append(`<button type="submit" class="btn btn-primary" form="${id}">Submit</button>`);
-
-  console.log('finished')
+  // console.log('finished')
 </script>
