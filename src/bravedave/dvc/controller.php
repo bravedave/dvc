@@ -1050,7 +1050,7 @@ abstract class controller {
   public function page404() {
 
     header('HTTP/1.0 404 Not Found');
-    $this->render([
+    $this->renderBS5([
       'title' => '404 Not Found',
       'content' => 'not-found'
     ]);
