@@ -57,7 +57,7 @@ tr.text-muted>td {
   main[data-role="content-primary"],
   aside[data-role="content-secondary"] {
     position: relative;
-    height: calc(100vh - 4.4rem);
+    height: calc(100vh - 5.4rem); /* 85px, navbar (56px) + footer (29px) */
     overflow-y: auto;
     /* Scrollable contents if viewport is shorter than content. */
   }
