@@ -16,7 +16,7 @@ class dtoSet {
 
   protected sqlite\db|db $db;
 
-  function __construct(sqlite\db|db $db = null) {
+  function __construct(sqlite\db|db|null $db = null) {
 
     if (!config::checkDBconfigured()) {
 
@@ -28,18 +28,22 @@ class dtoSet {
     $this->db = is_null($db) ? \sys::dbi() : $db;
   }
 
-  public function __invoke(string $sql, Closure $func = null, string $template = null): array {
+  public function __invoke(string $sql, Closure|null $func = null, string|null $template = null): array {
 
     return $this->getDtoSet($sql, $func, $template);
   }
 
-  public function getDtoSet(string $sql, Closure $func = null, string $template = null): array {
+  public function getDtoSet(string $sql, Closure|null $func = null, string|null $template = null): array {
 
-    if ($res = $this->db->result($sql)) return $res->dtoSet($func, $template);
+    if ($res = $this->db->result($sql)) {
+
+      return $res->dtoSet($func, $template);
+    }
+    
     return [];
   }
 
-  public function quote($s) {
+  public function quote(string $s): string {
 
     return $this->db->quote($s);
   }

@@ -42,6 +42,8 @@ class home extends controller {
       $main = 'main';
       $main = 'todo-matrix';
 
+      // echo $bullshit;  // which is an error
+
       $this->renderBS5([
         'main' => fn() => $this->load($main)
       ]);

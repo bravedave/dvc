@@ -130,6 +130,7 @@ abstract class sys {
     logger::sql($v);
   }
 
+  #[\Deprecated()]
   public static function mailer() {
 
     if (!class_exists('PHPMailer\PHPMailer\PHPMailer')) {

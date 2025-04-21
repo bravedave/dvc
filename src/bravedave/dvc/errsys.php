@@ -37,37 +37,18 @@ abstract class errsys {
       $headers = implode("\r\n", $header);
       // $scriptname = strtolower( $_SERVER[ "SCRIPT_NAME" ]);
 
-      try {
+      $email = sendmail::email()
+        ->to(sendmail::address(config::$SUPPORT_EMAIL, config::$SUPPORT_NAME))
+        ->subject(config::$WEBNAME . " PHP Error")
+        ->text($mailMessage);
+      // ->html('<h1>Sending emails is fun again!</h1>');
 
-        $mail = \sys::mailer();
-        $mail->IsHTML(false);
-        $mail->CharSet = 'UTF-8';
-        $mail->Encoding = 'base64';
+      if (sendmail::send($email)) {
 
-        $mail->Subject  = config::$WEBNAME . " PHP Error";
-        $mail->AddAddress(config::$SUPPORT_EMAIL, config::$SUPPORT_NAME);
-
-        $mail->Body = $mailMessage;
-        if ($mail->send()) {
-
-          logger::info(sprintf('<error - send email> %s', __METHOD__));
-        } else {
-
-          logger::info(sprintf(
-            '<error - send email failed - fallback to mail : %s> %s',
-            $mail->ErrorInfo,
-            __METHOD__
-          ));
-
-          mail(config::$SUPPORT_EMAIL, config::$WEBNAME . " PHP Error", $mailMessage, $headers, "-f" . config::$SUPPORT_EMAIL);
-        }
-      } catch (\Exception $e) {
+        logger::info(sprintf('<error - sent email> %s', __METHOD__));
+      } else {
 
         mail(config::$SUPPORT_EMAIL, config::$WEBNAME . " PHP Error", $mailMessage, $headers, "-f" . config::$SUPPORT_EMAIL);
-      } catch (\Exception $e) {
-
-        print '<h1>Could not send error report</h1>';
-        print $mailMessage;
       }
     } else {
 
@@ -138,10 +119,6 @@ abstract class errsys {
 
         case E_NOTICE:
           $type = 'Notice';
-          break;
-
-        case @E_STRICT:
-          $type = 'Strict Notice';
           break;
 
         case @E_RECOVERABLE_ERROR:
