@@ -254,11 +254,11 @@ abstract class config {
 
   static protected $_options_ = [];
 
-  static protected function _options_file() {
+  static protected function _options_file() : string{
+
     return implode(DIRECTORY_SEPARATOR, [
       static::dataPath(),
       '_config_.json'
-
     ]);
   }
 
@@ -294,7 +294,9 @@ abstract class config {
     $ret = '';
 
     if (!static::$_options_) {
+
       if (file_exists($path = static::_options_file())) {
+      
         static::$_options_ = (array)json_decode(file_get_contents($path));
       }
     }
@@ -305,10 +307,10 @@ abstract class config {
 
       /* writer */
       if ((string)$val == '') {
-        if (isset(static::$_options_[$key])) {
-          unset(static::$_options_[$key]);
-        }
+
+        if (isset(static::$_options_[$key])) unset(static::$_options_[$key]);
       } else {
+
         static::$_options_[$key] = (string)$val;
       }
 
@@ -317,9 +319,7 @@ abstract class config {
         json_encode(
           static::$_options_,
           JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
-
         )
-
       );
     }
 
@@ -333,25 +333,19 @@ abstract class config {
 
   static protected $_logpath = null;
 
-  public static function logPath() {
+  public static function logPath(): string|null {
 
-    if (\is_null(static::$_logpath)) {
+    if (is_null(static::$_logpath)) {
 
       static::$_logpath = implode(DIRECTORY_SEPARATOR, [
         rtrim(static::dataPath(), '/\ '),
         'logs',
-
       ]);
 
-      if (!is_dir(static::$_logpath)) {
-        mkdir(static::$_logpath);
-      }
-
-      // error_log( static::$_logpath );
-
+      if (!is_dir(static::$_logpath)) mkdir(static::$_logpath);
     }
 
-    return (static::$_logpath);
+    return static::$_logpath;
   }
 
   public static function imagePath() {
@@ -637,13 +631,13 @@ abstract class config {
 
     $defaults = array_filter(
       [
-        'assets' => 'bravedave\dvc\controller\assets',
-        'auth' => 'bravedave\dvc\controller\auth',
-        'docs' => 'bravedave\dvc\controller\docs',
-        'fbauth' => 'bravedave\dvc\controller\fbauth',
-        'install' => 'bravedave\dvc\controller\install',
-        'logon' => 'bravedave\dvc\controller\logon',
-        'sitemap' => 'bravedave\dvc\controller\sitemap',
+        'assets' => controller\assets::class,
+        'auth' => controller\auth::class,
+        'docs' => controller\docs::class,
+        'fbauth' => controller\fbauth::class,
+        'install' => controller\install::class,
+        'logon' => controller\logon::class,
+        'sitemap' => controller\sitemap::class,
       ],
       fn($k) => file_exists(sprintf('%s/controller/%s.php', __DIR__, $k)),
       ARRAY_FILTER_USE_KEY
@@ -685,15 +679,15 @@ abstract class config {
   }
 
   public static function route(string $path): string {
-    $map = static::_route_map();
 
+    $map = static::_route_map();
     return (isset($map->{$path}) ? $map->{$path} : '');
   }
 
-  public static function tempdir() {
-    /*
-		* return a writable path with a trailing slash
-		*/
+  public static function tempdir(): string {
+    /**
+     * return a writable path with a trailing slash
+     */
 
     $dir = rtrim(sys_get_temp_dir(), '/\\');
     return ($dir . DIRECTORY_SEPARATOR);
