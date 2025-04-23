@@ -41,8 +41,8 @@ class auth extends Controller {
     if (bravedave\dvc\auth::GoogleAuthEnabled()) {
 
       if ($client = dvc\Google::client()) {
+        
         $url = $client->createAuthUrl();
-
         Response::redirect($url);
       } else {
 
@@ -50,7 +50,8 @@ class auth extends Controller {
       }
     } else {
 
-      throw new bravedave\dvc\Exceptions\GoogleAuthNotEnabled;
+      // throw new bravedave\dvc\Exceptions\GoogleAuthNotEnabled;
+      exit;
     }
   }
 
