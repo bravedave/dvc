@@ -12,17 +12,22 @@ Let’s dive into what makes DVC special.
 
 ---
 
-## **Why DVC?**
+## What's DVC?
 
-### **1. Built for Speed (and Simplicity)**
+This project uses something I call DVC – Data, View, Controller. It’s a spin on the usual MVC pattern, but stripped down to what actually matters in practice.
 
-Unlike monolithic frameworks, DVC strips away the excess and focuses on:
+Data is split into two parts:
 
-- **Convention over configuration** – Sensible defaults, no endless YAML files
-- **Zero bloat** –minimal dependencies slowing you down
-- **Pure PHP** – No complex templating languages, just PHP & Markdown
+* DTOs – just plain data containers. No logic, no surprises.
+* DAOs – the smart bits that know how to load and save stuff.
 
-### **2. SQLite as a First-Class Citizen**
+**Views** handle what the user sees—HTML, JSON, whatever.
+
+**Controllers** are the glue. They take input, call the right data, and pick the view.
+
+Basically, it keeps things simple: dumb data, smart access, and clear separation. No bloated “model” layer trying to do everything.
+
+## SQLite as a First-Class Citizen
 
 DVC embraces SQLite for **lightning-fast development**:
 
@@ -35,29 +40,12 @@ $users = (new bravedave\dvc\dtoSet)("SELECT * FROM users");
 
 No need for MySQL/MariaDB unless you scale—perfect for prototypes, APIs, and small-to-medium apps.
 
-### **3. Clean MVC Without the Overhead**
-
-- **Controllers** handle logic
-- **Views** are plain PHP or Markdown
-- **Models** via lightweight DAO/DTO patterns
-
-Example controller:
-
-```php
-class products extends \bravedave\dvc\controller {
-  protected function _index() {
-    $this->data = ['products' => (new ProductDAO)->getDtoSet()];
-    $this->load('products.php');
-  }
-}
-```
-
-### **4. Modern HTTP Handling (PSR-7 Inspired)**
+## Modern HTTP Handling (PSR-7 Inspired)
 
 DVC’s `ServerRequest` simplifies HTTP interactions:
 
 ```php
-$request = new \bravedave\dvc\ServerRequest();
+$request = new \bravedave\dvc\ServerRequest;
 $id = $request->getQueryParam('id'); // GET param
 $name = $request('name'); // POST param
 ```
