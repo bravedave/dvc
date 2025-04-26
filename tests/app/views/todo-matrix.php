@@ -23,10 +23,13 @@
     const container = $('#<?= $_container ?>');
 
     const getMatrix = () => new Promise(resolve => {
-      _.fetch
-        .post(_.url('<?= $this->route ?>'), {
-          action: 'get-todo-data'
-        }).then(d => 'ack' == d.response ? resolve(d.data) : _.growl(d));
+
+      const payload = {
+        action: 'get-todo-data'
+      };
+
+      _.fetch.post(_.url('<?= $this->route ?>'), payload)
+        .then(d => 'ack' == d.response ? resolve(d.data) : _.growl(d));
     });
 
     const matrix = data => {
@@ -35,8 +38,8 @@
 
       $.each(data, (i, dto) => {
 
-        let row = $(
-            `<div class="row g-2 js-todo">
+        const row = $(
+            `<div class="row g-2 js-todo" data-id="${dto.id}">
               <div class="col p-2 border border-light js-description">${dto.description}</div>
               <div class="col-auto">
                 <button type="button" class="btn btn-light js-delete">
@@ -45,71 +48,53 @@
               </div>
             </div>`)
           .data('dto', dto)
-          .on('delete', function(e) {
-
-            _.hideContexts(e);
-
-            _.ask.alert.confirm({
-              title: 'Confirm Delete',
-              text: 'Are you sure ?'
-            }).then(e => {
-
-              _.fetch
-                .post(_.url('<?= $this->route ?>'), {
-                  action: 'todo-delete',
-                  id: dto.id
-                }).then(d => 'ack' == d.response ?
-                  row.remove() :
-                  _.growl(d));
-            });
-          })
+          .on('delete', rowDelete)
           .appendTo(container);
 
-        row.find('.js-description')
-          .one('click', function(e) {
+        row.find('.js-description').one('click', function(e) {
 
-            _.hideContexts(e);
+          _.hideContexts(e);
 
-            let fld = $('<input type="text" class="form-control">')
-              .val(dto.description)
-              .on('blur', function(e) {
+          const save = function(e) {
 
-                fld.trigger('save');
-              })
-              .on('keypress', function(e) {
+            e.stopPropagation();
 
-                if (13 == e.keyCode) {
-                  e.stopPropagation();
+            const _fld = $(this);
+            const _row = _fld.closest('div.js-todo');
+            const _dto = _row.data('dto');
+            const payload = {
+              action: 'todo-update',
+              id: _dto.id,
+              description: _fld.val()
+            };
 
-                  fld.trigger('save');
-                }
-              })
-              .on('save', function(e) {
+            _.fetch.post(_.url('<?= $this->route ?>'), payload)
+              .then(d => 'ack' == d.response ? container.trigger('refresh') : _.growl(d));
+          };
+
+          const fld = $('<input type="text" class="form-control">')
+            .val(dto.description)
+            .on('blur', function(e) {
+
+              $(this).trigger('save');
+            })
+            .on('keypress', function(e) {
+
+              if (13 == e.keyCode) {
+
                 e.stopPropagation();
+                $(this).trigger('save');
+              }
+            })
+            .on('save', save);
 
-                let _fld = $(this);
-                let _row = _fld.closest('div.js-todo');
-                let _dto = _row.data('dto');
-                let data = {
-                  action: 'todo-update',
-                  id: _dto.id,
-                  description: _fld.val()
-                };
+          $(this)
+            .removeClass('p-2 border border-light')
+            .empty()
+            .append(fld);
 
-                _.fetch
-                  .post(_.url('<?= $this->route ?>'), data)
-                  .then(d => 'ack' == d.response ?
-                    container.trigger('refresh') :
-                    _.growl(d));
-              });
-
-            $(this)
-              .removeClass('p-2 border border-light')
-              .html('')
-              .append(fld);
-
-            fld.focus();
-          })
+          fld.focus();
+        });
       });
 
       container.append(
@@ -119,13 +104,11 @@
           </div>
         </div>`);
 
-      container.find('.js-delete')
-        .on('click', function(e) {
-          e.stopPropagation();
+      container.find('.js-delete').on('click', function(e) {
 
-          $(this).closest('div.js-todo').trigger('delete');
-          this.innerHTML = '<div class="spinner-grow spinner-grow-sm"></div>';
-        });
+        _.hideContexts(e);
+        $(this).closest('div.js-todo').trigger('delete');
+      });
 
       container.find('input.js-new-todo')
         .on('change', function(e) {
@@ -150,6 +133,33 @@
           }
         })
         .focus();
+    };
+
+    const rowDelete = function(e) {
+
+      _.ask.alert.confirm({
+        title: 'Confirm Delete',
+        text: 'Are you sure ?'
+      }).then(e => {
+
+        const payload = {
+          action: 'todo-delete',
+          id: this.dataset.id
+        };
+
+        _.fetch.post(_.url('<?= $this->route ?>'), payload).then(d => {
+
+          if ('ack' == d.response) {
+
+            this.remove();
+          } else {
+
+            _.growl(d);
+          }
+
+          container.find('input.js-new-todo').focus();
+        });
+      });
     };
 
     container.on('refresh', e => getMatrix().then(matrix));

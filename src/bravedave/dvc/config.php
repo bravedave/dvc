@@ -101,9 +101,9 @@ abstract class config {
   static $FREE_DISKSPACE_THRESHHOLD = 10485760000; // 10G
 
   static $DB_HOST = 'localhost';
-  static $DB_TYPE = 'none';  // needs to be mysql or sqlite to run, disable with 'disabled'
-  static $DB_NAME = 'dbname';
-  static $DB_USER = 'dbuser';
+  static $DB_TYPE = 'sqlite';  // needs to be mysql or sqlite to run, disable with 'disabled'
+  static $DB_NAME = 'db';
+  static $DB_USER = 'user';
   static $DB_PASS = '';
   static $DB_ALTER_FIELD_STRUCTURES = false;  // experimental
 
@@ -170,12 +170,11 @@ abstract class config {
 
   static $TIMEZONE = 'UTC';
 
-  /*
-	settings for the cache expire time
-	set in the response headers
-
-	this unit is seconds
-	*/
+  /**
+   * settings for the cache expire time
+   * set in the response headers
+   * this unit is seconds
+   */
   static $JS_EXPIRE_TIME = 300;
   static $JQUERY_EXPIRE_TIME = 900;
   static $FONT_EXPIRE_TIME = 14400;
@@ -185,11 +184,14 @@ abstract class config {
 
   static $UMASK = '0022';
 
-  static public function checkDBconfigured() {
-    if (static::$DB_TYPE == 'mysql' || static::$DB_TYPE == 'sqlite' || static::$DB_TYPE == 'disabled')
-      return true;
+  static public function checkDBconfigured(): bool {
 
-    return false;
+    return match (static::$DB_TYPE) {
+      'mysql' => true,
+      'sqlite' => true,
+      'disabled' => true,
+      default => false
+    };
   }
 
   static protected ?string $_dataPath = null;
@@ -254,7 +256,7 @@ abstract class config {
 
   static protected $_options_ = [];
 
-  static protected function _options_file() : string{
+  static protected function _options_file(): string {
 
     return implode(DIRECTORY_SEPARATOR, [
       static::dataPath(),
@@ -296,7 +298,7 @@ abstract class config {
     if (!static::$_options_) {
 
       if (file_exists($path = static::_options_file())) {
-      
+
         static::$_options_ = (array)json_decode(file_get_contents($path));
       }
     }

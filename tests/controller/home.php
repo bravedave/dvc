@@ -8,7 +8,7 @@
  *
 */
 
-use bravedave\dvc\{controller, json, logger, Response};
+use bravedave\dvc\{controller, json, logger, Response, ServerRequest};
 
 class home extends controller {
 
@@ -59,55 +59,17 @@ class home extends controller {
 
   protected function postHandler() {
 
-    $action = $this->getPost('action');
+    $request = new ServerRequest;
+    $action = $request('action');
 
     match ($action) {
-      'get-todo-data' => $this->getTodoData($action),
-      'todo-add' => $this->todoAdd($action),
-      'todo-delete' => $this->todoDelete($action),
-      'todo-update' => $this->todoUpdate($action),
+      'get-todo-data' => handler::getTodoData($request),
+      'todo-add' => handler::todoAdd($request),
+      'todo-delete' => handler::todoDelete($request),
+      'todo-update' => handler::todoUpdate($request),
       'hello' => json::ack($action),
       default => parent::postHandler()
     };
-  }
-
-  protected function getTodoData(string $action): json {
-
-    return json::ack($action)
-      ->data((new dao\todo)->getMatrix());
-  }
-
-  protected function todoAdd(string $action): json {
-
-    (new dao\todo)->Insert([
-      'description' => $this->getPost('description')
-    ]);
-
-    return json::ack($action);
-  }
-
-  protected function todoDelete(string $action): json {
-
-    if ($id = (int)$this->getPost('id')) {
-
-      (new dao\todo)->delete($id);
-      return json::ack($action);
-    }
-
-    return json::nak($action);
-  }
-
-  protected function todoUpdate(string $action): json {
-
-    if ($id = (int)$this->getPost('id')) {
-
-      (new dao\todo)->UpdateByID([
-        'description' => $this->getPost('description')
-      ], $id);
-      return json::ack($action);
-    }
-
-    return json::nak($action);
   }
 
   public function accordion() {

@@ -464,9 +464,9 @@
     `<div class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header text-bg-primary">
             <h5 class="modal-title text-truncate" title="Modal">Modal</h5>
-            <button type="button" class="${_.bootstrap_version() >= 5 ? 'btn-close' : 'close'}" data-${_.bootstrap_version() >= 5 ? 'bs-' : ''}dismiss="modal" aria-label="Close" tabindex="-1">
+            <button type="button" class="${_.bootstrap_version() >= 5 ? 'btn-close btn-close-white' : 'close'}" data-${_.bootstrap_version() >= 5 ? 'bs-' : ''}dismiss="modal" aria-label="Close" tabindex="-1">
               ${_.bootstrap_version() >= 5 ? '' : '<i aria-hidden="true" class="bi bi-x"></i>'}
             </button>
           </div>

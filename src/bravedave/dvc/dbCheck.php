@@ -20,7 +20,7 @@ class dbCheck extends dao {
   protected $structure = [];
   protected $indexs = [];
 
-  function __construct(db $db = null, $table, $pk = 'id') {
+  function __construct(db|null $db = null, $table, $pk = 'id') {
     parent::__construct($db);
 
     $this->table = $table;

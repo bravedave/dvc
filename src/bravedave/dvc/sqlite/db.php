@@ -11,13 +11,13 @@
 namespace bravedave\dvc\sqlite;
 
 use bravedave, config;
-use bravedave\dvc\logger;
+use bravedave\dvc\{dto, logger};
 use SQLite3;
 use ZipArchive;
 
 class db {
   public $log = false;
-  protected ?SQLite3 $_db = null;
+  protected SQLite3|null $_db = null;
   protected $_path = null;
 
   protected static $_instance = null;
@@ -30,22 +30,16 @@ class db {
 
   protected function __construct() {
 
-    $this->_path = sprintf('%s%ssqlite.db', config::dataPath(), DIRECTORY_SEPARATOR);
-    if (file_exists($this->_path)) {
+    $dbName = preg_replace('@[^a-zA-Z0-9]@', '', config::$DB_NAME);
+    if (empty($dbName)) $dbName = 'db';
 
-      $this->_db = new SQLite3($this->_path);  // throws exception on failure
-    } else {
+    $this->_path = implode(DIRECTORY_SEPARATOR, [
+      config::dataPath(),
+      $dbName . '.sqlite'
+    ]);
 
-      // I prefer this naming convention because in windows you can associate the extension
-      $this->_path = sprintf('%s%sdb.sqlite', config::dataPath(), DIRECTORY_SEPARATOR);
-      $this->_db = new SQLite3($this->_path);  // throws exception on failure
-    }
-
-    if ($this->_db) {
-
-      $this->_db->busyTimeout(6000);  // 6 seconds
-      // logger::info( 'dvc\sqlite\db :: set timeout to 6 millisecs');
-    }
+    $this->_db = new SQLite3($this->_path);  // throws exception on failure
+    if ($this->_db) $this->_db->busyTimeout(6000);  // 6 seconds
   }
 
   public function __destruct() {
@@ -199,8 +193,7 @@ class db {
 
   public function result(string $query): dbResult {
 
-    $dbResult = new dbResult($this->Q($query), $this);
-    return ($dbResult);
+    return (new dbResult($this->Q($query), $this));
   }
 
   public function tables() {
@@ -213,21 +206,23 @@ class db {
       }
     }
 
-    return ($ret);
+    return $ret;
   }
 
   public function table_exists(string $table): bool {
 
     $sql = sprintf(
-      "SELECT name FROM sqlite_master WHERE type='table' and name='%s'",
-      $this->escape($table)
-
+      'SELECT `name` FROM `sqlite_master` WHERE `type` = %s and `name` = %s',
+      $this->quote('table'),
+      $this->quote($table)
     );
 
-    if ($result = $this->result($sql)) {
+    if ( $dto = (new dto)($sql)) return true;
 
-      if ($dto = $result->dto()) return true;
-    }
+    // if ($result = $this->result($sql)) {
+
+    //   if ($dto = $result->dto()) return true;
+    // }
 
     return false;
   }
@@ -254,7 +249,7 @@ class db {
     return ($this->Q($sql));
   }
 
-  public function valid() : bool {
+  public function valid(): bool {
 
     if (!self::$_instance) self::$_instance = new static;
     if (self::$_instance) return true;
@@ -262,7 +257,7 @@ class db {
     return false;
   }
 
-  public function zip() : string {
+  public function zip(): string {
     $debug = false;
     // $debug = TRUE;
 

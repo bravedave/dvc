@@ -398,11 +398,12 @@ abstract class controller {
      */
   }
 
+  #[\Deprecated]
   protected function dbEscape($s) {
-    /*
-		* Escape a string for inclusing in an SQL
-		* Command using the default data adapter
-		*/
+    /**
+     * Escape a string for inclusing in an SQL
+     * Command using the default data adapter
+     */
 
     if (is_null($this->db)) return $s;
     return $this->db->escape($s);
@@ -410,13 +411,12 @@ abstract class controller {
 
   #[\Deprecated]
   protected function dbResult($query) {
-    /*
-		* Return a SQL Data Result using
-		* the default data adapter
-		*/
+    /**
+     * Return a SQL Data Result using
+     * the default data adapter
+     */
 
     logger::deprecated(sprintf('<%s is not implemented>', __METHOD__));
-    // json::nak('delete is not implemented');
 
     // if (is_null($this->db)) return FALSE;
     // return $this->db->Result($query);

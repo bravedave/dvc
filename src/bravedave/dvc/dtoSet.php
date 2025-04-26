@@ -22,7 +22,7 @@ class dtoSet {
 
       // logger::info( sprintf('<Call the doctor I think I\'m gonna crash> %s', __METHOD__));
       // logger::info( sprintf('<The doctor say he\'s coming but you gotta create a config file buddy> %s', __METHOD__));
-      throw new Exceptions\DBNotConfigured();
+      throw new Exceptions\DBNotConfigured;
     }
 
     $this->db = is_null($db) ? \sys::dbi() : $db;
@@ -39,7 +39,7 @@ class dtoSet {
 
       return $res->dtoSet($func, $template);
     }
-    
+
     return [];
   }
 

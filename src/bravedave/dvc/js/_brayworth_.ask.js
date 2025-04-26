@@ -16,9 +16,9 @@
  * */
 (_ => {
   _.ask = params => {
-    let dlg = _.modal.template();
+    const dlg = _.modal.template();
 
-    let options = {
+    const options = {
       ...{
         beforeOpen: function () {
           let modal = this;
@@ -47,7 +47,7 @@
 
         },
         buttons: {},
-        headClass: 'text-white bg-dark',
+        headClass: 'text-bg-dark',
         onClose: e => { },
         hidden: e => { },
         shown: e => { },
@@ -62,9 +62,45 @@
 
     if (options.removeOnClose) dlg.on('hidden.bs.modal', function (e) { $(this).remove(); });
 
-    if (/text\-/.test(options.headClass)) $('.modal-header', dlg).removeClass('text-white text-light text-dark text-success text-danger text-warning text-info');
+    if (/(^text| text)\-/.test(options.headClass)) {
 
-    if (/bg\-/.test(options.headClass)) $('.modal-header', dlg).removeClass('bg-white bg-light bg-dark bg-success bg-danger bg-warning bg-info');
+      /**
+       * remove the text classes including the bg- ones
+       */
+      const removeClasses = [
+        'text-white',
+        'text-light',
+        'text-dark',
+        'text-success',
+        'text-danger',
+        'text-warning',
+        'text-info',
+        'text-bg-white',
+        'text-bg-light',
+        'text-bg-dark',
+        'text-bg-success',
+        'text-bg-danger',
+        'text-bg-warning',
+        'text-bg-info',
+        'text-bg-primary',
+        'text-bg-secondary'
+      ];
+      $('.modal-header', dlg).removeClass(removeClasses.join(' '));
+    }
+
+    if (/bg\-/.test(options.headClass)) {
+
+      const removeClasses = [
+        'bg-white',
+        'bg-light',
+        'bg-dark',
+        'bg-success',
+        'bg-danger',
+        'bg-warning',
+        'bg-info'
+      ];
+      $('.modal-header', dlg).removeClass(removeClasses.join(' '));
+    }
 
     if ('' != String(options.headClass)) $('.modal-header', dlg).addClass(options.headClass);
 
@@ -85,7 +121,7 @@
     }, ...p
   }));
 
-  _.ask.alert = p => _.ask({ ...{ headClass: 'text-white bg-danger', size: 'sm', title: 'Alert', text: 'string' == typeof p ? p : '' }, ...p });
+  _.ask.alert = p => _.ask({ ...{ headClass: 'text-bg-danger', size: 'sm', title: 'Alert', text: 'string' == typeof p ? p : '' }, ...p });
   _.ask.alert.confirm = p => new Promise(resolve => _.ask.alert({
     ...{
       title: 'Confirm',
@@ -94,7 +130,7 @@
     }, ...p
   }));
 
-  _.ask.success = p => _.ask({ ...{ headClass: 'text-white bg-success', title: 'Success', text: 'string' == typeof p ? p : '' }, ...p });
+  _.ask.success = p => _.ask({ ...{ headClass: 'text-bg-success', title: 'Success', text: 'string' == typeof p ? p : '' }, ...p });
   _.ask.success.confirm = p => new Promise(resolve => _.ask.success({
     ...{
       title: 'Confirm',
@@ -103,7 +139,7 @@
     }, ...p
   }));
 
-  _.ask.warning = p => _.ask({ ...{ headClass: 'text-white bg-warning', size: 'sm', title: 'Warning', text: 'string' == typeof p ? p : '' }, ...p });
+  _.ask.warning = p => _.ask({ ...{ headClass: 'text-bg-warning', size: 'sm', title: 'Warning', text: 'string' == typeof p ? p : '' }, ...p });
   _.ask.warning.confirm = p => new Promise(resolve => _.ask.warning({
     ...{
       title: 'Confirm',
