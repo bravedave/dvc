@@ -44,42 +44,6 @@ abstract class sys extends bravedave\dvc\sys {
     error_log(sprintf('deprecated : %s : %s', $v, self::traceCaller()));
   }
 
-  public static function serveFullcalendar($type = 'css') {
-    $root = realpath(__DIR__ . '/public/fullcalendar-4/');
-    if ($root) {
-      if ('css' == $type) {
-        $files = [
-          $root . '/core/main.css',
-          $root . '/bootstrap/main.css',
-
-        ];
-
-        cssmin::viewcss([
-          'debug' => false,
-          'libName' => 'fullcalendar4',
-          'cssFiles' => $files,
-          'libFile' => config::tempdir()  . '_fullcalendar4_tmp.css'
-        ]);
-      } elseif ('js' == $type) {
-
-        $path = realpath(sprintf('%s/', $root));
-        $files = [
-          $root . '/core/main.js',
-          $root . '/bootstrap/main.js',
-
-        ];
-
-        jslib::viewjs([
-          'debug' => false,
-          'libName' => 'fullcalendar4',
-          'jsFiles' => $files,
-          'libFile' => config::tempdir()  . '_fullcalendar4_tmp.js'
-        ]);
-      }
-    } else {
-      throw new \Exception('Cannot locate fullcalendar-4 bootstrap');
-    }
-  }
 
   public static function set_error_handler() {
     errsys::initiate(false);

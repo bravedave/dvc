@@ -151,9 +151,9 @@ class assets extends Controller {
     // logger::info(sprintf('<%s> %s', config::tempdir()  . 'bravedave_dvc_esse.css', __METHOD__));
   }
 
-  public function fullcalendar($type = 'css') {
-    sys::serveFullcalendar($type);
-  }
+  // public function fullcalendar($type = 'css') {
+  //   sys::serveFullcalendar($type);
+  // }
 
   public function jquery($version = 3) {
     if ($version >= 4) {
