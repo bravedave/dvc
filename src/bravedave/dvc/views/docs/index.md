@@ -14,18 +14,20 @@ Let’s dive into what makes DVC special.
 
 ## What's DVC?
 
-This project uses something I call DVC – Data, View, Controller. It’s a spin on the usual MVC pattern, but stripped down to what actually matters in practice.
+This project uses DVC – Data, View, Controller. It’s a simplified take on MVC that still includes a model layer, just with a bit more clarity around roles.
 
-Data is split into two parts:
+Data covers both:
 
-* DTOs – just plain data containers. No logic, no surprises.
-* DAOs – the smart bits that know how to load and save stuff.
+* DTOs – dumb data containers used to move info around.
+* DAOs – smart components that handle storage and retrieval.
 
-**Views** handle what the user sees—HTML, JSON, whatever.
+Models sit between the data and the controller. They contain business rules and logic—just not database plumbing.
 
-**Controllers** are the glue. They take input, call the right data, and pick the view.
+**Views** are for rendering—HTML, JSON, whatever the app needs.
 
-Basically, it keeps things simple: dumb data, smart access, and clear separation. No bloated “model” layer trying to do everything.
+**Controllers** take user input, call the right models or DAOs, and hand off to the view layer.
+
+DVC is all about staying modular and avoiding the *do-everything* model mess. Data is clean, logic lives where it belongs, and each part does its job.
 
 ## SQLite as a First-Class Citizen
 
