@@ -109,7 +109,7 @@ class assets extends Controller {
       //   }
       // }
       $files = jslib::getLibFiles();
-      if ($type == 'bundle') array_unshift($files, dirname(__DIR__) . DIRECTORY_SEPARATOR . 'js/jquery-3.6.3.min.js');
+      if ($type == 'bundle') array_unshift($files, resources::jquery4());
 
       // sys::dump( $files);
 
@@ -117,7 +117,7 @@ class assets extends Controller {
         'debug' => false,
         'libName' => 'brayworth',
         'jsFiles' => $files,
-        'libFile' => config::tempdir()  . '_brayworth_has_dayjs.3.js'
+        'libFile' => config::tempdir()  . '_brayworth_has_dayjs.4.js'
       ]);
     }
   }
@@ -155,7 +155,7 @@ class assets extends Controller {
   //   sys::serveFullcalendar($type);
   // }
 
-  public function jquery($version = 3) {
+  public function jquery($version = 4) {
     if ($version >= 4) {
 
       // Response::serve(dirname(__DIR__) . '/js/jquery-4.0.0-beta.min.js');

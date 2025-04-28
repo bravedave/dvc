@@ -82,6 +82,7 @@ abstract class jslib {
     'js/dayjs/localeData.js',
     'js/dayjs/localizedFormat.js',
     'js/dayjs/updateLocale.js',
+    'js/dayjs/advancedFormat.js',
     'js/dayjs/utc.js',
   ];
 

@@ -5,6 +5,7 @@ There are files here : https://cdn.jsdelivr.net/npm/dayjs/
 ```bash
 cd dayjs/
 curl -O https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js
+curl -O https://cdn.jsdelivr.net/npm/dayjs/plugin/advancedFormat.js
 curl -O https://cdn.jsdelivr.net/npm/dayjs/plugin/utc.js
 curl -O https://cdn.jsdelivr.net/npm/dayjs/plugin/timezone.js
 curl -O https://cdn.jsdelivr.net/npm/dayjs/plugin/localizedFormat.js

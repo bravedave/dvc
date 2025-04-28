@@ -354,6 +354,7 @@ if (!window._brayworth_) {
     dayjs.extend(dayjs_plugin_isBetween);
     dayjs.extend(dayjs_plugin_isSameOrBefore);
     dayjs.extend(dayjs_plugin_isSameOrAfter);
+    dayjs.extend(dayjs_plugin_advancedFormat);
     // dayjs.extend(dayjs_plugin_duration);
 
     if ('' !== _.timezone) {
@@ -366,11 +367,11 @@ if (!window._brayworth_) {
             LTS: "h:mm:ss A",
             L: "DD/MM/YYYY",
             l: "D/M/YYYY",
-            LL: "MMMM Do YYYY",
+            LL: "MMMM D YYYY",
             ll: "MMM D YYYY",
-            LLL: "MMMM Do YYYY h:mm A",
+            LLL: "MMMM D YYYY h:mm A",
             lll: "MMM D YYYY h:mm A",
-            LLLL: "dddd, MMMM Do YYYY h:mm A",
+            LLLL: "dddd, MMMM D YYYY h:mm A",
             llll: "ddd, MMM D YYYY h:mm A"
           }
         });
@@ -382,23 +383,20 @@ if (!window._brayworth_) {
     let r = false;
 
     if ('DD/MM/YYYY' == b) {
+
       let _a = String(a).split('/');
       if (3 == _a.length) {
         // console.log( _a, Number( _a[1]));
 
         _a[1] = Number(_a[1]) - 1; //Javascript months are 0-11
         // console.log( _a);
-
         a = new Date(_a[2], _a[1], _a[0]);
-
       }
-
     }
 
     r = dayjs(a, b, c, d);
     if (!!r.tz && '' !== _.timezone) r.tz(_.timezone);
-    return (r);
-
+    return r;
   };
 
   _.asDayJS = d => new Promise(resolve => {
