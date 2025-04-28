@@ -8,11 +8,11 @@
  */
 (($, _) => {
 
-  $.fn.placeholders = function () {
+  $.fn.placeholders = function (count = 12) {
 
     if ('TABLE' == String(this[0].nodeName)) {
 
-      _.table._placeholders_(this);
+      _.table._placeholders_(this, count);
     } else {
 
       console.log(`cannot placeholder : ${this[0].nodeName}`);
