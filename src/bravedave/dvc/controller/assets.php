@@ -155,7 +155,7 @@ class assets extends Controller {
   //   sys::serveFullcalendar($type);
   // }
 
-  public function jquery($version = 4) {
+  public function jquery($version = 3) {
     if ($version >= 4) {
 
       // Response::serve(dirname(__DIR__) . '/js/jquery-4.0.0-beta.min.js');
