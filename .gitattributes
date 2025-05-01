@@ -8,9 +8,9 @@
 *.sh text eol=lf
 
 # Exclude third-party or generated files from GitHub language stats
-src/resource/* linguist-vendored
+src/resource/* linguist-vendored=true
 src/bravedave/public/*
-src/bravedave/public/* linguist-vendored
+src/bravedave/public/* linguist-vendored=true
 **/src/bravedave/public/* linguist-vendored
 src/bravedave/dvc/css/bootstrap-icons/* linguist-vendored
 src/bravedave/dvc/css/bootstrap4/* linguist-vendored=true
