@@ -44,7 +44,7 @@ class dbinfo extends dao {
     );
   }
 
-  public function __construct(db $db = null, string $store = null) {
+  public function __construct(db|null $db = null, string|null $store = null) {
 
     parent::__construct($db);
     $this->_store = rtrim(!$store ? config::dataPath() : $store, '/ ');
