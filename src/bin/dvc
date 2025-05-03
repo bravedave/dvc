@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-$DVC_VERSION = '1.0.2';
+$DVC_VERSION = '1.0.4';
 
 // Optional ASCII splash
 echo <<<ASCII
@@ -21,16 +21,684 @@ DVC CLI — v $DVC_VERSION
 ASCII;
 
 
+/**
+ * https://www.php.net/manual/en/reserved.variables.argv.php
+ *
+ * $argv is a php predefined variable
+ * Contains an array of all the arguments passed to the script
+ * when running from the command line.
+ */
 // Parse arguments
 $args = $argv;
 array_shift($args); // remove script name
 
 $command = $args[0] ?? null;
-$port = 1265;
 
 final class utility {
 
-  public static function checkDirectories($directories) {
+  public static $port = 1265;
+
+  protected static function makeCrudConfig(string $name, array $fields): void {
+
+    $file = 'src/app/' . $name . '/config.php';
+    if (!file_exists($file)) {
+
+      $content = [
+        '<?php',
+        '  // file: ' . $file,
+        '  // MIT License',
+        '',
+        sprintf('namespace %s;', $name),
+        '',
+        'use config as rootConfig;',
+        '',
+        'class config extends rootConfig {',
+        '',
+        sprintf('  const %s_db_version = 1;', $name),
+        '',
+        sprintf('  const label = \'%s\';', ucwords($name)),
+        '',
+        sprintf('  static function %s_checkdatabase() {', $name),
+        '',
+        '    $dao = new dao\dbinfo;',
+        sprintf('    $dao->checkVersion(\'%s\', self::%s_db_version);', $name, $name),
+        '  }',
+        '}',
+      ];
+
+      file_put_contents($file, implode("\n", $content));
+      echo "created config class: $file\n";
+    } else {
+
+      echo "config class already exists: $file\n";
+    }
+  }
+
+  protected static function makeCrudController(string $name, array $fields): void {
+
+    $file = 'src/app/' . $name . '/controller.php';
+    if (!file_exists($file)) {
+
+      $content = [
+
+        '<?php',
+        '  // file: ' . $file,
+        '  // MIT License',
+        '',
+        sprintf('namespace %s;', $name),
+        '',
+        'use bravedave\dvc\{',
+        '  controller as dvcController,',
+        '  json,',
+        '  ServerRequest',
+        '};',
+        '',
+        'class controller extends dvcController {',
+        '',
+        '  protected function _index() {',
+        '',
+        '    $this->data = (object)[',
+        '      \'title\' => $this->title = config::label,',
+        '    ];',
+        '',
+        '    $this->renderBS5([',
+        '      \'aside\' => fn() => $this->load(\'index\'),',
+        '      \'main\' => fn() => $this->load(\'matrix\')',
+        '    ]);',
+        '  }',
+        '',
+        '  protected function before() {',
+        '',
+        sprintf('    config::%s_checkdatabase();', $name),
+        '    parent::before();',
+        '    $this->viewPath[] = __DIR__ . \'/views/\';',
+        '  }',
+        '',
+        '  protected function postHandler() {',
+        '',
+        '    $request = new ServerRequest;',
+        '    $action = $request(\'action\');',
+        ''
+      ];
+
+      $content[] = '/*';
+      $content[] = sprintf('  _brayworth_.fetch.post(_brayworth_.url(\'%s\'),{', $name);
+      $content[] = '    action: \'delete\',';
+      $content[] = '    id : 1';
+      $content[] = '  }).then(console.log);';
+      $content[] = '';
+      $content[] = sprintf('  _brayworth_.fetch.post(_brayworth_.url(\'%s\'),{', $name);
+      $content[] = '    action: \'get-by-id\',';
+      $content[] = '    id : 1';
+      $content[] = '  }).then(console.log);';
+      $content[] = '';
+      $content[] = sprintf('  _brayworth_.fetch.post(_brayworth_.url(\'%s\'),{', $name);
+      $content[] = '    action: \'get-matrix\'';
+      $content[] = '  }).then(console.log);';
+      $content[] = '*/';
+      $content[] = 'return match ($action) {';
+      $content[] = sprintf('  \'%s-delete\' => handler::%sDelete($request),', $name, $name);
+      $content[] = sprintf('  \'get-by-id\' => handler::%sGetByID($request),', $name);
+      $content[] = sprintf('  \'get-matrix\' => handler::%sGetMatrix($request),', $name);;
+      $content[] = sprintf('  \'%s-save\' => handler::%sSave($request),', $name, $name);
+      $content[] = '  default => parent::postHandler()';
+      $content[] = '};';
+
+      $content[] = '  }';
+      $content[] = '';
+      $content[] = '  public function edit($id = 0) {';
+      $content[] = '    // tip : the structure is available in the view at $this->data->dto';
+      $content[] = '    $this->data = (object)[';
+      $content[] = '      \'title\' => $this->title = config::label,';
+      $content[] = sprintf('      \'dto\' => new dao\dto\%s', $name);
+      $content[] = '    ];';
+      $content[] = '';
+      $content[] = '    if ($id = (int)$id) {';
+      $content[] = sprintf('      $dao = new dao\%s;', $name);
+      $content[] = '      $this->data->dto = $dao->getByID($id);';
+      $content[] = '      $this->data->title .= \' edit\';';
+      $content[] = '    }';
+      $content[] = '';
+      $content[] = '    $this->load(\'edit\');';
+      $content[] = '  }';
+      $content[] = '}';
+
+
+      file_put_contents($file, implode("\n", $content));
+      echo "Created Controller class: $file\n";
+    } else {
+
+      echo "Controller class already exists: $file\n";
+    }
+  }
+
+  protected static function makeCrudDBMaintence(string $name, array $fields): void {
+
+    $file = 'src/app/' . $name . '/dao/db/' . $name . '.php';
+    if (!file_exists($file)) {
+
+      $content = [
+        '<?php',
+        '  // file: ' . $file,
+        '  // MIT License',
+        '',
+        '/**',
+        ' * note:',
+        ' *  id, autoincrement primary key is added to all tables - no need to specify',
+        ' *  field types are MySQL and are converted to SQLite equivalents as required',
+        ' */',
+        '',
+        sprintf('$dbc = \sys::dbCheck(\'%s\');',  $name),
+        '',
+      ];
+
+      if (!in_array('created', $fields)) {
+        $content[] = '$dbc->defineField(\'created\', \'datetime\');';
+      }
+
+      if (!in_array('updated', $fields)) {
+        $content[] = '$dbc->defineField(\'updated\', \'datetime\');';
+      }
+
+      $content[] = '';
+
+      foreach ($fields as $field) {
+        $content[] = sprintf('$dbc->defineField(\'%s\', \'varchar\');', $field);
+      }
+
+      $content[] = '';
+      $content[] = '$dbc->check();  // actually do the work, check that table and fields exist';
+
+      file_put_contents($file, implode("\n", $content));
+      echo "Created DB maintenance class: $file\n";
+    } else {
+
+      echo "DB maintenance class already exists: $file\n";
+    }
+  }
+
+  protected static function makeCrudDAO(string $name, array $fields): void {
+
+    $file = 'src/app/' . $name . '/dao/' . $name . '.php';
+    if (!file_exists($file)) {
+
+      $content = [
+        '<?php',
+        '  // file: ' . $file,
+        '  // MIT License',
+        '',
+        sprintf('namespace %s\dao;', $name),
+        '',
+        'use bravedave\dvc\{dao, dtoSet};',
+        '',
+        sprintf('class %s extends dao {', $name),
+        sprintf("  protected \$_db_name = '%s';", $name),
+        sprintf("  protected \$template = dto\%s::class;", $name),
+        '',
+        '  public function getMatrix() : array {',
+        '',
+        sprintf('    return (new dtoSet)(\'SELECT * FROM `%s`\'); // an array of records', $name),
+        '  }',
+        '',
+        '  public function Insert($a) {',
+        '    $a[\'created\'] = $a[\'updated\'] = self::dbTimeStamp();',
+        '    return parent::Insert($a);',
+        '  }',
+        '',
+        '  public function UpdateByID($a, $id) {',
+        '    $a[\'updated\'] = self::dbTimeStamp();',
+        '    return parent::UpdateByID($a, $id);',
+        '  }'
+      ];
+
+      $content[] = '}';
+
+      file_put_contents($file, implode("\n", $content));
+      echo "Created DB dao class: $file\n";
+    } else {
+
+      echo "DB dao class already exists: $file\n";
+    }
+  }
+
+  protected static function makeCrudDBInfo(string $name, array $fields): void {
+
+    $file = 'src/app/' . $name . '/dao/dbinfo.php';
+    if (!file_exists($file)) {
+
+      $content = [
+        '<?php',
+        '  // file: ' . $file,
+        '  // MIT License',
+        '',
+        sprintf('namespace %s\dao;', $name),
+        '',
+        'use bravedave\dvc\dbinfo as dvcDbInfo;',
+        '',
+        'class dbinfo extends dvcDbInfo {',
+        '  protected function check() {',
+        '    parent::check();',
+        '    parent::checkDIR(__DIR__);',
+        '  }',
+        '}',
+      ];
+
+      file_put_contents($file, implode("\n", $content));
+      echo "Created DBinfo class: $file\n";
+    } else {
+
+      echo "DBinfo class already exists: $file\n";
+    }
+  }
+
+  protected static function makeCrudDTO(string $name, array $fields): void {
+
+    $file = 'src/app/' . $name . '/dao/dto/' . $name . '.php';
+    if (!file_exists($file)) {
+
+      $content = [
+        '<?php',
+        '  // file: ' . $file,
+        '  // MIT License',
+        '',
+        sprintf('namespace %s\dao\dto;', $name),
+        '',
+        'use bravedave\dvc\dto;',
+        '',
+        sprintf('class %s extends dto {', $name),
+        '  public $id = 0;',
+      ];
+
+      if (!in_array('created', $fields)) {
+        $content[] = "  public \$created = '';";
+      }
+
+      if (!in_array('updated', $fields)) {
+        $content[] = "  public \$updated = '';";
+      }
+
+      foreach ($fields as $field) {
+        $content[] = sprintf('  public $%s = \'\';', $field);
+      }
+
+      $content[] = '}';
+
+
+      file_put_contents($file, implode("\n", $content));
+      echo "Created DB dto class: $file\n";
+    } else {
+
+      echo "DB dto class already exists: $file\n";
+    }
+  }
+
+  protected static function makeCrudHandler(string $name, array $fields): void {
+
+    $file = 'src/app/' . $name . '/handler.php';
+    if (!file_exists($file)) {
+
+      $content = [
+        '<?php',
+        '  // file: ' . $file,
+        '  // MIT License',
+        '',
+        sprintf('namespace %s;', $name),
+        '',
+        'use bravedave\dvc\{ServerRequest, json};',
+        '',
+        'final class handler {',
+        '',
+        sprintf('  public static function %sDelete(ServerRequest $request): json {', $name),
+        '',
+        '    $action = $request(\'action\');',
+        '    if ($id = (int)$request(\'id\')) {',
+        '',
+        sprintf('      (new dao\%s)->delete($id);', $name),
+        '      return json::ack($action);',
+        '    }',
+        '',
+        '    return json::ack($action);',
+        '  }',
+        '',
+        sprintf('  public static function %sGetByID(ServerRequest $request): json {', $name),
+        '',
+        '    $action = $request(\'action\');',
+        '    if ($id = (int)$request(\'id\')) {',
+        '',
+        sprintf('      if ($dto = (new dao\%s)->getByID($id)) {', $name),
+        '',
+        '        return json::ack($action, $dto);',
+        '      }',
+        '    }',
+        '    return json::nak($action);',
+        '  }',
+        '',
+        sprintf('  public static function %sGetMatrix(ServerRequest $request): json {', $name),
+        '',
+        '    $action = $request(\'action\');',
+        sprintf('    return json::ack($action, (new dao\%s)->getMatrix());', $name),
+        '  }',
+        '',
+        sprintf('  public static function %sSave(ServerRequest $request): json {', $name),
+        '',
+        '    $action = $request(\'action\');',
+        '    $a = [',
+        '      \'name\' => $request(\'name\'),',
+        '      \'phone\' => $request(\'phone\'),',
+        '      \'email\' => $request(\'email\'),',
+        '    ];',
+        '',
+        sprintf('    $dao = new dao\%s;', $name),
+        '    if ($id = (int)$request(\'id\')) {',
+        '',
+        '      $dao->UpdateByID($a, $id);',
+        '    } else {',
+        '      $dao->Insert($a);',
+        '    }',
+        '',
+        '    return json::ack($action);',
+        '',
+        '  }',
+        '}'
+      ];
+
+      file_put_contents($file, implode("\n", $content));
+      echo "Created handler class: $file\n";
+    } else {
+
+      echo "handler class already exists: $file\n";
+    }
+  }
+
+  protected static function makeCrudViewEdit(string $name, array $fields): void {
+
+    $file = 'src/app/' . $name . '/views/edit.php';
+    if (!file_exists($file)) {
+
+      $content = [
+        '<?php',
+        '  // file: ' . $file,
+        '  // MIT License',
+        '',
+        sprintf('namespace %s;', $name),
+        '',
+        'use bravedave\dvc\{strings, theme};',
+        '',
+        '// note: $dto and $title into the environment ?>',
+        '<form id="<?= $_form = strings::rand() ?>" autocomplete="off">',
+        '',
+        sprintf('  <input type="hidden" name="action" value="%s-save">', $name),
+        '  <input type="hidden" name="id" value="<?= $dto->id ?>">',
+        '',
+        '  <div class="modal fade" tabindex="-1" role="dialog" id="<?= $_modal = strings::rand() ?>" aria-labelledby="<?= $_modal ?>Label" aria-modal="true" aria-hidden="true">',
+        '    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">',
+        '      <div class="modal-content">',
+        '',
+        '        <div class="modal-header <?= theme::modalHeader() ?>">',
+        '          <h5 class="modal-title" id="<?= $_modal ?>Label"><?= $this->title ?></h5>',
+        '          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>',
+        '        </div>',
+        '',
+        '        <div class="modal-body">',
+        '',
+      ];
+
+      foreach ($fields as $field) {
+        $content[] = sprintf('          <!-- --[%s]-- -->', $field);
+        $content[] = '          <div class="row g-2">';
+        $content[] = '';
+        $content[] = sprintf('            <div class="col-md-3 col-form-label text-truncate">%s</div>', $field);
+        $content[] = '            <div class="col mb-2">';
+        $content[] = '';
+        $content[] = sprintf('              <input type="text" class="form-control" name="%s" value="<?= $dto->%s ?>">', $field, $field);
+        $content[] = '            </div>';
+        $content[] = '          </div>';
+      }
+      $content[] = '';
+      $content[] = '        </div>';
+      $content[] = '';
+      $content[] = '        <div class="modal-footer">';
+      $content[] = '';
+      $content[] = '          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">close</button>';
+      $content[] = '          <button type="submit" class="btn btn-primary">Save</button>';
+      $content[] = '        </div>';
+      $content[] = '      </div>';
+      $content[] = '    </div>';
+      $content[] = '  </div>';
+      $content[] = '  <script>';
+      $content[] = '    (_ => {';
+      $content[] = '      const form = $(\'#<?= $_form ?>\');';
+      $content[] = '      const modal = $(\'#<?= $_modal ?>\');';
+      $content[] = '';
+      $content[] = '      modal.on(\'shown.bs.modal\', () => {';
+      $content[] = '';
+      $content[] = '        form.on(\'submit\', function(e) {';
+      $content[] = '          let _form = $(this);';
+      $content[] = '          let _data = _form.serializeFormJSON();';
+      $content[] = '';
+      $content[] = '          _.post({';
+      $content[] = '            url: _.url(\'<?= $this->route ?>\'),';
+      $content[] = '            data: _data,';
+      $content[] = '          }).then(d => {';
+      $content[] = '';
+      $content[] = '            if (\'ack\' == d.response) {';
+      $content[] = '';
+      $content[] = '              modal.trigger(\'success\');';
+      $content[] = '              modal.modal(\'hide\');';
+      $content[] = '            } else {';
+      $content[] = '';
+      $content[] = '              _.growl(d);';
+      $content[] = '            }';
+      $content[] = '          });';
+      $content[] = '';
+      $content[] = '          // console.table( _data);';
+      $content[] = '';
+      $content[] = '          return false;';
+      $content[] = '        });';
+      $content[] = '      });';
+      $content[] = '    })(_brayworth_);';
+      $content[] = '  </script>';
+      $content[] = '</form>';
+
+      file_put_contents($file, implode("\n", $content));
+      echo "Created views/edit class: $file\n";
+    } else {
+
+      echo "views/edit class already exists: $file\n";
+    }
+  }
+
+  protected static function makeCrudViewIndex(string $name, array $fields): void {
+
+    $file = 'src/app/' . $name . '/views/index.php';
+    if (!file_exists($file)) {
+
+      $content = [
+        '<?php',
+        '  // file: ' . $file,
+        '  // MIT License',
+        '',
+        sprintf('namespace %s; ?>', $name),
+        '',
+        '<h1><?= config::label ?></h1>',
+        ''
+      ];
+
+      file_put_contents($file, implode("\n", $content));
+      echo "Created views/index class: $file\n";
+    } else {
+
+      echo "views/index class already exists: $file\n";
+    }
+  }
+
+  protected static function makeCrudViewMatrix(string $name, array $fields): void {
+
+    $file = 'src/app/' . $name . '/views/matrix.php';
+    if (!file_exists($file)) {
+
+      $content = [
+        '<?php',
+        '  // file: ' . $file,
+        '  // MIT License',
+        '',
+        sprintf('namespace %s;', $name),
+        '',
+        'use bravedave\dvc\strings; ?>',
+        '',
+        '<div class="row gx-2 mb-2 d-print-none">',
+        '  <div class="col">',
+        '    <div class="input-group">',
+        '      <input type="search" accesskey="/" class="form-control" id="<?= $_search = strings::rand() ?>" autofocus>',
+        '    </div>',
+        '  </div>',
+        '',
+        '  <div class="col-auto">',
+        '    <button class="btn btn-outline-primary" id="<?= $_uidAdd = strings::rand() ?>">',
+        '      <i class="bi bi-plus-circle"></i> new',
+        '    </button>',
+        '  </div>',
+        '</div>',
+        '',
+        '<div class="table-responsive">',
+        '  <table class="table table-sm" id="<?= $_uidTable = strings::rand() ?>">',
+        '    <thead class="small">',
+        '      <tr>',
+      ];
+
+      foreach ($fields as $field) {
+        $content[] = sprintf('        <td>%s</td>', $field);
+      }
+      $content[] = '      </tr>';
+      $content[] = '    </thead>';
+      $content[] = '';
+      $content[] = '    <tbody></tbody>';
+      $content[] = '  </table>';
+      $content[] = '</div>';
+      $content[] = '<script>';
+      $content[] = '  (_ => {';
+      $content[] = '    const table = $(\'#<?= $_uidTable ?>\');';
+      $content[] = '    const search = $(\'#<?= $_search ?>\');';
+      $content[] = '';
+      $content[] = '    const contextmenu = function(e) {';
+      $content[] = '';
+      $content[] = '      if (e.shiftKey) return;';
+      $content[] = '      const _ctx = _.context(e); // hides any open contexts and stops bubbling';
+      $content[] = '';
+      $content[] = '      _ctx.append.a({';
+      $content[] = '        html: \'<i class="bi bi-pencil"></i>edit\',';
+      $content[] = '        click: e => $(this).trigger(\'edit\')';
+      $content[] = '      });';
+      $content[] = '';
+      $content[] = '      _ctx.append.a({';
+      $content[] = '        html: \'<i class="bi bi-trash"></i>delete\',';
+      $content[] = '        click: e => $(this).trigger(\'delete\')';
+      $content[] = '      });';
+      $content[] = '';
+      $content[] = '      _ctx.open(e);';
+      $content[] = '    };';
+      $content[] = '';
+      $content[] = '    const edit = function() {';
+      $content[] = '';
+      $content[] = '      _.get.modal(_.url(`<?= $this->route ?>/edit/${this.dataset.id}`))';
+      $content[] = '        .then(m => m.on(\'success\', e => $(this).trigger(\'refresh\')));';
+      $content[] = '    };';
+      $content[] = '';
+      $content[] = '    const getMatrix = () => new Promise((resolve, reject) => {';
+      $content[] = '';
+      $content[] = '      _.fetch.post(_.url(\'<?= $this->route ?>\'), {';
+      $content[] = '        action: \'get-matrix\'';
+      $content[] = '      }).then(d => \'ack\' == d.response ? resolve(d.data) : _.growl(d));';
+      $content[] = '    });';
+      $content[] = '';
+      $content[] = '    const matrix = data => {';
+      $content[] = '';
+      $content[] = '      const tbody = table.find(\'> tbody\').empty();';
+      $content[] = '      $.each(data, (i, dto) => {';
+      $content[] = '        $(`<tr class="pointer" data-id="${dto.id}">';
+      foreach ($fields as $field) {
+        $content[] = sprintf('            <td class="js-%s">${dto.%s}</td>', $field, $field);
+      }
+      $content[] = '          </tr>`)';
+      $content[] = '          .on(\'click\', function(e) {';
+      $content[] = '';
+      $content[] = '            e.stopPropagation();';
+      $content[] = '            $(this).trigger(\'edit\');';
+      $content[] = '          })';
+      $content[] = '          .on(\'contextmenu\', contextmenu)';
+      $content[] = '          .on(\'delete\', rowDelete)';
+      $content[] = '          .on(\'edit\', edit)';
+      $content[] = '          .on(\'refresh\', rowRefresh)';
+      $content[] = '          .appendTo(tbody);';
+      $content[] = '      });';
+      $content[] = '    };';
+      $content[] = '';
+      $content[] = '    const refresh = () => getMatrix().then(matrix).catch(_.growl);';
+      $content[] = '';
+      $content[] = '    const rowDelete = function(e) {';
+      $content[] = '';
+      $content[] = '      e.stopPropagation();';
+      $content[] = '';
+      $content[] = '      _.fetch';
+      $content[] = '        .post(_.url(\'<?= $this->route ?>\'), {';
+      $content[] = sprintf('          action: \'%s-delete\',', $name);
+      $content[] = '          id: this.dataset.id';
+      $content[] = '        })';
+      $content[] = '        .then(d => {';
+      $content[] = '          if (\'ack\' == d.response) {';
+      $content[] = '            this.remove();';
+      $content[] = '          } else {';
+      $content[] = '            _.growl(d);';
+      $content[] = '          }';
+      $content[] = '        });';
+      $content[] = '    };';
+      $content[] = '';
+      $content[] = '    const rowRefresh = function(e) {';
+      $content[] = '      e.stopPropagation();';
+      $content[] = '';
+      $content[] = '      const row = $(this);';
+      $content[] = '';
+      $content[] = '      _.fetch.post(_.url(\'<?= $this->route ?>\'), {';
+      $content[] = '        action: \'get-by-id\',';
+      $content[] = '        id: this.dataset.id';
+      $content[] = '      }).then(d => {';
+      $content[] = '';
+      $content[] = '        if (\'ack\' == d.response) {';
+      $content[] = '';
+      foreach ($fields as $field) {
+        $content[] = sprintf('          row.find(\'.js-%s\').html(d.data.%s);', $field, $field);
+      }
+      $content[] = '        } else {';
+      $content[] = '';
+      $content[] = '          _.growl(d);';
+      $content[] = '        }';
+      $content[] = '      });';
+      $content[] = '    };';
+      $content[] = '';
+      $content[] = '    // return true from the prefilter to show the row';
+      $content[] = '    _.table.search(search, table, /* prefilter tr => true */ );';
+      $content[] = '';
+      $content[] = '    $(\'#<?= $_uidAdd ?>\').on(\'click\', function(e) {';
+      $content[] = '';
+      $content[] = '      _.hideContexts(e);';
+      $content[] = '';
+      $content[] = '      _.get.modal(_.url(\'<?= $this->route ?>/edit\'))';
+      $content[] = '        .then(m => m.on(\'success\', e => refresh()));';
+      $content[] = '    });';
+      $content[] = '';
+      $content[] = '    _.ready(() => refresh());';
+      $content[] = '  })(_brayworth_);';
+      $content[] = '</script>';
+
+      file_put_contents($file, implode("\n", $content));
+      echo "Created views/matrix class: $file\n";
+    } else {
+
+      echo "views/matrix class already exists: $file\n";
+    }
+  }
+
+  public static function checkDirectories($directories): void {
     foreach ($directories as $dir) {
       if (!is_dir($dir)) {
         mkdir($dir, 0777, true);
@@ -39,7 +707,7 @@ final class utility {
     }
   }
 
-  public static function checkFiles($files) {
+  public static function checkFiles($files): void {
 
     foreach ($files as $destination => $source) {
       if (!file_exists($destination)) {
@@ -59,7 +727,7 @@ final class utility {
     }
   }
 
-  public static function checkNamespace($files, $name) {
+  public static function checkNamespace($files, $name): void {
 
     foreach ($files as $destination => $source) {
 
@@ -75,29 +743,23 @@ final class utility {
       }
     }
   }
-}
 
-switch ($command) {
-  case 'serve':
+  public static function help(): void {
+    echo "Available commands:\n";
+    echo "  serve                Start the dev server\n";
+    if (!file_exists('public/_mvp.php')) {
 
-    if (is_dir('public')) {
-
-      printf("Starting local dev server at http://localhost:%s...\n", $port);
-      chdir( 'public');
-      passthru(sprintf('php -S 0.0.0.0:%s _mvp.php', $port));
-    } elseif (file_exists('tests/www/_mvp.php')) {
-
-      printf("Starting local dev server at http://localhost:%s...\n", $port);
-      chdir('tests/www');
-      passthru(sprintf('php -S 0.0.0.0:%s _mvp.php', $port));
-    } elseif (file_exists('vendor/bravedave/dvc/tests/www/_mvp.php')) {
-
-      echo "\n\napplication not found \n";
-      printf("to setup the default application type php %s make:application\n", __FILE__);
+      echo "  make::application     Create the default application\n";
     }
-    break;
+    echo "  make::module Name Generate a module\n";
+    echo "  version              Show version\n";
+    echo "\n";
+    echo "  experimental !!\n";
+    echo "  make::crud-module --name=<name> --fields=<field1,field2,...>\n";
+  }
 
-  case 'make::application':
+  public static function makeApplication(): void {
+
     /**
      * ensure the default folder exist, and the default files exist ...
      */
@@ -120,16 +782,27 @@ switch ($command) {
 
     echo "Default application setup complete.\n";
     printf("to run the application type php %s server\n", __FILE__);
-    break;
+  }
 
-  case 'make::module':
+  public static function makeCrudModule(string $name, string $fields): void {
 
-    $name = $args[1] ?? null;
-    if (!$name) {
-      printf("\n\nUsage: php %s make:module <Name>\n\n\n", __FILE__);
-      exit(1);
-    }
+    // Process fields
+    $fieldArray = $fields ? explode(',', $fields) : [];
 
+    static::makeModule($name, $createFiles = false);
+    static::makeCrudDBInfo($name, $fieldArray);
+    static::makeCrudDBMaintence($name, $fieldArray);
+    static::makeCrudDTO($name, $fieldArray);
+    static::makeCrudDAO($name, $fieldArray);
+    static::makeCrudController($name, $fieldArray);
+    static::makeCrudConfig($name, $fieldArray);
+    static::makeCrudHandler($name, $fieldArray);
+    static::makeCrudViewEdit($name, $fieldArray);
+    static::makeCrudViewIndex($name, $fieldArray);
+    static::makeCrudViewMatrix($name, $fieldArray);
+  }
+
+  public static function makeModule(string $name, bool $createFiles = true): void {
     // ensure name is valid
     if (!preg_match('/^[a-zA-Z0-9_]+$/', $name)) {
       printf("Invalid module name: %s\n", $name);
@@ -152,11 +825,15 @@ switch ($command) {
     ];
 
     utility::checkDirectories($directories);  // Create directories if they don't exist
-    utility::checkFiles($files);  // Copy files if they don't exist
-    utility::checkNamespace($files, $name);  // Copy files if they don't exist
+
+    if ($createFiles) {
+
+      utility::checkFiles($files);  // Copy files if they don't exist
+      utility::checkNamespace($files, $name);  // Copy files if they don't exist
+    }
 
     $file = 'src/controller/' . $name . '.php';
-    if ( !file_exists($file)) {
+    if (!file_exists($file)) {
 
       $content = "<?php\n// file: $file\nclass $name extends $name\controller {}\n";
       file_put_contents($file, $content);
@@ -167,16 +844,69 @@ switch ($command) {
     }
 
     echo "finished creating module: $file\n";
+  }
+
+  public static function serve(): void {
+
+    if (is_dir('public')) {
+
+      printf("Starting local dev server at http://localhost:%s...\n", static::$port);
+      chdir('public');
+      passthru(sprintf('php -S 0.0.0.0:%s _mvp.php', static::$port));
+    } elseif (file_exists('tests/www/_mvp.php')) {
+
+      printf("Starting local dev server at http://localhost:%s...\n", static::$port);
+      chdir('tests/www');
+      passthru(sprintf('php -S 0.0.0.0:%s _mvp.php', static::$port));
+    } elseif (file_exists('vendor/bravedave/dvc/tests/www/_mvp.php')) {
+
+      echo "\n\napplication not found \n";
+      printf("to setup the default application type php %s make:application\n", __FILE__);
+    }
+  }
+}
+
+switch ($command) {
+  case 'serve':
+    utility::serve();
+    break;
+
+  case 'make::application':
+    utility::makeApplication();
+    break;
+
+  case 'make::module':
+
+    $name = $args[1] ?? null;
+    if (!$name) {
+      printf("\n\nUsage: php %s make:module <Name>\n\n\n", __FILE__);
+      exit(1);
+    }
+
+    utility::makeModule($name);
+    break;
+  case 'make::crud-module':
+
+    $name = '';
+    $fields = '';
+    foreach ($args as $arg) {
+      if (preg_match('/-name=(.*)/', $arg, $matches)) {
+        $name = $matches[1];
+      } elseif (preg_match('/-fields=(.*)/', $arg, $matches)) {
+        $fields = $matches[1];
+      }
+    }
+
+    if (!$name || !$fields) {
+
+      printf("\n\nUsage: php %s make:crud-module -name=<Name> -fields=<field1,field2...>\n\n\n", __FILE__);
+      exit(1);
+    }
+
+    utility::makeCrudModule($name, $fields);
     break;
 
   default:
-    echo "Available commands:\n";
-    echo "  serve                Start the dev server\n";
-    if (!file_exists('public/_mvp.php')) {
-
-      echo "  make::application     Create the default application\n";
-    }
-    echo "  make::module Name Generate a module\n";
-    echo "  version              Show version\n";
+    utility::help();
     break;
 }
