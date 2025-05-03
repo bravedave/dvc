@@ -87,11 +87,7 @@ final class utility {
         '',
         sprintf('namespace %s;', $name),
         '',
-        'use bravedave\dvc\{',
-        '  controller as dvcController,',
-        '  json,',
-        '  ServerRequest',
-        '};',
+        'use bravedave\dvc\{ controller as dvcController, ServerRequest};',
         '',
         'class controller extends dvcController {',
         '',
@@ -121,27 +117,27 @@ final class utility {
         ''
       ];
 
-      $content[] = '/*';
-      $content[] = sprintf('  _brayworth_.fetch.post(_brayworth_.url(\'%s\'),{', $name);
-      $content[] = '    action: \'delete\',';
-      $content[] = '    id : 1';
-      $content[] = '  }).then(console.log);';
+      $content[] = '    /*';
+      $content[] = sprintf('      _brayworth_.fetch.post(_brayworth_.url(\'%s\'),{', $name);
+      $content[] = '        action: \'delete\',';
+      $content[] = '        id : 1';
+      $content[] = '      }).then(console.log);';
       $content[] = '';
-      $content[] = sprintf('  _brayworth_.fetch.post(_brayworth_.url(\'%s\'),{', $name);
-      $content[] = '    action: \'get-by-id\',';
-      $content[] = '    id : 1';
-      $content[] = '  }).then(console.log);';
+      $content[] = sprintf('      _brayworth_.fetch.post(_brayworth_.url(\'%s\'),{', $name);
+      $content[] = '        action: \'get-by-id\',';
+      $content[] = '        id : 1';
+      $content[] = '      }).then(console.log);';
       $content[] = '';
-      $content[] = sprintf('  _brayworth_.fetch.post(_brayworth_.url(\'%s\'),{', $name);
-      $content[] = '    action: \'get-matrix\'';
-      $content[] = '  }).then(console.log);';
+      $content[] = sprintf('      _brayworth_.fetch.post(_brayworth_.url(\'%s\'),{', $name);
+      $content[] = '        action: \'get-matrix\'';
+      $content[] = '      }).then(console.log);';
       $content[] = '*/';
-      $content[] = 'return match ($action) {';
-      $content[] = sprintf('  \'%s-delete\' => handler::%sDelete($request),', $name, $name);
-      $content[] = sprintf('  \'get-by-id\' => handler::%sGetByID($request),', $name);
-      $content[] = sprintf('  \'get-matrix\' => handler::%sGetMatrix($request),', $name);;
-      $content[] = sprintf('  \'%s-save\' => handler::%sSave($request),', $name, $name);
-      $content[] = '  default => parent::postHandler()';
+      $content[] = '    return match ($action) {';
+      $content[] = sprintf('      \'%s-delete\' => handler::%sDelete($request),', $name, $name);
+      $content[] = sprintf('      \'get-by-id\' => handler::%sGetByID($request),', $name);
+      $content[] = sprintf('      \'get-matrix\' => handler::%sGetMatrix($request),', $name);;
+      $content[] = sprintf('      \'%s-save\' => handler::%sSave($request),', $name, $name);
+      $content[] = '      default => parent::postHandler()';
       $content[] = '};';
 
       $content[] = '  }';
