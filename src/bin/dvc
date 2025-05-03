@@ -459,7 +459,6 @@ final class utility {
       $content[] = '';
       $content[] = '        <div class="modal-footer">';
       $content[] = '';
-      $content[] = '          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">close</button>';
       $content[] = '          <button type="submit" class="btn btn-primary">Save</button>';
       $content[] = '        </div>';
       $content[] = '      </div>';
@@ -473,13 +472,8 @@ final class utility {
       $content[] = '      modal.on(\'shown.bs.modal\', () => {';
       $content[] = '';
       $content[] = '        form.on(\'submit\', function(e) {';
-      $content[] = '          let _form = $(this);';
-      $content[] = '          let _data = _form.serializeFormJSON();';
       $content[] = '';
-      $content[] = '          _.post({';
-      $content[] = '            url: _.url(\'<?= $this->route ?>\'),';
-      $content[] = '            data: _data,';
-      $content[] = '          }).then(d => {';
+      $content[] = '          _.fetch.post.form(_.url(\'<?= $this->route ?>\'),this).then(d => {';
       $content[] = '';
       $content[] = '            if (\'ack\' == d.response) {';
       $content[] = '';
