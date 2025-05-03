@@ -131,7 +131,7 @@ final class utility {
       $content[] = sprintf('      _brayworth_.fetch.post(_brayworth_.url(\'%s\'),{', $name);
       $content[] = '        action: \'get-matrix\'';
       $content[] = '      }).then(console.log);';
-      $content[] = '*/';
+      $content[] = '    */';
       $content[] = '    return match ($action) {';
       $content[] = sprintf('      \'%s-delete\' => handler::%sDelete($request),', $name, $name);
       $content[] = sprintf('      \'get-by-id\' => handler::%sGetByID($request),', $name);
