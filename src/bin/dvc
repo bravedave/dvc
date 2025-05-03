@@ -490,7 +490,7 @@ final class utility {
       $content[] = '          return false;';
       $content[] = '        });';
       $content[] = '';
-      $content[] = '        form.find(\'input, select, textarea\').first().focus();';
+      $content[] = '        form.find(\'input:not([type="hidden"]), select, textarea\').first().focus();';
       $content[] = '      });';
       $content[] = '    })(_brayworth_);';
       $content[] = '  </script>';
