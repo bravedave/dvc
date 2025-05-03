@@ -138,7 +138,7 @@ final class utility {
       $content[] = sprintf('      \'get-matrix\' => handler::%sGetMatrix($request),', $name);;
       $content[] = sprintf('      \'%s-save\' => handler::%sSave($request),', $name, $name);
       $content[] = '      default => parent::postHandler()';
-      $content[] = '};';
+      $content[] = '    };';
 
       $content[] = '  }';
       $content[] = '';
