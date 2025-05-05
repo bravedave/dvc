@@ -147,9 +147,9 @@ abstract class Response {
     header("Content-type: image/jpeg");
   }
 
-  public static function json_headers($modifyTime = 0, $length = 0) {
+  public static function json_headers($modifyTime = 0, $length = 0, $contentType = 'application/json') {
     self::_common_headers($modifyTime);
-    header('Content-type: application/json; charset=utf-8');
+    header(sprintf('Content-type: %s; charset=utf-8', $contentType));
     if ($length) header(sprintf('Content-length: %s', $length));
   }
 
@@ -362,7 +362,13 @@ abstract class Response {
           if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
         } elseif ($ext == 'json') {
 
-          self::json_headers(filemtime($path));
+          if ( basename($path) == 'importmap.json' ) {
+            
+            self::json_headers(filemtime($path), filesize($path), 'application/importmap+json');
+          } else {
+
+            self::json_headers(filemtime($path));
+          }
           readfile($path);
           if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
         } elseif ($ext == 'xml') {

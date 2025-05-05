@@ -68,13 +68,7 @@ class page {
     $p->scripts[] = sprintf('<script src="%s"></script>', $js);
     
     $importmap = strings::url('js/importmap');
-    $p->scripts[] = sprintf('<script type="importmap">{
-      "imports": {
-        "preact": "/js/preact",
-        "hooks": "/js/hooks",
-        "htm": "/js/htm"
-      }
-    }</script>', $importmap);
+    $p->scripts[] = sprintf('<script type="importmap" src="%s"></script>', $importmap);
 
     $p->css[] = sprintf('<link rel="stylesheet" href="%s">', $css);
     $p->css[] = sprintf('<link rel="stylesheet" href="%s">', $icons);
