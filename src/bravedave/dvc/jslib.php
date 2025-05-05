@@ -22,7 +22,7 @@ use dvc\Response;
 use FilesystemIterator;
 use GlobIterator, MatthiasMullie;
 
-abstract class jslib {
+final class jslib {
   public static $debug = false;
   public static $tinylib = false;
   public static $brayworthlib = false;
