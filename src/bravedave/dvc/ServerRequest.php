@@ -153,6 +153,12 @@ class ServerRequest {
 
       if (empty($segment)) return false;
 
+      $ignore = [
+        '.well-known/appspecific/com.chrome.devtools.json'
+      ];
+
+      if (in_array($segment, $ignore)) return false;
+
       /**
        * not the - hyphen is at the end of the character class,
        * if it is not it has to be escaped
@@ -164,6 +170,8 @@ class ServerRequest {
 
       $remoteIP = self::$_request->getServerParams()['REMOTE_ADDR'] ?? 'unknown';
       $referer = self::$_request->getServerParams()['HTTP_REFERER'] ?? null;
+
+
       logger::info(sprintf('<--- ---[invalid segment : %s]--- ---> %s', $remoteIP, __METHOD__));
       logger::info(sprintf('<uri: %s> %s', $path, __METHOD__));
       if ($referer) logger::info(sprintf('<referer: %s> %s', $referer, __METHOD__));
