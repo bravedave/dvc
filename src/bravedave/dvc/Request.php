@@ -116,12 +116,18 @@ class Request {
 
       $this->segments = ['sitemap', 'txt'];
     } else {
-
+      
+      $ignore = [
+        '.well-known'
+      ];
+      
       $segs = explode('/', $url);
       $this->segments = [];
       foreach ($segs as $seg) {
 
         if ($seg) {
+
+          if (in_array($seg, $ignore)) continue;
 
           if (!preg_match('/^[_a-z0-9]/i', $seg)) {
 
