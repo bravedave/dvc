@@ -66,6 +66,9 @@ class page {
     $icons = strings::url('assets/bootstrap/icons');
     $js = strings::url('assets/bootstrap/js/5');
     $p->scripts[] = sprintf('<script src="%s"></script>', $js);
+    
+    $importmap = strings::url('js/importmap');
+    $p->scripts[] = sprintf('<script type="importmap" src="%s"></script>', $importmap);
 
     $p->css[] = sprintf('<link rel="stylesheet" href="%s">', $css);
     $p->css[] = sprintf('<link rel="stylesheet" href="%s">', $icons);

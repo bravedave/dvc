@@ -556,6 +556,7 @@ abstract class controller {
     return $this->load($name, $controller);  // that's a chain
   }
 
+  #[\Deprecated]
   protected function modalError($params = []) {
 
     $options = array_merge([
@@ -972,56 +973,63 @@ abstract class controller {
     }
   }
 
-  public function js(string $lib = '') {
+  protected function __tinyserve__(string $lib) {
 
-    if (in_array($lib, ['tinymce', 'tinymce5'])) {
+    $_tinyDir = sprintf(
+      '%s/tinymce/tinymce/',
+      static::application()->getVendorPath(),
+    );
 
-      $_tinyDir = sprintf(
-        '%s/tinymce/tinymce/',
+    $uri = $this->Request->getUri();
+    if (preg_match('/(\.min\.css|\.css)$/', $uri)) {
+
+      $file = preg_replace('@^(js|assets)/tinymce[5?]/@', '', $uri);
+      // logger::info(sprintf('<%s> %s', $file, __METHOD__));
+
+      $_f = implode(DIRECTORY_SEPARATOR, [
+        $_tinyDir,
+        $file
+      ]);
+
+      file_exists($_f) ?
+        Response::serve($_f) :
+        logger::info(sprintf('<error serving %s> %s', $file, __METHOD__));
+    } elseif (preg_match('/(content\.min\.css|content\.css)$/', $uri)) {
+
+      // this loop is probably deprecated
+
+      $_f = sprintf(
+        '%s/tinymce/tinymce/skins/content/default/content.min.css',
         static::application()->getVendorPath(),
+        $lib
       );
 
-      if (preg_match('/(\.min\.css|\.css)$/', $uri = $this->Request->getUri())) {
+      file_exists($_f) ?
+        Response::serve($_f) :
+        logger::info(sprintf(
+          '<error serving lib tinymce.css> <%s> %s',
+          dirname(static::application()->getVendorPath()),
+          logger::caller()
+        ));
+    } elseif (userAgent::isMobileDevice()) {
 
-        $file = preg_replace('@^(js|assets)/tinymce[5?]/@', '', $uri);
-        // logger::info(sprintf('<%s> %s', $file, __METHOD__));
+      jslib::tinyserve('tiny-imap-mobile', 'autolink,lists');
+    } else {
 
-        $_f = implode(DIRECTORY_SEPARATOR, [
-          $_tinyDir,
-          $file
-        ]);
-
-        file_exists($_f) ?
-          Response::serve($_f) :
-          logger::info(sprintf('<error serving %s> %s', $file, __METHOD__));
-      } elseif (preg_match('/(content\.min\.css|content\.css)$/', $uri = $this->Request->getUri())) {
-
-        // this loop is probably deprecated
-
-        $_f = sprintf(
-          '%s/tinymce/tinymce/skins/content/default/content.min.css',
-          static::application()->getVendorPath(),
-          $lib
-        );
-
-        file_exists($_f) ?
-          Response::serve($_f) :
-          logger::info(sprintf(
-            '<error serving lib tinymce.css> <%s> %s',
-            dirname(static::application()->getVendorPath()),
-            logger::caller()
-          ));
-      } else {
-
-        if (userAgent::isMobileDevice()) {
-
-          jslib::tinyserve('tiny-imap-mobile', 'autolink,lists');
-        } else {
-
-          jslib::tinyserve('tiny-imap', 'autolink,paste,lists,table,image,imagetools,link,spellchecker');
-        }
-      }
+      jslib::tinyserve('tiny-imap', 'autolink,paste,lists,table,image,imagetools,link,spellchecker');
     }
+  }
+
+  public function js(string $lib = '') {
+
+    match ($lib) {
+      'importmap' => Response::serve(__DIR__ . '/js/preact/importmap.json'),
+      'preact', 'preact.module.js' => Response::serve(__DIR__ . '/js/preact/preact.module.js'),
+      'hooks', 'hooks.module.js' => Response::serve(__DIR__ . '/js/preact/hooks.module.js'),
+      'htm', 'htm.module.js' => Response::serve(__DIR__ . '/js/preact/htm.module.js'),
+      'tinymce', 'tinymce5' => $this->__tinyserve__($lib),
+      default => fn() => false
+    };
   }
 
   public function logout() {
