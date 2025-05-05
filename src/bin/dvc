@@ -379,24 +379,25 @@ final class utility {
         '',
         '    $action = $request(\'action\');',
         '    $a = [',
-        '      \'name\' => $request(\'name\'),',
-        '      \'phone\' => $request(\'phone\'),',
-        '      \'email\' => $request(\'email\'),',
-        '    ];',
-        '',
-        sprintf('    $dao = new dao\%s;', $name),
-        '    if ($id = (int)$request(\'id\')) {',
-        '',
-        '      $dao->UpdateByID($a, $id);',
-        '    } else {',
-        '      $dao->Insert($a);',
-        '    }',
-        '',
-        '    return json::ack($action);',
-        '',
-        '  }',
-        '}'
       ];
+      foreach ($fields as $field) {
+        $content[] = sprintf( '      \'%s\' => $request(\'%s\'),', $field, $field);
+      }
+
+      $content[] = '    ];';
+      $content[] = '';
+      $content[] = sprintf('    $dao = new dao\%s;', $name);
+      $content[] = '    if ($id = (int)$request(\'id\')) {';
+      $content[] = '';
+      $content[] = '      $dao->UpdateByID($a, $id);';
+      $content[] = '    } else {';
+      $content[] = '      $dao->Insert($a);';
+      $content[] = '    }';
+      $content[] = '';
+      $content[] = '    return json::ack($action);';
+      $content[] = '';
+      $content[] = '  }';
+      $content[] = '}';
 
       file_put_contents($file, implode("\n", $content));
       echo "Created handler class: $file\n";
@@ -690,6 +691,188 @@ final class utility {
     }
   }
 
+  protected static function makeCrudViewMatrixPreact(string $name, array $fields): void {
+
+    $file = 'src/app/' . $name . '/views/matrix.php';
+    if (!file_exists($file)) {
+
+      $content = [
+        '<?php',
+        '  // file: ' . $file,
+        '  // MIT License',
+        '',
+        sprintf('namespace %s;', $name),
+        '',
+        'use bravedave\dvc\strings; ?>',
+        '',
+        '<div class="row gx-2 mb-2 d-print-none">',
+        '  <div class="col">',
+        '    <div class="input-group">',
+        '      <input type="search" accesskey="/" class="form-control" id="<?= $_search = strings::rand() ?>" autofocus>',
+        '    </div>',
+        '  </div>',
+        '',
+        '  <div class="col-auto">',
+        '    <button class="btn btn-outline-primary" id="<?= $_uidAdd = strings::rand() ?>">',
+        '      <i class="bi bi-plus-circle"></i> new',
+        '    </button>',
+        '  </div>',
+        '</div>',
+        '',
+        '<div class="table-responsive">',
+        '  <table class="table table-sm" id="<?= $_uidTable = strings::rand() ?>">',
+        '    <thead class="small">',
+        '      <tr>',
+      ];
+
+      foreach ($fields as $field) {
+        $content[] = sprintf('        <td>%s</td>', $field);
+      }
+      $content[] = '      </tr>';
+      $content[] = '    </thead>';
+      $content[] = '';
+      $content[] = '    <tbody></tbody>';
+      $content[] = '  </table>';
+      $content[] = '</div>';
+
+      $content[] = '<script type="module">';
+      $content[] = '';
+      $content[] = '  import { h, render } from \'preact\';';
+      $content[] = '  import { useState, useEffect } from \'hooks\';';
+      $content[] = '  import htm from \'htm\';';
+      $content[] = '';
+      $content[] = '  const search = $(\'#<?= $_search ?>\');';
+      $content[] = '  const table = $(\'#<?= $_table ?>\');';
+      $content[] = '  const _ = _brayworth_;';
+      $content[] = '';
+      $content[] = '  const html = htm.bind(h);';
+      $content[] = '  const contextmenu = function(e) {';
+      $content[] = '';
+      $content[] = '    if (e.shiftKey) return;';
+      $content[] = '    const _ctx = _.context(e); // hides any open contexts and stops bubbling';
+      $content[] = '';
+      $content[] = '    _ctx.append.a({';
+      $content[] = '      html: \'<i class="bi bi-pencil"></i>edit\',';
+      $content[] = '      click: e => $(this).trigger(\'edit\')';
+      $content[] = '    });';
+      $content[] = '';
+      $content[] = '    _ctx.append.a({';
+      $content[] = '      html: \'<i class="bi bi-trash"></i>delete\',';
+      $content[] = '      click: e => $(this).trigger(\'delete\')';
+      $content[] = '    });';
+      $content[] = '';
+      $content[] = '    _ctx.open(e);';
+      $content[] = '  };';
+      $content[] = '';
+      $content[] = '  const edit = function(e) {';
+      $content[] = '';
+      $content[] = '    e.stopPropagation();';
+      $content[] = '    _.get.modal(_.url(`<?= $this->route ?>/edit/${this.dataset.id}`))';
+      $content[] = '      .then(m => m.on(\'success\', e => table.trigger(\'refresh\')));';
+      $content[] = '  };';
+      $content[] = '';
+      $content[] = '  const Matrix = () => {';
+      $content[] = '    const [data, setData] = useState([]);';
+      $content[] = '    const [error, setError] = useState(null);';
+      $content[] = '    const [refresh, setRefresh] = useState(0); // State to trigger re-fetch';
+      $content[] = '';
+      $content[] = '    useEffect(() => {';
+      $content[] = '';
+      $content[] = '      _.fetch.post(_.url(\'<?= $this->route ?>\'), {';
+      $content[] = '        action: \'get-matrix\'';
+      $content[] = '      }).then(d => {';
+      $content[] = '        if (\'ack\' == d.response) {';
+      $content[] = '          setData(d.data);';
+      $content[] = '        } else {';
+      $content[] = '          setError(d.description ? d.description : d);';
+      $content[] = '        }';
+      $content[] = '      });';
+      $content[] = '    }, [refresh]);';
+      $content[] = '';
+      $content[] = '    useEffect(() => table.trigger(\'update-line-numbers\'), [data]); // Runs whenever `data` changes';
+      $content[] = '';
+      $content[] = '    useEffect(() => {';
+      $content[] = '';
+      $content[] = '      table.on(\'delete\', \'tbody > tr\', function(e) {';
+      $content[] = '';
+      $content[] = '        e.stopPropagation();';
+      $content[] = '';
+      $content[] = '        const payload = {';
+      $content[] = '          action: \'people-delete\',';
+      $content[] = '          id: this.dataset.id';
+      $content[] = '        };';
+      $content[] = '';
+      $content[] = '        _.fetch.post(_.url(\'<?= $this->route ?>\'), payload)';
+      $content[] = '          .then(d => {';
+      $content[] = '            if (\'ack\' == d.response) {';
+      $content[] = '              this.remove();';
+      $content[] = '              table.trigger(\'update-line-numbers\');';
+      $content[] = '            } else {';
+      $content[] = '              _.growl(d);';
+      $content[] = '            }';
+      $content[] = '          });';
+      $content[] = '      });';
+      $content[] = '';
+      $content[] = '      table.on(\'edit\', \'tbody > tr\', edit);';
+      $content[] = '      table.on(\'click\', \'tbody > tr\', function(e) {';
+      $content[] = '';
+      $content[] = '        e.stopPropagation();';
+      $content[] = '        $(this).trigger(\'edit\');';
+      $content[] = '      });';
+      $content[] = '      ';
+      $content[] = '      table.on(\'contextmenu\', \'tbody > tr\', contextmenu);';
+      $content[] = '';
+      $content[] = '      // Cleanup the event listener when the component unmounts';
+      $content[] = '      return () => {';
+      $content[] = '        table.off(\'delete\', \'tbody > tr\');';
+      $content[] = '        table.off(\'edit\', \'tbody > tr\');';
+      $content[] = '        table.off(\'click\', \'tbody > tr\');';
+      $content[] = '        table.off(\'contextmenu\', \'tbody > tr\');';
+      $content[] = '      };';
+      $content[] = '    }, []);';
+      $content[] = '';
+      $content[] = '    table.on(\'refresh\', e => setRefresh(prev => prev + 1));';
+      $content[] = '';
+      $content[] = '    return data.map(dto => html`';
+      $content[] = '      <tr data-id="${dto.id}" class="pointer">';
+      $content[] = '        <td class="text-center js-line-number"></td>';
+      foreach ($fields as $field) {
+        $content[] = sprintf('        <td>${dto.%s}</td>', $field, $field);
+      }
+      $content[] = '      </tr>`);';
+      $content[] = '';
+      $content[] = '    if (error) return html`<div>Error: ${error}</div>`;';
+      $content[] = '    if (!data.length) return html`<div>Loading...</div>`;';
+      $content[] = '  };';
+      $content[] = '';
+      $content[] = '  // Attach render to the \'refresh\' event';
+      $content[] = '  table.on(\'refresh\', e => {';
+      $content[] = '    e.stopPropagation();';
+      $content[] = '    render(html`<${Matrix} />`, table.find(\'>tbody\').get(0));';
+      $content[] = '  });';
+      $content[] = '';
+      $content[] = '  // return true from the prefilter to show the row';
+      $content[] = '  _.table.search(search, table, /* prefilter tr => true */ );';
+      $content[] = '  table.on(\'update-line-numbers\', _.table._line_numbers_);';
+      $content[] = '';
+      $content[] = '  $(\'#<?= $_uidAdd ?>\').on(\'click\', function(e) {';
+      $content[] = '';
+      $content[] = '    _.hideContexts(e);';
+      $content[] = '    _.get.modal(_.url(\'<?= $this->route ?>/edit\'))';
+      $content[] = '      .then(m => m.on(\'success\', e => table.trigger(\'refresh\')));';
+      $content[] = '  });';
+      $content[] = '';
+      $content[] = '  table.trigger(\'refresh\');';
+      $content[] = '</script>';
+
+      file_put_contents($file, implode("\n", $content));
+      echo "Created views/matrix class: $file\n";
+    } else {
+
+      echo "views/matrix class already exists: $file\n";
+    }
+  }
+
   public static function checkDirectories($directories): void {
     foreach ($directories as $dir) {
       if (!is_dir($dir)) {
@@ -791,7 +974,8 @@ final class utility {
     static::makeCrudHandler($name, $fieldArray);
     static::makeCrudViewEdit($name, $fieldArray);
     static::makeCrudViewIndex($name, $fieldArray);
-    static::makeCrudViewMatrix($name, $fieldArray);
+    // static::makeCrudViewMatrix($name, $fieldArray);
+    static::makeCrudViewMatrixPreact($name, $fieldArray);
   }
 
   public static function makeModule(string $name, bool $createFiles = true): void {
