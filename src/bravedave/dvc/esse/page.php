@@ -74,13 +74,6 @@ class page {
         'htm' => '/js/htm'
       ]
     ];
-    // $p->scripts[] = sprintf('<script type="importmap">{
-    //   "imports": {
-    //     "preact": "/js/preact",
-    //     "hooks": "/js/hooks",
-    //     "htm": "/js/htm"
-    //   }
-    // }</script>');
     $p->scripts[] = sprintf('<script type="importmap">%s</script>', json_encode($imports, JSON_UNESCAPED_SLASHES));
 
     $p->css[] = sprintf('<link rel="stylesheet" href="%s">', $css);
