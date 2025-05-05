@@ -154,7 +154,7 @@ class ServerRequest {
       if (empty($segment)) return false;
 
       $ignore = [
-        '.well-known/appspecific/com.chrome.devtools.json'
+        '.well-known'
       ];
 
       if (in_array($segment, $ignore)) return false;
