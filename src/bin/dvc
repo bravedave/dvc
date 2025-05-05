@@ -554,7 +554,7 @@ final class utility {
         '</div>',
         '',
         '<div class="table-responsive">',
-        '  <table class="table table-sm" id="<?= $_uidTable = strings::rand() ?>">',
+        '  <table class="table table-sm" id="<?= $_table = strings::rand() ?>">',
         '    <thead class="small">',
         '      <tr>',
       ];
@@ -570,7 +570,7 @@ final class utility {
       $content[] = '</div>';
       $content[] = '<script>';
       $content[] = '  (_ => {';
-      $content[] = '    const table = $(\'#<?= $_uidTable ?>\');';
+      $content[] = '    const table = $(\'#<?= $_table ?>\');';
       $content[] = '    const search = $(\'#<?= $_search ?>\');';
       $content[] = '';
       $content[] = '    const contextmenu = function(e) {';
@@ -720,7 +720,7 @@ final class utility {
         '</div>',
         '',
         '<div class="table-responsive">',
-        '  <table class="table table-sm" id="<?= $_uidTable = strings::rand() ?>">',
+        '  <table class="table table-sm" id="<?= $_table = strings::rand() ?>">',
         '    <thead class="small">',
         '      <tr>',
       ];
