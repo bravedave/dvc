@@ -131,7 +131,8 @@
 
     search: (ctrl, table, preScan) => {
 
-      // ensure we have a jquery object for table
+      // ensure we have a jquery objects for ctrl and table
+      if (!(ctrl instanceof $)) ctrl = $(ctrl);
       if (!(table instanceof $)) table = $(table);
 
       ctrl[0].dataset.srchIdx = 0;
