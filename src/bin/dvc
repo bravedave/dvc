@@ -706,165 +706,154 @@ final class utility {
         'use bravedave\dvc\strings; ?>',
         '',
         '<div class="row gx-2 mb-2 d-print-none">',
-        '  <div class="col">',
-        '    <div class="input-group">',
-        '      <input type="search" accesskey="/" class="form-control" id="<?= $_search = strings::rand() ?>" autofocus>',
+        '    <div class="col">',
+        '        <div class="input-group">',
+        '            <input type="search" accesskey="/" class="form-control" id="<?= $_search = strings::rand() ?>" autofocus>',
+        '        </div>',
         '    </div>',
-        '  </div>',
         '',
-        '  <div class="col-auto">',
-        '    <button class="btn btn-outline-primary" id="<?= $_uidAdd = strings::rand() ?>">',
-        '      <i class="bi bi-plus-circle"></i> new',
-        '    </button>',
-        '  </div>',
+        '    <div class="col-auto" id="<?= $_uidAdd = strings::rand() ?>"></div>',
         '</div>',
         '',
         '<div class="table-responsive">',
-        '  <table class="table table-sm" id="<?= $_table = strings::rand() ?>">',
-        '    <thead class="small">',
-        '      <tr>',
+        '    <table class="table table-sm" id="<?= $_table = strings::rand() ?>">',
+        '        <thead class="small">',
+        '            <tr>',
+        '                <td class="text-center js-line-number"></td>',
       ];
 
       foreach ($fields as $field) {
-        $content[] = sprintf('        <td>%s</td>', $field);
+        $content[] = sprintf('                <td>%s</td>', $field);
       }
-      $content[] = '      </tr>';
-      $content[] = '    </thead>';
-      $content[] = '';
-      $content[] = '    <tbody></tbody>';
-      $content[] = '  </table>';
-      $content[] = '</div>';
 
+      $content[] = '            </tr>';
+      $content[] = '        </thead>';
+      $content[] = '';
+      $content[] = '        <tbody></tbody>';
+      $content[] = '    </table>';
+      $content[] = '</div>';
       $content[] = '<script type="module">';
+      $content[] = '    import { h, render } from \'preact\';';
+      $content[] = '    import { useState, useEffect } from \'hooks\';';
+      $content[] = '    import htm from \'htm\';';
       $content[] = '';
-      $content[] = '  import { h, render } from \'preact\';';
-      $content[] = '  import { useState, useEffect } from \'hooks\';';
-      $content[] = '  import htm from \'htm\';';
+      $content[] = '    const html = htm.bind(h);';
+      $content[] = '    const _ = _brayworth_;';
       $content[] = '';
-      $content[] = '  const search = $(\'#<?= $_search ?>\');';
-      $content[] = '  const table = $(\'#<?= $_table ?>\');';
-      $content[] = '  const _ = _brayworth_;';
+      $content[] = '    const Matrix = ({ tableId, route }) => {';
+      $content[] = '        const [data, setData] = useState([]);';
+      $content[] = '        const [error, setError] = useState(null);';
+      $content[] = '        const [refresh, setRefresh] = useState(0); // State to trigger re-fetch';
       $content[] = '';
-      $content[] = '  const html = htm.bind(h);';
-      $content[] = '  const contextmenu = function(e) {';
+      $content[] = '        const fetchData = () => {';
       $content[] = '';
-      $content[] = '    if (e.shiftKey) return;';
-      $content[] = '    const _ctx = _.context(e); // hides any open contexts and stops bubbling';
-      $content[] = '';
-      $content[] = '    _ctx.append.a({';
-      $content[] = '      html: \'<i class="bi bi-pencil"></i>edit\',';
-      $content[] = '      click: e => $(this).trigger(\'edit\')';
-      $content[] = '    });';
-      $content[] = '';
-      $content[] = '    _ctx.append.a({';
-      $content[] = '      html: \'<i class="bi bi-trash"></i>delete\',';
-      $content[] = '      click: e => $(this).trigger(\'delete\')';
-      $content[] = '    });';
-      $content[] = '';
-      $content[] = '    _ctx.open(e);';
-      $content[] = '  };';
-      $content[] = '';
-      $content[] = '  const edit = function(e) {';
-      $content[] = '';
-      $content[] = '    e.stopPropagation();';
-      $content[] = '    _.get.modal(_.url(`<?= $this->route ?>/edit/${this.dataset.id}`))';
-      $content[] = '      .then(m => m.on(\'success\', e => table.trigger(\'refresh\')));';
-      $content[] = '  };';
-      $content[] = '';
-      $content[] = '  const Matrix = () => {';
-      $content[] = '    const [data, setData] = useState([]);';
-      $content[] = '    const [error, setError] = useState(null);';
-      $content[] = '    const [refresh, setRefresh] = useState(0); // State to trigger re-fetch';
-      $content[] = '';
-      $content[] = '    useEffect(() => {';
-      $content[] = '';
-      $content[] = '      _.fetch.post(_.url(\'<?= $this->route ?>\'), {';
-      $content[] = '        action: \'get-matrix\'';
-      $content[] = '      }).then(d => {';
-      $content[] = '        if (\'ack\' == d.response) {';
-      $content[] = '          setData(d.data);';
-      $content[] = '        } else {';
-      $content[] = '          setError(d.description ? d.description : d);';
-      $content[] = '        }';
-      $content[] = '      });';
-      $content[] = '    }, [refresh]);';
-      $content[] = '';
-      $content[] = '    useEffect(() => table.trigger(\'update-line-numbers\'), [data]); // Runs whenever `data` changes';
-      $content[] = '';
-      $content[] = '    useEffect(() => {';
-      $content[] = '';
-      $content[] = '      table.on(\'delete\', \'tbody > tr\', function(e) {';
-      $content[] = '';
-      $content[] = '        e.stopPropagation();';
-      $content[] = '';
-      $content[] = '        const payload = {';
-      $content[] = '          action: \'people-delete\',';
-      $content[] = '          id: this.dataset.id';
+      $content[] = '            // console.log(\'Fetching data...\');';
+      $content[] = '            _.fetch.post(_.url(route), {';
+      $content[] = '                    action: \'get-matrix\'';
+      $content[] = '                })';
+      $content[] = '                .then(d => {';
+      $content[] = '                    if (d.response === \'ack\') {';
+      $content[] = '                        setData(d.data);';
+      $content[] = '                        const el = document.getElementById(tableId);';
+      $content[] = '                        if (el) el.dispatchEvent(new Event(\'update-line-numbers\')); // Trigger after data update';
+      $content[] = '                    } else {';
+      $content[] = '                        setError(d.description || d);';
+      $content[] = '                    }';
+      $content[] = '                });';
       $content[] = '        };';
       $content[] = '';
-      $content[] = '        _.fetch.post(_.url(\'<?= $this->route ?>\'), payload)';
-      $content[] = '          .then(d => {';
-      $content[] = '            if (\'ack\' == d.response) {';
-      $content[] = '              this.remove();';
-      $content[] = '              table.trigger(\'update-line-numbers\');';
-      $content[] = '            } else {';
-      $content[] = '              _.growl(d);';
+      $content[] = '        const handleDelete = id => {';
+      $content[] = '';
+      $content[] = '            _.fetch.post(_.url(route), {';
+      $content[] = '                    action: \'property-delete\',';
+      $content[] = '                    id';
+      $content[] = '                })';
+      $content[] = '                .then(d => {';
+      $content[] = '                    if (d.response === \'ack\') {';
+      $content[] = '                        setData(prev => prev.filter(item => item.id !== id));';
+      $content[] = '                    } else {';
+      $content[] = '                        _.growl(d);';
+      $content[] = '                    }';
+      $content[] = '                });';
+      $content[] = '        };';
+      $content[] = '';
+      $content[] = '        const handleEdit = id => {';
+      $content[] = '            _.get.modal(_.url(`${route}/edit/${id}`))';
+      $content[] = '                .then(m => m.on(\'success\', fetchData));';
+      $content[] = '        };';
+      $content[] = '';
+      $content[] = '        useEffect(() => fetchData(), [refresh]);';
+      $content[] = '        useEffect(() => {';
+      $content[] = '            const el = document.getElementById(tableId);';
+      $content[] = '            if (el) el.dispatchEvent(new Event(\'update-line-numbers\'));';
+      $content[] = '        }, [data]); // Runs whenever `data` changes';
+      $content[] = '';
+      $content[] = '        useEffect(() => {';
+      $content[] = '            const el = document.getElementById(tableId);';
+      $content[] = '            const handleRefresh = () => setRefresh(prev => prev + 1);';
+      $content[] = '';
+      $content[] = '            if (el) {';
+      $content[] = '                el.addEventListener(\'refresh\', handleRefresh);';
+      $content[] = '                el.addEventListener(\'update-line-numbers\', _.table._line_numbers_);';
       $content[] = '            }';
-      $content[] = '          });';
-      $content[] = '      });';
       $content[] = '';
-      $content[] = '      table.on(\'edit\', \'tbody > tr\', edit);';
-      $content[] = '      table.on(\'click\', \'tbody > tr\', function(e) {';
+      $content[] = '            return () => {';
+      $content[] = '                if (el) {';
+      $content[] = '                    el.removeEventListener(\'refresh\', handleRefresh);';
+      $content[] = '                    el.removeEventListener(\'update-line-numbers\', _.table._line_numbers_);';
+      $content[] = '                }';
+      $content[] = '            };';
+      $content[] = '        }, [tableId]);';
       $content[] = '';
-      $content[] = '        e.stopPropagation();';
-      $content[] = '        $(this).trigger(\'edit\');';
-      $content[] = '      });';
-      $content[] = '      ';
-      $content[] = '      table.on(\'contextmenu\', \'tbody > tr\', contextmenu);';
+      $content[] = '        if (error) return html`<div>Error: ${error}</div>`;';
+      $content[] = '        if (!data.length) return html`<div>Loading...</div>`;';
       $content[] = '';
-      $content[] = '      // Cleanup the event listener when the component unmounts';
-      $content[] = '      return () => {';
-      $content[] = '        table.off(\'delete\', \'tbody > tr\');';
-      $content[] = '        table.off(\'edit\', \'tbody > tr\');';
-      $content[] = '        table.off(\'click\', \'tbody > tr\');';
-      $content[] = '        table.off(\'contextmenu\', \'tbody > tr\');';
-      $content[] = '      };';
-      $content[] = '    }, []);';
+      $content[] = '        return html`';
+      $content[] = '          ${data.map(dto => html`';
+      $content[] = '            <tr data-id="${dto.id}" class="pointer" ';
+      $content[] = '              onClick=${() => handleEdit(dto.id)} ';
+      $content[] = '              onContextMenu=${e => {';
+      $content[] = '                e.preventDefault();';
+      $content[] = '                const _ctx = _.context(e);';
+      $content[] = '                _ctx.append.a({';
+      $content[] = '                  html: \'<i class="bi bi-pencil"></i>edit\',';
+      $content[] = '                  click: () => handleEdit(dto.id)';
+      $content[] = '                });';
+      $content[] = '                _ctx.append.a({';
+      $content[] = '                  html: \'<i class="bi bi-trash"></i>delete\',';
+      $content[] = '                  click: () => handleDelete(dto.id)';
+      $content[] = '                });';
+      $content[] = '                _ctx.open(e);';
+      $content[] = '              }}>';
+      $content[] = '              <td class="text-center js-line-number"></td>';
+      $content[] = '              <td>${dto.street}</td>';
+      $content[] = '              <td>${dto.suburb}</td>';
+      $content[] = '              <td>${dto.state}</td>';
+      $content[] = '              <td>${dto.postcode}</td>';
+      $content[] = '            </tr>`)}';
+      $content[] = '        `;';
+      $content[] = '    };';
       $content[] = '';
-      $content[] = '    table.on(\'refresh\', e => setRefresh(prev => prev + 1));';
+      $content[] = '    const table = document.getElementById(\'<?= $_table ?>\');';
+      $content[] = '    const search = document.getElementById(\'<?= $_search ?>\');';
       $content[] = '';
-      $content[] = '    return data.map(dto => html`';
-      $content[] = '      <tr data-id="${dto.id}" class="pointer">';
-      $content[] = '        <td class="text-center js-line-number"></td>';
-      foreach ($fields as $field) {
-        $content[] = sprintf('        <td>${dto.%s}</td>', $field, $field);
-      }
-      $content[] = '      </tr>`);';
+      $content[] = '    render(html`<${Matrix} tableId="<?= $_table ?>" route="<?= $this->route ?>" />`, table.querySelector(\'tbody\'));';
       $content[] = '';
-      $content[] = '    if (error) return html`<div>Error: ${error}</div>`;';
-      $content[] = '    if (!data.length) return html`<div>Loading...</div>`;';
-      $content[] = '  };';
+      $content[] = '    const handleAdd = e => {';
+      $content[] = '        _.hideContexts(e);';
+      $content[] = '        _.get.modal(_.url(\'<?= $this->route ?>/edit\'))';
+      $content[] = '            .then(m => m.on(\'success\', () => table.dispatchEvent(new Event(\'refresh\'))));';
+      $content[] = '    };';
       $content[] = '';
-      $content[] = '  // Attach render to the \'refresh\' event';
-      $content[] = '  table.on(\'refresh\', e => {';
-      $content[] = '    e.stopPropagation();';
-      $content[] = '    render(html`<${Matrix} />`, table.find(\'>tbody\').get(0));';
-      $content[] = '  });';
+      $content[] = '    render(html`<button ';
+      $content[] = '        class="btn btn-outline-primary"';
+      $content[] = '        onClick=${e => handleAdd(e)}>';
+      $content[] = '          <i class="bi bi-plus-circle"></i> new';
+      $content[] = '        </button>`, document.getElementById(\'<?= $_uidAdd ?>\'));';
       $content[] = '';
-      $content[] = '  // return true from the prefilter to show the row';
-      $content[] = '  _.table.search(search, table, /* prefilter tr => true */ );';
-      $content[] = '  table.on(\'update-line-numbers\', _.table._line_numbers_);';
-      $content[] = '';
-      $content[] = '  $(\'#<?= $_uidAdd ?>\').on(\'click\', function(e) {';
-      $content[] = '';
-      $content[] = '    _.hideContexts(e);';
-      $content[] = '    _.get.modal(_.url(\'<?= $this->route ?>/edit\'))';
-      $content[] = '      .then(m => m.on(\'success\', e => table.trigger(\'refresh\')));';
-      $content[] = '  });';
-      $content[] = '';
-      $content[] = '  table.trigger(\'refresh\');';
+      $content[] = '    _.table.search(search, table);';
       $content[] = '</script>';
-
+     
       file_put_contents($file, implode("\n", $content));
       echo "Created views/matrix class: $file\n";
     } else {
