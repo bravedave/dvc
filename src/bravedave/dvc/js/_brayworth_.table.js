@@ -113,7 +113,8 @@
       newOrder.forEach(node => tbody.appendChild(node));
       // console.log('JQuery4 compatible sorting complete ..');
 
-      table.trigger('update-line-numbers');
+      table[0].dispatchEvent(new Event('update-line-numbers', { bubbles: true })); // dispatch jQuery compatible event
+      // table.trigger('update-line-numbers');
       resolve(table);
     }),
 
@@ -157,7 +158,9 @@
 
           // if (13 == e.keyCode) return;
           ++this.dataset.srchIdx;
-          setTimeout(() => $(this).trigger('search'), 400);
+
+          setTimeout(() => this.dispatchEvent(new Event('search', { bubbles: true })), 400); // dispatch jQuery compatible event
+          // setTimeout(() => $(this).trigger('search'), 400);
         })
         .on('search', function (e) {
           const idx = ++this.dataset.srchIdx;
@@ -167,7 +170,8 @@
           const table = _me.data('table');
 
           preScan = ('function' == typeof preScan) ? preScan : () => true;
-          table.trigger('search-start');
+          table[0].dispatchEvent(new Event('search-start', { bubbles: true })); // dispatch jQuery compatible event
+          // table.trigger('search-start');
           table.find('> tbody > tr').each((i, tr) => {
 
             if (idx != this.dataset.srchIdx) return false;
@@ -189,9 +193,13 @@
             }
           });
 
-          table
-            .trigger('update-line-numbers')
-            .trigger('search-complete');
+          // dispatch jQuery compatible events
+          table[0].dispatchEvent(new Event('update-line-numbers', { bubbles: true }));
+          table[0].dispatchEvent(new Event('search-complete', { bubbles: true }));
+
+          // table
+          //   .trigger('update-line-numbers')
+          //   .trigger('search-complete');
         });
 
       onblur.call(ctrl[0]);
