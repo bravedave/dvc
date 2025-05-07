@@ -846,6 +846,14 @@ abstract class strings {
    * 
    * complimentary to isMonth, 
    * but returns the string formatted as month or empty
+   * noting that a valid date will be returned as a month string
+   * Examples of Outputs:
+   *  '2025-01' → '2025-01'
+   *  '2025-13' → ''
+   *  '2025-01-01' → '2025-01'
+   *  '' → ''
+   *  'invalid-string' → ''
+   *  '2025-01-01 12:00:00' → '2025-01'
    */
   static public function asMonth(string $string): string {
 
@@ -859,7 +867,7 @@ abstract class strings {
     $date = DateTime::createFromFormat('Y-m', $string);
 
     // Ensure the DateTime object was created and matches the input string
-    if ($date && $date->format('Y-m') === $string) return $date->format('Y-m');
+    if ($date) return $date->format('Y-m');
     return '';
   }
 
@@ -889,7 +897,7 @@ abstract class strings {
     $date = DateTime::createFromFormat('Y-m', $string);
 
     // Ensure the DateTime object was created and matches the input string
-    return $date && $date->format('Y-m') === $string;
+    return $date;
   }
 
   static public function isPhone(?string $_tel = ''): bool {
