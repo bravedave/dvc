@@ -563,20 +563,23 @@ class application {
 
   protected static $_loaded_fallback = false;
   static function load_dvc_autoloader_fallback() {
+
     if (!self::$_loaded_fallback) {
 
       self::$_loaded_fallback = true;
 
       spl_autoload_register(function ($class) {
 
-        if ($lib = realpath(implode([
-          dirname(__DIR__),
+        $path = implode([
+          dirname(__DIR__), // parent of this file
           DIRECTORY_SEPARATOR,
           'fallback',
           DIRECTORY_SEPARATOR,
           str_replace('\\', '/', $class),
           '.php'
-        ]))) {
+        ]);
+
+        if ($lib = realpath($path)) {
 
           include_once $lib;
           load::logger(sprintf('lib: %s', $lib));
