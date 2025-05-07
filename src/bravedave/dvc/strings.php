@@ -842,6 +842,29 @@ abstract class strings {
 
   /**
    * @param string $string 
+   * @return string 
+   * 
+   * complimentary to isMonth, 
+   * but returns the string formatted as month or empty
+   */
+  static public function asMonth(string $string): string {
+
+    // Ensure the string is not empty
+    if (empty($string)) return '';
+
+    // Check if the string matches the YYYY-MM format using regex
+    if (!preg_match('/^\d{4}-(0[1-9]|1[0-2])$/', $string)) return '';
+
+    // Use DateTime to ensure it's a valid date in the YYYY-MM format
+    $date = DateTime::createFromFormat('Y-m', $string);
+
+    // Ensure the DateTime object was created and matches the input string
+    if ($date && $date->format('Y-m') === $string) return $date->format('Y-m');
+    return '';
+  }
+
+  /**
+   * @param string $string 
    * @return bool 
    * 
    * Key Points:
