@@ -919,7 +919,7 @@ final class utility {
     echo "  version              Show version\n";
     echo "\n";
     echo "  experimental !!\n";
-    echo "  make::crud-module --name=<name> --fields=<field1,field2,...>\n";
+    echo "  make::crud-module --name=<name> --fields=<field1,field2,...> --preact=(true|false)\n";
   }
 
   public static function makeApplication(): void {
@@ -948,7 +948,7 @@ final class utility {
     printf("to run the application type php %s server\n", __FILE__);
   }
 
-  public static function makeCrudModule(string $name, string $fields): void {
+  public static function makeCrudModule(string $name, string $fields, bool $preact): void {
 
     // Process fields
     $fieldArray = $fields ? explode(',', $fields) : [];
@@ -963,8 +963,14 @@ final class utility {
     static::makeCrudHandler($name, $fieldArray);
     static::makeCrudViewEdit($name, $fieldArray);
     static::makeCrudViewIndex($name, $fieldArray);
-    // static::makeCrudViewMatrix($name, $fieldArray);
-    static::makeCrudViewMatrixPreact($name, $fieldArray);
+
+    if ( $preact) {
+      
+      static::makeCrudViewMatrixPreact($name, $fieldArray);
+    } else {
+
+      static::makeCrudViewMatrix($name, $fieldArray);
+    }
   }
 
   public static function makeModule(string $name, bool $createFiles = true): void {
@@ -1054,21 +1060,24 @@ switch ($command) {
 
     $name = '';
     $fields = '';
+    $preact = '';
     foreach ($args as $arg) {
       if (preg_match('/-name=(.*)/', $arg, $matches)) {
         $name = $matches[1];
       } elseif (preg_match('/-fields=(.*)/', $arg, $matches)) {
         $fields = $matches[1];
+      } elseif (preg_match('/-preact=(.*)/', $arg, $matches)) {
+        $preact = $matches[1];
       }
     }
 
     if (!$name || !$fields) {
 
-      printf("\n\nUsage: php %s make:crud-module -name=<Name> -fields=<field1,field2...>\n\n\n", __FILE__);
+      printf("\n\nUsage: php %s make:crud-module -name=<Name> -fields=<field1,field2...> --preact=(true|false)\n\n\n", __FILE__);
       exit(1);
     }
 
-    utility::makeCrudModule($name, $fields);
+    utility::makeCrudModule($name, $fields, $preact == 'true');
     break;
 
   default:
