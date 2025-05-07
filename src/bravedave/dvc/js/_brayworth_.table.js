@@ -130,6 +130,9 @@
 
     search: (ctrl, table, preScan) => {
 
+      // ensure we have a jquery object for table
+      if (!(table instanceof $)) table = $(table);
+
       ctrl[0].dataset.srchIdx = 0;
       ctrl.data('table', table);
       ctrl.attr('autocomplete', 'off');
