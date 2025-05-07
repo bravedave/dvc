@@ -780,6 +780,7 @@ abstract class strings {
     return false;
   }
 
+  #[\Deprecated]
   static public function IsEmailAddress($email) {
     return (self::CheckEmailAddress($email));
   }
@@ -837,6 +838,35 @@ abstract class strings {
     }
 
     return false;
+  }
+
+  /**
+   * @param string $string 
+   * @return bool 
+   * 
+   * Key Points:
+   *  true if the string is a valid month in YYYY-MM.
+   *  false for invalid strings, dates, or formats.
+   *  Examples of Outputs:
+   *  '2025-01' → true
+   *  '2025-13' → false (invalid month)
+   *  '2025-01-01' → false (invalid format)
+   *  '' → false (empty string)
+   *  'invalid-string' → false (non-date string)
+   */
+  static public function isMonth(string $string): bool {
+
+    // Ensure the string is not empty
+    if (empty($string)) return false;
+
+    // Check if the string matches the YYYY-MM format using regex
+    if (!preg_match('/^\d{4}-(0[1-9]|1[0-2])$/', $string)) return false;
+
+    // Use DateTime to ensure it's a valid date in the YYYY-MM format
+    $date = DateTime::createFromFormat('Y-m', $string);
+
+    // Ensure the DateTime object was created and matches the input string
+    return $date && $date->format('Y-m') === $string;
   }
 
   static public function isPhone(?string $_tel = ''): bool {
