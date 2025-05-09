@@ -868,7 +868,9 @@ abstract class controller {
 
     $page
       ->head($this->title)
-      ->body()->then($options['navbar']);
+      ->body();
+
+    if ($options['navbar']) $page->then($options['navbar']);
 
     if ($options['left-layout']) {
 
