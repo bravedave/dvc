@@ -1030,7 +1030,7 @@ abstract class controller {
       'hooks', 'hooks.module.js' => Response::serve(__DIR__ . '/js/preact/hooks.module.js'),
       'htm', 'htm.module.js' => Response::serve(__DIR__ . '/js/preact/htm.module.js'),
       'tinymce', 'tinymce5' => $this->__tinyserve__($lib),
-      default => fn() => 99
+      default => 99
     };
 
     return (int)$res < 99;
