@@ -70,6 +70,7 @@ class page {
     $imports = (object)[
       'imports' => (object)[
         'preact' => '/js/preact',
+        'preact/hooks' => '/js/hooks',
         'hooks' => '/js/hooks',
         'htm' => '/js/htm'
       ]
