@@ -46,10 +46,7 @@ abstract class resources {
   public static function module(string $file): string {
 
     $path = __DIR__ . '/js/modules/' . $file . '.js';
-    if (file_exists($path)) {
-
-      return $path;
-    }
+    if (file_exists($path)) return $path;
 
     return '';
   }
