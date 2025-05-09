@@ -23,9 +23,11 @@ class controller extends bravedave\dvc\controller {
       'title' => $this->title = config::$WEBNAME,
     ];
 
+    // 'aside' => fn() => $this->load('blank'),
     $this->renderBS5([
+      'aside' => false,
       'css' => [sprintf('<link rel="shortcut icon" href="%s" />', strings::url('favicon.ico'))],
-      'aside' => fn() => $this->load('blank'),
+      'navbar' => fn() => $this->load('navbar'),
       'main' => fn() => $this->load('main')
     ]);
   }
