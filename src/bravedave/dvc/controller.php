@@ -411,15 +411,15 @@ abstract class controller {
 
   #[\Deprecated]
   protected function dbResult($query) {
+
     /**
      * Return a SQL Data Result using
      * the default data adapter
      */
-
     logger::deprecated(sprintf('<%s is not implemented>', __METHOD__));
 
-    // if (is_null($this->db)) return FALSE;
-    // return $this->db->Result($query);
+    // if (is_null($this->db)) return false;
+    // return $this->db->result($query);
   }
 
   protected function getParam($name = '', $default = false) {
