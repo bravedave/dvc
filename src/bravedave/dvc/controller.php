@@ -1024,14 +1024,16 @@ abstract class controller {
 
   public function js(string $lib = '') {
 
-    match ($lib) {
+    $res = match ($lib) {
       'importmap' => Response::serve(__DIR__ . '/js/preact/importmap.json'),
       'preact', 'preact.module.js' => Response::serve(__DIR__ . '/js/preact/preact.module.js'),
       'hooks', 'hooks.module.js' => Response::serve(__DIR__ . '/js/preact/hooks.module.js'),
       'htm', 'htm.module.js' => Response::serve(__DIR__ . '/js/preact/htm.module.js'),
       'tinymce', 'tinymce5' => $this->__tinyserve__($lib),
-      default => fn() => false
+      default => fn() => 99
     };
+
+    return (int)$res < 99;
   }
 
   public function logout() {
