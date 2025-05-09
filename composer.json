@@ -59,11 +59,15 @@
     "bootstrap-icons": [
       "bash src/resource/get-bootstrap-icons.sh"
     ],
+    "quill": [
+      "bash src/resource/update-quill.sh"
+    ],
     "post-update-cmd": [
       "bash src/resource/dvc-bootstrap-4.sh",
       "bash src/resource/dvc-bootstrap-5.sh",
       "bash src/resource/get-bootstrap-icons.sh",
-      "bash src/resource/update-preact.sh"
+      "bash src/resource/update-preact.sh",
+      "bash src/resource/update-quill.sh"
     ],
     "start": [
       "Composer\\Config::disableProcessTimeout",
