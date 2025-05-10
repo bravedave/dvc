@@ -3,7 +3,7 @@
  * David Bray
  * BrayWorth Pty Ltd
  * e. david@brayworth.com.au
- * 
+ *
  * MIT License
  *
 */
@@ -20,13 +20,14 @@ class controller extends bravedave\dvc\controller {
   protected function _index() {
 
     $this->data = (object)[
-      'title' => $this->title = config::$WEBNAME,
+      'title' => $this->title = 'Amazing - ' . config::$WEBNAME,
     ];
 
     // 'aside' => fn() => $this->load('blank'),
     $this->renderBS5([
-      'aside' => false,
       'css' => [sprintf('<link rel="shortcut icon" href="%s" />', strings::url('favicon.ico'))],
+      'aside' => fn() => $this->load('aside'),
+      'footer' => fn() => $this->load('footer'),
       'navbar' => fn() => $this->load('navbar'),
       'main' => fn() => $this->load('main')
     ]);
