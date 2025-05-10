@@ -10,43 +10,40 @@
 
 namespace amazing;
 
-use bravedave\dvc\strings;
+use bravedave\dvc\{strings, theme};
 
 ?>
-<div class="container" id="<?= $_container = strings::rand() ?>">
+<div id="<?= $_container = strings::rand() ?>">
   <h5>Bootstrap 5 Modal</h1>
-    <p><em><small>Bootstrap 5 modal with form</small></em></p>
-    <button type="button" class="btn btn-primary js-demo">
-      Launch demo modal
-    </button>
+  <p><em><small>Bootstrap 5 modal with form</small></em></p>
+  <button type="button" class="btn btn-primary js-demo">
+    Launch demo modal
+  </button>
 </div>
 
 <script type="module">
-  import {
-    h,
-    render
-  } from 'preact';
+  
+  // prettier-ignore
+  import { h, render } from 'preact';
   import htm from 'htm';
-
-  import {
-    modal
-  } from '<?= strings::url($this->route . '/js/modal') ?>';
+  import { modal } from '/<?= $this->route  ?>/js/modal';
+  import { renderToNode } from '/<?= $this->route  ?>/js/utility';
 
   const html = htm.bind(h);
-  const container = $('#<?= $_container ?>');
+  const container = document.getElementById('<?= $_container ?>');
   const _ = _brayworth_;
 
-  container.find('.js-demo').on('click', async e => {
+  container.querySelector('.js-demo').addEventListener('click', e => {
 
     _.hideContexts(e);
 
     const modalInstance = modal({
-      title: "Send Email"
+      title: 'Send Email',
+      theme : '<?= theme::modalHeader() ?>'
     });
 
-    modalInstance._element.addEventListener('shown.bs.modal', function(e) {
+    const Form = (props) => {
 
-      const uid = _.randomString();
       const handleSubmit = function(e) {
 
         e.preventDefault();
@@ -55,17 +52,27 @@ use bravedave\dvc\strings;
         console.log('Form submitted');
       };
 
-      $(`<form id="${uid}">
+      return html`
+        <>
+        <form id="${props.uid}" onSubmit=${handleSubmit}>
           <input type="text" name="name" class="form-control" placeholder="Name">
-        </form>`)
-        .on('submit', handleSubmit)
-        .appendTo($(this).find('.modal-body'));
+        </form>
+        </>
+      `;
+    };
 
-      $(this).find('.modal-footer').append(
-        `<button type="submit" class="btn btn-primary"
-          form="${uid}">Submit</button>`);
+    modalInstance._element.addEventListener('shown.bs.modal', function(e) {
 
-      $(this).find('input[name="name"]').focus();
+      const body = this.querySelector('.modal-body');
+      const footer = this.querySelector('.modal-footer');
+      const uid = _.randomString();
+      render(html`<${Form} uid=${uid} />`, body);
+
+      footer.appendChild(renderToNode(
+        html`<button type="submit" class="btn btn-primary" form="${uid}">Submit</button>`
+      ));
+
+      this.querySelector('input[name="name"]').focus();
     });
   });
 </script>

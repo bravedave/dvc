@@ -6,7 +6,9 @@ const html = htm.bind(h);
 const _ = _brayworth_;
 
 function modal({
-  title = 'Modal title'
+  title = 'Modal title',
+  theme = 'text-bg-primary',
+  size = 'modal-fullscreen-sm-down',
 }) {
 
   // console.log(children);
@@ -17,11 +19,11 @@ function modal({
   document.body.appendChild(mountPoint);
 
   render(html`<div class="modal fade" id="m${id}" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog ${size} modal-dialog-centered">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header ${theme}">
             <h5 class="modal-title">${title}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body"></div>
           <div class="modal-footer">
