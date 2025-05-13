@@ -18,12 +18,18 @@ final class dbSanitize {
   public function __construct(mixed $v) {
 
     $this->value = $this->sanitized = $v;
-    if ( !config::$DB_SANITIZE ) return;
+    if (!config::$DB_SANITIZE) return;
 
     if (is_string($v)) {
 
       // if it starts with doctype, don't touch it
       if (preg_match('/^\s*<!DOCTYPE\s/i', $v)) return;
+
+      // dont touch it if it is a base64 encoded image or file
+      if (preg_match('/^data:(image|application)\/[^;]+;base64,/', $v)) {
+        logger::info(sprintf('<not touching base64 data> %s', logger::caller()));
+        return;
+      }
 
       // Step 1: Trim input
       $v = trim($v);
@@ -39,7 +45,7 @@ final class dbSanitize {
     }
   }
 
-  public function __invoke() : mixed {
+  public function __invoke(): mixed {
 
     return $this->sanitized;
   }
