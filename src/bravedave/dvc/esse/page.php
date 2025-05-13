@@ -10,7 +10,7 @@
 
 namespace bravedave\dvc\esse;
 
-use bravedave\dvc\{bs, Response, userAgent};
+use bravedave\dvc\{bs, logger, Response, userAgent};
 use config, currentUser, strings, theme;
 use Closure;
 
@@ -67,14 +67,20 @@ class page {
     $js = strings::url('assets/bootstrap/js/5');
     $p->scripts[] = sprintf('<script src="%s"></script>', $js);
 
+    if ($proxy = getenv('VSCODE_PROXY_URI')) {
+
+      $proxy = str_replace('{{port}}', $_SERVER['SERVER_PORT'], $proxy);
+    }
+
     $imports = (object)[
       'imports' => (object)[
-        'preact' => '/js/preact',
-        'preact/hooks' => '/js/hooks',
-        'hooks' => '/js/hooks',
-        'htm' => '/js/htm'
+        'preact' => $proxy . '/js/preact',
+        'preact/hooks' => $proxy . '/js/hooks',
+        'hooks' => $proxy . '/js/hooks',
+        'htm' => $proxy . '/js/htm'
       ]
     ];
+
     $p->scripts[] = sprintf('<script type="importmap">%s</script>', json_encode($imports, JSON_UNESCAPED_SLASHES));
 
     $p->css[] = sprintf('<link rel="stylesheet" href="%s">', $css);
