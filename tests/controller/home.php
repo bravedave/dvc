@@ -54,7 +54,7 @@ class home extends controller {
 
     config::checkdatabase();
     parent::before();
-    // $this->viewPath[] = __DIR__ . '/views/';
+    // $this->viewPath[] = __DIR__ . '/views/';    
   }
 
   protected function postHandler() {
