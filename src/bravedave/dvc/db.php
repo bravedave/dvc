@@ -206,7 +206,8 @@ class db {
     $fA = [];
     $fV = [];
     foreach ($a as $k => $v) {
-
+      
+      $fA[] = $k;
       // $fV[] = $this->quote($v);
       $fV[] = $this->quote((new dbSanitize($v))());
     }
