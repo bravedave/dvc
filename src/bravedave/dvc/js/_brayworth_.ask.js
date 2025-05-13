@@ -91,6 +91,8 @@
     if (/bg\-/.test(options.headClass)) {
 
       const removeClasses = [
+        'bg-primary',
+        'bg-secondary',
         'bg-white',
         'bg-light',
         'bg-dark',
