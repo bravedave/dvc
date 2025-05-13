@@ -11,7 +11,7 @@
 namespace bravedave\dvc\sqlite;
 
 use bravedave, config;
-use bravedave\dvc\{dto, logger};
+use bravedave\dvc\{dbSanitize, dto, logger};
 use SQLite3;
 use ZipArchive;
 
@@ -152,8 +152,10 @@ class db {
     $fA = [];
     $fV = [];
     foreach ($a as $k => $v) {
+
       $fA[] = $k;
-      $fV[] = $this->escape($v);
+      // $fV[] = $this->escape($v);
+      $fV[] = $this->escape((new dbSanitize($v))());
     }
 
     $sql = sprintf("INSERT INTO `%s`(`%s`) VALUES('%s')", $table, implode("`,`", $fA), implode("','", $fV));
@@ -217,7 +219,7 @@ class db {
       $this->quote($table)
     );
 
-    if ( $dto = (new dto)($sql)) return true;
+    if ($dto = (new dto)($sql)) return true;
 
     // if ($result = $this->result($sql)) {
 
@@ -242,7 +244,9 @@ class db {
      */
     $aX = [];
     foreach ($a as $k => $v) {
-      $aX[] = sprintf('`%s` = %s', $k, $this->quote($v));
+
+      // $aX[] = sprintf('`%s` = %s', $k, $this->quote($v));
+      $aX[] = sprintf('`%s` = %s', $k, $this->quote((new dbSanitize($v))()));
     }
 
     $sql = sprintf('UPDATE `%s` SET %s %s', $table, implode(', ', $aX), $scope);

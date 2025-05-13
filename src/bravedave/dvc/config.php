@@ -106,6 +106,7 @@ abstract class config {
   static $DB_USER = 'user';
   static $DB_PASS = '';
   static $DB_ALTER_FIELD_STRUCTURES = false;  // experimental
+  static $DB_SANITIZE = true; // remove html entities and trim
 
   /*
 	*	Caching using APCu, Interfaced through https://www.scrapbook.cash/

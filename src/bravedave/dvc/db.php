@@ -78,7 +78,7 @@ class db {
 
       if ($a = $this->mysqli->error_list) {
 
-        array_walk($a, fn ($e) => logger::info(sprintf('<mysql-error : %s> %s', $e, __METHOD__)));
+        array_walk($a, fn($e) => logger::info(sprintf('<mysql-error : %s> %s', $e, __METHOD__)));
       }
       $this->mysqli->close();
       $this->mysqli = null;
@@ -206,17 +206,11 @@ class db {
     $fA = [];
     $fV = [];
     foreach ($a as $k => $v) {
-      $fA[] = $k;
-      // $fV[] = $this->mysqli->real_escape_string($v);
-      $fV[] = $this->quote($v);
+
+      // $fV[] = $this->quote($v);
+      $fV[] = $this->quote((new dbSanitize($v))());
     }
 
-    // $sql = sprintf(
-    //   'INSERT INTO `%s`(`%s`) VALUES("%s")',
-    //   $table,
-    //   implode("`,`", $fA),
-    //   implode('","', $fV)
-    // );
     $sql = sprintf(
       'INSERT INTO `%s`(`%s`) VALUES(%s)',
       $table,
@@ -291,8 +285,9 @@ class db {
 
     $aX = [];
     foreach ($a as $k => $v) {
-      // $aX[] = "`$k` = '" . $this->mysqli->real_escape_string($v) . "'";
-      $aX[] = sprintf('`%s` = %s', $k, $this->quote($v));
+
+      // $aX[] = sprintf('`%s` = %s', $k, $this->quote($v));
+      $aX[] = sprintf('`%s` = %s', $k, $this->quote((new dbSanitize($v))()));
     }
 
     $sql = sprintf('UPDATE `%s` SET %s %s', $table, implode(', ', $aX), $scope);
