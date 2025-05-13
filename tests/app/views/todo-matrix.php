@@ -10,159 +10,205 @@
 
 <div class="container p-4" id="<?= $_container = strings::rand() ?>"></div>
 <script type="module">
-  // import { Toast } from '<?= strings::url('assets/module/toast') ?>';
+  // prettier-ignore
+  import { h, render } from 'preact';
+  import {
+    useState,
+    useEffect,
+    useRef
+  } from 'hooks';
+  import htm from 'htm';
+  /* eslint-enable */
 
-  // console.log( 'ready to toast' );
-  // Toast('Hello World!', 'success');
+  const html = htm.bind(h);
+  const _ = _brayworth_;
+  const container = $('#<?= $_container ?>');
 
-  // console.log( _brayworth_);
-</script>
+  const Matrix = () => {
+    const [data, setData] = useState([]);
+    const [error, setError] = useState(null);
+    const [refresh, setRefresh] = useState(0); // State to trigger re-fetch
+    const newItemRef = useRef(null); // Create a ref for the input field
 
-<script>
-  (_ => {
-    const container = $('#<?= $_container ?>');
-
-    const getMatrix = () => new Promise(resolve => {
+    const fetchData = () => {
 
       const payload = {
         action: 'get-todo-data'
       };
 
-      _.fetch.post(_.url('<?= $this->route ?>'), payload)
-        .then(d => 'ack' == d.response ? resolve(d.data) : _.growl(d));
-    });
+      _.fetch.post(_.url('<?= $this->route ?>'), payload).then(d => {
+        if ('ack' == d.response) {
 
-    const matrix = data => {
+          setData(d.data);
+        } else {
 
-      container.empty().append('<h4><?= config::label_todo ?></h4>');
-
-      $.each(data, (i, dto) => {
-
-        const row = $(
-            `<div class="row g-2 js-todo" data-id="${dto.id}">
-              <div class="col p-2 border border-light js-description">${dto.description}</div>
-              <div class="col-auto">
-                <button type="button" class="btn btn-light js-delete">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </div>
-            </div>`)
-          .data('dto', dto)
-          .on('delete', rowDelete)
-          .appendTo(container);
-
-        row.find('.js-description').one('click', function(e) {
-
-          _.hideContexts(e);
-
-          const save = function(e) {
-
-            e.stopPropagation();
-
-            const _fld = $(this);
-            const _row = _fld.closest('div.js-todo');
-            const _dto = _row.data('dto');
-            const payload = {
-              action: 'todo-update',
-              id: _dto.id,
-              description: _fld.val()
-            };
-
-            _.fetch.post(_.url('<?= $this->route ?>'), payload)
-              .then(d => 'ack' == d.response ? container.trigger('refresh') : _.growl(d));
-          };
-
-          const fld = $('<input type="text" class="form-control">')
-            .val(dto.description)
-            .on('blur', function(e) {
-
-              $(this).trigger('save');
-            })
-            .on('keypress', function(e) {
-
-              if (13 == e.keyCode) {
-
-                e.stopPropagation();
-                $(this).trigger('save');
-              }
-            })
-            .on('save', save);
-
-          $(this)
-            .removeClass('p-2 border border-light')
-            .empty()
-            .append(fld);
-
-          fld.focus();
-        });
+          setError(d.description || d);
+        }
       });
-
-      container.append(
-        `<div class="row g-2 mt-2">
-          <div class="col">
-            <input type="text" class="form-control js-new-todo" name="description" placeholder="new todo">
-          </div>
-        </div>`);
-
-      container.find('.js-delete').on('click', function(e) {
-
-        _.hideContexts(e);
-        $(this).closest('div.js-todo').trigger('delete');
-      });
-
-      container.find('input.js-new-todo')
-        .on('change', function(e) {
-
-          if ('' != this.value) {
-
-            $(this).parent()
-              .html(`<div class="input-group">
-                  <div class="bg-success text-white form-control">${this.value}</div>
-                  <div class="input-group-text">
-                    <div class="spinner-grow spinner-grow-sm"></div>
-                  </div>
-                </div>`);
-
-            _.fetch
-              .post(_.url('<?= $this->route ?>'), {
-                action: 'todo-add',
-                description: this.value
-              }).then(d => 'ack' == d.response ?
-                container.trigger('refresh') :
-                _.growl(d));
-          }
-        })
-        .focus();
     };
 
-    const rowDelete = function(e) {
+    useEffect(() => fetchData(), [refresh]);
+
+    if (error) return html`<div>Error: ${error}</div>`;
+    if (!data.length) return html`<div>Loading...</div>`;
+
+    const Delete = ({
+      dto
+    }) => {
+
+      return html`
+        <button type="button" class="btn btn-light" onClick=${handleDelete} data-id="${dto.id}">
+          <i class="bi bi-trash"></i>
+        </button>`;
+    };
+
+    const Description = ({
+      dto,
+      newItemRef
+    }) => {
+      const [isEditing, setIsEditing] = useState(false);
+      const [value, setValue] = useState(dto.description);
+      const inputRef = useRef(null); // Create a ref for the input field
+
+      const handleSave = () => {
+        setIsEditing(false);
+
+        // Save the updated description
+        const payload = {
+          action: 'todo-update',
+          id: dto.id,
+          description: value
+        };
+
+        _.fetch.post(_.url('<?= $this->route ?>'), payload)
+          .then(d => {
+            if ('ack' !== d.response) _.growl(d);
+          });
+      };
+
+      const handleKeyDown = e => {
+
+        if (e.key === 'Enter') {
+
+          handleSave();
+        } else if (e.key === 'Escape') {
+
+          setIsEditing(false);
+          setValue(dto.description); // Reset to original value
+
+          if (newItemRef.current) {
+            newItemRef.current.focus(); // Focus on the new item input field
+          }
+        }
+      };
+
+      useEffect(() => {
+        if (isEditing && inputRef.current) {
+          inputRef.current.focus(); // Focus the input field when editing starts
+        }
+      }, [isEditing]); // Run this effect when `isEditing` changes
+
+      return isEditing ?
+        html`
+        <input
+          ref=${inputRef}
+          type="text"
+          class="form-control"
+          value=${value}
+          onInput=${(e) => setValue(e.target.value)}
+          onKeyDown=${handleKeyDown}
+          autoFocus
+        />` :
+        html`<div class="p-2 border border-light" onClick=${() => setIsEditing(true)}>${value}</div>`;
+    };
+
+    const handleDelete = function(e) {
+
+      _.hideContexts(e);
+
+      const payload = {
+        action: 'todo-delete',
+        id: e.currentTarget.dataset.id
+      };
 
       _.ask.alert.confirm({
         title: 'Confirm Delete',
         text: 'Are you sure ?'
       }).then(e => {
 
-        const payload = {
-          action: 'todo-delete',
-          id: this.dataset.id
-        };
-
-        _.fetch.post(_.url('<?= $this->route ?>'), payload).then(d => {
-
-          if ('ack' == d.response) {
-
-            this.remove();
-          } else {
-
-            _.growl(d);
-          }
-
-          container.find('input.js-new-todo').focus();
-        });
+        _.fetch.post(_.url('<?= $this->route ?>'), payload)
+          .then(d => 'ack' == d.response ? setRefresh(prev => prev + 1) : _.growl(d));
       });
     };
 
-    container.on('refresh', e => getMatrix().then(matrix));
-    _.ready(() => container.trigger('refresh'));
-  })(_brayworth_);
+    const newItem = ({
+      inputRef
+    }) => {
+      const [value, setValue] = useState('');
+
+      useEffect(() => {
+        if (inputRef.current) {
+          inputRef.current.focus(); // Set focus to the input field on load
+        }
+      }, []); // Empty dependency array ensures this runs only once on mount
+
+      const handleAdd = () => {
+        if (!value.trim()) return; // Prevent empty submissions
+
+        const payload = {
+          action: 'todo-add',
+          description: value.trim()
+        };
+
+        _.fetch.post(_.url('<?= $this->route ?>'), payload).then(d => {
+          if ('ack' === d.response) {
+            setValue(''); // Clear the input field
+            setRefresh(prev => prev + 1); // Trigger re-fetch
+          } else {
+            _.growl(d); // Show error message
+          }
+        });
+      };
+
+      const handleKeyPress = (e) => {
+        if (e.key === 'Enter') handleAdd();
+      };
+
+      return html`
+        <div class="row g-2">
+          <div class="col">          
+            <input
+              ref=${inputRef}
+              type="text"
+              class="form-control"
+              name="description"
+              placeholder="new todo"
+              value=${value}
+              onInput=${(e) => setValue(e.target.value)}
+              onKeyPress=${handleKeyPress} />
+          </div>
+          <div class="col-auto">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onClick=${handleAdd}>
+              Add
+            </button>
+          </div>
+        </div>
+      `;
+    };
+
+    return html`
+      <h4><?= config::label_todo ?></h4>
+      ${data.map(dto => html`
+        <div class="row g-2 mb-2" data-id="${dto.id}">
+          <div class="col"><${Description} dto=${dto} newItemRef=${newItemRef} /></div>
+          <div class="col-auto"><${Delete} dto=${dto} /></div>
+        </div>
+        `)}
+      <${newItem} inputRef=${newItemRef} />`;
+  };
+
+  render(html`<${Matrix} />`, container[0]);
 </script>
