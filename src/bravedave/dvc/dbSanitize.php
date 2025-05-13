@@ -22,6 +22,9 @@ final class dbSanitize {
 
     if (is_string($v)) {
 
+      // if it starts with doctype, don't touch it
+      if (preg_match('/^\s*<!DOCTYPE\s/i', $v)) return;
+
       // Step 1: Trim input
       $v = trim($v);
 
@@ -30,7 +33,7 @@ final class dbSanitize {
 
       if ($v != $this->sanitized) {
 
-        logger::info(sprintf('trim & html_entity_decode: :%s: => :%s:', $this->sanitized, $v));
+        // logger::info(sprintf('trim & html_entity_decode: :%s: => :%s:', $this->sanitized, $v));
         $this->sanitized = $v;
       }
     }
