@@ -10,15 +10,16 @@
 
 <div class="container p-4" id="<?= $_container = strings::rand() ?>"></div>
 <script type="module">
-  // prettier-ignore
-  import { h, render } from 'preact';
+  import {
+    h,
+    render
+  } from 'preact';
   import {
     useState,
     useEffect,
     useRef
   } from 'hooks';
   import htm from 'htm';
-  /* eslint-enable */
 
   const html = htm.bind(h);
   const _ = _brayworth_;
@@ -36,15 +37,9 @@
         action: 'get-todo-data'
       };
 
-      _.fetch.post(_.url('<?= $this->route ?>'), payload).then(d => {
-        if ('ack' == d.response) {
-
-          setData(d.data);
-        } else {
-
-          setError(d.description || d);
-        }
-      });
+      _.api(_.url('<?= $this->route ?>'), payload)
+        .then(data => setData(data))
+        .catch(e => setError(e.description || e));
     };
 
     useEffect(() => fetchData(), [refresh]);
@@ -80,10 +75,9 @@
           description: value
         };
 
-        _.fetch.post(_.url('<?= $this->route ?>'), payload)
-          .then(d => {
-            if ('ack' !== d.response) _.growl(d);
-          });
+        _.api(_.url('<?= $this->route ?>'), payload)
+          .then(d => {})
+          .catch(_.growl);
       };
 
       const handleKeyDown = e => {
@@ -136,8 +130,9 @@
         text: 'Are you sure ?'
       }).then(e => {
 
-        _.fetch.post(_.url('<?= $this->route ?>'), payload)
-          .then(d => 'ack' == d.response ? setRefresh(prev => prev + 1) : _.growl(d));
+        _.api(_.url('<?= $this->route ?>'), payload)
+          .then(d => setRefresh(prev => prev + 1))
+          .catch(_.growl);
       });
     };
 
@@ -160,23 +155,21 @@
           description: value.trim()
         };
 
-        _.fetch.post(_.url('<?= $this->route ?>'), payload).then(d => {
-          if ('ack' === d.response) {
+        _.api(_.url('<?= $this->route ?>'), payload)
+          .then(d => {
             setValue(''); // Clear the input field
             setRefresh(prev => prev + 1); // Trigger re-fetch
-          } else {
-            _.growl(d); // Show error message
-          }
-        });
+          })
+          .catch(_.growl);
       };
 
-      const handleKeyPress = (e) => {
+      const handleKeyPress = e => {
         if (e.key === 'Enter') handleAdd();
       };
 
       return html`
         <div class="row g-2">
-          <div class="col">          
+          <div class="col">
             <input
               ref=${inputRef}
               type="text"
