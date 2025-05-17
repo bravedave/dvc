@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+#
+# David Bray
+# BrayWorth Pty Ltd
+# e. david@brayworth.com.au
+#
+# MIT License
+#
+
 
 # List of required PHP modules for the app
 REQUIRED_MODULES=(
