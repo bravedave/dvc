@@ -5,6 +5,7 @@
 - [Database Strategy](database.md)
 - [View System](views.md)
 - [Request Handling](requests.md)
+- [Get & Post](get_and_post.md)
 
 ```mermaid
 graph TD
