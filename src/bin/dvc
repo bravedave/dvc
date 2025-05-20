@@ -1046,6 +1046,11 @@ final class utility {
 }
 
 switch ($command) {
+  case 'easter-egg':
+
+    utility::easterEgg();
+    break;
+
   case 'serve':
     utility::serve();
     break;
