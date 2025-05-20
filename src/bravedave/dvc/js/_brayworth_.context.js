@@ -142,6 +142,8 @@
 
         const root = this.root;
         const offset = root.offset();
+        const wH = $(window).height();
+        const sT = $(window).scrollTop();
 
         /* try to keep menu on screen vertically */
         if (offset.top + root.height() > (wH + sT)) {
