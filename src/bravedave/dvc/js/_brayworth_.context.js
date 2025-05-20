@@ -103,13 +103,12 @@
         }
 
         /* try to keep menu on screen vertically */
-        if (offset.top + this.root.height() > (wH + sT)) {
+        if (offset.top + root.height() > (wH + sT)) {
 
           const t = (wH + sT) - root.height() - 5;
           root.css('top', Math.max(t, sT + 2));
           offset = root.offset();
         }
-
 
         /**
          * add helper class to display the submenu on left
@@ -137,6 +136,19 @@
       remove: function () {
 
         return this.close();
+      },
+
+      reviewTop: function () {
+
+        const root = this.root;
+        const offset = root.offset();
+
+        /* try to keep menu on screen vertically */
+        if (offset.top + root.height() > (wH + sT)) {
+
+          const t = (wH + sT) - root.height() - 5;
+          root.css('top', Math.max(t, sT + 2));
+        }
       },
 
       attachTo: function (parent) {
