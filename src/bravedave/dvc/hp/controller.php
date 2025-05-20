@@ -8,9 +8,9 @@
  *
 */
 
-namespace hp;
+namespace bravedave\dvc\hp;
 
-use bravedave\dvc\{controller as dvcController, Response, ServerRequest};
+use bravedave\dvc\{controller as dvcController, Response};
 
 class controller extends dvcController {
 
@@ -19,12 +19,12 @@ class controller extends dvcController {
     // 'pageUrl' => strings::url($this->route),
     // 'searchFocus' => true,
     $this->data = (object)[
+      'aside' => false,
       'title' => $this->title = config::label,
     ];
 
     $this->renderBS5([
       'aside' => false,
-      'navbar' => fn() => $this->load('navbar'),
       'main' => fn() => $this->load('home')
     ]);
   }

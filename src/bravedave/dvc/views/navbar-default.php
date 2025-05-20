@@ -11,15 +11,18 @@
 
 use dvc\theme;
 
-$title = $title ?? $this->title;  ?>
+$title = $title ?? $this->title;
+$aside = ($aside ?? true);  ?>
 
 <nav class="<?= theme::navbar() ?> navbar-md-expand" id="<?= $_nav = strings::rand() ?>" role="navigation">
 
   <div class="container-fluid">
 
-    <button type="button" class="navbar-toggler js-show-aside">
-      <i class="bi bi-three-dots-vertical"></i>
-    </button>
+    <?php if ($aside) { ?>
+      <button type="button" class="navbar-toggler js-show-aside">
+        <i class="bi bi-three-dots-vertical"></i>
+      </button>
+    <?php } ?>
 
     <div class="navbar-brand"><?= $title ?></div>
 
@@ -61,52 +64,55 @@ $title = $title ?? $this->title;  ?>
       </ul>
     </div>
   </div>
-  <style>
-    @media (max-width: 767px) {
+  <?php if ($aside) { ?>
 
-      body:not(.show-aside) aside {
-        display: none !important
+    <style>
+      @media (max-width: 767px) {
+
+        body:not(.show-aside) aside {
+          display: none !important
+        }
+
+        body.show-aside main {
+          display: none !important
+        }
       }
+    </style>
+    <script>
+      (_ => {
+        const nav = $('#<?= $_nav ?>');
 
-      body.show-aside main {
-        display: none !important
-      }
-    }
-  </style>
-  <script>
-    (_ => {
-      const nav = $('#<?= $_nav ?>');
+        nav.find('.js-show-aside')
+          .on('click', function(e) {
 
-      nav.find('.js-show-aside')
-        .on('click', function(e) {
+            _.hideContexts(e);
+            $(this).trigger('show');
+          })
+          .on('hide', function(e) {
 
-          _.hideContexts(e);
-          $(this).trigger('show');
-        })
-        .on('hide', function(e) {
+            e.stopPropagation();
+            document.body.classList.remove('show-aside');
 
-          e.stopPropagation();
-          document.body.classList.remove('show-aside');
-
-          $('.bi', this)
-            .removeClass('bi-three-dots')
-            .addClass('bi-three-dots-vertical');
-        })
-        .on('show', function(e) {
-          e.stopPropagation();
-
-          if (document.body.classList.toggle('show-aside')) {
-
-            $('.bi', this)
-              .removeClass('bi-three-dots-vertical')
-              .addClass('bi-three-dots');
-          } else {
-
-            $('.bi', this)
+            $(this).find('.bi')
               .removeClass('bi-three-dots')
               .addClass('bi-three-dots-vertical');
-          }
-        });
-    })(_brayworth_);
-  </script>
+          })
+          .on('show', function(e) {
+            e.stopPropagation();
+
+            if (document.body.classList.toggle('show-aside')) {
+
+              $(this).find('.bi')
+                .removeClass('bi-three-dots-vertical')
+                .addClass('bi-three-dots');
+            } else {
+
+              $(this).find('.bi')
+                .removeClass('bi-three-dots')
+                .addClass('bi-three-dots-vertical');
+            }
+          });
+      })(_brayworth_);
+    </script>
+  <?php } ?>
 </nav>

@@ -381,7 +381,7 @@ final class utility {
         '    $a = [',
       ];
       foreach ($fields as $field) {
-        $content[] = sprintf( '      \'%s\' => $request(\'%s\'),', $field, $field);
+        $content[] = sprintf('      \'%s\' => $request(\'%s\'),', $field, $field);
       }
 
       $content[] = '    ];';
@@ -845,7 +845,7 @@ final class utility {
       $content[] = '';
       $content[] = '    _.table.search(search, table);';
       $content[] = '</script>';
-     
+
       file_put_contents($file, implode("\n", $content));
       echo "Created views/matrix class: $file\n";
     } else {
@@ -898,6 +898,22 @@ final class utility {
         echo "File not found: $destination\n";
       }
     }
+  }
+
+  public static function easterEgg(): void {
+
+    $file = 'src/controller/home.php';
+    if (!file_exists($file)) {
+
+      $content = "<?php\n// file: $file\nclass home extends bravedave\dvc\hp\controller {}\n";
+      file_put_contents($file, $content);
+      echo "Created controller: $file\n";
+    } else {
+
+      echo "Controller already exists: $file\n";
+    }
+
+    echo "finished creating module: $file\n";
   }
 
   public static function help(): void {
@@ -956,8 +972,8 @@ final class utility {
     static::makeCrudViewEdit($name, $fieldArray);
     static::makeCrudViewIndex($name, $fieldArray);
 
-    if ( $preact) {
-      
+    if ($preact) {
+
       static::makeCrudViewMatrixPreact($name, $fieldArray);
     } else {
 

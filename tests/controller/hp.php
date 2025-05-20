@@ -8,5 +8,5 @@
  *
 */
 
-class hp extends hp\controller {
+class hp extends bravedave\dvc\hp\controller {
 }

@@ -8,7 +8,7 @@
  *
 */
 
-namespace hp;
+namespace bravedave\dvc\hp;
 
 use config as rootConfig;
 
