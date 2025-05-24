@@ -203,6 +203,49 @@ abstract class controller {
     return $a;
   }
 
+  protected function _getView($viewName = 'index', ?string $controller = null, $logMissingView = true): string {
+
+    if (is_null($controller)) $controller = $this->name;
+
+    $_paths = $this->_getViewPaths($controller);
+    foreach ($_paths as $_path) {
+
+      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path, '/'), $viewName]))) {
+
+        return $view;
+      }
+    }
+
+    if (class_exists('dvc\theme\view', /* autoload */ false)) {
+
+      if ($altView = '\dvc\theme\view'::getView($viewName)) return $altView;
+    }
+
+    $_paths = $this->_getSystemViewPaths($controller);
+    foreach ($_paths as $_path) {
+
+      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path, '/'), $viewName]))) {
+
+        return $view;
+      }
+    }
+
+    $readme = implode(DIRECTORY_SEPARATOR, [
+      dirname(dirname(dirname(__DIR__))),
+      'Readme.md'
+    ]);
+
+    if ($viewName == $readme) return $readme;  // one exception
+
+    if ($logMissingView && 'dvc\_controller/hasView' != logger::traceCaller()) {
+
+      /*-- --[ not found - here is some debug stuff ]-- --*/
+      logger::trace(sprintf('view not found : %s (%s) : %s', $viewName, logger::traceCaller(), __METHOD__));
+    }
+
+    return self::viewNotFound;
+  }
+
   protected function _getViewPaths(string $controller): array {
     if ($this->_viewPathsVerified) return $this->_viewPathsVerified;
 
@@ -303,6 +346,53 @@ abstract class controller {
     }
 
     return '';
+  }
+
+  protected function __tinyserve__(string $lib) {
+
+    $_tinyDir = sprintf(
+      '%s/tinymce/tinymce/',
+      static::application()->getVendorPath(),
+    );
+
+    $uri = $this->Request->getUri();
+    if (preg_match('/(\.min\.css|\.css)$/', $uri)) {
+
+      $file = preg_replace('@^(js|assets)/tinymce[5?]/@', '', $uri);
+      // logger::info(sprintf('<%s> %s', $file, __METHOD__));
+
+      $_f = implode(DIRECTORY_SEPARATOR, [
+        $_tinyDir,
+        $file
+      ]);
+
+      file_exists($_f) ?
+        Response::serve($_f) :
+        logger::info(sprintf('<error serving %s> %s', $file, __METHOD__));
+    } elseif (preg_match('/(content\.min\.css|content\.css)$/', $uri)) {
+
+      // this loop is probably deprecated
+
+      $_f = sprintf(
+        '%s/tinymce/tinymce/skins/content/default/content.min.css',
+        static::application()->getVendorPath(),
+        $lib
+      );
+
+      file_exists($_f) ?
+        Response::serve($_f) :
+        logger::info(sprintf(
+          '<error serving lib tinymce.css> <%s> %s',
+          dirname(static::application()->getVendorPath()),
+          logger::caller()
+        ));
+    } elseif (userAgent::isMobileDevice()) {
+
+      jslib::tinyserve('tiny-imap-mobile', 'autolink,lists');
+    } else {
+
+      jslib::tinyserve('tiny-imap', 'autolink,paste,lists,table,image,imagetools,link,spellchecker');
+    }
   }
 
   protected function access_control() {
@@ -447,57 +537,20 @@ abstract class controller {
     return $this->Request->isPost();
   }
 
+  #[\Deprecated('use $this->_getView() instead')]
   protected function getView($viewName = 'index', ?string $controller = null, $logMissingView = true): string {
-
-    if (is_null($controller)) $controller = $this->name;
-
-    $_paths = $this->_getViewPaths($controller);
-    foreach ($_paths as $_path) {
-
-      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path, '/'), $viewName]))) {
-
-        return $view;
-      }
-    }
-
-    if (class_exists('dvc\theme\view', /* autoload */ false)) {
-
-      if ($altView = '\dvc\theme\view'::getView($viewName)) return $altView;
-    }
-
-    $_paths = $this->_getSystemViewPaths($controller);
-    foreach ($_paths as $_path) {
-
-      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path, '/'), $viewName]))) {
-
-        return $view;
-      }
-    }
-
-    $readme = implode(DIRECTORY_SEPARATOR, [
-      dirname(dirname(dirname(__DIR__))),
-      'Readme.md'
-    ]);
-
-    if ($viewName == $readme) return $readme;  // one exception
-
-    if ($logMissingView && 'dvc\_controller/hasView' != logger::traceCaller()) {
-
-      /*-- --[ not found - here is some debug stuff ]-- --*/
-      logger::trace(sprintf('view not found : %s (%s) : %s', $viewName, logger::traceCaller(), __METHOD__));
-    }
-
-    return self::viewNotFound;
+    
+    return $this->_getView($viewName, $controller, $logMissingView);
   }
 
   protected function hasView($viewName = 'index', $controller = null) {
 
-    return $this->getView($viewName, $controller, $logMissingView = false) != self::viewNotFound;
+    return $this->_getView($viewName, $controller, $logMissingView = false) != self::viewNotFound;
   }
 
   protected function load($viewName = 'index', $controller = null, array $options = []) {
 
-    $view = $this->getView($viewName, $controller);
+    $view = $this->_getView($viewName, $controller);
     if (substr_compare($view, '.md', -3) === 0) {
 
       if ($this->debug) logger::debug(sprintf('it\'s an md ! :: %s', __METHOD__));
@@ -551,6 +604,7 @@ abstract class controller {
     include func_get_arg(0);
   }
 
+  #[\Deprecated]
   protected function loadView($name, $controller = null) {
 
     return $this->load($name, $controller);  // that's a chain
@@ -972,53 +1026,6 @@ abstract class controller {
 
         $this->_index();
       }
-    }
-  }
-
-  protected function __tinyserve__(string $lib) {
-
-    $_tinyDir = sprintf(
-      '%s/tinymce/tinymce/',
-      static::application()->getVendorPath(),
-    );
-
-    $uri = $this->Request->getUri();
-    if (preg_match('/(\.min\.css|\.css)$/', $uri)) {
-
-      $file = preg_replace('@^(js|assets)/tinymce[5?]/@', '', $uri);
-      // logger::info(sprintf('<%s> %s', $file, __METHOD__));
-
-      $_f = implode(DIRECTORY_SEPARATOR, [
-        $_tinyDir,
-        $file
-      ]);
-
-      file_exists($_f) ?
-        Response::serve($_f) :
-        logger::info(sprintf('<error serving %s> %s', $file, __METHOD__));
-    } elseif (preg_match('/(content\.min\.css|content\.css)$/', $uri)) {
-
-      // this loop is probably deprecated
-
-      $_f = sprintf(
-        '%s/tinymce/tinymce/skins/content/default/content.min.css',
-        static::application()->getVendorPath(),
-        $lib
-      );
-
-      file_exists($_f) ?
-        Response::serve($_f) :
-        logger::info(sprintf(
-          '<error serving lib tinymce.css> <%s> %s',
-          dirname(static::application()->getVendorPath()),
-          logger::caller()
-        ));
-    } elseif (userAgent::isMobileDevice()) {
-
-      jslib::tinyserve('tiny-imap-mobile', 'autolink,lists');
-    } else {
-
-      jslib::tinyserve('tiny-imap', 'autolink,paste,lists,table,image,imagetools,link,spellchecker');
     }
   }
 

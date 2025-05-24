@@ -145,6 +145,9 @@ class application {
 		* from outside calling, don't broadcast the error
 		*/
     $_protectedActions = [
+      '_getView',
+      '_getSystemViewPaths',
+      '_render',
       '__construct',
       '__destruct',
       'application',
@@ -153,23 +156,33 @@ class application {
       'dbResult',
       'dbEscape',
       'getParam',
-      'hasView',
+      'getPost',
       'getView',
+      'hasView',
+      'isPost',
       'loadView',
       'load',
       'init',
       'page',
+      'protectedLoad',
       'render',
-      'isPost',
-      'getPost',
+      'renderBS5',
+      'subscriptionDelete',
+      'subscriptionSave',
       'sql'
     ];
 
     if ($this->url_action) {
-      if (in_array(strtolower($this->url_action), $_protectedActions)) {
 
-        logger::info(sprintf('<protecting action %s => %s> %s', $this->url_action, 'index', __METHOD__));
-        $this->url_action = 'index';
+      // do a caseinsensitive check of url_action against the protected actions
+      foreach ($_protectedActions as $key => $value) {
+
+        if (strtolower($this->url_action) == strtolower($value)) {
+
+          logger::info(sprintf('<protecting action %s => %s> %s', $this->url_action, 'index', __METHOD__));
+          $this->url_action = 'index';
+          break;
+        }
       }
     } else {
 
