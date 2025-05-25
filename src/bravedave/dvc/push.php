@@ -27,6 +27,8 @@ class push {
     if ($dtoSet = $dao->getForUserID($user)) {
 
       foreach ($dtoSet as $dto) {
+
+        /** @disregard P1009 Undefined type */
         $subscription = Subscription::create((array)json_decode($dto->json));
         self::webPush($subscription, $message);
       }
@@ -87,6 +89,7 @@ class push {
       'topic' => 'push', // not defined by default - collapse_key
     );
 
+    /** @disregard P1009 Undefined type */
     $webPush = new WebPush($auth); //, $defaultOptions);
 
     $report = $webPush->sendOneNotification($subscription, $message);

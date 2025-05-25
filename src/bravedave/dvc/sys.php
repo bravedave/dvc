@@ -139,6 +139,7 @@ abstract class sys {
       return null;
     }
 
+    /** @disregard P1009 Undefined type */
     $mail = new PHPMailer;
     $mail->XMailer = 'BrayWorth DVC Mailer 1.0.0 (https://brayworth.com/)';
 
