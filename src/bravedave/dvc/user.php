@@ -38,6 +38,15 @@ class user {
     return $this->valid();
   }
 
+  public function restriction($key, $val = null) {
+    /**
+     * normally give some sort of granularity
+     * of privilege to the user
+     */
+
+    return sys::option($key, $val);
+  }
+
   public function sync(oauth $oauth) {
 
     logger::info('_user::sync => placeholder function - you probably want to write your own');
