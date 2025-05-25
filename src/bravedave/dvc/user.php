@@ -38,6 +38,15 @@ class user {
     return $this->valid();
   }
 
+  public function option($key, $val = null) {
+    /**
+     * normally give some sort of granularity
+     * of option to the user
+     */
+
+    return sys::option($key, $val);
+  }
+
   public function restriction($key, $val = null) {
     /**
      * normally give some sort of granularity
