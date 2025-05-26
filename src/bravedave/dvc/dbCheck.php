@@ -11,6 +11,7 @@
 namespace bravedave\dvc;
 
 use config;
+use RuntimeException;
 
 class dbCheck extends dao {
   public $temporary = false;
@@ -20,8 +21,10 @@ class dbCheck extends dao {
   protected $structure = [];
   protected $indexs = [];
 
-  function __construct(db|null $db = null, $table, $pk = 'id') {
+  function __construct(db|null $db = null, string $table = '', $pk = 'id') {
     parent::__construct($db);
+
+    if ( !$table) throw new RuntimeException('dbCheck requires a table name');
 
     $this->table = $table;
     $this->pk = $pk;
