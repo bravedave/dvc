@@ -1106,13 +1106,13 @@ abstract class strings {
     return $name;
   }
 
-  static public function street_index(string $street) : string {
+  static public function street_index(string|null $street) : string {
     /**
      * Makes a street no, name into an indexable value
      * 38 Chapel Street becomes
      * Chapel Street   38
      */
-    $strStreetIndex = $street;  // safety
+    $strStreetIndex = (string)$street;  // safety
 
     if (is_numeric(substr($street, 0, 1))) {
       $aStreet = explode(' ', $street);
