@@ -4,13 +4,13 @@
 	@media print {
 
 		.col-print {
-			flex: 1 0 0;
+			flex: 1 0 0 !important;
 		}
 
 		@for $i from 1 through 12 {
 			.col-print-#{$i} {
-				flex: 0 0 auto;
-				width: percentage(divide($i, 12));
+				flex: 0 0 auto !important;
+				width: percentage(divide($i, 12)) !important;
 			}
 		}
 	}
