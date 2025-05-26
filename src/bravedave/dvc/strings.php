@@ -1106,7 +1106,7 @@ abstract class strings {
     return $name;
   }
 
-  static public function street_index($street) {
+  static public function street_index(string $street) : string {
     /**
      * Makes a street no, name into an indexable value
      * 38 Chapel Street becomes
@@ -1131,7 +1131,7 @@ abstract class strings {
 
     }
 
-    return ($strStreetIndex);
+    return (string)$strStreetIndex;
   }
 
   static public function text2html($inText, $maxrows = -1, $allAsteriskAsList = false): string {
