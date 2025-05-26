@@ -11922,54 +11922,54 @@ textarea.form-control-lg {
 }
 @media print {
   .col-print {
-    flex: 1 0 0;
+    flex: 1 0 0 !important;
   }
   .col-print-1 {
-    flex: 0 0 auto;
-    width: 8.33333333%;
+    flex: 0 0 auto !important;
+    width: 8.33333333% !important;
   }
   .col-print-2 {
-    flex: 0 0 auto;
-    width: 16.66666667%;
+    flex: 0 0 auto !important;
+    width: 16.66666667% !important;
   }
   .col-print-3 {
-    flex: 0 0 auto;
-    width: 25%;
+    flex: 0 0 auto !important;
+    width: 25% !important;
   }
   .col-print-4 {
-    flex: 0 0 auto;
-    width: 33.33333333%;
+    flex: 0 0 auto !important;
+    width: 33.33333333% !important;
   }
   .col-print-5 {
-    flex: 0 0 auto;
-    width: 41.66666667%;
+    flex: 0 0 auto !important;
+    width: 41.66666667% !important;
   }
   .col-print-6 {
-    flex: 0 0 auto;
-    width: 50%;
+    flex: 0 0 auto !important;
+    width: 50% !important;
   }
   .col-print-7 {
-    flex: 0 0 auto;
-    width: 58.33333333%;
+    flex: 0 0 auto !important;
+    width: 58.33333333% !important;
   }
   .col-print-8 {
-    flex: 0 0 auto;
-    width: 66.66666667%;
+    flex: 0 0 auto !important;
+    width: 66.66666667% !important;
   }
   .col-print-9 {
-    flex: 0 0 auto;
-    width: 75%;
+    flex: 0 0 auto !important;
+    width: 75% !important;
   }
   .col-print-10 {
-    flex: 0 0 auto;
-    width: 83.33333333%;
+    flex: 0 0 auto !important;
+    width: 83.33333333% !important;
   }
   .col-print-11 {
-    flex: 0 0 auto;
-    width: 91.66666667%;
+    flex: 0 0 auto !important;
+    width: 91.66666667% !important;
   }
   .col-print-12 {
-    flex: 0 0 auto;
-    width: 100%;
+    flex: 0 0 auto !important;
+    width: 100% !important;
   }
 }
