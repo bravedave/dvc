@@ -84,8 +84,9 @@
 
       // check that the dialog fits on screen
       const h = $('.modal-body', this).height();
-      const mh = $(window).height() * 0.9;
       const ftr = $('.modal-footer', this);
+      
+      let mh = $(window).height() * 0.9;
       if (ftr.length > 0) mh -= ftr.height();
 
       if (h > mh) {
