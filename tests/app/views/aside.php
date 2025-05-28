@@ -17,6 +17,7 @@
   <a class="nav-link active" aria-current="page" href="#">Active</a>
   <a class="nav-link" href="#">Link</a>
   <a class="nav-link js-alert" href="#">Alert</a>
+  <a class="nav-link js-prompt" href="#">Prompt</a>
   <a class="nav-link js-toast" href="#">Toast</a>
   <a class="nav-link" href="<?= strings::url($this->route . '/accordion') ?>">Accordion</a>
   <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
@@ -53,34 +54,40 @@
   (_ => {
     const nav = $('#<?= $_nav ?>');
 
-    nav.find('.js-alert')
-      .on('click', function(e) {
+    nav.find('.js-alert').on('click', e => {
 
-        _.hideContexts(e);
-        _.ask.alert({
-          text: 'how you doin ?',
-          buttons: {
-            'ok': function(e) {
-              this.modal('hide')
-            }
+      e.preventDefault();
+      _.ask.alert({
+        text: 'how you doin ?',
+        buttons: {
+          'ok': function(e) {
+            this.modal('hide')
           }
-        })
+        }
+      })
+    });
+
+    nav.find('.js-prompt').on('click', e => {
+
+      e.preventDefault();
+      _.textPrompt({
+        text: 'how you doin ?',
+      }).then(console.log);
+    });
+
+    nav.find('.js-toast').on('click', e => {
+
+      e.preventDefault();
+
+      _.growl('how you doin ?');
+      _.growl({
+        response: 'nak',
+        description: 'how you doin ?'
       });
-
-    nav.find('.js-toast')
-      .on('click', function(e) {
-
-        _.hideContexts(e);
-
-        _.growl('how you doin ?');
-        _.growl({
-          response: 'nak',
-          description: 'how you doin ?'
-        });
-        _.growl({
-          response: 'ack',
-          description: 'great !!'
-        });
+      _.growl({
+        response: 'ack',
+        description: 'great !!'
       });
+    });
   })(_brayworth_);
 </script>

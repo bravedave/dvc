@@ -11,7 +11,7 @@
 
   _.tabs = container => {
 
-    let t = {
+    const t = {
 
       nav: $('<nav class="nav nav-tabs"></nav>'),
       panes: $('<div class="tab-content"></div>'),
@@ -66,7 +66,6 @@
 
         this.nav.append(tab);
         this.panes.append(pane);
-
 
         return o;
       }

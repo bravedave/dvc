@@ -28,7 +28,7 @@
     };
 
     //~ console.log( '_.fileDragDropContainer');
-    const c = $(`<div class="d-print-none">
+    const c = $(`<div class="d-print-none" data-accept="${options.accept}">
         <div class="progress box__uploading">
           <div class="progress-bar progress-bar-striped box__fill" role="progressbar"
             style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -39,28 +39,17 @@
             aria-valuemax="100">queue</div>
         </div>
       </div>`);
-    c.data('accept', options.accept);
 
     if (options.fileControl) {
 
-      const wrapper = $('<div class="pointer btn btn-outline-secondary d-block btn-sm upload-btn-wrapper"></div>')
-        .css({
-          'position': 'relative',
-          'overflow': 'hidden'
-        });
+      const wrapper = $(
+        `<div class="pointer btn btn-outline-secondary d-block btn-sm upload-btn-wrapper"
+          style="position: relative; overflow: hidden;">
+          <i class="bi bi-${_.browser.isMobileDevice ? 'camera-fill' : 'upload'}"></i>
+        </div>`);
 
-      $('<i class="bi"></i>')
-        .addClass(_.browser.isMobileDevice ? 'bi-camera-fill' : 'bi-upload')
-        .appendTo(wrapper);
-
-      const fileControl = $('<input type="file">')
-        .css({
-          'width': '100%',
-          'position': 'absolute',
-          'left': '0',
-          'top': '0',
-          'opacity': '0'
-        })
+      const fileControl = $(`<input type="file"
+        style="width: 100%; position: absolute; left: 0; top: 0; opacity: 0">`)
         .appendTo(wrapper);
 
       if (!!options.multiple) fileControl.prop('multiple', true);

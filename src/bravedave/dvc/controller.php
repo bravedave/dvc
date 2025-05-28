@@ -539,7 +539,7 @@ abstract class controller {
 
   #[\Deprecated('use $this->_getView() instead')]
   protected function getView($viewName = 'index', ?string $controller = null, $logMissingView = true): string {
-    
+
     return $this->_getView($viewName, $controller, $logMissingView);
   }
 
@@ -1032,12 +1032,13 @@ abstract class controller {
   public function js(string $lib = '') {
 
     $res = match ($lib) {
-      'importmap' => Response::serve(__DIR__ . '/js/preact/importmap.json'),
-      'preact', 'preact.module.js' => Response::serve(__DIR__ . '/js/preact/preact.module.js'),
-      'preact.module.js.map' => Response::serve(__DIR__ . '/js/preact/preact.module.js.map'),
       'hooks', 'hooks.module.js' => Response::serve(__DIR__ . '/js/preact/hooks.module.js'),
       'hooks.module.js.map' => Response::serve(__DIR__ . '/js/preact/hooks.module.js.map'),
       'htm', 'htm.module.js' => Response::serve(__DIR__ . '/js/preact/htm.module.js'),
+      'importmap' => Response::serve(__DIR__ . '/js/preact/importmap.json'),
+      'modal' => Response::serve(__DIR__ . '/js/modules/modal.js'),
+      'preact', 'preact.module.js' => Response::serve(__DIR__ . '/js/preact/preact.module.js'),
+      'preact.module.js.map' => Response::serve(__DIR__ . '/js/preact/preact.module.js.map'),
       'tinymce', 'tinymce5' => $this->__tinyserve__($lib),
       default => 99
     };
