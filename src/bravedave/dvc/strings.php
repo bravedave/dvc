@@ -1136,6 +1136,8 @@ abstract class strings {
 
   static public function text2html($inText, $maxrows = -1, $allAsteriskAsList = false): string {
 
+    $inText = htmlspecialchars($inText, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false); // avoid double encoding
+    
     if ($maxrows > 0) {
       $x = preg_split("/\n/", $inText);
       while (count($x) > ($maxrows + 1))
