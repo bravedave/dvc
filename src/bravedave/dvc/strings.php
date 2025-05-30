@@ -41,7 +41,7 @@ abstract class strings {
    * @param bool $time include the time
    * @param float $epoch if specified, only consider dates > than this epoch year
    *
-   * @return string the formated date
+   * @return string the formated date - HTML-safe
    */
   static public function asLocalDate(?string $date, bool $time = false, float $epoch = 0): string {
 
@@ -117,6 +117,9 @@ abstract class strings {
     return esc($_tel);
   }
 
+  /**
+   * @return string HTML-safe
+   */
   static public function asMobilePhone($mobile = '') {
     //~ logger::info( sprintf( 'deprecated :: %s > use AsLocalPhone', __METHOD__));
     return self::asLocalPhone($mobile);
