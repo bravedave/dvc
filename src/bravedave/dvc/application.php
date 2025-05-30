@@ -621,4 +621,11 @@ class application {
   }
 }
 
+/**
+ * bravedave\dvc\esc
+ */
+function esc(string $v) : string {
+  return htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
+}
+
 application::load_dvc_autoloader_fallback();
