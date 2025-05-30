@@ -36,6 +36,9 @@
     "matthiasmullie/scrapbook": "*"
   },
   "autoload": {
+    "files": [
+      "src/bravedave/dvc/functions.php"
+    ],
     "psr-4": {
       "bravedave\\dvc\\": "src/bravedave/dvc/",
       "dvc\\": "src/dvc/"
