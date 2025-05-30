@@ -95,6 +95,17 @@
       this.AsMobilePhone() : this.AsLocalPhone();
   };
 
+  String.prototype.escape = function () {
+
+    return String(this)
+      // Avoid encoding existing entities
+      .replace(/&(?!(?:[a-zA-Z0-9#]{1,8};))/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  };
+
   String.prototype.format = function () {
     let args = arguments;
     return this.replace(/\{\{|\}\}|\{(\d+)\}/g, function (m, n) {
@@ -240,6 +251,7 @@
   };
 
   String.prototype.toHtml = function () {
+
     let s = this;
     s = s.replace(/\n/g, '<br>');
     s = s.replace(/â&#8364;¢/g, '&bull;');
@@ -249,7 +261,6 @@
     //~ text = text.replace( /&bull;/g, "*");
 
     return (s);
-
   };
 
   Number.prototype.formatComma = function (x) {
