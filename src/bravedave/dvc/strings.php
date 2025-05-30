@@ -1023,6 +1023,9 @@ abstract class strings {
     return self::$_pixel;
   }
 
+  /**
+   * @return string HTML-safe
+   */
   static public function rand(?string $prefix = 'uid_') {
     return ($prefix . bin2hex(random_bytes(11)));
   }
