@@ -62,8 +62,7 @@ abstract class strings {
   }
 
   /**
-   * @return string
-   * @safe-html
+   * @return string HTML-safe
    */
   static public function asLocalPhone($_tel = ''): string {
     $debug = false;
