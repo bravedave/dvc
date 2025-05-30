@@ -9,6 +9,7 @@
 */
 
 namespace bravedave\dvc;
+use function bravedave\dvc\esc;
 
 use config;
 use DateTime;
