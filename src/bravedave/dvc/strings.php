@@ -345,6 +345,10 @@ abstract class strings {
     return false;
   }
 
+  static public function esc($v) {
+    return htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
+  }
+
   static public function endswith($string, $test) {
     $strlen = strlen($string);
     $testlen = strlen($test);
