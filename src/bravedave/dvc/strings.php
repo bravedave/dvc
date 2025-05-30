@@ -61,6 +61,10 @@ abstract class strings {
     return '';
   }
 
+  /**
+   * @return string
+   * @safe-html
+   */
   static public function asLocalPhone($_tel = ''): string {
     $debug = false;
     // $debug = true;
@@ -111,12 +115,12 @@ abstract class strings {
       }
     }
 
-    return $_tel;
+    return esc($_tel);
   }
 
   static public function asMobilePhone($mobile = '') {
     //~ logger::info( sprintf( 'deprecated :: %s > use AsLocalPhone', __METHOD__));
-    return self::AsLocalPhone($mobile);
+    return self::asLocalPhone($mobile);
   }
 
   static public function asShortDate($date, $time = false) {
