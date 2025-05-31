@@ -352,8 +352,10 @@ abstract class strings {
     return false;
   }
 
-  static public function esc(string $v) : string {
-    return htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
+  static public function esc(string|null $v) : string {
+
+    if ($v) return htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
+    return '';
   }
 
   static public function endswith($string, $test) {
