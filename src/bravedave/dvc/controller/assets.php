@@ -19,15 +19,18 @@ use bravedave\dvc\{
   Response,
   ServerRequest
 };
-use bravedave\dvc\middlewares\pre\sitemapExclusion;
+
 use sys;
 
 class assets extends Controller {
   protected $RequireValidation = false;
 
-  use sitemapExclusion;
-
   protected function _index() {
+  }
+
+  protected function before() {
+    self::application()::app()->exclude_from_sitemap = true;
+    parent::before();
   }
 
   public function bootstrap($type = 'css', $version = 4) {

@@ -10,15 +10,17 @@
 
 namespace bravedave\dvc\controller;
 
-use bravedave\dvc\middlewares\pre\sitemapExclusion;
 use config, Controller, dvc, Response;
 
 class install extends Controller {
   protected $RequireValidation = config::lockdown;
 
-  use sitemapExclusion;
-
   protected function _index() {
+  }
+
+  protected function before() {
+    self::application()::app()->exclude_from_sitemap = true;
+    parent::before();
   }
 
   protected function writeDBJson($a) {

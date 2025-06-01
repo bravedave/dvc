@@ -33,15 +33,9 @@ class controller extends bravedave\dvc\controller {
     ]);
   }
 
-  protected function preMiddleware(): array {
-
-    $middleWares = [function (): bool {
-
-      $this->viewPath[] = __DIR__ . '/views/';
-      return true;
-    }];
-
-    return array_merge($middleWares, parent::preMiddleware());
+  protected function before() {
+    parent::before();
+    $this->viewPath[] = __DIR__ . '/views/';
   }
 
   protected function postHandler() {

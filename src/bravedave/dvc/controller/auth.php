@@ -17,16 +17,10 @@ class auth extends Controller {
 
   protected $RequireValidation = false;
 
-  protected function preMiddleware(): array {
+  protected function before() {
 
-    return array_merge(parent::preMiddleware(), [
-
-      function (): bool {
-
-        self::application()::app()->exclude_from_sitemap = true;
-        return true;
-      }
-    ]);
+    self::application()::app()->exclude_from_sitemap = true;
+    parent::before();
   }
 
   public function index() {
@@ -47,7 +41,7 @@ class auth extends Controller {
     if (bravedave\dvc\auth::GoogleAuthEnabled()) {
 
       if ($client = dvc\Google::client()) {
-
+        
         $url = $client->createAuthUrl();
         Response::redirect($url);
       } else {
