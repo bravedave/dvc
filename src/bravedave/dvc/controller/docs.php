@@ -140,7 +140,7 @@ class docs extends Controller {
         $this->_viewPathsVerified = []; // reset
       }
 
-      if ($file = $this->getView($doc)) {
+      if ($file = $this->_getView($doc)) {
 
         if (file_exists($file)) {
 

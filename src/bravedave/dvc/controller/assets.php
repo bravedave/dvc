@@ -19,18 +19,15 @@ use bravedave\dvc\{
   Response,
   ServerRequest
 };
-
+use bravedave\dvc\middlewares\pre\sitemapExclusion;
 use sys;
 
 class assets extends Controller {
   protected $RequireValidation = false;
 
-  protected function _index() {
-  }
+  use sitemapExclusion;
 
-  protected function before() {
-    self::application()::app()->exclude_from_sitemap = true;
-    parent::before();
+  protected function _index() {
   }
 
   public function bootstrap($type = 'css', $version = 4) {
@@ -172,7 +169,7 @@ class assets extends Controller {
   public function module($file) {
     // logger::info( sprintf('<%s> %s', $file, __METHOD__));
 
-    if ($file = preg_replace( '/[^a-zA-Z0-9\_\-]/', '', $file)) {
+    if ($file = preg_replace('/[^a-zA-Z0-9\_\-]/', '', $file)) {
 
       $path = resources::module($file);
       Response::serve($path);

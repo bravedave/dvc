@@ -10,6 +10,7 @@
 
 namespace bravedave\dvc\controller;
 
+use bravedave\dvc\middlewares\pre\sitemapExclusion;
 use config, Controller, dao, Response;
 use currentUser;
 use strings;
@@ -17,10 +18,7 @@ use strings;
 class sitemap extends Controller {
   protected $RequireValidation = config::lockdown;
 
-  protected function before() {
-    self::application()::app()->exclude_from_sitemap = true;
-    parent::before();
-  }
+  use sitemapExclusion;
 
   public function txt() {
     Response::text_headers();

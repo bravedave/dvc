@@ -23,7 +23,7 @@ class dbCheck {
   protected $indexs = [];
   protected $db;
 
-  function __construct(db|null $db = null, $table, $pk = "id") {
+  function __construct(db|null $db = null, string $table = '', $pk = "id") {
 
     $this->db = $db;
     $this->table = $table;

@@ -12,6 +12,7 @@
 namespace bravedave\dvc;
 
 use bravedave\dvc\esse\modal;
+use bravedave\dvc\middlewares\pre\sample;
 use config, currentUser, strings;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
@@ -156,19 +157,35 @@ abstract class controller {
     $this->authorized = $this->authorised;  // american spelling accepted (doh)
     $this->data = (object)[];
 
-    if ($this->RequireValidation) {
+    foreach ($this->preMiddleware() as $middleware) {
 
-      if ($this->access_control()) {
+      if (is_callable($middleware)) {
 
-        $this->before();
-      } else {
+        $result = call_user_func($middleware);
+        if ($result === false) {
 
-        Response::redirect(strings::url());  // The user is $authorised, but denied access by their _acl
+          Response::redirect(strings::url());
+          exit;
+        }
       }
-    } else {
-
-      $this->before();  // no acl required for anon access
     }
+
+    // if ($this->RequireValidation) {
+
+    //   if ($this->access_control()) {
+
+    //     /** @disregard P1007 is deprecated */
+    //     $this->before();
+    //   } else {
+
+    //     Response::redirect(strings::url());  // The user is $authorised, but denied access by their _acl
+    //     exit;
+    //   }
+    // } else {
+
+    //   /** @disregard P1007 is deprecated */
+    //   $this->before();  // no acl required for anon access
+    // }
   }
 
   protected function _delete($id = 0) {
@@ -396,8 +413,10 @@ abstract class controller {
   }
 
   protected function access_control() {
+
     // warning - don't impose an access_control of FALSE on the home page !
-    return (true);
+    // logger::info(sprintf('<default access control> %s', logger::caller()));
+    return true;
   }
 
   protected function authorizeIMAP(): bool {
@@ -474,6 +493,12 @@ abstract class controller {
     die;
   }
 
+  /**
+   * use preMiddleware to add middleware
+   * note , this should return true if the middleware is handled
+   * if it returns false, the controller will NOT continue
+   */
+  // #[\Deprecated]
   protected function before() {
     /**
      * Placeholder for use by the child class.
@@ -589,6 +614,24 @@ abstract class controller {
     }
 
     return $this;  // chain
+  }
+
+  protected function preMiddleware(): array {
+
+    $ret = [];
+    if ($this->RequireValidation) {
+
+      $ret[] = fn() => $this->access_control();
+    }
+
+    $ret[] = function () {
+
+      /** @disregard P1007 is deprecated */
+      $this->before();
+      return true;  // continue, legacy behaviour
+    };
+
+    return $ret;
   }
 
   /**

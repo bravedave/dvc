@@ -50,13 +50,6 @@ class home extends controller {
     }
   }
 
-  protected function before() {
-
-    config::checkdatabase();
-    parent::before();
-    // $this->viewPath[] = __DIR__ . '/views/';    
-  }
-
   protected function postHandler() {
 
     $request = new ServerRequest;
@@ -71,6 +64,20 @@ class home extends controller {
       default => parent::postHandler()
     };
   }
+
+  protected function preMiddleware(): array {
+
+    return array_merge(parent::preMiddleware(), [
+
+      function (): bool {
+
+        config::checkdatabase();
+        // $this->viewPath[] = __DIR__ . '/views/';
+        return true;
+      }
+    ]);
+  }
+
 
   public function accordion() {
 

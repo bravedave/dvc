@@ -13,7 +13,7 @@ namespace bravedave\dvc;
 abstract class bs {
   static $VERSION = 4;
 
-  static function data(string $tag, string $value = null): string {
+  static function data(string $tag, string|null $value = null): string {
 
     if ($value) {
 
