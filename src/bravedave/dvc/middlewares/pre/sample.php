@@ -14,7 +14,7 @@ use bravedave\dvc\logger;
 
 trait sample {
 
-  protected function preMiddleware(): array {
+  protected function getMiddleware(): array {
 
     $middleWares = [
 
@@ -25,18 +25,6 @@ trait sample {
       }
     ];
 
-    if ($parent = get_parent_class($this)) {
-
-      logger::info( sprintf('<%s> %s', $parent, logger::caller()));
-
-      // if the parent class has a preMiddleware method, call it
-      $parentMiddlewares = method_exists($parent, 'preMiddleware')
-        ? parent::preMiddleware()
-        : [];
-
-      return array_merge($middleWares, $parentMiddlewares);
-    }
-
-    return $middleWares;
+    return array_merge($middleWares, parent::getMiddleware());
   }
 }

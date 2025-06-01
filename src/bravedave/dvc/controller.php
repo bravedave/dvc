@@ -157,7 +157,7 @@ abstract class controller {
     $this->authorized = $this->authorised;  // american spelling accepted (doh)
     $this->data = (object)[];
 
-    foreach ($this->preMiddleware() as $middleware) {
+    foreach ($this->getMiddleware() as $middleware) {
 
       if (is_callable($middleware)) {
 
@@ -174,7 +174,6 @@ abstract class controller {
 
     //   if ($this->access_control()) {
 
-    //     /** @disregard P1007 is deprecated */
     //     $this->before();
     //   } else {
 
@@ -183,7 +182,6 @@ abstract class controller {
     //   }
     // } else {
 
-    //   /** @disregard P1007 is deprecated */
     //   $this->before();  // no acl required for anon access
     // }
   }
@@ -493,12 +491,6 @@ abstract class controller {
     die;
   }
 
-  /**
-   * use preMiddleware to add middleware
-   * note , this should return true if the middleware is handled
-   * if it returns false, the controller will NOT continue
-   */
-  // #[\Deprecated]
   protected function before() {
     /**
      * Placeholder for use by the child class.
@@ -562,6 +554,23 @@ abstract class controller {
     return $this->Request->isPost();
   }
 
+  protected function getMiddleware(): array {
+
+    $ret = [];
+    if ($this->RequireValidation) {
+
+      $ret[] = fn() => $this->access_control();
+    }
+
+    $ret[] = function () {
+
+      $this->before();
+      return true;  // continue, legacy behaviour
+    };
+
+    return $ret;
+  }
+
   #[\Deprecated('use $this->_getView() instead')]
   protected function getView($viewName = 'index', ?string $controller = null, $logMissingView = true): string {
 
@@ -614,24 +623,6 @@ abstract class controller {
     }
 
     return $this;  // chain
-  }
-
-  protected function preMiddleware(): array {
-
-    $ret = [];
-    if ($this->RequireValidation) {
-
-      $ret[] = fn() => $this->access_control();
-    }
-
-    $ret[] = function () {
-
-      /** @disregard P1007 is deprecated */
-      $this->before();
-      return true;  // continue, legacy behaviour
-    };
-
-    return $ret;
   }
 
   /**
