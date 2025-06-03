@@ -157,19 +157,6 @@ abstract class controller {
     $this->authorized = $this->authorised;  // american spelling accepted (doh)
     $this->data = (object)[];
 
-    foreach ($this->getMiddleware() as $middleware) {
-
-      if (is_callable($middleware)) {
-
-        $result = call_user_func($middleware);
-        if ($result === false) {
-
-          Response::redirect(strings::url());
-          exit;
-        }
-      }
-    }
-
     // if ($this->RequireValidation) {
 
     //   if ($this->access_control()) {
@@ -184,6 +171,16 @@ abstract class controller {
 
     //   $this->before();  // no acl required for anon access
     // }
+  }
+
+  public function __invoke(string $name = ''): bool {
+
+    $this->name = $name;
+
+    self::$url = strings::url($name . '/');
+    if ($this->debug) logger::debug(self::$url);
+
+    return $this->middleware(); // continue processing
   }
 
   protected function _delete($id = 0) {
@@ -554,21 +551,30 @@ abstract class controller {
     return $this->Request->isPost();
   }
 
-  protected function getMiddleware(): array {
+  protected function middleware(array $middlewares = []): bool {
 
-    $ret = [];
-    if ($this->RequireValidation) {
+    foreach ($middlewares as $middleware) {
 
-      $ret[] = fn() => $this->access_control();
+      if (is_callable($middleware)) {
+
+        $result = call_user_func($middleware);
+        if ($result === false) {
+
+          return false;
+        }
+      }
     }
 
-    $ret[] = function () {
+    if ($this->RequireValidation) {
 
-      $this->before();
-      return true;  // continue, legacy behaviour
-    };
+      if (!$this->access_control()) {
 
-    return $ret;
+        return false;  // The user is $authorised, but denied access by their _acl
+      }
+    }
+
+    $this->before();
+    return true; // continue processing
   }
 
   #[\Deprecated('use $this->_getView() instead')]
@@ -1090,12 +1096,6 @@ abstract class controller {
   public function logoff() {
 
     $this->logout();
-  }
-
-  public function init($name = '') {
-
-    self::$url = strings::url($name . '/');
-    if ($this->debug) logger::debug(self::$url);
   }
 
   public function errorTest() {

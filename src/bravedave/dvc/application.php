@@ -124,6 +124,8 @@ class application {
     if (is_null($this->defaultController)) $this->defaultController = config::$DEFAULT_CONTROLLER;
     if (trim($this->url_controller == '')) $this->url_controller = $this->defaultController;
 
+    if ( !$this->middleware()) return;
+
     if ($this->service) {
 
       if (self::$debug) logger::debug(sprintf('<exit: I am a service> %s', __METHOD__));
@@ -140,21 +142,23 @@ class application {
       $this->_route = $this->url_controller;
     }
 
-    /*
-		* Quiet Security - some actions are protected
-		* from outside calling, don't broadcast the error
-		*/
+    /**
+     * Quiet Security - some actions are protected
+     * from outside calling, don't broadcast the error
+     */
     $_protectedActions = [
       '_getView',
       '_getSystemViewPaths',
       '_render',
       '__construct',
       '__destruct',
+      '__invoke',
       'application',
       'authorize',
       'before',
       'dbResult',
       'dbEscape',
+      'getMiddleware',
       'getParam',
       'getPost',
       'getView',
@@ -194,85 +198,97 @@ class application {
 
     $url_controller_name = $this->url_controller;
 
-    $this->url_controller = new $this->url_controller($this->rootPath);
-    $this->url_controller->name = $url_controller_name;
-    $this->url_controller->timer = $this->_timer;
+    $controller = new $this->url_controller($this->rootPath);
+    if ($controller($url_controller_name)) {
 
-    $this->url_controller->init($url_controller_name);
+      $controller->timer = $this->_timer;
+      $this->url_controller = $controller;
 
-    /**
-     * Between here and the end of this function the application will execute
-     *
-     * check for method: does such a method exist in the controller ?
-     */
-    if (method_exists($this->url_controller, $this->url_action)) {
+      /**
+       * Between here and the end of this function the application will execute
+       *
+       * check for method: does such a method exist in the controller ?
+       */
+      if (method_exists($this->url_controller, $this->url_action)) {
 
-      // check if the method is public
-      $reflection = new \ReflectionMethod($this->url_controller, $this->url_action);
-      if ($reflection->isPublic()) {
+        // check if the method is public
+        $reflection = new \ReflectionMethod($this->url_controller, $this->url_action);
+        if ($reflection->isPublic()) {
 
-        $this->url_served = strings::url(implode('/', [
-          self::Request()->getControllerName(),
-          self::Request()->getActionName()
-        ]), $protcol = true);
+          $this->url_served = strings::url(implode('/', [
+            self::Request()->getControllerName(),
+            self::Request()->getActionName()
+          ]), $protcol = true);
 
-        // call the method and pass the arguments to it
-        if (isset($this->url_parameter_3)) {
+          // call the method and pass the arguments to it
+          if (isset($this->url_parameter_3)) {
 
-          // will translate to something like $this->home->method($param_1, $param_2, $param_3);
-          if (self::$debug) logger::debug(sprintf(
-            '%s->{%s}(%s, %s, %s)',
-            $this->url_controller->name,
-            $this->url_action,
-            $this->url_parameter_1,
-            $this->url_parameter_2,
-            $this->url_parameter_3
-          ));
+            // will translate to something like $this->home->method($param_1, $param_2, $param_3);
+            if (self::$debug) logger::debug(sprintf(
+              '%s->{%s}(%s, %s, %s)',
+              $this->url_controller->name,
+              $this->url_action,
+              $this->url_parameter_1,
+              $this->url_parameter_2,
+              $this->url_parameter_3
+            ));
 
-          $this->url_controller->{$this->url_action}(
-            $this->url_parameter_1,
-            $this->url_parameter_2,
-            $this->url_parameter_3
-          );
-        } elseif (isset($this->url_parameter_2)) {
+            $this->url_controller->{$this->url_action}(
+              $this->url_parameter_1,
+              $this->url_parameter_2,
+              $this->url_parameter_3
+            );
+          } elseif (isset($this->url_parameter_2)) {
 
-          if (self::$debug) logger::debug(sprintf(
-            '%s->{%s}(%s, %s)',
-            $this->url_controller->name,
-            $this->url_action,
-            $this->url_parameter_1,
-            $this->url_parameter_2
-          ));
+            if (self::$debug) logger::debug(sprintf(
+              '%s->{%s}(%s, %s)',
+              $this->url_controller->name,
+              $this->url_action,
+              $this->url_parameter_1,
+              $this->url_parameter_2
+            ));
 
-          // will translate to something like $this->home->method($param_1, $param_2);
-          $this->url_controller->{$this->url_action}(
-            $this->url_parameter_1,
-            $this->url_parameter_2
-          );
-        } elseif (isset($this->url_parameter_1)) {
+            // will translate to something like $this->home->method($param_1, $param_2);
+            $this->url_controller->{$this->url_action}(
+              $this->url_parameter_1,
+              $this->url_parameter_2
+            );
+          } elseif (isset($this->url_parameter_1)) {
 
-          if (self::$debug) logger::debug(sprintf(
-            '%s->{%s}(%s)',
-            $this->url_controller->name,
-            $this->url_action,
-            $this->url_parameter_1
-          ));
+            if (self::$debug) logger::debug(sprintf(
+              '%s->{%s}(%s)',
+              $this->url_controller->name,
+              $this->url_action,
+              $this->url_parameter_1
+            ));
 
-          // will translate to something like $this->home->method($param_1);
-          $this->url_controller->{$this->url_action}($this->url_parameter_1);
+            // will translate to something like $this->home->method($param_1);
+            $this->url_controller->{$this->url_action}($this->url_parameter_1);
+          } else {
+
+            if (self::$debug) logger::debug(sprintf(
+              '%s->{%s}()',
+              $this->url_controller->name,
+              $this->url_action
+            ));
+
+            /**
+             * if no parameters given, just call the method without parameters,
+             * like $this->home->method();
+             */
+            $this->url_controller->{$this->url_action}();
+          }
         } else {
 
-          if (self::$debug) logger::debug(sprintf(
-            '%s->{%s}()',
-            $this->url_controller->name,
-            $this->url_action
-          ));
+          $this->url_served = strings::url(
+            self::Request()->getControllerName(),
+            $protcol = true
+          );
 
-          /**
-           * if no parameters given, just call the method without parameters,
-           * like $this->home->method();
-           */
-          $this->url_controller->{$this->url_action}();
+          if (self::$debug) logger::debug('fallback on protected method');
+          if (self::$debug) logger::debug(sprintf('%s->index(%s)', $this->url_controller->name, $this->url_action));
+
+          $this->url_controller->index($this->url_action);
         }
       } else {
 
@@ -281,24 +297,12 @@ class application {
           $protcol = true
         );
 
-        if (self::$debug) logger::debug('fallback on protected method');
+        if (self::$debug) logger::debug('fallback');
         if (self::$debug) logger::debug(sprintf('%s->index(%s)', $this->url_controller->name, $this->url_action));
 
         $this->url_controller->index($this->url_action);
       }
-    } else {
-
-      $this->url_served = strings::url(
-        self::Request()->getControllerName(),
-        $protcol = true
-      );
-
-      if (self::$debug) logger::debug('fallback');
-      if (self::$debug) logger::debug(sprintf('%s->index(%s)', $this->url_controller->name, $this->url_action));
-
-      $this->url_controller->index($this->url_action);
     }
-
     $this->_app_executed = true;
   }
 
@@ -512,6 +516,23 @@ class application {
      */
   }
 
+  protected function middleware(array $middlewares = []): bool {
+
+    foreach ($middlewares as $middleware) {
+
+      if (is_callable($middleware)) {
+
+        $result = call_user_func($middleware);
+        if ($result === false) {
+
+          return false;
+        }
+      }
+    }
+
+    return true; // continue processing
+  }
+
   public function app_executed() {
     return $this->_app_executed;
   }
@@ -520,11 +541,11 @@ class application {
     return self::Request()->getActionName();
   }
 
-  public function addPath($path) {
+  public function addPath($path): void {
     $this->paths[] = $path;
   }
 
-  public function controller() {
+  public function controller(): string {
 
     if (is_string($this->url_controller)) return $this->url_controller;
     if (isset($this->url_controller)) return $this->url_controller->name;
@@ -543,7 +564,7 @@ class application {
     return \sys::dbi();
   }
 
-  public function getPaths() {
+  public function getPaths(): array {
     return $this->paths;
   }
 
@@ -551,7 +572,7 @@ class application {
     return $this->rootPath ?? self::app()->getRootPath();
   }
 
-  public function getInstallPath() {
+  public function getInstallPath(): string {
 
     return (realpath(__DIR__ . '/../../'));  // parent of parent
   }
