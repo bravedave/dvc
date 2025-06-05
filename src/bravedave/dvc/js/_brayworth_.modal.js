@@ -107,7 +107,7 @@
       return this;
     };
 
-    m.find('.modal-title').text(options.title);
+    m.find('.modal-title').html(options.title);
     m.find('.modal-body').append(content);
 
     if (Object.keys(options.buttons).length > 0) { // jquery-ui style
