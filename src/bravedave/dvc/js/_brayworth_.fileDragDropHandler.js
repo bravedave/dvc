@@ -219,7 +219,13 @@
 
           if ('ack' == d.response) {
 
-            $.each(d.data, (i, j) => _.growl(j));
+            if (!!d.data && 'string' != typeof d.data) {
+
+              $.each(d.data, (i, j) => _.growl(j));
+            } else {
+
+              _.growl(d);
+            }
           } else {
 
             options.onError(d);
