@@ -125,6 +125,7 @@ abstract class sys {
     logger::info($v);
   }
 
+  #[\Deprecated]
   public static function logSQL($v, $level = 0) {
 
     logger::sql($v);
