@@ -9,6 +9,7 @@
 */
 
 namespace bravedave\dvc;
+
 use function bravedave\dvc\esc;
 
 use config;
@@ -352,7 +353,7 @@ abstract class strings {
     return false;
   }
 
-  static public function esc(string|null $v) : string {
+  static public function esc(string|null $v): string {
 
     if ($v) return htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
     return '';
@@ -408,27 +409,29 @@ abstract class strings {
     return (preg_replace($find, $replace, $street));
   }
 
-  static public function FirstNames($string) {
+  static public function FirstNames(string $string): string {
+
     if (preg_match('/&/', $string)) {
+
       $x = explode('&', $string);
       if (count($x) > 1) {  // this might be david & lynne bray or david bray & lynne ralph
+
         //~ \sys::dump( $x);
         $a = [
           self::FirstWord(trim($x[0])),
           self::FirstWord(trim($x[1]))
-
         ];
-
         return implode(' & ', $a);
-      } else {
-        return self::FirstWord($string);
       }
-    } else {
+
       return self::FirstWord($string);
     }
+
+    return self::FirstWord($string);
   }
 
-  static public function FirstWord($string) {
+  static public function FirstWord(string $string): string {
+
     return (explode(' ', trim($string))[0]);
   }
 
@@ -854,10 +857,10 @@ abstract class strings {
   }
 
   /**
-   * @param string $string 
-   * @return string 
-   * 
-   * complimentary to isMonth, 
+   * @param string $string
+   * @return string
+   *
+   * complimentary to isMonth,
    * but returns the string formatted as month or empty
    * noting that a valid date will be returned as a month string
    * Examples of Outputs:
@@ -885,9 +888,9 @@ abstract class strings {
   }
 
   /**
-   * @param string $string 
-   * @return bool 
-   * 
+   * @param string $string
+   * @return bool
+   *
    * Key Points:
    *  true if the string is a valid month in YYYY-MM.
    *  false for invalid strings, dates, or formats.
@@ -1122,7 +1125,7 @@ abstract class strings {
     return $name;
   }
 
-  static public function street_index(string|null $street) : string {
+  static public function street_index(string|null $street): string {
     /**
      * Makes a street no, name into an indexable value
      * 38 Chapel Street becomes
@@ -1153,7 +1156,7 @@ abstract class strings {
   static public function text2html($inText, $maxrows = -1, $allAsteriskAsList = false): string {
 
     $inText = esc($inText);
-    
+
     if ($maxrows > 0) {
       $x = preg_split("/\n/", $inText);
       while (count($x) > ($maxrows + 1))
