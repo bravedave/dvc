@@ -70,7 +70,8 @@
       "bash src/resource/dvc-bootstrap-5.sh",
       "bash src/resource/get-bootstrap-icons.sh",
       "bash src/resource/update-preact.sh",
-      "bash src/resource/update-quill.sh"
+      "bash src/resource/update-quill.sh",
+      "bash src/resource/update-mermaid.sh"
     ],
     "start": [
       "Composer\\Config::disableProcessTimeout",

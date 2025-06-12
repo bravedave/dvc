@@ -190,6 +190,12 @@ class assets extends Controller {
     Response::serveQuill($type);
   }
 
+  public function mermaid($type = 'css') {
+    // logger::info( sprintf('<%s/%s> %s', $type, $version, __METHOD__));
+
+    Response::serveMermaid($type);
+  }
+
   public function toastui($type = 'css') {
     // logger::info( sprintf('<%s/%s> %s', $type, $version, __METHOD__));
 

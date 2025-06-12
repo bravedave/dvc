@@ -562,6 +562,19 @@ abstract class Response {
     }
   }
 
+  public static function serveMermaid($type = 'css'): void {
+
+    if ('css' == $type) {
+
+      // $lib = __DIR__ . '/resources/mermaid/mermaid.min.css';
+      // self::serve($lib);
+    } elseif ('js' == $type) {
+
+      $lib = __DIR__ . '/resources/mermaid/mermaid.min.js';
+      self::serve($lib);
+    }
+  }
+
   public static function serveQuill($type = 'css'): void {
 
     if ('css' == $type) {
