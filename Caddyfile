@@ -1,0 +1,16 @@
+# Install FrankenPHP
+# curl https://frankenphp.dev/install.sh | sh
+# mv frankenphp /usr/local/bin/
+#
+# Start FrankenPHP with Caddy
+# frankenphp run -c Caddyfile
+#
+:1200
+
+root * ./tests/www
+php_server
+rewrite * /_mvp.php
+
+log {
+  level WARN
+}

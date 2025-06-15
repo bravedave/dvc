@@ -44,7 +44,7 @@ abstract class url {
 
       if (isset($_SERVER['SERVER_SOFTWARE'])) {
 
-        if (preg_match('@^PHP@', $_SERVER['SERVER_SOFTWARE'])) {
+        if (preg_match('@^(PHP|FrankenPHP)@', $_SERVER['SERVER_SOFTWARE'])) {
 
           if (application::use_full_url) {
 
