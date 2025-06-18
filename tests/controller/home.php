@@ -88,6 +88,11 @@ class home extends controller {
     }
   }
 
+  public function info() {
+
+    phpinfo();
+  }
+
   public function pdo() {
 
     $pdo = new dvc\pdo\db;

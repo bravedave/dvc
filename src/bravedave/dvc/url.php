@@ -48,19 +48,17 @@ abstract class url {
 
           if (application::use_full_url) {
 
-            if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80) {
+            $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
-              if ($proxy = getenv('VSCODE_PROXY_URI')) {
+            if ($proxy = getenv('VSCODE_PROXY_URI')) {
 
-                $proxy = str_replace('{{port}}', $_SERVER['SERVER_PORT'], $proxy);
-                define('URL', $proxy);
-              } else {
-
-                define('URL', sprintf('//localhost:%s/', $_SERVER['SERVER_PORT']));
-              }
+              $port = $_SERVER['SERVER_PORT'] ?? 80;
+              $proxy = str_replace('{{port}}', $port, $proxy);
+              define('URL', $proxy);
             } else {
 
-              define('URL', '//localhost/');
+              // HTTP_HOST already includes the port if non-standard
+              define('URL', sprintf('//%s/', $host));
             }
           } else {
 
