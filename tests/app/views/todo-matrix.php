@@ -45,7 +45,6 @@
     useEffect(() => fetchData(), [refresh]);
 
     if (error) return html`<div>Error: ${error}</div>`;
-    if (!data.length) return html`<div>Loading...</div>`;
 
     const Delete = ({
       dto
@@ -192,6 +191,13 @@
       `;
     };
 
+    if (!data.length) {
+
+      return html`
+        <h4><?= config::label_todo ?></h4>
+        <${newItem} inputRef=${newItemRef} />`;
+    }
+    
     return html`
       <h4><?= config::label_todo ?></h4>
       ${data.map(dto => html`
