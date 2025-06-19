@@ -76,7 +76,7 @@
     "start": [
       "Composer\\Config::disableProcessTimeout",
       "echo \"this application is available at http://localhost:8000\"",
-      "php -S 0.0.0.0:8000 tests/www/_mvp.php"
+      "DEVELOPER=1 php -S 0.0.0.0:8000 tests/www/_mvp.php"
     ],
     "create-thumb": "tests\\tests::CreateThumb",
     "dvc": "php vendor/bin/dvc",
