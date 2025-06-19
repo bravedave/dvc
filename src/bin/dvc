@@ -1031,12 +1031,12 @@ final class utility {
 
       printf("Starting local dev server at http://localhost:%s...\n", static::$port);
       chdir('public');
-      passthru(sprintf('php -S 0.0.0.0:%s _mvp.php', static::$port));
+      passthru(sprintf('DEVELOPER=1 php -S 0.0.0.0:%s _mvp.php', static::$port));
     } elseif (file_exists('tests/www/_mvp.php')) {
 
       printf("Starting local dev server at http://localhost:%s...\n", static::$port);
       chdir('tests/www');
-      passthru(sprintf('php -S 0.0.0.0:%s _mvp.php', static::$port));
+      passthru(sprintf('DEVELOPER=1 php -S 0.0.0.0:%s _mvp.php', static::$port));
     } elseif (file_exists('vendor/bravedave/dvc/tests/www/_mvp.php')) {
 
       echo "\n\napplication not found \n";
