@@ -17,7 +17,7 @@ class dbResult {
   public ?mysqli_result $result;
   protected ?dbi $db = null;
 
-  public function __construct(mysqli_result $result = null, dbi $db = null) {
+  public function __construct(mysqli_result|null $result = null, dbi|null $db = null) {
 
     if ($result) $this->result = $result;
     if ($db) $this->db = $db;
