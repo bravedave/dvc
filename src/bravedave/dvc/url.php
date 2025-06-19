@@ -50,7 +50,15 @@ abstract class url {
 
             $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
-            if ($proxy = getenv('VSCODE_PROXY_URI')) {
+            if (
+              !empty($_SERVER['HTTP_X_FORWARDED_HOST']) &&
+              !empty($_SERVER['HTTP_X_FORWARDED_PROTO'])
+            ) {
+
+              $host = $_SERVER['HTTP_X_FORWARDED_HOST'];
+              $protocol = $_SERVER['HTTP_X_FORWARDED_PROTO'];
+              define('URL', sprintf('%s://%s/', $protocol, $host));
+            } elseif ($proxy = getenv('VSCODE_PROXY_URI')) {
 
               $port = $_SERVER['SERVER_PORT'] ?? 80;
               $proxy = str_replace('{{port}}', $port, $proxy);
@@ -60,6 +68,8 @@ abstract class url {
               // HTTP_HOST already includes the port if non-standard
               define('URL', sprintf('//%s/', $host));
             }
+
+            // logger::info(sprintf('<%s> %s', URL, logger::caller()));
           } else {
 
             define('URL', '/');
