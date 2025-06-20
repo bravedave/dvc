@@ -117,12 +117,10 @@ abstract class url {
     self::$URL = URL;
     self::$HOME = URL;
 
-    $protocol = (
-      ($_SERVER['HTTPS'] ?? 'off') !== 'off'
-      ||
-      (($_SERVER['SERVER_PORT'] ?? 0) == 443)
-    ) ? "https:" : "http:";
-
+    $https = $_SERVER['HTTPS'] ?? 'off';
+    if (is_null($https)) $https = 'off';
+    $port = $_SERVER['SERVER_PORT'] ?? 0;
+    $protocol = ($https !== 'off' || $port == 443) ? "https:" : "http:";
     self::$PROTOCOL = $protocol;
   }
 }
