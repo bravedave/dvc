@@ -82,7 +82,7 @@ class element {
     return $this;
   }
 
-  public function append($tag, $content = null, array $attributes = null) {
+  public function append($tag, $content = null, array|null $attributes = null) {
 
     $contentType = gettype($tag);
     if ($contentType == 'object') {
