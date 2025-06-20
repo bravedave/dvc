@@ -15,7 +15,7 @@ class breadcrumb {
   public string $label;
   public string $url;
 
-  public function __construct(string $label, string $url = null) {
+  public function __construct(string $label, string|null $url = null) {
 
     $this->label = $label;
     if ( $url) $this->url = $url;
