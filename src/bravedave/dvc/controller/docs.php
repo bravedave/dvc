@@ -129,6 +129,12 @@ class docs extends Controller {
     }
   }
 
+  protected function before() {
+
+    parent::before();
+    $this->viewPath[] = $p = implode(DIRECTORY_SEPARATOR, [config::$SYSTEM_VIEWS, 'docs']);
+  }
+
   protected function getDoc() {
 
     $action = $this->getPost('action');
