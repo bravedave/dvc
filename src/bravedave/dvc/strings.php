@@ -871,7 +871,7 @@ abstract class strings {
    *  'invalid-string' → ''
    *  '2025-01-01 12:00:00' → '2025-01'
    */
-  static public function asMonth(string $string): string {
+  static public function asMonth(string|null $string): string {
 
     // Ensure the string is not empty
     if (empty($string)) return '';
@@ -901,7 +901,7 @@ abstract class strings {
    *  '' → false (empty string)
    *  'invalid-string' → false (non-date string)
    */
-  static public function isMonth(string $string): bool {
+  static public function isMonth(string|null $string): bool {
 
     // Ensure the string is not empty
     if (empty($string)) return false;
@@ -916,7 +916,7 @@ abstract class strings {
     return $date;
   }
 
-  static public function isPhone(?string $_tel = ''): bool {
+  static public function isPhone(string|null $_tel = ''): bool {
 
     try {
 
