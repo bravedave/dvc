@@ -86,7 +86,7 @@ class modal {
     $this->_openform = false;
   }
 
-  protected function load(string $path = null, array $options = []): self {
+  protected function load(string|null $path = null, array $options = []): self {
 
     if ($path) {
 
