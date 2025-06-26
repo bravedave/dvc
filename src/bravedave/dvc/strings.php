@@ -1158,6 +1158,10 @@ abstract class strings {
     return (string)$strStreetIndex;
   }
 
+  /**
+   * @deprecated Use the function with the same name instead.
+   */
+  #[\Deprecated]
   static public function text2html($inText, $maxrows = -1, $allAsteriskAsList = false): string {
 
     $inText = esc($inText);
