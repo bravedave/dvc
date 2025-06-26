@@ -43,6 +43,9 @@ function text2html(string|null $inText, int $maxrows = 0) : string {
       'html_input' => 'strip',
       'allow_unsafe_links' => false,
       'max_nesting_level' => 100,
+      'renderer' => [
+        'soft_break' => "<br>\n",
+      ],
     ]);
     
     $environment->addExtension(new CommonMarkCoreExtension());
