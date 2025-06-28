@@ -854,6 +854,90 @@ final class utility {
     }
   }
 
+  public static function checkComposer(): void {
+    /*
+    the basic structure we require is:
+    {
+      "autoload": {
+          "psr-4": {
+              "": "src/app/"
+          }
+      },
+      "scripts": {
+          "start": [
+              "Composer\\Config::disableProcessTimeout",
+              "echo \"this application is available at http://localhost:8000\"",
+              "php -S 0.0.0.0:8000 public/_mvp.php"
+          ]
+      }
+    }
+    */
+
+    $changed = false;
+    $composerFile = 'composer.json';
+    // read in the composer.json file
+    $composer = (object)[];
+    if (file_exists($composerFile)) {
+      $composer = json_decode(file_get_contents($composerFile), true);
+    }
+
+    // check there is an autoload and a autoload/psr-4 section
+    if (!isset($composer['autoload'])) $composer['autoload'] = (object)[];
+    if (!isset($composer['autoload']['psr-4'])) $composer['autoload']['psr-4'] = (object)[];
+
+    // check the psr-4 section has a root namespace
+    $rootNamespace = isset($composer['autoload']['psr-4']['']);
+
+    if (!$rootNamespace) {
+
+      /**
+       * we would prefer to have the root namespace set in autoload-dev
+       * lets roll through and if it does not exist, create it there
+       */
+
+      if (!isset($composer['autoload-dev'])) {
+        $composer['autoload-dev'] = [];
+      }
+
+      if (!isset($composer['autoload-dev']['psr-4'])) {
+        $composer['autoload-dev']['psr-4'] = [];
+      }
+
+      if (!isset($composer['autoload-dev']['psr-4'][''])) {
+        $composer['autoload-dev']['psr-4'][''] = 'src/app/';
+        $changed = true;
+      }
+    }
+
+
+    // cool, lets check to see if we have a start script
+    // check there is a scripts section
+    if (!isset($composer['scripts'])) $composer['scripts'] = [];
+
+    if (!isset($composer['scripts']['start'])) {
+
+      $composer['scripts']['start'] = [
+        'Composer\\Config::disableProcessTimeout',
+        'echo "this application is available at http://localhost:8000"',
+        ' 0.0.0.0:8000 public/_mvp.php'
+      ];
+      $changed = true;
+    }
+
+    // if it was changed, write it back to the file
+    if ($changed) {
+
+      file_put_contents($composerFile, json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+      echo "Updated composer.json with autoload and start script.\n";
+
+      // they need to run composer update
+      echo "Please run 'composer update' to apply the changes.\n";
+    } else {
+
+      echo "composer.json already has the required structure.\n";
+    }
+  }
+
   public static function checkDirectories($directories): void {
     foreach ($directories as $dir) {
       if (!is_dir($dir)) {
@@ -951,6 +1035,7 @@ final class utility {
 
     utility::checkDirectories($directories);  // Create directories if they don't exist
     utility::checkFiles($files);  // Copy files if they don't exist
+    utility::checkComposer();  // Ensure composer.json has the correct structure
 
     echo "Default application setup complete.\n";
     printf("to run the application type php %s server\n", __FILE__);
