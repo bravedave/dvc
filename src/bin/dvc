@@ -912,14 +912,14 @@ final class utility {
 
     // cool, lets check to see if we have a start script
     // check there is a scripts section
-    if (!isset($composer['scripts'])) $composer['scripts'] = [];
+    if (!isset($composer->{'scripts'})) $composer->{'scripts'} = (object)[];
 
-    if (!isset($composer['scripts']['start'])) {
+    if (!isset($composer->{'scripts'}->{'start'})) {
 
-      $composer['scripts']['start'] = [
+      $composer->{'scripts'}->{'start'} = [
         'Composer\\Config::disableProcessTimeout',
         'echo "this application is available at http://localhost:8000"',
-        ' 0.0.0.0:8000 public/_mvp.php'
+        'php -S 0.0.0.0:8000 public/_mvp.php'
       ];
       $changed = true;
     }
