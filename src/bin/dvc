@@ -878,15 +878,15 @@ final class utility {
     // read in the composer.json file
     $composer = (object)[];
     if (file_exists($composerFile)) {
-      $composer = json_decode(file_get_contents($composerFile), true);
+      $composer = (object)json_decode(file_get_contents($composerFile), true);
     }
 
     // check there is an autoload and a autoload/psr-4 section
-    if (!isset($composer['autoload'])) $composer['autoload'] = (object)[];
-    if (!isset($composer['autoload']['psr-4'])) $composer['autoload']['psr-4'] = (object)[];
+    if (!isset($composer->autoload)) $composer->autoload = (object)[];
+    if (!isset($composer->autoload->{'psr-4'})) $composer->autoload->{'psr-4'} = (object)[];
 
     // check the psr-4 section has a root namespace
-    $rootNamespace = isset($composer['autoload']['psr-4']['']);
+    $rootNamespace = isset($composer->autoload->{'psr-4'}->{''});
 
     if (!$rootNamespace) {
 
@@ -895,16 +895,16 @@ final class utility {
        * lets roll through and if it does not exist, create it there
        */
 
-      if (!isset($composer['autoload-dev'])) {
-        $composer['autoload-dev'] = [];
+      if (!isset($composer->{'autoload-dev'})) $composer->{'autoload-dev'} = (object)[];
+
+      if (!isset($composer->{'autoload-dev'}->{'psr-4'})) {
+
+        $composer->{'autoload-dev'}->{'psr-4'} = [];
       }
 
-      if (!isset($composer['autoload-dev']['psr-4'])) {
-        $composer['autoload-dev']['psr-4'] = [];
-      }
+      if (!isset($composer->{'autoload-dev'}->{'psr-4'}->{''})) {
 
-      if (!isset($composer['autoload-dev']['psr-4'][''])) {
-        $composer['autoload-dev']['psr-4'][''] = 'src/app/';
+        $composer->{'autoload-dev'}->{'psr-4'}->{''} = 'src/app/';
         $changed = true;
       }
     }
