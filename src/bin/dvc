@@ -530,8 +530,8 @@ final class utility {
       }
 
       $menu[] = [
-        'title' => $name,
-        'url' => ucwords('name'),
+        'title' => ucwords($name),
+        'url' => $name,
         'icon' => 'bi bi-dot'
       ];
 
