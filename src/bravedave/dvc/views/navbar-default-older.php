@@ -9,23 +9,10 @@
  * compatibility : bootstrap 5
 */
 
-use bravedave\dvc\theme;
-
-use application as app;
-use bravedave\dvc\logger;
+namespace bravedave\dvc;
 
 $title = $title ?? $this->title;
-$aside = ($aside ?? true);
-$menu = [];
-
-$menuJson = app::app()->getRootPath() . '/menu.json';
-logger::info( sprintf('<menuJson : %s> %s', $menuJson, logger::caller()));
-
-if (file_exists($menuJson)) {
-
-  $menu = (array)json_decode(file_get_contents($menuJson), true);
-}
-?>
+$aside = ($aside ?? true);  ?>
 
 <nav class="<?= theme::navbar() ?> navbar-md-expand" id="<?= $_nav = strings::rand() ?>" role="navigation">
 
@@ -37,34 +24,7 @@ if (file_exists($menuJson)) {
       </button>
     <?php } ?>
 
-    <?php if ($menu) {  ?>
-
-      <div class="navbar-brand dropdown">
-
-        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <?= $title ?>
-        </button>
-
-        <ul class="dropdown-menu">
-          <?php foreach ($menu as $item) { ?>
-
-            <li>
-              <a class="dropdown-item" href="<?= strings::url($item['url']) ?>">
-
-                <?php if (isset($item['icon'])) { ?>
-                  <i class="<?= $item['icon'] ?>"></i>
-                <?php } ?>
-
-                <?= $item['title'] ?>
-              </a>
-            </li>
-          <?php } ?>
-        </ul>
-      </div>
-    <?php } else {
-
-      printf('<div class="navbar-brand">%s</div>', $title);
-    }  ?>
+    <div class="navbar-brand"><?= $title ?></div>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
       data-bs-target="#<?= $_uid = strings::rand() ?>" aria-controls="<?= $_uid ?>"
