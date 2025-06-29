@@ -519,6 +519,25 @@ final class utility {
 
       file_put_contents($file, implode("\n", $content));
       echo "Created views/index class: $file\n";
+
+      $menu = [];
+      $menuJson = 'src/menu.json';
+      // logger::info( sprintf('<menuJson : %s> %s', $menuJson, logger::caller()));
+
+      if (file_exists($menuJson)) {
+
+        $menu = (array)json_decode(file_get_contents($menuJson), true);
+      }
+
+      $menu[] = [
+        'title' => $name,
+        'url' => ucwords('name'),
+        'icon' => 'bi bi-dot'
+      ];
+
+      if (file_exists($menuJson)) unlink($menuJson);
+      file_put_contents($menuJson, json_encode($menu, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+      echo "Created/Updated menu.json: $menuJson\n";
     } else {
 
       echo "views/index class already exists: $file\n";

@@ -12,15 +12,12 @@
 use bravedave\dvc\theme;
 
 use application as app;
-use bravedave\dvc\logger;
 
 $title = $title ?? $this->title;
 $aside = ($aside ?? true);
 $menu = [];
 
 $menuJson = app::app()->getRootPath() . '/menu.json';
-logger::info( sprintf('<menuJson : %s> %s', $menuJson, logger::caller()));
-
 if (file_exists($menuJson)) {
 
   $menu = (array)json_decode(file_get_contents($menuJson), true);
