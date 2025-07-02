@@ -897,7 +897,7 @@ final class utility {
     // read in the composer.json file
     $composer = (object)[];
     if (file_exists($composerFile)) {
-      $composer = (object)json_decode(file_get_contents($composerFile), true);
+      $composer = json_decode(file_get_contents($composerFile));
     }
 
     // check there is an autoload and a autoload/psr-4 section
