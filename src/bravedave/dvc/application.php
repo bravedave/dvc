@@ -17,6 +17,7 @@ use bravedave\dvc\Exceptions\{
   CannotLocateController,
   MissingRootPath
 };
+use Closure;
 
 define('APPLICATION', 1);
 
@@ -356,6 +357,10 @@ class application {
     }
 
     if (method_exists($this, 'deprecated')) $this->{'deprecated'}();
+  }
+
+  protected function _execute(Closure $run) : void {
+    $run();
   }
 
   protected function _search_for_controller(): void {
