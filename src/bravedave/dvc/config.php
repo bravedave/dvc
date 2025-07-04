@@ -671,13 +671,47 @@ abstract class config {
 
       if ($register) {
 
-        $map->{$path} = $register;
+        if ($map->{$path} ?? false) {
+
+          /**
+           * if the controller is already registered, we need to check
+           * if it is the same controller
+           */
+          if ($map->{$path} != $register) {
+
+            $map->{$path} = $register;
+            $changed = true;
+          } else {
+
+            /**
+             * register the controller
+             */
+            $map->{$path} = $register;
+            $changed = true;
+          }
+        } else {
+
+          /**
+           * register the controller
+           */
+          $map->{$path} = $register;
+          $changed = true;
+        }
       } else {
 
         unset($map->{$path});
+        $changed = true;
       }
 
-      file_put_contents(static::_route_map_path(), json_encode($map, JSON_PRETTY_PRINT));
+      if ($changed ?? false) {
+
+        /**
+         * write the map to the file
+         */
+        $path = static::_route_map_path();
+        if (file_exists($path)) unlink($path);
+        file_put_contents($path, json_encode($map, JSON_PRETTY_PRINT));
+      }
     }
   }
 
