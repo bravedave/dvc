@@ -39,6 +39,12 @@ class db {
     ]);
 
     $this->_db = new SQLite3($this->_path);  // throws exception on failure
+
+    // Register a custom REGEXP_REPLACE function using PHP's preg_replace
+    $this->_db->createFunction('REGEXP_REPLACE', function ($str, $pattern, $replace) {
+      return preg_replace("/$pattern/", $replace, $str);
+    }, 3);
+    
     if ($this->_db) $this->_db->busyTimeout(6000);  // 6 seconds
   }
 
