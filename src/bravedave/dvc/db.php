@@ -252,12 +252,12 @@ class db {
     return sprintf('"%s"', $this->escape($val));
   }
 
-  public function prepare(string $query): ?mysqli_stmt {
+  public function prepare(string $query): mysqli_stmt|bool {
 
     return $this->mysqli->prepare($query);
   }
 
-  public function result($query): ?dbResult {
+  public function result($query): dbResult|null {
     try {
 
       $dbResult = new dbResult($this->Q($query), $this);
