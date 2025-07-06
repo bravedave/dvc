@@ -206,7 +206,7 @@ class db {
     $fA = [];
     $fV = [];
     foreach ($a as $k => $v) {
-      
+
       $fA[] = $k;
       // $fV[] = $this->quote($v);
       $fV[] = $this->quote((new dbSanitize($v))());
@@ -279,6 +279,17 @@ class db {
     }
 
     return (false);
+  }
+
+  public function threadID(): int {
+
+    // return the mysqli thread ID
+    if ($this->mysqli) {
+      return $this->mysqli->thread_id;
+    }
+
+    // if mysqli is not set, return 0
+    return 0;
   }
 
   public function Update($table, $a, $scope, $flushCache = true) {
