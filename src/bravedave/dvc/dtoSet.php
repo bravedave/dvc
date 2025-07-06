@@ -41,7 +41,10 @@ class dtoSet {
     if ($sql instanceof mysqli_stmt) {
       
       // if $sql is a mysqli_stmt, we can use it directly
-      $res = new dbResult($sql->get_result(), $this->db);
+      if ($sql->execute()) {
+
+        $res = new dbResult($sql->get_result(), $this->db);
+      }
     } elseif ($sql instanceof SQLite3Stmt) {
 
       // if $sql is a prepared statement, we can use it directly
