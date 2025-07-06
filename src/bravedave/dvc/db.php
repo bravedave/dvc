@@ -12,6 +12,7 @@ namespace bravedave\dvc;
 
 use config, Exception;
 use mysqli;
+use mysqli_result;
 use mysqli_stmt;
 
 class db {
@@ -137,6 +138,28 @@ class db {
   public function escape($s): string {
     return $this->mysqli->real_escape_string($s);
   }
+
+  public function execute_query(string $query, ?array $params = null): mysqli_result|bool {
+
+    if ($this->log) logger::sql($query);
+    if ($result = $this->mysqli->execute_query($query, $params)) return $result;
+
+    /****************************************
+     * You are here because there was an error **/
+    $message = sprintf(
+      "Error : MySQLi : %s\nError : MySQLi : %s",
+      $query,
+      $this->mysqli->error
+    );
+
+    logger::sql($message);
+    foreach (debug_backtrace() as $e) {
+      logger::info(sprintf('%s(%s)', $e['file'] ?? '?file', $e['line'] ?? '?line'));
+    }
+
+    throw new Exception($message);
+  }
+
 
   public function fetchFields($table) {
     $res = $this->Q("SELECT * FROM `$table` LIMIT 1");

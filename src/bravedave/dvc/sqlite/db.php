@@ -13,6 +13,7 @@ namespace bravedave\dvc\sqlite;
 use bravedave, config;
 use bravedave\dvc\{dbSanitize, dto, logger};
 use SQLite3, SQLite3Stmt, ZipArchive;
+use SQLite3Result;
 
 class db {
   public $log = false;
@@ -92,6 +93,16 @@ class db {
     return $this->_db->escapeString($value);
   }
 
+  function execute_query(SQLite3 $db, string $sql, array $params = []) : bool|SQLite3Result {
+
+    $stmt = $db->prepare($sql);
+    foreach ($params as $key => $value) {
+      $paramType = is_int($value) ? SQLITE3_INTEGER : SQLITE3_TEXT;
+      $stmt->bindValue(is_int($key) ? $key + 1 : $key, $value, $paramType);
+    }
+    return $stmt->execute();
+  }
+
   public function flushCache() {
 
     if (config::$DB_CACHE == 'APC') {
@@ -169,11 +180,14 @@ class db {
     return ($this->_db->lastInsertRowID());
   }
 
-  public function Q(string $sql) {
+  public function Q(string $sql) : bool|SQLite3Result {
+
     if ($this->log) logger::sql($sql);
     try {
-      if ($result = $this->_db->query($sql)) return ($result);
+
+      if ($result = $this->_db->query($sql)) return $result;
     } catch (\Throwable $th) {
+      
       /****************************************
        * You are here because there was an error **/
       $message = sprintf(
@@ -190,6 +204,8 @@ class db {
 
       throw new \Exception($message);
     }
+
+    return false;
   }
 
   public function quote(string $val) {
