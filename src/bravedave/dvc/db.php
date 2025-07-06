@@ -11,6 +11,8 @@
 namespace bravedave\dvc;
 
 use config, Exception;
+use mysqli;
+use mysqli_stmt;
 
 class db {
   protected $mysqli, $dbname;
@@ -248,6 +250,11 @@ class db {
 
     if ('NULL' == $val) return $val;
     return sprintf('"%s"', $this->escape($val));
+  }
+
+  public function prepare(string $query): ?mysqli_stmt {
+
+    return $this->mysqli->prepare($query);
   }
 
   public function result($query): ?dbResult {
