@@ -41,11 +41,11 @@ class dtoSet {
     $res = null;
 
     if ($sql instanceof mysqli_result) {
-      
+
       // if $sql is a mysqli_result, we can use it directly
-      $res = $sql;
+      $res = new dbResult($sql, $this->db);
     } elseif ($sql instanceof mysqli_stmt) {
-      
+
       // if $sql is a mysqli_stmt, we can use it directly
       if ($sql->execute()) {
 
@@ -54,7 +54,7 @@ class dtoSet {
     } elseif ($sql instanceof SQLite3Result) {
 
       // if $sql is a SQLite3Result, we can use it directly
-      $res = $sql;
+      $res = new sqlite\dbResult($sql, $this->db);
     } elseif ($sql instanceof SQLite3Stmt) {
 
       // if $sql is a prepared statement, we can use it directly
