@@ -11,7 +11,7 @@
 namespace bravedave\dvc;
 
 use config, Closure, sys;
-use SQLite3Stmt;
+use mysqli_stmt, SQLite3Stmt;
 
 class dtoSet {
 
@@ -29,16 +29,20 @@ class dtoSet {
     $this->db = is_null($db) ? sys::dbi() : $db;
   }
 
-  public function __invoke(string|SQLite3Stmt $sql, Closure|null $func = null, string|null $template = null): array {
+  public function __invoke(string|SQLite3Stmt|mysqli_stmt $sql, Closure|null $func = null, string|null $template = null): array {
 
     return $this->getDtoSet($sql, $func, $template);
   }
 
-  public function getDtoSet(string|SQLite3Stmt $sql, Closure|null $func = null, string|null $template = null): array {
+  public function getDtoSet(string|SQLite3Stmt|mysqli_stmt $sql, Closure|null $func = null, string|null $template = null): array {
 
     $res = null;
 
-    if ($sql instanceof SQLite3Stmt) {
+    if ($sql instanceof mysqli_stmt) {
+      
+      // if $sql is a mysqli_stmt, we can use it directly
+      $res = new dbResult($sql->get_result(), $this->db);
+    } elseif ($sql instanceof SQLite3Stmt) {
 
       // if $sql is a prepared statement, we can use it directly
       $res = new sqlite\dbResult($sql->execute(), $this->db);
