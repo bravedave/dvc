@@ -11,12 +11,13 @@
 namespace bravedave\dvc\sqlite;
 
 use bravedave;
+use SQLite3Result;
 
 class dbResult {
-  protected $result = false;
-  protected $db;
+  protected SQLite3Result|null $result;
+  protected db|null $db;
 
-  public function __construct($result = null, $db = null) {
+  public function __construct(SQLite3Result|null $result = null, $db = null) {
 
     if ($result) $this->result = $result;
     if ($db) $this->db = $db;
@@ -26,6 +27,7 @@ class dbResult {
   }
 
   public function fetch() {
+    
     return $this->result->fetchArray(SQLITE3_ASSOC);
   }
 

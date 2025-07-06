@@ -12,8 +12,7 @@ namespace bravedave\dvc\sqlite;
 
 use bravedave, config;
 use bravedave\dvc\{dbSanitize, dto, logger};
-use SQLite3;
-use ZipArchive;
+use SQLite3, SQLite3Stmt, ZipArchive;
 
 class db {
   public $log = false;
@@ -44,7 +43,7 @@ class db {
     $this->_db->createFunction('REGEXP_REPLACE', function ($str, $pattern, $replace) {
       return preg_replace("/$pattern/", $replace, $str);
     }, 3);
-    
+
     if ($this->_db) $this->_db->busyTimeout(6000);  // 6 seconds
   }
 
@@ -197,6 +196,11 @@ class db {
 
     if ('NULL' == $val) return $val;
     return sprintf("'%s'", $this->escape($val));
+  }
+
+  public function prepare(string $query): ?SQLite3Stmt {
+
+    return $this->_db->prepare($query);
   }
 
   public function result(string $query): dbResult {
