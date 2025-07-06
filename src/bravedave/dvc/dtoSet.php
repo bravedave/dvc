@@ -10,7 +10,8 @@
 
 namespace bravedave\dvc;
 
-use config, Closure;
+use config, Closure, sys;
+use SQLite3Stmt;
 
 class dtoSet {
 
@@ -25,22 +26,29 @@ class dtoSet {
       throw new Exceptions\DBNotConfigured;
     }
 
-    $this->db = is_null($db) ? \sys::dbi() : $db;
+    $this->db = is_null($db) ? sys::dbi() : $db;
   }
 
-  public function __invoke(string $sql, Closure|null $func = null, string|null $template = null): array {
+  public function __invoke(string|SQLite3Stmt $sql, Closure|null $func = null, string|null $template = null): array {
 
     return $this->getDtoSet($sql, $func, $template);
   }
 
-  public function getDtoSet(string $sql, Closure|null $func = null, string|null $template = null): array {
+  public function getDtoSet(string|SQLite3Stmt $sql, Closure|null $func = null, string|null $template = null): array {
 
-    if ($res = $this->db->result($sql)) {
+    $res = null;
 
-      return $res->dtoSet($func, $template);
+    if ($sql instanceof SQLite3Stmt) {
+
+      // if $sql is a prepared statement, we can use it directly
+      $res = new sqlite\dbResult($sql->execute(), $this->db);
+    } else {
+
+      // otherwise, we assume it's a query string
+      $res = $this->db->result($sql);
     }
 
-    return [];
+    return $res ? $res->dtoSet($func, $template) : [];
   }
 
   public function quote(string $s): string {
