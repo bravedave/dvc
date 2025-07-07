@@ -8,5 +8,7 @@
  *
 */
 
-final class strings extends bravedave\dvc\strings {
+final class routes {
+
+  const map = [];
 }

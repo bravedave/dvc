@@ -8,4 +8,5 @@
  *
 */
 
-abstract class userAgent extends bravedave\dvc\userAgent {}
+final class userAgent extends bravedave\dvc\userAgent {
+}

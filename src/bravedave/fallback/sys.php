@@ -8,4 +8,4 @@
  *
 */
 
-abstract class sys extends dvc\sys {}
+final class sys extends dvc\sys {}
