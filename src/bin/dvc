@@ -33,6 +33,14 @@ $args = $argv;
 array_shift($args); // remove script name
 
 $command = $args[0] ?? null;
+$port = 1265; // default port
+
+// Parse additional arguments
+foreach ($args as $arg) {
+  if (preg_match('/--port=(\d+)/', $arg, $matches)) {
+    $port = (int)$matches[1];
+  }
+}
 
 final class utility {
 
@@ -1021,7 +1029,7 @@ final class utility {
 
   public static function help(): void {
     echo "Available commands:\n";
-    echo "  serve                Start the dev server\n";
+    echo "  serve [--port=<port>]    Start the dev server (default port: 1265)\n";
     if (!file_exists('public/_mvp.php')) {
 
       echo "  make::application     Create the default application\n";
@@ -1129,18 +1137,20 @@ final class utility {
     echo "finished creating module: $file\n";
   }
 
-  public static function serve(): void {
+  public static function serve($port = null): void {
+
+    $actualPort = $port ?? static::$port;
 
     if (is_dir('public')) {
 
-      printf("Starting local dev server at http://localhost:%s...\n", static::$port);
+      printf("Starting local dev server at http://localhost:%s...\n", $actualPort);
       chdir('public');
-      passthru(sprintf('DEVELOPER=1 php -S 0.0.0.0:%s _mvp.php', static::$port));
+      passthru(sprintf('DEVELOPER=1 php -S 0.0.0.0:%s _mvp.php', $actualPort));
     } elseif (file_exists('tests/www/_mvp.php')) {
 
-      printf("Starting local dev server at http://localhost:%s...\n", static::$port);
+      printf("Starting local dev server at http://localhost:%s...\n", $actualPort);
       chdir('tests/www');
-      passthru(sprintf('DEVELOPER=1 php -S 0.0.0.0:%s _mvp.php', static::$port));
+      passthru(sprintf('DEVELOPER=1 php -S 0.0.0.0:%s _mvp.php', $actualPort));
     } elseif (file_exists('vendor/bravedave/dvc/tests/www/_mvp.php')) {
 
       echo "\n\napplication not found \n";
@@ -1156,7 +1166,7 @@ switch ($command) {
     break;
 
   case 'serve':
-    utility::serve();
+    utility::serve($port);
     break;
 
   case 'make::application':
