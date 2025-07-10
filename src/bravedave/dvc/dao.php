@@ -12,7 +12,9 @@ namespace bravedave\dvc;
 
 use bravedave\dvc\Exceptions\{DBNameIsNull, DBNotConfigured};
 use config, dvc;
+use mysqli_result;
 use RuntimeException;
+use SQLite3Result;
 
 /**
  * Class dao
@@ -353,6 +355,11 @@ abstract class dao {
     return $this->db->escape($s);
   }
 
+  public function execute_query(string $query, ?array $params = null): mysqli_result|SQLite3Result|bool {
+    
+    return $this->db->execute_query($query, $params);
+  }
+  
   public function getAll($fields = '*', $order = '') {
 
     if (is_null($this->_db_name)) throw new DBNameIsNull;
