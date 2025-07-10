@@ -12,9 +12,9 @@ namespace bravedave\dvc;
 
 use bravedave\dvc\Exceptions\{DBNameIsNull, DBNotConfigured};
 use config, dvc;
-use mysqli_result;
+use mysqli_result, mysqli_stmt;
 use RuntimeException;
-use SQLite3Result;
+use SQLite3Result, SQLite3Stmt;
 
 /**
  * Class dao
@@ -30,6 +30,13 @@ use SQLite3Result;
  *
  * Key Methods:
  * - `create()`: Creates a new Data Transfer Object (DTO) for the table.
+ * - `execute_query($query, $params)`: Executes a query with optional parameters.
+ * - `prepare($query)`: Prepares a SQL statement for execution.
+ * - `escape($s)`: Escapes a string for safe use in SQL queries.
+ * - `getFieldByID($id, $fld)`: Retrieves a specific field value by record ID.
+ * - `count()`: Returns the total number of records in the table.
+ * - `getRichData($dto)`: Placeholder for extending classes to enrich DTO data.
+ * - `audit($event, $data, $id)`: Placeholder for auditing changes to records.
  * - `getByID($id)`: Retrieves a record by its ID.
  * - `getAll($fields, $order)`: Retrieves all records with optional field selection and ordering.
  * - `Insert($data)`: Inserts a new record into the database.
@@ -356,10 +363,10 @@ abstract class dao {
   }
 
   public function execute_query(string $query, ?array $params = null): mysqli_result|SQLite3Result|bool {
-    
+
     return $this->db->execute_query($query, $params);
   }
-  
+
   public function getAll($fields = '*', $order = '') {
 
     if (is_null($this->_db_name)) throw new DBNameIsNull;
@@ -472,6 +479,11 @@ abstract class dao {
 
     $this->audit('insert', $a,  $id);
     return $id;
+  }
+
+  public function prepare(string $query): mysqli_stmt|SQLite3Stmt|bool {
+
+    return $this->db->prepare($query);
   }
 
   public function Update($a, $condition, $flushCache = true) {

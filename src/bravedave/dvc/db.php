@@ -160,7 +160,6 @@ class db {
     throw new Exception($message);
   }
 
-
   public function fetchFields($table) {
     $res = $this->Q("SELECT * FROM `$table` LIMIT 1");
     return ($res->fetch_fields());

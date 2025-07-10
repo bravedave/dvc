@@ -214,7 +214,7 @@ class db {
     return sprintf("'%s'", $this->escape($val));
   }
 
-  public function prepare(string $query): ?SQLite3Stmt {
+  public function prepare(string $query): SQLite3Stmt|bool {
 
     return $this->_db->prepare($query);
   }
