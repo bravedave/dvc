@@ -31,16 +31,32 @@ class dtoSet {
     $this->db = is_null($db) ? sys::dbi() : $db;
   }
 
-  public function __invoke(string|SQLite3Result|mysqli_result $sql, Closure|null $func = null, string|null $template = null): array {
+  public function __invoke(
+    string|SQLite3Result|mysqli_result|dbResult|sqlite\dbResult $sql,
+    Closure|null $func = null,
+    string|null $template = null
+  ): array {
 
     return $this->getDtoSet($sql, $func, $template);
   }
 
-  public function getDtoSet(string|SQLite3Result|mysqli_result $sql, Closure|null $func = null, string|null $template = null): array {
+  public function getDtoSet(
+    string|SQLite3Result|mysqli_result|dbResult|sqlite\dbResult $sql,
+    Closure|null $func = null,
+    string|null $template = null
+  ): array {
 
     $res = null;
 
-    if ($sql instanceof mysqli_result) {
+    if ($sql instanceof dbResult) {
+
+      // if $sql is a dbResult, we can use it directly
+      $res = $sql;
+    } elseif ($sql instanceof sqlite\dbResult) {
+
+      // if $sql is a sqlite\dbResult, we can use it directly
+      $res = $sql;
+    } elseif ($sql instanceof mysqli_result) {
 
       // if $sql is a mysqli_result, we can use it directly
       $res = new dbResult($sql, $this->db);

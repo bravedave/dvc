@@ -14,11 +14,16 @@ use bravedave\dvc\dao;
 
 class todo extends dao {
   protected $_db_name = 'todo';
-  protected $template = __NAMESPACE__ . '\dto\todo';
+  protected $template = dto\todo::class;
 
   function getMatrix(): array {
 
-    if ($res = $this->getAll()) return $res->dtoSet();
-    return [];
+    $query = 'SELECT * FROM ' . $this->_db_name . ' ORDER BY id DESC';
+    $stmt = $this->statement($query);
+    // $stmt->bind([]);
+    return $stmt->dtoSet(null, $this->template);
+
+    // if ($res = $this->getAll()) return $res->dtoSet();
+    // return [];
   }
 }

@@ -12,6 +12,7 @@ namespace bravedave\dvc;
 
 use bravedave\dvc\Exceptions\{DBNameIsNull, DBNotConfigured};
 use config, dvc;
+use Exception;
 use mysqli_result, mysqli_stmt;
 use RuntimeException;
 use SQLite3Result, SQLite3Stmt;
@@ -512,6 +513,15 @@ abstract class dao {
 
     $this->db->log = $this->log;
     return $this->db->Result($query);
+  }
+
+  /**
+   * return a statement object
+   */
+  public function statement(string $query): statement {
+
+    $this->db->log = $this->log;
+    return new statement($query, $this->db);
   }
 
   public function Q($query) {
