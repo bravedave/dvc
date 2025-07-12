@@ -48,21 +48,26 @@ class dtoSet {
 
     $res = null;
 
-    if ($sql instanceof dbResult) {
+    if ($sql instanceof dbResult || $sql instanceof sqlite\dbResult) {
 
-      // if $sql is a dbResult, we can use it directly
-      $res = $sql;
-    } elseif ($sql instanceof sqlite\dbResult) {
-
-      // if $sql is a sqlite\dbResult, we can use it directly
+      /**
+       * if $sql is a dbResult or sqlite\dbResult,
+       * we can use it directly
+       */
       $res = $sql;
     } elseif ($sql instanceof mysqli_result) {
 
-      // if $sql is a mysqli_result, we can use it directly
+      /**
+       * if $sql is a mysqli_result,
+       * we can create a dbResult from it
+       */
       $res = new dbResult($sql, $this->db);
     } elseif ($sql instanceof SQLite3Result) {
 
-      // if $sql is a SQLite3Result, we can use it directly
+      /**
+       * if $sql is a SQLite3Result,
+       * we can create a sqlite\dbResult from it
+       */
       $res = new sqlite\dbResult($sql, $this->db);
     } else {
 

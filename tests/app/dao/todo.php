@@ -20,10 +20,7 @@ class todo extends dao {
 
     $query = 'SELECT * FROM ' . $this->_db_name . ' ORDER BY id DESC';
     $stmt = $this->statement($query);
-    // $stmt->bind([]);
+    // $stmt->bind([]); // no parameters to bind, so not required
     return $stmt->dtoSet(null, $this->template);
-
-    // if ($res = $this->getAll()) return $res->dtoSet();
-    // return [];
   }
 }
