@@ -8,7 +8,7 @@
  *
 */
 
-namespace dto;
+namespace dao\dto;
 
 use bravedave\dvc\dto;
 
