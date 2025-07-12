@@ -11,6 +11,8 @@
 namespace bravedave\dvc;
 
 use Closure;
+use mysqli_result;
+use SQLite3Result;
 use stdClass;
 
 /**
@@ -58,9 +60,9 @@ class dto extends stdClass {
    * @param string|null $template Optional template class for the DTO.
    * @return self|null Returns the first row as a DTO or null if no rows are found.
    */
-  public function __invoke(int|string $sql, Closure|null $func = null, string|null $template = null): ?self {
+  public function __invoke(int|string|SQLite3Result|mysqli_result $sql, Closure|null $func = null, string|null $template = null): ?self {
 
-    if (is_string($sql)) {
+    if (is_string($sql) || $sql instanceof mysqli_result || $sql instanceof SQLite3Result) {
 
       if (is_null($template)) $template = $this::class;
       if ($dtoSet = (new dtoSet)($sql, $func, $template)) {

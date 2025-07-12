@@ -31,12 +31,12 @@ class dtoSet {
     $this->db = is_null($db) ? sys::dbi() : $db;
   }
 
-  public function __invoke(string|SQLite3Stmt|mysqli_stmt|mysqli_result $sql, Closure|null $func = null, string|null $template = null): array {
+  public function __invoke(string|SQLite3Result|mysqli_result $sql, Closure|null $func = null, string|null $template = null): array {
 
     return $this->getDtoSet($sql, $func, $template);
   }
 
-  public function getDtoSet(string|SQLite3Stmt|mysqli_stmt|mysqli_result $sql, Closure|null $func = null, string|null $template = null): array {
+  public function getDtoSet(string|SQLite3Result|mysqli_result $sql, Closure|null $func = null, string|null $template = null): array {
 
     $res = null;
 
@@ -44,21 +44,10 @@ class dtoSet {
 
       // if $sql is a mysqli_result, we can use it directly
       $res = new dbResult($sql, $this->db);
-    } elseif ($sql instanceof mysqli_stmt) {
-
-      // if $sql is a mysqli_stmt, we can use it directly
-      if ($sql->execute()) {
-
-        $res = new dbResult($sql->get_result(), $this->db);
-      }
     } elseif ($sql instanceof SQLite3Result) {
 
       // if $sql is a SQLite3Result, we can use it directly
       $res = new sqlite\dbResult($sql, $this->db);
-    } elseif ($sql instanceof SQLite3Stmt) {
-
-      // if $sql is a prepared statement, we can use it directly
-      $res = new sqlite\dbResult($sql->execute(), $this->db);
     } else {
 
       // otherwise, we assume it's a query string
