@@ -54,7 +54,7 @@ class home extends controller {
 
     config::checkdatabase();
     parent::before();
-    // $this->viewPath[] = __DIR__ . '/views/';    
+    // $this->viewPath[] = __DIR__ . '/views/';
   }
 
   protected function postHandler() {
@@ -91,48 +91,6 @@ class home extends controller {
   public function info() {
 
     phpinfo();
-  }
-
-  public function pdo() {
-
-    $pdo = new dvc\pdo\db;
-
-    if ('sqlite' == config::$DB_TYPE) {
-      $pdo->exec(
-        "CREATE TABLE IF NOT EXISTS `_ux_test` (
-          `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-          `name` TEXT
-        )"
-      );
-    } else {
-      $pdo->exec(
-        "CREATE TABLE IF NOT EXISTS `_ux_test` (
-          `id` bigint(20) NOT NULL AUTO_INCREMENT,
-          `name` varchar(50) DEFAULT '',
-          PRIMARY KEY (`id`)
-        ) DEFAULT CHARSET=utf8;"
-      );
-    }
-
-    $add = true;
-    if ($res = $pdo->query('SELECT `id`, `name` FROM `_ux_test` WHERE `name` = :name', [':name' => 'David'])) {
-      if ($obj = $res->fetchObject('user')) $add = false;
-    }
-
-    if ($add) $pdo->insert('_ux_test', ['name' => 'David']);
-    $pdo->updateByID('_ux_test', ['name' => 'John'], 1);
-    $pdo->updateByID('_ux_test', ['name' => 'Lynne'], 2);
-    $pdo->updateByID('_ux_test', ['name' => 'Max'], 3);
-
-    if ($statement = $pdo->query('SELECT `id`, `name` FROM `_ux_test`')) {
-      foreach ($statement as $row) {
-        printf(
-          '%s : %s<br>',
-          $row->id,
-          $row->name
-        );
-      }
-    }
   }
 
   public function squire() {

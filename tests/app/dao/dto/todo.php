@@ -13,4 +13,7 @@ namespace dao\dto;
 use bravedave\dvc\dto;
 
 class todo extends dto {
+
+  public $id = 0;
+  public $description = '';
 }

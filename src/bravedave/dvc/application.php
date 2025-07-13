@@ -21,7 +21,7 @@ use Closure;
 
 define('APPLICATION', 1);
 
-class application {
+abstract class application {
   protected static ?Request $_request = null;
   protected static $instance = null;
   protected $_app_executed = false;

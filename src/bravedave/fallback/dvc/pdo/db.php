@@ -127,7 +127,7 @@ class db {
 
   public function updateByID(string $table, array $data, int $id): bool {
 
-    if (!$this->__connected()) return null;
+    if (!$this->__connected()) return false;
 
     $a = [];
     foreach ($data as $k => $v) {
