@@ -176,7 +176,10 @@ class statement {
       throw new RuntimeException('Statement is closed or not prepared.');
     }
 
-    if (!$this->bind($values)) return false;
+    if ( $values) {
+
+      if (!$this->bind($values)) return false;
+    }
 
     if ($this->_statement instanceof SQLite3Stmt) {
 
