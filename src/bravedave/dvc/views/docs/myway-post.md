@@ -1,6 +1,6 @@
 # My Way - Post Handling
 
-[Docs](.) | [My Way](myway) | **Post Handling**
+[Docs](.) | [My Way](myway.md) | **Post Handling**
 
 ---
 

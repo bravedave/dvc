@@ -14,5 +14,5 @@ I want to share how I approach development in my own framework. By publishing my
 
 Let's dive in!
 
-
 - [Post](myway-post.md)
+- [Table - Line numbers and Search](myway-table-seach.md)
