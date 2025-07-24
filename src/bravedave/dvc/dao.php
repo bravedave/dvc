@@ -67,6 +67,7 @@ abstract class dao {
   protected $_db_name = null;
   protected $_db_cache_prefix = null;
   protected $_db_allways_check_structure = true;
+  protected $useCache = true;
   protected $template = null;
 
   public $db;
@@ -381,40 +382,46 @@ abstract class dao {
 
     if (is_null($this->_db_name)) throw new DBNameIsNull;
 
-    if (config::$DB_CACHE == 'APC') {
+    if ($this->useCache) {
 
-      $cache = cache::instance();
-      $key = $this->cacheKey($id);
-      if ($dto = $cache->get($key)) {
+      if (config::$DB_CACHE == 'APC') {
 
-        /**
-         * The problem is there are some dirty unserializable dto's,
-         * particularly in CMS (private repository) which is very old code
-         *
-         * so, check the type matches ..
-         * debug is currently on for this => bravedave\dvc\config::$DB_CACHE_DEBUG_TYPE_CONFLICT = true;
-         *
-         */
-        if ($thisType = get_class($dto)) {
+        $cache = cache::instance();
+        $key = $this->cacheKey($id);
+        if ($dto = $cache->get($key)) {
 
-          $thisType = $thisType; // namespace will have preceding \, get_class will come from root
-          $approvedType = ltrim($this->template ? $this->template : 'bravedave\dvc\dto', '\\');
-          if ($thisType == $approvedType) {
+          /**
+           * The problem is there are some dirty unserializable dto's,
+           * particularly in CMS (private repository) which is very old code
+           *
+           * so, check the type matches ..
+           * debug is currently on for this => bravedave\dvc\config::$DB_CACHE_DEBUG_TYPE_CONFLICT = true;
+           *
+           */
+          if ($thisType = get_class($dto)) {
 
-            if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('<type check %s:%s> %s[\]%s', $thisType, $approvedType, get_class($this), __METHOD__));
-            return ($dto);
+            $thisType = $thisType; // namespace will have preceding \, get_class will come from root
+            $approvedType = ltrim($this->template ? $this->template : 'bravedave\dvc\dto', '\\');
+            if ($thisType == $approvedType) {
+
+              if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('<type check %s:%s> %s[\]%s', $thisType, $approvedType, get_class($this), __METHOD__));
+              return ($dto);
+            } elseif (config::$DB_CACHE_DEBUG || config::$DB_CACHE_DEBUG_TYPE_CONFLICT) {
+
+              logger::debug(sprintf('<fails type check %s:%s> %s[\]%s', $thisType, $approvedType, get_class($this), __METHOD__));
+            }
           } elseif (config::$DB_CACHE_DEBUG || config::$DB_CACHE_DEBUG_TYPE_CONFLICT) {
 
-            logger::debug(sprintf('<fails type check %s:%s> %s[\]%s', $thisType, $approvedType, get_class($this), __METHOD__));
+            logger::debug(sprintf('<cached object has no type> %s[\]%s', get_class($this), __METHOD__));
           }
-        } elseif (config::$DB_CACHE_DEBUG || config::$DB_CACHE_DEBUG_TYPE_CONFLICT) {
-
-          logger::debug(sprintf('<cached object has no type> %s[\]%s', get_class($this), __METHOD__));
         }
+      } else {
+
+        if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('<cache not enabled> %s', __METHOD__));
       }
     } else {
 
-      if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('<cache not enabled> %s', __METHOD__));
+      if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('<cache not being used for this dto> %s', __METHOD__));
     }
 
     $this->db->log = $this->log;
@@ -422,19 +429,12 @@ abstract class dao {
     $sql = sprintf($this->_sql_getByID, $this->_db_name, (int)$id);
     if ($dto = (new dto)($sql, null, $this->template)) {
 
-      if (config::$DB_CACHE == 'APC') $cache->set($key, $dto);
+      if ($this->useCache) {
+
+        if (config::$DB_CACHE == 'APC') $cache->set($key, $dto);
+      }
       return $dto;
     }
-
-    // if ($res = $this->Result(sprintf($this->_sql_getByID, $this->_db_name, (int)$id))) {
-
-    //   if ($dto = $res->dto($this->template)) {
-
-    //     if (config::$DB_CACHE == 'APC') $cache->set($key, $dto);
-    //   }
-
-    //   return $dto;
-    // }
 
     return false;
   }
