@@ -78,6 +78,26 @@ class ServerRequest {
     return ($thisSubNet == $remoteSubNet);
   }
 
+  /**
+   * Retrieves the Bearer token from the Authorization header.
+   *
+   * This method checks the Authorization header for a Bearer token
+   * and extracts the token if present. If no Bearer token is found,
+   * it returns an empty string.
+   *
+   * @return string The Bearer token or an empty string if not present.
+   */
+  public function getAuthorizationBearer(): string {
+
+    // Return the Authorization header Bearer token if there is one
+    $authHeader = $this->getAuthorizationHeader();
+    if (preg_match('/^Bearer\s+(.*)$/', $authHeader, $matches)) {
+
+      return $matches[1]; // Return the token part
+    }
+    return '';
+  }
+
   public function getAuthorizationHeader(): string {
 
     // Return the Authorization header from the request if it is available
