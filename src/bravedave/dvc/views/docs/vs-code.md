@@ -29,3 +29,20 @@ task to launch server in a normal development environment
   ]
 }
 ```
+
+## settings.json
+
+_adds connection to sqlite in default location (requires SQL Tools)_
+
+```json
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "db",
+      "database": "src/data/db.sqlite"
+    }
+  ]
+}
+```
