@@ -78,6 +78,16 @@ class ServerRequest {
     return ($thisSubNet == $remoteSubNet);
   }
 
+  public function getAuthorizationHeader(): string {
+
+    // Return the Authorization header from the request if it is available
+    if (isset(self::$_request)) {
+      return self::$_request->getHeaderLine('Authorization') ?: '';
+    }
+
+    return '';
+  }
+
   public function getPath(): string {
 
     $uri = self::$_request->getUri();
