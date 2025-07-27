@@ -9,29 +9,29 @@
 
 	*/
 
-NameSpace dvc\html;
+namespace dvc\html;
 
 class initialicon extends element {
 	//~ static $debug = TRUE;
 	static $EOL = '';
 
-	static function rendered( $content = NULL, $attributes = NULL) {
-		$i = new initialicon( $content, $attributes );
-		return ( $i->render( TRUE));
-
+	static function rendered($content = NULL, $attributes = NULL) {
+		$i = new initialicon($content, $attributes);
+		return ($i->render(TRUE));
 	}
 
-	function __construct( $content = NULL, $attributes = NULL ) {
-		parent::__construct( 'div', $content, array( 'class' => 'initial-icon',
-			'style' => sprintf('background-color: hsl(%d, %s, %s)',
-				(int)( abs( crc32 ( $content)) * 22 )% 356,
+	function __construct($content = NULL, $attributes = NULL) {
+		parent::__construct('div', $content, array(
+			'class' => 'initial-icon',
+			'style' => sprintf(
+				'background-color: hsl(%d, %s, %s)',
+				(int)(abs(crc32((string)$content)) * 22) % 356,
 				'100%',
 				'30%'
-				) ));
+			)
+		));
 
-		if ( !is_null( $attributes ))
-			$this->attributes( $attributes);
-
+		if (!is_null($attributes))
+			$this->attributes($attributes);
 	}
-
 }
