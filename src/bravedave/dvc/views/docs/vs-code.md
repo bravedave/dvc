@@ -2,14 +2,14 @@
 
 Just some stuff I use in vs-code
 
-```
+```text
 .vscode               # VS Code Configuration files
   +-- tasks.json      # runnable tasks
 ```
 
 ## tasks.json
 
-task to launch server in a normal development environment
+> _task to launch server in a normal development environment_
 
 ```json
 {
@@ -30,9 +30,9 @@ task to launch server in a normal development environment
 }
 ```
 
-## settings.json
+## Access the default db.sqlite
 
-_adds connection to sqlite in default location (requires SQL Tools)_
+> _adds connection to sqlite in default location (requires SQL Tools)_
 
 ```json
 {
@@ -43,6 +43,8 @@ _adds connection to sqlite in default location (requires SQL Tools)_
       "name": "db",
       "database": "src/data/db.sqlite"
     }
-  ]
+  ],
+  "sqltools.useNodeRuntime": true,
+  "sqltools.autoOpenSessionFiles": false
 }
 ```
