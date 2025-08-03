@@ -181,7 +181,8 @@ class ServerRequest {
      */
     $a = array_filter($a, function ($segment) use ($path) {
 
-      if (empty($segment)) return false;
+      // Allow '0' as a valid segment, but exclude empty string and false
+      if ($segment === '' || $segment === false) return false;
 
       $ignore = [
         '.well-known'
