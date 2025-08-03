@@ -46,6 +46,90 @@ final class utility {
 
   public static $port = 1265;
 
+  protected static function checkVSCodeSettings(): void {
+    $settingsFile = '.vscode/settings.json';
+    $required = [
+      "sqltools.connections" => [
+        [
+          "previewLimit" => 50,
+          "driver" => "SQLite",
+          "name" => "db",
+          "database" => "src/data/db.sqlite"
+        ]
+      ],
+      "sqltools.useNodeRuntime" => true,
+      "sqltools.autoOpenSessionFiles" => false
+    ];
+
+    $changed = false;
+    $settings = [];
+
+    if (file_exists($settingsFile)) {
+      $settings = json_decode(file_get_contents($settingsFile), true) ?? [];
+    }
+
+    foreach ($required as $key => $value) {
+
+      if (!array_key_exists($key, $settings) || $settings[$key] !== $value) {
+        $settings[$key] = $value;
+        $changed = true;
+      }
+    }
+
+    if ($changed || !file_exists($settingsFile)) {
+
+      if (!is_dir('.vscode')) mkdir('.vscode', 0777, true);
+      file_put_contents($settingsFile, json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+      echo "Updated VSCode settings: $settingsFile\n";
+    } else {
+
+      echo "VSCode settings already contain required SQLTools configuration.\n";
+    }
+  }
+
+  protected static function checkVSCodeTasks(): void {
+
+    $tasksFile = '.vscode/tasks.json';
+    $required = [
+      "version" => "2.0.0",
+      "tasks" => [
+        [
+          "label" => "🚀 Launch Dev Server",
+          "type" => "shell",
+          "command" => "vendor/bin/dvc serve --port=8010",
+          "problemMatcher" => [],
+          "isBackground" => true,
+          "presentation" => [
+            "reveal" => "always",
+            "panel" => "new"
+          ]
+        ]
+      ]
+    ];
+
+    $changed = false;
+    $tasks = [];
+
+    if (file_exists($tasksFile)) {
+      $tasks = json_decode(file_get_contents($tasksFile), true) ?? [];
+    }
+
+    foreach ($required as $key => $value) {
+      if (!array_key_exists($key, $tasks) || $tasks[$key] !== $value) {
+        $tasks[$key] = $value;
+        $changed = true;
+      }
+    }
+
+    if ($changed || !file_exists($tasksFile)) {
+      if (!is_dir('.vscode')) mkdir('.vscode', 0777, true);
+      file_put_contents($tasksFile, json_encode($tasks, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+      echo "Updated VSCode tasks: $tasksFile\n";
+    } else {
+      echo "VSCode tasks already contain the standard dev server launch task.\n";
+    }
+  }
+
   protected static function makeCrudConfig(string $name, array $fields): void {
 
     $file = 'src/app/' . $name . '/config.php';
@@ -90,8 +174,10 @@ final class utility {
       $content = [
 
         '<?php',
-        '  // file: ' . $file,
-        '  // MIT License',
+        '/*',
+        sprintf(' * file: %s', $file),
+        ' * MIT License',
+        ' */',
         '',
         sprintf('namespace %s;', $name),
         '',
@@ -1063,6 +1149,8 @@ final class utility {
     utility::checkDirectories($directories);  // Create directories if they don't exist
     utility::checkFiles($files);  // Copy files if they don't exist
     utility::checkComposer();  // Ensure composer.json has the correct structure
+    utility::checkVSCodeSettings(); // Ensure VSCode settings.json contains required SQLTools config
+    utility::checkVSCodeTasks(); // Ensure VSCode tasks.json contains dev server launch task
 
     echo "Default application setup complete.\n";
     printf("to run the application type php %s server\n", __FILE__);
