@@ -333,15 +333,51 @@ abstract class dao {
     return \db::dbTimeStamp();
   }
 
+  /**
+   * Deletes one or more records from the database table specified by $_db_name.
+   *
+   * If an array of IDs is provided, only valid positive integer IDs are processed.
+   * For each deleted record, cache is cleared and an audit entry is created.
+   * If a single valid positive integer ID is provided, deletes the corresponding record,
+   * clears its cache, and creates an audit entry.
+   * If the ID input is invalid, no action is taken.
+   *
+   * @param int|int[] $id The ID or array of IDs of the records to delete.
+   * @throws DBNameIsNull If the database table name ($_db_name) is not set.
+   */
   public function delete($id) {
 
     if (is_null($this->_db_name)) throw new DBNameIsNull;
 
     $this->db->log = $this->log;
-    $this->Q(sprintf('DELETE FROM %s WHERE id = %d', $this->_db_name, (int)$id));
-    $this->cacheDelete($id);
+    if (is_array($id)) {
 
-    $this->audit('delete', [],  $id);
+      // ensure that the ids are valid positive integers
+      $ids = array_filter($id, fn($i) => is_numeric($i) && (int)$i > 0);
+      if (!empty($ids)) {
+
+        $ids = array_map(fn($i) => (int)$i, $ids);
+
+        $this->Q(sprintf(
+          'DELETE FROM %s WHERE id IN (%s)',
+          $this->_db_name,
+          implode(',', $ids)
+        ));
+
+        foreach ($ids as $singleId) {
+
+          $this->cacheDelete($singleId);
+          $this->audit('delete', [],  $singleId);
+        }
+      }
+    } elseif (is_numeric($id) && (int)$id > 0) {
+
+      $intId = (int)$id;
+      $this->Q(sprintf('DELETE FROM %s WHERE id = %d', $this->_db_name, $intId));
+      $this->cacheDelete($intId);
+      $this->audit('delete', [],  $intId);
+    }
+    // else: do nothing for invalid id input
   }
 
   public function dtoSet($res, $func = null): array {
