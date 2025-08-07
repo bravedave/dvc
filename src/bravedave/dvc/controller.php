@@ -12,7 +12,6 @@
 namespace bravedave\dvc;
 
 use bravedave\dvc\esse\modal;
-use bravedave\dvc\middlewares\pre\sample;
 use config, currentUser, strings;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
