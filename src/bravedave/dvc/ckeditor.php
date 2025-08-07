@@ -8,9 +8,7 @@
  *
 */
 
-namespace bravedave\dvc\resources;
-
-use bravedave\dvc\Response;
+namespace bravedave\dvc;
 
 final class ckeditor {
 
