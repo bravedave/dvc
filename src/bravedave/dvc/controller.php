@@ -1078,6 +1078,7 @@ abstract class controller {
       'modal' => Response::serve(__DIR__ . '/js/modules/modal.js'),
       'preact', 'preact.module.js' => Response::serve(__DIR__ . '/js/preact/preact.module.js'),
       'preact.module.js.map' => Response::serve(__DIR__ . '/js/preact/preact.module.js.map'),
+      'tiny8' => Response::serve(__DIR__ . '/js/modules/tiny8.js'),
       'tinymce', 'tinymce5' => $this->__tinyserve__($lib),
       default => 99
     };

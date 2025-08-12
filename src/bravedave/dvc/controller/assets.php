@@ -206,4 +206,31 @@ class assets extends Controller {
 
     parent::js('tinymce');
   }
+
+  public function tinymce8() {
+
+    $request = new ServerRequest;
+    $segments = $request->getSegments();
+    $folder = array_shift($segments);
+
+    if ('assets' == $folder) {
+
+      $folder = array_shift($segments);
+      if ('tinymce8' == $folder) {
+
+        $root = dirname(__DIR__);
+        $path = sprintf('%s/resources/tinymce8/%s', $root, implode('/', $segments));
+        if (file_exists($path)) {
+
+          Response::serve($path);
+        } else {
+
+          logger::info(sprintf('<tinymce8 / %s not found> %s', $path, __METHOD__));
+        }
+      } else {
+
+        logger::info(sprintf('<no tinymce8> %s', __METHOD__));
+      }
+    }
+  }
 }
