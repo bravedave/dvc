@@ -140,6 +140,20 @@ class home extends controller {
     ]);
   }
 
+  public function tiny8() {
+
+    $this->data = (object)[
+      'title' => $this->title = config::$WEBNAME,
+      'pageUrl' => strings::url($this->route),
+      'searchFocus' => true,
+      'aside' => ['aside']
+    ];
+
+    $this->renderBS5([
+      'main' => fn() => $this->load('tiny8')
+    ]);
+  }
+
   public function serviceWorker() {
 
     Response::serve(config::serviceWorker());
