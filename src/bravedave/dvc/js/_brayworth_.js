@@ -493,6 +493,7 @@ if (!window._brayworth_) {
   };
 
   _.tiny = () => {
+
     return 'undefined' == typeof tinyMCE ?
       new Promise(resolve => {
 
@@ -500,8 +501,20 @@ if (!window._brayworth_) {
           .then(() => resolve());
       }) :
       Promise.resolve();
-
   };
+
+  _.tiny8 = () => new Promise((resolve, reject) => {
+
+    if ('undefined' == typeof tinyMCE) {
+
+      import('/js/tiny8').then(({
+        tiny8
+      }) => tiny8().then(tinymce => resolve(tinymce)));
+    } else {
+
+      '8' == tinyMCE.version ? resolve(tinyMCE) : reject('Incompatible TinyMCE version');
+    }
+  });
 
   _.quill = () => {
 
