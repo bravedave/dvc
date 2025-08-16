@@ -20,6 +20,12 @@ class config extends bravedave\dvc\config {
 
   static $LOG_DEPRECATED = true;
 
+  static $crons = [
+    crond\FibreModule1::class,
+    crond\FibreModule2::class
+  ];
+
+
   static function checkdatabase() {
     $dao = new dao\dbinfo(null, self::dataPath());
     // $dao->debug = true;
