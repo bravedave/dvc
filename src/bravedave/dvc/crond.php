@@ -89,14 +89,13 @@ final class crond {
     $i = 0;
     while (($maxRuns === 0 || $i < $maxRuns) && !self::cronExit()) {
 
-
       if ($debug) logger::debug(sprintf('<cron cycle %s> %s', $i, logger::caller()));
       foreach ($fibres as $fibre) {
 
         if ($fibre->isSuspended()) {
 
           try {
-            $fibre->resume();
+            $fibre->resume(false);
             if (self::cronExit()) break;
           } catch (\Throwable $e) {
             logger::info('<cron: fibre error - ' . $e->getMessage() . '>');
@@ -114,7 +113,7 @@ final class crond {
     foreach ($fibres as $fibre) {
       if ($fibre->isSuspended()) {
         try {
-          $fibre->resume();
+          $fibre->resume(true); // true to indicate graceful exit
         } catch (\Throwable $e) {
           logger::info('<cron: fibre exit - ' . $e->getMessage() . '>');
         }
