@@ -14,10 +14,17 @@ use Fiber;
 use config as rootConfig;
 
 final class crond {
-  
+
   public static function cron() {
     $debug = false;
     // $debug = true;
+
+    $crons = rootConfig::crons();
+    // if there are no crons defined, exit early
+    if (empty($crons)) {
+      if ($debug) logger::debug('<cron: no crons defined, exiting>');
+      return;
+    }
 
     $semaphore = rootConfig::dataPath() . '/cron.semaphore';
     $exitSemaphore = rootConfig::dataPath() . '/cron.exit';
@@ -42,7 +49,6 @@ final class crond {
     touch($semaphore);
 
     $fibres = [];
-    $crons = rootConfig::crons();
     foreach ($crons as $source) {
 
       $mod = new $source();
