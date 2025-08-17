@@ -15,6 +15,28 @@ use config as rootConfig;
 
 final class crond {
 
+  public static $semaphore = null;
+  public static $exitSemaphore = null;
+  protected static $exit = false;
+
+  protected static function cronExit(): bool {
+
+    if (self::$exit) return true; // already set to exit
+
+    // Check for exit semaphore
+    if (file_exists(self::$exitSemaphore)) {
+
+      self::$exit = true; // set exit flag
+      if (@unlink(self::$exitSemaphore)) {
+        logger::info('<cron: exit semaphore found and removed, exiting>');
+      } else {
+        logger::info('<cron: exit semaphore found but could not be removed, exiting>');
+      }
+    }
+
+    return self::$exit; // return current exit status
+  }
+
   public static function cron() {
     $debug = false;
     // $debug = true;
@@ -26,13 +48,13 @@ final class crond {
       return;
     }
 
-    $semaphore = rootConfig::dataPath() . '/cron.semaphore';
-    $exitSemaphore = rootConfig::dataPath() . '/cron.exit';
+    if (!self::$semaphore) self::$semaphore = rootConfig::dataPath() . '/cron.semaphore';
+    if (!self::$exitSemaphore) self::$exitSemaphore = rootConfig::dataPath() . '/cron.exit';
 
     // Check if semaphore exists
-    if (file_exists($semaphore)) {
+    if (file_exists(self::$semaphore)) {
 
-      $mtime = filemtime($semaphore);
+      $mtime = filemtime(self::$semaphore);
       if ($mtime && (time() - $mtime < 600)) { // 10 minutes
 
         if ($debug) logger::debug('<cron: semaphore exists and is recent, exiting>');
@@ -40,13 +62,13 @@ final class crond {
       } else {
 
         // Old semaphore, remove
-        unlink($semaphore);
+        unlink(self::$semaphore);
         logger::info('<cron: old semaphore removed>');
       }
     }
 
     // Create semaphore
-    touch($semaphore);
+    touch(self::$semaphore);
 
     $fibres = [];
     foreach ($crons as $source) {
@@ -63,29 +85,25 @@ final class crond {
 
     $maxRuns = config::$CROND_MAX_RUNS ?? 3;
     $i = 0;
-    while ($maxRuns === 0 || $i < $maxRuns) {
-      // Check for exit semaphore
-      if (file_exists($exitSemaphore)) {
-        if (@unlink($exitSemaphore)) {
-          logger::info('<cron: exit semaphore found and removed, exiting>');
-        } else {
-          logger::info('<cron: exit semaphore found but could not be removed, exiting>');
-        }
-        break;
-      }
+    while (($maxRuns === 0 || $i < $maxRuns) && !self::cronExit()) {
+
 
       if ($debug) logger::info(sprintf('<cron cycle %s> %s', $i, logger::caller()));
       foreach ($fibres as $fibre) {
+
         if ($fibre->isSuspended()) {
+
           try {
             $fibre->resume();
+            if (self::cronExit()) break;
           } catch (\Throwable $e) {
             logger::info('<cron: fibre error - ' . $e->getMessage() . '>');
           }
         }
       }
+
       // Touch semaphore to update timestamp
-      touch($semaphore);
+      touch(self::$semaphore);
       sleep(1);
       $i++;
     }
@@ -102,8 +120,8 @@ final class crond {
     }
 
     // Remove semaphore on exit
-    if (file_exists($semaphore)) {
-      unlink($semaphore);
+    if (file_exists(self::$semaphore)) {
+      unlink(self::$semaphore);
       if ($debug) logger::debug('<cron: semaphore removed on exit>');
     }
 
