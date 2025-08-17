@@ -84,11 +84,13 @@ final class crond {
     array_walk($fibres, fn($f)  => $f->start());
 
     $maxRuns = config::$CROND_MAX_RUNS ?? 3;
+    if ($debug) logger::debug(sprintf('<cron cycling for %s> %s', $maxRuns, logger::caller()));
+
     $i = 0;
     while (($maxRuns === 0 || $i < $maxRuns) && !self::cronExit()) {
 
 
-      if ($debug) logger::info(sprintf('<cron cycle %s> %s', $i, logger::caller()));
+      if ($debug) logger::debug(sprintf('<cron cycle %s> %s', $i, logger::caller()));
       foreach ($fibres as $fibre) {
 
         if ($fibre->isSuspended()) {
