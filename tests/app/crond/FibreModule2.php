@@ -2,18 +2,32 @@
 
 namespace crond;
 
-use bravedave\dvc\logger;
 use Fiber;
 
 class FibreModule2 {
 
+  public $name = 'FibreModule2';
+  protected $iteration = 0;
+
   public function __invoke() {
 
-    return new Fiber(function () {
+    $o = new Fiber(function () {
+      
       for ($j = 0; $j < 3; $j++) {
-        logger::info(sprintf('<FibreModule2 pass %s> %s', $j, logger::caller()));
+
+        $this->iteration++;
+
+        if (php_sapi_name() === 'cli') {
+          echo sprintf('<%s pass %s>', $this->name, $this->iteration) . PHP_EOL;
+        } else {
+          syslog(LOG_INFO, sprintf('<%s pass %s>', $this->name, $this->iteration));
+        }
         Fiber::suspend();
       }
     });
+
+    $this->name = 'harry';
+
+    return $o;
   }
 }

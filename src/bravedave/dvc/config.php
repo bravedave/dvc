@@ -195,6 +195,12 @@ abstract class config {
     };
   }
 
+  public $CROND_MAX_RUNS = 3; // how many times to run the crond fibers
+  static public function crons(): array {
+
+    return [];
+  }
+
   static protected ?string $_dataPath = null;
 
   /**

@@ -20,10 +20,13 @@ class config extends bravedave\dvc\config {
 
   static $LOG_DEPRECATED = true;
 
-  static $crons = [
-    crond\FibreModule1::class,
-    crond\FibreModule2::class
-  ];
+  static function crons(): array {
+
+    return array_merge(parent::crons(), [
+      crond\FibreModule1::class,
+      crond\FibreModule2::class
+    ]);
+  }
 
 
   static function checkdatabase() {

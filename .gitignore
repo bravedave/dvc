@@ -1,5 +1,6 @@
 .bak
 .vscode/settings.json
+.vscode/snippets.code-snippets
 autoload-local-path.php
 resource/bootstrap5/scss
 resource/bootstrap-5.tmp
