@@ -1,0 +1,42 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🚀 Launch Dev Server",
+      "type": "shell",
+      "command": "src/bin/dvc serve --port=8010",
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Composer Update",
+      "type": "shell",
+      "command": "composer update",
+      "problemMatcher": [],
+      "icon": {
+        "id": "sync"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "CronD",
+      "type": "shell",
+      "command": "php tests/app/cron.php",
+      "problemMatcher": [],
+      "icon": {
+        "id": "clock"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    }
+  ]
+}
