@@ -104,9 +104,9 @@ final class crond {
     // Remove semaphore on exit
     if (file_exists($semaphore)) {
       unlink($semaphore);
-      logger::info('<cron: semaphore removed on exit>');
+      if ($debug) logger::debug('<cron: semaphore removed on exit>');
     }
 
-    logger::info(sprintf('<cron finished> %s', logger::caller()));
+    if ($debug) logger::debug(sprintf('<cron finished> %s', logger::caller()));
   }
 }
