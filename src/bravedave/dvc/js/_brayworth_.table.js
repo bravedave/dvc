@@ -39,7 +39,7 @@
         if (!(Number(count) > 1)) count = 12;
 
         tbody
-          .html('')
+          .empty()
           .addClass('placeholder-glow');
 
         let stuffString = [];
