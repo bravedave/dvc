@@ -103,6 +103,19 @@ final class utility {
             "reveal" => "always",
             "panel" => "new"
           ]
+        ],
+        [
+          "label" => "Composer Update",
+          "type" => "shell",
+          "command" => "composer update",
+          "problemMatcher" => [],
+          "icon" => [
+            "id" => "sync"
+          ],
+          "presentation" => [
+            "reveal" => "always",
+            "panel" => "new"
+          ]
         ]
       ]
     ];
