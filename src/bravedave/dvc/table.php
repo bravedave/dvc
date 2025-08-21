@@ -1,4 +1,3 @@
-
 <?php
 /*
  * David Bray
