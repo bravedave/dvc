@@ -61,9 +61,18 @@ if (!window._brayworth_) {
     return '';
   };
 
-  _.asLocaleNumber = (n, fractions = 2) => {
+  _.asLocaleNumber = (n, fractions = 2, parenthesesForNegative = false) => {
 
     if (n == 0) n = 0;  // -0 also == 0, but prints -0
+
+    if (parenthesesForNegative && n < 0) {
+
+      const formatted = Number(Math.abs(n)).toLocaleString(navigator.language, {
+        minimumFractionDigits: fractions,
+        maximumFractionDigits: fractions
+      });
+      return `(${formatted})`;
+    }
 
     return Number(n).toLocaleString(navigator.language, {
       minimumFractionDigits: fractions,
