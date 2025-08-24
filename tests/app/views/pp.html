@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap 5 Full-Screen Layout</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Ensure the layout fills the screen */
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    #layout-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    #main-content {
+      flex-grow: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    #sidebar {
+      flex-shrink: 0;
+      width: 250px; /* Sidebar width */
+      overflow-y: auto;
+    }
+
+    #content-area {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="layout-wrapper">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">BrandName</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Pricing</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Layout: Sidebar and Content -->
+    <div id="main-content">
+      <!-- Sidebar -->
+      <nav id="sidebar" class="d-none d-md-block bg-light">
+        <ul class="nav flex-column p-2">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Orders</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Customers</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Content Area -->
+      <main id="content-area">
+        <h1>Main Content</h1>
+        <p>
+          Add your content here. This area will scroll if the content exceeds the available space.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel ligula id est suscipit dictum. Integer
+          scelerisque, lorem et rutrum egestas, nisl purus varius felis, sit amet scelerisque erat ex ut urna. 
+          Cras sit amet ex a libero porttitor placerat.
+        </p>
+        <p>
+          Duis vehicula, magna sed ullamcorper congue, ex lectus tincidunt leo, a faucibus odio libero nec risus. 
+          Suspendisse potenti. Pellentesque fringilla sit amet nulla nec rhoncus. Vestibulum ante ipsum primis in 
+          faucibus orci luctus et ultrices posuere cubilia curae.
+        </p>
+      </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light text-center text-lg-start">
+      <div class="container p-3">
+        <span>&copy; 2025 BrandName. All rights reserved.</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Bootstrap Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
