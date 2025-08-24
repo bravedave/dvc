@@ -923,7 +923,16 @@ abstract class controller {
       $options['scripts'][] = sprintf('<script src="%s"></script>', strings::url('assets/toastui/js'));
     }
 
-    $page = $options['page'] ?? (esse\page::bootstrap());
+    $twentyFive = false;
+    // $twentyFive = true;
+    if ($twentyFive) {
+
+      $options['footer'] = fn() => $this->load('footer25');
+      $page = $options['page'] ?? (esse\page25::bootstrap());
+    } else {
+
+      $page = $options['page'] ?? (esse\page::bootstrap());
+    }
 
     array_walk($options['css'], fn($_) => $page->css[] = preg_match('/^<(link|style)/', $_) ? $_ : sprintf('<link rel="stylesheet" href="%s">', $_));
     array_walk($options['scripts'], fn($_) => $page->scripts[] = preg_match('/^<script/', $_) ? $_ : sprintf('<script src="%s"></script>', $_));
