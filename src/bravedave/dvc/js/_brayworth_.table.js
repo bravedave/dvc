@@ -183,6 +183,27 @@
               _tr.addClass('d-none');
             } else {
 
+              /**
+               * --- ------------------------------------------ ---
+               * the string might look like "chris young"
+               * so 
+               * - if the string has a space,
+               * - split the string on spaces
+               * - and create a the reflects an and statement
+               * - e.g. (?=.*chris)(?=.*young)
+               */
+              if (txt.indexOf(' ') > -1) {
+
+                const parts = txt.split(' ').filter(p => p.trim());
+                if (parts.length > 1) {
+
+                  const re = parts.map(p => `(?=.*${p})`).join('');
+                  const andExp = new RegExp(re, 'gi');
+                  return _tr.toggleClass('d-none', !(andExp.test(_tr.text())));
+                }
+              }
+              /*--- ------------------------------------------ ---*/
+
               const str = _tr.text();
               /**
                * if the user types an & character,
