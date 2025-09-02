@@ -33,21 +33,21 @@ function esc(string|null $v) : string {
  * @param int $maxrows Maximum number of rows to return (0 = no limit)
  * @return string HTML output
  */
-function text2html(string|null $inText, int $maxrows = 0) : string {
+function text2html(string|null $inText, int $maxrows = 0, array $environment = []) : string {
 
   if (empty($inText)) return '';
   
   try {
     // Create environment with GitHub Flavored Markdown
-    $environment = new Environment([
+    $environment = new Environment(array_merge([
       'html_input' => 'strip',
       'allow_unsafe_links' => false,
       'max_nesting_level' => 100,
       'renderer' => [
         'soft_break' => "<br>\n",
       ],
-    ]);
-    
+    ], $environment));
+
     $environment->addExtension(new CommonMarkCoreExtension());
     $environment->addExtension(new GithubFlavoredMarkdownExtension());
     
