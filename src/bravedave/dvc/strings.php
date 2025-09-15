@@ -16,6 +16,7 @@ use config;
 use DateTime;
 use finfo;
 use libphonenumber;
+use NumberFormatter;
 
 abstract class strings {
   const html_tick = '&#10003;';
@@ -47,7 +48,7 @@ abstract class strings {
   static public function asLocalDate(?string $date, bool $time = false, float|null $epoch = null): string {
 
     if ((string)$date == '0000-00-00') return '';
-    if ( is_null($epoch)) $epoch = strtotime('-100 years'); // default to 100 years ago
+    if (is_null($epoch)) $epoch = strtotime('-100 years'); // default to 100 years ago
 
     if (($t = strtotime($date)) > $epoch) {
 
@@ -125,6 +126,20 @@ abstract class strings {
   static public function asMobilePhone($mobile = '') {
     //~ logger::info( sprintf( 'deprecated :: %s > use AsLocalPhone', __METHOD__));
     return self::asLocalPhone($mobile);
+  }
+
+  static public function asNumericAccounting($amount): string|bool {
+
+    $cf = new NumberFormatter(config::$LOCALE, NumberFormatter::DEFAULT_STYLE);
+
+    // set to 2 decimal places
+    $cf->setAttribute(NumberFormatter::FRACTION_DIGITS, 2);
+
+    // set to enclose with brackets
+    $cf->setTextAttribute(NumberFormatter::NEGATIVE_PREFIX, '(');
+    $cf->setTextAttribute(NumberFormatter::NEGATIVE_SUFFIX, ')');
+
+    return $cf->format($amount);
   }
 
   static public function asShortDate($date, $time = false) {
