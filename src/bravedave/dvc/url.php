@@ -78,6 +78,19 @@ abstract class url {
       }
     }
 
+    if (!(defined('URL'))) {
+
+      $server = strtolower($_SERVER['SERVER_NAME'] ?? '');
+      $server = preg_replace('@\/$@', '', $server);
+
+      if (preg_match('/localhost/i', $server)) {
+
+        // die(sprintf('define URL - %s', $server));
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        define('URL', sprintf('//%s/', $host));
+      }
+    }
+
     if (!(defined('URL') && defined('URL_APPLICATION'))) {
 
       $server = strtolower($_SERVER['SERVER_NAME'] ?? '');
