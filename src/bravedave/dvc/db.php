@@ -97,42 +97,41 @@ class db {
   }
 
   public function dump() {
-    if ($dbR = $this->result(sprintf('SHOW TABLES FROM %s', config::$DB_NAME))) {
-      $uID = 0;
-      while ($row = $dbR->fetch_row()) {
-        printf(
-          '<span data-role="visibility-toggle" data-target="bqt%s">Table: %s</span><br />%s',
-          $uID,
-          $row[0],
-          PHP_EOL
-        );
-        printf(
-          '<blockquote id="bqt%s" style="font-family: monospace; display: none;">%s',
-          $uID++,
-          PHP_EOL
-        );
 
-        /* Get field information for all columns */
-        if ($res = $this->result(sprintf('SELECT * FROM `%s` LIMIT 1', $this->escape($row[0])))) {
-          $finfo = $res->fetch_fields();
+    $sql = sprintf(
+      'SELECT table_name FROM information_schema.tables 
+        WHERE table_schema = %s AND table_type = %s ORDER BY table_name',
+      $this->quote(config::$DB_NAME),
+      $this->quote('BASE TABLE')
+    );
 
-          foreach ($finfo as $val)
-            printf('<br />%s %s (%s)', $val->name, $this->field_type($val->type), $val->length);
-        }
+    (new dtoSet)($sql, function ($dto) {
 
-        print "</blockquote>\n";
-      }
-    } else {
       printf(
-        '<pre>
-				DB Error, could not list tables
-				MySQL Error: %s
-				MySQL Host: %s
-			</pre>',
-        mysqli_error($this->mysqli),
-        config::$DB_HOST
+        '<span data-role="visibility-toggle" data-target="bqt%s">Table: %s</span><br />%s',
+        $_uid = strings::rand(),
+        $dto->table_name,
+        PHP_EOL
       );
-    }
+      printf(
+        '<blockquote id="bqt%s" style="font-family: monospace; display: none;">%s',
+        $_uid,
+        PHP_EOL
+      );
+
+      /* Get field information for all columns */
+      $sql = sprintf('SELECT * FROM `%s` LIMIT 1', $this->escape($dto->table_name));
+      logger::sql($sql, logger::caller());
+
+      if ($res = $this->result($sql)) {
+        $finfo = $res->fetch_fields();
+
+        foreach ($finfo as $val)
+          printf('<br />%s %s (%s)', $val->name, $this->field_type($val->type), $val->length);
+      }
+
+      print "</blockquote>\n";
+    });
   }
 
   public function escape($s): string {
