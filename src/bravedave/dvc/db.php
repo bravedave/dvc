@@ -121,8 +121,6 @@ class db {
 
       /* Get field information for all columns */
       $sql = sprintf('SELECT * FROM `%s` LIMIT 1', $this->escape($dto->table_name));
-      logger::sql($sql, logger::caller());
-
       if ($res = $this->result($sql)) {
         $finfo = $res->fetch_fields();
 
