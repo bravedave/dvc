@@ -472,7 +472,7 @@ abstract class controller {
     if (config::use_inline_logon) {
 
       $p = new config::$PAGE_TEMPLATE_LOGON('Log On');
-      $p->late[] = '<script>(_ => _.ready(() => _.get.modal(_.url(\'logon/form\'))))( _brayworth_);</script>';
+      $p->late['logon'] = '<script>(_ => _.ready(() => _.get.modal(_.url(\'logon/form\'))))( _brayworth_);</script>';
       $p->meta[] = '<meta name="viewport" content="initial-scale=1" />';
       $p->header()->content();
     } else {

@@ -28,7 +28,7 @@ class logon extends page {
     $this->css[] = sprintf('<link rel="stylesheet" href="%s">', strings::url('assets/bootstrap/css/5'));
     $this->css[] = sprintf('<link rel="stylesheet" href="%s">', strings::url('assets/bootstrap/icons'));
 
-    $this->late[] = '<script>(_ => _.ready( () => _.get.modal(_.url(\'logon/form\'))))( _brayworth_);</script>';
+    $this->late['logon'] = '<script>(_ => _.ready( () => _.get.modal(_.url(\'logon/form\'))))( _brayworth_);</script>';
     $this->_title = $title;
   }
 
