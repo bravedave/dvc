@@ -1489,6 +1489,7 @@ final class utility {
     }
 
     echo "docker container setup complete\n";
+    printf("to start the containers type 'docker compose -f docker/docker-compose.yaml up -d'\n");
   }
 
   public static function makeCrudModule(string $name, string $fields, bool $preact): void {
