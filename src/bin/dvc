@@ -1282,7 +1282,7 @@ final class utility {
     }
 
     /**
-     * relative to this folder, ../src/app/data make ot may not exist
+     * relative to this folder, ../src/data make it may not exist
      * if it does not exist, create it
      * create db.json in that folder
      * with the following content
@@ -1297,16 +1297,16 @@ final class utility {
      *
      */
 
-    if (!is_dir('src/app/data')) {
+    if (!is_dir('src/data')) {
 
-      if (!mkdir('src/app/data', 0777, true)) {
+      if (!mkdir('src/data', 0777, true)) {
 
-        echo "failed to create src/app/data directory in current directory\n";
+        echo "failed to create src/data directory in current directory\n";
         return;
       }
     }
 
-    $dbFile = 'src/app/data/db.json';
+    $dbFile = 'src/data/db.json';
     if (!file_exists($dbFile)) {
 
       $content = [
@@ -1321,10 +1321,49 @@ final class utility {
       file_put_contents($dbFile, implode("\n", $content));
       chown($dbFile, 1000);
       chgrp($dbFile, 1000);
-      echo "Created src/app/data/db.json file\n";
+      echo "Created src/data/db.json file\n";
     } else {
 
-      echo "src/app/data/db.json file already exists\n";
+      echo "src/data/db.json file already exists\n";
+    }
+
+    /**
+     * and in the same folder create a defaults.json file
+     * {
+     *   "db_type": "mysql",
+     *   "db_cache": "APC",
+     *   "date_format": "d/m/Y",
+     *   "datetime_format": "d/m/Y g:ia",
+     *   "email_errors_to_support": false,
+     *   "emaildomain": "example.tld",
+     *   "imap_auth_server": "",
+     *   "maildsn": "smtp://mail:25?verify_peer=0",
+     *   "timezone": "Australia/Queensland",
+     * }
+     */
+    $defaultsFile = 'src/data/defaults.json';
+    if (!file_exists($defaultsFile)) {
+
+      $content = [
+        '{',
+        '  "db_type": "mysql",',
+        '  "db_cache": "APC",',
+        '  "date_format": "d/m/Y",',
+        '  "datetime_format": "d/m/Y g:ia",',
+        '  "email_errors_to_support": false,',
+        '  "emaildomain": "example.tld",',
+        '  "imap_auth_server": "",',
+        '  "maildsn": "smtp://mail:25?verify_peer=0",',
+        '  "timezone": "Australia/Queensland"',
+        '}',
+      ];
+      file_put_contents($defaultsFile, implode("\n", $content));
+      chown($defaultsFile, 1000);
+      chgrp($defaultsFile, 1000);
+      echo "Created src/data/defaults.json file\n";
+    } else {
+
+      echo "src/data/defaults.json file already exists\n";
     }
 
     /**
