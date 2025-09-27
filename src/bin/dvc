@@ -1403,6 +1403,7 @@ final class utility {
         sprintf('user = %s', $env->MYSQL_USER ?? 'developers'),
         sprintf('password = %s', $env->MYSQL_PASSWORD ?? 'password'),
         sprintf('database = %s', $env->MYSQL_DATABASE ?? 'dvc'),
+        ''
       ];
       file_put_contents($myCnfFile, implode("\n", $content));
       chown($myCnfFile, 1000);
@@ -1411,6 +1412,80 @@ final class utility {
     } else {
 
       echo "workspace/home/devuser/.my.cnf file already exists\n";
+    }
+
+    /**
+     * Into the home folder create a vscode workspace file - app-dvc.code-workspace
+     * with the following content
+     * {
+     *	"folders": [
+     *		{
+     *			"path": "/var/www/app"
+     *		}
+     *	],
+     *	"settings": {
+     *		"files.autoSave": "afterDelay",
+     *		"sqltools.useNodeRuntime": false,
+     *		"sqltools.connections": [
+     * 			{
+     * 				"mysqlOptions": {
+     * 					"authProtocol": "default",
+     * 					"enableSsl": "Disabled"
+     * 				},
+     * 				"ssh": "Disabled",
+     * 				"previewLimit": 50,
+     * 				"server": "mysql.internal",
+     * 				"port": 3306,
+     * 				"driver": "MariaDB",
+     * 				"name": "MariaDB",
+     * 				"database": read from docker/.env MYSQL_DATABASE,
+     * 				"username": read from docker/.env MYSQL_USER,
+     * 				"password": read from docker/.env MYSQL_PASSWORD
+     * 			}
+     * 		]
+     * 	}
+     * }
+     */
+    $workspaceFile = 'workspace/home/devuser/app-dvc.code-workspace';
+    if (!file_exists($workspaceFile)) {
+
+      $content = [
+        '{',
+        '  "folders": [',
+        '    {',
+        '      "path": "/var/www/app"',
+        '    }',
+        '  ],',
+        '  "settings": {',
+        '    "files.autoSave": "afterDelay",',
+        '    "sqltools.useNodeRuntime": false,',
+        '    "sqltools.connections": [',
+        '      {',
+        '        "mysqlOptions": {',
+        '          "authProtocol": "default",',
+        '          "enableSsl": "Disabled"',
+        '        },',
+        '        "ssh": "Disabled",',
+        '        "previewLimit": 50,',
+        '        "server": "mariadb",',
+        '        "port": 3306,',
+        '        "driver": "MariaDB",',
+        '        "name": "MariaDB",',
+        sprintf('        "database": "%s",', $env->MYSQL_DATABASE ?? 'dvc'),
+        sprintf('        "username": "%s",', $env->MYSQL_USER ?? 'developers'),
+        sprintf('        "password": "%s"', $env->MYSQL_PASSWORD ?? 'password'),
+        '      }',
+        '    ]',
+        '  }',
+        '}'
+      ];
+      file_put_contents($workspaceFile, implode("\n", $content));
+      chown($workspaceFile, 1000);
+      chgrp($workspaceFile, 1000);
+      echo "Created workspace/home/devuser/app-dvc.code-workspace file\n";
+    } else {
+
+      echo "workspace/home/devuser/app-dvc.code-workspace file already exists\n";
     }
 
     echo "docker container setup complete\n";
