@@ -1234,7 +1234,7 @@ final class utility {
      * HOST_UID=1000
      * HOST_GID=1000
      *
-     * MYSQL_ROOT_PASSWORD=movies
+     * MYSQL_ROOT_PASSWORD=[generate a random password here]
      * MYSQL_DATABASE=dvc
      * MYSQL_USER=developers
      * MYSQL_PASSWORD=[generate a random password here]
