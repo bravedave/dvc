@@ -1,0 +1,68 @@
+# Docker Compose file for a PHP development environment with MariaDB and Caddy server
+#
+# see : https://docs.docker.com/reference/compose-file/
+#
+# You can just run docker compose up -d
+# it will pull the images and build the custom ones as needed
+#
+# start by creating a .env file in the same directory as
+# this docker-compose.yaml file and add your environment variables there
+#
+# run bash init-dirs.sh to create the needed directories
+#
+# example: Database credentials
+# HOST_UID=1000
+# HOST_GID=1000
+# MYSQL_ROOT_PASSWORD=[rootpass]
+# MYSQL_DATABASE=[dbname]
+# MYSQL_USER=[username]
+# MYSQL_PASSWORD=[password]
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    env_file: .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ../workspace/mariadb:/var/lib/mysql
+      - ./my.server.cnf:/etc/mysql/mariadb.conf.d/50-server.cnf
+    restart: unless-stopped
+
+  php-fpm:
+    build:
+      context: ..
+      dockerfile: docker/fpm.Dockerfile
+      args:
+        USERNAME: devuser
+        UID: ${HOST_UID:-1000}
+        GID: ${HOST_GID:-1000}
+    container_name: php-fpm
+    working_dir: /var/www/app
+    env_file: .env
+    volumes:
+      - ..:/var/www/app
+      - ../workspace/home:/home
+    depends_on:
+      - mariadb
+    restart: unless-stopped
+
+  # Caddy server
+  # available at http://localhost:8087
+  caddy:
+    image: caddy:2
+    container_name: caddy
+    ports:
+      - "8087:80"
+    env_file: .env
+    volumes:
+      - ..:/var/www/app
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    depends_on:
+      - php-fpm
+    restart: unless-stopped
+

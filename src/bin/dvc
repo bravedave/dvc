@@ -1138,6 +1138,7 @@ final class utility {
     echo "\n";
     echo "  experimental !!\n";
     echo "  make::crud-module --name=<name> --fields=<field1,field2,...> --preact=(true|false)\n";
+    echo "  make::container\n";
   }
 
   public static function makeApplication(): void {
@@ -1167,6 +1168,213 @@ final class utility {
 
     echo "Default application setup complete.\n";
     printf("to run the application type php %s server\n", __FILE__);
+  }
+
+  public static function makeContainer(): void {
+
+    /**
+     * __FILE__ = /home/davbr/github/tutor/vendor/bravedave/dvc/src/bin/dvc
+     * __DIR__  = /home/davbr/github/tutor/vendor/bravedave/dvc/src/bin
+     * the docker files will be in ../docker
+     */
+
+    $currentDir = getcwd();
+
+    $docker = __DIR__ . '/../docker';
+    $dockerDir = realpath($docker);
+    if (!$dockerDir) {
+      echo "docker directory not found: $docker\n";
+      return;
+    }
+
+    echo "currentDir = $currentDir\n";
+    echo "docker = $docker\n";
+    echo "dockerDir = $dockerDir\n";
+
+    /**
+     * todo
+     * - make a local docker directory if it does not exist
+     * - copy the files from $dockerDir to ./docker
+     */
+    if (!is_dir('docker')) {
+
+      if (!mkdir('docker', 0777, true)) {
+
+        echo "failed to create docker directory in current directory\n";
+        return;
+      }
+    }
+
+    utility::checkFiles([
+      'docker/fpm.Dockerfile' => $dockerDir . '/fpm.Dockerfile',
+      'docker/docker-compose.yaml' => $dockerDir . '/docker-compose.yaml',
+      'docker/my.server.cnf' => $dockerDir . '/my.server.cnf',
+      'docker/php.ini' => $dockerDir . '/php.ini',
+      'docker/Caddyfile' => $dockerDir . '/Caddyfile'
+    ]);
+
+    /**
+     * the working directories need to be established
+     * and their ownership needs to be set to the devuser (1000:1000)
+     * mariadb will create its own data directory
+     */
+    $dirs = [
+      "./workspace/mariadb",
+      "./workspace/home/devuser/bin"
+    ];
+
+    utility::checkDirectories($dirs);
+    foreach ($dirs as $dir) {
+      chown($dir, 1000);
+      chgrp($dir, 1000);
+    }
+
+    /**
+     * Create a .env file in the docker directory if it does not exist
+     * HOST_UID=1000
+     * HOST_GID=1000
+     *
+     * MYSQL_ROOT_PASSWORD=movies
+     * MYSQL_DATABASE=dvc
+     * MYSQL_USER=developers
+     * MYSQL_PASSWORD=[generate a random password here]
+     */
+
+    $envFile = 'docker/.env';
+    if (!file_exists($envFile)) {
+      $password = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 12);
+      $content = [
+        'HOST_UID=1000',
+        'HOST_GID=1000',
+        '',
+        "MYSQL_ROOT_PASSWORD=$password",
+        'MYSQL_DATABASE=dvc',
+        'MYSQL_USER=developers',
+        "MYSQL_PASSWORD=$password",
+      ];
+      file_put_contents($envFile, implode("\n", $content));
+      echo "Created docker/.env file\n";
+    } else {
+
+      echo "docker/.env file already exists\n";
+    }
+
+    // place a gitignore file in the docker directory if it does not exist and ensure the .env file is ignored
+    $gitignoreFile = 'docker/.gitignore';
+    if (!file_exists($gitignoreFile)) {
+      $content = [
+        '.env'
+      ];
+      file_put_contents($gitignoreFile, implode("\n", $content));
+      echo "Created docker/.gitignore file\n";
+    } else {
+
+      echo "docker/.gitignore file already exists\n";
+    }
+
+    $env = (object)[];
+    $lines = file('docker/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+      if (str_contains($line, '=')) {
+        [$key, $value] = explode('=', $line, 2);
+        $env->{$key} = $value;
+      }
+    }
+
+    /**
+     * relative to this folder, ../src/app/data make ot may not exist
+     * if it does not exist, create it
+     * create db.json in that folder
+     * with the following content
+     * {
+     *  "db_type": "mysql",
+     *  "db_host": "mariadb",
+     *  "db_name": read from docker/.env MYSQL_DATABASE,
+     *  "db_user": "developers",
+     *  "db_pass": read from docker/.env MYSQL_PASSWORD
+     * }
+     * and set its ownership to 1000:1000
+     *
+     */
+
+    if (!is_dir('src/app/data')) {
+
+      if (!mkdir('src/app/data', 0777, true)) {
+
+        echo "failed to create src/app/data directory in current directory\n";
+        return;
+      }
+    }
+
+    $dbFile = 'src/app/data/db.json';
+    if (!file_exists($dbFile)) {
+
+      $content = [
+        '{',
+        '  "db_type": "mysql",',
+        '  "db_host": "mariadb",',
+        sprintf('  "db_name": "%s",', $env->MYSQL_DATABASE ?? 'dvc'),
+        '  "db_user": "developers",',
+        sprintf('  "db_pass": "%s"', $env->MYSQL_PASSWORD ?? 'password'),
+        '}',
+      ];
+      file_put_contents($dbFile, implode("\n", $content));
+      chown($dbFile, 1000);
+      chgrp($dbFile, 1000);
+      echo "Created src/app/data/db.json file\n";
+    } else {
+
+      echo "src/app/data/db.json file already exists\n";
+    }
+
+    /**
+     * in the folder workspace/home/devuser
+     * create a .profile file if it does not exist
+     * add the folder ~/bin to the PATH if it is not already there
+     */
+    $profileFile = 'workspace/home/devuser/.profile';
+    if (!file_exists($profileFile)) {
+
+      $content = [
+        '# ~/.profile: executed by Bourne-compatible login shells.',
+        '',
+        '# set PATH so it includes user\'s private bin if it exists',
+        'if [ -d "$HOME/bin" ] ; then',
+        '    PATH="$HOME/bin:$PATH"',
+        'fi',
+        '',
+        'export PATH',
+      ];
+      file_put_contents($profileFile, implode("\n", $content));
+      chown($profileFile, 1000);
+      chgrp($profileFile, 1000);
+      echo "Created workspace/home/devuser/.profile file\n";
+    } else {
+
+      echo "workspace/home/devuser/.profile file already exists\n";
+    }
+
+    // and create a my.cnf file in workspace/home/devuser to conect to mariadb
+    $myCnfFile = 'workspace/home/devuser/.my.cnf';
+    if (!file_exists($myCnfFile)) {
+
+      $content = [
+        '[client]',
+        'host = mariadb',
+        sprintf('user = %s', $env->MYSQL_USER ?? 'developers'),
+        sprintf('password = %s', $env->MYSQL_PASSWORD ?? 'password'),
+        sprintf('database = %s', $env->MYSQL_DATABASE ?? 'dvc'),
+      ];
+      file_put_contents($myCnfFile, implode("\n", $content));
+      chown($myCnfFile, 1000);
+      chgrp($myCnfFile, 1000);
+      echo "Created workspace/home/devuser/.my.cnf file\n";
+    } else {
+
+      echo "workspace/home/devuser/.my.cnf file already exists\n";
+    }
+
+    echo "docker container setup complete\n";
   }
 
   public static function makeCrudModule(string $name, string $fields, bool $preact): void {
@@ -1272,6 +1480,10 @@ switch ($command) {
 
   case 'make::application':
     utility::makeApplication();
+    break;
+
+  case 'make::container':
+    utility::makeContainer();
     break;
 
   case 'make::module':

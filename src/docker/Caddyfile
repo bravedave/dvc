@@ -1,0 +1,11 @@
+:80 {
+    root * /var/www/app/public
+    encode gzip
+    log {
+        output stdout
+        format console
+    }
+
+    rewrite * /_mvp.php
+    php_fastcgi php-fpm:9000
+}

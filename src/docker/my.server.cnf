@@ -1,0 +1,22 @@
+[mysqld]
+# Networking
+bind-address         = 0.0.0.0
+skip_name_resolve    = 1
+max_connections      = 200
+sql_mode             = NO_ENGINE_SUBSTITUTION
+
+# MyISAM performance
+key_buffer_size      = 8G         # ~50–70% of container RAM if MyISAM only
+sort_buffer_size     = 8M
+read_buffer_size     = 8M
+read_rnd_buffer_size = 8M
+table_open_cache     = 8000
+
+# Query cache (ok for MyISAM heavy read workloads)
+query_cache_type     = 1
+query_cache_size     = 128M
+query_cache_limit    = 4M
+
+# Disable InnoDB fully
+skip-innodb
+default-storage-engine = MyISAM
