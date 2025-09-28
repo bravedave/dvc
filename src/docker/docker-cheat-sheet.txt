@@ -1,0 +1,48 @@
+# Dev-Box Cheat Sheet
+
+## build and run
+    docker compose down
+    docker compose up -d
+    docker compose restart
+    docker build -t dev-env ~/dev-env
+    docker build -t dev-env ~/dev-env --no-cache
+
+### Tweaks ?
+    --memory=8g \        # Limit memory to 4GB
+    --cpus=2 \           # Limit to 2 CPU cores
+    
+## Monitor
+    docker ps
+    docker exec -it <container_name_or_id> netstat -tulnp
+
+## manage the container
+    docker logs -f dev-container
+    docker start dev-env
+    docker stop dev-env
+    docker restart dev-env
+    docker exec -it dev-env bash
+    
+# mattermost
+    docker compose -f docker-compose.yml -f docker-compose.without-nginx.yml up -d
+    docker compose -f docker-compose.yml -f docker-compose.without-nginx.yml down
+
+## Setup the container
+    mkdir -p ~/dev-env/workspace
+    cp -v ~/setup/[De]* /~dev-container/
+
+## destroy the container
+    docker rm dev-container
+
+# Clean up
+    # Clean Up All at Once
+      - To remove all unused data (containers, images, volumes, and networks) in one go, run:
+        docker system prune -a -f --volumes
+
+    # Clear Docker Build Cache
+      - Docker stores build cache, which can be massive if you build images often.
+        To remove the build cache:
+        docker builder prune -f
+
+    # clean up the current docker-compose.pml associated files
+      - docker compose down --volumes --remove-orphans
+      - docker compose down --volumes --rmi all --remove-orphans
