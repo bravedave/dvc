@@ -27,6 +27,8 @@ class view {
     if ($app = application::app()) {
 
       $this->paths[] = $this->rootPath = $app->getRootPath();
+      $this->paths[] = dirname($this->rootPath);
+      $this->paths[] = $app->getVendorPath();
       foreach ($app->getPaths() as $path) {
         $this->paths[] = $path;
       }
