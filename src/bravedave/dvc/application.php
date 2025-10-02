@@ -546,7 +546,7 @@ abstract class application {
     return self::Request()->getActionName();
   }
 
-  public function addPath($path): void {
+  public function addPath(string $path): void {
     $this->paths[] = $path;
   }
 
