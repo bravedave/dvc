@@ -144,7 +144,11 @@
         if (_.browser.isMobileDevice) return;
         if (this.hasAttribute('accesskey')) {
 
-          this.setAttribute('placeholder', `alt + ${this.getAttribute('accesskey')} to focus`);
+          // macOS: activate with Control + Option + / (^⌥/)
+          const ak = this.getAttribute('accesskey') || '/';
+          const isMac = (navigator.userAgent.platform && /Mac|iPhone|iPad|iPod/.test(navigator.userAgent.platform)) || navigator.userAgent.includes('Macintosh');
+          const modifier = isMac ? '⌃⌥' : 'alt';
+          this.setAttribute('placeholder', `${modifier} + ${ak} to focus`);
         }
       };
 
