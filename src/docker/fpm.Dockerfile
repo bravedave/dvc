@@ -19,11 +19,13 @@ RUN addgroup -g $GID $USERNAME && \
 
 RUN echo "https://dl-cdn.alpinelinux.org/alpine/latest-stable/main" > /etc/apk/repositories \
   && echo "https://dl-cdn.alpinelinux.org/alpine/latest-stable/community" >> /etc/apk/repositories \
+  && echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
   && apk update \
   && apk upgrade
 
 RUN apk add --no-cache \
     git sqlite rsync sassc unzip fcgi curl bash shadow tzdata tini mariadb-client \
+    dart-sass \
     php84 \
     php84-bcmath \
     php84-cli \
