@@ -8,3 +8,5 @@ resource/bootstrap-icons.tmp
 tests/data
 vendor/
 *.lock
+src/.DS_Store
+.DS_Store
