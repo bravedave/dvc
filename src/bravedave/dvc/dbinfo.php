@@ -56,11 +56,11 @@ class dbinfo extends dao {
     $_version = 0;
     $json = (object)[];
 
-    if (file_exists($store = $this->db_version_file())) {
-
-      $json = json_decode(file_get_contents($store));
-      $_version = 0;
-      if (isset($json->{$key})) $_version = (float)$json->{$key};
+    $store = $this->db_version_file();
+    if (file_exists($store) && ($_json = json_decode(file_get_contents($store)))) {
+      
+      $json = $_json;
+      $_version = (float)($json->{$key} ?? 0);
     }
 
     if ($_version < $version) {
