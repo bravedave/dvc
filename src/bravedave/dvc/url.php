@@ -87,15 +87,7 @@ abstract class url {
 
         // die(sprintf('define URL - %s', $server));
         $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-        // die(sprintf('define URL - %s', $host));
-
-        if (preg_match('/localhost/i', $host)) {
-
-          define('URL', '/');
-        } else {
-
-          define('URL', sprintf('//%s/', $host));
-        }
+        define('URL', sprintf('//%s/', $host));
       }
     }
 
