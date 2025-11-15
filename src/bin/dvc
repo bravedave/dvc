@@ -123,8 +123,8 @@ final class utility {
           "command" => "vendor/bin/dvc",
           "args" => [
             "make::crud_module",
-            "-name=\${input:moduleName}",
-            "-fields=\${input:fields}"
+            "--name=\${input:moduleName}",
+            "--fields=\${input:fields}"
           ],
           "problemMatcher" => [],
           "icon" => [
@@ -136,18 +136,16 @@ final class utility {
           ]
         ]
       ],
-      [
-        "inputs" => [
-          [
-            "id" => "moduleName",
-            "type" => "promptString",
-            "description" => "Module name (e.g. ideas)"
-          ],
-          [
-            "id" => "fields",
-            "type" => "promptString",
-            "description" => "Comma-separated fields (e.g. title,description)"
-          ]
+      "inputs" => [
+        [
+          "id" => "moduleName",
+          "type" => "promptString",
+          "description" => "Module name (e.g. ideas)"
+        ],
+        [
+          "id" => "fields",
+          "type" => "promptString",
+          "description" => "Comma-separated fields (e.g. title,description)"
         ]
       ]
     ];
