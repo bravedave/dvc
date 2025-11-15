@@ -122,7 +122,7 @@ final class utility {
           "type" => "shell",
           "command" => "vendor/bin/dvc",
           "args" => [
-            "make::crud_module",
+            "make::crud-module",
             "--name=\${input:moduleName}",
             "--fields=\${input:fields}"
           ],
