@@ -171,6 +171,20 @@ final class utility {
     } else {
       echo "VSCode tasks already contain the standard dev server launch task.\n";
     }
+
+    // check if .github/prompts folder exists and create if not
+    $promptsDir = '.github/prompts';
+    if (!is_dir($promptsDir)) {
+      mkdir($promptsDir, 0777, true);
+      echo "Created GitHub prompts directory: $promptsDir\n";
+    }
+
+    // copy in .github/prompts/framework-rules.prompt.md
+    $files = [
+      $promptsDir . '/framework-rules.prompt.md' => 'vendor/bravedave/dvc/.github/prompts/framework-rules.prompt.md',
+    ];
+
+    utility::checkFiles($files);
   }
 
   protected static function makeCrudConfig(string $name, array $fields): void {
