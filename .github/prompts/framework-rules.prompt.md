@@ -926,7 +926,7 @@ use bravedave\dvc\strings; ?>
         <td>${dto.status || ''}</td>
       </tr>`)
         .on('click', function(e) {
-          e.stopPropagation();
+          _.hideContexts(e);  // hides any open contexts and stops propagation
           $(this).trigger('edit');
         })
         .on('contextmenu', contextmenu)
@@ -938,20 +938,16 @@ use bravedave\dvc\strings; ?>
 
   // Context menu handler
   const contextmenu = function(e) {
-    e.stopPropagation();
-    e.preventDefault();
 
-    const tr = $(this);
-    const id = tr.data('id');
+    if (e.shiftKey) return;
+    const _ctx = _.context(e); // hides any open contexts and stops bubbling
 
-    _.hideContextMenu();
-    _.contextMenu([
-      { text: 'Edit', icon: 'bi-pencil', handler: () => tr.trigger('edit') },
-      { text: 'Delete', icon: 'bi-trash', handler: () => tr.trigger('delete') },
-    ], {
-      x: e.clientX,
-      y: e.clientY
+    _ctx.append.a({
+      html: '<i class="bi bi-pencil"></i>edit',
+      click: e => $(this).trigger('edit')
     });
+
+    _ctx.open(e);
   };
 
   // Delete row handler
@@ -1000,11 +996,9 @@ use bravedave\dvc\strings; ?>
 
   // Add button
   btnAdd.on('click', e => {
-    e.stopPropagation();
+    _.hideContexts(e);  // hides any open contexts and stops propagation
     _.get.modal(_.url('<?= $this->route ?>/edit'))
-      .then(m => {
-        m.on('success', () => refresh());
-      });
+      .then(m => m.on('success', () => refresh()));
   });
 
   // Refresh data
