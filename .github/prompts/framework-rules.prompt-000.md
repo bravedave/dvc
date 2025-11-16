@@ -245,7 +245,7 @@ final class handler {
 
   public static function {entity}Save(ServerRequest $request): json {
     $action = $request('action');
-
+    
     // Extract and validate data
     $a = [
       'field1' => $request('field1'),
@@ -253,7 +253,7 @@ final class handler {
     ];
 
     $dao = new dao\{entity};
-
+    
     if ($id = (int)$request('id')) {
       // Update existing record
       $dao->UpdateByID($a, $id);
@@ -267,24 +267,24 @@ final class handler {
 
   public static function {entity}Delete(ServerRequest $request): json {
     $action = $request('action');
-
+    
     if ($id = (int)$request('id')) {
       (new dao\{entity})->delete($id);
       return json::ack($action);
     }
-
+    
     return json::nak($action);
   }
 
   public static function {entity}GetByID(ServerRequest $request): json {
     $action = $request('action');
-
+    
     if ($id = (int)$request('id')) {
       if ($dto = (new dao\{entity})->getByID($id)) {
         return json::ack($action, $dto);
       }
     }
-
+    
     return json::nak($action);
   }
 
@@ -461,43 +461,8 @@ protected $template = dto\{entity}::class;    // Links to DTO for typed results
 ```
 
 **2. dtoSet for Multiple Records**
-
-`dtoSet` is invoked as a callable object that returns an array of DTOs:
-
 ```php
-// Basic usage - query must be properly escaped
-return (new dtoSet)('SELECT * FROM `table`');
-
-// With sprintf for integers (safe)
-return (new dtoSet)(sprintf('SELECT * FROM `table` WHERE `id` = %d', $id));
-
-// With quote() for strings (use in DAOs)
-$sql = sprintf('SELECT * FROM `table` WHERE `name` = %s', $this->quote($string));
-return (new dtoSet)($sql);
-
-// With filter function (second parameter)
-return (new dtoSet)($sql, function($dto) {
-  // Return $dto to include, null to exclude
-  return $dto->active ? $dto : null;
-});
-
-// With custom DTO template (third parameter)
-return (new dtoSet)($sql, null, dto\custom::class);
-```
-
-**dtoSet Parameters:**
-1. `$sql` (string): SQL query - must be properly escaped
-2. `$filter` (callable|null): Optional function to filter/transform each DTO
-3. `$template` (string|null): Optional DTO class, overrides DAO's $template property
-
-**String Quoting in DAOs:**
-```php
-// Use $this->quote() for string values in SQL
-$name = $this->quote($userInput);
-$sql = sprintf('SELECT * FROM `table` WHERE `name` = %s', $name);
-
-// Integers can use %d directly
-$sql = sprintf('SELECT * FROM `table` WHERE `id` = %d', $id);
+return (new dtoSet)('SELECT * FROM `table`'); // Returns array of DTOs
 ```
 
 **3. Timestamp Management**
@@ -506,10 +471,10 @@ $a['created'] = self::dbTimeStamp();          // MySQL-compatible timestamp
 $a['updated'] = self::dbTimeStamp();
 ```
 
-**4. Parameterized Queries** (when using base dao methods)
+**4. SQL Prepared Statements** (automatic)
 - Framework automatically prepares statements
-- Use `?` placeholders for parameters
-- Pass parameters as array to methods like `db()->q()` or `db()->fetch()`
+- Use `?` placeholders or named placeholders
+- Pass parameters as second argument to `dtoSet`
 
 **Example from `src/app/todo/dao/todo.php`:**
 
@@ -554,7 +519,7 @@ class {entity} extends dto {
   public $id = 0;
   public $created = '';
   public $updated = '';
-
+  
   // Entity-specific fields with default values
   public $name = '';
   public $description = '';
@@ -633,7 +598,7 @@ class todo extends dto {
 <?php
 /**
  * Database Schema for {entity}
- *
+ * 
  * Notes:
  * - Primary key 'id' (autoincrement) is added automatically - DO NOT define it
  * - Field types are MySQL format, converted to SQLite equivalents as needed
@@ -649,16 +614,17 @@ $dbc->defineField('updated', 'datetime');
 // Entity-specific fields
 $dbc->defineField('name', 'varchar');
 $dbc->defineField('description', 'text');
-$dbc->defineField('status', 'varchar', null, null, 'pending');
-$dbc->defineField('active', 'tinyint', null, null, 1);
-$dbc->defineField('sort_order', 'int', null, null, 0);
+$dbc->defineField('status', 'varchar', ['default' => 'pending']);
+$dbc->defineField('active', 'tinyint', ['default' => 1]);
+$dbc->defineField('sort_order', 'int', ['default' => 0]);
 
 // Indexes for performance
-$dbc->defineIndex('idx_name', ['name']);
-$dbc->defineIndex('idx_status_active', ['status', 'active']);
+$dbc->defineIndex('name', ['name']);
+$dbc->defineIndex('status_active', ['status', 'active']);
 
 // Execute schema check/migration
 $dbc->check();
+```
 
 ### Schema Field Types
 
@@ -685,22 +651,27 @@ $dbc->defineField('event_date', 'date');           // DATE
 $dbc->defineField('event_time', 'time');           // TIME
 ```
 
-**Field Parameters:**
+**Field Options:**
 ```php
-$dbc->defineField(string 'field', string 'type', int 'length', int 'decimals', string 'default value');
+$dbc->defineField('field', 'type', [
+  'default' => 'value',        // Default value
+  'null' => true,              // Allow NULL
+  'length' => 100,             // Field length
+  'unsigned' => true,          // Unsigned numbers
+]);
 ```
 
 ### Indexes
 
 ```php
 // Single column index
-$dbc->defineIndex('idx_name', 'column_name');
+$dbc->defineIndex('idx_name', ['column_name']);
 
 // Multi-column index
-$dbc->defineIndex('idx_user_date', 'user_id, created');
+$dbc->defineIndex('idx_user_date', ['user_id', 'created']);
 
 // Unique index
-$dbc->defineIndex('idx_email', 'email unique');
+$dbc->defineIndex('idx_email', ['email'], ['unique' => true]);
 ```
 
 ### Key Schema Patterns
@@ -824,7 +795,7 @@ use bravedave\dvc\strings; ?>
   <!-- Search -->
   <div class="row mb-2">
     <div class="col">
-      <input type="search" class="form-control" placeholder="search..."
+      <input type="search" class="form-control" placeholder="search..." 
              id="<?= $_search = strings::rand() ?>">
     </div>
     <div class="col-auto">
@@ -871,7 +842,7 @@ use bravedave\dvc\strings; ?>
   // Render table rows
   const matrix = data => {
     const tbody = table.find('> tbody').empty();
-
+    
     $.each(data, (i, dto) => {
       $(`<tr data-id="${dto.id}">
         <td>${dto.id}</td>
@@ -894,10 +865,10 @@ use bravedave\dvc\strings; ?>
   const contextmenu = function(e) {
     e.stopPropagation();
     e.preventDefault();
-
+    
     const tr = $(this);
     const id = tr.data('id');
-
+    
     _.hideContextMenu();
     _.contextMenu([
       { text: 'Edit', icon: 'bi-pencil', handler: () => tr.trigger('edit') },
@@ -912,7 +883,7 @@ use bravedave\dvc\strings; ?>
   const rowDelete = function(e) {
     const tr = $(this);
     const id = tr.data('id');
-
+    
     _.ask.alert('Are you sure?').then(() => {
       _.fetch.post(_.url('<?= $this->route ?>'), {
         action: '{entity}-delete',
@@ -931,7 +902,7 @@ use bravedave\dvc\strings; ?>
   const edit = function(e) {
     const tr = $(this);
     const id = tr.data('id');
-
+    
     _.get.modal(_.url('<?= $this->route ?>/edit/' + id))
       .then(m => {
         m.on('success', () => refresh());
@@ -943,7 +914,7 @@ use bravedave\dvc\strings; ?>
   search.on('keyup', function(e) {
     clearTimeout(searchTimeout);
     const term = $(this).val().toLowerCase();
-
+    
     searchTimeout = setTimeout(() => {
       table.find('> tbody > tr').each(function() {
         const text = $(this).text().toLowerCase();
@@ -992,7 +963,7 @@ $dto = $this->data->dto; ?>
   <div class="modal fade" id="<?= $_modal = strings::rand() ?>" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-
+        
         <div class="modal-header">
           <h5 class="modal-title"><?= $this->title ?></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -1001,13 +972,13 @@ $dto = $this->data->dto; ?>
         <div class="modal-body">
           <div class="mb-3">
             <label class="form-label">Name</label>
-            <input type="text" name="name" class="form-control"
+            <input type="text" name="name" class="form-control" 
                    value="<?= $dto->name ?>" required autofocus>
           </div>
 
           <div class="mb-3">
             <label class="form-label">Description</label>
-            <textarea name="description" class="form-control"
+            <textarea name="description" class="form-control" 
                       rows="3"><?= $dto->description ?></textarea>
           </div>
 
@@ -1042,7 +1013,7 @@ $dto = $this->data->dto; ?>
       // Form submit handler
       form.on('submit', function(e) {
         e.preventDefault();
-
+        
         const btn = form.find('[type="submit"]');
         btn.prop('disabled', true);
 
@@ -1390,13 +1361,8 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 $dao->getByID($id);
 $dao->UpdateByID($array, $id);
 
-// GOOD - Use sprintf for integers, quote() for strings in DAOs
-$sql = sprintf('SELECT * FROM table WHERE id = %d', $id);
-new dtoSet($sql);
-
-// Or with quote() method for strings
-$sql = sprintf('SELECT * FROM table WHERE name = %s', $this->quote($name));
-new dtoSet($sql);
+// GOOD - Use dtoSet with parameters
+new dtoSet('SELECT * FROM table WHERE id = ?', [$id]);
 
 // BAD - Never concatenate user input into SQL
 // new dtoSet("SELECT * FROM table WHERE id = $id");  // NEVER DO THIS
@@ -1435,8 +1401,8 @@ public static function entityDelete(ServerRequest $request): json {
 ### Database Queries
 ```php
 // GOOD - Single query with JOIN
-$sql = 'SELECT u.*, p.name as product_name
-        FROM users u
+$sql = 'SELECT u.*, p.name as product_name 
+        FROM users u 
         LEFT JOIN products p ON p.user_id = u.id';
 $users = new dtoSet($sql);
 
@@ -1453,7 +1419,7 @@ $users = new dtoSet($sql);
 public function getMatrix() : array {
   $cache = \cache::get('entity-matrix');
   if ($cache) return $cache;
-
+  
   $data = (new dtoSet)('SELECT * FROM entity');
   \cache::set('entity-matrix', $data, 300); // 5 minutes
   return $data;
@@ -1465,8 +1431,8 @@ public function getMatrix() : array {
 // Add pagination to large datasets
 public function getMatrix($page = 1, $perPage = 50) : array {
   $offset = ($page - 1) * $perPage;
-  $sql = sprintf('SELECT * FROM entity LIMIT %d OFFSET %d', $perPage, $offset);
-  return (new dtoSet)($sql);
+  $sql = 'SELECT * FROM entity LIMIT ? OFFSET ?';
+  return (new dtoSet)($sql, [$perPage, $offset]);
 }
 ```
 
@@ -1483,9 +1449,9 @@ class HandlerTest extends TestCase {
       'name' => 'Test Task',
       'description' => 'Test Description'
     ]);
-
+    
     $response = handler::todoSave($request);
-
+    
     $this->assertEquals('ack', $response->response);
   }
 }
@@ -1496,14 +1462,14 @@ class HandlerTest extends TestCase {
 class TodoDaoTest extends TestCase {
   public function testInsertAndRetrieve() {
     $dao = new dao\todo;
-
+    
     $id = $dao->Insert([
       'name' => 'Test',
       'description' => 'Test Description'
     ]);
-
+    
     $this->assertGreaterThan(0, $id);
-
+    
     $dto = $dao->getByID($id);
     $this->assertEquals('Test', $dto->name);
   }
@@ -1525,15 +1491,15 @@ public function getWithChildren($id) {
 
 // In child DAO
 public function getByParentId($parentId) : array {
-  $sql = sprintf('SELECT * FROM child WHERE parent_id = %d', (int)$parentId);
-  return (new dtoSet)($sql);
+  $sql = 'SELECT * FROM child WHERE parent_id = ?';
+  return (new dtoSet)($sql, [$parentId]);
 }
 ```
 
 ### Soft Delete
 ```php
 // Add 'deleted' field to schema
-$dbc->defineField('deleted', 'tinyint');  // default = 0
+$dbc->defineField('deleted', 'tinyint', ['default' => 0]);
 
 // Override delete in DAO
 public function delete($id) {
@@ -1550,18 +1516,18 @@ public function getMatrix() : array {
 ```php
 public static function entityUpload(ServerRequest $request): json {
   $action = $request('action');
-
+  
   if ($file = $request->file('upload')) {
-    $target = sprintf('%s/uploads/%s',
+    $target = sprintf('%s/uploads/%s', 
       \sys::config()->paths->upload,
       $file->getClientFilename()
     );
-
+    
     $file->moveTo($target);
-
+    
     return json::ack($action, ['filename' => $file->getClientFilename()]);
   }
-
+  
   return json::nak($action, 'No file uploaded');
 }
 ```
@@ -1571,17 +1537,17 @@ public static function entityUpload(ServerRequest $request): json {
 public function exportCsv() {
   $dao = new dao\todo;
   $data = $dao->getMatrix();
-
+  
   header('Content-Type: text/csv');
   header('Content-Disposition: attachment; filename="export.csv"');
-
+  
   $fp = fopen('php://output', 'w');
   fputcsv($fp, ['ID', 'Name', 'Description', 'Created']);
-
+  
   foreach ($data as $dto) {
     fputcsv($fp, [$dto->id, $dto->name, $dto->description, $dto->created]);
   }
-
+  
   fclose($fp);
   exit;
 }
