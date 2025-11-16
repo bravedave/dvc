@@ -511,6 +511,52 @@ $a['updated'] = self::dbTimeStamp();
 - Use `?` placeholders for parameters
 - Pass parameters as array to methods like `db()->q()` or `db()->fetch()`
 
+**5. DAO Invocation and getRichData()**
+
+DAOs can be invoked as functions to retrieve and optionally enrich a single record:
+
+```php
+// Using DAO as callable - automatically calls getRichData if present
+$dao = new dao\{entity};
+$dto = $dao($id);  // Same as $dao->getByID($id) but with enrichment
+
+// Manual call to getRichData
+$dto = $dao->getByID($id);
+if (method_exists($dao, 'getRichData')) {
+  $dto = $dao->getRichData($dto);
+}
+```
+
+**getRichData() Method:**
+
+Optional method for DTO enrichment with additional lookups or calculated fields:
+
+```php
+public function getRichData(dto $dto): ?dto {
+  // Perform additional lookups
+  $userDao = new \user\dao\user;
+  $dto->user_name = $userDao->getFieldByID($dto->user_id, 'name');
+
+  // Add calculated fields
+  $dto->days_old = (time() - strtotime($dto->created)) / 86400;
+
+  // Add related data
+  $dto->comments_count = (new \comment\dao\comment)->countByPost($dto->id);
+
+  return $dto;
+}
+```
+
+**When to use getRichData():**
+- ✅ Single record views where additional context is needed
+- ✅ API endpoints returning detailed single records
+- ✅ Edit forms needing related data for dropdowns
+- ❌ List/matrix views (performance impact on multiple records)
+- ❌ High-frequency API calls (additional query overhead)
+- ❌ When base DTO data is sufficient
+
+**Performance Note:** getRichData adds database queries and processing time. Use judiciously and only when enrichment justifies the performance cost.
+
 **Example from `src/app/todo/dao/todo.php`:**
 
 ```php
@@ -977,13 +1023,15 @@ use bravedave\dvc\strings; ?>
 
 Modal form for create/update:
 
+**Note:** When a view is loaded via `$this->load()`, the controller's `protectedLoad()` method automatically extracts all properties from `$this->data` into the view's local scope. This means `$this->data->dto` becomes available as `$dto` directly in the view without explicit assignment.
+
 ```php
 <?php
 namespace {module};
 
 use bravedave\dvc\strings;
 
-$dto = $this->data->dto; ?>
+// Note: $dto is automatically available from $this->data->dto via protectedLoad() ?>
 
 <form id="<?= $_form = strings::rand() ?>" autocomplete="off">
   <input type="hidden" name="action" value="{entity}-save">
