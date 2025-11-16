@@ -173,17 +173,15 @@ final class utility {
     }
 
     // check if .github/prompts folder exists and create if not
-    $promptsDir = '.github/prompts';
-    if (!is_dir($promptsDir)) {
-      mkdir($promptsDir, 0777, true);
-      echo "Created GitHub prompts directory: $promptsDir\n";
-    }
+    $dir = '.github';
 
-    // copy in .github/prompts/framework-rules.prompt.md
+
+    // copy in .github/copilot-instructions.md
     $files = [
-      $promptsDir . '/framework-rules.prompt.md' => 'vendor/bravedave/dvc/.github/prompts/framework-rules.prompt.md',
+      $dir . '/copilot-instructions.md' => 'vendor/bravedave/dvc/.github/copilot-instructions.md',
     ];
 
+    utility::checkDirectories([$dir]);
     utility::checkFiles($files);
   }
 
