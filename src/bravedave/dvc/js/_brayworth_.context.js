@@ -251,7 +251,7 @@
 
     const _new_element_ = p => {
 
-      let o = {
+      const o = {
         ...{
           click: e => { },
           html: 'string' == typeof p ? p : '',
@@ -260,7 +260,7 @@
         ...p
       };
 
-      let el = $(`<a href="${o.href}">${o.html}</a>`)
+      const el = $(`<a href="${o.href}">${o.html}</a>`)
         .on('click', e => {
 
           if ('#' == $(e.target).attr('href')) {
