@@ -8,7 +8,7 @@
  * test:
  *	'0418745334'.IsMobilePhone();
 */
-(() => {	// strings
+(_ => {	// strings
   String.prototype.ltrim = function () { return this.replace(/^\s+/, ""); };
   String.prototype.rtrim = function () { return this.replace(/\s+$/, ""); };
 
@@ -257,18 +257,17 @@
     s = s.replace(/â&#8364;¢/g, '&bull;');
     s = s.replace(/&(r|l)dquo;/g, "&quot;");
     s = s.replace(/&(r|l)squo;/g, "&#39;");
-    //~ text = text.replace( /&ndash;/g, "-");
-    //~ text = text.replace( /&bull;/g, "*");
 
-    return (s);
+    return s;
   };
 
   Number.prototype.formatComma = function (x) {
+    
     return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
   };
 
   Number.prototype.formatCurrency = function () {
+
     let parts = this.toString().split(".");
     if (parts.length < 2)
       parts.push('00');
@@ -279,7 +278,11 @@
 
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
-
   };
 
-})();
+  _.esc = text => {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  };
+})(_brayworth_);
