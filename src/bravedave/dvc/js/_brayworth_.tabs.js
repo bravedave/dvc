@@ -46,19 +46,15 @@
           data-bs-toggle="tab" data-bs-target="#${item.target}" type="button"
           role="tab" aria-controls="${item.target}" aria-selected="true">${item.label}</button>`);
 
-        tab
-          .on('hide.bs.tab', e => e.stopPropagation())
-          .on('hidden.bs.tab', e => e.stopPropagation())
-          .on('show.bs.tab', e => e.stopPropagation())
-          .on('shown.bs.tab', e => e.stopPropagation());
-
-        if (item.active) tab.addClass('active');
-
         const pane = $(`<div class="tab-pane" id="${item.target}"
-          role="tabpanel" aria-labelledby="${item.id}">...</div>`);
-        if (item.active) pane.addClass('active');
+              role="tabpanel" aria-labelledby="${item.id}">...</div>`);
 
-        let o = {
+        const evts = ['hide.bs.tab', 'hidden.bs.tab', 'show.bs.tab', 'shown.bs.tab'];
+        tab.on(evts.join(' '), e => e.stopPropagation());
+
+        if (item.active) [tab, pane].forEach(el => el.addClass('active'));
+
+        const o = {
           tab: tab,
           pane: pane
         };
@@ -66,7 +62,6 @@
 
         this.nav.append(tab);
         this.panes.append(pane);
-
         return o;
       }
     }
