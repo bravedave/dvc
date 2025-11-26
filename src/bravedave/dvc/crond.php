@@ -40,6 +40,7 @@ final class crond {
   public static function cron() {
     $debug = false;
     // $debug = true;
+    $debug = file_exists( rootConfig::dataPath() . '/cron.debug');
 
     $crons = rootConfig::crons();
     // if there are no crons defined, exit early
