@@ -106,7 +106,7 @@ final class crond {
 
       // Touch semaphore to update timestamp
       touch(self::$semaphore);
-      sleep(1);
+      sleep(2);
       $i++;
     }
 
