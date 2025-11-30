@@ -26,12 +26,12 @@
 
           <div class="mb-2">
             <input type="text" name="u" class="form-control" placeholder="username or email"
-              autocomplete="username<?= $this->logonDomain ? ' @' . $this->logonDomain : '' ?>>" required>
+              autocomplete="username<?= $this->logonDomain ? ' @' . $this->logonDomain : '' ?>" required>
           </div>
 
           <div class="mb-2">
             <input type="password" name="p" class="form-control" placeholder="password"
-              autocomplete="current-password<?= $this->logonDomain ? ' @' . $this->logonDomain : '' ?>>" required>
+              autocomplete="current-password<?= $this->logonDomain ? ' @' . $this->logonDomain : '' ?>" required>
           </div>
 
           <div class="mb-2 d-none">
