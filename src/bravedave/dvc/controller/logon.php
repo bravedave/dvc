@@ -16,6 +16,7 @@ use user;
 
 class logon extends Controller {
   protected $RequireValidation = false;
+  protected $logonDomain = null;
 
   public function form() {
     user::$checkBWUI = false;
@@ -29,7 +30,6 @@ class logon extends Controller {
 
       Response::redirect(strings::url('auth/request'));
     } else {
-
 
       throw new dvc\Exceptions\NoAuthenticationMethodsAvailable;  // home page
     }

@@ -1,25 +1,23 @@
 <?php
 /*
-  David Bray
-  BrayWorth Pty Ltd
-  e. david@brayworth.com.au
-
-  MIT License
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
+ * 
+ * MIT License
+ *
 */  ?>
-
 <form id="<?= $_form = strings::rand() ?>" autocomplete="off">
-
   <input type="hidden" name="action" value="-system-logon-">
   <div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
     id="<?= $_modal = strings::rand() ?>"
     aria-labelledby="<?= $_modal ?>Label" aria-modal="true" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-sm modal-fullscreen-sm-down" role="document">
 
       <div class="modal-content">
 
         <div class="modal-header <?= theme::modalHeader() ?>">
-
           <h5 class="modal-title" id="<?= $_modal ?>Label">logon</h5>
           <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -28,12 +26,12 @@
 
           <div class="mb-2">
             <input type="text" name="u" class="form-control" placeholder="username or email"
-              autocomplete="username" required>
+              autocomplete="username<?= $this->logonDomain ? ' @' . $this->logonDomain : '' ?>>" required>
           </div>
 
           <div class="mb-2">
             <input type="password" name="p" class="form-control" placeholder="password"
-              autocomplete="current-password" required>
+              autocomplete="current-password<?= $this->logonDomain ? ' @' . $this->logonDomain : '' ?>>" required>
           </div>
 
           <div class="mb-2 d-none">
@@ -43,7 +41,7 @@
 
         <div class="modal-footer">
 
-          <?php if (\config::allow_password_recovery) { ?>
+          <?php if (config::allow_password_recovery) { ?>
             <button type="button" class="btn btn-light" id="<?= $_btnReset = strings::rand() ?>">
               reset password
             </button>
@@ -66,34 +64,33 @@
 
             $('#<?= $_btnReset ?>').on('click', e => form.trigger('reset-password'));
 
-            form
-              .on('reset-password', function(e) {
-                let _form = $(this);
-                let _data = _form.serializeFormJSON();
+            form.on('reset-password', function(e) {
+              const _form = $(this);
+              const _data = _form.serializeFormJSON();
+              const payload = {
+                action: '-send-password-',
+                u: _data.u,
+              };
 
-                _.fetch.post(_.url(), {
-                    action: '-send-password-',
-                    u: _data.u,
-                  })
-                  .then(d => {
+              _.fetch.post(_.url(), payload).then(d => {
 
-                    _.growl(d);
-                    if ('ack' == d.response) {
+                _.growl(d);
+                if ('ack' == d.response) {
 
-                      modal.find('.modal-body')
-                        .append(`<div class="alert alert-info">${d.message}</div>`);
-                    }
-                  });
+                  modal.find('.modal-body')
+                    .append(`<div class="alert alert-info">${_.esc(d.message)}</div>`);
+                }
               });
+            });
           <?php   } ?>
 
           form.find('input[name="tfa"]').on('keyup', function(e) {
 
-            // if the keydown is a number
-            //  and the length is 6
-            // submit the form
+            /**
+             * if the keydown is a number and the length is 6
+             * then submit the form
+             */
             if (/\d/.test(e.key) && this.value.length == 6) {
-
               form.trigger('submit');
             }
           });
@@ -125,7 +122,7 @@
             }).catch(e => {
 
               form.find('.modal-body')
-                .append('<div class="alert alert-danger">failed</div>');
+                .append('<div class="alert alert-danger">failed (2)</div>');
             });
 
             return false;
