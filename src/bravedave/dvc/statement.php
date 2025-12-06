@@ -45,7 +45,7 @@ class statement {
    */
   protected SQLite3Stmt|mysqli_stmt|null $_statement;
 
-  public function __construct(string $sql, sqlite\db|dbi|null $db) {
+  public function __construct(string $sql, sqlite\db|dbi|null $db = null) {
 
     if (is_null($db)) $db = \sys::dbi();
     $this->_statement = $db->prepare($sql);
@@ -57,6 +57,12 @@ class statement {
   public function __destruct() {
 
     $this->close();
+  }
+
+  public function __invoke(array $values = []): array {
+
+    if ($result = $this->execute($values)) return (new dtoSet)($result);
+    return [];
   }
 
   /**
@@ -176,7 +182,7 @@ class statement {
       throw new RuntimeException('Statement is closed or not prepared.');
     }
 
-    if ( $values) {
+    if ($values) {
 
       if (!$this->bind($values)) return false;
     }
