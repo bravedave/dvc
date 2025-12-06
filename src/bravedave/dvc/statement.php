@@ -59,9 +59,9 @@ class statement {
     $this->close();
   }
 
-  public function __invoke(array $values = []): array {
+  public function __invoke(array $values = [], Closure|null $func = null, string|null $template = null): array {
 
-    if ($result = $this->execute($values)) return (new dtoSet)($result);
+    if ($result = $this->execute($values)) return (new dtoSet)($result, $func, $template);
     return [];
   }
 
