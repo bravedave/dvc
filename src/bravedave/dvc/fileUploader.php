@@ -219,7 +219,7 @@ class fileUploader {
         return true;
       } catch (\Exception $e) {
 
-        logger::info(sprintf('<%s => %s  error moving file (PSR7)> %s', $file->getClientFilename(), $target, logger::caller()));
+        logger::info(sprintf('<%s => %s error moving file (PSR7)> %s', $file->getClientFilename(), $target, logger::caller()));
       }
     } elseif (!$mimeType) {
 
