@@ -27,6 +27,19 @@
  * $stmt->close();
  * or
  * unset($stmt);
+ * 
+ * if can be used as equivalent to a dtoSet directly
+ * $stmt = new statement('SELECT * FROM table WHERE id = ?', $db);
+ * $dtoSet = $stmt([1]);
+ * if ($dtoSet) {
+ *   foreach ($dtoSet as $dto) {
+ *     // process each dto
+ *   }
+ * }
+ * 
+ * $stmt([1], function($dto) {
+ *   // process each dto
+ * }, 'template string');
 */
 
 namespace bravedave\dvc;
