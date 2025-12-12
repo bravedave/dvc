@@ -105,7 +105,7 @@ class fileUploader {
           return true;
         }
 
-        logger::info(sprintf('<%s error moving file> %s', $file['name'], logger::caller()));
+        logger::info(sprintf('<%s => %s error moving file> %s', $file['name'], $target, logger::caller()));
         return false;
       } elseif (!$strType) {
 
@@ -219,7 +219,7 @@ class fileUploader {
         return true;
       } catch (\Exception $e) {
 
-        logger::info(sprintf('<%s error moving file> %s', $file->getClientFilename(), logger::caller()));
+        logger::info(sprintf('<%s => %s  error moving file (PSR7)> %s', $file->getClientFilename(), $target, logger::caller()));
       }
     } elseif (!$mimeType) {
 
