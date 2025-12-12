@@ -265,7 +265,7 @@
       }
     }
 
-    ask.find('.modal-dialog').addClass('modal-fullscreen-md-down');
+    ask.find('.modal-dialog').addClass('modal-fullscreen-lg-down');
     ask.find('.modal-body')
       .addClass('p-2')
       .append(`<style>
