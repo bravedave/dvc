@@ -120,6 +120,7 @@ abstract class sys {
     return ('WIN' === strtoupper(substr(PHP_OS, 0, 3)));
   }
 
+  #[\Deprecated]
   public static function logger($v, $level = 0) {
 
     logger::info($v);
@@ -292,72 +293,17 @@ abstract class sys {
     Response::serveBootStrap5($type);
   }
 
+  #[\Deprecated]
   public static function text2html($inText, $maxrows = -1, $allAsteriskAsList = false): string {
-
+    
+    /** @disregard P1007 is deprecated */
     return strings::text2html($inText, $maxrows, $allAsteriskAsList);
-    // /**
-    //  * text2html: converts plain text to html by swaping in <br /> for \n
-    //  *
-    //  * $inText : text to be converted
-    //  * $maxRows : the number of rows to convert - default -1 == all
-    //  * $allAsteriskAsList : convert * (asterisk) to list (<ul><li>{text}</li></ul>)
-    //  **/
-
-    // if ($maxrows > 0) {
-    //   $a = [
-    //     "/\\\\n/",
-    //     "/(\n)|(\\\\n)/"
-    //   ];
-    //   $x = preg_split("/\n/", $inText);
-    //   while (count($x) > ($maxrows + 1)) {
-    //     array_pop($x);
-    //   }
-    //   $inText = implode("<br>", $x);
-    // }
-
-    // $a = [
-    //   "/\r\n/",
-    //   "/---\\n/",
-    //   "/\\\\n/",
-    //   "/\n/",
-    //   "/$\*/"
-    // ];
-
-    // $aR = [
-    //   "\n",
-    //   '<hr align="left" style="width: 200px; margin: 0;">',
-    //   '<br>',
-    //   '<br>',
-    //   '<br>&bull;'
-    // ];
-
-    // if ($allAsteriskAsList) {
-    //   $a[] = "/\*/";
-    //   $aR[] = "<br />&bull;";
-    //   $inText = rtrim($inText, " .*");
-    // }
-
-    // return preg_replace($a, $aR, $inText);
   }
-
+  
+  #[\Deprecated]
   public static function trace($v, $level = 0) {
 
     logger::trace($v, $level);
-    // self::logger($v);
-    // $level = (int)$level;
-    // $iLevel = 0;
-    // foreach (debug_backtrace() as $e) {
-
-    //   if (isset($e['file'])) {
-
-    //     self::logger(sprintf('%s(%s)', $e['file'], $e['line']));
-    //   } else {
-
-    //     self::logger(print_r($e, true));
-    //   }
-
-    //   if ($level > 0 && ++$iLevel > $level) break;
-    // }
   }
 
   public static function traceCaller() {

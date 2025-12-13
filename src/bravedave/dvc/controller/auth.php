@@ -11,7 +11,7 @@
 namespace bravedave\dvc\controller;
 
 use currentUser, Controller, bravedave, sys, dvc, user;
-use bravedave\dvc\{session, Response};
+use bravedave\dvc\{logger, session, Response};
 
 class auth extends Controller {
 
@@ -36,12 +36,12 @@ class auth extends Controller {
 
   public function request() {
 
-    if ($this->debug) sys::logger('auth/request');
+    if ($this->debug) logger::debug(sprintf('<%s>', logger::caller()));
 
     if (bravedave\dvc\auth::GoogleAuthEnabled()) {
 
       if ($client = dvc\Google::client()) {
-        
+
         $url = $client->createAuthUrl();
         Response::redirect($url);
       } else {

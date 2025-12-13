@@ -178,12 +178,14 @@ abstract class auth {
     );
 
     try {
+
       if ($stream = imap_open($server, $u, $p, OP_HALFOPEN, 1, ['DISABLE_AUTHENTICATOR' => 'GSSAPI'])) {
         imap_close($stream);
         return true;
       }
     } catch (\Throwable $th) {
-      if ($debug) \sys::logger(sprintf('<fail on %s> <%s:%s> %s', $server, $u, $p, __METHOD__));
+
+      if ($debug) logger::info(sprintf('<fail on %s> <%s:%s> %s', $server, $u, $p, logger::caller()));
     }
 
     return false;

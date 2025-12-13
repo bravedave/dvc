@@ -552,7 +552,6 @@ abstract class Response {
     } elseif ('polyfill' == $type) {
 
       $lib = __DIR__ . '/resource/bootstrap4-5.polyfill.css';
-      // \sys::logger( sprintf('<%s> %s', $lib, __METHOD__));
       self::serve($lib);
     } elseif ('js' == $type) {
 

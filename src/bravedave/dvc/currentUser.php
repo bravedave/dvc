@@ -34,10 +34,8 @@ abstract class currentUser {
   }
 
   public static function id() {
-    if ($u = self::user()) {
-      return (int)$u->id;
-    }
 
+    if ($u = self::user())  return (int)$u->id;
     return 0;
   }
 
@@ -56,22 +54,22 @@ abstract class currentUser {
   }
 
   public static function soAuth() {
-    sys::logger('soAuth is stub');
+
+    logger::info(sprintf('<soAuth is stub> %s', logger::caller()));
     return (new \imap\soAccount);
   }
 
   public static function sync(oauth $o) {
-    if (method_exists(self::user(), 'sync'))
-      return (self::user()->sync($o));
 
-    sys::logger('user class does not correctly inherit _user (legacy did not require this, but (e.g.) use of oauth does)');
+    if (method_exists(self::user(), 'sync')) return (self::user()->sync($o));
+    logger::info(sprintf('<user class does not correctly inherit _user (legacy did not require this, but (e.g.) use of oauth does)> %s', logger::caller()));
     return (false);
   }
 
   public static function user() {
+
     if (!isset(self::$instance)) {
       self::$instance = new \user;
-      // sys::logger( 'currentUser::user init');
       errsys::currentUser(self::$instance->name);
     }
 
@@ -79,6 +77,7 @@ abstract class currentUser {
   }
 
   public static function valid() {
+
     return (self::user()->valid());
   }
 }

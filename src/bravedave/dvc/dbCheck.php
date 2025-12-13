@@ -172,7 +172,6 @@ class dbCheck extends dao {
                   $fieldLength = ((int)$fieldStructure->length / 3);  // utf8 conversion
                   if ((int)$fieldLength < (int)$fld['length']) {
 
-                    //~ \sys::logger( sprintf( 'bingo baby :: %s : %s != %s', $fieldStructure->name, $fieldStructure->length, $fld['length']));
                     $sql = sprintf(
                       'ALTER TABLE `%s` CHANGE COLUMN `%s` `%s` VARCHAR(%s) DEFAULT %s',
                       $this->table,

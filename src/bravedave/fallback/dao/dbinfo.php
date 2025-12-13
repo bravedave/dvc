@@ -12,6 +12,8 @@
 
 namespace dao;
 
+use bravedave\dvc\logger;
+
 class dbinfo extends _dbinfo {
 	/*
 	 * it is probably sufficient to copy this file into the
@@ -22,20 +24,16 @@ class dbinfo extends _dbinfo {
 	 *
 	*/
 	protected function check() {
+
 		parent::check();
+		logger::info(sprintf('<checking %s> %s', dirname(__FILE__) . '/db/*.php', logger::caller()));
 
-		\sys::logger( 'checking ' . dirname( __FILE__ ) . '/db/*.php' );
 
-		if ( glob( dirname( __FILE__ ) . '/db/*.php')) {
-			foreach ( glob( dirname( __FILE__ ) . '/db/*.php') as $f ) {
-				\sys::logger( 'checking => ' . $f );
+		if (glob(dirname(__FILE__) . '/db/*.php')) {
+			foreach (glob(dirname(__FILE__) . '/db/*.php') as $f) {
+				logger::info('checking => ' . $f);
 				include_once $f;
-
 			}
-
 		}
-
 	}
-
 }
-

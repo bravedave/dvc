@@ -10,6 +10,7 @@
 
 namespace bravedave\dvc\controller;
 
+use bravedave\dvc\logger;
 use config, Controller, dvc, Response;
 
 class install extends Controller {
@@ -57,7 +58,8 @@ class install extends Controller {
         $this->writeDBJson(['db_type' => 'sqlite']);
         Response::redirect(\url::$URL, 'set database sqlite');
       } elseif ('mysql' == $type) {
-        \sys::logger(sprintf('dbname : %s', config::$DB_NAME));
+        
+        logger::info(sprintf('dbname : %s', config::$DB_NAME));
 
         // print 'it\'s post allright';
         // sys::dump( $this->getPost());

@@ -23,15 +23,15 @@ class dbResult {
   }
 
   public function __destruct() {
-    if ($this->result) {
-      sqlsrv_free_stmt($this->result);
-      //~ \sys::logger( 'free statement');
 
-    }
+    /** @disregard P1010 Undefined function */
+    if ($this->result) sqlsrv_free_stmt($this->result);
   }
 
   public function fetch() {
 
+    /** @disregard P1010 Undefined function */
+    /** @disregard P1011 Undefined constant */
     return sqlsrv_fetch_array($this->result, SQLSRV_FETCH_ASSOC);
   }
 

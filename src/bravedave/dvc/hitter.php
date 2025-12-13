@@ -14,25 +14,20 @@ class hitter {
 	protected $count = 0;
 	protected $name = 'hitter';
 
-	function __construct( $name = NULL ) {
-		if ( $name)
-			$this->name = $name;
-
+	function __construct($name = NULL) {
+		if ($name) $this->name = $name;
 	}
 
 	function __destruct() {
-		\sys::logger( sprintf( '%s : %d', $this->name, $this->count ));
 
+		logger::info(sprintf('<%s : %d> %s', $this->name, $this->count, logger::caller()));
 	}
 
 	function hit() {
-		$this->count ++;
-
+		$this->count++;
 	}
 
-	function hits( $i) {
+	function hits($i) {
 		$this->count = $i;
-
 	}
-
 }

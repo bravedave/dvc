@@ -12,6 +12,7 @@ namespace bravedave\dvc\controller;
 
 use config, Controller, currentUser, HttpGet, HttpPost, Response, sys;
 use bravedave, bravedave\dvc\oauth;
+use bravedave\dvc\logger;
 
 class fbauth extends Controller {
   protected $RequireValidation = FALSE;
@@ -45,8 +46,9 @@ class fbauth extends Controller {
       );
 
       Response::redirect(self::$access_dialog_url . '?' .  http_build_query($params));
-    } else
-      sys::logger('facebook authentication is disabled');
+    } else {
+      logger::info(sprintf('<%s> %s', 'facebook authentication is disabled', logger::caller()));
+    }
   }
 
   public function response() {
@@ -58,7 +60,8 @@ class fbauth extends Controller {
 
       $code = $this->getParam('code');
       if ($code == '') {
-        sys::logger('fbAuth: no code retrieved');
+
+        logger::info(sprintf('<%s> %s', 'fbAuth: no code retrieved', logger::caller()));
       } else {
 
         /* try to get an access token and build
@@ -131,16 +134,16 @@ class fbauth extends Controller {
               $_SESSION["avatar"] = $responseObj->picture->data->url;
           } else {
 
-            sys::logger('fbAuth: user not valid : ' . (string)$responseObj->email);
+            logger::info(sprintf('<%s> %s', 'fbAuth: user not valid : ' . (string)$responseObj->email, logger::caller()));
           }
         } else {
 
-          sys::logger('fbAuth: no access token retrieved');
+          logger::info(sprintf('<%s> %s', 'fbAuth: no access token retrieved', logger::caller()));
         }
       }
     } else {
 
-      sys::logger('facebook authentication is disabled');
+      logger::info(sprintf('<%s> %s', 'facebook authentication is disabled', logger::caller()));
     }
 
     Response::redirect();

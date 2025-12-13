@@ -135,18 +135,20 @@ class _page {
   }
 
   protected function closeContent() {
+
     $this->closeSection();  // added 20 July, 2017
     if ($this->contentOPEN) {
+
       foreach ($this->closeContentTags as $tag)
         print $tag;
 
       $this->contentOPEN = FALSE;
     }
 
-    if ($this->debug) \sys::logger(__METHOD__);
+    if ($this->debug) logger::debug(sprintf('<%s>', logger::caller()));
 
-    return ($this);  // chain
 
+    return $this;  // chain
   }
 
   public function closeHeader() {

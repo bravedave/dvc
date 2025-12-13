@@ -10,8 +10,9 @@
 
 namespace dao;
 
+use bravedave\dvc\logger;
 use dvc;
 
 class bwui extends dvc\dao\bwui {}
 
-\sys::logger( sprintf('<%s> %s', 'deprecated use dvc\dao\bwui', __METHOD__));
+logger::info( sprintf('<%s> %s', 'deprecated use dvc\dao\bwui', logger::caller()));

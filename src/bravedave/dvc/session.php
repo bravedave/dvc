@@ -126,7 +126,7 @@ class session {
     session_start();
     session_destroy();
 
-    if ($msg) \sys::logger(sprintf('<%s> %s', $msg, __METHOD__));
+    if ($msg) logger::info(sprintf('<%s> %s', $msg, logger::caller()));
   }
 
   public function domain($domain = null) {
