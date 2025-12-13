@@ -324,6 +324,34 @@ $name = trim($request('name'));      // Sanitize strings
 return json::ack($action);              // Success without data
 return json::ack($action, $data);       // Success with data payload
 return json::nak($action);              // Failure/error
+return json::nak($action, $message);    // Failure with custom message
+```
+
+**JSON Response Format:**
+```json
+{
+  "response": "ack",           // or "nak" for errors
+  "description": "action-name", // the action parameter
+  "data": {}                     // optional payload (only with ack)
+}
+```
+
+**JavaScript Handling:**
+```javascript
+// _.growl() automatically handles the response object
+_.fetch.post(_.url('route'), { action: 'save' })
+  .then(_.growl)        // Shows success or error notification
+  .catch(_.growl);      // Shows error notification
+
+// Only check response when you need conditional logic
+_.fetch.post(_.url('route'), { action: 'save' })
+  .then(d => {
+    if ('ack' == d.response) {
+      // Perform additional action on success
+      refresh();
+    }
+    _.growl(d);         // Always show notification
+  });
 ```
 
 **6. DAO Instantiation**
@@ -1137,7 +1165,7 @@ _.url('path')                           // Generate URL
 _.fetch.post(url, data)                 // POST request
 _.fetch.post.form(url, formElement)     // POST form data
 _.get.modal(url)                        // Load modal via GET
-_.growl(message)                        // Show notification
+_.growl(d)                        // Show notification
 _.ask.alert(message)                    // Confirmation dialog
 _.ready(callback)                       // Document ready
 _.hideContextMenu()                     // Hide context menu
@@ -1224,9 +1252,10 @@ modal.trigger('success');               // Custom event
    - Outputs JSON: {"response":"ack","description":"entity-save","data":{...}}
    ↓
 9. Browser receives JSON
-   - Checks d.response === 'ack'
-   - Updates UI (refresh table, close modal, etc.)
-   - Or shows error via _.growl(d)
+   - _.growl(d) automatically displays success or error notification
+   - For conditional logic: check d.response === 'ack'
+   - Update UI (refresh table, close modal, etc.)
+   - Pattern: .then(d => { if ('ack' == d.response) doAction(); _.growl(d); })
 ```
 
 ### Edit Modal Flow (GET + POST Combined)
