@@ -52,6 +52,7 @@ function text2html(string|null $inText, int $maxrows = 0, array $environment = [
     if ($heading_permalink && !isset($environment['heading_permalink'])) {
       $environment['heading_permalink'] = [
         'html_class' => 'heading-permalink',  // Optional: Add a CSS class
+        'id_prefix' => 'content',                    // Optional: Prefix for the generated IDs
         'insert' => 'before',                 // Optional: Insert the permalink before or after the heading
         'symbol' => ''                        // Optional: Symbol for the permalink (empty for no symbol)
       ];

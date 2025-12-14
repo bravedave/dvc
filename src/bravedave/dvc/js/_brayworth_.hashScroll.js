@@ -62,19 +62,19 @@
     }));
   };
 
-  _.hashScroll = () => {
+  _.hashScroll = prefix => {
 
     /** Scrolls the content into view **/
     $('a[href*="#"]:not([href="#"] , .carousel-control, .ui-tabs-anchor)').on('click', function () {
-
       if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-
-        let target = $(this.hash);
-        target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+        let hash = this.hash;
+        if (prefix && hash.startsWith('#')) {
+          hash = '#' + prefix + hash.slice(1);
+        }
+        let target = $(hash);
+        target = target.length ? target : $('[name=' + hash.slice(1) + ']');
         if (target.length) {
-
           if (/nav/i.test(target.prop('tagName'))) return;
-
           _.ScrollTo(target);
           return false;
         }
