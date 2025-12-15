@@ -220,8 +220,8 @@
           });
 
           // dispatch jQuery compatible events
-          table[0].dispatchEvent(new Event('update-line-numbers', { bubbles: true }));
           table[0].dispatchEvent(new Event('search-complete', { bubbles: true }));
+          table[0].dispatchEvent(new Event('update-line-numbers', { bubbles: true }));
 
           // table
           //   .trigger('update-line-numbers')
