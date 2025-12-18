@@ -13,7 +13,7 @@
     id="<?= $_modal = strings::rand() ?>"
     aria-labelledby="<?= $_modal ?>Label" aria-modal="true" aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered modal-sm modal-fullscreen-sm-down" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
 
       <div class="modal-content">
 
