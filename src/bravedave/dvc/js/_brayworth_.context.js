@@ -295,11 +295,15 @@
 
             _el.addClass(_.bootstrap_version() >= 4 ? 'd-none' : 'hidden');
           } else {
-            _el.dispatchEvent(new CustomEvent('removal'));
+
+            // dispatch removal event on actual element
+            el.dispatchEvent(new CustomEvent('removal'));
             _el.remove();
           }
         } else {
-          _el.dispatchEvent(new CustomEvent('removal'));
+          
+          // dispatch removal event on actual element
+          el.dispatchEvent(new CustomEvent('removal'));
           _el.remove();
         }
       });
