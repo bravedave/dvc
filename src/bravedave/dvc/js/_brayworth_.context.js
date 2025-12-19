@@ -294,8 +294,14 @@
           if (_el.data('hide') == 'hide') {
 
             _el.addClass(_.bootstrap_version() >= 4 ? 'd-none' : 'hidden');
-          } else { _el.remove(); }
-        } else { _el.remove(); }
+          } else {
+            _el.dispatchEvent(new CustomEvent('removal'));
+            _el.remove();
+          }
+        } else {
+          _el.dispatchEvent(new CustomEvent('removal'));
+          _el.remove();
+        }
       });
     })
     .on('keyup.removeContexts', e => {
