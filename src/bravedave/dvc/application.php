@@ -125,7 +125,7 @@ abstract class application {
     if (is_null($this->defaultController)) $this->defaultController = config::$DEFAULT_CONTROLLER;
     if (trim($this->url_controller == '')) $this->url_controller = $this->defaultController;
 
-    if ( !$this->middleware()) return;
+    if (!$this->middleware()) return;
 
     if ($this->service) {
 
@@ -359,7 +359,7 @@ abstract class application {
     if (method_exists($this, 'deprecated')) $this->{'deprecated'}();
   }
 
-  protected function _execute(Closure $run) : void {
+  protected function _execute(Closure $run): void {
     $run();
   }
 
@@ -397,7 +397,7 @@ abstract class application {
         $this->url_parameter_3 = $this->url_parameter_2;
         $this->url_parameter_2 = $this->url_parameter_1;
         $this->url_parameter_1 = $this->url_action;
-        $this->url_action = $this->url_controller;  // bump
+        $this->url_action = strings::camelise($this->url_controller);  // bump
       }
 
       $this->url_controller = $this->defaultController;
@@ -506,7 +506,7 @@ abstract class application {
     // logger::dump($segments);
 
     if ($segments) $this->url_controller = array_shift($segments);
-    if ($segments) $this->url_action = array_shift($segments);
+    if ($segments) $this->url_action = strings::camelise(array_shift($segments));
     if ($segments) $this->url_parameter_1 = array_shift($segments);
     if ($segments) $this->url_parameter_2 = array_shift($segments);
     if ($segments) $this->url_parameter_3 = array_shift($segments);

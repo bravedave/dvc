@@ -256,6 +256,21 @@ abstract class strings {
     return '';
   }
 
+
+  // if $str contains - convert to camelCase without dashes (i.e. locate dom dataset values)
+  static public function camelise(string $str): string {
+
+    if (strpos($str, '-') !== false) {
+      $parts = explode('-', $str);
+      $str = array_shift($parts);
+      foreach ($parts as $part) {
+        $str .= ucfirst($part);
+      }
+    }
+
+    return $str;
+  }
+
   /**
    * returns a clean mobile string localised for Australia
    *

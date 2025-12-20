@@ -191,7 +191,7 @@ class ServerRequest {
       if (in_array($segment, $ignore)) return false;
 
       /**
-       * not the - hyphen is at the end of the character class,
+       * note the - hyphen is at the end of the character class,
        * if it is not it has to be escaped
        */
       if (preg_match('/^(?![.\s])[\w\d][\w\d.%@-]*$/', $segment)) {
