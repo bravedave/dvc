@@ -147,9 +147,9 @@ class DiskFileStorage {
     }
   }
 
-  public function serve(string $filename): void {
+  public function serve(string $filename, array $options = []): void {
 
-    Response::serve($this->_filepath($filename));
+    Response::serve($this->_filepath($filename), $options);
   }
 
   /**

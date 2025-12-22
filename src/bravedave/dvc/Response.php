@@ -218,7 +218,7 @@ abstract class Response {
 
   }
 
-  public static function serve($path): void {
+  public static function serve($path, array $options = []): void {
 
     $debug = false;
     // $debug = true;
@@ -242,7 +242,12 @@ abstract class Response {
 
       if ($debug) logger::debug(sprintf('<%s> %s', $mimetype, __METHOD__));
 
-      if ('image/jpeg' == $mimetype) {
+      if ('application/pdf' == $mimetype) {
+
+        self::pdf_headers($path_parts['basename'], filemtime($path));
+        readfile($path);
+        if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
+      } elseif ('image/jpeg' == $mimetype) {
 
         if (strstr($path, url::$URL . 'images/')) {
 
@@ -253,11 +258,52 @@ abstract class Response {
         }
         readfile($path);
         if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
-      } elseif ('application/pdf' == $mimetype) {
+      } elseif ('video/' == substr($mimetype, 0, 6) && ($options['stream'] ?? null)) {
 
-        self::pdf_headers($path_parts['basename'], filemtime($path));
-        readfile($path);
-        if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
+        $content = file_get_contents($path);
+        $size = strlen($content);
+        $start = 0;
+        $end = $size - 1;
+
+        header(sprintf('Content-Type: %s', $mimetype));
+        header('Accept-Ranges: bytes');
+        header('Connection: close');
+
+        $rangeHeader = $_SERVER['HTTP_RANGE'] ?? null;
+        if ($rangeHeader && preg_match('/bytes=(\d*)-(\d*)/', $rangeHeader, $m)) {
+
+          if ($m[1] !== '') $start = (int)$m[1];
+          if ($m[2] !== '') $end = (int)$m[2];
+
+          if ($start > $end || $start > $size - 1) {
+            header('HTTP/1.1 416 Range Not Satisfiable');
+            header("Content-Range: bytes */$size");
+            return;
+          }
+
+          $length = $end - $start + 1;
+          header('HTTP/1.1 206 Partial Content');
+          header("Content-Range: bytes $start-$end/$size");
+          header("Content-Length: $length");
+
+          // turn off output buffering to avoid extra bytes and reduce latency
+          while (ob_get_level()) ob_end_clean();
+
+          $chunkSize = 8192;
+          $pos = $start;
+          while ($pos <= $end) {
+            $read = min($chunkSize, $end - $pos + 1);
+            echo substr($content, $pos, $read);
+            flush();
+            $pos += $read;
+          }
+        } else {
+
+          // no range requested - send entire content
+          header("Content-Length: $size");
+          while (ob_get_level()) ob_end_clean();
+          echo $content;
+        }
       } elseif (isset($path_parts['extension'])) {
 
         $ext = strtolower($path_parts['extension']);
@@ -265,6 +311,45 @@ abstract class Response {
         if ($ext == 'css') {
 
           self::css_headers(filemtime($path));
+          readfile($path);
+          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
+        } elseif ($ext == 'csv') {
+
+          self::csv_headers($path_parts['basename'], filemtime($path));
+          readfile($path);
+          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
+        } elseif ($ext == 'eml') {
+
+          self::headers('application/octet-stream', filemtime($path));
+          header(sprintf('Content-Disposition: attachment; filename="%s"', $path_parts['basename']));
+          readfile($path);
+          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
+        } elseif ($ext == 'eot') {
+
+          self::headers('application/vnd.ms-fontobject', filemtime($path), config::$FONT_EXPIRE_TIME);
+          readfile($path);
+          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
+        } elseif ($ext == 'ico') {
+
+          self::icon_headers(filemtime($path), config::$CORE_IMG_EXPIRE_TIME);
+          readfile($path);
+          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
+        } elseif ($ext == 'gif') {
+
+          if (strstr($path, url::$URL . 'images/')) {
+            self::gif_headers(filemtime($path), config::$CORE_IMG_EXPIRE_TIME);
+          } else {
+            self::gif_headers(filemtime($path));
+          }
+          readfile($path);
+          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
+        } elseif ($ext == 'jpg' || $ext == 'jpeg') {
+
+          if (strstr($path, url::$URL . 'images/')) {
+            self::jpg_headers(filemtime($path), config::$CORE_IMG_EXPIRE_TIME);
+          } else {
+            self::jpg_headers(filemtime($path));
+          }
           readfile($path);
           if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
         } elseif ($ext == 'js') {
@@ -296,20 +381,25 @@ abstract class Response {
           self::javascript_headers(filemtime($path), $expires);
           readfile($path);
           if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
-        } elseif ($ext == 'eml') {
+        } elseif ($ext == 'json') {
 
-          self::headers('application/octet-stream', filemtime($path));
-          header(sprintf('Content-Disposition: attachment; filename="%s"', $path_parts['basename']));
+          if ( basename($path) == 'importmap.json' ) {
+            
+            self::json_headers(filemtime($path), filesize($path), 'application/importmap+json');
+          } else {
+
+            self::json_headers(filemtime($path));
+          }
           readfile($path);
           if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
-        } elseif ($ext == 'eot') {
+        } elseif ($ext == 'html') {
 
-          self::headers('application/vnd.ms-fontobject', filemtime($path), config::$FONT_EXPIRE_TIME);
+          self::html_headers($path_parts['basename'], filemtime($path));
           readfile($path);
           if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
-        } elseif ($ext == 'ico') {
+        } elseif ($ext == 'pdf') {
 
-          self::icon_headers(filemtime($path), config::$CORE_IMG_EXPIRE_TIME);
+          self::pdf_headers($path_parts['basename'], filemtime($path));
           readfile($path);
           if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
         } elseif ($ext == 'png') {
@@ -324,6 +414,19 @@ abstract class Response {
 
           readfile($path);
           if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
+        } elseif ($ext == 'svg') {
+
+          /**
+           * maybe the expire time is like javascript rather than images - this is conservative
+           */
+          self::headers('image/svg+xml', filemtime($path), config::$JS_EXPIRE_TIME);
+          readfile($path);
+          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
+        } elseif ($ext == 'tif' || $ext == 'tiff') {
+
+          self::tiff_headers($path_parts['basename'], filemtime($path));
+          readfile($path);
+          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
         } elseif ($ext == 'ttf' || $ext == 'otf') {
 
           self::headers('application/font-sfnt', filemtime($path), config::$FONT_EXPIRE_TIME);
@@ -334,61 +437,9 @@ abstract class Response {
           self::headers('application/font-woff', filemtime($path), config::$FONT_EXPIRE_TIME);
           readfile($path);
           if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
-        } elseif ($ext == 'jpg' || $ext == 'jpeg') {
-
-          if (strstr($path, url::$URL . 'images/')) {
-            self::jpg_headers(filemtime($path), config::$CORE_IMG_EXPIRE_TIME);
-          } else {
-            self::jpg_headers(filemtime($path));
-          }
-          readfile($path);
-          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
-        } elseif ($ext == 'gif') {
-
-          if (strstr($path, url::$URL . 'images/')) {
-            self::gif_headers(filemtime($path), config::$CORE_IMG_EXPIRE_TIME);
-          } else {
-            self::gif_headers(filemtime($path));
-          }
-          readfile($path);
-          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
-        } elseif ($ext == 'svg') {
-
-          /**
-           * maybe the expire time is like javascript rather than images - this is conservative
-           */
-          self::headers('image/svg+xml', filemtime($path), config::$JS_EXPIRE_TIME);
-          readfile($path);
-          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
-        } elseif ($ext == 'json') {
-
-          if ( basename($path) == 'importmap.json' ) {
-            
-            self::json_headers(filemtime($path), filesize($path), 'application/importmap+json');
-          } else {
-
-            self::json_headers(filemtime($path));
-          }
-          readfile($path);
-          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
         } elseif ($ext == 'xml') {
 
           self::xml_headers(filemtime($path));
-          readfile($path);
-          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
-        } elseif ($ext == 'csv') {
-
-          self::csv_headers($path_parts['basename'], filemtime($path));
-          readfile($path);
-          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
-        } elseif ($ext == 'pdf') {
-
-          self::pdf_headers($path_parts['basename'], filemtime($path));
-          readfile($path);
-          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
-        } elseif ($ext == 'tif' || $ext == 'tiff') {
-
-          self::tiff_headers($path_parts['basename'], filemtime($path));
           readfile($path);
           if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
         } elseif ($ext == 'zip') {
@@ -397,11 +448,6 @@ abstract class Response {
           header("Content-Length: " . filesize($path));
           ob_flush();
           ob_end_flush();
-          readfile($path);
-          if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
-        } elseif ($ext == 'html') {
-
-          self::html_headers($path_parts['basename'], filemtime($path));
           readfile($path);
           if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
         } elseif (isset($serve[$ext])) {
