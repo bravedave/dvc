@@ -27,6 +27,13 @@
     if (nav.length > 0) {
 
       wrap.appendTo(nav[0]);
+      adjustTop = () => {
+
+        // how many children does wrap have ?
+        let h = -80;
+        wrap.children().each((i, el) => h -= $(el).outerHeight(true));
+        wrap.css({ 'top': String(h) + 'px' });
+      };
     } else {
 
       wrap.appendTo('body');
