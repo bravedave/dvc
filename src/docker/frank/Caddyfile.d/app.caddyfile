@@ -1,0 +1,8 @@
+app.localhost {
+	root * /app/public
+
+	rewrite * /_dvc.php
+
+	encode zstd gzip
+	php_server
+}

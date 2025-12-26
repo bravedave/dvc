@@ -1238,22 +1238,37 @@ final class utility {
      * - make a local docker directory if it does not exist
      * - copy the files from $dockerDir to ./docker
      */
-    if (!is_dir('docker')) {
+    // if (!is_dir('docker')) {
 
-      if (!mkdir('docker', 0777, true)) {
+    //   if (!mkdir('docker', 0777, true)) {
 
-        echo "failed to create docker directory in current directory\n";
-        return;
-      }
-    }
+    //     echo "failed to create docker directory in current directory\n";
+    //     return;
+    //   }
+    // }
+    $dirs = [
+      'docker',
+      'docker/Caddyfile',
+    ];
+    utility::checkDirectories($dirs);
 
-    utility::checkFiles([
+    $dockerfiles = [
       'docker/fpm.Dockerfile' => $dockerDir . '/fpm85.Dockerfile',
       'docker/docker-compose.yaml' => $dockerDir . '/docker-compose.yaml',
       'docker/my.server.cnf' => $dockerDir . '/my.server.cnf',
       'docker/php.ini' => $dockerDir . '/php.ini',
       'docker/Caddyfile' => $dockerDir . '/Caddyfile'
-    ]);
+    ];
+    $frank = [
+      'docker/fpm.Dockerfile' => $dockerDir . '/frank/Dockerfile',
+      'docker/docker-compose.yaml' => $dockerDir . '/frank/docker-compose.yaml',
+      'docker/Caddyfile/app.caddyfile' => $dockerDir . '/frank/app.caddyfile',
+      'docker/my.server.cnf' => $dockerDir . '/my.server.cnf',
+      'docker/php.ini' => $dockerDir . '/php.ini',
+      'docker/Caddyfile' => $dockerDir . '/Caddyfile'
+    ];
+    $dockerfiles = $frank;
+    utility::checkFiles($dockerfiles);
 
     /**
      * the working directories need to be established

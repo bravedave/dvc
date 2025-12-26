@@ -9,24 +9,21 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - ./workspace/mariadb:/var/lib/mysql
+      - ../workspace/mariadb:/var/lib/mysql
       - ./my.server.cnf:/etc/mysql/mariadb.conf.d/50-server.cnf
     restart: unless-stopped
 
   frankenphp:
-    build: .
+    build:
+      dockerfile: frank.Dockerfile
     ports:
       - "80:80"
       - "443:443"
       - "443:443/udp"
     volumes:
-      - ./workspace/root:/root
-      - ./workspace/app:/app
+      - ../workspace/root:/root
+      - ../workspace/app:/app
       - ./Caddyfile.d:/etc/frankenphp/Caddyfile.d
-    networks:
-      default:
-        aliases:
-          - office.localhost
     depends_on:
       - mariadb
     restart: unless-stopped
