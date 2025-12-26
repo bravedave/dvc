@@ -50,7 +50,7 @@ if [ -x "$(command -v sass)" ]; then
     cd scss
 
     targetDir="../../../bravedave/dvc/css/bootstrap5/"
-    sassCommand="sass --no-source-map --silence-deprecation=color-functions --silence-deprecation=global-builtin --silence-deprecation=import"
+    sassCommand="sass --no-source-map --silence-deprecation=color-functions --silence-deprecation=global-builtin --silence-deprecation=import --silence-deprecation=if-function"
 
     cp ../../bootstrap-print.scss .
 
