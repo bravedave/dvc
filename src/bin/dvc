@@ -1248,7 +1248,7 @@ final class utility {
     // }
     $dirs = [
       'docker',
-      'docker/Caddyfile',
+      'docker/Caddyfile.d',
     ];
     utility::checkDirectories($dirs);
 
@@ -1262,7 +1262,7 @@ final class utility {
     $frank = [
       'docker/fpm.Dockerfile' => $dockerDir . '/frank/Dockerfile',
       'docker/docker-compose.yaml' => $dockerDir . '/frank/docker-compose.yaml',
-      'docker/Caddyfile/app.caddyfile' => $dockerDir . '/frank/app.caddyfile',
+      'docker/Caddyfile.d/app.caddyfile' => $dockerDir . '/frank/Caddyfile.d/app.caddyfile',
       'docker/my.server.cnf' => $dockerDir . '/my.server.cnf',
       'docker/php.ini' => $dockerDir . '/php.ini',
       'docker/Caddyfile' => $dockerDir . '/Caddyfile'
