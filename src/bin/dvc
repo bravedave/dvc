@@ -1248,7 +1248,7 @@ final class utility {
     }
 
     utility::checkFiles([
-      'docker/fpm85.Dockerfile' => $dockerDir . '/fpm.Dockerfile',
+      'docker/fpm.Dockerfile' => $dockerDir . '/fpm85.Dockerfile',
       'docker/docker-compose.yaml' => $dockerDir . '/docker-compose.yaml',
       'docker/my.server.cnf' => $dockerDir . '/my.server.cnf',
       'docker/php.ini' => $dockerDir . '/php.ini',
