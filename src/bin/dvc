@@ -1260,7 +1260,7 @@ final class utility {
       'docker/Caddyfile' => $dockerDir . '/Caddyfile'
     ];
     $frank = [
-      'docker/fpm.Dockerfile' => $dockerDir . '/frank/Dockerfile',
+      'docker/Dockerfile' => $dockerDir . '/frank/Dockerfile',
       'docker/docker-compose.yaml' => $dockerDir . '/frank/docker-compose.yaml',
       'docker/Caddyfile.d/app.caddyfile' => $dockerDir . '/frank/Caddyfile.d/app.caddyfile',
       'docker/my.server.cnf' => $dockerDir . '/my.server.cnf',

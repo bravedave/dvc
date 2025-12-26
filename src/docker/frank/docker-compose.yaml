@@ -14,8 +14,7 @@ services:
     restart: unless-stopped
 
   frankenphp:
-    build:
-      dockerfile: frank.Dockerfile
+    build: .
     ports:
       - "80:80"
       - "443:443"
@@ -23,6 +22,9 @@ services:
     volumes:
       - ../workspace/root:/root
       - ../workspace/app:/app
+      - ../public:/app/public
+      - ../src:/app/src
+      - ../vendor:/app/vendor
       - ./Caddyfile.d:/etc/frankenphp/Caddyfile.d
     depends_on:
       - mariadb
