@@ -30,17 +30,3 @@ services:
     depends_on:
       - mariadb
     restart: unless-stopped
-
-  onlyoffice:
-    image: onlyoffice/documentserver
-    container_name: onlyoffice
-    restart: unless-stopped
-    environment:
-      - JWT_SECRET=FEefzVHlOCHSxEw6euHKnQ6DQ+lA64ssdXSazcV1Q6E=
-      - USE_UNAUTHORIZED_STORAGE=true
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
-      - WOPI_ENABLED=false
-    volumes:
-      - ./workspace/onlyoffice/logs:/var/log/onlyoffice
-      - ./workspace/onlyoffice/fonts:/usr/share/fonts/truetype/custom
-      - ./workspace/onlyoffice/init:/etc/onlyoffice/documentserver/init.d
