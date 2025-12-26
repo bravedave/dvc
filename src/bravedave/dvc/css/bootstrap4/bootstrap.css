@@ -9881,3 +9881,8 @@ h3 {
 .btn-close-white {
   filter: var(--bs-btn-close-white-filter);
 }
+
+.text-bg-warning {
+  color: #000 !important;
+  background-color: var(--warning) !important;
+}
