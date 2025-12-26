@@ -1,0 +1,46 @@
+services:
+
+  mariadb:
+    image: mariadb:latest
+    env_file: .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./workspace/mariadb:/var/lib/mysql
+      - ./my.server.cnf:/etc/mysql/mariadb.conf.d/50-server.cnf
+    restart: unless-stopped
+
+  frankenphp:
+    build: .
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./workspace/root:/root
+      - ./workspace/app:/app
+      - ./Caddyfile.d:/etc/frankenphp/Caddyfile.d
+    networks:
+      default:
+        aliases:
+          - office.localhost
+    depends_on:
+      - mariadb
+    restart: unless-stopped
+
+  onlyoffice:
+    image: onlyoffice/documentserver
+    container_name: onlyoffice
+    restart: unless-stopped
+    environment:
+      - JWT_SECRET=FEefzVHlOCHSxEw6euHKnQ6DQ+lA64ssdXSazcV1Q6E=
+      - USE_UNAUTHORIZED_STORAGE=true
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - WOPI_ENABLED=false
+    volumes:
+      - ./workspace/onlyoffice/logs:/var/log/onlyoffice
+      - ./workspace/onlyoffice/fonts:/usr/share/fonts/truetype/custom
+      - ./workspace/onlyoffice/init:/etc/onlyoffice/documentserver/init.d

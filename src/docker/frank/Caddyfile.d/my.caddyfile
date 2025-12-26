@@ -1,0 +1,5 @@
+my.localhost {
+	root * /app/public/my
+	encode zstd gzip
+	php_server
+}
