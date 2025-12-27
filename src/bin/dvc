@@ -70,7 +70,7 @@ final class utility {
 
     foreach ($required as $key => $value) {
 
-      if (!array_key_exists($key, $settings) || $settings[$key] !== $value) {
+      if (!array_key_exists($key, $settings)) {
         $settings[$key] = $value;
         $changed = true;
       }
