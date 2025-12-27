@@ -1180,7 +1180,8 @@ final class utility {
     echo "\n";
     echo "  experimental !!\n";
     echo "  make::crud-module --name=<name> --fields=<field1,field2,...> --preact=(true|false)\n";
-    echo "  make::container\n";
+    // will probably deprecate make::container
+    // echo "  make::container\n";
   }
 
   public static function makeApplication(): void {
