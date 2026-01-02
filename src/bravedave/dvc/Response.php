@@ -103,8 +103,14 @@ abstract class Response {
 
     self::_common_headers();
 
-    if (config::$CONTENT_SECURITY_ENABLED)
-      header("Content-Security-Policy: frame-ancestors 'self'");
+    if (config::$CONTENT_SECURITY_ENABLED) {
+      
+      $policy = "frame-ancestors 'self';";
+      if (config::$CONTENT_SECURITY_INCLUDE_CLOUDFLARE) {
+        $policy = "script-src 'self' https://static.cloudflareinsights.com 'unsafe-inline'; frame-ancestors 'self';";
+      }
+      header("Content-Security-Policy: $policy");
+    }
 
     if (config::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER_WITH_PROTOCOL) {
 
@@ -383,8 +389,8 @@ abstract class Response {
           if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
         } elseif ($ext == 'json') {
 
-          if ( basename($path) == 'importmap.json' ) {
-            
+          if (basename($path) == 'importmap.json') {
+
             self::json_headers(filemtime($path), filesize($path), 'application/importmap+json');
           } else {
 

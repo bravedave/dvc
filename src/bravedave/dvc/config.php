@@ -89,6 +89,7 @@ abstract class config {
   static $CONTENT_ENABLE_CROSS_ORIGIN_HEADER = false;
   static $CONTENT_ENABLE_CROSS_ORIGIN_HEADER_WITH_PROTOCOL = false;
   static $CONTENT_SECURITY_ENABLED = true;
+  static $CONTENT_SECURITY_INCLUDE_CLOUDFLARE = true;
 
   static $DATE_FORMAT = 'Y-m-d';
   static $DATE_FORMAT_LONG = 'D M d Y';
@@ -408,6 +409,7 @@ abstract class config {
         $_a = [
           'content_enable_cross_origin_header' => static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER,
           'content_enable_cross_origin_header_with_protocol' => static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER_WITH_PROTOCOL,
+          'content_security_include_cloudflare' => static::$CONTENT_SECURITY_INCLUDE_CLOUDFLARE,
           'cipher' => static::$CIPHER,
           'crypt_iv' => static::$CRYPT_IV,
           'crypt_key' => static::$CRYPT_KEY,
@@ -440,6 +442,7 @@ abstract class config {
 
         static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER = $a->content_enable_cross_origin_header;
         static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER_WITH_PROTOCOL = $a->content_enable_cross_origin_header_with_protocol;
+        static::$CONTENT_SECURITY_INCLUDE_CLOUDFLARE = (bool)$a->content_security_include_cloudflare;
 
         static::$CIPHER = $a->cipher;
         static::$CRYPT_IV = $a->crypt_iv;
@@ -486,6 +489,7 @@ abstract class config {
           $a = [
             'content_enable_cross_origin_header' => static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER,
             'content_enable_cross_origin_header_with_protocol' => static::$CONTENT_ENABLE_CROSS_ORIGIN_HEADER_WITH_PROTOCOL,
+            'content_security_include_cloudflare' => static::$CONTENT_SECURITY_INCLUDE_CLOUDFLARE,
             'db_type' => 'sqlite',
             'db_cache' => static::$DB_CACHE,
             'db_cache_debug' => static::$DB_CACHE_DEBUG,
