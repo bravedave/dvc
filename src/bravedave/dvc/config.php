@@ -89,7 +89,7 @@ abstract class config {
   static $CONTENT_ENABLE_CROSS_ORIGIN_HEADER = false;
   static $CONTENT_ENABLE_CROSS_ORIGIN_HEADER_WITH_PROTOCOL = false;
   static $CONTENT_SECURITY_ENABLED = true;
-  static $CONTENT_SECURITY_INCLUDE_CLOUDFLARE = true;
+  static $CONTENT_SECURITY_INCLUDE_CLOUDFLARE = false;
 
   static $DATE_FORMAT = 'Y-m-d';
   static $DATE_FORMAT_LONG = 'D M d Y';
