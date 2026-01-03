@@ -43,7 +43,7 @@ class http {
 
 	public function __destruct() {
 
-		curl_close($this->ch);	/* shut down CURL before destroying the object */
+		// curl_close($this->ch);	/* shut down CURL before destroying the object */
 	}
 
 	/** @return string  */
