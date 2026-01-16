@@ -39,6 +39,11 @@
         return this; // chain
       },
 
+      asLocaleCurrency: function (fractions) {
+
+        return _.asLocaleCurrency(this.value(), fractions);
+      },
+
       asLocaleNumber: function (fractions) {
 
         return _.asLocaleNumber(this.value(), fractions);
