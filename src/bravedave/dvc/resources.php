@@ -40,6 +40,7 @@ abstract class resources {
 
   public static function jquery4(): string {
 
+    return __DIR__ . '/js/jquery-4.0.0.min.js';
     return __DIR__ . '/js/jquery-4.0.0-rc.1.min.js';
     return __DIR__ . '/js/jquery-4.0.0-beta.min.js';
   }
