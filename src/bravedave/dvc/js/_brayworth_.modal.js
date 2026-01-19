@@ -256,7 +256,7 @@
 
         btnClose.addClass(_.bootstrap.version() < 5 ? 'ml-4' : 'ms-2')
 
-        $('<button type="button" class="btn btn-primary js-open-in-new-window"><i class="bi bi-box-arrow-up-right"></i></button>').on('click', e => {
+        $('<button type="button" class="btn btn-primary btn-sm js-open-in-new-window"><i class="bi bi-box-arrow-up-right"></i></button>').on('click', e => {
           e.stopPropagation();
           window.open(options.url);
         })
