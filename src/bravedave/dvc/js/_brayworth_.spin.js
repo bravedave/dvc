@@ -12,7 +12,7 @@
     const options = {
       ...{
         margin: 'm-5',
-        status: 'Loading',
+        status: 'string' == typeof p ? p : 'Loading',
       }, ...p
     };
 
