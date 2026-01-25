@@ -728,8 +728,8 @@ $dbc->defineField('active', 'tinyint', null, null, 1);
 $dbc->defineField('sort_order', 'int', null, null, 0);
 
 // Indexes for performance
-$dbc->defineIndex('idx_name', ['name']);
-$dbc->defineIndex('idx_status_active', ['status', 'active']);
+$dbc->defineIndex('idx_name', 'name');
+$dbc->defineIndex('idx_status_active', 'status, active');
 
 // Execute schema check/migration
 $dbc->check();
