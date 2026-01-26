@@ -602,12 +602,23 @@ $a['created'] = self::dbTimeStamp();          // MySQL-compatible timestamp
 $a['updated'] = self::dbTimeStamp();
 ```
 
-**4. Parameterized Queries** (when using base dao methods)
+**4. Clearing Field Values**
+```php
+// Use empty string to clear fields, not null
+$a['completed_at'] = '';                      // Clear datetime field
+$a['notes'] = '';                             // Clear varchar/text field
+$a['count'] = 0;                              // Clear integer field
+
+// BAD - Don't use null
+// $a['completed_at'] = null;                 // AVOID THIS
+```
+
+**5. Parameterized Queries** (when using base dao methods)
 - Framework automatically prepares statements
 - Use `?` placeholders for parameters
 - Pass parameters as array to methods like `db()->q()` or `db()->fetch()`
 
-**5. DAO Invocation and getRichData()**
+**6. DAO Invocation and getRichData()**
 
 DAOs can be invoked as functions to retrieve and optionally enrich a single record:
 
@@ -929,6 +940,7 @@ use bravedave\dvc\strings;  // Required when using strings:: methods
 **Important**: Views must include `use` statements for any framework classes used in the view. Common imports:
 - `use bravedave\dvc\strings;` - For `strings::rand()`, `strings::url()`, etc.
 - `use bravedave\dvc\currentUser;` - For `currentUser::` methods (if not using `\currentUser::`)
+- `use bravedave\dvc\theme;` - For `theme::modalHeader()` and other theme utilities
 
 **2. Access Controller Data**
 ```php
@@ -1060,7 +1072,10 @@ use bravedave\dvc\strings; ?>
     const tr = $(this);
     const id = tr.data('id');
 
-    _.ask.alert('Are you sure?').then(() => {
+    _.ask.alert.confirm({
+      title: 'Confirm Delete',
+      text: 'Are you sure?'
+    }).then(() => {
       _.fetch.post(_.url('<?= $this->route ?>'), {
         action: '{entity}-delete',
         id: id
@@ -1128,7 +1143,7 @@ Modal form for create/update:
 <?php
 namespace {module};
 
-use bravedave\dvc\strings;
+use bravedave\dvc\{strings, theme};
 
 // Note: $dto is automatically available from $this->data->dto via protectedLoad() ?>
 
@@ -1140,7 +1155,7 @@ use bravedave\dvc\strings;
     <div class="modal-dialog">
       <div class="modal-content">
 
-        <div class="modal-header">
+        <div class="modal-header <?= theme::modalHeader() ?>">
           <h5 class="modal-title"><?= $this->title ?></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
@@ -1243,11 +1258,12 @@ _.fetch.post(url, data)                 // POST request
 _.fetch.post.form(url, formElement)     // POST form data
 _.get.modal(url)                        // Load modal via GET
 _.growl(d)                              // Show notification
-_.ask.alert(message)                    // Confirmation dialog
+_.ask.alert.confirm({title, text})      // Confirmation dialog
 _.ready(callback)                       // Document ready
-_.hideContexts()                        // Hide all context menus
-_.contextMenu(items, {x, y})            // Show context menu
-_.sanitize(str)                         // Escape HTML (alias: _.esc)
+_.hideContexts(e)                       // Hide context menus
+_.context(e)                            // Create context menu
+_.sanitize(str)                         // Escape HTML for XSS prevention
+_.esc(str)                              // Escape HTML for XSS prevention
 ```
 
 **4. Bootstrap 5 Modals**
