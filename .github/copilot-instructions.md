@@ -1242,11 +1242,12 @@ _.url('path')                           // Generate URL
 _.fetch.post(url, data)                 // POST request
 _.fetch.post.form(url, formElement)     // POST form data
 _.get.modal(url)                        // Load modal via GET
-_.growl(d)                        // Show notification
+_.growl(d)                              // Show notification
 _.ask.alert(message)                    // Confirmation dialog
 _.ready(callback)                       // Document ready
-_.hideContextMenu()                     // Hide context menu
+_.hideContexts()                        // Hide all context menus
 _.contextMenu(items, {x, y})            // Show context menu
+_.sanitize(str)                         // Escape HTML (alias: _.esc)
 ```
 
 **4. Bootstrap 5 Modals**
