@@ -174,14 +174,16 @@ final class utility {
 
     // check if .github/prompts folder exists and create if not
     $dir = '.github';
+    $prompts = '.github/prompts';
 
 
     // copy in .github/copilot-instructions.md
     $files = [
       $dir . '/copilot-instructions.md' => 'vendor/bravedave/dvc/.github/copilot-instructions.md',
+      $prompts . '/implement-delta.prompt.md' => 'vendor/bravedave/dvc/.github/prompts/implement-delta.prompt.md',
     ];
 
-    utility::checkDirectories([$dir]);
+    utility::checkDirectories([$dir, $prompts]);
     utility::checkFiles($files);
   }
 
