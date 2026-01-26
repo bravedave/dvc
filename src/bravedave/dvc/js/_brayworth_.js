@@ -90,7 +90,7 @@ if (!window._brayworth_) {
     });
   };
 
-  _.esc = s => String(s).escape();
+  _.sanitize = _.esc = s => String(s).escape();
   /**
    * https://stackoverflow.com/questions/18749591/encode-html-entities-in-javascript
    *
