@@ -33,6 +33,74 @@ src/app/{module-name}/
     └── edit.php                 # Modal form for create/edit
 ```
 
+## Route Files (`src/controller/{module}.php`)
+
+**Purpose**: Maps URL segments to module controllers. The framework looks for a class matching the URL segment name.
+
+### Route File Pattern
+
+```php
+<?php
+// file: src/controller/{module}.php
+class {module} extends {namespace}\controller {}
+```
+
+**Examples:**
+
+```php
+// file: src/controller/todo.php
+class todo extends todo\controller {}
+
+// file: src/controller/users.php
+class users extends cms\users\controller {}
+
+// file: src/controller/home.php
+class home extends home\controller {}
+```
+
+### Key Points
+
+1. **Class name must match URL segment** - For `/users` URL, the class must be named `users`
+2. **Extend the module controller** - The class extends the controller from the module namespace
+3. **Empty class body** - No methods needed; all logic lives in the module controller
+4. **One file per route** - Each URL segment gets its own file in `src/controller/`
+
+### How Routing Works
+
+```
+URL: /users/edit/5
+     ↓
+Framework looks for: src/controller/users.php
+     ↓
+Finds class: users extends cms\users\controller
+     ↓
+Instantiates controller, calls: edit(5)
+```
+
+### Common Mistakes
+
+```php
+// ❌ WRONG - Do not instantiate the controller
+$controller = new cms\users\controller(__DIR__);
+
+// ❌ WRONG - Class name doesn't match URL segment
+class user extends cms\users\controller {}  // Should be 'users' for /users URL
+
+// ✅ CORRECT - Class extends module controller
+class users extends cms\users\controller {}
+```
+
+### Nested Module Namespaces
+
+For modules in nested namespaces like `cms\users`:
+
+```php
+// file: src/controller/users.php
+class users extends cms\users\controller {}
+```
+
+The route file class name (`users`) maps to the URL, while the extended class (`cms\users\controller`) can be in any namespace structure.
+
 ## 1. Module Configuration (`config.php`)
 
 **Purpose**: Extends root config, defines version constant, ensures database is current.
@@ -848,12 +916,19 @@ class dbinfo extends dvcDbInfo {
 
 ### View Conventions
 
-**1. Namespace Views**
+**1. Namespace and Use Statements**
 ```php
 <?php
-namespace {module}; ?>
+namespace {module};
+
+use bravedave\dvc\strings;  // Required when using strings:: methods
+?>
 <!-- HTML content -->
 ```
+
+**Important**: Views must include `use` statements for any framework classes used in the view. Common imports:
+- `use bravedave\dvc\strings;` - For `strings::rand()`, `strings::url()`, etc.
+- `use bravedave\dvc\currentUser;` - For `currentUser::` methods (if not using `\currentUser::`)
 
 **2. Access Controller Data**
 ```php
@@ -874,13 +949,15 @@ Simple sidebar/navigation content:
 
 ```php
 <?php
-namespace {module}; ?>
+namespace {module};
+
+use bravedave\dvc\strings; ?>
 
 <h1><?= config::label ?></h1>
 
 <div class="list-group">
-  <a href="<?= $this->route ?>" class="list-group-item">View All</a>
-  <a href="<?= $this->route ?>/reports" class="list-group-item">Reports</a>
+  <a href="<?= strings::url('{module}') ?>" class="list-group-item list-group-item-action">View All</a>
+  <a href="<?= strings::url('{module}/reports') ?>" class="list-group-item list-group-item-action">Reports</a>
 </div>
 ```
 
@@ -1372,7 +1449,12 @@ Use this checklist when creating a new module:
   - [ ] JavaScript for form submit
   - [ ] `modal.trigger('success')` on save
 
-### 8. Integration
+### 8. Route File
+- [ ] Create `src/controller/{module}.php`
+- [ ] Define class extending module controller: `class {module} extends {namespace}\controller {}`
+- [ ] Class name must match URL segment
+
+### 9. Integration
 - [ ] Test GET routes (index, edit)
 - [ ] Test POST actions (save, delete, get data)
 - [ ] Test modal create/edit flow
@@ -1380,7 +1462,7 @@ Use this checklist when creating a new module:
 - [ ] Test context menu and row actions
 - [ ] Verify database migrations
 
-### 9. Optional Enhancements
+### 10. Optional Enhancements
 - [ ] Add sorting to matrix view
 - [ ] Add pagination for large datasets
 - [ ] Add export functionality (CSV, PDF)
@@ -1434,6 +1516,40 @@ This creates the basic file structure. You still need to:
 - **Field names**: Lowercase with underscores (e.g., `created_at`, `user_id`)
 - **Standard fields**: `id`, `created`, `updated` (always include)
 
+## Framework Utilities
+
+### Response Class (`bravedave\dvc\Response`)
+
+The `Response` class provides static methods for HTTP responses and redirects.
+
+**Redirect Methods:**
+```php
+use bravedave\dvc\Response;
+
+// Redirect to home page
+Response::redirect();                           // Redirects to /
+Response::redirect(null);                       // Same as above
+Response::redirect('/');                        // Explicit home
+
+// Redirect with flash message (shown after redirect)
+Response::redirect(null, 'user logged out');    // Redirects to / with message
+Response::redirect('/', 'user logged out');     // Same as above
+Response::redirect('/dashboard', 'Welcome!');   // Redirect to specific path with message
+
+// Redirect to specific URL
+Response::redirect('/users');                   // Redirects to /users
+Response::redirect('/module/action/123');       // Redirects to specific route
+```
+
+**When to use Response::redirect():**
+- ✅ Logout actions - redirect user after clearing session
+- ✅ After successful form submission (POST-Redirect-GET pattern)
+- ✅ Access denied - redirect to login or home
+- ✅ After completing a workflow step
+- ❌ AJAX/API endpoints - use `json::ack()` or `json::nak()` instead
+
+**Note:** `Response::redirect()` terminates script execution. Code after the call will not run.
+
 ## Security Best Practices
 
 ### Input Validation
@@ -1486,15 +1602,15 @@ new dtoSet($sql);
 ```php
 // Check user permissions in controller before()
 protected function before() {
-  if (!$this->session->userID) {
-    $this->redirect('/login');
+  if (!currentUser::valid()) {
+    Response::redirect('/login');
   }
   parent::before();
 }
 
 // Check permissions in handler
 public static function entityDelete(ServerRequest $request): json {
-  if (!currentUser()->hasPermission('delete')) {
+  if (!currentUser::isadmin()) {
     return json::nak($request('action'), 'Permission denied');
   }
   // ... proceed with delete
