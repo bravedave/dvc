@@ -176,15 +176,19 @@ final class utility {
     $dir = '.github';
     $prompts = '.github/prompts';
 
-
     // copy in .github/copilot-instructions.md
     $files = [
       $dir . '/copilot-instructions.md' => 'vendor/bravedave/dvc/.github/copilot-instructions.md',
       $prompts . '/implement-delta.prompt.md' => 'vendor/bravedave/dvc/.github/prompts/implement-delta.prompt.md',
+      $prompts . '/implement-rich-workspace.prompt' => 'vendor/bravedave/dvc/.github/prompts/implement-rich-workspace.prompt',
+      $prompts . '/implement-simple-crud.prompt.md' => 'vendor/bravedave/dvc/.github/prompts/implement-simple-crud.prompt.md',
     ];
 
     utility::checkDirectories([$dir, $prompts]);
     utility::checkFiles($files);
+
+    // into the .github/ folder, I want to copy recursively the vendor/bravedave/dvc/.github/examples/ folder
+    utility::copyDirectory('vendor/bravedave/dvc/.github/examples', '.github/examples');
   }
 
   protected static function makeCrudConfig(string $name, array $fields): void {
@@ -1113,6 +1117,53 @@ final class utility {
       if (!is_dir($dir)) {
         mkdir($dir, 0777, true);
         echo "Created directory: $dir\n";
+      }
+    }
+  }
+
+  public static function copyDirectory(string $source, string $destination): void {
+    // normalize paths
+    $source = rtrim($source, "/");
+    $destination = rtrim($destination, "/");
+
+    if (!is_dir($source)) {
+      echo "Source directory not found: $source\n";
+      return;
+    }
+
+    // create destination root if needed
+    if (!is_dir($destination)) {
+      if (!mkdir($destination, 0777, true)) {
+        echo "Failed to create destination directory: $destination\n";
+        return;
+      }
+      echo "Created directory: $destination\n";
+    }
+
+    $it = new RecursiveIteratorIterator(
+      new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),
+      RecursiveIteratorIterator::SELF_FIRST
+    );
+
+    foreach ($it as $item) {
+      $subPath = substr($item->getPathname(), strlen($source) + 1);
+      $targetPath = $destination . '/' . $subPath;
+
+      if ($item->isDir()) {
+        if (!is_dir($targetPath)) {
+          mkdir($targetPath, 0777, true);
+          echo "Created directory: $targetPath\n";
+        }
+      } else {
+        if (!file_exists($targetPath)) {
+          if (copy($item->getPathname(), $targetPath)) {
+            echo "Copied {$item->getPathname()} to $targetPath\n";
+          } else {
+            echo "Failed to copy {$item->getPathname()} to $targetPath\n";
+          }
+        } else {
+          echo "File already exists: $targetPath\n";
+        }
       }
     }
   }
