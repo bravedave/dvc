@@ -33,6 +33,23 @@ src/app/{module-name}/
     └── edit.php                 # Modal form for create/edit
 ```
 
+## Reference Implementation Examples
+
+Complete working examples are available in `.github/examples/`:
+
+- **Simple CRUD Pattern**: `.github/examples/todo/` - Data-centric maintenance interface
+- **Rich CRUD Workbench**: `.github/examples/contacts/` - Workflow-oriented engagement interface
+
+These examples demonstrate:
+- Complete file structure and organization
+- Controller patterns and routing
+- Handler business logic and POST processing
+- DAO/DTO implementation with database schema
+- View templates and JavaScript patterns
+- Best practices and naming conventions
+
+When creating new modules, refer to these examples as authoritative references. See `.github/examples/README.md` for detailed comparison.
+
 ## Route Files (`src/controller/{module}.php`)
 
 **Purpose**: Maps URL segments to module controllers. The framework looks for a class matching the URL segment name.
@@ -942,14 +959,21 @@ use bravedave\dvc\strings;  // Required when using strings:: methods
 - `use bravedave\dvc\currentUser;` - For `currentUser::` methods (if not using `\currentUser::`)
 - `use bravedave\dvc\theme;` - For `theme::modalHeader()` and other theme utilities
 
-**2. Access Controller Data**
+**2. Namespace Views**
+```php
+<?php
+namespace {module}; ?>
+<!-- HTML content -->
+```
+
+**3. Access Controller Data**
 ```php
 $this->title           // Page title
 $this->data->dto       // DTO object
 $this->route           // Controller route
 ```
 
-**3. Generate Unique IDs**
+**4. Generate Unique IDs**
 ```php
 <?php $_uid = strings::rand(); ?>
 <div id="<?= $_uid ?>"></div>
@@ -1394,6 +1418,257 @@ modal.trigger('success');               // Custom event
     - Refreshes table data
     - Shows success notification
 ```
+
+## Controller Patterns: Simple CRUD vs Rich CRUD Workbench
+
+The DVC framework supports two distinct patterns for module controllers, each suited to different use cases and levels of entity complexity.
+
+### Simple CRUD Controller (Data-Centric Pattern)
+
+**Purpose**: Maintenance-focused interface for straightforward Create, Read, Update, Delete operations on a single entity type.
+
+**Use When:**
+- Entity has few fields (3-10)
+- No complex relationships or sub-domains
+- Operations are simple field updates
+- Users perform quick maintenance tasks
+- No need for contextual workflows
+
+**Architecture:**
+- **Matrix View**: Table listing all records with search
+- **Modal Edit**: Inline form overlay for create/update
+- **Direct Actions**: Click row to edit, context menu for delete
+- **Stateless**: Each operation is independent
+
+**Example**: Todo module (`src/app/todo/`)
+
+**Key Files:**
+```
+src/app/todo/
+├── views/
+│   ├── matrix.php    # Table with row click → edit modal
+│   └── edit.php      # Modal form for create/update
+```
+
+**Interaction Flow:**
+```
+1. User views table of records (matrix)
+2. Clicks row → edit modal opens
+3. Updates fields → saves → modal closes
+4. Table refreshes to show changes
+```
+
+**View Pattern (matrix.php):**
+```javascript
+// Row click triggers edit modal
+.on('click', function(e) {
+  e.stopPropagation();
+  $(this).trigger('edit');
+})
+
+// Edit handler opens modal
+const edit = function() {
+  _.get.modal(_.url(`${route}/edit/${this.dataset.id}`))
+    .then(m => m.on('success', e => $(this).trigger('refresh')));
+};
+```
+
+**Characteristics:**
+- Single view context (list)
+- Modal-based editing
+- Field-centric operations
+- Fast data entry
+- Minimal navigation
+
+---
+
+### Rich CRUD Workbench (Domain-Centric Pattern)
+
+**Purpose**: Workflow-oriented interface where users engage deeply with a single record and its related sub-domains, artifacts, and contextual actions.
+
+**Use When:**
+- Entity has complex relationships (invoices, notes, history, attachments)
+- Business processes require multiple related views/actions
+- Users spend extended time working on a single record
+- Context switching between related data is common
+- Task-based workflows are needed
+
+**Architecture:**
+- **Matrix View**: Discovery interface for finding records (shallow context)
+- **Workbench View**: Deep engagement interface for working on a single record
+- **Tab System**: Related sub-domains as tabs (invoices, notes, history, etc.)
+- **Contextual Actions**: Task-based operations specific to the current record
+- **Accordion Toggle**: Switch between discovery (matrix) and engagement (workbench)
+
+**Example**: Contacts module (`src/app/contacts/`)
+
+**Key Files:**
+```
+src/app/contacts/
+├── controller.php
+│   └── view($id)     # Dedicated controller method for workbench view
+├── views/
+│   ├── matrix.php    # Accordion with feed + workbench areas
+│   ├── view.php      # Read-only detail view template (loaded in workbench tab)
+│   └── edit.php      # Modal form (triggered from workbench actions)
+```
+
+**Interaction Flow:**
+```
+1. User views matrix (feed) to discover records
+2. Clicks row → workbench opens, matrix collapses
+3. Workbench loads initial tab with record details (view)
+4. User can:
+   - Add tabs for related data (invoices, notes)
+   - Trigger actions (edit, email, generate report)
+   - Navigate between tabs without leaving record context
+5. Close button returns to matrix (discovery mode)
+```
+
+**View Pattern (matrix.php with accordion):**
+```php
+<div class="accordion" id="<?= $_uidAccordion ?>">
+  <!-- Feed (Matrix) Section -->
+  <div class="accordion-item">
+    <div id="accordion-feed" class="accordion-collapse collapse show">
+      <!-- Table with search and records -->
+    </div>
+  </div>
+
+  <!-- Workbench Section -->
+  <div class="accordion-item">
+    <div id="accordion-workbench" class="accordion-collapse collapse">
+      <nav class="navbar">
+        <div class="navbar-brand">Workbench</div>
+        <button class="btn-close" data-bs-toggle="collapse"
+                data-bs-target="#accordion-feed"></button>
+      </nav>
+      <!-- Dynamic tabs loaded here via _.tabs() -->
+    </div>
+  </div>
+</div>
+```
+
+**JavaScript Viewer Pattern:**
+```javascript
+// Row click triggers workbench with tabs
+.on('click', function(e) {
+  e.stopPropagation();
+  $(this).trigger('view');
+})
+
+// Viewer creates tab system
+const viewer = function(e) {
+  const tabs = _.tabs(workbench);  // Initialize tab system
+  const view = tabs.newTab('view'); // Create initial tab
+
+  // Load view template via AJAX
+  view.pane.on('refresh', e => {
+    _.fetch.get(_.url(`${route}/view/${this.dataset.id}`))
+      .then(html => view.pane.html(html));
+  });
+
+  // Add contextual action buttons
+  const btnEdit = $('<button>edit</button>').appendTo(tabs.nav);
+  btnEdit.on('click', e => {
+    _.get.modal(_.url(`${route}/edit/${this.dataset.id}`))
+      .then(m => m.on('success', e => {
+        view.tab.trigger('show.bs.tab');  // Refresh current tab
+        rowRefresh.call(this, e);         // Update matrix row
+      }));
+  });
+
+  workbench.collapse('show');  // Open workbench, collapse matrix
+  view.tab.tab('show');        // Activate initial tab
+};
+```
+
+**Controller Addition (view method):**
+```php
+public function view($id = 0) {
+  if ($id = (int)$id) {
+    $dao = new dao\contacts;
+    if ($dto = $dao->getByID($id)) {
+      $this->data = (object)[
+        'title' => $this->title = config::label_view,
+        'dto' => $dto
+      ];
+      $this->load('view');  // Load view.php template
+    }
+  }
+}
+```
+
+**Characteristics:**
+- Dual view contexts: discovery (matrix) + engagement (workbench)
+- Tab-based navigation within record context
+- Task-based actions (not just field updates)
+- Related sub-domain views (invoices, notes, history)
+- Dedicated read-only view template
+- Persistent context while working on a record
+
+---
+
+### Pattern Comparison
+
+| Aspect | Simple CRUD | Rich CRUD Workbench |
+|--------|-------------|---------------------|
+| **Focus** | Data maintenance | Business workflows |
+| **View Depth** | Shallow (list only) | Deep (record context + related) |
+| **Edit Mode** | Modal overlay | Modal + workbench tabs |
+| **Navigation** | Linear (list → edit → list) | Contextual (list → workbench → tabs) |
+| **Actions** | Field-based (update, delete) | Task-based (edit, email, report) |
+| **Use Case** | Simple entities | Complex entities with relationships |
+| **View Files** | `matrix.php`, `edit.php` | `matrix.php`, `view.php`, `edit.php` |
+| **Controller** | `_index()`, `edit()` | `_index()`, `view()`, `edit()` |
+| **Row Click** | Opens edit modal | Opens workbench with view tab |
+| **UI Pattern** | Table + modal | Accordion (feed ↔ workbench) |
+
+---
+
+### When to Use Each Pattern
+
+**Choose Simple CRUD when:**
+- Entity is self-contained (no complex relationships)
+- Users perform quick data entry/updates
+- No workflow or process context needed
+- Examples: todos, tags, categories, simple configuration
+
+**Choose Rich CRUD Workbench when:**
+- Entity has related sub-domains (customer → invoices, notes)
+- Users need to work on one record for extended periods
+- Context switching between related data is common
+- Business tasks require multiple views/actions
+- Examples: contacts, projects, orders, cases
+
+---
+
+### Implementation Notes
+
+**Simple CRUD:**
+- Row click: `$(this).trigger('edit')` → opens modal
+- No `view()` controller method needed
+- No `view.php` template needed
+- Matrix is always visible
+
+**Rich CRUD Workbench:**
+- Row click: `$(this).trigger('view')` → opens workbench
+- Requires `view($id)` controller method
+- Requires `view.php` template for tab content
+- Matrix collapses when workbench opens
+- Use `_.tabs(element)` to create dynamic tab system
+- Accordion structure with `data-bs-parent` for mutual exclusivity
+
+**Tab System (_.tabs API):**
+```javascript
+const tabs = _.tabs(containerElement);  // Initialize tab system in element
+const tab = tabs.newTab('tabId');       // Create new tab
+tab.pane                                 // Access tab content pane
+tab.tab                                  // Access tab navigation element
+tabs.nav                                 // Access navigation bar for buttons
+```
+
+---
 
 ## Module Creation Checklist
 
