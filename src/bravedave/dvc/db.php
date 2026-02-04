@@ -1,11 +1,7 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2025 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc;
@@ -96,7 +92,7 @@ class db {
     return ($this->mysqli->affected_rows);
   }
 
-  public function dump() {
+  public function dump() : void {
 
     $sql = sprintf(
       'SELECT table_name FROM information_schema.tables 
@@ -267,8 +263,25 @@ class db {
 
   public function quote(?string $val): string {
 
+    /**
+     * https://mariadb.com/docs/server/reference/sql-structure/sql-language-structure/string-literals
+     * 
+     * String Literals
+     * Strings are sequences of characters and enclosed with quotes.
+     * 
+     * Strings can either be enclosed in single quotes
+     * or in double quotes (the same character must be
+     * used to both open and close the string).
+     * 
+     * The ANSI SQL-standard does not permit double quotes for enclosing strings,
+     * and although MariaDB does by default, if the MariaDB server has enabled
+     * the ANSI_QUOTES_SQL SQL_MODE, double quotes will be treated as being used
+     * for identifiers instead of strings.
+     */
+
     if ('NULL' == $val) return $val;
-    return sprintf('"%s"', $this->escape($val));
+    return sprintf("'%s'", $this->escape($val));  // as of 2026-02-04
+    // return sprintf('"%s"', $this->escape($val));
   }
 
   public function prepare(string $query): mysqli_stmt|bool {
