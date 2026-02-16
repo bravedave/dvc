@@ -1126,7 +1126,7 @@ abstract class strings {
     }
   }
 
-  static public function safe_file_name(string $str): string {
+  static public function safe_file_name(string $str, bool $spaces = true): string {
 
     if ($ext = pathinfo($str, PATHINFO_EXTENSION)) {
 
@@ -1137,6 +1137,10 @@ abstract class strings {
       $str = preg_replace('@\.+@', '.', $str);  // replace multiple periods with a single period
 
       $str = sprintf('%s.%s', preg_replace('@[^0-9a-z\-\_\s\.]@i', '', $str), $ext);
+
+      if (!$spaces) {
+        $str = preg_replace('@\s+@', '_', $str);  // replace spaces with underscores
+      }
 
       return $str;
     } else {
