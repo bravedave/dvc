@@ -49,6 +49,7 @@ class session {
 
     session_cache_expire(config::$SESSION_CACHE_EXPIRE);
     session_start();
+    $this->_session_regenerate();
 
     $this->__session = $_SESSION;
 
@@ -60,12 +61,24 @@ class session {
     if ($this->open) session_write_close();
   }
 
+  protected function _session_regenerate(): void {
+
+    if (!isset($_SESSION['_last_regen'])) {
+      $_SESSION['_last_regen'] = time();
+      session_regenerate_id(true);
+    } elseif (time() - $_SESSION['_last_regen'] > 300) {
+      $_SESSION['_last_regen'] = time();
+      session_regenerate_id(true);
+    }
+  }
+
   protected function _edit() {
 
     if (!$this->open) {
 
       session_cache_expire(config::$SESSION_CACHE_EXPIRE);
       session_start();
+      $this->_session_regenerate();
       $this->open = true;
     }
   }
