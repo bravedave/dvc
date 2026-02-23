@@ -1,16 +1,10 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2025 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc;
-
-use function bravedave\dvc\esc;
 
 use config;
 use DateTime;
@@ -1066,7 +1060,10 @@ abstract class strings {
     return ($prefix . bin2hex(random_bytes(11)));
   }
 
+  #[\Deprecated]
   static public function replaceWordCharacters($text) {
+
+    return normaliseText($text);
 
     // Replaces commonly-used Windows 1252 encoded chars
     // that do not exist in ASCII or ISO-8859-1 with

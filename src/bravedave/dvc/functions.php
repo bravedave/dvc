@@ -1,11 +1,7 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2025 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc;
@@ -28,8 +24,61 @@ function esc(string|null $v): string {
 }
 
 /**
+ * bravedave\dvc\normaliseText
+ *
+ * Normalises Unicode typographic characters to their plain ASCII equivalents.
+ * Use before inserting user-supplied text into PDF templates, plain-text
+ * outputs, or any renderer that cannot reliably handle Unicode typography
+ * (e.g. dompdf with Latin-1 fonts, SMS gateways, legacy email clients).
+ *
+ * Handles:
+ *   - Smart single quotes / apostrophes  U+2018 U+2019 U+201A  →  '
+ *   - Smart double quotes                U+201C U+201D U+201E  →  "
+ *   - En dash                            U+2013                →  -
+ *   - Em dash                            U+2014                →  --
+ *   - Horizontal ellipsis               U+2026                →  ...
+ *   - Non-breaking space                 U+00A0                →  (space)
+ *   - Soft hyphen                        U+00AD                →  (removed)
+ *
+ * @param  string|null $value  Raw input text
+ * @return string              Text safe for ASCII/Latin-1 renderers
+ */
+function normaliseText(string|null $value): string {
+
+  if (!$value) return '';
+
+  $search = [
+    // Smart single quotes and apostrophe (U+2018, U+2019, U+201A)
+    sprintf('@(%s|%s|%s)@u', "\u{2018}", "\u{2019}", "\u{201A}"),
+    // Smart double quotes (U+201C, U+201D, U+201E)
+    sprintf('@(%s|%s|%s)@u', "\u{201C}", "\u{201D}", "\u{201E}"),
+    // Em dash (U+2014) — before en dash so it gets '--' not '- '
+    sprintf('@%s@u', "\u{2014}"),
+    // En dash (U+2013)
+    sprintf('@%s@u', "\u{2013}"),
+    // Horizontal ellipsis (U+2026)
+    sprintf('@%s@u', "\u{2026}"),
+    // Non-breaking space (U+00A0)
+    sprintf('@%s@u', "\u{00A0}"),
+    // Soft hyphen (U+00AD) — invisible, remove entirely
+    sprintf('@%s@u', "\u{00AD}"),
+  ];
+
+  $replace = ["'", '"', '--', '-', '...', ' ', ''];
+
+  return preg_replace($search, $replace, $value);
+}
+
+/**
+ * Alias of normaliseText() for those who prefer American spelling.
+ */
+function normalizeText(string|null $value): string {
+  return normaliseText($value);
+}
+
+/**
  * Convert text to HTML using GitHub Flavored Markdown
- * 
+ *
  * @param string|null $inText The input text to convert
  * @param int $maxrows Maximum number of rows to return (0 = no limit)
  * @return string HTML output
