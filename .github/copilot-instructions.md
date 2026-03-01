@@ -2098,7 +2098,7 @@ public function exportCsv() {
 
 ## Additional Resources
 
-- **DVC Framework Documentation**: `vendor/bravedave/dvc/Readme.md`
+- **DVC Framework Documentation**: `vendor/bravedave/dvc/README.md`
 - **Standards Document**: `vendor/bravedave/dvc/STANDARDS.md`
 - **Todo Module Example**: `src/app/todo/`
 - **CLI Help**: `vendor/bin/dvc --help`

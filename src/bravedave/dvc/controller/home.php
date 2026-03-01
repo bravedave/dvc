@@ -1,16 +1,11 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2025 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc\controller;
 
-use bravedave\dvc\html\a;
 use config, Controller, sys;
 
 class home extends Controller {
@@ -33,7 +28,7 @@ class home extends Controller {
 
     $readme = implode(DIRECTORY_SEPARATOR, [
       dirname(dirname(dirname(dirname(__DIR__)))),
-      'Readme.md'
+      'README.md'
     ]);
 
     $primary = [$readme];

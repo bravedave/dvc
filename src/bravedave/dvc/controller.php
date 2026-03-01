@@ -1,10 +1,7 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
+ * Copyright (c) 2025 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
  *
  * This is the "base controller class". All other "real" controllers extend this class.
 */
@@ -241,12 +238,15 @@ abstract class controller {
       }
     }
 
-    $readme = implode(DIRECTORY_SEPARATOR, [
-      dirname(dirname(dirname(__DIR__))),
-      'Readme.md'
-    ]);
+    $readmes = [
+      implode(DIRECTORY_SEPARATOR, [dirname(static::application()->getRootPath()), 'README.md']),
+      implode(DIRECTORY_SEPARATOR, [dirname(dirname(dirname(__DIR__))), 'README.md'])
+    ];
 
-    if ($viewName == $readme) return $readme;  // one exception
+    // find case insensitive match in the array that matches the view name, if any
+    $match = array_filter($readmes, fn($r) => strcasecmp($r, $viewName) === 0);
+
+    if ($match) return reset($match);  // one exception
 
     if ($logMissingView && 'dvc\_controller/hasView' != logger::traceCaller()) {
 
