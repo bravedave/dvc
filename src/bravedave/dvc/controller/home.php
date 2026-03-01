@@ -58,9 +58,6 @@ class home extends Controller {
 
   public function index($data = '') {
 
-    /*
-			if you set this you will get some stats in the system log
-			about how many loads have occurrered	*/
     parent::index($data);
   }
 }
