@@ -27,9 +27,17 @@ class home extends Controller {
     // just points into the documentation
 
     $readme = implode(DIRECTORY_SEPARATOR, [
-      dirname(dirname(dirname(dirname(__DIR__)))),
+      static::application()->getRootPath(),
       'README.md'
     ]);
+
+    if ( ! file_exists($readme)) {
+
+      $readme = implode(DIRECTORY_SEPARATOR, [
+        dirname(dirname(dirname(dirname(__DIR__)))),
+        'README.md'
+      ]);
+    }
 
     $primary = [$readme];
     $secondary = ['docs/contents'];
