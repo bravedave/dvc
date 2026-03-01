@@ -27,12 +27,11 @@ class home extends Controller {
     // just points into the documentation
 
     $readme = implode(DIRECTORY_SEPARATOR, [
-      static::application()->getRootPath(),
+      dirname(static::application()->getRootPath()),
       'README.md'
     ]);
 
     if ( ! file_exists($readme)) {
-
       $readme = implode(DIRECTORY_SEPARATOR, [
         dirname(dirname(dirname(dirname(__DIR__)))),
         'README.md'
@@ -46,12 +45,6 @@ class home extends Controller {
       $primary[] = 'docs/sample';
       $secondary[] = 'docs/sample-index';
     }
-
-    // $this->render([
-    //   'title' => $this->title,
-    //   'primary' => $primary,
-    //   'secondary' => $secondary
-    // ]);
 
     $this->data = (object)[
       'title' => $this->title = config::$WEBNAME,
