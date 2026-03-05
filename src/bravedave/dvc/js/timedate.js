@@ -120,79 +120,117 @@
 
   }
 
+  /**
+   * Parse a time string or return a time object template.
+   *
+   * Usage:
+   *  - Call `timeHandler()` or `timeHandler('')` to get an empty time object template:
+   *      { Hours, Minutes, Suffix, zHours(), recon(), reconHours(), toSeconds(), toString(bShort) }
+   *  - Call `timeHandler('9:30 am')`, `timeHandler('9.30pm')`, `timeHandler('930p')`, or `timeHandler('21:00')`
+   *    to parse various formats. Suffixes may be 'a', 'am', 'p', 'pm' (case-insensitive).
+   *
+   * Parameters:
+   *  - s: (string|undefined) time string to parse. If omitted or empty, returns the template object.
+   *
+  * Returns:
+  *  - An object with numeric `Days`, `Hours`, `Minutes`, `Suffix` ('am'|'pm') and helper methods:
+   *      - `zHours()` -> 24-hour hour value
+   *      - `recon()` -> normalize minutes >= 60
+   *      - `reconHours()` -> normalize hours > 12 and set Suffix
+   *      - `toSeconds()` -> seconds since midnight
+   *      - `toString(bShort)` -> formatted string (short when truthy)
+   *
+   * Throws:
+   *  - If parsing fails, an exception is thrown with a descriptive message.
+   *
+   * Examples:
+   *  - `timeHandler('8:05p').toString()` -> "8:05 pm"
+   *  - `timeHandler('20').toSeconds()` -> seconds for 20:00
+   */
   window.timeHandler = function (s) {
 
-    let j = {
+    const j = {
+      Days: 0,
       Hours: 0,
       Minutes: 0,
       Suffix: 'am',
       zHours: function () {
-        let i = this.Hours;
-        if (12 == i && 'am' == this.Suffix) {
-          i -= 12;  // 12am is 0 hours, 12pm is 12 hours
+        // return total hours in 24-hour scale including Days
+        let i = Number(this.Hours) || 0;
 
+        if (this.Suffix === 'am' && i === 12) {
+          i = 0; // 12am -> 0
+        } else if (this.Suffix === 'pm' && i !== 12) {
+          i += 12; // pm -> +12 except 12pm
         }
-        else if (12 != i && 'pm' == this.Suffix) {
-          i += 12;
 
-        }
-        return i;
-
+        const days = Number(this.Days) || 0;
+        return i + (days * 24);
       },
 
       recon: function () {
-        if (Number(this.Minutes) >= 60) {
-          this.Hours += 1;
-          this.Minutes -= 60;
+        this.Minutes = Number(this.Minutes) || 0;
+        this.Hours = Number(this.Hours) || 0;
+        this.Days = Number(this.Days) || 0;
 
+        if (this.Minutes >= 60) {
+          const addHours = Math.floor(this.Minutes / 60);
+          this.Hours += addHours;
+          this.Minutes = this.Minutes % 60;
+        }
+
+        if (this.Hours >= 24) {
+          const addDays = Math.floor(this.Hours / 24);
+          this.Days += addDays;
+          this.Hours = this.Hours % 24;
         }
 
         return this;  // chain
-
       },
 
       reconHours: function () {
-        if (this.Hours > 12) {
-          this.Suffix = (this.Hours == 24 ? 'am' : 'pm');
-          this.Hours -= 12;
-
-        }
-        else if (this.Hours == 12) {
+        // compute display hour (1..12) without mutating internal 24-hour Hours
+        const hrs = Number(this.Hours) || 0;
+        if (hrs === 0) {
+          this.Suffix = 'am';
+          this.DisplayHour = 12;
+        } else if (hrs === 12) {
           this.Suffix = 'pm';
-
+          this.DisplayHour = 12;
+        } else if (hrs > 12) {
+          this.Suffix = 'pm';
+          this.DisplayHour = hrs - 12;
+        } else {
+          this.Suffix = 'am';
+          this.DisplayHour = hrs;
         }
 
         return this;  // chain
-
       },
 
       toSeconds: function () {
-        return ((this.zHours() * 60 * 60) + (this.Minutes * 60));
-
+        return ((this.zHours() * 60 * 60) + ((Number(this.Minutes) || 0) * 60));
       },
 
       toString: function (bShort) {
+
         this
           .recon()
           .reconHours();
 
-        let h = String(this.Hours);
+        let h = String(this.DisplayHour !== undefined ? this.DisplayHour : this.Hours);
         let m = String(this.Minutes);
-        if (bShort) {
+        if (!!bShort) {
+
           let r = h;
           if (this.Minutes) r += m.padStart(2, '0');
           r += (/pm/i.test(this.Suffix) ? 'p' : 'a');
-
           return r;
-
         }
-        else {
-          return (h + ':' + m.padStart(2, '0') + ' ' + this.Suffix);
-
-        }
-
+        let base = (h + ':' + m.padStart(2, '0') + ' ' + this.Suffix);
+        if (this.Days) base = ('+' + this.Days + 'd ' + base);
+        return base;
       }
-
     }
 
     if (!s) return j;
@@ -229,31 +267,31 @@
       if (s.indexOf(':') > 0) {
         // hours and minutes
         let a = s.split(':');
-        j.Hours = parseInt(a[0], 10);
-        j.Minutes = parseInt(a[1], 10);
+        j.Hours = Number.parseInt(a[0], 10) || 0;
+        j.Minutes = Number.parseInt(a[1], 10) || 0;
 
       }
       else if (s.indexOf('.') > 0) {
         // hours and minutes
         let a = s.split('.');
-        j.Hours = parseInt(a[0], 10);
-        j.Minutes = parseInt(a[1], 10);
+        j.Hours = Number.parseInt(a[0], 10) || 0;
+        j.Minutes = Number.parseInt(a[1], 10) || 0;
 
       }
       else {
-        j.Hours = parseInt(s, 10);
+        j.Hours = Number.parseInt(s, 10) || 0;
 
       }
 
-      j.reconHours();
+      // normalize minutes->hours->days then compute display hour
+      j.recon().reconHours();
 
     }
     catch (e) {
-      throw ('unable to parse time format : ' + e.description);
 
+      throw ('unable to parse time format : ' + e.description);
     }
 
     return j;
   }
-
 })(_brayworth_);
