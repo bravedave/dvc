@@ -147,6 +147,13 @@
    *  - `timeHandler('8:05p').toString()` -> "8:05 pm"
    *  - `timeHandler('20').toSeconds()` -> seconds for 20:00
    */
+  /**
+   * delta
+   *  test
+   *    x = timeHandler('2pm')
+   *    x.Minutes += 120
+   *    x.toString()  // expected "4:00 pm"
+   */
   window.timeHandler = function (s) {
 
     const j = {
@@ -173,17 +180,30 @@
         this.Hours = Number(this.Hours) || 0;
         this.Days = Number(this.Days) || 0;
 
+        // convert current Hours + Suffix into a 24-hour total
+        let totalHours = this.Hours % 24;
+        if (this.Suffix === 'pm') {
+          if (this.Hours !== 12) totalHours = (this.Hours % 12) + 12;
+        } else {
+          // am
+          if (this.Hours === 12) totalHours = 0;
+        }
+
+        // fold minutes into hours
         if (this.Minutes >= 60) {
           const addHours = Math.floor(this.Minutes / 60);
-          this.Hours += addHours;
+          totalHours += addHours;
           this.Minutes = this.Minutes % 60;
         }
 
-        if (this.Hours >= 24) {
-          const addDays = Math.floor(this.Hours / 24);
+        // fold hours into days
+        if (totalHours >= 24) {
+          const addDays = Math.floor(totalHours / 24);
           this.Days += addDays;
-          this.Hours = this.Hours % 24;
+          totalHours = totalHours % 24;
         }
+
+        this.Hours = totalHours;
 
         return this;  // chain
       },
