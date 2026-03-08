@@ -1,25 +1,84 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2025 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc;
 
 use config;
 
+/**
+ * logger - centralised application logging utility
+ *
+ * All output is routed through PHP's error_log(), so messages appear in the
+ * web-server error log (e.g. Apache/Nginx error log, PHP-FPM log, or stderr
+ * when running the built-in dev server via `vendor/bin/dvc serve`).
+ *
+ * Each message is prefixed with a severity tag so log files can be filtered
+ * easily (e.g. `tail -f error.log | grep dvc.ERROR`).
+ *
+ * --- Log levels / prefixes ---
+ *
+ *   dvc.INFO       General informational messages (default)
+ *   dvc.DEBUG      Verbose debug output (only emitted when config::$LOG_DEBUG is true)
+ *   dvc.ERROR      Errors and exceptions
+ *   dvc.DEPRECATED Calls to deprecated API surface (only when config::$LOG_DEPRECATED is true)
+ *   dvc.SQL        SQL statements (useful for query debugging)
+ *   dvc.TRACE      Full stack-trace output
+ *   dvc.WARN       Non-fatal warnings
+ *
+ * --- Quick-start ---
+ *
+ *   use bravedave\dvc\logger;
+ *
+ *   // simple string
+ *   logger::info('something happened');
+ *
+ *   // array - each element is logged on its own line
+ *   logger::info(['line one', 'line two']);
+ *
+ *   // log a warning
+ *   logger::warn('disk space low');
+ *
+ *   // log an error
+ *   logger::error('could not connect to database');
+ *
+ *   // verbose debug (only fires when config::$LOG_DEBUG === true)
+ *   logger::debug('query took 450 ms');
+ *
+ *   // dump a variable (uses print_r internally)
+ *   logger::dump($myObject);
+ *
+ *   // log a SQL string (normalises whitespace, splits long queries)
+ *   logger::sql($sql);
+ *
+ *   // log a message with a full PHP stack trace
+ *   logger::trace('reached this point');
+ *
+ * --- Configuration (src/app/config.php or equivalent) ---
+ *
+ *   config::$LOG_DEBUG      = true;   // enable dvc.DEBUG messages
+ *   config::$LOG_DEPRECATED = true;   // enable dvc.DEPRECATED messages
+ *
+ * --- Helper methods ---
+ *
+ *   logger::caller()       Returns a "Class::method" string identifying the
+ *                          nearest non-logger frame in the call stack.
+ *                          Useful for annotating custom log messages.
+ *
+ *   logger::traceCaller()  Returns "Class/method" of the method that called
+ *                          the current method (two frames up the stack).
+ */
 abstract class logger {
 
   const prefix = 'dvc.INFO';
   const prefix_debug = 'dvc.DEBUG';
-  const prefix_error = 'dvc.ERRROR';
+  const prefix_error = 'dvc.ERROR';
   const prefix_deprecated = 'dvc.DEPRECATED';
   const prefix_sql = 'dvc.SQL';
   const prefix_trace = 'dvc.TRACE';
+  const prefix_warn = 'dvc.WARN';
 
   public static function caller(array $_ignore = []) {
 
@@ -162,5 +221,10 @@ abstract class logger {
     }
 
     return 'unknown caller';
+  }
+
+  public static function warn(array|string $msg): void {
+
+    self::info($msg, self::prefix_warn);
   }
 }
