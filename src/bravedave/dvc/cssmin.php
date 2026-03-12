@@ -44,14 +44,12 @@ abstract class cssmin {
     $debug = self::$debug;
     //~ $debug = TRUE;
 
-    if (is_null(self::$rootPath)) self::$rootPath = application::app()->getRootPath() . '/app/public/css';
-
-    $outputDIR = $mindir ? sprintf('%s/%s', self::$rootPath, $mindir) : self::$rootPath;
+    $outputDIR = $mindir ? sprintf('%s/%s', config::tempdir(), $mindir) : config::tempdir();
     $output = sprintf('%s/%s', $outputDIR, $cssmin);
 
     if (file_exists(application::app()->getRootPath() . '/app/public/')) {
 
-      if (!(file_exists($outputDIR)) && is_writable(self::$rootPath)) {
+      if (!(file_exists($outputDIR)) && is_writable(config::tempdir())) {
 
         mkdir($outputDIR, 0777, true);
         chmod($outputDIR, 0777);
