@@ -1,11 +1,7 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc\controller;
@@ -20,8 +16,6 @@ use bravedave\dvc\{
   ServerRequest
 };
 
-use sys;
-
 class assets extends Controller {
   protected $RequireValidation = false;
 
@@ -34,7 +28,6 @@ class assets extends Controller {
   }
 
   public function bootstrap($type = 'css', $version = 4) {
-    // logger::info( sprintf('<%s/%s> %s', $type, $version, __METHOD__));
 
     if ('fonts' == $type) {
 
@@ -97,21 +90,8 @@ class assets extends Controller {
       printf('( _ => {%s}) (_brayworth_);', implode($a));
     } else {
 
-      // sys::dump( \jslib::$brayworthlibFiles);
-
-      // $files = [];
-      // foreach (jslib::$brayworthlibFiles as $f) {
-      //   $path = dirname(__DIR__) . DIRECTORY_SEPARATOR . $f;
-      //   // printf( '%s<br />', $path);
-      //   if ($_f = realpath($path)) {
-      //     $key = basename($_f);
-      //     $files[$key] = $_f;
-      //   }
-      // }
       $files = jslib::getLibFiles();
       if ($type == 'bundle') array_unshift($files, resources::jquery4());
-
-      // sys::dump( $files);
 
       jslib::viewjs([
         'debug' => false,
@@ -124,41 +104,17 @@ class assets extends Controller {
 
   public function esse() {
 
-    // logger::info( sprintf('<%s> %s', sprintf('%s/esse/esse.css', dirname(__DIR__)), __METHOD__));
-    // logger::info( sprintf('<%s> %s', application::app()->getInstallPath(), __METHOD__));
-
-    // cssmin::viewcss([
-    //   'debug' => false,
-    //   'libName' => 'home/css/default',
-    //   'cssFiles' => [
-    //     sprintf('%s/esse/esse.css', dirname(__DIR__)),
-    //     sprintf('%s/css/brayworth.context.css', dirname(__DIR__)),
-    //     sprintf('%s/css/brayworth.autoResize.css', dirname(__DIR__)),
-    //     sprintf('%s/css/brayworth.markdown.css', dirname(__DIR__)),
-    //     sprintf('%s/esse/esse.menu.css', dirname(__DIR__)),
-    //     sprintf('%s/esse/esse.markdown.css', dirname(__DIR__)),
-    //   ],
-    //   'libFile' => config::tempdir()  . 'bravedave_dvc_esse.css'
-    // ]);
-
     cssmin::viewcss([
       'debug' => false,
       'libName' => 'home/css/default',
       'cssFiles' => cssmin::esseFiles(),
       'libFile' => config::tempdir()  . 'bravedave_dvc_esse.css'
     ]);
-
-    // logger::info(sprintf('<%s> %s', config::tempdir()  . 'bravedave_dvc_esse.css', __METHOD__));
   }
-
-  // public function fullcalendar($type = 'css') {
-  //   sys::serveFullcalendar($type);
-  // }
 
   public function jquery($version = 3) {
     if ($version >= 4) {
 
-      // Response::serve(dirname(__DIR__) . '/js/jquery-4.0.0-beta.min.js');
       Response::serve(resources::jquery4());
     } elseif ('3.4' == config::$JQUERY_VERSION) {
 
@@ -170,7 +126,6 @@ class assets extends Controller {
   }
 
   public function module($file) {
-    // logger::info( sprintf('<%s> %s', $file, __METHOD__));
 
     if ($file = preg_replace('/[^a-zA-Z0-9\_\-]/', '', $file)) {
 
@@ -185,19 +140,16 @@ class assets extends Controller {
   }
 
   public function quill($type = 'css') {
-    // logger::info( sprintf('<%s/%s> %s', $type, $version, __METHOD__));
 
     Response::serveQuill($type);
   }
 
   public function mermaid($type = 'css') {
-    // logger::info( sprintf('<%s/%s> %s', $type, $version, __METHOD__));
 
     Response::serveMermaid($type);
   }
 
   public function toastui($type = 'css') {
-    // logger::info( sprintf('<%s/%s> %s', $type, $version, __METHOD__));
 
     Response::serveToastUI($type);
   }

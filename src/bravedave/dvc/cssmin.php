@@ -1,10 +1,7 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
  *
  * Creates a min combined file for css
  * - requires a directory to write to
@@ -175,7 +172,6 @@ abstract class cssmin {
       __DIR__ . '/css/brayworth.context.css',
       __DIR__ . '/css/brayworth.autoResize.css',
       __DIR__ . '/css/brayworth.markdown.css',
-      __DIR__ . '/esse/esse.menu.css',
       __DIR__ . '/esse/esse.markdown.css',
     ];
   }

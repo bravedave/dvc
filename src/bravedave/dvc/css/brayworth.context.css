@@ -131,3 +131,83 @@ ul.menu.menu-contextmenu.menu-contextmenu-right>li>ul,
 ul.menu.menu-contextmenu.menu-contextmenu-right>li>*>ul {
 	right: 100%;
 }
+
+@media (min-width: 768px) {
+	.dropdown-with-submenu {
+		position: relative;
+	}
+
+	.dropdown-with-submenu::after {
+		display: block;
+		margin-left: calc(100% - .8em);
+		margin-top: -1.2em;
+		margin-bottom: .7em;
+		content: "";
+		border-top: .3em solid transparent;
+		border-right: 0;
+		border-bottom: .3em solid transparent;
+		border-left: .3em solid;
+	}
+
+	.dropdown-submenu {
+		display: none;
+		position: absolute;
+		left: 100.5%;
+		top: 0;
+		background-color: var(--bs-body-bg);
+		border-radius: .25rem;
+		border: 1px var(--bs-border-color-translucent) solid;
+
+	}
+
+	.dropdown-with-submenu:hover .dropdown-submenu {
+		display: block;
+	}
+}
+
+.dropdown-menu {
+	--dropdown-gutter-width: 2rem;
+	--dropdown-item-padding-left: .325rem;
+	--dropdown-item-padding-right: 1.5rem;
+	--dropdown-icon-left: -1.8rem;
+	--dropdown-icon-right: .8rem;
+	--dropdown-icon-width: 1rem;
+
+	padding: 0;
+}
+
+.dropdown-menu .dropdown-divider {
+	margin: 0;
+}
+
+nav .dropdown-menu .dropdown-header,
+nav .dropdown-menu .dropdown-item {
+	border-left: var(--dropdown-gutter-width) solid var(--bs-border-color-translucent);
+	padding-left: var(--dropdown-item-padding-left);
+	padding-right: var(--dropdown-item-padding-right);
+}
+
+.nav.flex-column {
+	--nav-menu-icon-left: -1.3rem;
+	--nav-menu-icon-right: .25rem;
+	--nav-menu-icon-width: 1rem;
+}
+
+.nav.flex-column>li.nav-item>a>.fa,
+.nav.flex-column>li.nav-item>a>.cms-icon,
+.nav.flex-column>li.nav-item>a>.icon {
+	margin-left: var(--nav-menu-icon-left);
+	margin-right: var(--nav-menu-icon-right);
+	width: var(--nav-menu-icon-width);
+}
+
+.dropdown-item>.bi,
+.dropdown-menu>a>.bi,
+.dropdown-menu .dropdown-submenu>li .fa,
+.dropdown-menu .dropdown-submenu>li .bi,
+ul.dropdown-menu>li>a>.bi,
+ul.dropdown-menu>li>a>.fa:not(.fa-pull-right) {
+	margin-left: var(--dropdown-icon-left);
+	margin-right: var(--dropdown-icon-right);
+	width: var(--dropdown-icon-width);
+}
