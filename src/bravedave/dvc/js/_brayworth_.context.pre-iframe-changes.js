@@ -1,58 +1,14 @@
 /**
+ * David Bray
+ * BrayWorth Pty Ltd
+ * e. david@brayworth.com.au
  *
- * Copyright (c) 2026 David Bray
- * Licensed under the MIT License. See LICENSE file for details.
+ * MIT License
  *
- * Context menu builder for the Brayworth UI helper.
- *
- * What this module does:
- * - creates lightweight context menus (`_.context`)
- * - supports custom menu items and click handlers
- * - keeps menus inside the visible viewport
- * - can render into the current window or a supplied iframe window
- *
- * Signature:
- *   _.context(event, confinedWindow = window)
- *
- * Example: current window
- *   const contextmenu = function (e) {
- *     if (e.shiftKey) return;
- *
- *     const ctx = _.context(e);
- *     ctx.append.a({
- *       html: 'dump',
- *       click: () => console.log(this.dataset)
- *     });
- *
- *     ctx.open(e);
- *   };
- *
- *   $(el).on('contextmenu', contextmenu);
- *
- * Example: iframe object
- *   const iframeEl = document.getElementById('my-iframe');
- *   const iframeWindow = iframeEl?.contentWindow;
- *
- *   $(iframeEl?.contentDocument).on('contextmenu', '.row', function (e) {
- *     if (!iframeWindow || e.shiftKey) return;
- *
- *     const ctx = _.context(e, iframeWindow);
- *     ctx.append.a({
- *       html: 'inspect',
- *       click: () => console.log('iframe row', this.dataset)
- *     });
- *
- *     ctx.open(e);
- *   });
- */
-
+ * */
 (_ => {
 
-  // delta implemented: _.context accepts optional window and cx.open is confined to that window
-  _.context = (e, confinedWindow = window) => {
-
-    const contextWindow = confinedWindow || window;
-    const contextDocument = contextWindow.document;
+  _.context = e => {
 
     _.hideContexts(e);
 
@@ -112,7 +68,7 @@
         const css = {
           position: 'absolute',
           top: 10,
-          left: $(contextDocument).width() - 140,
+          left: $(document).width() - 140,
         };
 
         if (!!e.pageY) { css.top = Math.max(e.pageY + 2, 0); }
@@ -131,14 +87,14 @@
 
         root
           .css(css)
-          .appendTo(contextDocument.body)
+          .appendTo('body')
           .data('hide', 'detach');
 
         let offset = root.offset();
 
-        const wH = $(contextWindow).height();
-        const wW = $(contextWindow).width();
-        const sT = $(contextWindow).scrollTop();
+        const wH = $(window).height();
+        const wW = $(window).width();
+        const sT = $(window).scrollTop();
 
         /* try to keep menu on screen horizontally */
         if (offset.left + root.width() > wW) {
@@ -188,8 +144,8 @@
 
         const root = this.root;
         const offset = root.offset();
-        const wH = $(contextWindow).height();
-        const sT = $(contextWindow).scrollTop();
+        const wH = $(window).height();
+        const sT = $(window).scrollTop();
 
         /* try to keep menu on screen vertically */
         if (offset.top + root.height() > (wH + sT)) {
@@ -214,7 +170,7 @@
 
             }
 
-            $(contextDocument).trigger('hide-contexts');
+            $(document).trigger('hide-contexts');
 
           })
           .on('contextmenu', e => {
@@ -225,7 +181,7 @@
               return;
             }
 
-            $(contextDocument).trigger('hide-contexts');
+            $(document).trigger('hide-contexts');
 
             if (e.shiftKey) return;
 
@@ -250,9 +206,9 @@
               return;
             }
 
-            if (typeof contextWindow.getSelection != "undefined") {
+            if (typeof window.getSelection != "undefined") {
 
-              let sel = contextWindow.getSelection();
+              let sel = window.getSelection();
               if (sel.rangeCount) {
 
                 if (sel.anchorNode.parentNode == e.target) {
@@ -345,7 +301,7 @@
             _el.remove();
           }
         } else {
-
+          
           // dispatch removal event on actual element
           el.dispatchEvent(new CustomEvent('removal'));
           _el.remove();
