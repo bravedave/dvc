@@ -99,18 +99,6 @@ if (!window._brayworth_) {
    */
   _.encodeHTMLEntities = s => s.replace(/[\u00A0-\u9999<>\&"]/g, i => '&#' + i.charCodeAt(0) + ';');
 
-
-  _.hideContexts = e => {
-
-    if (!!e) {
-
-      e.stopPropagation();
-      // e.preventDefault();
-    }
-
-    $(document).trigger('hide-contexts');
-  };
-
   _.bootstrap = {
 
     v4: {

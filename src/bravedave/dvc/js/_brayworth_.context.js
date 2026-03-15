@@ -18,7 +18,7 @@
  *   const contextmenu = function (e) {
  *     if (e.shiftKey) return;
  *
- *     const ctx = _.context(e);
+ *     const ctx = _.context(e); // hides any open contexts and stops bubbling
  *     ctx.append.a({
  *       html: 'dump',
  *       click: () => console.log(this.dataset)
@@ -36,7 +36,7 @@
  *   $(iframeEl?.contentDocument).on('contextmenu', '.row', function (e) {
  *     if (!iframeWindow || e.shiftKey) return;
  *
- *     const ctx = _.context(e, iframeWindow);
+ *     const ctx = _.context(e, iframeWindow); // hides any open contexts and stops bubbling
  *     ctx.append.a({
  *       html: 'inspect',
  *       click: () => console.log('iframe row', this.dataset)
@@ -54,7 +54,7 @@
     const contextWindow = confinedWindow || window;
     const contextDocument = contextWindow.document;
 
-    _.hideContexts(e);
+    _.hideContexts(e, contextWindow);
 
     if (e?.type?.toLowerCase() === 'contextmenu') e.preventDefault();
 
@@ -214,7 +214,7 @@
 
             }
 
-            $(contextDocument).trigger('hide-contexts');
+            hideContexts(e, contextWindow);
 
           })
           .on('contextmenu', e => {
@@ -225,7 +225,7 @@
               return;
             }
 
-            $(contextDocument).trigger('hide-contexts');
+            hideContexts(e, contextWindow);
 
             if (e.shiftKey) return;
 
@@ -273,26 +273,6 @@
       }
     };
 
-    /*
-      ( _ => {
-        $(document)
-          .on( 'contextmenu', function( e) {
-            if ( e.shiftKey) return;
-
-            let ctx = _.context(e); // hides any open contexts and stops bubbling
-            ctx.append.a({
-              html : 'hello',
-              click: e =>  _.ask({text:'hello'})
-            })
-
-            ctx
-              .addClose()
-              .open( e);
-          });
-
-      }) (_brayworth_);
-    */
-
     const _new_element_ = p => {
 
       const o = {
@@ -327,34 +307,51 @@
     return cx;
   };
 
-  $(document)
-    .on('hide-contexts', e => {
+  const hideContexts = function (e, confinedWindow = null) {
 
-      $('[data-role="contextmenu"]').each((i, el) => {
+    const contextDocument =
+      confinedWindow?.document ||
+      (this && this.nodeType === 9 ? this : null) ||
+      e?.target?.ownerDocument ||
+      document;
 
-        let _el = $(el);
-        if (!!_el.data('hide')) {
+    if (!!e) {
 
-          if (_el.data('hide') == 'hide') {
+      e.stopPropagation();
+      // e.preventDefault();
+    }
 
-            _el.addClass(_.bootstrap_version() >= 4 ? 'd-none' : 'hidden');
-          } else {
+    $(contextDocument).find('[data-role="contextmenu"]').each((i, el) => {
 
-            // dispatch removal event on actual element
-            el.dispatchEvent(new CustomEvent('removal'));
-            _el.remove();
-          }
+      let _el = $(el);
+      if (!!_el.data('hide')) {
+
+        if (_el.data('hide') == 'hide') {
+
+          _el.addClass(_.bootstrap_version() >= 4 ? 'd-none' : 'hidden');
         } else {
 
           // dispatch removal event on actual element
           el.dispatchEvent(new CustomEvent('removal'));
           _el.remove();
         }
-      });
-    })
+      } else {
+
+        // dispatch removal event on actual element
+        el.dispatchEvent(new CustomEvent('removal'));
+        _el.remove();
+      }
+    });
+  };
+
+  _.hideContexts = hideContexts;
+
+  // delta implemented: internal hide behavior now calls hideContexts directly with confined window; legacy hide-contexts event retained
+  $(document)
+    .on('hide-contexts', hideContexts)
     .on('keyup.removeContexts', e => {
 
-      if (27 == e.keyCode) $(document).trigger('hide-contexts');
+      if (27 == e.keyCode) hideContexts(e);
     })
     .on('click.removeContexts', e => {
 
@@ -363,7 +360,7 @@
         if (/^(a)$/i.test(e.target.nodeName)) { return; }
       }
 
-      $(document).trigger('hide-contexts');
+      hideContexts(e);
     })
     .on('contextmenu.removeContexts', e => {
 
@@ -372,6 +369,6 @@
         if (/^(a)$/i.test(e.target.nodeName)) { return; }
       }
 
-      $(document).trigger('hide-contexts');
+      hideContexts(e);
     });
 })(_brayworth_);

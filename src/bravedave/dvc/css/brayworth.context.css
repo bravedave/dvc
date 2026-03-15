@@ -1,96 +1,133 @@
 /*
-	David Bray
-	BrayWorth Pty Ltd
-	e. david@brayworth.com.au
-
-	MIT License
-
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 ul.menu {
-	background-color: white;
-  color: #212529;
-  list-style: none;
-  padding: 0;
+	--menu-bg: #fff;
+	--menu-fg: #212529;
+	--menu-hover-bg: #eee;
+	--menu-border: silver;
+	--menu-gutter-color: #f8f8f8;
+	--menu-gutter-width: 2rem;
+	--menu-icon-left: -1.6rem;
+	--menu-icon-right: .6rem;
+	--menu-icon-width: 1rem;
 
+	background-color: var(--menu-bg);
+	color: var(--menu-fg);
+	list-style: none;
+	padding: 0;
 }
 
-ul.menu a { text-decoration: none; }
+ul.menu a {
+	text-decoration: none;
+}
 
-ul.menu ul.menu { z-index: 19; }
-ul.menu ul.menu ul.menu { z-index: 29; }
+ul.menu ul.menu {
+	z-index: 19;
+}
+
+ul.menu ul.menu ul.menu {
+	z-index: 29;
+}
 
 /* 1021 is 1 better than bootstraps nav */
-ul.menu.menu-contextmenu { z-index: 1040; }
+ul.menu.menu-contextmenu {
+	z-index: 1040;
+}
 
-ul.menu.menu-contextmenu > li > a,
-ul.menu.menu-contextmenu ul.menu > li > a,
-ul.menu.menu-contextmenu > li > div,
-ul.menu.menu-contextmenu ul.menu > li > div {
-	border-left: 2rem #f8f8f8 solid;
+ul.menu.menu-contextmenu>li>a,
+ul.menu.menu-contextmenu ul.menu>li>a,
+ul.menu.menu-contextmenu>li>div,
+ul.menu.menu-contextmenu ul.menu>li>div {
+	border-left: var(--menu-gutter-width) solid var(--menu-gutter-color);
 	padding: .325rem 1rem .325rem .325rem;
 	display: block;
 	white-space: nowrap;
+}
+
+ul.menu.menu-contextmenu>li>hr,
+ul.menu.menu-contextmenu ul.menu>li>hr {
+	margin: 0;
+}
+
+ul.menu.menu-contextmenu>li:first-child>a,
+ul.menu.menu-contextmenu ul.menu>li:first-child>a,
+ul.menu.menu-contextmenu>li:first-child>div,
+ul.menu.menu-contextmenu ul.menu>li:first-child>div {
+	padding-top: 4px;
+}
+
+ul.menu.menu-contextmenu>li:last-child>a,
+ul.menu.menu-contextmenu ul.menu>li:last-child>a,
+ul.menu.menu-contextmenu>li:last-child>div,
+ul.menu.menu-contextmenu ul.menu>li:last-child>div {
+	padding-bottom: 4px;
+}
+
+ul.menu.menu-contextmenu>li>*>.fa:not(.fa-pull-right),
+ul.menu.menu-contextmenu ul.menu>li>*>.fa:not(.fa-pull-right),
+ul.menu.menu-contextmenu>li>*>.bi:not(.pull-right),
+ul.menu.menu-contextmenu ul.menu>li>*>.bi:not(.pull-right) {
+	margin-left: var(--menu-icon-left);
+	margin-right: var(--menu-icon-right);
+	width: var(--menu-icon-width);
 
 }
 
-ul.menu.menu-contextmenu > li > hr,
-ul.menu.menu-contextmenu ul.menu > li > hr { margin: 0; }
-
-ul.menu.menu-contextmenu > li:first-child > a,
-ul.menu.menu-contextmenu ul.menu > li:first-child > a,
-ul.menu.menu-contextmenu > li:first-child > div,
-ul.menu.menu-contextmenu ul.menu > li:first-child > div { padding-top: 4px; }
-
-ul.menu.menu-contextmenu > li:last-child > a,
-ul.menu.menu-contextmenu ul.menu > li:last-child > a,
-ul.menu.menu-contextmenu > li:last-child > div,
-ul.menu.menu-contextmenu ul.menu > li:last-child > div { padding-bottom: 4px; }
-
-ul.menu.menu-contextmenu > li > * > .fa:not(.fa-pull-right),
-ul.menu.menu-contextmenu ul.menu > li > * > .fa:not(.fa-pull-right),
-ul.menu.menu-contextmenu > li > * > .bi:not(.pull-right),
-ul.menu.menu-contextmenu ul.menu > li > * > .bi:not(.pull-right) {
-	margin-left: -1.6rem;
-	margin-right: .6rem;
-	width: 1rem;
-
+ul.menu.menu-contextmenu>li>*>.fa.fa-pull-right,
+ul.menu.menu-contextmenu ul.menu>li>*>.fa.fa-pull-right,
+ul.menu.menu-contextmenu>li>*>.bi.pull-right,
+ul.menu.menu-contextmenu ul.menu>li>*>.bi.pull-right {
+	margin-right: -20px;
+	margin-top: 3px;
 }
-
-ul.menu.menu-contextmenu > li > * > .fa.fa-pull-right,
-ul.menu.menu-contextmenu ul.menu > li > * > .fa.fa-pull-right,
-ul.menu.menu-contextmenu > li > * > .bi.pull-right,
-ul.menu.menu-contextmenu ul.menu > li > * > .bi.pull-right { margin-right: -20px; margin-top: 3px; }
 
 ul.menu.menu-contextmenu .pointer:hover,
 ul.menu.menu-contextmenu a:hover {
-  background-color: #eee;
-  text-decoration: none;
+	background-color: var(--menu-hover-bg);
+	text-decoration: none;
 
 }
 
 ul.menu.menu-contextmenu,
 ul.menu.menu-contextmenu .menu {
-	border: 1px solid silver;
+	border: 1px solid var(--menu-border);
 	margin: 0;
 }
+
 /*
  * at the moment this only handles one level of submenu
  * it can be expanded through here
  */
-ul.menu.menu-contextmenu > li:not(:hover) > ul,
-ul.menu.menu-contextmenu > li:not(:hover) > * > ul { display: none; }
+ul.menu.menu-contextmenu>li:not(:hover)>ul,
+ul.menu.menu-contextmenu>li:not(:hover)>*>ul {
+	display: none;
+}
 
-ul.menu.menu-contextmenu > li { position: relative; }
+ul.menu.menu-contextmenu>li {
+	position: relative;
+}
 
-ul:not(.menu-contextmenu-low).menu.menu-contextmenu > li > ul,
-ul:not(.menu-contextmenu-low).menu.menu-contextmenu > li > * > ul { position: absolute; top: 0; }
+ul:not(.menu-contextmenu-low).menu.menu-contextmenu>li>ul,
+ul:not(.menu-contextmenu-low).menu.menu-contextmenu>li>*>ul {
+	position: absolute;
+	top: 0;
+}
 
-ul.menu.menu-contextmenu.menu-contextmenu-low > li > ul,
-ul.menu.menu-contextmenu.menu-contextmenu-low > li > * > ul { position: absolute; bottom: 0; }
+ul.menu.menu-contextmenu.menu-contextmenu-low>li>ul,
+ul.menu.menu-contextmenu.menu-contextmenu-low>li>*>ul {
+	position: absolute;
+	bottom: 0;
+}
 
-ul:not(.menu-contextmenu-right).menu.menu-contextmenu > li > ul,
-ul:not(.menu-contextmenu-right).menu.menu-contextmenu > li > * > ul { left: 100%; }
+ul:not(.menu-contextmenu-right).menu.menu-contextmenu>li>ul,
+ul:not(.menu-contextmenu-right).menu.menu-contextmenu>li>*>ul {
+	left: 100%;
+}
 
-ul.menu.menu-contextmenu.menu-contextmenu-right > li > ul,
-ul.menu.menu-contextmenu.menu-contextmenu-right > li > * > ul { right: 100%; }
+ul.menu.menu-contextmenu.menu-contextmenu-right>li>ul,
+ul.menu.menu-contextmenu.menu-contextmenu-right>li>*>ul {
+	right: 100%;
+}
