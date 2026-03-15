@@ -48,11 +48,52 @@
 
 (_ => {
 
+  const _ensure_context_css = contextDocument => {
+
+    if (!contextDocument || contextDocument === document) return true;
+
+    if (contextDocument.querySelector('link[data-role="brayworth-context-css"]')) return true;
+
+    const href = _.url('assets/esse');
+    const hasEsse = [...contextDocument.querySelectorAll('link[rel="stylesheet"][href]')]
+      .some(link => {
+        const linkHref = link.getAttribute('href') || '';
+        return linkHref === href || linkHref.endsWith('/assets/esse');
+      });
+
+    if (hasEsse) return true;
+
+    const appendLink = head => {
+      if (!head) return false;
+
+      const link = contextDocument.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      link.setAttribute('data-role', 'brayworth-context-css');
+      head.appendChild(link);
+      return true;
+    };
+
+    if (appendLink(contextDocument.head)) return true;
+
+    // Some iframe documents are still bootstrapping and do not expose head yet.
+    const root = contextDocument.documentElement;
+    if (root) {
+      const head = contextDocument.createElement('head');
+      root.insertBefore(head, root.firstChild);
+      return appendLink(head);
+    }
+
+    return false;
+  };
+
   // delta implemented: _.context accepts optional window and cx.open is confined to that window
   _.context = (e, confinedWindow = window) => {
 
     const contextWindow = confinedWindow || window;
     const contextDocument = contextWindow.document;
+
+    _ensure_context_css(contextDocument);
 
     _.hideContexts(e, contextWindow);
 
@@ -108,6 +149,8 @@
       },
 
       open: function (e) {
+
+        _ensure_context_css(contextDocument);
 
         const css = {
           position: 'absolute',
