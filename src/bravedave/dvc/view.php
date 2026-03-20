@@ -1,11 +1,7 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc;
@@ -22,7 +18,7 @@ class view {
   protected $paths = [];
   protected $rootPath = false;
 
-  function __construct($data = null) {
+  function __construct($data = null, array $paths = []) {
 
     if ($app = application::app()) {
 
@@ -40,6 +36,7 @@ class view {
       $this->paths[] = $this->rootPath = __DIR__;
     }
 
+    array_walk($paths, fn($path) => array_unshift($this->paths, $path));
     $this->data = $data;
   }
 
@@ -114,9 +111,13 @@ class view {
 
     $inPath = false;
     foreach ($this->paths as $path) {
+
       if ($path) {
+
         if (substr($name, 0, strlen($path)) === $path) {
+
           if (file_exists($name)) {
+
             $parts = pathinfo($name);
             $this->loadName = $parts['filename'];
             $path = $name;
@@ -125,13 +126,13 @@ class view {
 
             break;
           } elseif (file_exists($name . '.php')) {
+
             $name .= '.php';
             $parts = pathinfo($name);
             $this->loadName = $parts['filename'];
             $path = $name;
             $inPath = true;
             if ($this->debug) logger::debug(sprintf('<%s> : found in path : %s', $name, __METHOD__));
-
             break;
           }
         }
@@ -142,10 +143,22 @@ class view {
 
       if ($this->debug) logger::debug(sprintf('<%s> : NOT in path (%s) : %s', $name, implode(', ', $this->paths), __METHOD__));
       $this->loadName = $name;
+
       $path = sprintf('%s/app/views/%s.php', $this->rootPath, $name);
+      foreach ($this->paths as $p) {
+
+        $test = sprintf('%s/%s.php', $p, $name);
+        if (file_exists($test)) {
+
+          if ($this->debug) logger::debug(sprintf('<%s> : found in app/views : %s', $name, __METHOD__));
+          $path = $test;
+          break;
+        }
+      }
     }
 
     if (file_exists($path)) {
+
       $this
         ->_wrap()
         ->_load($path)
