@@ -645,7 +645,6 @@ abstract class config {
     $defaults = array_filter(
       [
         'assets' => controller\assets::class,
-        'auth' => controller\auth::class,
         'docs' => controller\docs::class,
         'fbauth' => controller\fbauth::class,
         'install' => controller\install::class,
