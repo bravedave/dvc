@@ -265,6 +265,13 @@ abstract class strings {
     return $str;
   }
 
+  static public function deCamelise(string $str): string {
+    // delta implemented: deCamelise now converts camelCase to dashed-case
+    $str = preg_replace('/([A-Z]+)([A-Z][a-z])/', '$1-$2', $str);
+    $str = preg_replace('/([a-z0-9])([A-Z])/', '$1-$2', $str);
+    return strtolower($str);
+  }
+
   /**
    * returns a clean mobile string localised for Australia
    *

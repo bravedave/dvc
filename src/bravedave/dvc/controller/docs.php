@@ -57,76 +57,80 @@ class docs extends Controller {
 
     if (!$fileName) $fileName = $view;
 
-    if (preg_match('@\.(png|jpg|svg)$@', $view) && $_img = $this->_hasImage($view)) {
+    if (preg_match('@\.(png|jpg|svg)$@', $view)) {
 
-      Response::serve($_img);
-    } else {
+      $_img = strings::deCamelise($view);
+      if ($_img = $this->_hasImage($_img)) {
 
-      $contents = ['contents'];
-      if ($this->hasView($_c = sprintf('%s-contents', $fileName))) {
-
-        $contents = [$_c];
-      } else if (strpos($fileName, '-') !== false) {
-
-        if ($this->hasView($_c = sprintf('%s-contents', preg_replace('/-.*/', '', $fileName)))) {
-          $contents = [$_c];
-        }
+        Response::serve($_img);
+        return;
       }
-
-      $primary = [(string)$view];
-      if ('icons' == $view) {
-        $primary[] = 'icons-code';
-        $primary[] = 'icons-credit';
-      }
-      $primary[] = 'docs-format';
-
-      /**
-       * editing is not enabled by default
-       * to enable editing, set $this->enable_editing = true;
-       * and provide a postHandler that can save the file
-       */
-      if ($this->enable_editing) {
-
-        $primary[] = 'docs-edit';
-        $this->viewPath[] = $p = implode(DIRECTORY_SEPARATOR, [config::$SYSTEM_VIEWS, 'docs']);
-        $this->_viewPathsVerified = []; // reset
-      }
-
-      $this->data = (object)[
-        'title' => $this->title = sprintf('Docs - %s', ucwords($view)),
-        'pageUrl' => strings::url(rtrim($this->route, '/') . '/' . ($view == 'index.md' ? '' : $view)),
-        'searchFocus' => true,
-        'file' => (string)$fileName,
-        'new' => $this->enable_editing
-          ? 'new-file' == $view
-          : false,
-      ];
-
-      $primary[] = 'mermaid';
-
-      $render = [
-        'meta' => [
-          sprintf('<base href="%s" />', strings::url('docs/'))
-        ],
-        'main' => fn() => array_walk($primary, fn($_) => $this->load($_, null, ['html_input' => 'allow'])),
-        'aside' => fn() => array_walk($contents, fn($_) => $this->load($_, null, ['html_input' => 'allow'])),
-      ];
-
-      if (config::$DOCS_SYNTAX_HIGHLIGHT) {
-
-        // '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">'
-        $render['css'] = [
-          '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-gist.min.css">'
-        ];
-
-        $render['scripts'] = [
-          '<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>',
-          '<script>hljs.highlightAll();</script>'
-        ];
-      }
-
-      $this->renderBS5($render);
     }
+
+    $contents = ['contents'];
+    if ($this->hasView($_c = sprintf('%s-contents', $fileName))) {
+
+      $contents = [$_c];
+    } else if (strpos($fileName, '-') !== false) {
+
+      if ($this->hasView($_c = sprintf('%s-contents', preg_replace('/-.*/', '', $fileName)))) {
+        $contents = [$_c];
+      }
+    }
+
+    $primary = [(string)$view];
+    if ('icons' == $view) {
+      $primary[] = 'icons-code';
+      $primary[] = 'icons-credit';
+    }
+    $primary[] = 'docs-format';
+
+    /**
+     * editing is not enabled by default
+     * to enable editing, set $this->enable_editing = true;
+     * and provide a postHandler that can save the file
+     */
+    if ($this->enable_editing) {
+
+      $primary[] = 'docs-edit';
+      $this->viewPath[] = $p = implode(DIRECTORY_SEPARATOR, [config::$SYSTEM_VIEWS, 'docs']);
+      $this->_viewPathsVerified = []; // reset
+    }
+
+    $this->data = (object)[
+      'title' => $this->title = sprintf('Docs - %s', ucwords($view)),
+      'pageUrl' => strings::url(rtrim($this->route, '/') . '/' . ($view == 'index.md' ? '' : $view)),
+      'searchFocus' => true,
+      'file' => (string)$fileName,
+      'new' => $this->enable_editing
+        ? 'new-file' == $view
+        : false,
+    ];
+
+    $primary[] = 'mermaid';
+
+    $render = [
+      'meta' => [
+        sprintf('<base href="%s" />', strings::url('docs/'))
+      ],
+      'main' => fn() => array_walk($primary, fn($_) => $this->load($_, null, ['html_input' => 'allow'])),
+      'aside' => fn() => array_walk($contents, fn($_) => $this->load($_, null, ['html_input' => 'allow'])),
+    ];
+
+    if (config::$DOCS_SYNTAX_HIGHLIGHT) {
+
+      // '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">'
+      $render['css'] = [
+        '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-gist.min.css">'
+      ];
+
+      $render['scripts'] = [
+        '<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>',
+        '<script>hljs.highlightAll();</script>'
+      ];
+    }
+
+    $this->renderBS5($render);
   }
 
   protected function before() {
