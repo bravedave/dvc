@@ -17,5 +17,6 @@ class auth extends Controller {
   protected function before() {
 
     logger::info(sprintf('<honeytrap %s> %s', Request::get()->getRemoteIP(), logger::caller()));
+    parent::before();
   }
 }
