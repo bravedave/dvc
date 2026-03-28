@@ -1,0 +1,84 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Clone repository
+        run: |
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git .
+          git checkout ${{ github.event.repository.default_branch }}
+      
+      - name: Get current version and calculate new version
+        id: version
+        run: |
+          if [ -f version.json ]; then
+            CURRENT=$(jq -r '.version' version.json | sed 's/^v//')
+          else
+            CURRENT="0.0.0"
+          fi
+          
+          IFS='.' read -r -a parts <<< "$CURRENT"
+          major="${parts[0]:-0}"
+          minor="${parts[1]:-0}"
+          patch="${parts[2]:-0}"
+          
+          case "${{ inputs.version_bump }}" in
+            major)
+              major=$((major + 1))
+              minor=0
+              patch=0
+              ;;
+            minor)
+              minor=$((minor + 1))
+              patch=0
+              ;;
+            patch)
+              patch=$((patch + 1))
+              ;;
+          esac
+          
+          NEW_VERSION="${major}.${minor}.${patch}"
+          echo "current=$CURRENT" >> $GITHUB_OUTPUT
+          echo "new=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v${NEW_VERSION}" >> $GITHUB_OUTPUT
+      
+      - name: Update version.json
+        run: |
+          echo '{
+            "version": "${{ steps.version.outputs.tag }}",
+            "updated_at": "'$(date -u +"%Y-%m-%dT%H:%M:%SZ")'",
+            "commit": "${{ github.sha }}"
+          }' > version.json
+      
+      - name: Commit and push version.json
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add version.json
+          git commit -m "Bump version to ${{ steps.version.outputs.tag }}"
+          git push
+      
+      - name: Create GitHub Release
+        run: |
+          gh release create ${{ steps.version.outputs.tag }} \
+            --title "Release ${{ steps.version.outputs.tag }}" \
+            --generate-notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
