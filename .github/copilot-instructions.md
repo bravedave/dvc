@@ -4,6 +4,14 @@
 
 This project uses the **BraveDave DVC Framework**, a lightweight PHP MVC framework with modular architecture. All modules follow a consistent pattern for controllers, data access objects (DAO), data transfer objects (DTO), handlers, and views.
 
+## AI Navigation
+
+Use these files as the top-level map for AI-enabled workflows in this repository:
+
+- `AI-CODING-INDEX.md` - canonical index of prompts, skills, agents, and standards
+- `AI-README.md` - practical workflow guide for planning, implementing, and documenting changes with AI
+- `.github/prompts/api-contract-maintenance.standard.md` - required API parity rules when `postHandler()` actions change
+
 **Key Principles:**
 - **Modular Architecture**: Each feature is a self-contained module with its own namespace
 - **DAO/DTO Pattern**: All data handling must go through Data Access Objects and Data Transfer Objects

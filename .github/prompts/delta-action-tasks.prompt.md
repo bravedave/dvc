@@ -174,6 +174,21 @@ If no README exists and the changes are significant, create one using the module
 
 ---
 
+## Step 6.1 – Maintain API Contract Parity
+
+If your delta changes introduce, remove, rename, or alter any `postHandler()` action, you must update the module API contract file in the same change.
+
+- API contract path: `src/app/{module}/{module}.api.md`
+- Route source for examples: `src/controller/{module}.php`
+- Ensure every live `postHandler()` action is documented
+- Remove stale actions that no longer exist
+- Keep request fields and example payloads consistent with handler inputs
+- Include practical `curl` examples for real actions
+
+If the API contract file does not exist and API actions are present, create it.
+
+---
+
 ## Step 7 – Verify
 
 Run through this checklist before considering the delta complete:
@@ -192,6 +207,12 @@ Run through this checklist before considering the delta complete:
 - [ ] Handler methods are `public static` returning `json`
 - [ ] All user input is type-cast
 - [ ] `postHandler()` match expression updated if new actions added
+
+### API Contract
+- [ ] `src/app/{module}/{module}.api.md` created or updated when API actions changed
+- [ ] API action list matches `postHandler()` exactly (no missing or stale actions)
+- [ ] Example routes align with `src/controller/{module}.php`
+- [ ] Example request fields match handler inputs
 
 ### Views / JavaScript
 - [ ] New columns/fields displayed where required
