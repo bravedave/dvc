@@ -76,7 +76,7 @@
       })
         .then(response => {
 
-          if (!response.ok) throw new Error('Network Error');
+          if (!response.ok) throw new Error(`Network Error on ${url}`);
           return response.json();
         })
         .then(data => resolve(data))
