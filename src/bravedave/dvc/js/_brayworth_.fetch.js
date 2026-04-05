@@ -76,7 +76,10 @@
       })
         .then(response => {
 
-          if (!response.ok) throw new Error(`Network Error on ${url}`);
+          if (!response.ok) {
+            console.warn(data);
+            throw new Error(`Network Error on ${url}`);
+          }
           return response.json();
         })
         .then(data => resolve(data))
