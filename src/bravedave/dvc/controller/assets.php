@@ -134,6 +134,11 @@ class assets extends Controller {
     }
   }
 
+  public function papaparse() {
+
+    Response::serve(dirname(__DIR__) . '/js/papaparse.min.js');
+  }
+
   public function pdflib() {
 
     Response::serve(dirname(__DIR__) . '/js/pdf-lib.min.js');

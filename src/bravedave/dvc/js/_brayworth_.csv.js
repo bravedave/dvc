@@ -1,91 +1,157 @@
-/*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
+/**
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
  *
- * MIT License
- *
+ * Robust CSV export using Papa Parse for RFC 4180 compliance
  * test: _brayworth_.csv.call( <a table>, 'filename.csv');
 */
 
 (_ => {
 
-	_brayworth_.csv = function (fileName) {
+	_.csv = function (fileName) {
 
-		if (!this.tagName) throw 'Not a table';
-		if (!/table/i.test(this.tagName)) throw 'Not a table (tagName)';
+		if (!this.tagName) throw 'Error: Not a valid table element';
+		if (!/table/i.test(this.tagName)) throw 'Error: Invalid table element (tagName mismatch)';
 
 		const table = $(this);
-
 		let data = [];
 
-		let r = table.find('thead > tr').last();
-		if (r.length > 0) {
-
-			let a = [];
-			r.find('> td').each((i, el) => {
-				let s = String($(el).text()).trim()
-				if ( '' == s) s = $(el).attr('title');
-				a.push(s);
+		// Extract header row (handles both <th> and <td>)
+		let headerRow = table.find('thead > tr').last();
+		if (headerRow.length > 0) {
+			let headerCells = [];
+			headerRow.find('> th, > td').each((i, el) => {
+				let text = String($(el).text()).trim();
+				if (text === '') text = $(el).attr('title') || '';
+				headerCells.push(text);
 			});
-			data.push(a);
+			if (headerCells.length > 0) {
+				data.push(headerCells);
+			}
 		}
 
+		// Extract data rows (skip hidden rows)
 		table.find('tbody > tr:not(.d-none)').each((i, tr) => {
-
-			let a = [];
+			let rowCells = [];
 			$('> td', tr).each((i, el) => {
+				let value = $(el).text();
 
-				let s = $(el).text();
-
-				if (i == 0) {
-
-					let els = $('img', el);
-					if (els.length > 0) s = els.first().attr('title');
+				// Special handling for first column: use image title if available
+				if (i === 0) {
+					let imgElement = $('img', el);
+					if (imgElement.length > 0) {
+						value = imgElement.first().attr('title') || value;
+					}
 				}
 
-				if (undefined == s) s = '';
-				s = String(s).replace(/"/g, '""'); // escape double quotes;
-				if (/(,|\n|')/g.test(s)) s = '"' + s.trim() + '"';	// add quotes if contains a comma
-				a.push(s.trim());
+				// Trim but preserve falsy values (0, false, null, empty string)
+				value = String(value || '').trim();
+
+				rowCells.push(value);
 			});
-			data.push(a);
+			if (rowCells.length > 0) {
+				data.push(rowCells);
+			}
 		});
 
-		return csvData(data, fileName);
+		// Use Papa Parse if available, otherwise fallback to manual CSV generation
+		if ('undefined' !== typeof window.Papa) {
+			csvDataWithPapa(data, fileName);
+		} else {
+			csvDataFallback(data, fileName);
+		}
 	};
 
-	const csvData = (data, fileName) => {
+	// Primary method: Use Papa Parse (RFC 4180 compliant, robust)
+	const csvDataWithPapa = (data, fileName) => {
 
-		//~ console.log( data);
+		if (!data || data.length === 0) {
+			console.warn('CSV export: no data to export');
+			return;
+		}
 
-		let csvContent = '';	// data:text/csv;charset=utf-8;
-		data.forEach((a, i) => {
-			// let dataString = JSON.stringify(a);
-			let dataString = String(a);
-			dataString = dataString.replace(/(^\[|\]$)/g, '');	// remove enclosing []
-			csvContent += i < data.length ? dataString + "\n" : dataString;
+		try {
+			// Papa.unparse handles all CSV escaping correctly
+			let csvContent = window.Papa.unparse(data, {
+				header: false,
+				dynamicTyping: false,
+				skipEmptyLines: false
+			});
+
+			downloadBlob(csvContent, fileName);
+		} catch (e) {
+			console.error('Papa Parse error:', e);
+			// Fallback to manual method
+			csvDataFallback(data, fileName);
+		}
+	};
+
+	// Fallback method: Manual CSV generation if Papa Parse not loaded
+	const csvDataFallback = (data, fileName) => {
+
+		if (!data || data.length === 0) {
+			console.warn('CSV export: no data to export');
+			return;
+		}
+
+		let csvContent = '';
+		data.forEach((row, index) => {
+			let rowString = row.map(cell => {
+				// Ensure string value
+				let value = String(cell || '').trim();
+
+				// CSV escape: quote if contains special chars, escape internal quotes
+				if (/"/.test(value) || /[,\n\r]/.test(value)) {
+					value = '"' + value.replace(/"/g, '""') + '"';
+				}
+
+				return value;
+			}).join(',');
+
+			csvContent += rowString + (index < data.length - 1 ? '\n' : '');
 		});
 
-		let blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
-		((blob) => {
+		downloadBlob(csvContent, fileName);
+	};
 
-			let href = URL.createObjectURL(blob);
-			let a = document.createElement('a');
-			a.setAttribute('href', href);
-			a.setAttribute('download', !!fileName ? fileName : 'data.csv');
-			document.body.appendChild(a); // Required for FF
+	// Helper: Create blob and trigger download
+	const downloadBlob = (csvContent, fileName) => {
 
-			a.click(); // This will download the data file named "my_data.csv".
+		let blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+		let blobUrl = URL.createObjectURL(blob);
+		let link = document.createElement('a');
 
-			URL.revokeObjectURL(a.href);
-			a.remove();
-		})(blob);
+		link.setAttribute('href', blobUrl);
+		link.setAttribute('download', fileName || 'export.csv');
+		document.body.appendChild(link);
+		link.click();
 
-		return blob.text();
-	}
+		// Cleanup
+		document.body.removeChild(link);
+		URL.revokeObjectURL(blobUrl);
+	};
 
-	$.fn.downloadCSV = function(filename) {
+	// Async loader for Papa Parse (lazy-loads if not present)
+	_.csv.papaparse = () => {
+		const papaURL = _.url("assets/papaparse/");
+
+		return 'undefined' === typeof window.Papa ?
+			new Promise(resolve => {
+				_.get.script(papaURL)
+					.then(() => {
+						resolve(window.Papa);
+					});
+			}) :
+			Promise.resolve(window.Papa);
+	};
+
+	// jQuery plugin for convenience
+	$.fn.downloadCSV = function (filename) {
+		if (this.length === 0) {
+			console.error('downloadCSV: no table element found');
+			return this;
+		}
 		_.csv.call(this[0], filename);
+		return this;  // Allow chaining
 	};
 })(_brayworth_);
