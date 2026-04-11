@@ -39,6 +39,23 @@
         return this; // chain
       },
 
+      div: function (v) {
+
+        let divisor = Number(v);
+        if (0 === divisor) {
+          throw new Error('Division by zero');
+        }
+
+        this._value = parseInt((((this._value / this.scale) / divisor) * this.scale).toPrecision(15));
+        return this; // chain
+      },
+
+      mul: function (v) {
+
+        this._value = parseInt((((this._value / this.scale) * Number(v)) * this.scale).toPrecision(15));
+        return this; // chain
+      },
+
       asLocaleCurrency: function (fractions) {
 
         return _.asLocaleCurrency(this.value(), fractions);
