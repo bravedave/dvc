@@ -85,7 +85,7 @@
       // check that the dialog fits on screen
       const h = $('.modal-body', this).height();
       const ftr = $('.modal-footer', this);
-      
+
       let mh = $(window).height() * 0.9;
       if (ftr.length > 0) mh -= ftr.height();
 
@@ -213,7 +213,10 @@
 
     // console.log(options, this);
     m.data('modal', m);
+    m.on('hidden.bs.modal', e => m.remove());
+
     m.modal('show');
+
     return m;
   };
 
