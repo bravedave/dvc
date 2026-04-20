@@ -88,7 +88,7 @@
 
         order = (key == tbody.dataset.orderkey) ?
           ('desc' == tbody.dataset.order) ? 'asc' : 'desc' :
-          order = 'desc';
+          'asc';
       }
 
       tbody.dataset.order = order;
@@ -98,16 +98,15 @@
 
       // https://stackoverflow.com/questions/282670/easiest-way-to-sort-dom-nodes
       // console.log('JQuery4 compatible sorting ..');
-      const newOrder = [...tbody.children]
-        .sort((a, b) => {
+      const newOrder = [...tbody.children].sort((a, b) => {
 
-          let ae = a.dataset[key];
-          let be = b.dataset[key];
+        let ae = a.dataset[key];
+        let be = b.dataset[key];
 
-          if (debug) console.log(key, ae, be, sorttype, order);
-          if (sorttype == 'numeric') return Number(ae ?? 0) - Number(be ?? 0);
-          return String(ae ?? '').toUpperCase().localeCompare(String(be ?? '').toUpperCase());
-        });
+        if (debug) console.log(key, ae, be, sorttype, order);
+        if (sorttype == 'numeric') return Number(ae ?? 0) - Number(be ?? 0);
+        return String(ae ?? '').toUpperCase().localeCompare(String(be ?? '').toUpperCase());
+      });
 
       if (order == 'desc') newOrder.reverse();
       newOrder.forEach(node => tbody.appendChild(node));
@@ -190,7 +189,7 @@
               /**
                * --- ------------------------------------------ ---
                * the string might look like "chris young"
-               * so 
+               * so
                * - if the string has a space,
                * - split the string on spaces
                * - and create a the reflects an and statement
