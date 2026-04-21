@@ -133,7 +133,7 @@ abstract class config {
   // static $JQUERY_VERSION = '3.4';
   static $JQUERY_VERSION = '';
 
-  static $LOCALE = 'en_AU';
+  static $LOCALE = 'en-AU';
   static $LOG_DEBUG = true;
   static $LOG_DEPRECATED = false;
 
