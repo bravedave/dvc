@@ -76,6 +76,7 @@ class assets extends Controller {
 
       $a = [
         sprintf('_.timezone = "%s";', config::$TIMEZONE,),
+        sprintf('_.locale = "%s";', config::$LOCALE,),
 
         '_.urlwrite = _.url = ( _url, withProtocol) => {',
 

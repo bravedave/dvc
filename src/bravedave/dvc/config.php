@@ -1,10 +1,7 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
  *
  * TODO: \config:: should be replace with static::
  *  => https://www.php.net/manual/en/language.oop5.late-static-bindings.php
@@ -433,6 +430,7 @@ abstract class config {
           'support_email' => static::$SUPPORT_EMAIL,
           'telegram_api_key' => static::$TELEGRAM_API_KEY,
           'telegram_chat_id' => static::$TELEGRAM_CHAT_ID,
+          'locale' => static::$LOCALE,
           'timezone' => static::$TIMEZONE,
           'theme' => static::$THEME,
           'umask' => static::$UMASK,
@@ -473,6 +471,7 @@ abstract class config {
 
         static::$TELEGRAM_API_KEY = $a->telegram_api_key;
         static::$TELEGRAM_CHAT_ID = $a->telegram_chat_id;
+        static::$LOCALE = $a->locale;
         static::$TIMEZONE = $a->timezone;
         static::$THEME = $a->theme;
 
@@ -507,6 +506,7 @@ abstract class config {
             'docs_syntax_highlight' => static::$DOCS_SYNTAX_HIGHLIGHT,
             'telegram_api_key' => static::$TELEGRAM_API_KEY,
             'telegram_chat_id' => static::$TELEGRAM_CHAT_ID,
+            'locale' => static::$LOCALE,
             'timezone' => static::$TIMEZONE,
             'theme' => static::$THEME,
             'support_name' => static::$SUPPORT_NAME,

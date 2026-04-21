@@ -1,11 +1,7 @@
 /**
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
- * */
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
+ **/
 
 if (!window._brayworth_) {
 
@@ -48,6 +44,7 @@ if (!window._brayworth_) {
 
 (_ => {
   _.version = 1.0;
+  _.locale = 'en-AU'
   _._brayworth_ = true;
   _.currentUser = false;
   _.debug = false;
@@ -61,32 +58,34 @@ if (!window._brayworth_) {
     return '';
   };
 
-  _.asLocaleNumber = (n, fractions = 2, parenthesesForNegative = false) => {
+  _.asLocaleNumber = (n, fractions = 2, parenthesesForNegative = false, locale = null) => {
 
     if (n == 0) n = 0;  // -0 also == 0, but prints -0
+    if ( !locale) locale = _.locale;
 
     if (parenthesesForNegative && n < 0) {
 
-      const formatted = Number(Math.abs(n)).toLocaleString(navigator.language, {
+      const formatted = Number(Math.abs(n)).toLocaleString(locale, {
         minimumFractionDigits: fractions,
         maximumFractionDigits: fractions
       });
       return `(${formatted})`;
     }
 
-    return Number(n).toLocaleString(navigator.language, {
+    return Number(n).toLocaleString(locale, {
       minimumFractionDigits: fractions,
       maximumFractionDigits: fractions
     });
   };
 
-  _.asLocaleCurrency = (n, fractions = 2) => {
+  _.asLocaleCurrency = (n, fractions = 2, locale = null, currency = "AUD") => {
 
     if (n == 0) n = 0;  // -0 also == 0, but prints -0
+    if ( !locale) locale = _.locale;
 
-    return Number(n).toLocaleString(navigator.language, {
+    return Number(n).toLocaleString(locale, {
       style: "currency",
-      currency: "AUD"
+      currency: currency
     });
   };
 
