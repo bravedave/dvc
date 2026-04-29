@@ -8,9 +8,12 @@ This project uses the **BraveDave DVC Framework**, a lightweight PHP MVC framewo
 
 Use these files as the top-level map for AI-enabled workflows in this repository:
 
-- `AI-CODING-INDEX.md` - canonical index of prompts, skills, agents, and standards
-- `AI-README.md` - practical workflow guide for planning, implementing, and documenting changes with AI
+- `.github/AI-CODING-INDEX.md` - canonical index of prompts, skills, agents, and standards
+- `.github/README.md` - practical workflow guide and governance conventions for AI workflows
 - `.github/prompts/api-contract-maintenance.standard.md` - required API parity rules when `postHandler()` actions change
+
+Contextual governance convention:
+- `README.md` in any folder is authoritative for that folder and should always be read for context before making changes there.
 
 **Key Principles:**
 - **Modular Architecture**: Each feature is a self-contained module with its own namespace
@@ -418,6 +421,12 @@ return json::ack($action);              // Success without data
 return json::ack($action, $data);       // Success with data payload
 return json::nak($action);              // Failure/error
 return json::nak($action, $message);    // Failure with custom message
+
+// Returning a DTO - use second parameter so payload is in d.data
+return json::ack($action, ['dto' => $dto]);
+
+// Top-level keys via ->add() are intentional when callers expect d.id, d.name, etc.
+return json::ack($action)->add('id', $id);
 ```
 
 **JSON Response Format:**
@@ -428,6 +437,8 @@ return json::nak($action, $message);    // Failure with custom message
   "data": {}                     // optional payload (only with ack)
 }
 ```
+
+Both `ack` and `nak` place the second parameter into `data`.
 
 **JavaScript Handling:**
 ```javascript
@@ -445,6 +456,31 @@ _.fetch.post(_.url('route'), { action: 'save' })
     }
     _.growl(d);         // Always show notification
   });
+```
+
+**Growl-facing Error Text Rule**
+- If the client path calls `_.growl(response)`, put user-facing error text in the first `json::nak()` argument.
+
+```php
+// Preferred when growl is used directly
+return json::nak('A human readable error message');
+
+// Often less useful for growl-only paths because it surfaces the action text
+return json::nak($action, 'A human readable error message');
+```
+
+**Client-side vs Server-side Validation Feedback**
+- Use Bootstrap validation UI for client-side required-field guards before posting.
+- Use `_.growl()` for server responses (`json::ack` / `json::nak`).
+
+```javascript
+if (!field.val()) {
+  field.closest('.js-field-wrap').addClass('was-validated');
+  field.trigger('focus');
+  return; // Do not post
+}
+
+field.closest('.js-field-wrap').removeClass('was-validated');
 ```
 
 **6. DAO Instantiation**
@@ -1286,8 +1322,9 @@ use bravedave\dvc\{strings, theme};
 **3. Framework JavaScript Methods**
 ```javascript
 _.url('path')                           // Generate URL
-_.fetch.post(url, data)                 // POST request
-_.fetch.post.form(url, formElement)     // POST form data
+_.fetch.post(url, data)                 // POST JSON data
+_.fetch.post.form(url, formElement)     // POST form data (x-www-form-urlencoded)
+_.fetch.post.form(url, formElement, 'multipart/form-data') // POST multipart data
 _.get.modal(url)                        // Load modal via GET
 _.growl(d)                              // Show notification
 _.ask.alert.confirm({title, text})      // Confirmation dialog
@@ -1296,7 +1333,12 @@ _.hideContexts(e)                       // Hide context menus
 _.context(e)                            // Create context menu
 _.sanitize(str)                         // Escape HTML for XSS prevention
 _.esc(str)                              // Escape HTML for XSS prevention
+_.table.search(search, table)           // Framework table search helper
+_.asLocaleDate(value)                   // Locale-aware date formatter
+_.randomString()                        // Client-side unique ID generator
 ```
+
+`_.rand()` does not exist. Use `_.randomString()` for client-side unique IDs.
 
 **4. Bootstrap 5 Modals**
 ```javascript
