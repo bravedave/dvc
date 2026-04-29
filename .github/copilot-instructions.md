@@ -9,11 +9,12 @@ This project uses the **BraveDave DVC Framework**, a lightweight PHP MVC framewo
 Use these files as the top-level map for AI-enabled workflows in this repository:
 
 - `.github/AI-CODING-INDEX.md` - canonical index of prompts, skills, agents, and standards
-- `.github/README.md` - practical workflow guide and governance conventions for AI workflows
+- `.github/AI-README.md` - practical workflow guide and governance conventions for AI workflows
 - `.github/prompts/api-contract-maintenance.standard.md` - required API parity rules when `postHandler()` actions change
 
 Contextual governance convention:
 - `README.md` in any folder is authoritative for that folder and should always be read for context before making changes there.
+- Exception: in `.github/`, `AI-README.md` is authoritative to avoid default GitHub README rendering.
 
 **Key Principles:**
 - **Modular Architecture**: Each feature is a self-contained module with its own namespace

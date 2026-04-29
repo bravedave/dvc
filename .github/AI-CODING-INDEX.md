@@ -7,7 +7,7 @@ Canonical index of AI-assisted development assets for the DVC framework reposito
 ### [Copilot Instructions](copilot-instructions.md)
 Primary framework guide for architecture, module patterns, controllers, handlers, DAOs, DTOs, views, security, testing, and workflow standards.
 
-### [README](README.md)
+### [AI README](AI-README.md)
 Practical workflow guide for planning, implementing, and documenting changes with AI in this repository.
 
 ### [API Contract Maintenance Standard](prompts/api-contract-maintenance.standard.md)
@@ -66,9 +66,11 @@ Source of truth: [prompts/api-contract-maintenance.standard.md](prompts/api-cont
 ## Maintenance Rules
 
 - Folder governance convention: `README.md` in any folder is the authoritative document for that folder and should always be read for contextual governance before making changes.
+- Exception: in `.github/`, use `AI-README.md` as the authoritative governance document to avoid default GitHub README rendering.
 - Keep this index current when prompts, skills, agents, or examples change.
 - Prefer placing AI assets under `.github/prompts`, `.github/skills`, and `.github/agents`.
 - If any prompt/skill filename changes, update all references in:
-  - [README.md](README.md)
+  - [AI-README.md](AI-README.md)
   - [copilot-instructions.md](copilot-instructions.md)
+  - [src/bin/dvc](../src/bin/dvc)
   - This index

@@ -17,11 +17,12 @@
 
 ## AI Coding in This Repo
 
-- AI onboarding and governance: [.github/README.md](.github/README.md)
-- AI tooling index: [AI-CODING-INDEX.md](AI-CODING-INDEX.md)
+- AI onboarding and governance: [.github/AI-README.md](.github/AI-README.md)
+- AI tooling index: [.github/AI-CODING-INDEX.md](.github/AI-CODING-INDEX.md)
 - Primary coding standard: [.github/copilot-instructions.md](.github/copilot-instructions.md)
 - API contract parity standard: [.github/prompts/api-contract-maintenance.standard.md](.github/prompts/api-contract-maintenance.standard.md)
 - AI context rule: In any folder, `README.md` is authoritative for that folder and should be read before planning or making changes there.
+- Exception: In `.github/`, use `.github/AI-README.md` as the authoritative governance document.
 
 ---
 

@@ -1,10 +1,12 @@
-# README for .github AI Governance
+# AI README for .github AI Governance
 
 This document explains how to run AI workflows effectively in the DVC repository.
 
 ## Contextual Governance Convention
 
 `README.md` in any folder is the authoritative governance document for that folder and should always be read for contextual governance before planning or implementing changes in that folder.
+
+Exception: in `.github/`, `AI-README.md` is the authoritative governance document to avoid default GitHub README rendering.
 
 ## Start Here
 

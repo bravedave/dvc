@@ -176,7 +176,7 @@ final class utility {
     $dir = '.github';
     $files = [
       $dir . '/AI-CODING-INDEX.md' => 'vendor/bravedave/dvc/.github/AI-CODING-INDEX.md',
-      $dir . '/README.md' => 'vendor/bravedave/dvc/.github/README.md',
+      $dir . '/AI-README.md' => 'vendor/bravedave/dvc/.github/AI-README.md',
       $dir . '/copilot-instructions.md' => 'vendor/bravedave/dvc/.github/copilot-instructions.md',
     ];
 
