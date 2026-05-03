@@ -1208,6 +1208,14 @@ Modal form for create/update:
 
 **Note:** When a view is loaded via `$this->load()`, the controller's `protectedLoad()` method automatically extracts all properties from `$this->data` into the view's local scope. This means `$this->data->dto` becomes available as `$dto` directly in the view without explicit assignment.
 
+**CRITICAL — Single Root Element Rule:**
+The edit view MUST have exactly ONE root HTML element (the `<form>`). The `<script>` tag must be placed **inside** the `<form>` as its last child — never as a sibling after `</form>`.
+This same rule applies to any HTML fragment returned to `_.get.modal(...)`, not only `views/edit.php`.
+
+**Why this matters:** `_.get.modal(url)` (in `_brayworth_.get.js`) fetches the HTML, wraps it in a `<div>`, appends the wrapper to `<body>` (which executes inline scripts), then calls `_modal.modal('show')`. The script must execute **before** `modal('show')` is called so that the `shown.bs.modal` listener is registered in time. If the `<script>` is a sibling of `<form>`, jQuery wraps them together and the timing still works, but the `<form>` is no longer the single root element which causes the framework to search for `.modal` inside a wrapper div — this is fragile and non-canonical.
+
+**Do NOT call `modal.modal('show')` in the script.** The framework calls it at line 51 of `_brayworth_.get.js` after appending the HTML to the DOM. Calling it again would show the modal twice.
+
 ```php
 <?php
 namespace {module};
@@ -1296,9 +1304,6 @@ use bravedave\dvc\{strings, theme};
       });
     });
 
-    // Show modal immediately
-    modal.modal('show');
-
   })(_brayworth_);
   </script>
 </form>
@@ -1326,7 +1331,7 @@ _.url('path')                           // Generate URL
 _.fetch.post(url, data)                 // POST JSON data
 _.fetch.post.form(url, formElement)     // POST form data (x-www-form-urlencoded)
 _.fetch.post.form(url, formElement, 'multipart/form-data') // POST multipart data
-_.get.modal(url)                        // Load modal via GET
+_.get.modal(url)                        // Load modal via GET (framework auto-calls modal('show'))
 _.growl(d)                              // Show notification
 _.ask.alert.confirm({title, text})      // Confirmation dialog
 _.ready(callback)                       // Document ready
@@ -1339,6 +1344,11 @@ _.asLocaleDate(value)                   // Locale-aware date formatter
 _.randomString()                        // Client-side unique ID generator
 ```
 
+When using `_.get.modal(url)`, follow this contract in every module and view:
+- Returned HTML should have a single root element (normally `<form>`).
+- Inline `<script>` must be inside that root element so event handlers bind before the framework shows the modal.
+- Do not call `modal.modal('show')` inside fetched HTML. `_brayworth_.get.js` does this after append.
+
 `_.rand()` does not exist. Use `_.randomString()` for client-side unique IDs.
 
 **4. Bootstrap 5 Modals**
@@ -1348,6 +1358,8 @@ modal.modal('hide');                    // Hide modal
 modal.on('shown.bs.modal', fn);         // Event when shown
 modal.trigger('success');               // Custom event
 ```
+
+For HTML loaded by `_.get.modal(url)`, prefer `modal.modal('hide')`, events, and custom triggers only. Let the framework perform `modal.modal('show')`.
 
 **5. Form Data Binding**
 ```php
@@ -1445,7 +1457,7 @@ modal.trigger('success');               // Custom event
 5. views/edit.php renders:
    - Form with hidden inputs (action, id)
    - Input fields bound to DTO values
-   - JavaScript that shows modal
+  - JavaScript that binds modal handlers (submit, focus, success events)
    ↓
 6. Browser receives modal HTML
    - Framework injects into page
@@ -1934,12 +1946,24 @@ new dtoSet($sql);
 
 ### XSS Prevention
 ```php
-// Always escape output in views
-<?= htmlspecialchars($dto->name) ?>
+// PREFERRED: Use bravedave\dvc\esc() function for output escaping
+use function bravedave\dvc\esc;
+
+echo esc($userInput);                  // In PHP code
+esc($dto->name)                        // In mixed PHP/HTML
 
 // Or use short form (framework provides)
 <?= $dto->name ?>  // Framework auto-escapes in most contexts
 ```
+
+**esc() Function Benefits:**
+- Centralized escaping preferences and configuration
+- Consistent behavior across the entire application
+- Shorter, more readable syntax than htmlspecialchars
+- Framework-managed encoding and flag preferences
+- Prefer `bravedave\dvc\esc()` over `htmlspecialchars()` and `htmlentities()` for normal HTML text and attribute escaping
+- Use `htmlentities()` only when you explicitly need broad character-to-entity conversion rather than standard HTML escaping, which should be rare
+- Always use `bravedave\dvc\esc()` for new code and when updating existing code unless one of the above exceptions applies
 
 ### Authentication/Authorization
 ```php

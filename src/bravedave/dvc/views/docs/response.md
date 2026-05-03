@@ -113,11 +113,12 @@ $this->renderBS5([
 Views (e.g., `task-list.php`) use `$this->data` via `extract()`:
 
 ```php
+<?php use function bravedave\dvc\esc; ?>
 <div class="container">
   <h1><?= $title ?></h1>
   <ul>
     <?php foreach ($tasks as $task): ?>
-      <li><?= htmlspecialchars($task->description) ?></li>
+      <li><?= esc($task->description) ?></li>
     <?php endforeach; ?>
   </ul>
 </div>
@@ -154,7 +155,7 @@ Views (e.g., `task-list.php`) use `$this->data` via `extract()`:
    - HTML rendering completes in one step (`renderBS5()`).
 
 4. **Security**:
-   - Always sanitize inputs (e.g., `(int)`, `htmlspecialchars()`).
+  - Always validate/cast inputs (e.g., `(int)`) and escape output with `bravedave\dvc\esc()`.
 
 ---
 

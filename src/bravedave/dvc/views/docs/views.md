@@ -45,10 +45,11 @@ $this->data = [
 $this->load('dashboard.php');
 
 // views/dashboard.php
+<?php use function bravedave\dvc\esc; ?>
 <h1><?= $title ?></h1>
 <ul>
   <?php foreach ($users as $user): ?>
-    <li><?= htmlspecialchars($user->name) ?></li>
+    <li><?= esc($user->name) ?></li>
   <?php endforeach ?>
 </ul>
 ```
@@ -68,7 +69,7 @@ Static content with **CommonMark** support
 
 1. **PHP Views**  
    - Use for dynamic content  
-   - Always escape output (`htmlspecialchars()`)
+  - Always escape output with `bravedave\dvc\esc()`
    - Keep business logic in controllers
 
 2. **Markdown Views**  

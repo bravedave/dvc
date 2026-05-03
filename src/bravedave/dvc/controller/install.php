@@ -1,17 +1,16 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2025 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc\controller;
 
 use bravedave\dvc\logger;
-use config, Controller, dvc, Response;
+use bravedave\dvc\Response;
+use config, Controller, dvc;
+
+use function bravedave\dvc\esc;
 
 class install extends Controller {
   protected $RequireValidation = config::lockdown;
@@ -30,19 +29,19 @@ class install extends Controller {
 
     if (is_writable($root) || is_writable($path)) {
       if (!is_dir($path))
-        mkdir($path, '0777');
+        mkdir($path, 0777);
 
       if (!is_dir($path))
         Response::redirect(self::$url . 'error/nodatapath');
 
       $path = sprintf('%s%sdb.json', $path, DIRECTORY_SEPARATOR);
       if (file_put_contents($path, json_encode($a)))
-        return (TRUE);
+        return true;
     }
     printf('please create a writable data folder : %s', $path);
     printf('<br /><br />mkdir --mode=0777 %s', $path);
 
-    return (false);
+    return false;
   }
 
   protected  function postHandler() {
@@ -58,13 +57,13 @@ class install extends Controller {
         $this->writeDBJson(['db_type' => 'sqlite']);
         Response::redirect(\url::$URL, 'set database sqlite');
       } elseif ('mysql' == $type) {
-        
+
         logger::info(sprintf('dbname : %s', config::$DB_NAME));
 
         // print 'it\'s post allright';
         // sys::dump( $this->getPost());
         $db_host = $this->getPost("db_host");
-        $db_name = trim(str_replace(' ', '', htmlspecialchars($this->getPost("db_name"))));
+        $db_name = trim(str_replace(' ', '', esc($this->getPost("db_name"))));
         $db_user = $this->getPost("db_user");
         $db_pass = $this->getPost("db_pass");
 
