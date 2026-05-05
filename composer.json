@@ -29,11 +29,11 @@
     "nyholm/psr7": "^1.8",
     "symfony/mailer": "^7.1",
     "tijsverkoyen/css-to-inline-styles": "^2.2",
-    "league/commonmark": "^2.4"
+    "league/commonmark": "^2.4",
+    "matthiasmullie/scrapbook": "^1.5"
   },
   "require-dev": {
-    "ext-apcu": "*",
-    "matthiasmullie/scrapbook": "*"
+    "ext-apcu": "*"
   },
   "autoload": {
     "files": [
