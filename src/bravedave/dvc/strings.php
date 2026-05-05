@@ -17,7 +17,7 @@ abstract class strings {
   const html_sad = '<span style="font-family: Segoe UI Symbol; Verdana;">&#9785;</span>';
   const html_happy = '<span style="font-family: Segoe UI Symbol; Verdana;">&#9786;</span>';
 
-  static public function AMPM($hhmm, $short = true, $tailed = true) {
+  static public function AMPM(string $hhmm, bool $short = true, bool $tailed = true): string {
     $d = date('Y-m-d') . ' ' . $hhmm;
     if ($short) {
       if (date('i', strtotime($d)) == '00') {
@@ -90,7 +90,7 @@ abstract class strings {
         }
 
         // if ( $debug) logger::debug( sprintf( '<%s> %s', config::$PHONE_REGION, __METHOD__));
-        if ($phoneUtil->isValidNumber($_mNo, config::$PHONE_REGION)) {
+        if ($phoneUtil->isValidNumber($_mNo)) {
 
           if (config::$PHONE_REGION == $phoneUtil->getRegionCodeForNumber($_mNo)) {
 
@@ -122,7 +122,7 @@ abstract class strings {
     return self::asLocalPhone($mobile);
   }
 
-  static public function asNumericAccounting($amount): string|bool {
+  static public function asNumericAccounting(int|float $amount): string|bool {
 
     $cf = new NumberFormatter(config::$LOCALE, NumberFormatter::DEFAULT_STYLE);
 
@@ -136,7 +136,7 @@ abstract class strings {
     return $cf->format($amount);
   }
 
-  static public function asShortDate($date, $time = false) {
+  static public function asShortDate(string $date, bool $time = false): string|bool {
     if ((string)$date == '0000-00-00') {
       return (false);
     }
@@ -154,20 +154,20 @@ abstract class strings {
     return false;
   }
 
-  static public function asLongDate($date, $time = false) {
-    if ((string)$date == '0000-00-00') {
-      return (false);
-    }
+  static public function asLongDate(string $date, bool $time = false): string|bool {
 
+    if ((string)$date == '0000-00-00') return false;
     if (($t = strtotime($date)) > 0) {
+
       if ($time) {
+
         return preg_replace(
           '/m$/',
           '',
           date(config::$DATETIME_FORMAT_LONG, $t)
-
         );
       } else {
+
         return (date(config::$DATE_FORMAT_LONG, $t));
       }
     }
@@ -195,7 +195,7 @@ abstract class strings {
     return $out;
   }
 
-  static public function brief($text, $length = 100) {
+  static public function brief(string $text, int $length = 100): string {
     $debug = false;
     //~ $debug = true;
     //~ if ( $debug) logger::debug( sprintf( 'dao\dto\brief ( %s)', $length));
@@ -335,7 +335,7 @@ abstract class strings {
           if ($debug) logger::debug(sprintf('<%s> :2:%s', $_mNo, __METHOD__));
         }
 
-        if ($phoneUtil->isValidNumber($_mNo, config::$PHONE_REGION)) {
+        if ($phoneUtil->isValidNumber($_mNo)) {
 
           if ($debug) logger::debug(sprintf('<%s> :getRegionCodeForNumber:%s', $phoneUtil->getRegionCodeForNumber($_mNo), __METHOD__));
           if ('AU' == $phoneUtil->getRegionCodeForNumber($_mNo)) {
@@ -362,15 +362,15 @@ abstract class strings {
     }
   }
 
-  static public function CheckEmailAddress($email) {
-    return (filter_var($email, FILTER_VALIDATE_EMAIL));
+  static public function CheckEmailAddress(string $email): bool {
+    return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
   }
 
-  static public function ComparePhoneNumbers($p1, $p2) {
+  static public function ComparePhoneNumbers(string $p1, string $p2) {
     return (self::CleanPhoneString($p1) == self::CleanPhoneString($p2));
   }
 
-  static public function DateDiff($lowdate, $highdate = null, $format = '%R%a') {
+  static public function DateDiff(string $lowdate, string|null $highdate = null, string $format = '%R%a'): string|false {
     if ($lowdate && '0000-00-00' != (string)$lowdate) {
       //~ logger::info( sprintf( '%s : %s', $lowdate));
       if (!(strtotime($highdate) > 0)) $highdate = date('Y-m-d');
@@ -391,14 +391,14 @@ abstract class strings {
     return '';
   }
 
-  static public function endswith($string, $test) {
+  static public function endswith(string $string, string $test): bool {
     $strlen = strlen($string);
     $testlen = strlen($test);
     if ($testlen > $strlen) return false;
     return substr_compare($string, $test, $strlen - $testlen, $testlen, TRUE) === 0;
   }
 
-  static public function ExtendedStreetString($street) {
+  static public function ExtendedStreetString(string $street): string {
     /* the opposite of GoodStreetString */
     $find = [
       '@\sRd$@i',
@@ -467,7 +467,7 @@ abstract class strings {
     return (explode(' ', trim($string))[0]);
   }
 
-  static public function formatBytes($bytes, $precision = 2) {
+  static public function formatBytes(float $bytes, int $precision = 2): string {
     $units = ['b', 'kb', 'mb', 'gb', 'tb'];
 
     $bytes = max($bytes, 0);
@@ -508,7 +508,7 @@ abstract class strings {
     return str_pad("", count($arFrom) * 3, '..' . $ps) . implode($ps, $arTo);
   }
 
-  static public function getDateAsANSI($strDate) {
+  static public function getDateAsANSI(string $strDate): string {
 
     if (preg_match("@^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$@", $strDate))
       return (date('Y-m-d', strtotime($strDate)));
@@ -538,7 +538,7 @@ abstract class strings {
     return $uuid;
   }
 
-  static public function GoodStreetString($street) {
+  static public function GoodStreetString(string $street): string {
 
     if (preg_match('/The\s?Drive/i', $street)) return ($street);
     if (preg_match('/The\s?Avenue/i', $street)) return ($street);
@@ -615,13 +615,13 @@ abstract class strings {
     return (trim(preg_replace($find, $replace, $street), ', '));
   }
 
-  static public function HoursMinutes($str) {
+  static public function HoursMinutes(string $str): string {
     $hm = self::HoursMinutesSeconds($str);
     return (str_pad((string)$hm["hours"], 2, "0", STR_PAD_LEFT) . ":" .
       str_pad((string)$hm["minutes"], 2, "0", STR_PAD_LEFT));
   }
 
-  static public function HoursMinutesSeconds($str, $format = 'array') {
+  static public function HoursMinutesSeconds(string $str, string $format = 'array') {
     $str = trim($str);
     if ($str == '') return 0;
 
@@ -680,7 +680,7 @@ abstract class strings {
     }
   }
 
-  static public function html2text($document): string {
+  static public function html2text(string $document): string {
     $search = array(
       '@<[\/\!]*?[^<>]*?>@si',      // trim blank lines from beginning and end
       '@<br[\s]/>@si',
@@ -733,7 +733,7 @@ abstract class strings {
     return $text;
   }
 
-  static public function htmlSanitize($html): string {
+  static public function htmlSanitize(string $html): string {
     /*
 			'@<style[^>]*?>.*?</style>@si',  	// Strip out javascript
 			http://css-tricks.com/snippets/php/sanitize-database-inputs/
@@ -780,7 +780,7 @@ abstract class strings {
     return (preg_replace($search, $replace, $html));
   }
 
-  static public function imageInline($path) {
+  static public function imageInline(string $path): string {
     $data = base64_encode(file_get_contents($path));
     if (preg_match('@\.svg$@', $path)) {
       return 'data:image/svg+xml;base64,' . $data;
@@ -789,7 +789,7 @@ abstract class strings {
     }
   }
 
-  static public function initials($name) {
+  static public function initials(string $name): string {
     if ((string)$name == "")
       return '';
 
@@ -829,11 +829,11 @@ abstract class strings {
   }
 
   #[\Deprecated]
-  static public function IsEmailAddress($email) {
+  static public function IsEmailAddress(string $email): bool {
     return (self::CheckEmailAddress($email));
   }
 
-  static public function isEmail($email, $rfc822 = false) {  // compatible case and naming with my javascript routine
+  static public function isEmail(string $email, bool $rfc822 = false): bool {  // compatible case and naming with my javascript routine
 
     if (self::CheckEmailAddress($email)) return (true);
 
@@ -964,7 +964,7 @@ abstract class strings {
 
         $phoneNumberObject = ('+' == substr($tel, 0, 1) ? $phoneNumberUtil->parse($tel) : $phoneNumberUtil->parse($tel, 'AU'));
 
-        return (bool)$phoneNumberUtil->isValidNumber($phoneNumberObject, config::$PHONE_REGION);
+        return (bool)$phoneNumberUtil->isValidNumber($phoneNumberObject);
       }
     } catch (\Exception $e) {
 
@@ -974,7 +974,7 @@ abstract class strings {
     return (false);
   }
 
-  static public function isOurEmailDomain($email) {
+  static public function isOurEmailDomain(string $email): bool {
     $email_array = explode("@", $email);
     $domains = explode(',', config::$EMAILDOMAIN);
 
@@ -986,11 +986,11 @@ abstract class strings {
     return (false);
   }
 
-  static public function isValidMd5($md5 = '') {
+  static public function isValidMd5(string $md5 = ''): bool {
     return preg_match('/^[a-f0-9]{32}$/', $md5);
   }
 
-  static public function isValidJSON($str) {
+  static public function isValidJSON(string $str) {
 
     if ($str) {
 
@@ -1012,7 +1012,7 @@ abstract class strings {
     return false;
   }
 
-  static public function validJSON($str): mixed {
+  static public function validJSON(string $str): mixed {
 
     if ($str) {
 
@@ -1068,50 +1068,9 @@ abstract class strings {
   }
 
   #[\Deprecated]
-  static public function replaceWordCharacters($text) {
+  static public function replaceWordCharacters(string $text): string {
 
     return normaliseText($text);
-
-    // Replaces commonly-used Windows 1252 encoded chars
-    // that do not exist in ASCII or ISO-8859-1 with
-    // ISO-8859-1 cognates.
-    $str = $text;
-
-    $s = [];
-    $r = [];
-
-    // smart single quotes and apostrophe
-    //~ $s[] = sprintf( '@(\x{2018}|\x{2019}|\x{201A})@');
-    $s[] = sprintf('@(%s|%s|%s)@', "\u{2018}", "\u{2019}", "\u{201A}");
-    // logger::info( $s[0]);
-
-    $r[] = "'";
-
-    // smart double quotes
-    $s[] = sprintf('@(%s|%s|%s)@', "\u{201C}", "\u{201D}", "\u{201E}");
-    $r[] = '"';
-
-    /**
-     * * ellipsis
-     * s = s.replace(/\u2026/g, "...");
-     *
-     * * dashes
-     * s = s.replace(/[\u2013|\u2014]/g, "-");
-     *
-     * * circumflex
-     * s = s.replace(/\u02C6/g, "^");
-     *
-     * * open angle bracket
-     * s = s.replace(/\u2039/g, "<");
-     *
-     * * close angle bracket
-     * s = s.replace(/\u203A/g, ">");
-     *
-     * * spaces
-     * s = s.replace(/[\u02DC|\u00A0]/g, " ");
-     */
-
-    return preg_replace($s, $r, $str);
   }
 
   /**
@@ -1155,7 +1114,7 @@ abstract class strings {
     }
   }
 
-  static public function SmartCase($name) {
+  static public function SmartCase(string $name): string {
     $name = strtolower($name);
     $name = join("'", array_map('ucwords', explode("'", $name)));
     $name = join("-", array_map('ucwords', explode("-", $name)));
@@ -1200,7 +1159,7 @@ abstract class strings {
    * @deprecated Use the function with the same name instead.
    */
   #[\Deprecated]
-  static public function text2html($inText, $maxrows = -1, $allAsteriskAsList = false): string {
+  static public function text2html(string $inText, int $maxrows = -1, bool $allAsteriskAsList = false): string {
 
     $inText = esc($inText);
 
@@ -1240,7 +1199,7 @@ abstract class strings {
     return (preg_replace($a, $aR, $inText));
   }
 
-  static public function toEmail822($email, $name = ''): string {
+  static public function toEmail822(string $email, $name = ''): string {
     if (self::isEmail($email)) {
       if ($name) {
         return (sprintf('%s <%s>', $name, $email));
@@ -1256,7 +1215,7 @@ abstract class strings {
     return url::toString($url, $protocol);
   }
 
-  static public function xml_entities($text, $charset = 'UTF-8') {
+  static public function xml_entities(string $text, $charset = 'UTF-8') {
     // Debug and Test
     // $text = "test &amp; &trade; &amp;trade; abc &reg; &amp;reg; &#45;";
 
