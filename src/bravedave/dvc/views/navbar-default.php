@@ -1,13 +1,12 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
+ * Copyright (c) 2025 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
  *
  * compatibility : bootstrap 5
 */
+
+namespace bravedave\dvc;
 
 use bravedave\dvc\theme;
 
@@ -15,6 +14,7 @@ use application as app;
 
 $title = $title ?? $this->title;
 $aside = ($aside ?? true);
+$pageUrl = $pageUrl ?? null;
 $menu = [];
 
 $menuJson = app::app()->getRootPath() . '/menu.json';
@@ -38,7 +38,8 @@ if (file_exists($menuJson)) {
 
       <div class="navbar-brand dropdown">
 
-        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
           <?= $title ?>
         </button>
 
@@ -58,9 +59,12 @@ if (file_exists($menuJson)) {
           <?php } ?>
         </ul>
       </div>
-    <?php } else {
+    <?php } elseif ($pageUrl) {
 
-      printf('<div class="navbar-brand">%s</div>', $title);
+      printf('<a class="navbar-brand" href="%s">%s</a>', $pageUrl, esc($title));
+    } else {
+
+      printf('<div class="navbar-brand">%s</div>', esc($title));
     }  ?>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
