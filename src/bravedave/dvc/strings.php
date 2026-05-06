@@ -63,7 +63,8 @@ abstract class strings {
   /**
    * @return string HTML-safe
    */
-  static public function asLocalPhone($_tel = ''): string {
+  static public function asLocalPhone(string|null $_tel = ''): string {
+    $_tel = $_tel ?? '';
     $debug = false;
     // $debug = true;
 
@@ -119,7 +120,7 @@ abstract class strings {
   /**
    * @return string HTML-safe
    */
-  static public function asMobilePhone($mobile = '') {
+  static public function asMobilePhone(string|null $mobile = ''): string {
     //~ logger::info( sprintf( 'deprecated :: %s > use AsLocalPhone', __METHOD__));
     return self::asLocalPhone($mobile);
   }
@@ -377,7 +378,7 @@ abstract class strings {
     return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
   }
 
-  static public function ComparePhoneNumbers(string|null $p1, string $p2) {
+  static public function ComparePhoneNumbers(string|null $p1, string|null $p2): bool {
     return (self::CleanPhoneString($p1) == self::CleanPhoneString($p2));
   }
 
@@ -635,6 +636,7 @@ abstract class strings {
   static public function HoursMinutes(string|null $str): string {
     $str = $str ?? '';
     $hm = self::HoursMinutesSeconds($str);
+    if (!is_array($hm)) return '00:00';
     return (str_pad((string)$hm["hours"], 2, "0", STR_PAD_LEFT) . ":" .
       str_pad((string)$hm["minutes"], 2, "0", STR_PAD_LEFT));
   }
@@ -966,7 +968,7 @@ abstract class strings {
     $date = DateTime::createFromFormat('Y-m', $string);
 
     // Ensure the DateTime object was created and matches the input string
-    return $date;
+    return (bool)$date;
   }
 
   static public function isPhone(string|null $_tel = ''): bool {
@@ -998,6 +1000,7 @@ abstract class strings {
   static public function isOurEmailDomain(string|null $email): bool {
     if (!$email) return false;
     $email_array = explode("@", $email);
+    if (count($email_array) < 2) return false;
     $domains = explode(',', config::$EMAILDOMAIN);
 
     foreach ($domains as $domain) {
