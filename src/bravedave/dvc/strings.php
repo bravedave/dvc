@@ -789,7 +789,7 @@ abstract class strings {
     }
   }
 
-  static public function initials(string $name): string {
+  static public function initials(string|null $name): string {
     if ((string)$name == "")
       return '';
 
