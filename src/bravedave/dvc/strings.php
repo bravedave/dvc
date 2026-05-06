@@ -136,12 +136,13 @@ abstract class strings {
     return $cf->format($amount);
   }
 
-  static public function asShortDate(string $date, bool $time = false): string|bool {
-    if ((string)$date == '0000-00-00') {
-      return (false);
-    }
+  static public function asShortDate(string|null $date, bool $time = false): string|bool {
+
+    $date = (string)$date;
+    if ($date == '0000-00-00') return (false);
 
     if (($t = strtotime($date)) > 0) {
+
       if ($time && date('Y-m-d', $t) == date('Y-m-d')) {
         return (preg_replace('/m$/', '', date('g:ia', $t)));
       } elseif (date('Y', $t) == date('Y')) {
@@ -154,9 +155,10 @@ abstract class strings {
     return false;
   }
 
-  static public function asLongDate(string $date, bool $time = false): string|bool {
+  static public function asLongDate(string|null $date, bool $time = false): string|bool {
 
-    if ((string)$date == '0000-00-00') return false;
+    $date = (string)$date;
+    if ($date == '0000-00-00') return false;
     if (($t = strtotime($date)) > 0) {
 
       if ($time) {
@@ -176,9 +178,8 @@ abstract class strings {
   }
 
   static public function array2csv(array &$array) {
-    if (count($array) == 0) {
-      return null;
-    }
+
+    if (count($array) == 0) return null;
 
     ob_start();
     $df = fopen("php://output", 'w');
@@ -538,7 +539,9 @@ abstract class strings {
     return $uuid;
   }
 
-  static public function GoodStreetString(string $street): string {
+  static public function GoodStreetString(string|null $street): string {
+
+    $street = (string)$street;
 
     if (preg_match('/The\s?Drive/i', $street)) return ($street);
     if (preg_match('/The\s?Avenue/i', $street)) return ($street);
