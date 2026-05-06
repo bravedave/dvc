@@ -8,6 +8,7 @@ namespace bravedave\dvc;
 
 use config;
 use DateTime;
+use DateTimeZone;
 use finfo;
 use libphonenumber;
 use NumberFormatter;
@@ -17,7 +18,8 @@ abstract class strings {
   const html_sad = '<span style="font-family: Segoe UI Symbol; Verdana;">&#9785;</span>';
   const html_happy = '<span style="font-family: Segoe UI Symbol; Verdana;">&#9786;</span>';
 
-  static public function AMPM(string $hhmm, bool $short = true, bool $tailed = true): string {
+  static public function AMPM(string|null $hhmm, bool $short = true, bool $tailed = true): string {
+    if (!$hhmm) return '';
     $d = date('Y-m-d') . ' ' . $hhmm;
     if ($short) {
       if (date('i', strtotime($d)) == '00') {
@@ -196,7 +198,8 @@ abstract class strings {
     return $out;
   }
 
-  static public function brief(string $text, int $length = 100): string {
+  static public function brief(string|null $text, int $length = 100): string {
+    $text = $text ?? '';
     $debug = false;
     //~ $debug = true;
     //~ if ( $debug) logger::debug( sprintf( 'dao\dto\brief ( %s)', $length));
@@ -232,7 +235,8 @@ abstract class strings {
    *
    * @return string
    */
-  static public function BRITISHDateAsANSI(string $strDate): string {
+  static public function BRITISHDateAsANSI(string|null $strDate): string {
+    if (!$strDate) return '';
 
     // split it, must have 3 parts, dd/mm/yyyy
     $a = explode("/", $strDate);
@@ -253,9 +257,11 @@ abstract class strings {
 
 
   // if $str contains - convert to camelCase without dashes (i.e. locate dom dataset values)
-  static public function camelise(string $str): string {
+  static public function camelise(string|null $str): string {
 
+    $str = $str ?? '';
     if (strpos($str, '-') !== false) {
+
       $parts = explode('-', $str);
       $str = array_shift($parts);
       foreach ($parts as $part) {
@@ -266,7 +272,8 @@ abstract class strings {
     return $str;
   }
 
-  static public function deCamelise(string $str): string {
+  static public function deCamelise(string|null $str): string {
+    $str = $str ?? '';
     // delta implemented: deCamelise now converts camelCase to dashed-case
     $str = preg_replace('/([A-Z]+)([A-Z][a-z])/', '$1-$2', $str);
     $str = preg_replace('/([a-z0-9])([A-Z])/', '$1-$2', $str);
@@ -279,7 +286,8 @@ abstract class strings {
    * @param string $to
    * @return string
    */
-  static public function cleanMobileString(string $to): string {
+  static public function cleanMobileString(string|null $to): string {
+    if (!$to) return '';
     $debug = false;
     // $debug = true;
 
@@ -311,7 +319,8 @@ abstract class strings {
     return ($to);
   }
 
-  static public function cleanPhoneString(string $tel): string {
+  static public function cleanPhoneString(string|null $tel): string {
+    if (!$tel) return '';
     //~ $debug = true;
     $debug = false;
 
@@ -363,21 +372,22 @@ abstract class strings {
     }
   }
 
-  static public function CheckEmailAddress(string $email): bool {
+  static public function CheckEmailAddress(string|null $email): bool {
+    if (!$email) return false;
     return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
   }
 
-  static public function ComparePhoneNumbers(string $p1, string $p2) {
+  static public function ComparePhoneNumbers(string|null $p1, string $p2) {
     return (self::CleanPhoneString($p1) == self::CleanPhoneString($p2));
   }
 
-  static public function DateDiff(string $lowdate, string|null $highdate = null, string $format = '%R%a'): string|false {
+  static public function DateDiff(string|null $lowdate, string|null $highdate = null, string $format = '%R%a'): string|false {
     if ($lowdate && '0000-00-00' != (string)$lowdate) {
       //~ logger::info( sprintf( '%s : %s', $lowdate));
       if (!(strtotime($highdate) > 0)) $highdate = date('Y-m-d');
 
-      $low = new \datetime($lowdate);
-      $high = new \datetime($highdate);
+      $low = new DateTime($lowdate);
+      $high = new DateTime($highdate);
       $interval = date_diff($low, $high);
       //~ logger::info( sprintf( '%s - %s = %s',  $lowdate, $highdate, $interval->format('%R%a')));
       return ($interval->format($format));
@@ -392,14 +402,16 @@ abstract class strings {
     return '';
   }
 
-  static public function endswith(string $string, string $test): bool {
+  static public function endswith(string|null $string, string $test): bool {
+    $string = $string ?? '';
     $strlen = strlen($string);
     $testlen = strlen($test);
     if ($testlen > $strlen) return false;
     return substr_compare($string, $test, $strlen - $testlen, $testlen, TRUE) === 0;
   }
 
-  static public function ExtendedStreetString(string $street): string {
+  static public function ExtendedStreetString(string|null $street): string {
+    $street = $street ?? '';
     /* the opposite of GoodStreetString */
     $find = [
       '@\sRd$@i',
@@ -442,7 +454,8 @@ abstract class strings {
     return (preg_replace($find, $replace, $street));
   }
 
-  static public function FirstNames(string $string): string {
+  static public function FirstNames(string|null $string): string {
+    if (!$string) return '';
 
     if (preg_match('/&/', $string)) {
 
@@ -463,8 +476,8 @@ abstract class strings {
     return self::FirstWord($string);
   }
 
-  static public function FirstWord(string $string): string {
-
+  static public function FirstWord(string|null $string): string {
+    if (!$string) return '';
     return (explode(' ', trim($string))[0]);
   }
 
@@ -509,7 +522,8 @@ abstract class strings {
     return str_pad("", count($arFrom) * 3, '..' . $ps) . implode($ps, $arTo);
   }
 
-  static public function getDateAsANSI(string $strDate): string {
+  static public function getDateAsANSI(string|null $strDate): string {
+    if (!$strDate) return '';
 
     if (preg_match("@^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$@", $strDate))
       return (date('Y-m-d', strtotime($strDate)));
@@ -618,14 +632,15 @@ abstract class strings {
     return (trim(preg_replace($find, $replace, $street), ', '));
   }
 
-  static public function HoursMinutes(string $str): string {
+  static public function HoursMinutes(string|null $str): string {
+    $str = $str ?? '';
     $hm = self::HoursMinutesSeconds($str);
     return (str_pad((string)$hm["hours"], 2, "0", STR_PAD_LEFT) . ":" .
       str_pad((string)$hm["minutes"], 2, "0", STR_PAD_LEFT));
   }
 
-  static public function HoursMinutesSeconds(string $str, string $format = 'array') {
-    $str = trim($str);
+  static public function HoursMinutesSeconds(string|null $str, string $format = 'array') {
+    $str = trim($str ?? '');
     if ($str == '') return 0;
 
     $iOffset = 0;
@@ -683,7 +698,8 @@ abstract class strings {
     }
   }
 
-  static public function html2text(string $document): string {
+  static public function html2text(string|null $document): string {
+    if (!$document) return '';
     $search = array(
       '@<[\/\!]*?[^<>]*?>@si',      // trim blank lines from beginning and end
       '@<br[\s]/>@si',
@@ -736,7 +752,8 @@ abstract class strings {
     return $text;
   }
 
-  static public function htmlSanitize(string $html): string {
+  static public function htmlSanitize(string|null $html): string {
+    if (!$html) return '';
     /*
 			'@<style[^>]*?>.*?</style>@si',  	// Strip out javascript
 			http://css-tricks.com/snippets/php/sanitize-database-inputs/
@@ -806,14 +823,14 @@ abstract class strings {
   }
 
   static public function InLocalTimeZone($format = "r", $timestamp = false, $timezone = false) {
-    $userTimezone = new \DateTimeZone(!empty($timezone) ? $timezone : 'GMT');
-    $gmtTimezone = new \DateTimeZone('GMT');
-    $myDateTime = new \DateTime(($timestamp != false ? date("r", (int)$timestamp) : date("r")), $gmtTimezone);
+    $userTimezone = new DateTimeZone(!empty($timezone) ? $timezone : 'GMT');
+    $gmtTimezone = new DateTimeZone('GMT');
+    $myDateTime = new DateTime(($timestamp != false ? date("r", (int)$timestamp) : date("r")), $gmtTimezone);
     $offset = $userTimezone->getOffset($myDateTime);
     return date($format, ($timestamp != false ? (int)$timestamp : $myDateTime->format('U')) + $offset);
   }
 
-  static public function isDate(string $date): bool {
+  static public function isDate(string|null $date): bool {
     if ($date) {
       $d = DateTime::createFromFormat('Y-m-d', $date);
       return $d && $d->format('Y-m-d') === $date;
@@ -822,7 +839,7 @@ abstract class strings {
     return false;
   }
 
-  static public function isDateTime(string $date): bool {
+  static public function isDateTime(string|null $date): bool {
     if ($date) {
       $d = DateTime::createFromFormat('Y-m-d H:i:s', $date);
       return $d && $d->format('Y-m-d H:i:s') === $date;
@@ -836,7 +853,8 @@ abstract class strings {
     return (self::CheckEmailAddress($email));
   }
 
-  static public function isEmail(string $email, bool $rfc822 = false): bool {  // compatible case and naming with my javascript routine
+  static public function isEmail(string|null $email, bool $rfc822 = false): bool {  // compatible case and naming with my javascript routine
+    if (!$email) return false;
 
     if (self::CheckEmailAddress($email)) return (true);
 
@@ -977,7 +995,8 @@ abstract class strings {
     return (false);
   }
 
-  static public function isOurEmailDomain(string $email): bool {
+  static public function isOurEmailDomain(string|null $email): bool {
+    if (!$email) return false;
     $email_array = explode("@", $email);
     $domains = explode(',', config::$EMAILDOMAIN);
 
@@ -993,7 +1012,7 @@ abstract class strings {
     return preg_match('/^[a-f0-9]{32}$/', $md5);
   }
 
-  static public function isValidJSON(string $str) {
+  static public function isValidJSON(string|null $str) {
 
     if ($str) {
 
@@ -1015,7 +1034,7 @@ abstract class strings {
     return false;
   }
 
-  static public function validJSON(string $str): mixed {
+  static public function validJSON(string|null $str): mixed {
 
     if ($str) {
 
@@ -1081,7 +1100,8 @@ abstract class strings {
    *
    * @return string
    */
-  static public function rfc822(string $email, string $name = ''): string {
+  static public function rfc822(string|null $email, string $name = ''): string {
+    if (!$email) return '';
     // 8.1.0	flags changed from ENT_COMPAT to ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401.
     if ($name) {
 
@@ -1092,7 +1112,8 @@ abstract class strings {
     }
   }
 
-  static public function safe_file_name(string $str, bool $spaces = true): string {
+  static public function safe_file_name(string|null $str, bool $spaces = true): string {
+    $str = $str ?? '';
 
     if ($ext = pathinfo($str, PATHINFO_EXTENSION)) {
 
@@ -1117,7 +1138,8 @@ abstract class strings {
     }
   }
 
-  static public function SmartCase(string $name): string {
+  static public function SmartCase(string|null $name): string {
+    if (!$name) return '';
     $name = strtolower($name);
     $name = join("'", array_map('ucwords', explode("'", $name)));
     $name = join("-", array_map('ucwords', explode("-", $name)));
@@ -1202,7 +1224,8 @@ abstract class strings {
     return (preg_replace($a, $aR, $inText));
   }
 
-  static public function toEmail822(string $email, $name = ''): string {
+  static public function toEmail822(string|null $email, $name = ''): string {
+    if (!$email) return '';
     if (self::isEmail($email)) {
       if ($name) {
         return (sprintf('%s <%s>', $name, $email));
@@ -1214,11 +1237,13 @@ abstract class strings {
     return '';
   }
 
-  static public function url(string $url = '', bool $protocol = false): string {
+  static public function url(string|null $url = null, bool $protocol = false): string {
+    $url = $url ?? '';
     return url::toString($url, $protocol);
   }
 
-  static public function xml_entities(string $text, $charset = 'UTF-8') {
+  static public function xml_entities(string|null $text, $charset = 'UTF-8') {
+    if (!$text) return '';
     // Debug and Test
     // $text = "test &amp; &trade; &amp;trade; abc &reg; &amp;reg; &#45;";
 
