@@ -32,6 +32,9 @@ Use to add or adjust authorization and permission workflows.
 
 ## Skills
 
+### [Triage](skills/triage/SKILL.md)
+Convert issue plaintext to BDD markdown, enrich Developer Notes with implementation intent, and emit a confidence gate for delta planning.
+
 ### [Issue to Delta](skills/issue-to-delta/SKILL.md)
 Create and iteratively refine `delta.<issue-id>.md` files from issue input.
 
