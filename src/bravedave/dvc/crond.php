@@ -3,7 +3,7 @@
  * David Bray
  * BrayWorth Pty Ltd
  * e. david@brayworth.com.au
- * 
+ *
  * MIT License
  *
 */
@@ -106,7 +106,7 @@ final class crond {
 
       // Touch semaphore to update timestamp
       touch(self::$semaphore);
-      sleep(2);
+      sleep(5);
       $i++;
     }
 
