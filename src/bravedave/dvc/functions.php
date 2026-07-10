@@ -33,9 +33,13 @@ function esc(string|null $v): string {
  * Handles:
  *   - Smart single quotes / apostrophes  U+2018 U+2019 U+201A  →  '
  *   - Smart double quotes                U+201C U+201D U+201E  →  "
- *   - En dash                            U+2013                →  -
- *   - Em dash                            U+2014                →  --
- *   - Horizontal ellipsis               U+2026                →  ...
+ *   - Hyphen-Minus: -                    U+002D                →  -
+ *   - En Dash: –                         U+2013                →  -
+ *   - Em Dash: —                         U+2014                →  --
+ *   - Figure Dash: ‒                     U+2012                →  -
+ *   - Horizontal Bar: ―                  U+2015                →  --
+ *   - Minus Sign: −                      U+2212                →  -
+ *   - Horizontal ellipsis                U+2026                →  ...
  *   - Non-breaking space                 U+00A0                →  (space)
  *   - Soft hyphen                        U+00AD                →  (removed)
  *
@@ -53,8 +57,14 @@ function normaliseText(string|null $value): string {
     sprintf('@(%s|%s|%s)@u', "\u{201C}", "\u{201D}", "\u{201E}"),
     // Em dash (U+2014) — before en dash so it gets '--' not '- '
     sprintf('@%s@u', "\u{2014}"),
+    // Horizontal bar (U+2015) — same visual role as em dash
+    sprintf('@%s@u', "\u{2015}"),
     // En dash (U+2013)
     sprintf('@%s@u', "\u{2013}"),
+    // Figure dash (U+2012)
+    sprintf('@%s@u', "\u{2012}"),
+    // Minus sign (U+2212)
+    sprintf('@%s@u', "\u{2212}"),
     // Horizontal ellipsis (U+2026)
     sprintf('@%s@u', "\u{2026}"),
     // Non-breaking space (U+00A0)
@@ -63,7 +73,7 @@ function normaliseText(string|null $value): string {
     sprintf('@%s@u', "\u{00AD}"),
   ];
 
-  $replace = ["'", '"', '--', '-', '...', ' ', ''];
+  $replace = ["'", '"', '--', '--', '-', '-', '-', '...', ' ', ''];
 
   return preg_replace($search, $replace, $value);
 }
