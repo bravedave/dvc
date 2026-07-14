@@ -186,6 +186,7 @@ abstract class config {
   static public function checkDBconfigured(): bool {
 
     return match (static::$DB_TYPE) {
+      'mariadb' => true,
       'mysql' => true,
       'sqlite' => true,
       'disabled' => true,
