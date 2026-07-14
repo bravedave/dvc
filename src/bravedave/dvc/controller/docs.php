@@ -1,17 +1,15 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
+
 
 namespace bravedave\dvc\controller;
 
 use bravedave\dvc\{json, logger, Response};
-use config, Controller, sys;
+use config;
+use Controller;
 use strings;
 
 class docs extends Controller {
