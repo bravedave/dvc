@@ -193,11 +193,18 @@ final class jslib {
       }
     }
 
+    $libFile = \config::tempdir()  . '_' . $libname . '.js';
+
+    // if the file exist and it is zero bytes, then delete it and recreate it
+    if (file_exists($libFile) && !filesize($libFile)) {
+      unlink($libFile);
+    }
+
     jslib::viewjs([
       'debug' => false,
       'libName' => $libname,
       'jsFiles' => $files,
-      'libFile' => \config::tempdir()  . '_' . $libname . '.js'
+      'libFile' => $libFile
     ]);
   }
 
