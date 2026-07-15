@@ -1,10 +1,7 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
  *
  * Creates a lib combined file for a js library
  * 	- requires a directory to write to -see tinymce for example:
@@ -21,14 +18,13 @@ namespace bravedave\dvc;
 use dvc\Response;
 use FilesystemIterator;
 use GlobIterator, MatthiasMullie;
+use application as app;
 
 final class jslib {
   public static $debug = false;
   public static $tinylib = false;
   public static $brayworthlib = false;
-  // 'js/_brayworth_.bootstrapModalPop.js',
-  // 'js/_brayworth_.logonModal.js',
-  public static $brayworthlibFiles = [
+  public static array $brayworthlibFiles = [
     'js/jquery.visible.js',
     'js/_brayworth_.js',
     'js/_brayworth_.ask.js',
@@ -87,22 +83,19 @@ final class jslib {
     'js/dayjs/utc.js',
   ];
 
-  // buggy
-  // 'js/dayjs/duration.js',
-  // 'js/dayjs/customParseFormat.js',
-
-  public static $brayworthlibDOPOFiles = [
+  public static array $brayworthlibDOPOFiles = [
     'js/dopo.js'
   ];
 
-  protected static $rootPath = null;
+  protected static ?string $rootPath = null;
 
+  /** @disregard P1132 */
   protected static function __createlib($libdir, $jslib, $files, $minify = false) {
     $debug = self::$debug;
     //~ $debug = TRUE;
 
     if (is_null(self::$rootPath)) {
-      self::$rootPath = application::app()->getRootPath() . '/app/public/js';
+      self::$rootPath = app::app()->getRootPath() . '/app/public/js';
     }
 
     if ($libdir) {
@@ -117,7 +110,7 @@ final class jslib {
 
     // return ( FALSE);
 
-    if (file_exists(application::app()->getRootPath() . '/app/public/')) {
+    if (file_exists(app::app()->getRootPath() . '/app/public/')) {
       if (!(file_exists($outputDIR)) && is_writable(self::$rootPath)) {
         mkdir($outputDIR, 0777, true);
       }
@@ -130,7 +123,6 @@ final class jslib {
           } else {
 
             logger::info(sprintf('<cannot locate library file %s> %s', $file, __METHOD__));
-            // logger::info( realpath( $file));
           }
         }
 
@@ -142,10 +134,9 @@ final class jslib {
         }
 
         file_put_contents($output, $content);
-        return (true);
-        // logger::info( 'no of files = ' . count( $contents));
-
+        return true;
       } else {
+
         logger::info(sprintf('<%s is not writable - cannot create a library here> %s', $outputDIR, __METHOD__));
         logger::info(sprintf('<please create a writable data folder : %s> %s', $outputDIR, __METHOD__));
         logger::info(sprintf('<mkdir --mode=0777 %s> %s', $outputDIR, __METHOD__));
@@ -163,12 +154,10 @@ final class jslib {
     // $debug = false;
 
     $path = implode(DIRECTORY_SEPARATOR, [
-      \application::app()->getVendorPath(),
+      app::app()->getVendorPath(),
       'tinymce',
       'tinymce'
     ]);
-
-    // logger::info( sprintf('<%s> %s', $path, __METHOD__));
 
     $files = [
       implode(DIRECTORY_SEPARATOR, [$path, 'tinymce.min.js']),
@@ -221,16 +210,16 @@ final class jslib {
       $files[] = __DIR__ . '/' . $f;
     }
 
-    if (!application::app()) {
+    if (!app::app()) {
       throw new Exceptions\ExternalUseViolation;
     }
 
     if ($libdir) {
       self::$brayworthlib = sprintf('%sjs/%s/%s?v=', \url::$URL, $libdir, $lib);
-      $jslib = sprintf('%s/app/public/js/%s/%s', application::app()->getRootPath(), $libdir, $lib);
+      $jslib = sprintf('%s/app/public/js/%s/%s', app::app()->getRootPath(), $libdir, $lib);
     } else {
       self::$brayworthlib = sprintf('%sjs/%s?vv=', \url::$URL, $lib);
-      $jslib = sprintf('%s/app/public/js/%s', application::app()->getRootPath(), $lib);
+      $jslib = sprintf('%s/app/public/js/%s', app::app()->getRootPath(), $lib);
     }
 
     if (realpath($jslib) && file_exists($jslib)) {
@@ -278,6 +267,7 @@ final class jslib {
     return false;
   }
 
+  /** @disregard P1132 */
   protected static function _js_create($options) {
     $input = [];
 
@@ -328,6 +318,7 @@ final class jslib {
     }
   }
 
+  /** @disregard P1132 */
   protected static function _js_serve($options) {
 
     $expires = \config::$JS_EXPIRE_TIME;
@@ -341,6 +332,7 @@ final class jslib {
     print file_get_contents($options->libFile);
   }
 
+  /** @disregard P1132 */
   protected static function _createjs($params, bool $serve = true) {
 
     $options = (object)array_merge([
@@ -404,11 +396,13 @@ final class jslib {
     }
   }
 
+  /** @disregard P1132 */
   public static function viewjs($params) {
 
     static::_createjs($params, $serve = true);
   }
 
+  /** @disregard P1132 */
   public static function createjs($params) {
 
     static::_createjs($params, $serve = false);

@@ -1,13 +1,8 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
-
 
 namespace bravedave\dvc;
 
@@ -87,12 +82,7 @@ class json {
   }
 
   /**
-   *
    * add keyed data to the object
-   *
-   * @param string $key
-   * @param array|object $data
-   * @return $this
    */
   public function add(string $key, null|string|array|object $data): self {
 
@@ -112,16 +102,11 @@ class json {
   }
 
   /**
-   *
    * add data on the 'data' key to the object
-   *
    * this firms up what an api call should look like
    *
    * _brayworth_.api( url, data)
    *  .then( d => {}).catch(_.growl);
-   *
-   * @param string|array|object $data
-   * @return $this
    */
   public function data(null|string|array|object $data): self {
 
@@ -134,6 +119,7 @@ class json {
     sys::dump($this->_json);
   }
 
+  /** @disregard P1132 */
   public function merge($data): self {
 
     $a = array_merge($this->_json, $data);
