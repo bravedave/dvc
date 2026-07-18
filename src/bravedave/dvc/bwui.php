@@ -1,11 +1,7 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc;
@@ -23,6 +19,8 @@ class bwui extends dao {
 
   protected function structure($name = null) {
 
+    $cache = null;
+    $key = '';
     if (config::$DB_CACHE == 'APC') {
 
       $cache = cache::instance();
@@ -52,7 +50,7 @@ class bwui extends dao {
 
       $dbc->defineIndex('idx_bwui_key', '`key`');
 
-      if (config::$DB_CACHE == 'APC') $cache->set($key, self::version);
+      if ($cache) $cache->set($key, self::version);
 
       return $dbc;
     }
@@ -65,15 +63,11 @@ class bwui extends dao {
     $dt = new DateTime;
     $dt->sub(new DateInterval('P7D'));
 
-    $sql = sprintf(
-      'DELETE FROM bwui WHERE DATE( `updated`) < %s',
-      $this->quote($dt->format('Y-m-d'))
-    );
-
+    $sql = sprintf('DELETE FROM bwui WHERE DATE( `updated`) < %s', $this->quote($dt->format('Y-m-d')));
     $this->Q($sql);
   }
 
-  public function getByUID($uid, $fields = '*') {
+  public function getByUID(string $uid, $fields = '*') {
 
     if (strings::isValidMd5($uid)) {
 
@@ -105,12 +99,14 @@ class bwui extends dao {
     return null;
   }
 
+  /** @disregard P1132 */
   public function Insert($a) {
 
     $a['created'] = $a['updated'] = self::dbTimeStamp();
     return parent::Insert($a);
   }
 
+  /** @disregard P1132 */
   public function UpdateByID($a, $id) {
 
     $a['updated'] = self::dbTimeStamp();

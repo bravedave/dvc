@@ -1,11 +1,7 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc;
@@ -64,12 +60,16 @@ abstract class dao {
   protected $_sql_getByID = 'SELECT * FROM %s WHERE id = %d';
   protected $_sql_getAll = 'SELECT %s FROM %s %s';
 
+  /** @disregard P1132 */
   protected $_db_name = null;
+  /** @disregard P1132 */
   protected $_db_cache_prefix = null;
   protected $_db_allways_check_structure = true;
   protected $useCache = true;
+  /** @disregard P1132 */
   protected $template = null;
 
+  /** @disregard P1132 */
   public $db;
   public $log = false;
 
@@ -293,6 +293,7 @@ abstract class dao {
   public function audit(string $event, array $data, int $id): void {
   }
 
+  /** @disregard P1132 */
   public static function asDTO($res, $template = null): array {
 
     return $res->dtoSet(null, $template);
@@ -380,6 +381,7 @@ abstract class dao {
     // else: do nothing for invalid id input
   }
 
+  /** @disregard P1132 */
   public function dtoSet($res, $func = null): array {
 
     if ($res instanceof dbResult || $res instanceof sqlite\dbResult) {
@@ -395,7 +397,7 @@ abstract class dao {
     }
   }
 
-  public function escape($s) {
+  public function escape(string $s) {
 
     return $this->db->escape($s);
   }
@@ -414,10 +416,13 @@ abstract class dao {
     return $this->Result($sql);
   }
 
+  /** @disregard P1132 */
   public function getByID($id) {
 
     if (is_null($this->_db_name)) throw new DBNameIsNull;
 
+    $cache = null;
+    $key = '';
     if ($this->useCache) {
 
       if (config::$DB_CACHE == 'APC') {
@@ -467,7 +472,7 @@ abstract class dao {
 
       if ($this->useCache) {
 
-        if (config::$DB_CACHE == 'APC') $cache->set($key, $dto);
+        if ($cache) $cache->set($key, $dto);
       }
       return $dto;
     }
@@ -475,10 +480,13 @@ abstract class dao {
     return false;
   }
 
+  /** @disregard P1132 */
   public function getFieldByID($id, $fld) {
 
     if (is_null($this->_db_name)) throw new DBNameIsNull;
 
+    $cache = null;
+    $key = '';
     if (config::$DB_CACHE == 'APC') {
 
       $cache = cache::instance();
@@ -491,7 +499,7 @@ abstract class dao {
 
       if ($dto = $res->dto($this->template)) {
 
-        if (config::$DB_CACHE == 'APC') $cache->set($key, $dto->{$fld});
+        if ($cache) $cache->set($key, $dto->{$fld});
         return $dto->{$fld};
       }
     }
@@ -499,11 +507,7 @@ abstract class dao {
     return false;
   }
 
-  // public function getRichData(dto $dto): ?dto {
-
-  //   return $dto;
-  // }
-
+  /** @disregard P1132 */
   public function Insert($a) {
 
     if (is_null($this->db_name())) throw new DBNameIsNull;
@@ -523,6 +527,7 @@ abstract class dao {
     return $this->db->prepare($query);
   }
 
+  /** @disregard P1132 */
   public function Update($a, $condition, $flushCache = true) {
 
     if (is_null($this->db_name())) throw new DBNameIsNull;
@@ -531,6 +536,7 @@ abstract class dao {
     return $this->db->Update($this->db_name(), $a, $condition, $flushCache);
   }
 
+  /** @disregard P1132 */
   public function UpdateByID($a, $id) {
 
     if (is_null($this->db_name())) throw new DBNameIsNull;
@@ -545,7 +551,7 @@ abstract class dao {
    * runs a query and returns a dbResult object
    * the opbject maybe a dvc\dbResult or a dvc\sqlite\dbResult
    */
-  public function Result($query) {
+  public function Result(string $query) {
 
     $this->db->log = $this->log;
     return $this->db->Result($query);
@@ -560,13 +566,13 @@ abstract class dao {
     return new statement($query, $this->db);
   }
 
-  public function Q($query) {
+  public function Q(string $query) {
 
     $this->db->log = $this->log;
     return $this->db->Q($query);
   }
 
-  public function quote($s) {
+  public function quote(mixed $s) {
 
     return $this->db->quote($s);
   }
