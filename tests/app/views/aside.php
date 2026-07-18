@@ -39,12 +39,14 @@
     <div class="col bg-primary">&nbsp;</div>
     <div class="col bg-secondary">&nbsp;</div>
     <div class="col bg-success">&nbsp;</div>
-    <div class="col bg-lite">&nbsp;</div>
+    <div class="col bg-light">&nbsp;</div>
     <div class="col bg-danger">&nbsp;</div>
     <div class="col bg-warning">&nbsp;</div>
     <div class="col bg-info">&nbsp;</div>
   </div>
 </div>
+
+<a class="h5 mt-3 d-block" href="<?= strings::url('tailwind') ?>">Tailwind</a>
 
 <p class="mt-4 fst-italic">
   constructed using bootstrap, jquery and many other open source technologies

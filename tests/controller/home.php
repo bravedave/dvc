@@ -111,18 +111,21 @@ class home extends controller {
     ]);
   }
 
-  public function toast() {
+  public function tailwind() {
 
     $this->data = (object)[
       'title' => $this->title = config::$WEBNAME,
       'pageUrl' => strings::url($this->route),
       'searchFocus' => true,
-      'aside' => ['aside']
+      'aside' => ['aside'],
     ];
 
     $this->renderBS5([
-      'main' => fn() => $this->load('toast'),
-      'toastui' => true
+      'page' => bravedave\dvc\esse\tailwind::class,
+      'footer' => fn() => $this->load('footer-tailwind'),
+      'navbar' => fn() => $this->load('navbar-tailwind'),
+      'aside' => fn() => $this->load('tailwind-aside'),
+      'main' => fn() => $this->load('tailwind-main')
     ]);
   }
 
@@ -151,6 +154,21 @@ class home extends controller {
 
     $this->renderBS5([
       'main' => fn() => $this->load('tiny8')
+    ]);
+  }
+
+  public function toast() {
+
+    $this->data = (object)[
+      'title' => $this->title = config::$WEBNAME,
+      'pageUrl' => strings::url($this->route),
+      'searchFocus' => true,
+      'aside' => ['aside']
+    ];
+
+    $this->renderBS5([
+      'main' => fn() => $this->load('toast'),
+      'toastui' => true
     ]);
   }
 

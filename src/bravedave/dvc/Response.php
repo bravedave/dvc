@@ -104,7 +104,7 @@ abstract class Response {
     self::_common_headers();
 
     if (config::$CONTENT_SECURITY_ENABLED) {
-      
+
       $policy = "frame-ancestors 'self';";
       if (config::$CONTENT_SECURITY_INCLUDE_CLOUDFLARE) {
         $policy = "script-src 'self' https://static.cloudflareinsights.com 'unsafe-inline'; frame-ancestors 'self';";
@@ -730,6 +730,14 @@ abstract class Response {
 
       self::serve($lib);
     }
+  }
+
+  public static function serveTailwind($type = 'css'): void {
+
+    $lib = resources::tailwind('css');
+
+    // logger::info(sprintf('<%s> %s', $lib, __METHOD__));
+    self::serve($lib);
   }
 
   public static function serveToastUI($type = 'css'): void {

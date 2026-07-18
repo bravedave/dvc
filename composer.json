@@ -72,7 +72,8 @@
       "bash src/resource/update-preact.sh",
       "bash src/resource/update-quill.sh",
       "bash src/resource/update-mermaid.sh",
-      "bash src/resource/update-papaparse.sh"
+      "bash src/resource/update-papaparse.sh",
+      "bash src/resource/update-tailwind.sh"
     ],
     "start": [
       "Composer\\Config::disableProcessTimeout",

@@ -52,4 +52,9 @@ abstract class resources {
 
     return '';
   }
+
+  public static function tailwind(string $type = 'css'): string {
+
+    return __DIR__ . '/resources/tailwind/tailwind.min.css';
+  }
 }
