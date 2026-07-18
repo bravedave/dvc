@@ -1,11 +1,7 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc;
@@ -23,28 +19,30 @@ define('APPLICATION', 1);
 
 abstract class application {
   protected static ?Request $_request = null;
-  protected static $instance = null;
+  protected static ?application $instance = null;
   protected $_app_executed = false;
   public $exclude_from_sitemap = false;
-  protected $rootPath = null;
+  protected ?string $rootPath = null;
+  /** @disregard P1132 */
   protected $_route = null;
   protected $banned = [];
   protected $paths = [];
-  protected $url_action = null;
+  protected ?string $url_action = null;
+  /** @disregard P1132 */
   protected $url_controller = null;
-  protected $url_parameter_1 = null;
-  protected $url_parameter_2 = null;
-  protected $url_parameter_3 = null;
+  protected ?string $url_parameter_1 = null;
+  protected ?string $url_parameter_2 = null;
+  protected ?string $url_parameter_3 = null;
   protected $url_served = '';
   protected timer $_timer;
   protected $db = false;
-  public $defaultController = null;
+  public ?string $defaultController = null;
   protected $minimum = false;
   protected $service = false;
   const use_full_url = true;
   static $debug = false;
 
-  public function __construct($rootPath) {
+  public function __construct(string $rootPath) {
     self::$instance = $this;
     $this->rootPath = realpath($rootPath);
     $this->initialize();
@@ -642,7 +640,7 @@ abstract class application {
       }
     } else {
 
-      $app = new application($dir);
+      $app = new \application($dir);
     }
   }
 }
