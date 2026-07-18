@@ -932,6 +932,13 @@ abstract class controller {
       $page = $options['page'] ?? (esse\page::bootstrap());
     }
 
+    // page can be a class string for an invokable or non-invokable page object
+    if (is_string($page)) {
+
+      $instance = new $page;
+      $page = is_callable($instance) ? $instance() : $instance;
+    }
+
     array_walk($options['css'], fn($_) => $page->css[] = preg_match('/^<(link|style)/', $_) ? $_ : sprintf('<link rel="stylesheet" href="%s">', $_));
     array_walk($options['scripts'], fn($_) => $page->scripts[] = preg_match('/^<script/', $_) ? $_ : sprintf('<script src="%s"></script>', $_));
 
