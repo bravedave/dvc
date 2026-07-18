@@ -126,6 +126,7 @@ class assets extends Controller {
     }
   }
 
+  /** @disregard P1132 */
   public function module($file) {
 
     if ($file = preg_replace('/[^a-zA-Z0-9\_\-]/', '', $file)) {
@@ -153,6 +154,11 @@ class assets extends Controller {
   public function mermaid($type = 'css') {
 
     Response::serveMermaid($type);
+  }
+
+  public function tailwind($type = 'css') {
+
+    Response::serveTailwind($type);
   }
 
   public function toastui($type = 'css') {
