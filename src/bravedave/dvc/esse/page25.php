@@ -110,7 +110,7 @@ class page25 {
    * close the page,
    * close the body and head elements if they are open
    *
-   * @return page25 a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function close(): static {
 
@@ -129,7 +129,7 @@ class page25 {
   /**
    * close the side panel of the page, if open
    *
-   * @return page25 a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function closeaside(): static {
 
@@ -145,7 +145,7 @@ class page25 {
   /**
    * close the html body including relevant elements
    *
-   * @return page25 a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function closebody(): static {
 
@@ -164,7 +164,7 @@ class page25 {
   /**
    * close the html head element if open
    *
-   * @return page25 a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function closehead(): static {
 
@@ -179,7 +179,7 @@ class page25 {
   /**
    * close the main panel if open
    *
-   * @return page25 a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function closemain(): static {
 
@@ -194,7 +194,7 @@ class page25 {
   /**
    * close the main row including relevant elements
    *
-   * @return page25 a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function closemainrow(): static {
 
@@ -213,7 +213,7 @@ class page25 {
   /**
    * open the head element, creates the html element if required
    *
-   * @return page25 a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function head(string $title = ''): static {
 
@@ -239,7 +239,7 @@ class page25 {
    *  creates the html element if required,
    *  closes the head element if it is open
    *
-   * @return page25 a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function body(): static {
 
@@ -265,7 +265,7 @@ class page25 {
    *  creates a body and mainrow element if required
    *  closes the main element if it is open
    *
-   * @return page25 a page control that can be chained
+   * @return static - a page control that can be chained
    */
   public function aside(): static {
 
@@ -290,7 +290,7 @@ class page25 {
    *  creates a body if required
    *  closes the mainrow element if it is open
    *
-   * @return page25 a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function footer(): static {
 
@@ -305,7 +305,7 @@ class page25 {
    *  creates a body element if required
    *  closes the aside element if it is open
    *
-   * @return page25 a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function main(): static {
 
@@ -325,7 +325,7 @@ class page25 {
    * open the mainrow element,
    *  creates the body element if required
    *
-   * @return page25 a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function mainrow(): static {
 
@@ -342,7 +342,7 @@ class page25 {
   /**
    * open the html element if required
    *
-   * @return page25 a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function open(): static {
 
@@ -363,7 +363,7 @@ class page25 {
    *
    * @param Closure $code a code block to execute
    *
-   * @return bravedave\esse\page itself
+   * @return static a page control that can be chained
    */
   public function then(Closure $code): static {
 
