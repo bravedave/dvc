@@ -1,12 +1,42 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
  *
  * https://symfony.com/doc/current/mailer.html
+ *
+ * Usage:
+ *   $email = sendmail::email()
+ *     ->to('recipient@example.com')
+ *     ->subject('Report')
+ *     ->text('Attached is the report.')
+ *     ->attachFromPath('/path/to/report.pdf', 'report.pdf', 'application/pdf')
+ *     ->attachFromPath('/path/to/summary.txt')
+ *     ->attach($csv, 'report.csv', 'text/csv');
+ *
+ *   sendmail::send($email);
+ *
+ * Helper usage, also chainable because each helper returns the Email object:
+ *   $email = sendmail::attach(
+ *     sendmail::attachFromPath(
+ *       sendmail::email()
+ *         ->to('recipient@example.com')
+ *         ->subject('Report')
+ *         ->text('Attached is the report.'),
+ *       '/path/to/report.pdf',
+ *       'report.pdf',
+ *       'application/pdf'
+ *     ),
+ *     $csv,
+ *     'report.csv',
+ *     'text/csv'
+ *   );
+ *
+ *   // Or add attachments to an existing Email instance.
+ *   sendmail::attachFromPath($email, '/path/to/report.pdf', 'report.pdf', 'application/pdf');
+ *   sendmail::attach($email, $csv, 'report.csv', 'text/csv');
+ *
+ *   sendmail::send($email);
 */
 
 namespace bravedave\dvc;
@@ -25,35 +55,43 @@ use Symfony\Component\Mailer\{
 abstract class sendmail {
   static $debug = false;
 
-  static protected function print_xml_error($error) {
-    $return  = $error->message . "\n";
-    $return .= str_repeat('-', $error->column) . "^\n";
+  // static protected function print_xml_error($error) {
+  //   $return  = $error->message . "\n";
+  //   $return .= str_repeat('-', $error->column) . "^\n";
 
-    switch ($error->level) {
-      case LIBXML_ERR_WARNING:
-        $return .= "Warning $error->code: ";
-        break;
-      case LIBXML_ERR_ERROR:
-        $return .= "Error $error->code: ";
-        break;
-      case LIBXML_ERR_FATAL:
-        $return .= "Fatal Error $error->code: ";
-        break;
-    }
+  //   switch ($error->level) {
+  //     case LIBXML_ERR_WARNING:
+  //       $return .= "Warning $error->code: ";
+  //       break;
+  //     case LIBXML_ERR_ERROR:
+  //       $return .= "Error $error->code: ";
+  //       break;
+  //     case LIBXML_ERR_FATAL:
+  //       $return .= "Fatal Error $error->code: ";
+  //       break;
+  //   }
 
-    $return .= trim($error->message) .
-      "\n  Line: $error->line" .
-      "\n  Column: $error->column";
+  //   $return .= trim($error->message) .
+  //     "\n  Line: $error->line" .
+  //     "\n  Column: $error->column";
 
-    if ($error->file) {
-      $return .= "\n  File: $error->file";
-    }
+  //   if ($error->file) {
+  //     $return .= "\n  File: $error->file";
+  //   }
 
-    return "$return\n\n--------------------------------------------\n\n";
-  }
+  //   return "$return\n\n--------------------------------------------\n\n";
+  // }
 
   static function address(string $email, string $name) {
     return new Address($email, $name);
+  }
+
+  static function attachFromPath(Email $email, string $path, ?string $name = null, ?string $contentType = null): Email {
+    return $email->attachFromPath($path, $name, $contentType);
+  }
+
+  static function attach(Email $email, string $body, ?string $name = null, ?string $contentType = null): Email {
+    return $email->attach($body, $name, $contentType);
   }
 
   static function email(array $params = []): Email {
@@ -72,7 +110,7 @@ abstract class sendmail {
     return $email;
   }
 
-  public static function image2cid($msg, \Symfony\Component\Mime\Email $mail) {
+  public static function image2cid(string $msg, \Symfony\Component\Mime\Email $mail) {
     /**
      * The message may have embedded images,
      * these need to be converted to cid: type inline attachments
