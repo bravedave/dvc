@@ -270,6 +270,11 @@ $this->load('view-name');              // Loads from module's views/
 $this->renderBS5([...]);               // Full page render with layout
 ```
 
+**6. Search Focus Pattern**
+- Set `'searchFocus' => false` when a view has its own search input with autofocus.
+- This prevents the global navbar search from stealing focus on page load.
+- Use `'searchFocus' => true` only when the view does not provide a local search field.
+
 **Example from `src/app/todo/controller.php`:**
 
 ```php
@@ -1334,6 +1339,8 @@ _.fetch.post.form(url, formElement, 'multipart/form-data') // POST multipart dat
 _.get.modal(url)                        // Load modal via GET (framework auto-calls modal('show'))
 _.growl(d)                              // Show notification
 _.ask.alert.confirm({title, text})      // Confirmation dialog
+_.ask.success(message)                  // Success dialog
+_.ask.success.confirm(message)          // Success confirmation dialog
 _.ready(callback)                       // Document ready
 _.hideContexts(e)                       // Hide context menus
 _.context(e)                            // Create context menu
@@ -1342,6 +1349,7 @@ _.esc(str)                              // Escape HTML for XSS prevention
 _.table.search(search, table)           // Framework table search helper
 _.asLocaleDate(value)                   // Locale-aware date formatter
 _.randomString()                        // Client-side unique ID generator
+_.csv.call(tableElement, 'export.csv')  // Export a table to CSV; pass the HTMLTableElement itself
 ```
 
 When using `_.get.modal(url)`, follow this contract in every module and view:
@@ -1350,6 +1358,8 @@ When using `_.get.modal(url)`, follow this contract in every module and view:
 - Do not call `modal.modal('show')` inside fetched HTML. `_brayworth_.get.js` does this after append.
 
 `_.rand()` does not exist. Use `_.randomString()` for client-side unique IDs.
+
+For CSV exports, call the helper on a real table element, for example `_.csv.call(table[0], 'export.csv')` when `table` is a jQuery object.
 
 **4. Bootstrap 5 Modals**
 ```javascript
