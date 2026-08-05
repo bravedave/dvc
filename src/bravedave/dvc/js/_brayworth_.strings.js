@@ -6,7 +6,7 @@
  * MIT License
  *
  * test:
- *	'0418745334'.IsMobilePhone();
+ *	'0418745334'.isMobilePhone();
 */
 (_ => {	// strings
   String.prototype.ltrim = function () { return this.replace(/^\s+/, ""); };
@@ -151,27 +151,23 @@
       let ns = this.replace(/[^0-9\+]/g, '');
 
       if (ns.length == 10) {
-        return (true);
-      }
-      else if (ns.substring(0, 1) == '+' && ns.length == 12) {
-        return (true);
 
-      }
-      else if (ns.substring(0, 2) == '61' && ns.length == 11) {	/* australian mobile */
         return (true);
+      } else if (ns.substring(0, 1) == '+' && ns.length == 12) {
 
-      }
-      else if (ns.substring(0, 1) == '+' && ns.length == 13) {	/* italian mobile */
         return (true);
+      } else if (ns.substring(0, 2) == '61' && ns.length == 11) {	/* australian mobile */
 
-      }
-      else if (ns.substring(0, 2) == '39' && ns.length == 12) {	/* italian mobile */
         return (true);
+      } else if (ns.substring(0, 1) == '+' && ns.length == 13) {	/* italian mobile */
 
+        return (true);
+      } else if (ns.substring(0, 2) == '39' && ns.length == 12) {	/* italian mobile */
+
+        return (true);
       }
 
       return (false);
-
     };
 
   String.prototype.isPhone =
@@ -262,7 +258,7 @@
   };
 
   Number.prototype.formatComma = function (x) {
-    
+
     return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
