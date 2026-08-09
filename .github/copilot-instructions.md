@@ -1356,6 +1356,8 @@ When using `_.get.modal(url)`, follow this contract in every module and view:
 - Returned HTML should have a single root element (normally `<form>`).
 - Inline `<script>` must be inside that root element so event handlers bind before the framework shows the modal.
 - Do not call `modal.modal('show')` inside fetched HTML. `_brayworth_.get.js` does this after append.
+- Do not use the native HTML `<dialog>` element for edit forms; fetched edit views must use the Bootstrap 5 `.modal` structure shown above.
+- Matrix add/edit actions must open the edit view with `_.get.modal()` and refresh the owning list after the modal emits `success`.
 
 `_.rand()` does not exist. Use `_.randomString()` for client-side unique IDs.
 
