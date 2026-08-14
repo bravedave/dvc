@@ -1,11 +1,7 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc;
@@ -23,24 +19,29 @@ class Request {
 
   protected string $method = 'GET';
 
+  /** @disregard P1132 */
   protected $json;
 
+  /** @disregard P1132 */
   protected $post;
 
+  /** @disregard P1132 */
   protected $query;
 
+  /** @disregard P1132 */
   protected $params;
 
+  /** @disregard P1132 */
   protected $segments;
 
-  protected static $instance;
+  protected static ?Request $instance = null;
 
   /**
    * @param string $var
    * @param bool $default
    * @return mixed
    */
-  public static function get($var = '', $default = false): Request {
+  public static function get($var = '', $default = false): string|Request {
 
     if (!isset(self::$instance))
       self::$instance = new Request;
@@ -116,11 +117,11 @@ class Request {
 
       $this->segments = ['sitemap', 'txt'];
     } else {
-      
+
       $ignore = [
         '.well-known'
       ];
-      
+
       $segs = explode('/', $url);
       $this->segments = [];
       foreach ($segs as $seg) {
@@ -152,6 +153,7 @@ class Request {
     return ($this->_RewriteBase);
   }
 
+  /** @disregard P1132 */
   public function setReWriteBase($htaccess) {
     $a = explode("\n", $htaccess);
     $rwb = '';
@@ -167,6 +169,7 @@ class Request {
     $this->_RewriteBase = $rwb;
   }
 
+  /** @disregard P1132 */
   public function setControllerName($controllerName) {
     $this->controllerName = $controllerName;
   }
@@ -222,6 +225,7 @@ class Request {
     return $this->query[$name] ?? '';
   }
 
+  /** @disregard P1132 */
   public function getSegment($index) {
 
     if (isset($this->segments[$index])) return $this->segments[$index];
@@ -280,6 +284,7 @@ class Request {
     return '0.0.0.0';
   }
 
+  /** @disregard P1132 */
   public function getServer($name): string {
     return $_SERVER[$name] ?? '';
   }
@@ -295,6 +300,7 @@ class Request {
     return '0.0.0.0';
   }
 
+  /** @disregard P1132 */
   public function getSubNet($ip) {
     if (false !== strpos((string)$ip, '.')) {
       $a = explode('.', $ip);
@@ -309,22 +315,17 @@ class Request {
     return false;
   }
 
-  protected static $_serverIsLocal = null;
-  public function ServerIsLocal() {
+  protected static ?bool $_serverIsLocal = null;
+  public function ServerIsLocal(): bool {
 
-    if (!\is_null(self::$_serverIsLocal)) return self::$_serverIsLocal;
+    if (!is_null(self::$_serverIsLocal)) return self::$_serverIsLocal;
 
     if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
-      return (self::$_serverIsLocal = true);
+
+      return self::$_serverIsLocal = true;
     }
 
-    // logger::info( sprintf('<%s : %s> server is not local : %s',
-    // 	$_SERVER['SERVER_NAME'],
-    // 	gethostname(),
-    // 	__METHOD__));
-
-
-    return (false);
+    return (self::$_serverIsLocal = false);
   }
 
   public function ClientIsLocal() {
@@ -387,6 +388,7 @@ class Request {
     return $default;
   }
 
+  /** @disregard P1132 */
   public function fileUpload($path, $accept = null) {
     /*
 			upload files to path from POST
