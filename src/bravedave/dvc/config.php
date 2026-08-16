@@ -120,6 +120,7 @@ abstract class config {
   static $DB_CACHE_DEBUG = false;
   static $DB_CACHE_DEBUG_FLUSH = false;
   static $DB_CACHE_DEBUG_TYPE_CONFLICT = true;
+  static $DB_CACHE_WARNING_ENABLED = true;
 
   static $DEFAULT_CONTROLLER = 'home';
 
@@ -369,11 +370,8 @@ abstract class config {
   public static function initialize() {
     /**
      * config initialize is called in _application->__construct()
-     *
      * This is a local overwrite of the db and google parameters
      */
-
-    // logger::info( sprintf('%s', __METHOD__));
 
     if (static::rootPath()) {
 
@@ -525,7 +523,10 @@ abstract class config {
         $apcuAvailabe = function_exists('apcu_enabled') && apcu_enabled();
         if (!$apcuAvailabe) {
 
-          logger::info(sprintf('<WARNING : APCu enabled but not available - disabling> %s', __METHOD__));
+          if (static::$DB_CACHE_WARNING_ENABLED) {
+
+            logger::info(sprintf('<WARNING : APCu enabled but not available - disabling> %s', logger::caller()));
+          }
           static::$DB_CACHE = '';
         }
       }
