@@ -219,6 +219,13 @@ class Request {
     return $this->post[$name] ?? $default;
   }
 
+  public function hasPost($name = ''): bool {
+
+    if (!$name) return (bool)($this->post || (array)$this->json);
+
+    return isset($this->json->$name) || isset($this->post[$name]);
+  }
+
   public function getQuery($name = ''): array|string {
 
     if (!$name) return $this->query;

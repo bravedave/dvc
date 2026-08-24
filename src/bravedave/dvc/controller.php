@@ -532,9 +532,12 @@ abstract class controller {
 
   protected function getPost($name = '', $default = false) {
 
-    if (is_null($this->Request)) return (false);
-    return $this->Request->getPost($name, $default);
-    // return ($this->ServerRequest)($name, $default);
+    return $this->Request ? $this->Request->getPost($name, $default) : false;
+  }
+
+  protected function hasPost($name = ''): bool {
+
+    return $this->Request ? $this->Request->hasPost($name) : false;
   }
 
   protected function isDelete(): bool {
