@@ -615,6 +615,32 @@ $dao->delete($id);                            // Returns boolean
 $count = $dao->count();                       // Returns int
 ```
 
+### Active Record Cache Invalidation
+
+The DVC DAO base class implements active record caching. `getByID()` checks the cache before querying the database and caches the retrieved DTO. `UpdateByID()` and `delete()` automatically invalidate the cache entries for each affected record ID, including cached individual fields.
+
+Prefer DAO mutation methods over direct `UPDATE` or `DELETE` queries. A direct mutation bypasses the DAO's record-level invalidation and can leave stale DTOs in the cache. If a direct mutation is unavoidable, flush the cache immediately after the query:
+
+```php
+use bravedave\dvc\cache;
+
+$this->db->Q($sql);
+cache::instance()->flush();
+```
+
+A full cache flush clears unrelated entries and has significant overhead, so it is a fallback rather than the normal update strategy. For bulk changes, select the affected IDs and update each record through its DAO:
+
+```php
+$sql = 'SELECT `id` FROM `table` WHERE `date` < "2025-12-31"';
+$dao = new tableDAO;
+
+(new dtoSet)($sql, function ($dto) use ($dao) {
+  $dao->UpdateByID([
+    'last_year' => 1,
+  ], (int)$dto->id);
+});
+```
+
 ### Key DAO Patterns
 
 **1. Required Properties**
