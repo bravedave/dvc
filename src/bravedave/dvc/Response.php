@@ -75,7 +75,7 @@ abstract class Response {
     header(sprintf('Content-Disposition: attachment; filename="%s"', $filename));
   }
 
-  public static function headers($mimetype, $modifyTime = 0, $expires = 0) {
+  public static function headers(string $mimetype, $modifyTime = 0, $expires = 0) {
     self::_common_headers($modifyTime, $expires);
     header(sprintf('Content-type: %s', $mimetype));
   }
@@ -224,7 +224,7 @@ abstract class Response {
 
   }
 
-  public static function serve($path, array $options = []): void {
+  public static function serve(string $path, array $options = []): void {
 
     $debug = false;
     // $debug = true;
@@ -250,7 +250,9 @@ abstract class Response {
 
       if ('application/pdf' == $mimetype) {
 
-        self::pdf_headers($path_parts['basename'], filemtime($path));
+        $filename = $options['filename'] ?? $path_parts['basename'];
+
+        self::pdf_headers($filename, filemtime($path));
         readfile($path);
         if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
       } elseif ('image/jpeg' == $mimetype) {
@@ -400,7 +402,7 @@ abstract class Response {
           if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
         } elseif ($ext == 'html') {
 
-          self::html_headers($path_parts['basename'], filemtime($path));
+          self::html_headers();
           readfile($path);
           if ($debug) logger::debug(sprintf('<served: %s> %s', $path, __METHOD__));
         } elseif ($ext == 'pdf') {
