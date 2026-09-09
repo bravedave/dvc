@@ -1,28 +1,24 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc;
 
 abstract class url {
-  static public $URL;
-  static public $HOME;
-  static public $PROTOCOL;
+  static public string $URL;
+  static public string $HOME;
+  static public string $PROTOCOL;
 
   static function tostring(string $url = '', bool $protocol = false): string {
 
     if ($protocol) {
 
-      return implode([self::$PROTOCOL, self::$URL, $url]);
+      return implode('',[self::$PROTOCOL, self::$URL, $url]);
     } else {
 
-      return implode([self::$URL, $url]);
+      return implode('', [self::$URL, $url]);
     }
   }
 
