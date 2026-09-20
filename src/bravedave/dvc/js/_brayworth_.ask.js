@@ -132,6 +132,7 @@
     }, ...p
   }));
 
+  _.ask.info = p => _.ask({ ...{ headClass: 'text-bg-info', title: 'Information', text: 'string' == typeof p ? p : '' }, ...p });
   _.ask.success = p => _.ask({ ...{ headClass: 'text-bg-success', title: 'Success', text: 'string' == typeof p ? p : '' }, ...p });
   _.ask.success.confirm = p => new Promise(resolve => _.ask.success({
     ...{
