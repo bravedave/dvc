@@ -558,6 +558,7 @@ abstract class strings {
 
     $street = (string)$street;
 
+    if (preg_match('/The\s?Crescent/i', $street)) return ($street);
     if (preg_match('/The\s?Drive/i', $street)) return ($street);
     if (preg_match('/The\s?Avenue/i', $street)) return ($street);
     if (preg_match('/The\s?Esplanade/i', $street)) return ($street);
