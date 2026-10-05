@@ -17,6 +17,7 @@
 (_ => {
   _.ask = params => {
     const dlg = _.modal.template();
+    let acted = false;
 
     const options = {
       ...{
@@ -33,6 +34,7 @@
               .appendTo(footer)
               .on('click', e => {
                 e.stopPropagation();
+                acted = true;
                 modal.modal('hide');
 
                 j.call(modal, e);
@@ -49,6 +51,7 @@
         buttons: {},
         headClass: 'text-bg-dark',
         onClose: e => { },
+        onDismiss: e => { },
         hidden: e => { },
         shown: e => { },
         removeOnClose: true,
@@ -110,45 +113,43 @@
     options.beforeOpen.call(dlg);
     dlg.on('hidden.bs.modal', options.hidden);
     dlg.on('shown.bs.modal', options.shown);
+
+    // closed (x, escape, backdrop) without a button action
+    dlg.on('hidden.bs.modal', e => { if (!acted) options.onDismiss(e); });
+
     dlg.modal('show');
 
     return dlg;	// a jQuery element
   };
 
-  _.ask.confirm = p => new Promise(resolve => _.ask({
+  /**
+   * a dismissed confirm dialog rejects with _.ask.dismissed so the promise always settles;
+   * the rejection is not reported to the console, catch it to react to a dismissal
+   */
+  _.ask.dismissed = Symbol('dialog dismissed');
+  window.addEventListener('unhandledrejection', e => { if (_.ask.dismissed === e.reason) e.preventDefault(); });
+
+  const confirmer = (ask, p) => new Promise((resolve, reject) => ask({
     ...{
       title: 'Confirm',
       text: 'string' == typeof p ? p : '',
       buttons: { confirm: e => resolve() }
-    }, ...p
+    }, ...p,
+    onDismiss: e => {
+      reject(_.ask.dismissed);
+      if (p && 'function' == typeof p.onDismiss) p.onDismiss(e);
+    }
   }));
 
+  _.ask.confirm = p => confirmer(_.ask, p);
+
   _.ask.alert = p => _.ask({ ...{ headClass: 'text-bg-danger', size: 'sm', title: 'Alert', text: 'string' == typeof p ? p : '' }, ...p });
-  _.ask.alert.confirm = p => new Promise(resolve => _.ask.alert({
-    ...{
-      title: 'Confirm',
-      text: 'string' == typeof p ? p : '',
-      buttons: { confirm: e => resolve() }
-    }, ...p
-  }));
+  _.ask.alert.confirm = p => confirmer(_.ask.alert, p);
 
   _.ask.info = p => _.ask({ ...{ headClass: 'text-bg-info', title: 'Information', text: 'string' == typeof p ? p : '' }, ...p });
   _.ask.success = p => _.ask({ ...{ headClass: 'text-bg-success', title: 'Success', text: 'string' == typeof p ? p : '' }, ...p });
-  _.ask.success.confirm = p => new Promise(resolve => _.ask.success({
-    ...{
-      title: 'Confirm',
-      text: 'string' == typeof p ? p : '',
-      buttons: { confirm: e => resolve() }
-    }, ...p
-  }));
+  _.ask.success.confirm = p => confirmer(_.ask.success, p);
 
   _.ask.warning = p => _.ask({ ...{ headClass: 'text-bg-warning', size: 'sm', title: 'Warning', text: 'string' == typeof p ? p : '' }, ...p });
-  _.ask.warning.confirm = p => new Promise(resolve => _.ask.warning({
-    ...{
-      title: 'Confirm',
-      text: 'string' == typeof p ? p : '',
-      buttons: { confirm: e => resolve() }
-    }, ...p
-  }));
-
+  _.ask.warning.confirm = p => confirmer(_.ask.warning, p);
 })(_brayworth_);
