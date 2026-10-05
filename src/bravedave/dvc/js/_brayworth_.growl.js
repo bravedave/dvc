@@ -19,6 +19,8 @@
  * */
 (_ => {
   _.growlSuccess = function (params) {
+    if (_.ask && _.ask.dismissed === params) return Promise.resolve();
+
     let options = { growlClass: 'success' };
 
     if (/object/.test(typeof params))
@@ -31,6 +33,8 @@
   };
 
   _.growlError = function (params) {
+    if (_.ask && _.ask.dismissed === params) return Promise.resolve();
+
     let options = { growlClass: 'error', timeout: 5000 };
 
     if (/object/.test(typeof params))
