@@ -13,6 +13,18 @@
     });
 
     _brayworth_.ask.alert.confirm('ok to do this').then(e => console.log('righto'));
+
+    // dismissing (x, escape, backdrop) rejects with _.ask.dismissed, silently unless caught
+    _brayworth_.ask.alert.confirm('ok to do this')
+      .then(e => console.log('righto'))
+      .catch(r => {
+        if (_brayworth_.ask.dismissed === r) return console.log('cancelled');
+        console.error(r);
+      });
+
+    // or trap the dismissal with a callback
+    _brayworth_.ask.confirm({ text: 'ok to do this', onDismiss: e => console.log('cancelled') })
+      .then(e => console.log('righto'));
  * */
 (_ => {
   _.ask = params => {
