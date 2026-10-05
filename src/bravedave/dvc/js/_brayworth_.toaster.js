@@ -41,6 +41,8 @@
     }
 
     _.toaster = params => {
+      if (_.ask && _.ask.dismissed === params) return Promise.resolve();
+
       let options = {
         title: 'Info',
         text: '...',

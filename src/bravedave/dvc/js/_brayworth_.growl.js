@@ -42,6 +42,8 @@
   };
 
   _.growlAjax = function (j) {
+    if (_.ask && _.ask.dismissed === j) return Promise.resolve();
+
     /*
       standard ajax response is {
         response : 'ack or nak',
@@ -65,6 +67,8 @@
 
   let growlers = [];
   _.growl = function (params) {
+
+    if (_.ask && _.ask.dismissed === params) return Promise.resolve();
 
     let host = (this == _ ? $('body') : this);
     if ('string' == typeof this) {
