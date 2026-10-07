@@ -885,6 +885,9 @@ abstract class strings {
   }
 
   static public function isMobilePhone(?string $_tel = ''): bool {
+    $debug = false;
+    // $debug = getenv('DEVELOPER') == 'yes';
+
     try {
 
       $tel = preg_replace('@[^0-9\+]@', '', (string)$_tel);
@@ -899,9 +902,16 @@ abstract class strings {
         $phoneNumberObject = ('+' == substr($tel, 0, 1) ? $phoneNumberUtil->parse($tel) : $phoneNumberUtil->parse($tel, 'AU'));
 
         $numberType = $phoneNumberUtil->getNumberType($phoneNumberObject);
+        if ($debug) logger::info(sprintf('Phone: %s, NumberType: %s', $tel, $numberType));
 
-        if ($numberType == libphonenumber\PhoneNumberType::MOBILE) {
-          return (true);
+        if ($numberType == libphonenumber\PhoneNumberType::MOBILE) return true;
+        if (strlen($tel) == 10) {
+
+          /**
+           * Maybe a new number range - 0494597225
+           */
+
+          if (preg_match('/^04\d{8}$/', $tel)) return true;
         }
       }
     } catch (\Exception $e) {
