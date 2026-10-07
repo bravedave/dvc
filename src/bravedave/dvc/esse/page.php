@@ -111,7 +111,7 @@ class page {
    * close the page,
    * close the body and head elements if they are open
    *
-   * @return page a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function close(): static {
 
@@ -130,7 +130,7 @@ class page {
   /**
    * close the side panel of the page, if open
    *
-   * @return page a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function closeaside(): static {
 
@@ -146,7 +146,7 @@ class page {
   /**
    * close the html body including relevant elements
    *
-   * @return page a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function closebody(): static {
 
@@ -156,7 +156,7 @@ class page {
 
     array_walk($this->late, fn($late) => printf("\t%s\n", $late));
 
-    print "\n</body>\n";
+    print "\n</div>\n</body>\n";
 
     $this->_body = false;
     return $this;
@@ -165,7 +165,7 @@ class page {
   /**
    * close the html head element if open
    *
-   * @return page a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function closehead(): static {
 
@@ -180,7 +180,7 @@ class page {
   /**
    * close the main panel if open
    *
-   * @return page a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function closemain(): static {
 
@@ -195,7 +195,7 @@ class page {
   /**
    * close the main row including relevant elements
    *
-   * @return page a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function closemainrow(): static {
 
@@ -214,7 +214,7 @@ class page {
   /**
    * open the head element, creates the html element if required
    *
-   * @return page a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function head(string $title = ''): static {
 
@@ -240,7 +240,7 @@ class page {
    *  creates the html element if required,
    *  closes the head element if it is open
    *
-   * @return page a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function body(): static {
 
@@ -251,10 +251,10 @@ class page {
 
     if ($this->bodyClass) {
 
-      printf("<body class=\"%s\">\n", $this->bodyClass);
+      printf("<body class=\"%s\"><div class=\"page\">\n", $this->bodyClass);
     } else {
 
-      print "<body>\n";
+      print "<body>\n<div class=\"page\">\n";
     }
 
     $this->_body = true;
@@ -266,7 +266,7 @@ class page {
    *  creates a body and mainrow element if required
    *  closes the main element if it is open
    *
-   * @return page a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function aside(): static {
 
@@ -291,7 +291,7 @@ class page {
    *  creates a body if required
    *  closes the mainrow element if it is open
    *
-   * @return page a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function footer(): static {
 
@@ -306,7 +306,7 @@ class page {
    *  creates a body element if required
    *  closes the aside element if it is open
    *
-   * @return page a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function main(): static {
 
@@ -326,7 +326,7 @@ class page {
    * open the mainrow element,
    *  creates the body element if required
    *
-   * @return page a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function mainrow(): static {
 
@@ -343,7 +343,7 @@ class page {
   /**
    * open the html element if required
    *
-   * @return page a page control that can be chained
+   * @return static a page control that can be chained
    */
   public function open(): static {
 
@@ -364,7 +364,7 @@ class page {
    *
    * @param Closure $code a code block to execute
    *
-   * @return bravedave\esse\page itself
+   * @return static itself
    */
   public function then(Closure $code): static {
 
