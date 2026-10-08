@@ -259,10 +259,30 @@
 
         btnClose.addClass(_.bootstrap.version() < 5 ? 'ml-4' : 'ms-2')
 
-        $('<button type="button" class="btn btn-primary btn-sm js-open-in-new-window"><i class="bi bi-box-arrow-up-right"></i></button>').on('click', e => {
-          e.stopPropagation();
-          window.open(options.url);
-        })
+        if ( _.bootstrap.version() >= 5) {
+
+          $(`<button type="button" class="btn btn-primary btn-sm d-none d-lg-block js-fullscreen">
+              <i class="bi bi-fullscreen"></i></button>`)
+            .on('click', function (e) {
+              e.stopPropagation();
+
+              const modal = ask.find('.modal');
+
+              modal.toggleClass('modal-fullscreen');
+              $(this).find('i')
+                .toggleClass('bi-fullscreen', modal.hasClass('modal-fullscreen'))
+                .toggleClass('bi-fullscreen-exit', !modal.hasClass('modal-fullscreen'));
+            })
+            .addClass(_.bootstrap.version() < 5 ? 'ml-auto' : 'ms-auto')
+            .insertBefore(btnClose);
+        }
+
+        $(`<button type="button" class="btn btn-primary btn-sm js-open-in-new-window">
+            <i class="bi bi-box-arrow-up-right"></i></button>`)
+          .on('click', e => {
+            e.stopPropagation();
+            window.open(options.url);
+          })
           .addClass(_.bootstrap.version() < 5 ? 'ml-auto' : 'ms-auto')
           .insertBefore(btnClose);
       }
