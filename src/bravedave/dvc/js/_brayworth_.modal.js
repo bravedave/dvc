@@ -257,33 +257,37 @@
       const btnClose = ask.find('.modal-header > .close, .modal-header > .btn-close');
       if (btnClose.length > 0) {
 
-        btnClose.addClass(_.bootstrap.version() < 5 ? 'ml-4' : 'ms-2')
+        btnClose.addClass(_.bootstrap.version() < 5 ? 'ml-4' : 'ms-2');
+        let lm = 'ms-auto';
 
-        if ( _.bootstrap.version() >= 5) {
+        if (_.bootstrap.version() >= 5) {
 
-          $(`<button type="button" class="btn btn-primary btn-sm d-none d-lg-block js-fullscreen">
+          $(`<button type="button" class="btn btn-primary btn-sm ${lm} d-none d-lg-block js-fullscreen">
               <i class="bi bi-fullscreen"></i></button>`)
             .on('click', function (e) {
               e.stopPropagation();
 
-              const modal = ask.find('.modal');
+              const modalDialog = ask.find('.modal-dialog');
 
-              modal.toggleClass('modal-fullscreen');
+              modalDialog.toggleClass('modal-fullscreen');
               $(this).find('i')
-                .toggleClass('bi-fullscreen', modal.hasClass('modal-fullscreen'))
-                .toggleClass('bi-fullscreen-exit', !modal.hasClass('modal-fullscreen'));
+                .toggleClass('bi-fullscreen', modalDialog.hasClass('modal-fullscreen'))
+                .toggleClass('bi-fullscreen-exit', !modalDialog.hasClass('modal-fullscreen'));
             })
-            .addClass(_.bootstrap.version() < 5 ? 'ml-auto' : 'ms-auto')
             .insertBefore(btnClose);
+
+          lm = '';
+        } else {
+
+          lm = 'ml-auto';
         }
 
-        $(`<button type="button" class="btn btn-primary btn-sm js-open-in-new-window">
+        $(`<button type="button" class="btn btn-primary btn-sm ${lm} js-open-in-new-window">
             <i class="bi bi-box-arrow-up-right"></i></button>`)
           .on('click', e => {
             e.stopPropagation();
             window.open(options.url);
           })
-          .addClass(_.bootstrap.version() < 5 ? 'ml-auto' : 'ms-auto')
           .insertBefore(btnClose);
       }
     }
@@ -299,7 +303,6 @@
         <embed title="${options.title}" id="${id}" src="${options.url}" width="100%" height="100%"></embed>`);
 
     return ask; // ask is a modal
-
   };
 
   _.templates.buttonCSS = 'btn btn-default';
