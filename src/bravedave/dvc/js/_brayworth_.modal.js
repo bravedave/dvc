@@ -271,8 +271,8 @@
 
               modalDialog.toggleClass('modal-fullscreen');
               $(this).find('i')
-                .toggleClass('bi-fullscreen', modalDialog.hasClass('modal-fullscreen'))
-                .toggleClass('bi-fullscreen-exit', !modalDialog.hasClass('modal-fullscreen'));
+                .toggleClass('bi-fullscreen', !modalDialog.hasClass('modal-fullscreen'))
+                .toggleClass('bi-fullscreen-exit', modalDialog.hasClass('modal-fullscreen'));
             })
             .insertBefore(btnClose);
 
