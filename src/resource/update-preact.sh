@@ -4,6 +4,9 @@ set -e
 basedir="src/bravedave/dvc/js/preact"
 [ -d $basedir ] || mkdir -p $basedir
 
+echo "NOT Updating Preact..."
+exit 0
+
 echo "🔄 Updating Preact and HTM modules..."
 
 # Resolve and download actual file, capturing version from redirect
