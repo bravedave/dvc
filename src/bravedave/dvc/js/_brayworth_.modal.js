@@ -258,11 +258,11 @@
       if (btnClose.length > 0) {
 
         btnClose.addClass(_.bootstrap.version() < 5 ? 'ml-4' : 'ms-2');
-        let lm = 'ms-auto';
+        ask.find('.modal-title').addClass(_.bootstrap.version() < 5 ? 'ml-auto' : 'me-auto');
 
         if (_.bootstrap.version() >= 5) {
 
-          $(`<button type="button" class="btn btn-primary btn-sm ${lm} d-none d-lg-block js-fullscreen">
+          $(`<button type="button" class="btn btn-primary btn-sm d-none d-lg-block js-fullscreen">
               <i class="bi bi-fullscreen"></i></button>`)
             .on('click', function (e) {
               e.stopPropagation();
@@ -275,14 +275,9 @@
                 .toggleClass('bi-fullscreen-exit', modalDialog.hasClass('modal-fullscreen'));
             })
             .insertBefore(btnClose);
-
-          lm = '';
-        } else {
-
-          lm = 'ml-auto';
         }
 
-        $(`<button type="button" class="btn btn-primary btn-sm ${lm} js-open-in-new-window">
+        $(`<button type="button" class="btn btn-primary btn-sm js-open-in-new-window">
             <i class="bi bi-box-arrow-up-right"></i></button>`)
           .on('click', e => {
             e.stopPropagation();
