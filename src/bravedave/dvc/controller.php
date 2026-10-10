@@ -12,6 +12,7 @@ use bravedave\dvc\esse\modal;
 use config, currentUser, strings;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
+use RuntimeException;
 
 /**
  * Base Controller Class
@@ -40,17 +41,16 @@ use League\CommonMark\GithubFlavoredMarkdownConverter;
  * @property string $route The current route being handled.
  * @property array $viewPath Additional paths to search for views.
  * @property array $_viewPathsVerified Cached verified view paths.
- * @property static|null $_application The application instance.
+ * @property application|null $_application The application instance.
  * @property string $url The base URL for the controller.
- * @property const string viewNotFound Path to the default "view not found" file.
  *
  * @method static application application(?application $app = null) Get or set the application instance.
  * @method void index() Default method for handling requests.
  * @method void logout() Logs out the current user and redirects.
  * @method void logoff() Alias for logout().
  * @method void page404() Renders a 404 Not Found page.
- * @method void render(array $params) Renders a page with the given parameters.
- * @method void load(string $viewName, ?string $controller = null, array $options = []) Loads a view.
+ * @method object render(array $params) Builds and returns the page object for the given parameters.
+ * @method $this load(string $viewName, ?string $controller = null, array $options = []) Loads a view.
  * @method bool hasView(string $viewName, ?string $controller = null) Checks if a view exists.
  * @method void authorize() Handles user authorization.
  * @method void before() Placeholder for child classes to execute logic before handling requests.
@@ -65,27 +65,32 @@ abstract class controller {
   public sqlite\db|dbi|null $db = null;
 
   public $name = 'home';
+
+  /** @disregard P1132 */
   public $timer = null;
   public $rootPath  = '';
   public $defaultController = 'home';
-  public $title;
+  public $title = '';
   public $debug = false;
 
   protected Request $Request;
   protected ServerRequest $ServerRequest;
 
+  /** @disregard P1132 */
   protected $data;
   protected $RequireValidation = true;
   protected $Redirect_OnLogon = false;
 
+  /** @disregard P1132 */
   protected $label = null;
 
+  /** @disregard P1132 */
   protected $manifest = null;
   protected $route = '/';
 
   protected $viewPath = [];
-  protected $_viewPathsVerified = [];
 
+  /** @disregard P1132 */
   protected static $_application = null;
 
   static function application(application|null $app = null): application|null {
@@ -94,10 +99,13 @@ abstract class controller {
     return self::$_application;
   }
 
+  /** @disregard P1132 */
   static $url;
 
+  /** @var string Path to the default "view not found" file. */
   const viewNotFound = __DIR__ . '/views/not-found.md';
 
+  /** @disregard P1132 */
   public function __construct($rootPath) {
     if ($this->debug) logger::debug(sprintf('__construct :: %s', __METHOD__));
     $this->rootPath = $rootPath;
@@ -192,33 +200,14 @@ abstract class controller {
     json::nak('delete is not implemented'); // default response
   }
 
-  protected function _getSystemViewPaths(?string $controller = null): array {
-    $a = [];
-    if (controller\docs::class == $controller) {
-
-      $a[] = implode(DIRECTORY_SEPARATOR, [
-        __DIR__,
-        'views',
-        'docs'
-      ]);
-    }
-
-    $a[] = implode(DIRECTORY_SEPARATOR, [
-      __DIR__,
-      'views'
-    ]);
-
-    return $a;
-  }
-
   protected function _getView($viewName = 'index', ?string $controller = null, $logMissingView = true): string {
 
     if (is_null($controller)) $controller = $this->name;
 
-    $_paths = $this->_getViewPaths($controller);
+    $_paths = handler::getViewPaths($controller, static::application()->getRootPath(), $this->viewPath);
     foreach ($_paths as $_path) {
 
-      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path, '/'), $viewName]))) {
+      if ($view = handler::viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path, '/'), $viewName]))) {
 
         return $view;
       }
@@ -226,13 +215,14 @@ abstract class controller {
 
     if (class_exists('dvc\theme\view', /* autoload */ false)) {
 
+      logger::info(sprintf('<deprecation warning - themed view will be removed> %s', logger::caller()));
       if ($altView = '\dvc\theme\view'::getView($viewName)) return $altView;
     }
 
-    $_paths = $this->_getSystemViewPaths($controller);
+    $_paths = handler::getSystemViewPaths($controller);
     foreach ($_paths as $_path) {
 
-      if ($view = $this->_viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path, '/'), $viewName]))) {
+      if ($view = handler::viewPath(implode(DIRECTORY_SEPARATOR, [rtrim($_path, '/'), $viewName]))) {
 
         return $view;
       }
@@ -257,106 +247,44 @@ abstract class controller {
     return self::viewNotFound;
   }
 
-  protected function _getViewPaths(string $controller): array {
-    if ($this->_viewPathsVerified) return $this->_viewPathsVerified;
-
-    $_paths = (array)$this->viewPath;
-    if ($_dir = realpath(implode(DIRECTORY_SEPARATOR, [$this->rootPath, 'views', $controller]))) {
-      $_paths[] =  $_dir;
-    }
-
-    if ($_dir = realpath(implode(DIRECTORY_SEPARATOR, [$this->rootPath, 'app', 'views', $controller]))) {
-      $_paths[] =  $_dir;
-    }
-
-    if ($_dir = realpath(implode(DIRECTORY_SEPARATOR, [$this->rootPath, 'app', 'views']))) {
-      $_paths[] =  $_dir;
-    }
-
-    $this->_viewPathsVerified = $_paths;
-
-    return $this->_viewPathsVerified;
-  }
-
   protected function _index() {
 
     $this->page404();
   }
 
-  protected function _offManifest($option = '') {
-
-    if (!$option) $option = 'index.html';
-    if ($_manifest_file = realpath(sprintf('%s/asset-manifest.json', $this->manifest))) {
-
-      if ('manifest.json' == $option) {
-
-        $_path = sprintf('%s/%s', $this->manifest, $option);
-      } else {
-
-        $_manifest = json_decode(file_get_contents($_manifest_file));
-        $_path = false;
-        foreach ($_manifest as $_p) {
-
-          if (ltrim($_p, './') == $option) {
-
-            $_path = sprintf('%s/%s', $this->manifest, ltrim($_p, './'));
-          }
-        }
-      }
-
-      if ($_path) {
-
-        if ($_file = realpath($_path)) {
-
-          Response::serve($_file);
-        } else {
-
-          printf('%s - file not found', $_path);
-          //~ \sys::dump( $_manifest);
-        }
-      } else {
-
-        printf('%s - not set<br />', $option);
-      }
-    } else {
-
-      printf('%s - manifest not found', $_manifest_file);
-    }
-
-    // if we find a static file serve it, otherwise serve index
-  }
-
+  /** @disregard P1132 */
   protected function _render($view) {
 
-    foreach ((array)$view as $_) {
-
-      $this->load($_);
-    }
+    $a = (array)$view;
+    array_walk($a, fn($v) => $this->load($v));
   }
 
+  #[\Deprecated('Use handler::viewPath instead')]
   protected function _viewPath(string $path): string {
 
-    if (preg_match('/\.(php|md)$/', $path)) {    // extension was specified
-      if (\file_exists($path)) {
-        if ($this->debug) logger::debug(sprintf('found view (specific) : %s :: %s', $path, __METHOD__));
-        return $path;
-      }
-    }
+    return handler::viewPath($path);
 
-    /**
-     * first look for a php (.php) view, then a markdown (.md)
-     */
-    if (file_exists($view = sprintf('%s.php', $path))) {  // php
-      if ($this->debug) logger::debug(sprintf('found view (php) : %s :: %s', $view, __METHOD__));
-      return $view;
-    }
+    // if (preg_match('/\.(php|md)$/', $path)) {    // extension was specified
+    //   if (\file_exists($path)) {
+    //     if ($this->debug) logger::debug(sprintf('found view (specific) : %s :: %s', $path, __METHOD__));
+    //     return $path;
+    //   }
+    // }
 
-    if (file_exists($view = sprintf('%s.md', $path))) {  // md
-      if ($this->debug) logger::debug(sprintf('found view (md) : %s :: %s', $view, __METHOD__));
-      return $view;
-    }
+    // /**
+    //  * first look for a php (.php) view, then a markdown (.md)
+    //  */
+    // if (file_exists($view = sprintf('%s.php', $path))) {  // php
+    //   if ($this->debug) logger::debug(sprintf('found view (php) : %s :: %s', $view, __METHOD__));
+    //   return $view;
+    // }
 
-    return '';
+    // if (file_exists($view = sprintf('%s.md', $path))) {  // md
+    //   if ($this->debug) logger::debug(sprintf('found view (md) : %s :: %s', $view, __METHOD__));
+    //   return $view;
+    // }
+
+    // return '';
   }
 
   protected function __tinyserve__(string $lib) {
@@ -413,29 +341,6 @@ abstract class controller {
     return true;
   }
 
-  protected function authorizeIMAP(): bool {
-    $debug = false;
-    // $debug = true;
-
-    if ($u = $this->getPost('u')) {
-      if ($p = $this->getPost('p')) {
-
-        if (\auth::ImapTest($u, $p)) {
-          if ($debug) logger::debug(sprintf('<successful logon for %s> %s', $u, __METHOD__));
-
-          $dao = new \dao\users;
-          if (method_exists($dao, 'validatedByIMAP')) {
-            return $dao->{'validatedByIMAP'}($u, $p);
-          }
-        } else {
-          if ($debug) logger::debug(sprintf('<unsuccessful logon for %s> %s', $u, __METHOD__));
-        }
-      }
-    }
-
-    return false;
-  }
-
   protected function authorize() {
 
     if ($this->isPost()) {
@@ -443,13 +348,14 @@ abstract class controller {
       $action = $this->getPost('action');
       if ($action == '-system-logon-' && auth::ImapAuthEnabled()) {
 
-        if ($this->authorizeIMAP()) {
+        if (handler::authorizeIMAP()) {
 
           json::ack($action);
         } else {
 
           json::nak($action);
         }
+
         die;
       }
     }
@@ -500,7 +406,7 @@ abstract class controller {
   }
 
   #[\Deprecated]
-  protected function dbEscape($s) {
+  protected function dbEscape(string $s) {
     /**
      * Escape a string for inclusing in an SQL
      * Command using the default data adapter
@@ -632,7 +538,7 @@ abstract class controller {
   }
 
   /**
-   * @param string $template
+   * @param string $_do_not_ever_create_a_variable_with_this_name_lol_
    * @param array<string, mixed> $data
    *
    * @return void
@@ -644,6 +550,7 @@ abstract class controller {
     include func_get_arg(0);
   }
 
+  /** @disregard P1132 */
   #[\Deprecated]
   protected function loadView($name, $controller = null) {
 
@@ -676,7 +583,7 @@ abstract class controller {
   #[\Deprecated]
   protected function modal($params = []) {
 
-    \sys::trace(sprintf('deprecated : %s', __METHOD__));
+    logger::trace(sprintf('deprecated : %s', logger::caller()));
 
     $options = array_merge([
       'title' => sprintf('%s Modal', config::$WEBNAME),
@@ -713,7 +620,15 @@ abstract class controller {
     return $this;  // chain
   }
 
-  protected function page($params) {
+  #[\Deprecated]
+  protected function page(array $params) {
+
+    $defaults = [
+      'title' => $this->title,
+    ];
+
+    $options = array_merge($defaults, $params);
+    return handler::page($options);
 
     $defaults = [
       'css' => [],
@@ -790,17 +705,19 @@ abstract class controller {
 
   protected function postHandler() {
 
-    $action = $this->getPost('action');
+    $request = new ServerRequest;
+    $action = $request('action');
 
     return match ($action) {
 
       'send-test-message' => push::test(currentUser::id()) ? json::ack($action) : json::nak($action),
-      'subscription-delete' => $this->subscriptionDelete($action),
-      'subscription-save' => $this->subscriptionSave($action),
+      'subscription-delete' => handler::subscriptionDelete($request),
+      'subscription-save' => handler::subscriptionSave($request),
       default => json::nak($action)
     };
   }
 
+  /** @disregard P1132 */
   protected function render($params) {
 
     $defaults = [
@@ -816,7 +733,7 @@ abstract class controller {
 
     $options = array_merge($defaults, $params);
 
-    $p = $this->page($options);
+    $p = handler::page($options);
 
     $p->header()
       ->title($options['navbar']);
@@ -1007,45 +924,6 @@ abstract class controller {
     // return $this->db->SQL($query);
   }
 
-  protected function subscriptionDelete(string $action): json {
-
-    if ($endpoint = $this->getPost('endpoint')) {
-
-      $dao = new \dao\notifications;
-      $dao->deleteByEndPoint($endpoint);
-      return json::ack($action);
-    }
-
-    return json::nak($action);
-  }
-
-  protected function subscriptionSave(string $action): json {
-
-    if ($json = $this->getPost('json')) {
-
-      $subscription = (object)json_decode($json);
-      if (isset($subscription->endpoint) && $subscription->endpoint) {
-
-        $dao = new \dao\notifications;
-        if ($dto = $dao->getByEndPoint($subscription->endpoint)) {
-
-          $dao->UpdateByID(['json' => $json], $dto->id);
-        } else {
-
-          $dao->Insert([
-            'json' => $json,
-            'endpoint' => $subscription->endpoint,
-            'user_id' => currentUser::id()
-          ]);
-        }
-
-        return json::ack($action);
-      }
-    }
-
-    return json::nak($action);
-  }
-
   public function index() {
 
     $args = [];
@@ -1059,6 +937,7 @@ abstract class controller {
 
       if ($i > 1) {
 
+        /** @disregard P1119 */
         $this->_delete($args[0], $args[1]);
       } elseif ($i == 1) {
 
@@ -1069,14 +948,16 @@ abstract class controller {
       }
     } elseif ($this->manifest) {
 
-      $this->_offManifest(self::application()::Request()->getUrl());
+      handler::offManifest($this->manifest, self::application()::Request()->getUrl());
     } else {
 
       if ($i > 1) {
 
+        /** @disregard P1119 */
         $this->_index($args[0], $args[1]);
       } elseif ($i == 1) {
 
+        /** @disregard P1119 */
         $this->_index($args[0]);
       } else {
 
@@ -1117,7 +998,7 @@ abstract class controller {
 
   public function errorTest() {
 
-    throw new \dvc\Exceptions\GeneralException;
+    throw new RuntimeException;
   }
 
   public function page404() {
