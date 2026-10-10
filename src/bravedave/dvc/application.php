@@ -146,33 +146,34 @@ abstract class application {
      * from outside calling, don't broadcast the error
      */
     $_protectedActions = [
+      '_delete',
       '_getView',
-      '_getSystemViewPaths',
       '_render',
+      '_protectedLoad',
+      '_viewPath',
       '__construct',
-      '__destruct',
       '__invoke',
+      '__tinyserve__',
+      'access_control',
       'application',
       'authorize',
       'before',
       'dbResult',
       'dbEscape',
-      'getMiddleware',
       'getParam',
       'getPost',
       'getView',
+      'hasPost',
       'hasView',
       'isPost',
       'loadView',
       'load',
-      'init',
+      'middleware',
       'page',
-      'protectedLoad',
+      'postHandler',
       'render',
       'renderBS5',
-      'subscriptionDelete',
-      'subscriptionSave',
-      'sql'
+      'SQL'
     ];
 
     if ($this->url_action) {
