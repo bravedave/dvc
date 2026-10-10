@@ -8,4 +8,4 @@ namespace example;    ?>
 
 <h1>Hello World</h1>
 
-<?php (new \bravedave\dvc\view(['name' => 'example'], [__DIR__ . '/']))('hello-world'); ?>
+<?php (new \bravedave\dvc\view((object)['name' => 'example'], [__DIR__ . '/']))('hello-world'); ?>

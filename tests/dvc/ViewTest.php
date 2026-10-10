@@ -60,9 +60,9 @@ final class ViewTest {
     }
   }
 
-  private function view(array $data = ['who' => 'world']): view {
+  private function view(?object $data = null): view {
 
-    return new view($data, [$this->views]);
+    return new view($data ?? (object)['who' => 'world'], [$this->views]);
   }
 
   function testRelativePhpIsRenderedWithData(): void {
@@ -166,7 +166,7 @@ final class ViewTest {
 
   function testInvokeLoadsLikeLoad(): void {
 
-    $v = $this->view(['who' => 'invoke']);
+    $v = $this->view((object)['who' => 'invoke']);
     [$ok, $out] = $this->render(fn() => $v('hello'));
 
     $this->assertTrue($ok === true, 'invoke: should return true for an existing view');
