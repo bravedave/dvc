@@ -55,6 +55,16 @@ Expected outputs:
 
 Use [skills/convert-plaintext-to-md/SKILL.md](skills/convert-plaintext-to-md/SKILL.md).
 
+### 6. Test Code Paths with the AI Helper
+
+Use [scripts/aiHelper.php](scripts/aiHelper.php) to run a throwaway PHP file inside the bootstrapped application.
+
+1. Write the test file to a temporary location.
+2. Run `php .github/scripts/aiHelper.php <file>` from the repository root.
+3. Remove the test file afterwards.
+
+The script runs against the live app database. Do not write destructive queries without confirming the target.
+
 ## API Contract Parity Checklist
 
 Apply this whenever `postHandler()` actions are added, renamed, or removed.
@@ -79,6 +89,7 @@ Source of truth: [prompts/api-contract-maintenance.standard.md](prompts/api-cont
 | Add authorization features | [prompts/implement-authorisation.prompt.md](prompts/implement-authorisation.prompt.md) |
 | Keep API docs in sync | [prompts/api-contract-maintenance.standard.md](prompts/api-contract-maintenance.standard.md) |
 | Generate module docs | [agents/create-comprehensive-AI-coding-instructions-for-model.agent.md](agents/create-comprehensive-AI-coding-instructions-for-model.agent.md) |
+| Run a test script inside the app | [scripts/aiHelper.php](scripts/aiHelper.php) |
 
 ## Maintenance Notes
 

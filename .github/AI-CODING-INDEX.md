@@ -46,6 +46,16 @@ Convert plain text documents to markdown using a consistent structure.
 ### [Create Comprehensive AI Coding Instructions For Model](agents/create-comprehensive-AI-coding-instructions-for-model.agent.md)
 Analyze module source and produce high-quality module documentation and API contract docs.
 
+## Scripts
+
+### [AI Helper](scripts/aiHelper.php)
+Bootstraps the application and runs a PHP file inside it, for AI-driven testing. Run from the repository root:
+
+- `php .github/scripts/aiHelper.php` prints `hello world` and exits 0.
+- `php .github/scripts/aiHelper.php path/to/test.php` runs the file inside the app context (DB, config, autoload).
+- Exits 1 with a usage message for more than one argument or a missing or unreadable file.
+- Runs with `config::$DB_CACHE_WARNING_ENABLED` off. Scripts run against the live app database, so write only throwaway test code.
+
 ## Reference Implementations
 
 ### [Simple CRUD Example](examples)
