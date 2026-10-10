@@ -23,7 +23,7 @@ use League\CommonMark\GithubFlavoredMarkdownConverter;
  * Names containing '..' or null bytes are refused and logged.
  */
 class view {
-  public ?array $data = null;
+  public ?object $data = null;
   public $loadName = '?';
   public $title = '';
   public $wrap = [];
@@ -32,7 +32,7 @@ class view {
   protected $paths = [];
   protected $rootPath = false;
 
-  public function __construct($data = null, array $paths = []) {
+  public function __construct(?object $data = null, array $paths = []) {
 
     if ($app = application::app()) {
 
@@ -51,7 +51,7 @@ class view {
     }
 
     array_walk($paths, fn($path) => array_unshift($this->paths, $path));
-    $this->data = $data;
+    if ($data) $this->data = $data;
   }
 
 
