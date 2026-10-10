@@ -4,11 +4,6 @@
  * Licensed under the MIT License. See LICENSE file for details.
 */
 
-namespace example;
+namespace example; ?>
 
-use config as rootConfig;
-
-class config extends rootConfig {
-
-  const label = 'Example';
-}
+<p>Hello <?= $name ?? 'world' ?></p>
