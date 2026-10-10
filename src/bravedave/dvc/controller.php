@@ -447,6 +447,12 @@ abstract class controller {
     return $this->Request ? $this->Request->hasPost($name) : false;
   }
 
+  #[\Deprecated]
+  protected function isDelete(): bool {
+
+    return (new ServerRequest)->isDelete();
+  }
+
   protected function isPost(): bool {
 
     return (new ServerRequest)->isPost();

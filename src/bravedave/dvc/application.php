@@ -166,6 +166,7 @@ abstract class application {
       'hasPost',
       'hasView',
       'isPost',
+      'isDelete',  // deprecated
       'loadView',
       'load',
       'middleware',
