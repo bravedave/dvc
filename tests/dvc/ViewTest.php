@@ -20,16 +20,26 @@ final class ViewTest {
     $this->base = sys_get_temp_dir() . '/dvc-view-test-' . bin2hex(random_bytes(4));
     $this->views = $this->base . '/views';
 
-    mkdir($this->views, 0777, true);
-    mkdir($this->base . '/views-evil', 0777, true);
+    try {
+      self::must(mkdir($this->views, 0777, true), 'mkdir views');
+      self::must(mkdir($this->base . '/views-evil', 0777, true), 'mkdir views-evil');
 
-    file_put_contents($this->views . '/hello.php', '<?= "hello " . $who ?>');
-    file_put_contents($this->views . '/notes.md', "# Title\n\nbody text\n");
-    file_put_contents($this->views . '/both.php', 'php wins');
-    file_put_contents($this->views . '/both.md', '# md wins');
-    mkdir($this->views . '/dirview.php', 0777, true);
-    file_put_contents($this->base . '/views-evil/a.php', 'evil');
-    symlink('/etc/passwd', $this->views . '/link.php');
+      self::must(file_put_contents($this->views . '/hello.php', '<?= "hello " . $who ?>'), 'hello.php');
+      self::must(file_put_contents($this->views . '/notes.md', "# Title\n\nbody text\n"), 'notes.md');
+      self::must(file_put_contents($this->views . '/both.php', 'php wins'), 'both.php');
+      self::must(file_put_contents($this->views . '/both.md', '# md wins'), 'both.md');
+      self::must(mkdir($this->views . '/dirview.php', 0777, true), 'dirview.php');
+      self::must(file_put_contents($this->base . '/views-evil/a.php', 'evil'), 'views-evil/a.php');
+      self::must(symlink('/etc/passwd', $this->views . '/link.php'), 'link.php symlink');
+    } catch (\Throwable $e) {
+      $this->cleanup($this->base);
+      throw $e;
+    }
+  }
+
+  private static function must(mixed $result, string $what): void {
+
+    if ($result === false) throw new \RuntimeException('test setup failed: ' . $what);
   }
 
   private function render(callable $fn): array {
