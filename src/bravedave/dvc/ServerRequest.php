@@ -124,6 +124,21 @@ class ServerRequest {
     return self::$_request->getMethod();
   }
 
+  public function isDelete(): bool {
+
+    return $this->getMethod() === 'DELETE';
+  }
+
+  public function isPost(): bool {
+
+    return $this->getMethod() === 'POST';
+  }
+
+  public function isPut(): bool {
+
+    return $this->getMethod() === 'PUT';
+  }
+
   public function getRemoteIP(): string {
 
     // https://stackoverflow.com/questions/1634782/what-is-the-most-accurate-way-to-retrieve-a-users-correct-ip-address-in-php

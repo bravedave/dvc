@@ -441,20 +441,15 @@ abstract class controller {
     return $this->Request ? $this->Request->getPost($name, $default) : false;
   }
 
+  #[\Deprecated]
   protected function hasPost($name = ''): bool {
 
     return $this->Request ? $this->Request->hasPost($name) : false;
   }
 
-  protected function isDelete(): bool {
-
-    return $this->Request ? $this->Request->isDelete() : false;
-  }
-
   protected function isPost(): bool {
 
-    if (is_null($this->Request)) return false;
-    return $this->Request->isPost();
+    return (new ServerRequest)->isPost();
   }
 
   protected function middleware(array $middlewares = []): bool {
@@ -531,7 +526,7 @@ abstract class controller {
       printf('<div class="markdown-body">%s</div>', $converter->convert($fc));
     } else {
 
-      $this->protectedLoad($view, (array)$this->data);
+      $this->_protectedLoad($view, (array)$this->data);
     }
 
     return $this;  // chain
@@ -543,7 +538,7 @@ abstract class controller {
    *
    * @return void
    */
-  protected function protectedLoad(string $_do_not_ever_create_a_variable_with_this_name_lol_, array $data): void {
+  protected function _protectedLoad(string $_do_not_ever_create_a_variable_with_this_name_lol_, array $data): void {
 
     // https://www.php.net/manual/en/function.func-get-arg.php#124846
     extract($data);
@@ -930,10 +925,12 @@ abstract class controller {
     $i = func_num_args();
     if ($i > 0) $args = func_get_args();
 
-    if ($this->isPost()) {
+    $request = new ServerRequest;
+
+    if ($request->isPost()) {
 
       $this->postHandler();
-    } elseif ($this->isDelete()) {
+    } elseif ($request->isDelete()) {
 
       if ($i > 1) {
 
