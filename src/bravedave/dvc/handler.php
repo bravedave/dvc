@@ -8,6 +8,7 @@ namespace bravedave\dvc;
 
 use auth as rootAuth;
 use dao\users as daoUsers;
+use config; // from the root
 
 /**
  * Static utilities used by the base controller for logon, view lookup, page setup and push subscriptions.
