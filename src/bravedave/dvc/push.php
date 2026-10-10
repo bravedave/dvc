@@ -1,12 +1,7 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
- * styleguide : https://codeguide.co/
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc;
@@ -23,7 +18,7 @@ class push {
   }
 
   static function send($message, $user) {
-    $dao = new \dao\notifications;
+    $dao = new dao\notifications;
     if ($dtoSet = $dao->getForUserID($user)) {
 
       foreach ($dtoSet as $dto) {
@@ -115,7 +110,7 @@ class push {
 
       if (\preg_match('@(401 Unauthorized|403 Forbidden)@', $report->getReason())) {
 
-        $dao = new \dao\notifications;
+        $dao = new dao\notifications;
         $dao->deleteByEndPoint($subscription->getEndpoint());
 
         logger::info(

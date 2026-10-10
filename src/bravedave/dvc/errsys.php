@@ -1,21 +1,19 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc;
 
 use config;
+use Throwable;
 
 abstract class errsys {
   static protected $_shutup = false;
   static protected $_currentUser = false;
 
+  /** @disregard P1132 */
   static protected function _email_support($mailMessage) {
 
     if (config::$EMAIL_ERRORS_TO_SUPPORT) {
@@ -56,7 +54,7 @@ abstract class errsys {
     }
   }
 
-  static protected function _msg($e) {
+  static protected function _msg(Throwable $e) {
 
     if (method_exists($e, 'format')) {
       return $e->format() . ' format';
@@ -86,13 +84,14 @@ abstract class errsys {
     return ($ret);
   }
 
-  static public function email_support($e) {
+  static public function email_support(Throwable $e) {
     self::_email_support(self::_msg($e));
   }
 
+  /** @disregard P1132 */
   static public function err_handler($errno, $errstr, $errfile, $errline) {
-    if (self::$_shutup)
-      return;
+
+    if (self::$_shutup) return;
 
     $l = error_reporting();
     if ($l & $errno) {
@@ -164,7 +163,7 @@ abstract class errsys {
             error_log(sprintf('---[user : %s]---', \currentUser::name()));
           }
 
-          \sys::trace($errno);
+          logger::trace($errno);
           error_log(sprintf('%s: %s %s %s %s', $type, $errstr, $errno, $errfile, $errline));
           error_log('---[end probable duplicate: error is logged in the exception]---');
         }
@@ -176,7 +175,7 @@ abstract class errsys {
     return false;
   }
 
-  static public function exc_handler($e) {
+  static public function exc_handler(Throwable $e) {
 
     if (self::$_shutup) return;
 
@@ -207,7 +206,7 @@ abstract class errsys {
       errsys::err_handler($errno, $errstr, $errfile, $errline);
     });
 
-    set_exception_handler(function ($e) {
+    set_exception_handler(function (Throwable $e) {
       errsys::exc_handler($e);
     });
 
