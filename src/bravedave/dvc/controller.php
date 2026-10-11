@@ -707,7 +707,7 @@ abstract class controller {
   protected function postHandler() {
 
     $request = new ServerRequest;
-    $action = $request('action');
+    $action = (string)$request('action');
 
     return match ($action) {
 
