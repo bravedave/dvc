@@ -624,84 +624,81 @@ abstract class controller {
   #[\Deprecated]
   protected function page(array $params) {
 
-    $defaults = [
-      'title' => $this->title,
-    ];
-
+    $defaults = ['title' => $this->title];
     $options = array_merge($defaults, $params);
     return handler::page($options);
 
-    $defaults = [
-      'css' => [],
-      'data' => false,
-      'footer' => true,
-      'latescripts' => [],
-      'meta' => [],
-      'scripts' => [],
-      'title' => $this->title,
-      'bodyClass' => false,
-      'template' => config::$PAGE_TEMPLATE,
-    ];
+    // $defaults = [
+    //   'css' => [],
+    //   'data' => false,
+    //   'footer' => true,
+    //   'latescripts' => [],
+    //   'meta' => [],
+    //   'scripts' => [],
+    //   'title' => $this->title,
+    //   'bodyClass' => false,
+    //   'template' => config::$PAGE_TEMPLATE,
+    // ];
 
-    $options = array_merge($defaults, $params);
+    // $options = array_merge($defaults, $params);
 
-    $p = new $options['template']($options['title']);
-    $p->bodyClass = $options['bodyClass'];
-    if ('string' == gettype($options['footer'])) {
+    // $p = new $options['template']($options['title']);
+    // $p->bodyClass = $options['bodyClass'];
+    // if ('string' == gettype($options['footer'])) {
 
-      $p->footer = true;
-      $options['template']::$footerTemplate = $options['footer'];
-    } else {
+    //   $p->footer = true;
+    //   $options['template']::$footerTemplate = $options['footer'];
+    // } else {
 
-      $p->footer = $options['footer'];
-    }
+    //   $p->footer = $options['footer'];
+    // }
 
-    $p->data = (object)$options['data'];
-    if (!(isset($p->data->title))) $p->data->title = $options['title'];
+    // $p->data = (object)$options['data'];
+    // if (!(isset($p->data->title))) $p->data->title = $options['title'];
 
-    foreach ($options['css'] as $css) {
+    // foreach ($options['css'] as $css) {
 
-      if (preg_match('/^<(link|style)/', $css)) {
+    //   if (preg_match('/^<(link|style)/', $css)) {
 
-        $p->css[] = $css;
-      } else {
+    //     $p->css[] = $css;
+    //   } else {
 
-        $p->css[] = sprintf('<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css);
-      }
-    }
+    //     $p->css[] = sprintf('<link type="text/css" rel="stylesheet" media="all" href="%s" />', $css);
+    //   }
+    // }
 
-    foreach ($options['meta'] as $meta) {
+    // foreach ($options['meta'] as $meta) {
 
-      $p->meta[] = $meta;
-    }
+    //   $p->meta[] = $meta;
+    // }
 
-    foreach ($options['scripts'] as $script) {
+    // foreach ($options['scripts'] as $script) {
 
-      if (preg_match('/^<script/', $script)) {
+    //   if (preg_match('/^<script/', $script)) {
 
-        $p->scripts[] = $script;
-      } else {
+    //     $p->scripts[] = $script;
+    //   } else {
 
-        $p->scripts[] = sprintf('<script type="text/javascript" src="%s"></script>', $script);
-      }
-    }
+    //     $p->scripts[] = sprintf('<script type="text/javascript" src="%s"></script>', $script);
+    //   }
+    // }
 
-    /*
-		* latescripts are prepended
-		* - if something like tinymce is appended after it would be slower
-		*/
-    foreach ($options['latescripts'] as $script) {
+    // /*
+    // * latescripts are prepended
+    // * - if something like tinymce is appended after it would be slower
+    // */
+    // foreach ($options['latescripts'] as $script) {
 
-      if (preg_match('/^<script/', $script)) {
+    //   if (preg_match('/^<script/', $script)) {
 
-        array_unshift($p->latescripts, $script);
-      } else {
+    //     array_unshift($p->latescripts, $script);
+    //   } else {
 
-        array_unshift($p->latescripts, sprintf('<script type="text/javascript" src="%s"></script>', $script));
-      }
-    }
+    //     array_unshift($p->latescripts, sprintf('<script type="text/javascript" src="%s"></script>', $script));
+    //   }
+    // }
 
-    return $p;
+    // return $p;
   }
 
   protected function postHandler() {
