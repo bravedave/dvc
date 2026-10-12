@@ -108,6 +108,11 @@ class ServerRequest {
     return '';
   }
 
+  public function getHeaderLine(string $name): string {
+
+    return self::$_request->getHeaderLine($name);
+  }
+
   public function getPath(): string {
 
     $uri = self::$_request->getUri();
