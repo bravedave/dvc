@@ -7,7 +7,10 @@
 
 namespace bravedave\dvc\controller;
 
-use bravedave\dvc\{json, logger, Response};
+use bravedave\dvc\handler as dvcHandler;
+use bravedave\dvc\json;
+use bravedave\dvc\logger;
+use bravedave\dvc\Response;
 use config;
 use Controller;
 use strings;
@@ -23,7 +26,7 @@ class docs extends Controller {
 
     if (is_null($controller)) $controller = $this->name;
 
-    $_paths = $this->_getViewPaths($controller);
+    $_paths = dvcHandler::getViewPaths($controller, static::application()->getRootPath(), $this->viewPath);
     foreach ($_paths as $_path) {
 
       if ($debug) logger::info(sprintf('<%s> %s', $_path, __METHOD__));
@@ -34,7 +37,7 @@ class docs extends Controller {
       }
     }
 
-    $_paths = $this->_getSystemViewPaths($controller);
+    $_paths = dvcHandler::getSystemViewPaths($controller);
     foreach ($_paths as $_path) {
 
       if (file_exists($__f = implode(DIRECTORY_SEPARATOR, [$_path, $img]))) {
