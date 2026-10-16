@@ -301,7 +301,7 @@ abstract class dao {
 
   public function cacheDelete(int $id): void {
 
-    if (config::$DB_CACHE == 'APC') {
+    if (cache::enabled()) {
 
       $cache = cache::instance();
       $key = $this->cacheKey_delete($id);
@@ -425,7 +425,7 @@ abstract class dao {
     $key = '';
     if ($this->useCache) {
 
-      if (config::$DB_CACHE == 'APC') {
+      if (cache::enabled()) {
 
         $cache = cache::instance();
         $key = $this->cacheKey($id);
@@ -487,7 +487,7 @@ abstract class dao {
 
     $cache = null;
     $key = '';
-    if (config::$DB_CACHE == 'APC') {
+    if (cache::enabled()) {
 
       $cache = cache::instance();
       $key = $this->cacheKey($id, $fld);

@@ -14,8 +14,8 @@ namespace bravedave\dvc;
 use APCUIterator, config, MatthiasMullie;
 
 class cache {
-  protected static $_instance;
-  protected $_cache;
+  protected static null|cache $_instance;
+  protected MatthiasMullie\Scrapbook\Adapters\Apc|MatthiasMullie\Scrapbook\Adapters\Redis|null $_cache;
   protected $ttl = 60;
 
   protected function __construct() {
@@ -23,8 +23,27 @@ class cache {
     if (config::$DB_CACHE_DEBUG) logger::debug(__METHOD__);
     $this->ttl = config::$DB_CACHE_TTL;
 
-    // create Scrapbook KeyValueStore object
-    $this->_cache = new MatthiasMullie\Scrapbook\Adapters\Apc;
+
+    if (config::$DB_CACHE == 'REDIS') {
+
+      // create \Redis object pointing to your Redis server
+      // $client = new \Redis();
+      // $client->connect('127.0.0.1');
+      // // create Scrapbook KeyValueStore object
+      // $cache = new \MatthiasMullie\Scrapbook\Adapters\Redis($client);
+    } else {
+
+      // create Scrapbook KeyValueStore object
+      $this->_cache = new MatthiasMullie\Scrapbook\Adapters\Apc;
+    }
+  }
+
+  public static function enabled(): bool {
+
+    if (config::$DB_CACHE == 'APC') return true;
+    if (config::$DB_CACHE == 'REDIS') return true;
+
+    return false;
   }
 
   public static function instance(): cache {
@@ -33,7 +52,7 @@ class cache {
     return (self::$_instance);
   }
 
-  public function get($key) {
+  public function get(string $key) {
     if ($res = $this->_cache->get($key)) {
 
       if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('get(%s) (hit) : %s', $key, __METHOD__));
@@ -45,7 +64,7 @@ class cache {
     return $res;
   }
 
-  public function set($key, $value, $ttl = null) {
+  public function set(string $key, mixed $value, $ttl = null) {
 
     if (!$ttl) $ttl = $this->ttl;
 
@@ -55,7 +74,7 @@ class cache {
     }
   }
 
-  public function delete($key, $wildcard = false) {
+  public function delete(string $key, $wildcard = false) {
     if ($wildcard) {
 
       if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('wildard delete(%s) : %s', $key, __METHOD__));

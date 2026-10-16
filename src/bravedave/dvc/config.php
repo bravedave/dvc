@@ -21,10 +21,15 @@ abstract class config {
    * If you populate the oauth keys, Google Auth Methods will be enabled
    * see https://console.cloud.google.com/
    **/
+  /** @disregard P1132 */
   static $google_api_key = null;    // for use with google php - server side etc
+  /** @disregard P1132 */
   static $google_js_api_key = null;    // for use with google maps etc
+  /** @disregard P1132 */
   static $oauth2_client_id = null;     // Client ID
+  /** @disregard P1132 */
   static $oauth2_secret = null;      // Client Secret
+  /** @disregard P1132 */
   static $oauth2_redirect = null;     // Redirect URI
   static $oauth2_scope = 0;       // Permission to read email
   static ?object $captcha = null;       // Permission to read email
@@ -33,10 +38,10 @@ abstract class config {
 
   /**
    * exposes a popup logon if authentication is required
-   *
-   * if you use this, the home controller must accept the
-   * submission and authenticate
-   **/
+  *
+  * if you use this, the home controller must accept the
+  * submission and authenticate
+  **/
   const use_inline_logon = false;
   const allow_password_recovery = false;
 
@@ -50,9 +55,12 @@ abstract class config {
   /**
    * the Facebook Developers Portal
    * If you populate these, the Facebook Auth Method will be enabled
-   **/
+  **/
+  /** @disregard P1132 */
   static $facebook_oauth2_client_id = null; // Client ID
+  /** @disregard P1132 */
   static $facebook_oauth2_secret = null;  // Client Secret
+  /** @disregard P1132 */
   static $facebook_oauth2_redirect = null; // Redirect URI
 
   /**
@@ -114,7 +122,7 @@ abstract class config {
 	*		* APC => dnf install php-pecl-apcu
 	*		* matthiasmullie/scrapbook => composer require matthiasmullie/scrapbook
 	*/
-  static $DB_CACHE = '';  // values = 'APC'
+  static $DB_CACHE = '';  // values = 'APC|REDIS'
   static $DB_CACHE_PREFIX = '';  // alphanumeric only, optionally create uniqueness for applications
   static $DB_CACHE_TTL = 600; // 10 minutes
   static $DB_CACHE_DEBUG = false;

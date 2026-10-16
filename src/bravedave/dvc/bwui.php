@@ -21,7 +21,7 @@ class bwui extends dao {
 
     $cache = null;
     $key = '';
-    if (config::$DB_CACHE == 'APC') {
+    if (cache::enabled()) {
 
       $cache = cache::instance();
       $key = $this->cacheKey(0, $this->_db_name . '_version');

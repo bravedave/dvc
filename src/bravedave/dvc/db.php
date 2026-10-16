@@ -95,7 +95,7 @@ class db {
   public function dump() : void {
 
     $sql = sprintf(
-      'SELECT table_name FROM information_schema.tables 
+      'SELECT table_name FROM information_schema.tables
         WHERE table_schema = %s AND table_type = %s ORDER BY table_name',
       $this->quote(config::$DB_NAME),
       $this->quote('BASE TABLE')
@@ -160,7 +160,7 @@ class db {
 
   public function flushCache() {
 
-    if (config::$DB_CACHE == 'APC') {
+    if (cache::enabled()) {
       /**
        * the automatic caching is controlled by:
        *	=> \dao\_dao->getByID addes to cache
@@ -265,14 +265,14 @@ class db {
 
     /**
      * https://mariadb.com/docs/server/reference/sql-structure/sql-language-structure/string-literals
-     * 
+     *
      * String Literals
      * Strings are sequences of characters and enclosed with quotes.
-     * 
+     *
      * Strings can either be enclosed in single quotes
      * or in double quotes (the same character must be
      * used to both open and close the string).
-     * 
+     *
      * The ANSI SQL-standard does not permit double quotes for enclosing strings,
      * and although MariaDB does by default, if the MariaDB server has enabled
      * the ANSI_QUOTES_SQL SQL_MODE, double quotes will be treated as being used

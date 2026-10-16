@@ -7,7 +7,7 @@
 namespace bravedave\dvc\sqlite;
 
 use bravedave, config;
-use bravedave\dvc\{dbSanitize, dto, logger};
+use bravedave\dvc\{dbSanitize, dto, logger, cache};
 use SQLite3, SQLite3Stmt, ZipArchive;
 use SQLite3Result;
 
@@ -101,7 +101,7 @@ class db {
 
   public function flushCache() {
 
-    if (config::$DB_CACHE == 'APC') {
+    if (cache::enabled()) {
       /**
        * the automatic caching is controlled by:
        *	=> \dao\_dao->getByID addes to cache
@@ -183,7 +183,7 @@ class db {
 
       if ($result = $this->_db->query($sql)) return $result;
     } catch (\Throwable $th) {
-      
+
       /****************************************
        * You are here because there was an error **/
       $message = sprintf(
