@@ -1,10 +1,7 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
  *
  * using: https://www.scrapbook.cash/interfaces/key-value-store/
 */
@@ -12,9 +9,10 @@
 namespace bravedave\dvc;
 
 use APCUIterator, config, MatthiasMullie;
+use Redis;
 
 class cache {
-  protected static null|cache $_instance;
+  protected static null|cache $_instance = null;
   protected MatthiasMullie\Scrapbook\Adapters\Apc|MatthiasMullie\Scrapbook\Adapters\Redis|null $_cache;
   protected $ttl = 60;
 
@@ -27,10 +25,10 @@ class cache {
     if (config::$DB_CACHE == 'REDIS') {
 
       // create \Redis object pointing to your Redis server
-      // $client = new \Redis();
-      // $client->connect('127.0.0.1');
+      $client = new Redis;
+      $client->connect('redis');
       // // create Scrapbook KeyValueStore object
-      // $cache = new \MatthiasMullie\Scrapbook\Adapters\Redis($client);
+      $this->_cache = new \MatthiasMullie\Scrapbook\Adapters\Redis($client);
     } else {
 
       // create Scrapbook KeyValueStore object
@@ -53,6 +51,7 @@ class cache {
   }
 
   public function get(string $key) {
+
     if ($res = $this->_cache->get($key)) {
 
       if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('get(%s) (hit) : %s', $key, __METHOD__));
