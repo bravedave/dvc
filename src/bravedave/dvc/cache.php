@@ -15,6 +15,7 @@ use RedisException;
 class cache {
   protected static null|cache $_instance = null;
   protected MatthiasMullie\Scrapbook\Adapters\Apc|MatthiasMullie\Scrapbook\Adapters\Redis|null $_cache;
+  protected ?Redis $_redis = null;
   protected $ttl = 60;
 
   protected function __construct() {
@@ -28,7 +29,7 @@ class cache {
       // delta implemented: configurable Redis host or Unix socket path
 
       // create \Redis object pointing to your Redis server
-      $client = new Redis;
+      $client = $this->_redis = new Redis;
       $client->connect(config::$DB_CACHE_REDIS_SERVER);
       // create Scrapbook KeyValueStore object
       $this->_cache = new MatthiasMullie\Scrapbook\Adapters\Redis($client);
@@ -201,12 +202,29 @@ class cache {
   public function delete(string $key, $wildcard = false) {
     if ($wildcard) {
 
-      if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('wildard delete(%s) : %s', $key, __METHOD__));
+      if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('wildcard delete(%s) : %s', $key, __METHOD__));
+
+      if ($this->_redis) {
+
+        $cursor = null;
+        do {
+
+          $cachedKeys = $this->_redis->scan($cursor);
+          foreach ($cachedKeys ?: [] as $cachedKey) {
+
+            if (preg_match($key, $cachedKey) !== 1) continue;
+            if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('wildcard delete(%s) => %s : %s', $key, $cachedKey, __METHOD__));
+            $this->_cache->delete($cachedKey);
+          }
+        } while ($cursor !== 0);
+
+        return;
+      }
 
       $cachedKeys = new APCUIterator($key);
       foreach ($cachedKeys as $_key) {
 
-        if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('wildard delete(%s) => %s : %s', $key, $_key['key'], __METHOD__));
+        if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('wildcard delete(%s) => %s : %s', $key, $_key['key'], __METHOD__));
         $this->_cache->delete($_key['key']);
       }
     } else {
