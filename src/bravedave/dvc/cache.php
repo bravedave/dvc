@@ -28,11 +28,22 @@ class cache {
 
       // delta implemented: configurable Redis host or Unix socket path
 
-      // create \Redis object pointing to your Redis server
-      $client = $this->_redis = new Redis;
-      $client->connect(config::$DB_CACHE_REDIS_SERVER);
-      // create Scrapbook KeyValueStore object
-      $this->_cache = new MatthiasMullie\Scrapbook\Adapters\Redis($client);
+      try {
+
+        // create \Redis object pointing to your Redis server
+        $client = $this->_redis = new Redis;
+        if (!$client->connect(config::$DB_CACHE_REDIS_SERVER)) {
+
+          throw new RedisException('Unable to connect to Redis');
+        }
+        // create Scrapbook KeyValueStore object
+        $this->_cache = new MatthiasMullie\Scrapbook\Adapters\Redis($client);
+      } catch (RedisException $e) {
+
+        logger::info(sprintf('<%s> %s', $e->getMessage(), __METHOD__));
+        $this->_redis = null;
+        $this->_cache = null;
+      }
     } else {
 
       // create Scrapbook KeyValueStore object
@@ -178,6 +189,8 @@ class cache {
 
   public function get(string $key) {
 
+    if ($this->_cache === null) return false;
+
     if ($res = $this->_cache->get($key)) {
 
       if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('get(%s) (hit) : %s', $key, __METHOD__));
@@ -191,6 +204,8 @@ class cache {
 
   public function set(string $key, mixed $value, $ttl = null) {
 
+    if ($this->_cache === null) return;
+
     if (!$ttl) $ttl = $this->ttl;
 
     if ($this->_cache->set($key, $value, $ttl)) {
@@ -200,23 +215,26 @@ class cache {
   }
 
   public function delete(string $key, $wildcard = false) {
+    if ($this->_cache === null) return;
+
     if ($wildcard) {
 
       if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('wildcard delete(%s) : %s', $key, __METHOD__));
 
       if ($this->_redis) {
 
+        $match = '*' . trim($key, '/') . '*';
         $cursor = null;
         do {
 
-          $cachedKeys = $this->_redis->scan($cursor);
+          $cachedKeys = $this->_redis->scan($cursor, $match, 1000);
           foreach ($cachedKeys ?: [] as $cachedKey) {
 
             if (preg_match($key, $cachedKey) !== 1) continue;
             if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('wildcard delete(%s) => %s : %s', $key, $cachedKey, __METHOD__));
             $this->_cache->delete($cachedKey);
           }
-        } while ($cursor !== 0);
+        } while ($cursor);
 
         return;
       }
@@ -236,7 +254,15 @@ class cache {
 
   public function flush() {
 
+    if ($this->_cache === null) return;
+
     if (config::$DB_CACHE_DEBUG || config::$DB_CACHE_DEBUG_FLUSH) logger::debug(sprintf('<flush> : %s', __METHOD__));
+    if ($this->_redis) {
+
+      $this->_redis->flushDB();
+      return;
+    }
+
     $this->_cache->flush();
   }
 }
