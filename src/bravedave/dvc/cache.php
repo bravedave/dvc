@@ -24,11 +24,13 @@ class cache {
 
     if (config::$DB_CACHE == 'REDIS') {
 
+      // delta implemented: configurable Redis host or Unix socket path
+
       // create \Redis object pointing to your Redis server
       $client = new Redis;
-      $client->connect('redis');
-      // // create Scrapbook KeyValueStore object
-      $this->_cache = new \MatthiasMullie\Scrapbook\Adapters\Redis($client);
+      $client->connect(config::$DB_CACHE_REDIS_SERVER);
+      // create Scrapbook KeyValueStore object
+      $this->_cache = new MatthiasMullie\Scrapbook\Adapters\Redis($client);
     } else {
 
       // create Scrapbook KeyValueStore object

@@ -123,6 +123,7 @@ abstract class config {
 	*		* matthiasmullie/scrapbook => composer require matthiasmullie/scrapbook
 	*/
   static $DB_CACHE = '';  // values = 'APC|REDIS'
+  static $DB_CACHE_REDIS_SERVER = 'redis';  // Redis hostname or Unix socket path
   static $DB_CACHE_PREFIX = '';  // alphanumeric only, optionally create uniqueness for applications
   static $DB_CACHE_TTL = 600; // 10 minutes
   static $DB_CACHE_DEBUG = false;
@@ -419,6 +420,7 @@ abstract class config {
           'crypt_key' => static::$CRYPT_KEY,
           'db_type' => static::$DB_TYPE,
           'db_cache' => static::$DB_CACHE,
+          'db_cache_redis_server' => static::$DB_CACHE_REDIS_SERVER,
           'db_cache_debug' => static::$DB_CACHE_DEBUG,
           'db_cache_debug_flush' => static::$DB_CACHE_DEBUG_FLUSH,
           'db_cache_debug_type_conflict' => static::$DB_CACHE_DEBUG_TYPE_CONFLICT,
@@ -455,6 +457,7 @@ abstract class config {
 
         static::$DB_TYPE = $a->db_type;
         static::$DB_CACHE = $a->db_cache;
+        static::$DB_CACHE_REDIS_SERVER = $a->db_cache_redis_server ?: 'redis';
         static::$DB_CACHE_DEBUG = $a->db_cache_debug;
         static::$DB_CACHE_DEBUG_FLUSH = $a->db_cache_debug_flush;
         static::$DB_CACHE_DEBUG_TYPE_CONFLICT = $a->db_cache_debug_type_conflict;
@@ -498,6 +501,7 @@ abstract class config {
             'content_security_include_cloudflare' => static::$CONTENT_SECURITY_INCLUDE_CLOUDFLARE,
             'db_type' => 'sqlite',
             'db_cache' => static::$DB_CACHE,
+            'db_cache_redis_server' => '',
             'db_cache_debug' => static::$DB_CACHE_DEBUG,
             'db_cache_debug_flush' => static::$DB_CACHE_DEBUG_FLUSH,
             'db_cache_debug_type_conflict' => static::$DB_CACHE_DEBUG_TYPE_CONFLICT,
