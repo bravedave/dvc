@@ -168,6 +168,13 @@ class cache {
     return null;
   }
 
+  public static function type(): string {
+
+    if ('APC' == config::$DB_CACHE) return 'APC';
+    if ('REDIS' == config::$DB_CACHE) return 'REDIS';
+    return '';
+  }
+
   public function get(string $key) {
 
     if ($res = $this->_cache->get($key)) {
