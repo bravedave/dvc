@@ -14,7 +14,7 @@ use RedisException;
 
 class cache {
   protected static null|cache $_instance = null;
-  protected MatthiasMullie\Scrapbook\Adapters\Apc|MatthiasMullie\Scrapbook\Adapters\Redis|null $_cache;
+  protected MatthiasMullie\Scrapbook\Adapters\Apc|MatthiasMullie\Scrapbook\Adapters\Redis|null $_cache = null;
   protected ?Redis $_redis = null;
   protected $ttl = 60;
 
@@ -44,7 +44,7 @@ class cache {
         $this->_redis = null;
         $this->_cache = null;
       }
-    } else {
+    } elseif (config::$DB_CACHE == 'APC') {
 
       // create Scrapbook KeyValueStore object
       $this->_cache = new MatthiasMullie\Scrapbook\Adapters\Apc;
@@ -189,7 +189,7 @@ class cache {
 
   public function get(string $key) {
 
-    if ($this->_cache === null) return false;
+    if (!self::enabled() || $this->_cache === null) return false;
 
     if ($res = $this->_cache->get($key)) {
 
@@ -204,7 +204,7 @@ class cache {
 
   public function set(string $key, mixed $value, $ttl = null) {
 
-    if ($this->_cache === null) return;
+    if (!self::enabled() || $this->_cache === null) return;
 
     if (!$ttl) $ttl = $this->ttl;
 
@@ -215,7 +215,7 @@ class cache {
   }
 
   public function delete(string $key, $wildcard = false) {
-    if ($this->_cache === null) return;
+    if (!self::enabled() || $this->_cache === null) return;
 
     if ($wildcard) {
 
@@ -254,7 +254,7 @@ class cache {
 
   public function flush() {
 
-    if ($this->_cache === null) return;
+    if (!self::enabled() || $this->_cache === null) return;
 
     if (config::$DB_CACHE_DEBUG || config::$DB_CACHE_DEBUG_FLUSH) logger::debug(sprintf('<flush> : %s', __METHOD__));
     if ($this->_redis) {
