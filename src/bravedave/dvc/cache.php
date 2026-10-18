@@ -11,12 +11,17 @@ namespace bravedave\dvc;
 use APCUIterator, config, MatthiasMullie;
 use Redis;
 use RedisException;
+use Throwable;
 
 class cache {
   protected static null|cache $_instance = null;
   protected MatthiasMullie\Scrapbook\Adapters\Apc|MatthiasMullie\Scrapbook\Adapters\Redis|null $_cache = null;
   protected ?Redis $_redis = null;
   protected $ttl = 60;
+  protected ?string $generation = null;
+  protected string $connectionServer = '';
+  protected array $fills = [];
+  protected static bool $storageWarning = false;
 
   protected function __construct() {
 
@@ -24,7 +29,7 @@ class cache {
     $this->ttl = config::$DB_CACHE_TTL;
 
 
-    if (config::$DB_CACHE == 'REDIS') {
+    if (config::$DB_CACHE == 'REDIS' && !config::$DB_CACHE_SEMAPHORE_PATH) {
 
       // delta implemented: configurable Redis host or Unix socket path
 
@@ -38,7 +43,7 @@ class cache {
         }
         // create Scrapbook KeyValueStore object
         $this->_cache = new MatthiasMullie\Scrapbook\Adapters\Redis($client);
-      } catch (RedisException $e) {
+      } catch (Throwable $e) {
 
         logger::info(sprintf('<%s> %s', $e->getMessage(), __METHOD__));
         $this->_redis = null;
@@ -48,6 +53,125 @@ class cache {
 
       // create Scrapbook KeyValueStore object
       $this->_cache = new MatthiasMullie\Scrapbook\Adapters\Apc;
+    }
+  }
+
+  protected function clock(): int {
+    return time();
+  }
+
+  protected function connectRedis(): void {
+    if ($this->_cache !== null && $this->_redis !== null && $this->connectionServer === config::$DB_CACHE_REDIS_SERVER) return;
+    $client = new Redis;
+    if (!$client->connect(config::$DB_CACHE_REDIS_SERVER, 0, 1.0)) {
+      throw new RedisException('Unable to connect to Redis');
+    }
+    $client->setOption(Redis::OPT_READ_TIMEOUT, 1.0);
+    $this->_redis = $client;
+    $this->_cache = new MatthiasMullie\Scrapbook\Adapters\Redis($client);
+    $this->connectionServer = config::$DB_CACHE_REDIS_SERVER;
+  }
+
+  protected function probeRedis(): void {
+    $this->connectRedis();
+    if (!$this->_redis->ping()) throw new RedisException('Redis health probe failed');
+  }
+
+  protected function semaphoreFile(): string {
+    $identity = [config::$DB_HOST, config::$DB_NAME, config::$DB_CACHE_PREFIX, config::$DB_CACHE_REDIS_SERVER];
+    return rtrim(config::$DB_CACHE_SEMAPHORE_PATH, '/') . '/cache-health-' . hash('sha256', json_encode($identity)) . '.json';
+  }
+
+  protected function storageFailure(): void {
+    if (!self::$storageWarning) {
+      logger::info('Cache bypassed: shared health state is unavailable');
+      self::$storageWarning = true;
+    }
+  }
+
+  protected function saveState($file, array $state): bool {
+    $json = json_encode($state, JSON_THROW_ON_ERROR);
+    rewind($file);
+    return ftruncate($file, 0) && fwrite($file, $json) === strlen($json) && fflush($file);
+  }
+
+  protected function guarded(callable $operation, mixed $fallback = null): mixed {
+    if (!in_array(config::$DB_CACHE, ['APC', 'REDIS'], true)) return $fallback;
+    if (config::$DB_CACHE !== 'REDIS' || !config::$DB_CACHE_SEMAPHORE_PATH) {
+      return $this->_cache === null ? $fallback : $operation('');
+    }
+
+    $file = @fopen($this->semaphoreFile(), 'c+');
+    if (!$file) {
+      $this->storageFailure();
+      return $fallback;
+    }
+
+    try {
+      if (!flock($file, LOCK_EX)) {
+        $this->storageFailure();
+        return $fallback;
+      }
+      $contents = stream_get_contents($file);
+      $now = $this->clock();
+      $state = $contents === '' ? [
+        'generation' => bin2hex(random_bytes(16)),
+        'disabled' => false,
+        'healthy_since' => null,
+        'next_probe' => 0
+      ] : json_decode($contents, true);
+      if (!is_array($state) || !is_string($state['generation'] ?? null)
+        || preg_match('/^[a-f0-9]{32}$/D', $state['generation']) !== 1
+        || !is_bool($state['disabled'] ?? null) || !is_int($state['next_probe'] ?? null)
+        || !array_key_exists('healthy_since', $state)
+        || ($state['healthy_since'] !== null && !is_int($state['healthy_since']))) {
+        $this->storageFailure();
+        return $fallback;
+      }
+
+      $this->generation ??= $state['generation'];
+      $changed = $contents === '';
+      $recovered = false;
+      try {
+        if ($state['disabled']) {
+          if ($now < $state['next_probe']) return $fallback;
+          $this->probeRedis();
+          $state['healthy_since'] ??= $now;
+          $state['next_probe'] = $now + max(1, (int)config::$DB_CACHE_PROBE_INTERVAL);
+          if ($now - $state['healthy_since'] < max(1, (int)config::$DB_CACHE_MAX_TTL)) {
+            if (!$this->saveState($file, $state)) $this->storageFailure();
+            return $fallback;
+          }
+          $state['disabled'] = false;
+          $state['generation'] = bin2hex(random_bytes(16));
+          $changed = $recovered = true;
+        } else {
+          $this->connectRedis();
+        }
+        if ($changed && !$this->saveState($file, $state)) {
+          $this->storageFailure();
+          return $fallback;
+        }
+        if ($recovered) logger::info('Cache health recovered after cooldown');
+        $this->_redis->clearLastError();
+        $result = $operation($state['generation']);
+        if ($this->_redis->getLastError()) throw new RedisException('Redis operation failed');
+        return $result;
+      } catch (Throwable $error) {
+        $wasDisabled = $state['disabled'];
+        $state['disabled'] = true;
+        $state['healthy_since'] = null;
+        $state['next_probe'] = $now + max(1, (int)config::$DB_CACHE_PROBE_INTERVAL);
+        $state['generation'] = bin2hex(random_bytes(16));
+        $this->_cache = null;
+        $this->_redis = null;
+        if (!$this->saveState($file, $state)) $this->storageFailure();
+        if (!$wasDisabled) logger::info('Cache disabled: Redis health or operation failure');
+        return $fallback;
+      }
+    } finally {
+      flock($file, LOCK_UN);
+      fclose($file);
     }
   }
 
@@ -156,6 +280,9 @@ class cache {
   public static function enabled(): bool {
 
     if (config::$DB_CACHE == 'APC') return true;
+    if (config::$DB_CACHE == 'REDIS' && config::$DB_CACHE_SEMAPHORE_PATH) {
+      return self::instance()->guarded(fn() => true, false);
+    }
     if (config::$DB_CACHE == 'REDIS') return true;
 
     return false;
@@ -174,6 +301,7 @@ class cache {
    */
   public static function stats(): ?array {
 
+    if (!self::enabled()) return null;
     // test what cache system is available and return appropriate stats
     if ('APC' == config::$DB_CACHE) return self::apcstats();
     if ('REDIS' == config::$DB_CACHE) return self::redisstats();
@@ -188,51 +316,61 @@ class cache {
   }
 
   public function get(string $key) {
-
-    if (!self::enabled() || $this->_cache === null) return false;
-
-    if ($res = $this->_cache->get($key)) {
-
-      if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('get(%s) (hit) : %s', $key, __METHOD__));
-    } elseif (config::$DB_CACHE_DEBUG) {
-
-      logger::debug(sprintf('get(%s) (miss) : %s', $key, __METHOD__));
-    }
-
-    return $res;
+    $this->fills[$key] = false;
+    return $this->guarded(function (string $generation) use ($key) {
+      $this->fills[$key] = $generation;
+      $result = $this->_cache->get($this->backendKey($key, $generation));
+      if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('get(%s) (%s) : %s', $key, $result ? 'hit' : 'miss', __METHOD__));
+      return $result;
+    }, false);
   }
 
   public function set(string $key, mixed $value, $ttl = null) {
-
-    if (!self::enabled() || $this->_cache === null) return;
-
-    if (!$ttl) $ttl = $this->ttl;
-
-    if ($this->_cache->set($key, $value, $ttl)) {
-
-      if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('set(%s) : %s', $key, __METHOD__));
-    }
+    $this->guarded(function (string $generation) use ($key, $value, $ttl) {
+      if ($generation !== '' && ($this->fills[$key] ?? $this->generation) !== $generation) return;
+      $expiry = (int)($ttl ?: $this->ttl);
+      if ($generation !== '') {
+        if ($expiry < 1) throw new RedisException('Shared cache requires a bounded TTL');
+        $expiry = min($expiry, max(1, (int)config::$DB_CACHE_MAX_TTL));
+      }
+      $stored = $this->_cache->set($this->backendKey($key, $generation), $value, $expiry);
+      if (!$stored && $generation !== '') {
+        throw new RedisException('Redis cache write failed');
+      }
+      if ($stored && config::$DB_CACHE_DEBUG) logger::debug(sprintf('set(%s) : %s', $key, __METHOD__));
+    });
   }
 
   public function delete(string $key, $wildcard = false) {
-    if (!self::enabled() || $this->_cache === null) return;
+    $this->guarded(fn(string $generation) => $this->deleteBackend($key, $wildcard, $generation));
+  }
 
+  protected function backendKey(string $key, string $generation): string {
+    return ($generation === '' ? '' : 'dvc-' . $generation . ':') . $key;
+  }
+
+  protected function deleteBackend(string $key, bool $wildcard, string $generation): void {
     if ($wildcard) {
 
       if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('wildcard delete(%s) : %s', $key, __METHOD__));
 
       if ($this->_redis) {
 
-        $match = '*' . trim($key, '/') . '*';
+        $prefix = $this->backendKey('', $generation);
+        $match = $generation === '' ? '*' . trim($key, '/') . '*' : $prefix . '*';
         $cursor = null;
         do {
 
           $cachedKeys = $this->_redis->scan($cursor, $match, 1000);
           foreach ($cachedKeys ?: [] as $cachedKey) {
 
-            if (preg_match($key, $cachedKey) !== 1) continue;
+            if (preg_match($key, substr($cachedKey, strlen($prefix))) !== 1) continue;
             if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('wildcard delete(%s) => %s : %s', $key, $cachedKey, __METHOD__));
-            $this->_cache->delete($cachedKey);
+            if ($generation !== '') {
+              if ($this->_redis->del($cachedKey) === false) throw new RedisException('Redis cache invalidation failed');
+            } else {
+              $this->_cache->delete($cachedKey);
+            }
           }
         } while ($cursor);
 
@@ -248,21 +386,24 @@ class cache {
     } else {
 
       if (config::$DB_CACHE_DEBUG) logger::debug(sprintf('delete(%s) : %s', $key, __METHOD__));
-      $this->_cache->delete($key);
+      if ($generation !== '') {
+        if ($this->_redis->del($this->backendKey($key, $generation)) === false) throw new RedisException('Redis cache invalidation failed');
+      } else {
+        $this->_cache->delete($key);
+      }
     }
   }
 
   public function flush() {
-
-    if (!self::enabled() || $this->_cache === null) return;
-
-    if (config::$DB_CACHE_DEBUG || config::$DB_CACHE_DEBUG_FLUSH) logger::debug(sprintf('<flush> : %s', __METHOD__));
-    if ($this->_redis) {
-
-      $this->_redis->flushDB();
-      return;
-    }
-
-    $this->_cache->flush();
+    $this->guarded(function (string $generation) {
+      if (config::$DB_CACHE_DEBUG || config::$DB_CACHE_DEBUG_FLUSH) logger::debug(sprintf('<flush> : %s', __METHOD__));
+      if ($generation !== '') {
+        $this->deleteBackend('/.*/', true, $generation);
+      } elseif ($this->_redis) {
+        $this->_redis->flushDB();
+      } else {
+        $this->_cache->flush();
+      }
+    });
   }
 }

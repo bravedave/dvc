@@ -14,6 +14,9 @@ Exception: in `.github/`, `AI-README.md` is the authoritative governance documen
 2. Read [AI-CODING-INDEX.md](AI-CODING-INDEX.md) for the complete AI asset map.
 3. Pick the workflow below that matches your task.
 
+For storage, cache configuration, or invalidation changes, also read
+[Storage and Caching](STORAGE-AND-CACHING.md).
+
 ## Core Workflows
 
 ### 1. Issue to Implementation (Delta Flow)

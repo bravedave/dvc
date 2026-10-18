@@ -26,6 +26,46 @@
 
 ---
 
+## Shared Redis Cache Health
+
+Applications can opt into a shared cache-disable semaphore by setting
+`config::$DB_CACHE_SEMAPHORE_PATH` to an existing private directory shared by
+every web and CLI cache user. The directory must be readable and writable by
+those users. Keep it outside public web roots and on a filesystem supporting
+shared `flock()` locks; a container-local directory is not sufficient.
+
+```php
+config::$DB_CACHE = 'REDIS';
+config::$DB_CACHE_REDIS_SERVER = 'redis'; // A Unix socket path is also supported.
+config::$DB_CACHE_SEMAPHORE_PATH = '/private/shared/data/';
+config::$DB_CACHE_MAX_TTL = 86400;
+config::$DB_CACHE_PROBE_INTERVAL = 5;
+```
+
+One locked JSON marker is maintained per database host/name, cache prefix, and
+Redis endpoint. Connection, read, write, invalidation, and scan failures disable
+normal cache operations across processes. Unavailable or corrupt coordination
+state fails closed. SQL remains the caller's fallback. Redis connection and read
+timeouts are one second; failed operations log state transitions without data.
+
+Recovery uses rate-limited health probes and waits a full `DB_CACHE_MAX_TTL`
+after the first successful probe. Renewed failure restarts the cooldown. Shared
+cache writes are capped to that positive TTL; the default is 86400 seconds.
+Generation-qualified keys make old entries unreachable, and reads capture the
+generation so a delayed pre-outage fill cannot populate the recovered namespace.
+Call `get()` before querying SQL and filling a shared cache entry. Long-running
+callers should perform a fresh read before filling after recovery.
+
+Guarded wildcard deletion and `flush()` affect only the current identity's
+namespace; recovery never calls `flushDB()`. With the semaphore disabled, legacy
+Redis `flush()` still clears the selected Redis database. Explicit APCu support
+is unchanged and does not use this semaphore. Setting `DB_CACHE` to an empty
+string permanently bypasses caching, regardless of health recovery.
+
+Run the isolated regression harness without loading a Redis extension:
+`php -n tests/dvc/CacheTest.php`. It uses temporary files, child processes, and
+in-memory adapters, not a live Redis server or application database.
+
 ## 🛠️ Getting Started
 
 ### Requirements

@@ -13,6 +13,9 @@ Practical workflow guide for planning, implementing, and documenting changes wit
 ### [API Contract Maintenance Standard](prompts/api-contract-maintenance.standard.md)
 Required API parity rules when `postHandler()` actions change.
 
+### [Storage and Caching](STORAGE-AND-CACHING.md)
+Framework storage boundaries, backend selection, cache identity, shared Redis health, invalidation, and deployment validation.
+
 ## Prompt Library
 
 ### [Delta Implement Change](prompts/delta-implement-change.prompt.md)

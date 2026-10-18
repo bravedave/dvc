@@ -126,6 +126,9 @@ abstract class config {
   static $DB_CACHE_REDIS_SERVER = 'redis';  // Redis hostname or Unix socket path
   static $DB_CACHE_PREFIX = '';  // alphanumeric only, optionally create uniqueness for applications
   static $DB_CACHE_TTL = 600; // 10 minutes
+  static $DB_CACHE_SEMAPHORE_PATH = '';
+  static $DB_CACHE_MAX_TTL = 86400;
+  static $DB_CACHE_PROBE_INTERVAL = 5;
   static $DB_CACHE_DEBUG = false;
   static $DB_CACHE_DEBUG_FLUSH = false;
   static $DB_CACHE_DEBUG_TYPE_CONFLICT = true;
