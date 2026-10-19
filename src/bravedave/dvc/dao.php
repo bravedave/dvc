@@ -540,10 +540,10 @@ abstract class dao {
   public function UpdateByID($a, $id) {
 
     if (is_null($this->db_name())) throw new DBNameIsNull;
-    
+
     $ret = $this->Update($a, sprintf('WHERE id = %d', $id), $flushCache = false);
 
-    $this->cacheDelete($id);
+    $this->cacheDelete((int)$id);
     $this->audit('update', $a,  $id);
     return $ret;
   }
