@@ -174,6 +174,32 @@
           const table = _me.data('table');
 
           preScan = ('function' == typeof preScan) ? preScan : () => true;
+
+          // dangling (unescaped) pipes create an empty alternative that matches everything
+          const trimPipes = s => s.replace(/^\|+/, '').replace(/(?<!\\)\|+$/, '');
+          const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+          // incomplete patterns while typing (e.g. "bill(") fall back to a literal match
+          const toRegExp = build => {
+            try {
+              return new RegExp(build(s => s), 'i');
+            } catch (err) {
+              return new RegExp(build(escRe), 'i');
+            }
+          };
+
+          const singleExp = toRegExp(f => f(trimPipes(txt)));
+
+          /**
+           * the string might look like "chris young"
+           * so split on spaces and build an AND expression
+           * e.g. (?=.*chris)(?=.*young)
+           */
+          const parts = txt.indexOf(' ') > -1 ? txt.split(' ').filter(p => p.trim()) : [];
+          const andExp = parts.length > 1 ?
+            toRegExp(f => parts.map(p => `(?=.*${f(trimPipes(p))})`).join('')) :
+            null;
+
           table[0].dispatchEvent(new Event('search-start', { bubbles: true })); // dispatch jQuery compatible event
           // table.trigger('search-start');
           table.find('> tbody > tr').each((i, tr) => {
@@ -186,26 +212,7 @@
               _tr.addClass('d-none');
             } else {
 
-              /**
-               * --- ------------------------------------------ ---
-               * the string might look like "chris young"
-               * so
-               * - if the string has a space,
-               * - split the string on spaces
-               * - and create a the reflects an and statement
-               * - e.g. (?=.*chris)(?=.*young)
-               */
-              if (txt.indexOf(' ') > -1) {
-
-                const parts = txt.split(' ').filter(p => p.trim());
-                if (parts.length > 1) {
-
-                  const re = parts.map(p => `(?=.*${p})`).join('');
-                  const andExp = new RegExp(re, 'gi');
-                  return _tr.toggleClass('d-none', !(andExp.test(_tr.text())));
-                }
-              }
-              /*--- ------------------------------------------ ---*/
+              if (andExp) return _tr.toggleClass('d-none', !andExp.test(_tr.text()));
 
               const str = _tr.text();
               /**
@@ -214,7 +221,7 @@
                * may need expanasion for more than just &amp;
                */
               const decodedStr = str.replace(/&amp;/g, '&');
-              _tr.toggleClass('d-none', !(decodedStr.match(new RegExp(txt, 'gi'))));
+              _tr.toggleClass('d-none', !singleExp.test(decodedStr));
             }
           });
 
