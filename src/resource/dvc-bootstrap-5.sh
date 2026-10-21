@@ -40,7 +40,7 @@ if [ -x "$(command -v sass)" ]; then
     echo \*>bootstrap5/.gitignore
 
     # composer req --working-dir=bootstrap5 twbs/bootstrap "^5"
-    composer req --working-dir=bootstrap5 twbs/bootstrap "dev-main"
+    composer req --working-dir=bootstrap5 twbs/bootstrap "<6"
 
     php bootstrap5JS.php
     cd bootstrap5
