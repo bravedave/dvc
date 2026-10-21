@@ -35,6 +35,11 @@ if [ ! -s "$TMP_FILE" ]; then
 fi
 
 if [ -f "$TARGET" ]; then
+  if cmp -s "$TMP_FILE" "$TARGET"; then
+    echo "No changes: $TARGET"
+    exit 0
+  fi
+
   cp "$TARGET" "$TARGET.bak"
   echo "Backup created: $TARGET.bak"
 fi
