@@ -615,6 +615,24 @@ abstract class Response {
     }
   }
 
+  public static function serveBootStrap6($type = 'css', string|null $theme = null): void {
+
+    if ('css' == $type) {
+
+      $lib = match ($theme) {
+        default => resources::bootstrap6('css')
+      };
+
+      // logger::info(sprintf('<%s> %s', $lib, __METHOD__));
+      self::serve($lib);
+    } elseif ('js' == $type) {
+
+      // $lib = __DIR__ . '/js/bootstrap5/bootstrap.bundle.min.js';
+      $lib = resources::bootstrap6('js');
+      self::serve($lib);
+    }
+  }
+
   public static function serveMermaid($type = 'css'): void {
 
     if ('css' == $type) {

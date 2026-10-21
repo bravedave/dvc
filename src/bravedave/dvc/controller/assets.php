@@ -45,6 +45,16 @@ class assets extends Controller {
 
         Response::serveBootStrap5($type);
       }
+    } elseif (6 == (int)$version) {
+
+      $request = new ServerRequest;
+      if ('css' == $type) {
+
+        Response::serveBootStrap6($type, $request->getQueryParam('t') ?: null);
+      } elseif (in_array($type, ['polyfill', 'js'])) {
+
+        Response::serveBootStrap6($type);
+      }
     }
   }
 

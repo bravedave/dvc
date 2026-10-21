@@ -68,6 +68,7 @@
     "post-update-cmd": [
       "bash src/resource/dvc-bootstrap-4.sh",
       "bash src/resource/dvc-bootstrap-5.sh",
+      "bash src/resource/dvc-bootstrap-6.sh",
       "bash src/resource/get-bootstrap-icons.sh",
       "bash src/resource/update-preact.sh",
       "bash src/resource/update-quill.sh",
