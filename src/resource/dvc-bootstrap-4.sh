@@ -5,6 +5,8 @@
 # 3. compile changes
 # 4. create themed bs files in src/dvc/css/bootstrap4
 
+exit 0; // disabled
+
 if [ -x "$(command -v sassc)" ]; then
 
 	if [ -x "$(command -v rsync)" ]; then
