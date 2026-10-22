@@ -35,9 +35,10 @@ abstract class cssmin {
     'css/brayworth.utility.css'
   ];
 
+  /** @disregard P1132 */
   protected static $rootPath = null;
 
-  protected static function __createmin($mindir, $cssmin, $files, $minify = false) {
+  protected static function __createmin(string $mindir, string $cssmin, array $files, $minify = false) {
     $debug = self::$debug;
     //~ $debug = TRUE;
 
@@ -183,7 +184,7 @@ abstract class cssmin {
     ];
   }
 
-  protected static function _css_create($options) {
+  protected static function _css_create(object $options) {
 
     $input = [];
     if (is_array($options->cssFiles)) {
@@ -218,7 +219,7 @@ abstract class cssmin {
     file_put_contents($options->libFile, $minifier->minify());
   }
 
-  protected static function _css_serve($options) {
+  protected static function _css_serve(object $options) {
 
     $expires = config::$CSS_EXPIRE_TIME;
     $modTime = filemtime($options->libFile);
@@ -231,7 +232,7 @@ abstract class cssmin {
     print file_get_contents($options->libFile);
   }
 
-  public static function viewcss($params) {
+  public static function viewcss(array $params) {
     $options = (object)array_merge([
       'debug' => false,
       'libName' => '',
