@@ -1,0 +1,112 @@
+html:has(.render6) {
+  scrollbar-gutter: auto;
+}
+
+.render6 {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.render6>nav,
+.render6>footer {
+  flex: 0 0 auto;
+}
+
+.render6>div.container-fluid {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.render6>div.container-fluid>.row {
+  flex: 1 1 0;
+  flex-wrap: nowrap;
+  min-height: 0;
+}
+
+.render6>div.container-fluid>.row>aside,
+.render6>div.container-fluid>.row>main {
+  height: auto;
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+}
+
+.render6 main {
+  padding: 1rem 1.5rem;
+}
+
+.render6 .markdown-body {
+  max-width: 72rem;
+  overflow-wrap: anywhere;
+}
+
+.render6 .markdown-body table {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.render6 .markdown-body th,
+.render6 .markdown-body td {
+  padding: .5rem;
+  border-bottom: 1px solid currentColor;
+}
+
+.render6 .bs6-aside-toggle {
+  display: none;
+}
+
+@media (width < 768px) {
+  .render6>div.container-fluid>.row {
+    flex-direction: column;
+  }
+
+  .render6 .render6-aside {
+    display: none;
+  }
+
+  .render6 .render6-aside.show {
+    display: block;
+    flex: 0 1 auto;
+    max-height: 45%;
+  }
+
+  .render6 .bs6-aside-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .render6 main {
+    flex: 1 1 0;
+    padding: 1rem;
+  }
+}
+
+@media print {
+  .render6 {
+    display: block;
+    height: auto;
+    overflow: visible;
+  }
+
+  .render6>div.container-fluid,
+  .render6>div.container-fluid>.row {
+    display: block;
+  }
+
+  .render6>div.container-fluid>.row>main {
+    overflow: visible;
+    width: 100%;
+  }
+
+  .render6 .render6-aside {
+    display: none !important;
+  }
+}

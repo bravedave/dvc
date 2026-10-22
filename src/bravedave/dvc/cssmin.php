@@ -165,7 +165,14 @@ abstract class cssmin {
     }
   }
 
-  static public function esseFiles() {
+  static public function esseFiles($version = 5) {
+
+    if (6 == (int)$version) {
+      return [
+        __DIR__ . '/esse/esse.markdown.css',
+        __DIR__ . '/esse/render6.css',
+      ];
+    }
 
     return [
       __DIR__ . '/esse/esse.css',

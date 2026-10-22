@@ -8,37 +8,37 @@ namespace bs6;
 
 use bravedave\dvc\controller as rootController;
 use bravedave\dvc\esse\render6;
-use bravedave\dvc\ServerRequest;
+use bravedave\dvc\{breadcrumb, ServerRequest, strings};
 use config;
 
 class controller extends rootController {
 
   protected function _index() {
 
-    $data = (object) [
-      'title' => config::$WEBNAME
+    $this->data = (object) [
+      'asideId' => 'aside-' . strings::rand(),
+      'title' => $title = $this->title = config::$WEBNAME
     ];
 
-    $render = new render6($data);
-    $render($render->demo());
+    $render = [
+      'aside' => fn() => $this->load('aside6'),
+      'footer' => fn() => $this->load('footer6'),
+      'main' => fn() => $this->load('main6'),
+      'navbar' => fn() => $this->load('navbar6'),
+      'title' => $title,
+      'breadcrumb' => [new breadcrumb('Bootstrap 6')],
+    ];
 
 
-    // $this->data = (object)[
-    //  'aside' => config::index_set,
-    //  'help' => cms\docs\config::help__blank_page,
-    //  'pageUrl' => strings::url($this->route),
-    //  'searchFocus' => true,
-    //  'title' => $this->title = ,
-    // ];
+    $renderer = new render6;
+    $renderer($render);
 
-    // $this->renderBS5([
-    //  'main' => fn () => $this->load('blank')
-    // ]);
+
   }
 
   protected function before() {
     parent::before();
-    $this->viewPath[] = __DIR__ . '/views/';
+    array_unshift($this->viewPath, __DIR__ . '/views/');
   }
 
   protected function postHandler() {

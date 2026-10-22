@@ -113,13 +113,15 @@ class assets extends Controller {
     }
   }
 
-  public function esse() {
+  public function esse($version = 5) {
+
+    $bootstrap6 = 6 == (int)$version;
 
     cssmin::viewcss([
       'debug' => false,
-      'libName' => 'home/css/default',
-      'cssFiles' => cssmin::esseFiles(),
-      'libFile' => config::tempdir()  . 'bravedave_dvc_esse.css'
+      'libName' => $bootstrap6 ? 'esse6' : 'esse',
+      'cssFiles' => cssmin::esseFiles($version),
+      'libFile' => config::tempdir() . ($bootstrap6 ? 'bravedave_dvc_esse6.css' : 'bravedave_dvc_esse5.css')
     ]);
   }
 
