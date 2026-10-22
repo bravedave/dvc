@@ -1,17 +1,14 @@
 /**
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
- * */
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
+ **/
+
 (_ => {
   _.toaster = () => false;
 
   _.ready(() => {
     let adjustTop = () => false;
-    let wrap = $('<div style="position: absolute; top: 50px; right: 20px; width: 300px"></div>');
+    let wrap = $('<div class="js-growler-envelope" style="position: absolute; top: 50px; right: 20px; width: 300px"></div>');
     let nav = $('[data-role="growler"]');
     let mode = 'append';
 
