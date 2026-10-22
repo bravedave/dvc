@@ -624,11 +624,13 @@ abstract class Response {
       };
 
       // logger::info(sprintf('<%s> %s', $lib, __METHOD__));
+      header('Content-Length: ' . filesize($lib));
       self::serve($lib);
     } elseif ('js' == $type) {
 
       // $lib = __DIR__ . '/js/bootstrap5/bootstrap.bundle.min.js';
       $lib = resources::bootstrap6('js');
+      header('Content-Length: ' . filesize($lib));
       self::serve($lib);
     }
   }
