@@ -10,6 +10,8 @@ use bravedave\dvc\{bs, logger, Response, userAgent};
 use config, currentUser, strings, theme;
 use Closure;
 
+use function bravedave\dvc\esc;
+
 /**
  * a class to control the
  * creation of a standard html page
@@ -227,7 +229,7 @@ class page {
 
     $this->_head = true;
 
-    if ($title) printf("\t<title>%s</title>\n", $title);
+    if ($title) printf("\t<title>%s</title>\n", esc($title));
 
     return $this;
   }

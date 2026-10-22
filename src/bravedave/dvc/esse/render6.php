@@ -4,22 +4,55 @@
  * Licensed under the MIT License. See LICENSE file for details.
  *
  * Replacement Candidate for controller::renderBS5
+ * - Improvement over previous renderers
+ *  - Standalone operation without relying on controller context
+ *  - Automatic closing
+ * - Retained Features
+ *  - Supports PHP and Markdown views
+ *  - jQuery, _brayworth_, icons and import maps support a fully rendered BootStrap 6 Admin interface
+ *  - $data is extracted into the local scope of PHP views
+ * - Deprecated features
+ *  - Preact import-map entries are no longer automatically included
+ *  - optional right layout removed
  *
- * Review findings:
- * - [fixed] Initialize empty data when omitted; PHP views currently throw.
- * - [fixed] jQuery, _brayworth_, icons and import maps are no longer supplied.
+ * Usage:
+ *  $data = [
+ *    'dtoSet' => $dtoSet
+ *  ];
+ *  $renderer = new render6($data);
+ *  $renderer([
+ *    'main' => fn() => $renderer->load('main')
+ *  ]);
  *
- * - Let caller view paths override bundled defaults; preserve caller order.
- * - Templates loaded here use renderer context, not controller context.
- *   Controller-owned load callbacks can preserve legacy template support.
- * - Legacy bodyClass, breadcrumb, page and configured defaults are not carried over.
- *   These compatibility omissions may be intentional for a lightweight model.
- * - Demo coverage is basic; test view overrides and intended module workflows.
+ *
+ * Review findings (2026-10-22):
+ * - Verdict: viable as an opt-in Bootstrap 6 renderer, not a drop-in
+ *   controller::renderBS5 replacement.
+ *
+ * Compatibility gaps:
+ * - View context: renderer-owned PHP views do not have controller properties
+ *   such as route/title. Use controller-owned load callbacks where required.
+ * - Page options: bodyClass, custom page objects/classes and toastui asset
+ *   loading are not supported; include additional assets explicitly.
+ * - Defaults: configured aside/navbar/footer views are not loaded automatically;
+ *   provide callbacks. The title comes from the title option, not the controller.
+ * - Version state: neither controller data->bootstrap nor global Bootstrap
+ *   version settings are updated, so legacy helpers may use another version.
+ * - Framework dependencies: independent of controller context, but still relies
+ *   on application aliases and theme/user/data-path configuration.
+ *
+ * Validation gaps:
+ * - Legacy Bootstrap 5 modal/tab workflows are not verified against Bootstrap 6;
+ *   loading jQuery and _brayworth_ does not establish behavioral compatibility.
+ * - Existing ViewTest covers view, not render6. Focused runtime probes passed,
+ *   but committed renderer regression tests and browser checks for module
+ *   workflows, responsive layouts and print output are still needed.
 */
 
 namespace bravedave\dvc\esse;
 
 use application;
+use bravedave\dvc\breadcrumb;
 use bravedave\dvc\config;
 use bravedave\dvc\logger;
 use bravedave\dvc\resources;
@@ -27,6 +60,8 @@ use bravedave\dvc\strings;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 use stdClass;
+
+use function bravedave\dvc\esc;
 
 class render6 {
   protected bool $debug = false;
@@ -48,8 +83,8 @@ class render6 {
     - our targets are
       1. the applications folders
         - returned by $app->getRootPath()
-      2. this code base
-        - `src/bravedave/dvc/views`
+      2. bundled renderer views
+        - `src/bravedave/dvc/esse/render6`
    */
 
     if (str_contains($name, "\0")) {
@@ -65,7 +100,7 @@ class render6 {
     $absolute = str_starts_with($name, DIRECTORY_SEPARATOR);
     $roots = $absolute
       ? $this->paths
-      : [...$this->paths, $this->rootPath . '/app/views', __DIR__ . '/views'];
+      : [...$this->paths, $this->rootPath . '/app/views'];
 
     foreach ($roots as $path) {
 
@@ -95,7 +130,6 @@ class render6 {
       1. <install>/X.php                                   bounded by <install>
       2. addPath() and constructor $paths                  none by default
       3. <install>/app/views/X.php                         bounded by app/views
-      4. <install>/vendor/bravedave/dvc/src/bravedave/dvc/views/X.php   bounded by dvc views
       - pass the name without an extension
 
     absolute name /X
@@ -179,9 +213,7 @@ class render6 {
       $this->paths[] = $this->rootPath = __DIR__;
     }
 
-    $paths[] = __DIR__ . '/render6/';
-
-    array_walk($paths, fn($path) => array_unshift($this->paths, $path));
+    $this->paths = [...$paths, ...$this->paths, __DIR__ . '/render6/'];
     $this->data = $data ? $data : [];
   }
 
@@ -190,19 +222,44 @@ class render6 {
     $options = array_merge([
       'title' => config::$WEBNAME,
       'main' => fn() => null,
-      'crumbs' => fn() => null,
-      'aside' => fn() => null,
-      'footer' => fn() => null,
-      'navbar' => fn() => null,
-      'left-layout' => true,
+      'breadcrumb' => [],
+      'aside' => null,
+      'footer' => null,
+      'navbar' => null,
       'css' => [],
       'scripts' => [],
       'late' => [],
       'meta' => [],
     ], $params);
 
+    $crumbs = fn() => null;
+    if ($options['breadcrumb']) {
+
+      $crumbs = function () use ($options) {
+
+        print '<nav aria-label="breadcrumb"><ol class="breadcrumb">';
+
+        array_walk($options['breadcrumb'], function (breadcrumb $crumb) {
+
+          if ($crumb->url ?? null) {
+
+            printf(
+              '<li class="breadcrumb-item"><a href="%s">%s</a></li>',
+              esc($crumb->url),
+              esc($crumb->label)
+            );
+          } else {
+
+            printf('<li class="breadcrumb-item">%s</li>', esc($crumb->label));
+          }
+        });
+
+        print '</ol></nav>';
+      };
+    }
+
     $page = new page;
-    $page->asideClass = 'md:col-3 py-3 pb-4 fg-secondary bg-1';
+    $page->asideClass = 'd-none md:d-block md:col-3 py-3 pb-4 fg-secondary bg-1';
     $page->meta[] = '<meta charset="utf-8">';
     $page->meta[] = '<meta name="viewport" content="width=device-width, initial-scale=1">';
 
@@ -241,11 +298,18 @@ class render6 {
     $page->scripts[] = sprintf('<script src="%s"></script>', strings::url('assets/brayworth/js'));
     $page->scripts[] = sprintf('<script src="%s"></script>', strings::url('assets/brayworth/dopo'));
 
+
     $path = resources::bootstrap6('js');
     $hash = hash_file('sha384', $path, true);
     $integrity = 'sha384-' . base64_encode($hash);
     $js = strings::url('assets/bootstrap/js/6?v=' . bin2hex($hash));
     $page->late[] = sprintf('<script type="module" src="%s" integrity="%s" crossorigin="anonymous"></script>', $js, $integrity);
+
+    $imports = (object)[
+      'imports' => (object)[]
+    ];
+    $imports->imports->{'@bootstrap'} = $js;
+    $page->scripts[] = sprintf('<script type="importmap">%s</script>', json_encode($imports, JSON_UNESCAPED_SLASHES));
 
     array_walk($options['css'], fn($_) => $page->css[] = preg_match('/^<(link|style)/', $_) ? $_ : sprintf('<link rel="stylesheet" href="%s">', $_));
     array_walk($options['scripts'], fn($_) => $page->scripts[] = preg_match('/^<script/', $_) ? $_ : sprintf('<script src="%s"></script>', $_));
@@ -259,17 +323,13 @@ class render6 {
 
     if ($options['navbar']) $page->then($options['navbar']);
 
-    if ($options['left-layout']) {
-
-      if ($options['aside']) $page->aside()->then($options['aside']);
-      $page->main()->then($options['crumbs'])->then($options['main']);
-    } else {
-
-      $page->main()->then($options['crumbs'])->then($options['main']);
-      if ($options['aside']) $page->aside()->then($options['aside']);
-    }
-
-    $page->footer()->then($options['footer']);
+    if ($options['aside']) $page->aside()->then($options['aside']);
+    $page
+      ->main()
+      ->then($crumbs)
+      ->then($options['main'])
+      ->footer();
+    if ($options['footer']) $page->then($options['footer']);
   }
 
   public function demo(): array {
@@ -277,11 +337,9 @@ class render6 {
     return [
       'title' => config::$WEBNAME,
       'main' => fn() => $this->load('main6'),
-      'crumbs' => fn() => null,
       'aside' => fn() => $this->load('aside6'),
       'footer' => fn() => $this->load('footer6'),
       'navbar' => fn() => $this->load('navbar6'),
-      'left-layout' => true,
       'css' => [],
       'scripts' => [],
       'late' => [],
@@ -310,8 +368,7 @@ class render6 {
       }
     }
 
-    printf('view::%s - not found<br />', $name);
-    printf('root::%s<br />', $this->rootPath);
+    printf('view::%s - not found<br />', esc($name));
     print '<br />';
 
     return $this;

@@ -6,7 +6,7 @@
 
 namespace bravedave\dvc\esse\render6; ?>
 
-<nav class="navbar bg-1 fg-2 flex-shrink-0">
+<nav class="navbar bg-1 fg-2">
   <div class="container-fluid">
     <span class="navbar-brand mb-0 h1">Navbar</span>
   </div>
