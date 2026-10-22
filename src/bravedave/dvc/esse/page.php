@@ -25,6 +25,7 @@ class page {
   public string $asideClass = '';
   public string $mainClass = '';
   public string $bodyClass = '';
+  public string $pageClass = '';
   public string $container = 'container-fluid';
 
   public array $scripts = [];
@@ -59,7 +60,6 @@ class page {
 
       $css = strings::url('assets/bootstrap/css/5?t=' . $theme);
     }
-    $icons = strings::url('assets/bootstrap/icons');
     $js = strings::url('assets/bootstrap/js/5');
     $p->scripts[] = sprintf('<script src="%s"></script>', $js);
 
@@ -80,6 +80,7 @@ class page {
     $p->scripts[] = sprintf('<script type="importmap">%s</script>', json_encode($imports, JSON_UNESCAPED_SLASHES));
 
     $p->css[] = sprintf('<link rel="stylesheet" href="%s">', $css);
+    $icons = strings::url('assets/bootstrap/icons');
     $p->css[] = sprintf('<link rel="stylesheet" href="%s">', $icons);
     $p->css[] = sprintf('<link rel="stylesheet" href="%s">', strings::url('assets/esse'));
     if ($_css = theme::rootFont()) $p->css[] = $_css;
@@ -245,12 +246,15 @@ class page {
     $this->open()
       ->closeHead();
 
+    $cls = ['page'];
+    if ($this->pageClass) $cls[] = $this->pageClass;
+
     if ($this->bodyClass) {
 
-      printf("<body class=\"%s\"><div class=\"page\">\n", $this->bodyClass);
+      printf("<body class=\"%s\"><div class=\"%s\">\n", $this->bodyClass, implode(' ', $cls));
     } else {
 
-      print "<body>\n<div class=\"page\">\n";
+      printf("<body>\n<div class=\"%s\">\n", implode(' ', $cls));
     }
 
     $this->_body = true;
