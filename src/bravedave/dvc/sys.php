@@ -1,19 +1,17 @@
 <?php
 /*
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
- *
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
 */
 
 namespace bravedave\dvc;
 
 use application, config;
 use PHPMailer\PHPMailer\PHPMailer;
+use Symfony\Component\Mime\Address;
 
 abstract class sys {
+  /** @disregard P1132 */
   protected static $_dbi = null;
 
   public static function bootstrap_icon_dir(): string {
@@ -120,12 +118,14 @@ abstract class sys {
     return ('WIN' === strtoupper(substr(PHP_OS, 0, 3)));
   }
 
+  /** @disregard P1132 */
   #[\Deprecated]
   public static function logger($v, $level = 0) {
 
     logger::info($v);
   }
 
+  /** @disregard P1132 */
   #[\Deprecated]
   public static function logSQL($v, $level = 0) {
 
@@ -216,6 +216,26 @@ abstract class sys {
     return $mail;
   }
 
+  static function notifySupport(string $subject, string $message) {
+
+    if (config::$EMAIL_ERRORS_TO_SUPPORT) {
+
+      if (strings::isEmail(config::$SUPPORT_EMAIL)) {
+
+        $address = new Address(config::$SUPPORT_EMAIL, config::$SUPPORT_NAME);
+        $email = sendmail::email()
+          ->to($address)
+          ->subject($subject)
+          ->text($message);
+
+        if (!sendmail::send($email)) {
+
+          logger::error('Failed to send support email: ' . $subject);
+        }
+      }
+    }
+  }
+
   protected static $_options = [];
 
   protected static function _options_file() {
@@ -295,11 +315,11 @@ abstract class sys {
 
   #[\Deprecated]
   public static function text2html($inText, $maxrows = -1, $allAsteriskAsList = false): string {
-    
+
     /** @disregard P1007 is deprecated */
     return strings::text2html($inText, $maxrows, $allAsteriskAsList);
   }
-  
+
   #[\Deprecated]
   public static function trace($v, $level = 0) {
 

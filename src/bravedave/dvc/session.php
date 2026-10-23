@@ -48,7 +48,7 @@ class session {
     }
 
     session_cache_expire(config::$SESSION_CACHE_EXPIRE);
-    session_start();
+    self::_session_start();
     $this->_session_regenerate();
 
     $this->__session = $_SESSION;
@@ -59,6 +59,34 @@ class session {
   protected function __destroy() {
 
     if ($this->open) session_write_close();
+  }
+
+  protected static function _session_start(): bool {
+
+    $previousHandler = null;
+    $previousHandler = set_error_handler(function ($severity, $message, $file, $line) use (&$previousHandler) {
+
+      if (str_contains($message, 'session_start(): Session ID is too long or contains illegal characters')) {
+
+        $sessionId = session_id();
+        logger::warn(sprintf(
+          'Invalid session ID: name=%s length=%d value=%s',
+          session_name(),
+          strlen($sessionId),
+          json_encode($sessionId, JSON_INVALID_UTF8_SUBSTITUTE)
+        ));
+
+        sys::notifySupport('Invalid session ID', sprintf('check the server logs for details (%s)', Request::get()->getServerName())) ;
+      }
+
+      return $previousHandler ? $previousHandler($severity, $message, $file, $line) : false;
+    });
+
+    try {
+      return session_start();
+    } finally {
+      restore_error_handler();
+    }
   }
 
   protected function _session_regenerate(): void {
@@ -77,7 +105,7 @@ class session {
     if (!$this->open) {
 
       session_cache_expire(config::$SESSION_CACHE_EXPIRE);
-      session_start();
+      self::_session_start();
       $this->_session_regenerate();
       $this->open = true;
     }
@@ -136,7 +164,7 @@ class session {
 
     self::close();
 
-    session_start();
+    self::_session_start();
     session_destroy();
 
     if ($msg) logger::info(sprintf('<%s> %s', $msg, logger::caller()));

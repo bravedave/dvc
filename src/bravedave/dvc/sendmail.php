@@ -48,39 +48,14 @@ use Symfony\Component\Mime\{
   Email
 };
 use Symfony\Component\Mailer\{
+  Exception\TransportExceptionInterface,
   Transport,
   Mailer
 };
+use Throwable;
 
 abstract class sendmail {
   static $debug = false;
-
-  // static protected function print_xml_error($error) {
-  //   $return  = $error->message . "\n";
-  //   $return .= str_repeat('-', $error->column) . "^\n";
-
-  //   switch ($error->level) {
-  //     case LIBXML_ERR_WARNING:
-  //       $return .= "Warning $error->code: ";
-  //       break;
-  //     case LIBXML_ERR_ERROR:
-  //       $return .= "Error $error->code: ";
-  //       break;
-  //     case LIBXML_ERR_FATAL:
-  //       $return .= "Fatal Error $error->code: ";
-  //       break;
-  //   }
-
-  //   $return .= trim($error->message) .
-  //     "\n  Line: $error->line" .
-  //     "\n  Column: $error->column";
-
-  //   if ($error->file) {
-  //     $return .= "\n  File: $error->file";
-  //   }
-
-  //   return "$return\n\n--------------------------------------------\n\n";
-  // }
 
   static function address(string $email, string $name) {
     return new Address($email, $name);
@@ -198,9 +173,13 @@ abstract class sendmail {
 
         $mailer->send($email);
         return true;
-      } catch (\Throwable $th) {
+      } catch (Throwable $th) {
 
-        logger::info(sprintf('<%s> %s', $th->getMessage(), logger::caller()));
+        logger::error(sprintf('<%s> %s', $th->getMessage(), logger::caller()));
+        if ($th instanceof TransportExceptionInterface) {
+
+          logger::debug($th->getDebug());
+        }
         return false;
       }
     }
