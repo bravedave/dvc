@@ -16,7 +16,7 @@
     }
   ],
   "require": {
-    "php": ">=8",
+    "php": "~8.3.36 || ~8.4.27 || ~8.5.12",
     "ext-ctype": "*",
     "ext-fileinfo": "*",
     "ext-json": "*",
@@ -32,8 +32,21 @@
     "league/commonmark": "^2.4",
     "matthiasmullie/scrapbook": "^1.5"
   },
+  "config": {
+    "policy": {
+      "advisories": {
+        "ignore": {
+          "tinymce/tinymce": {
+            "on-audit": false,
+            "reason": "Legacy TinyMCE 5 compatibility"
+          }
+        }
+      }
+    }
+  },
   "require-dev": {
-    "ext-apcu": "*"
+    "ext-apcu": "*",
+    "tinymce/tinymce": "<6"
   },
   "autoload": {
     "files": [

@@ -61,7 +61,7 @@ if (!window._brayworth_) {
   _.asLocaleNumber = (n, fractions = 2, parenthesesForNegative = false, locale = null) => {
 
     if (n == 0) n = 0;  // -0 also == 0, but prints -0
-    if ( !locale) locale = _.locale;
+    if (!locale) locale = _.locale;
 
     if (parenthesesForNegative && n < 0) {
 
@@ -81,7 +81,7 @@ if (!window._brayworth_) {
   _.asLocaleCurrency = (n, fractions = 2, locale = null, currency = "AUD") => {
 
     if (n == 0) n = 0;  // -0 also == 0, but prints -0
-    if ( !locale) locale = _.locale;
+    if (!locale) locale = _.locale;
 
     return Number(n).toLocaleString(locale, {
       style: "currency",
@@ -488,29 +488,50 @@ if (!window._brayworth_) {
       Promise.resolve();
   };
 
-  _.tiny = () => {
+  const _tiny_ = () => {
 
-    return 'undefined' == typeof tinyMCE ?
-      new Promise(resolve => {
+    if ('undefined' == typeof tinyMCE) {
 
-        _.get.script(_.url("js/tinymce5/"))
-          .then(() => resolve());
-      }) :
-      Promise.resolve();
+      if (_.tiny.preference == 8) {
+
+        return _.tiny8();
+      } else {
+
+        return new Promise(resolve => {
+
+          _.get.script(_.url("js/tinymce5/")).then(() => {
+
+            _.tiny.preference = tinyMCE.version ?? tinyMCE.majorVersion;
+            resolve();
+          });
+        });
+      }
+    } else {
+
+      return Promise.resolve(tinyMCE);
+    }
   };
 
-  _.tiny8 = () => new Promise((resolve, reject) => {
+  const _tiny8_ = () => new Promise((resolve, reject) => {
 
     if ('undefined' == typeof tinyMCE) {
 
       import('/js/tiny8').then(({
         tiny8
-      }) => tiny8().then(tinymce => resolve(tinymce)));
+      }) => tiny8().then(tinymce => {
+
+        _.tiny.preference = tinymce.majorVersion;
+        resolve(tinymce);
+      }));
     } else {
 
       '8' == tinyMCE.version ? resolve(tinyMCE) : reject('Incompatible TinyMCE version');
     }
   });
+
+  _.tiny = _tiny_;
+  _.tiny8 = _tiny8_;
+  _.tiny.preference = 0;
 
   _.quill = () => {
 

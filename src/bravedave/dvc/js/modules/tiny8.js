@@ -1,12 +1,9 @@
 /**
- * David Bray
- * BrayWorth Pty Ltd
- * e. david@brayworth.com.au
- *
- * MIT License
+ * Copyright (c) 2026 David Bray
+ * Licensed under the MIT License. See LICENSE file for details.
  *
  * import( '/js/tiny8').then( tinymce => console.log(tinymce));
- * */
+ */
 
 const tiny8 = () => {
   return new Promise((resolve, reject) => {
@@ -26,7 +23,7 @@ const tiny8 = () => {
       }, 50);
       return;
     }
-    
+
     const script = document.createElement('script');
     script.id = 'tinymce8-script';
     script.src = '/assets/tinymce8/tinymce.min.js';
