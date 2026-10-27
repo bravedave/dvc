@@ -198,6 +198,7 @@ class assets extends Controller {
         $path = sprintf('%s/resources/tinymce8/%s', $root, implode('/', $segments));
         if (file_exists($path)) {
 
+          header('Content-Length: ' . filesize($path));
           Response::serve($path);
         } else {
 
