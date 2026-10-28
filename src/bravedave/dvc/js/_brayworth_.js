@@ -529,9 +529,26 @@ if (!window._brayworth_) {
     }
   });
 
+  const _tinyAdaptOptions_ = options => {
+
+    if (Number(window.tinyMCE?.majorVersion) >= 8) {
+
+      const useDarkMode = window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+
+      options.plugins ??= 'image table autolink advlist lists link';
+      options.toolbar ??= 'undo redo | bold italic | align numlist bullist outdent indent blockquote table | fontfamily fontsize | forecolor backcolor';
+      options.skin ??= useDarkMode ? 'oxide-dark' : 'oxide';
+      options.content_css ??= useDarkMode ? 'dark' : 'default';
+      options.license_key ??= 'gpl';
+    }
+
+    return options;
+  };
+
   _.tiny = _tiny_;
   _.tiny8 = _tiny8_;
   _.tiny.preference = 0;
+  _.tiny.adaptOptions = _tinyAdaptOptions_;
 
   _.quill = () => {
 
