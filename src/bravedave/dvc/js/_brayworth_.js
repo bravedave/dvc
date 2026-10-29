@@ -536,10 +536,56 @@ if (!window._brayworth_) {
       const useDarkMode = window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
 
       options.plugins ??= 'image table autolink advlist lists link';
-      options.toolbar ??= 'undo redo | bold italic | align numlist bullist outdent indent blockquote table | fontfamily fontsize | forecolor backcolor';
+      options.toolbar ??= 'undo redo | bold italic | align numlist bullist outdent indent blockquote table | styles fontfamily fontsize | forecolor backcolor';
       options.skin ??= useDarkMode ? 'oxide-dark' : 'oxide';
       options.content_css ??= useDarkMode ? 'dark' : 'default';
       options.license_key ??= 'gpl';
+
+      /*
+        plugins:
+          ☑️ autolink
+          ☑️ image
+          ☑️ link
+          ☑️ table
+          ☑️ lists
+          ➕ advlist
+          * preview
+          * importcss
+          * searchreplace
+          * autosave
+          * save
+          * directionality
+          * code visualblocks visualchars fullscreen
+          * media codesample charmap pagebreak nonbreaking anchor insertdatetime wordcount help charmap quickbars emoticons accordion',
+
+        editimage_cors_hosts: ['picsum.photos'],
+        menubar: 'file edit view insert format tools table help',
+        toolbar:
+          ☑️ undo
+          ☑️ redo
+          ☑️ bold
+          ☑️ italic
+          ☑️ align
+          ☑️ numlist
+          ☑️ bullist
+          ☑️ outdent
+          ☑️ indent
+          ➕ blockquote
+          ☑️ table
+          ☑️ fontfamily
+          ☑️ fontsize
+          ☑️ forecolor
+          ☑️ backcolor
+            | link image | media | lineheight|  removeformat | charmap emoticons | code fullscreen preview | save print | pagebreak anchor codesample | ltr rtl",
+          accordion accordionremove | blocks | underline strikethrough |
+
+          autosave_ask_before_unload: true,
+        autosave_interval: '30s',
+        autosave_prefix: '{path}{query}-{id}-',
+        autosave_restore_when_empty: false,
+        autosave_retention: '2m',
+        image_advtab: true,
+      */
     }
 
     return options;
