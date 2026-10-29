@@ -541,6 +541,10 @@ if (!window._brayworth_) {
       options.content_css ??= useDarkMode ? 'dark' : 'default';
       options.license_key ??= 'gpl';
 
+      if (options.toolbar.includes('styleselect')) {
+        options.toolbar = options.toolbar.replace('styleselect', 'styles');
+      }
+
       /*
         plugins:
           ☑️ autolink
