@@ -545,6 +545,14 @@ if (!window._brayworth_) {
         options.toolbar = options.toolbar.replace('styleselect', 'styles');
       }
 
+      if (options.toolbar.includes('fontselect')) {
+        options.toolbar = options.toolbar.replace('fontselect', 'fontfamily');
+      }
+
+      if (options.toolbar.includes('fontsizeselect')) {
+        options.toolbar = options.toolbar.replace('fontsizeselect', 'fontsize');
+      }
+
       /*
         plugins:
           ☑️ autolink
