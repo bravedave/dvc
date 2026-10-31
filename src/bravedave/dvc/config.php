@@ -194,7 +194,7 @@ abstract class config {
   static $IMG_EXPIRE_TIME = 60;
   static $CORE_IMG_EXPIRE_TIME = 60;  // set on images that come from the /image location
 
-  static $UMASK = '0022';
+  static $UMASK = '0027';
 
   static public function checkDBconfigured(): bool {
 
