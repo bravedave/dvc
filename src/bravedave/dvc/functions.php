@@ -75,7 +75,7 @@ function normaliseText(string|null $value): string {
 
   $replace = ["'", '"', '--', '--', '-', '-', '-', '...', ' ', ''];
 
-  return preg_replace($search, $replace, $value);
+  return preg_replace($search, $replace, $value) ?? $value;
 }
 
 /**
