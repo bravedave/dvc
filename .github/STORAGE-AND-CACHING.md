@@ -80,7 +80,7 @@ outage coordination. APCu does not use this semaphore.
 | `DB_CACHE_PREFIX` | `''` | Optional application-defined database cache prefix |
 | `DB_CACHE_TTL` | `600` | Default entry lifetime in seconds |
 | `DB_CACHE_SEMAPHORE_PATH` | `''` | Shared private marker directory; enables the Redis health guard |
-| `DB_CACHE_MAX_TTL` | `86400` | Positive upper bound for guarded entry TTLs and the recovery cooldown |
+| `DB_CACHE_MAX_TTL` | `1200` | Configured cap; effective cap is at least twice `DB_CACHE_TTL` |
 | `DB_CACHE_PROBE_INTERVAL` | `5` | Minimum interval in seconds between disabled-state health probes |
 
 The semaphore controls are PHP configuration properties. Do not assume that
@@ -114,17 +114,19 @@ shared storage are therefore deployment prerequisites, not optional safeguards.
 3. Calls while disabled trigger rate-limited health probes. Probing is
    demand-driven, not a separate background service. Guarded Redis connection
    and read timeouts are one second.
-4. The first successful probe starts a full `DB_CACHE_MAX_TTL` cooldown. Renewed
-   failure resets recovery; elapsed time alone cannot re-enable caching.
+4. The first successful probe starts a cooldown equal to the effective maximum
+  TTL, which is at least twice `DB_CACHE_TTL`. Renewed failure resets recovery;
+  elapsed time alone cannot re-enable caching.
 5. A successful probe after the cooldown permits normal operations. Namespace
    generations rotate across outage/recovery, making previous entries unreachable.
    Recovery does not flush the Redis database.
 
-Guarded writes cap entry lifetimes to `DB_CACHE_MAX_TTL` and require a positive
-TTL. Use consistent settings across participants. Reads capture a generation so
-fills started before an outage cannot populate the recovered namespace. Custom
-cache-fill code must read/check the guard before querying SQL; long-running
-callers should perform a fresh cache read before filling after recovery.
+Guarded writes cap entry lifetimes to the effective maximum TTL and require a
+positive TTL. Use consistent settings across participants. Reads capture a
+generation so fills started before an outage cannot populate the recovered
+namespace. Custom cache-fill code must read/check the guard before querying SQL;
+long-running callers should perform a fresh cache read before filling after
+recovery.
 
 Setting `DB_CACHE` to an empty string takes precedence over recovery. The guard
 does not change an application's configured backend or permanent-disable policy.

@@ -38,7 +38,7 @@ shared `flock()` locks; a container-local directory is not sufficient.
 config::$DB_CACHE = 'REDIS';
 config::$DB_CACHE_REDIS_SERVER = 'redis'; // A Unix socket path is also supported.
 config::$DB_CACHE_SEMAPHORE_PATH = '/private/shared/data/';
-config::$DB_CACHE_MAX_TTL = 86400;
+config::$DB_CACHE_MAX_TTL = 1200;
 config::$DB_CACHE_PROBE_INTERVAL = 5;
 ```
 
@@ -48,9 +48,10 @@ normal cache operations across processes. Unavailable or corrupt coordination
 state fails closed. SQL remains the caller's fallback. Redis connection and read
 timeouts are one second; failed operations log state transitions without data.
 
-Recovery uses rate-limited health probes and waits a full `DB_CACHE_MAX_TTL`
-after the first successful probe. Renewed failure restarts the cooldown. Shared
-cache writes are capped to that positive TTL; the default is 86400 seconds.
+Recovery uses rate-limited health probes and waits a full effective maximum TTL
+after the first successful probe. The effective maximum is at least twice
+`DB_CACHE_TTL`; the default `DB_CACHE_MAX_TTL` is 1200 seconds. Renewed failure
+restarts the cooldown. Shared cache writes are capped to the effective maximum.
 Generation-qualified keys make old entries unreachable, and reads capture the
 generation so a delayed pre-outage fill cannot populate the recovered namespace.
 Call `get()` before querying SQL and filling a shared cache entry. Long-running

@@ -60,6 +60,10 @@ class cache {
     return time();
   }
 
+  protected function maxTTL(): int {
+    return max(1, (int)config::$DB_CACHE_MAX_TTL, (int)config::$DB_CACHE_TTL * 2);
+  }
+
   protected function connectRedis(): void {
     if ($this->_cache !== null && $this->_redis !== null && $this->connectionServer === config::$DB_CACHE_REDIS_SERVER) return;
     $client = new Redis;
@@ -138,7 +142,7 @@ class cache {
           $this->probeRedis();
           $state['healthy_since'] ??= $now;
           $state['next_probe'] = $now + max(1, (int)config::$DB_CACHE_PROBE_INTERVAL);
-          if ($now - $state['healthy_since'] < max(1, (int)config::$DB_CACHE_MAX_TTL)) {
+          if ($now - $state['healthy_since'] < $this->maxTTL()) {
             if (!$this->saveState($file, $state)) $this->storageFailure();
             return $fallback;
           }
@@ -331,7 +335,7 @@ class cache {
       $expiry = (int)($ttl ?: $this->ttl);
       if ($generation !== '') {
         if ($expiry < 1) throw new RedisException('Shared cache requires a bounded TTL');
-        $expiry = min($expiry, max(1, (int)config::$DB_CACHE_MAX_TTL));
+        $expiry = min($expiry, $this->maxTTL());
       }
       $stored = $this->_cache->set($this->backendKey($key, $generation), $value, $expiry);
       if (!$stored && $generation !== '') {

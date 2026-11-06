@@ -168,7 +168,7 @@ namespace {
       config::$DB_CACHE_PREFIX = 'test-prefix';
       config::$DB_CACHE_REDIS_SERVER = 'test-redis';
       config::$DB_CACHE_SEMAPHORE_PATH = $directory;
-      config::$DB_CACHE_MAX_TTL = 10;
+      config::$DB_CACHE_MAX_TTL = 1;
       config::$DB_CACHE_PROBE_INTERVAL = 2;
       config::$DB_CACHE_TTL = 5;
       self::$_instance = new self;
