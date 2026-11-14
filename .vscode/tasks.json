@@ -26,6 +26,19 @@
       }
     },
     {
+      "label": "Composer-Dev Update",
+      "type": "shell",
+      "command": "COMPOSER=composer-dev.json composer update",
+      "problemMatcher": [],
+      "icon": {
+        "id": "sync"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
       "label": "CronD",
       "type": "shell",
       "command": "php tests/app/cron.php",
