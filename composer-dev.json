@@ -1,0 +1,123 @@
+{
+  "name": "bravedave/dvc",
+  "description": "DVC - General Purpose PSR-4 Data-View-Controller",
+  "keywords": [
+    "MVC",
+    "Model View Controller"
+  ],
+  "homepage": "http://brayworth.com",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "David Bray",
+      "email": "david@brayworth.com.au",
+      "homepage": "http://brayworth.com"
+    }
+  ],
+  "require": {
+    "php": "~8.3.36 || ~8.4.27 || ~8.5.12",
+    "ext-ctype": "*",
+    "ext-fileinfo": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "ext-posix": "*",
+    "ext-session": "*",
+    "giggsey/libphonenumber-for-php": "^9.0",
+    "matthiasmullie/minify": "^1.3.61",
+    "nyholm/psr7-server": "^1.1",
+    "nyholm/psr7": "^1.8",
+    "symfony/mailer": "^7.1",
+    "tijsverkoyen/css-to-inline-styles": "^2.2",
+    "league/commonmark": "^2.4",
+    "matthiasmullie/scrapbook": "^1.5"
+  },
+  "config": {
+    "audit": {
+      "ignore": [
+        "PKSA-k4d6-bt7k-7ddp",
+        "PKSA-2v47-9p8y-4qt3",
+        "PKSA-rf1b-835f-6yyv",
+        "PKSA-kxv7-w7hg-zj9k",
+        "PKSA-g43k-cp2d-8zny",
+        "PKSA-s5r2-shvb-ydth",
+        "PKSA-hdg2-6rxt-d4qn",
+        "PKSA-mymm-sn83-mbb2",
+        "PKSA-m1dk-8wwc-991j",
+        "PKSA-49mb-wskm-8m9m",
+        "PKSA-t9cj-9h2r-fkgh",
+        "PKSA-s6b9-gg3t-crbs",
+        "PKSA-prcy-kppw-cnxf",
+        "PKSA-gy5q-j464-j41z"
+      ]
+    },
+    "policy": {
+      "advisories": {
+        "ignore": {
+          "tinymce/tinymce": {
+            "on-audit": false,
+            "on-block": false,
+            "reason": "Legacy TinyMCE 5 compatibility"
+          }
+        }
+      }
+    }
+  },
+  "require-dev": {
+    "ext-apcu": "*",
+    "tinymce/tinymce": "<6"
+  },
+  "autoload": {
+    "files": [
+      "src/bravedave/dvc/functions.php"
+    ],
+    "psr-4": {
+      "bravedave\\dvc\\": "src/bravedave/dvc/",
+      "dvc\\": "src/dvc/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "": "tests/app/"
+    }
+  },
+  "bin": [
+    "src/bin/dvc"
+  ],
+  "scripts": {
+    "bootstrap4": [
+      "bash src/resource/dvc-bootstrap-4.sh"
+    ],
+    "bootstrap5": [
+      "bash src/resource/dvc-bootstrap-5.sh"
+    ],
+    "bootstrap-icons": [
+      "bash src/resource/get-bootstrap-icons.sh"
+    ],
+    "quill": [
+      "bash src/resource/update-quill.sh"
+    ],
+    "post-update-cmd": [
+      "bash src/resource/dvc-bootstrap-4.sh",
+      "bash src/resource/dvc-bootstrap-5.sh",
+      "bash src/resource/dvc-bootstrap-6.sh",
+      "bash src/resource/get-bootstrap-icons.sh",
+      "bash src/resource/update-preact.sh",
+      "bash src/resource/update-quill.sh",
+      "bash src/resource/update-mermaid.sh",
+      "bash src/resource/update-papaparse.sh",
+      "bash src/resource/update-tailwind.sh"
+    ],
+    "start": [
+      "Composer\\Config::disableProcessTimeout",
+      "echo \"this application is available at http://localhost:8000\"",
+      "DEVELOPER=1 php -S 0.0.0.0:8000 tests/www/_mvp.php"
+    ],
+    "create-thumb": "tests\\tests::CreateThumb",
+    "dvc": "php vendor/bin/dvc",
+    "http-get": "tests\\tests::httpGet",
+    "http-post": "tests\\tests::httpPost",
+    "guid": "tests\\tests::guid",
+    "send-testmail": "tests\\tests::testmail"
+  }
+}
