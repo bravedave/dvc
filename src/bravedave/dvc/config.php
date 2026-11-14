@@ -87,6 +87,7 @@ abstract class config {
   static $BOOTSTRAP_REQUIRE_POPPER = false;
   static $BOOTSTRAP_VERSION = '4';
 
+  /** @disregard P1132 */
   static $CSS_BOOTSTRAP5_PATH = __DIR__ . '/css/bootstrap5';
 
   static $COOKIE_AUTHENTICATION_EXPIRES_DAYS = 7;
@@ -170,12 +171,15 @@ abstract class config {
   static $SAMESITE_POLICY = 'lax';  // none, lax, strict
   static $SESSION_CACHE_EXPIRE = 180;
   static $SITEMAPS = false;
+  /** @disregard P1132 */
   static $SYSTEM_VIEWS = __DIR__ . '/views';
 
   static $TELEGRAM_API_KEY = '';
   static $TELEGRAM_CHAT_ID = '';
 
+  /** @disregard P1132 */
   static $TEMPLATES_DIR = null;
+  /** @disregard P1132 */
   static $TEMPLATES_DIR_CSS = null;
 
   static $THEME = '';
@@ -352,6 +356,7 @@ abstract class config {
     return implode(DIRECTORY_SEPARATOR, [static::dataPath(), 'defaults.json']);
   }
 
+  /** @disregard P1132 */
   static protected $_logpath = null;
 
   public static function logPath(): string|null {
