@@ -8,14 +8,14 @@
 
   _.ready(() => {
     let adjustTop = () => false;
-    let wrap = $('<div class="js-growler-envelope" style="position: absolute; top: 50px; right: 20px; width: 300px"></div>');
+    let wrap = $('<div class="js-growler-envelope d-print-none" style="position: absolute; top: 50px; right: 20px; width: 300px"></div>');
     let nav = $('[data-role="growler"]');
     let mode = 'append';
 
     if (nav.length > 0) {
 
       mode = 'prepend';
-      wrap = $('<div style="position: absolute; top: -4rem; left: 5px; width: 290px"></div>');
+      wrap = $('<div class="d-print-none" style="position: absolute; top: -4rem; left: 5px; width: 290px"></div>');
     } else {
 
       nav = $('body > nav.sticky-top');
