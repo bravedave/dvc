@@ -800,7 +800,7 @@ abstract class strings {
     $replace[] = '';
 
     //~ '@(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n\']+@',	// Blank Lines at Start
-    return (preg_replace($search, $replace, $html));
+    return (string)preg_replace($search, $replace, $html);
   }
 
   static public function imageInline(string $path): string {
