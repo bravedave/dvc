@@ -336,14 +336,16 @@ class Request {
   }
 
   public function ClientIsLocal() {
-    if ($this->ServerIsLocal())
-      return (true);
+
+    if ($this->ServerIsLocal()) return (true);
 
     $thisIP = $this->getServerIP();
     $remoteIP = $this->getRemoteIP();
 
     $thisSubNet = $this->getSubNet($thisIP);
     $remoteSubNet = $this->getSubNet($remoteIP);
+
+    if (in_array($remoteSubNet, config::$TRUSTED_LOCAL)) return true;
 
     //~ logger::info( sprintf( '%s/%s :: %s/%s', $thisIP, $thisSubNet, $remoteIP, $remoteSubNet));
 

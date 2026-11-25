@@ -38,10 +38,10 @@ abstract class config {
 
   /**
    * exposes a popup logon if authentication is required
-  *
-  * if you use this, the home controller must accept the
-  * submission and authenticate
-  **/
+   *
+   * if you use this, the home controller must accept the
+   * submission and authenticate
+   **/
   const use_inline_logon = false;
   const allow_password_recovery = false;
 
@@ -55,7 +55,7 @@ abstract class config {
   /**
    * the Facebook Developers Portal
    * If you populate these, the Facebook Auth Method will be enabled
-  **/
+   **/
   /** @disregard P1132 */
   static $facebook_oauth2_client_id = null; // Client ID
   /** @disregard P1132 */
@@ -185,6 +185,8 @@ abstract class config {
   static $THEME = '';
 
   static $TIMEZONE = 'UTC';
+
+  static $TRUSTED_LOCAL = [];
 
   /**
    * settings for the cache expire time
@@ -449,6 +451,7 @@ abstract class config {
           'telegram_chat_id' => static::$TELEGRAM_CHAT_ID,
           'locale' => static::$LOCALE,
           'timezone' => static::$TIMEZONE,
+          'trusted_local' => static::$TRUSTED_LOCAL,
           'theme' => static::$THEME,
           'umask' => static::$UMASK,
         ];
@@ -492,6 +495,7 @@ abstract class config {
         static::$LOCALE = $a->locale;
         static::$TIMEZONE = $a->timezone;
         static::$THEME = $a->theme;
+        static::$TRUSTED_LOCAL = (array)$a->trusted_local;
 
         static::$UMASK = $a->umask;
       } // if ( file_exists( $path))
@@ -528,6 +532,7 @@ abstract class config {
             'locale' => static::$LOCALE,
             'timezone' => static::$TIMEZONE,
             'theme' => static::$THEME,
+            'trusted_local' => static::$TRUSTED_LOCAL,
             'support_name' => static::$SUPPORT_NAME,
             'support_email' => static::$SUPPORT_EMAIL,
             'umask' => static::$UMASK,
